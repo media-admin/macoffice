@@ -1,3 +1,44 @@
+# === STATIC DEV ENVIRONMENT ===
+
+# Numerous always-ignore extensions
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.vi
+*~
+*.sass-cache
+node_modules/
+.tmp/
+
+# OS or Editor folders
+.DS_Store
+Thumbs.db
+.cache
+.project
+.settings
+.tmproj
+.nova
+*.esproj
+nbproject
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+.komodotools
+_notes
+dwsync.xml
+
+# Exclude static environment's dist folder
+dist
+
+# Exclude WordPress Installation temporarily <<<<<< INCLUDE WHEN STATIC DEVELOPMENT HAS BEEN FINISHED >>>>>>>
+_cms
+
+# === WORDPRESS INSTALLATION ===
+
 # ignore everything in the root except the "wp-content" directory.
 wp-admin/
 wp-includes/
@@ -38,3 +79,4 @@ node_modules/
 *.log
 *.sql
 *.sqlite
+
