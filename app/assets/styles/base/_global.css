@@ -63,50 +63,6 @@ body {
 
 /* === Image Styles === */
 
-.img__wood-square-before--red:before {
-	position: relative;
-	display: inline-block;
-	top: 15%;
-	left: 50%;
-	content: url(../images/oak-wood-red.png);
-	transform: scale(.5);
-}
-
-.img__wood-square-before--red {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: auto;
-	margin-top: -20px !important;
-}
-
-
-.img__wood-square-before--gray:before {
-	position: relative;
-	display: inline-block;
-	top: 15%;
-	left: 50%;
-	content: url(../images/oak-wood-gray.png);
-	transform: scale(.5);
-}
-
-.img__wood-square-before--gray {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: auto;
-	margin-top: -20px !important;
-}
-
-
-.img__wood-square-before {
-	position: relative;
-	display: block;
-	height: auto;
-	margin-top: -80px !important;
-	z-index: -1;
-}
-
 img {
 	max-width: 100%;
 	height: auto;
