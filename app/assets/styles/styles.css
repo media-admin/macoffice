@@ -9,19 +9,10 @@
 @import "modules/_text-styles";
 @import "modules/_site-header";
 @import "modules/_main-navigation";
-@import "modules/_large-hero";
-@import "modules/_section-title";
+
 @import "modules/_intro";
-@import "modules/_company-listing";
 @import "modules/_news-section";
-@import "modules/_info-section";
-@import "modules/_details-section";
-@import "modules/_jobs-section";
-@import "modules/_just-call-section";
-@import "modules/_recall-section";
-@import "modules/_values-section";
-@import "modules/_your-opinion-section";
-@import "modules/_accordion-section";
+
 @import "modules/_footer";
 @import "modules/_modal";
 @import "modules/_social-icons";

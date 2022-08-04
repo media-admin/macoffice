@@ -7,30 +7,31 @@
   height: auto;
   padding-left: 18px;
   padding-right: 18px;
-  z-index: 1;
+  z-index: 1 !important;
 
   @mixin atMedium {
-    z-index: 1;
+    z-index: 1 !important;
   }
 
   &--is-active {
-    background-color: rgba($brightWhite, 0.55);
+    background-color: rgba(white, 0.55);
   }
 
   @mixin atMedium {
     position: fixed;
     top: 0px;
-    background-color: rgba($brightWhite, 0.3);
+    background-color: rgba(white, 0.3);
   }
 
   @mixin atLarge {
     position: fixed;
     top: 0px;
-    background-color: rgba($brightWhite, 1.00) !important;
+    background-color: rgba(white, 1.00) !important;
     box-shadow: 0px 3px 22px -3px #000000;
+    z-index: 1 !important;
 
     &--dark {
-      background-color: rgba($brightWhite, 0.85) !important;
+      background-color: rgba(white, 0.85) !important;
     }
   }
 
@@ -39,7 +40,6 @@
     width: 100%;
     padding-left: -18px;
     padding-right: -18px;
-    margin-left: -18px;
 
     @mixin atMedium {
       display: inline-flex;
@@ -50,7 +50,8 @@
   &__logo {
     position: relative;
     display: inline-block;
-    padding-top: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     transition: transform 0.3s ease-out;
 
     @mixin atMedium {
@@ -67,4 +68,48 @@
     position: relative;
     width: auto;
   }
+
+  &-logo__link {
+    position: relative;
+    display: block;
+    margin-top: 0px;
+  }
+
+  &__apple-haendler {
+    display: inline-block;
+    width: auto;
+    line-height: 1.0rem;
+    border-left: 1px solid $lightGrayDarkMode;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+  }
+
+  &__apple-haendler-img {
+    line-height: 1.0rem;
+    margin-top: -8px;
+  }
+
+  &__additional-area {
+    display: inline-flex;
+    width: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  &__search  {
+    line-height: 1.0rem;
+    margin-top: 15px;
+    padding-right: 15px;
+  }
+
+  &__mode-switcher  {
+    border-left: 1px solid $lightGrayDarkMode;
+    line-height: 1.0rem;
+    margin-top: -0px;
+    padding-left: 0px;
+  }
+
 }
