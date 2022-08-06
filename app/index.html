@@ -67,6 +67,30 @@
 	</head>
 
 	<body class="site-body home">
+		<header class="site-header-top">
+			<div class="site-header-top__contact-information">
+				<div class="site-header-top__contact-information-opening">
+					<img class="site-header-top__contact-information-opening-icon" src="assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
+					<p class="site-header-top__contact-information-opening-hours">Mo - Fr 10 - 18 Uhr <span class="additional-info"> | </span> Sa 10 - 13 Uhr<div class="site-header-top__contact-information-opening-sign"></div></p>
+				</div>
+				<div class="site-header-top__contact-information-address">
+					<img class="site-header-top__contact-information-address-icon" src="assets/images/icons/icon_address-header-light_desktop.svg"/>
+					<p class="site-header-top__contact-information-address-data">Fischauer Gasse 150, 2700 Wiener Neustadt</p>
+				</div>
+				<div class="site-header-top__contact-information-phone">
+					<img class="site-header-top__contact-information-phone-icon" src="assets/images/icons/icon_phone-header-light_desktop.svg"/>
+					<a class="site-header-top__contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
+				</div>
+				<div class="site-header-top__contact-information-mail">
+					<img class="site-header-top__contact-information-mail-icon" src="assets/images/icons/icon_mail-header-light_desktop.svg"/>
+					<a class="site-header-top__contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
+				</div>
+				<div class="site-header-top__contact-information-phone">
+					<img class="site-header-top__contact-information-call-icon" src="assets/images/icons/icon_call-header-light_desktop.svg"/>
+					<a class="site-header-top__contact-information-call-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
+				</div>
+			</div>
+		</header>
 		<header class="site-header">
 			<div class="site-header__branding">
 				<div class="site-header__logo">
@@ -134,21 +158,51 @@
 									<li class="navbar-item"><a href="#">Jobs</a></li>
 								</ul>
 							</ul>
-							<div class="site-header__additional-area">
-								<div class="site-header__search">
-									<a class="site-header__search-link wrapper" href="#">
-										<img class="site-header__search-icon" src="assets/images/icons/icon_search-light_desktop.svg" alt="Icon Suchen">
-									</a>
-								</div>
-								<div class="site-header__mode-switcher">
-									<a class="site-header__mode-switcher-link wrapper" href="#">
-										<img class="site-header__mode-switcher--icon" src="assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
-									</a>
-								</div>
-							</div>
-						</div>
 
 					</nav>
+
+							<div class="site-header__navi-contact-information">
+								<div class="site-header__navi-contact-information-phone">
+									<img class="site-header__navi-contact-information-phone-icon" src="assets/images/icons/icon_phone-header-dark_desktop.svg"/>
+									<a class="site-header__navi-contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
+								</div>
+								<div class="site-header__navi-contact-information-mail">
+									<img class="site-header__navi-contact-information-mail-icon" src="assets/images/icons/icon_mail-header-dark_desktop.svg"/>
+									<a class="site-header__navi-contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
+								</div>
+								<div class="site-header__navi-contact-information-call">
+									<img class="site-header__navi-contact-information-call-icon" src="assets/images/icons/icon_call-header-dark_desktop.svg"/>
+									<a class="site-header__navi-contact-information-call-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
+								</div>
+
+								<div class="site-header__search">
+										<a class="site-header__search-link wrapper" href="#">
+											<img class="site-header__search-icon" src="assets/images/icons/icon_search-light_desktop.svg" alt="Icon Suchen">
+										</a>
+									</div>
+									<div class="site-header__mode-switcher">
+										<a class="site-header__mode-switcher-link wrapper" href="#">
+											<img class="site-header__mode-switcher--icon" src="assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
+										</a>
+									</div>
+								</div>
+
+
+							</div>
+
+							<div class="site-header__navi-additional-area">
+							<div class="site-header__search">
+								<a class="site-header__search-link wrapper" href="#">
+									<img class="site-header__search-icon" src="assets/images/icons/icon_search-light_desktop.svg" alt="Icon Suchen">
+								</a>
+							</div>
+							<div class="site-header__mode-switcher">
+								<a class="site-header__mode-switcher-link wrapper" href="#">
+									<img class="site-header__mode-switcher--icon" src="assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
+								</a>
+							</div>
+						</div>
+					</div>
 
 				</header>
 
@@ -160,7 +214,6 @@
 				</section>
 
 				<section id="news-section" class="news-section" data-matching-link="#news-section-link">
-					<img class="news-section__img" src="assets/images/43-Vollbild-querformat.png" alt="Platzhalter-Bild">
 					<article class="news-section__container wrapper">
 						<h2 class="h2__title news-section__title wrapper">Aktuelles</h2>
 						<p class="p__subitle news-section__subtitle wrapper">Aktuelle Informationen</p>
@@ -178,30 +231,97 @@
 		</main>
 
 		<footer class="site-footer">
+			<div class="site-footer__container--gray">
+				<nav class="site-footer__navigation">
+					<ul class="site-footer__navigation-list">
+						<li class="site-footer__navigation-list-item"><a class="" href="#">Datenschutz</a></li>
+						<li class="site-footer__navigation-list-item"><a class="" href="#">Impressum</a></li>
+						<li class="site-footer__navigation-list-item"><a class="" href="#">TeamViewer</a></li>
+						<li class="site-footer__navigation-list-item"><a class="" href="#">AGBs (gewerblich)</a></li>
+						<li class="site-footer__navigation-list-item"><a class="" href="#">AGBs (privat)</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="site-footer__container--black">
+				<div class="site-footer__branding">
+					<div class="site-footer__logo">
+						<a class="site-footer__logo-link wrapper" href="index.html">
+							<img class="site-footer__logo-img" src="assets/images/logos/macoffice_footer-logo-light_smartphone.svg" alt="Logo mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">
+						</a>
+					</div>
+					<div class="site-footer__apple-haendler">
+						<img class="site-footer__apple-haendler-img" src="assets/images/logos/apple-haendler_footer-logo-light_smartphone.svg" alt="Logo Autorisierter Händler">
+					</div>
+				</div>
 
-			<section class="footer-contact">
-				<p class="footer-contact__data">
-					Peter Parapatits<br>
-					Angergasse 10<br>
-					7341 Markt Sankt Martin<br>
-					<a href="tel:+4326182221">+43 2618/2221</a><br>
-					<a href="mailto:tischlerei@parapatits.at">tischlerei@parapatits.at</a><br>
-				</p>
-				<ul class="footer-contact__social-media-area">
-					<li><a href="#" target="_blank"><img class="footer-contact__social-media-icon footer-contact__social-media-icon--facebook" src="assets/images/icons/icon_facebook-footer_smartphone.svg" alt="Facebook Logo"></a></li>
-					<li><a href="#" target="_blank"><img class="footer-contact__social-media-icon footer-contact__social-media-icon--instragram" src="assets/images/icons/icon_instagram-footer_smartphone.svg" alt="Instagram Logo"></a></li>
-				</ul>
-			</section>
+				<div class="site-footer__contact">
+					<div class="site-footer__contact-information">
+						<div class="site-footer__contact-information-address">
+							<img class="site-footer__contact-information-address-icon" src="assets/images/icons/icon_address-header-light_desktop.svg"/>
+							<p class="site-footer__contact-information-address-title">Adresse</p>
+							<p class="site-footer__contact-information-address-data">Fischauer Gasse 150, 2700 Wiener Neustadt</p>
+						</div>
+						<div class="site-footer__contact-information-opening">
+							<img class="site-footer__contact-information-opening-icon" src="assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
+							<p class="site-footer__contact-information-opening-title">Öffnungszeiten</p>
+							<p class="site-footer__contact-information-opening-hours">Montag bis Freitag von 10 bis 18 Uhr<br/>Samstag von 10 bis 13 Uhr</p>
+						</div>
+						<div class="site-footer__contact-information-phone">
+							<img class="site-footer__contact-information-phone-icon" src="assets/images/icons/icon_phone-header-light_desktop.svg"/>
+							<a class="site-footer__contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
+						</div>
+						<div class="site-footer__contact-information-mail">
+							<img class="site-footer__contact-information-mail-icon" src="assets/images/icons/icon_mail-header-light_desktop.svg"/>
+							<a class="site-footer__contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
+						</div>
+						<div class="site-footer__contact-information-phone">
+							<img class="site-footer__contact-information-call-icon" src="assets/images/icons/icon_call-header-light_desktop.svg"/>
+							<a class="site-footer__contact-information-call-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
+						</div>
+						<ul class="site-footer__social-media-area">
+							<li><a href="#" target="_blank"><img class="site-footer__social-media-icon site-footer__social-media-icon--facebook" src="assets/images/icons/icon_facebook-footer_smartphone.svg" alt="Facebook Logo"></a></li>
+							<li><a href="#" target="_blank"><img class="site-footer__social-media-icon site-footer__social-media-icon--instragram" src="assets/images/icons/icon_instagram-footer_smartphone.svg" alt="Instagram Logo"></a></li>
+						</ul>
+					</div>
+				</div>
 
-			<nav class="footer-navigation">
-				<ul class="footer-navigation__list">
-					<li class="footer-navigation__item">Impressum</li>
-					<li class="footer-navigation__item">Datenschutz</li>
-					<li class="footer-navigation__item">AGB</li>
-				</ul>
-			</nav>
+				<nav class="site-footer__main-navigation">
+					<ul class="site-footer__main-navigation-list">
+						<li class="site-footer__main-navigation-list-item"><a href="#">News</a></li>
+						<li class="site-footer__main-navigation-list-item"><a href="#">Produkte</a></li>
+							<ul class="site-footer__main-navigation-list-item--submenu">
+								<li class="site-footer__main-navigation-list-item"><a href="#">Mac</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">iPhone</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">iPad</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">Apple Watch</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">AirPods</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">AirTag</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">Apple TV</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">HomePod mini</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">Zubehör</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">Apple Gift Card</a></li>
+							</ul>
+						<li class="site-footer__main-navigation-list-item"><a href="#">Leistungen</a></li>
+							<ul class="site-footer__main-navigation-list-item--submenu">
+								<li class="site-footer__main-navigation-list-item"><a href="#">Beratung & Consulting</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">Service & Support</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">Reparatur & Garantie</a></li>
+								<li class="site-footer__main-navigation-list-item"><a href="#">Finanzierung</a></li>
+							</ul>
+						<li class="site-footer__main-navigation-list-item"><a href="#">Fragen & Antworten</a></li>
+						<li class="site-footer__main-navigation-list-item"><a href="#">Über uns</a></li>
+						<ul class="site-footer__main-navigation-list-item--submenu">
+							<li class="site-footer__main-navigation-list-item"><a href="#">Kontakt & Anfahrt</a></li>
+							<li class="site-footer__main-navigation-list-item"><a href="#">Unser Team</a></li>
+							<li class="site-footer__main-navigation-list-item"><a href="#">Das Unternehmen</a></li>
+							<li class="site-footer__main-navigation-list-item"><a href="#">Jobs</a></li>
+						</ul>
+					</ul>
+				</nav>
 
-			<p class="copyright">alle Rechte vorbehalten ©&nbsp;2022</p>
+				<p class="site-footer__copyright">©&nbsp;2022 mac)office - macs work easier. <span>Ihr autorisierteer Apple-Händler in Wiener Neustadt.</span></p>
+
+			</div>
 
 		</footer>
 

@@ -14,7 +14,17 @@ body {
 }
 
 .site-content {
+	position: relative;
+	top: 0px;
 
+	@mixin atMedium {
+		position: initial;
+		top: 25px;
+	}
+
+	@mixin atLarge {
+
+	}
 }
 
 .site-intro {

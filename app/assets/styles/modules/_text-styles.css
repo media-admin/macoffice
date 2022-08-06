@@ -10,10 +10,16 @@
 	color: #b6274f;
 }
 
-
 .text--underlined {
 	text-decoration: underline;
 }
+
+
+.additional-info {
+	font-weight: 300;
+}
+
+
 
 
 /* --- Article Styles --- */
@@ -166,5 +172,3 @@ ul {
 	color: $mainRed;
 	margin: 0;
 }
-
-
