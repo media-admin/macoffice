@@ -109,18 +109,18 @@
 
     }
 
-    &__contact-information-phone {
+    &__contact-information-hotline {
       display: inline-flex;
       padding-right: 1.0rem;
       margin-right: auto;
       margin-left: auto;
     }
 
-    &__contact-information-call-icon {
+    &__contact-information-hotline-icon {
       padding-right:0.5rem;
     }
 
-    &__contact-information-call-number {
+    &__contact-information-hotline-number {
 
     }
 
