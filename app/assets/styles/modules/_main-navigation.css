@@ -33,13 +33,19 @@ menu.site-menu {
 
 .navbar__navigation-list {
   list-style-type: none;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding-left: 0px;
 
   @mixin atMedium {
     position: relative;
     display: flex;
     width: 100%;
     align-items: flex-start;
+    margin-top: 1.0rem;
+    margin-bottom: 1.0rem;
     padding-top: 5px;
+    padding-left: 40px;
   }
 }
 
@@ -70,17 +76,36 @@ menu.site-menu {
 }
 
 .navbar-item__submenu {
+  display: flex;
+  flex-wrap: wrap;
   list-style-type: none;
+  padding-left: 0px;
 
   @mixin atMedium {
+    display: inherit;
     margin-right: auto;
+    padding-left: 40px;
   }
 }
 
+
+
 .navbar-item__submenu .navbar-item {
+  width: 60%;
+  margin: 0.0 auto;
+
   @mixin atMedium {
     display: none;
   }
+}
+
+.navbar-item-products .navbar-item__submenu .navbar-item {
+    width: 50%;
+
+  @mixin atMedium {
+
+  }
+
 }
 
 .is-active .navbar {
@@ -90,30 +115,45 @@ menu.site-menu {
   width: 100vw;
   height: 100vh;
   left: 0px;
-  background: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  background: $lightGrayLightMode;
   transition: 0.8s;
   z-index: 1;
+
+  @mixin atMedium {
+    text-align: left;
+  }
 }
 
 .is-active .navbar li a {
-  font-size: 1.6rem;
-  line-height: 2.8rem;
+  font-size: 1.4rem;
+  line-height: 2.2rem;
   font-weight: 700;
   text-decoration: none;
   color: $regularGrayLightMode;
   list-style-type: none;
-  margin: 0;
+  margin: 0.10rem auto;
+
+  @mixin atMedium {
+    line-height: 2.8rem;
+  }
 }
 
 .is-active .navbar .navbar-item__submenu li a {
-  font-size: 1.4rem;
-  line-height: 2.6rem;
+  font-size: 1.0rem;
+  line-height: 1.6rem;
   font-weight: 500;
   text-decoration: none;
   color: $regularGrayLightMode;
   list-style-type: none;
   margin: 0;
+
+  @mixin atMedium {
+    font-size: 1.4rem;
+    line-height: 2.6rem;
+  }
 }
+
 
 /* === Burger Menu === */
 .burger-menu {

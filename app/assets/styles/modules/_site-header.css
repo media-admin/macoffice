@@ -5,13 +5,14 @@
   width: 100%;
   min-height: 1.6rem;
   height: auto;
-  background-color: white;
+  background-color: $lightGrayLightMode;
   margin-top: 15px;
   /* padding-left: 18px;
   padding-right: 18px; */
   z-index: 1 !important;
 
   @mixin atMedium {
+    background-color: white;
     margin-top: 45px;
     z-index: 1 !important;
   }
@@ -129,11 +130,9 @@
     display: none !important;
 
     @mixin atMedium {
-      display: initial !important;
       position: initial;
-      display: inline-flex;
-      width: auto;
-
+      display: inline-flex !important;
+      width: 15%;
       border-top: 0px;
       border-bottom: 0px;
     }
@@ -240,19 +239,36 @@
   }
 
 
-
-
   &__search  {
     position: relative;
     width: 10%;
     top: 5px;
     line-height: 0.8rem;
     padding-right: 15px;
+
+    @mixin atMedium {
+      width: auto;
+      margin-top: 15px;
+    }
+
   }
 
   &__search a  {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+
+  &__search img  {
     padding-left: 10px;
     padding-right: 10px;
+
+    @mixin atMedium {
+      width: 34px;
+      padding-left: 18px;
+      padding-right: 18px;
+
+    }
   }
 
 
@@ -269,6 +285,8 @@
 
 
     @mixin atMedium {
+      width: 100%;
+      height: 50px;
       border-left: 1px solid $lightGrayDarkMode;
       line-height: 1.0rem;
       margin-top: -0px;
@@ -286,7 +304,7 @@
 
 &__mode-switcher-link img  {
   position: relative;
-    top: -2px;
+  top: -2px;
   }
 
 

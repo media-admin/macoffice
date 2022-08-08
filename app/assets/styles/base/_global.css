@@ -28,12 +28,21 @@ body {
 
 
 .site-body {
+	background-color: $lightGrayLightMode;
 
+	@mixin atMedium {
+
+	}
+
+	@mixin atLarge {
+
+	}
 }
 
 .site-content {
 	position: relative;
 	top: 0px;
+	background-color: $lightGrayLightMode;
 
 	@mixin atMedium {
 		position: initial;
