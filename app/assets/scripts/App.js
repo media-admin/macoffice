@@ -1,18 +1,15 @@
 import "../styles/styles.css"
 import "lazysizes"
 
+// import CookieNotice from "./modules/CookieNotice"
 import JQuery from "./modules/jquery"
 import StickyHeader from "./modules/StickyHeader"
 import BackToTop from "./modules/BackToTop"
-import Dywc from "./modules/Dywc"
-import CoockieNotice from "./modules/CoockieNotice"
 
+// let cookieNotice = new CookieNotice()
 let jQuery = new JQuery()
 let stickyHeader = new StickyHeader()
 let backToTop = new BackToTop()
-let dywc = new Dywc()
-let cookieNotice = new CockieNotice()
-
 
 let modal
 

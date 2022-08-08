@@ -1,5 +1,23 @@
 /* === GLOBAL STYLES === */
 
+/* === Accent Colors === */
+
+input[type=checkbox] {
+	accent-color: $mainRed;
+}
+
+input[type=radio] {
+	accent-color: $mainRed;
+}
+
+input[type=range] {
+	accent-color: $mainRed;
+}
+
+progress {
+	accent-color: $mainRed;
+}
+
 /* === General Styles === */
 
 body {
@@ -129,7 +147,3 @@ img {
 	}
 
 }
-
-
-
-
