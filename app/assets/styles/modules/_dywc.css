@@ -136,7 +136,7 @@
 
 #dywc > .content > div .accept_wrap > a.accept {
 	color: #ffffff;
-	font-family: 'Esphimere Bold Italic';
+	font-family: 'San Francisco';
 	background-color: $mainRed;;
 	padding: 8px 18px;
 	text-decoration: none;
@@ -147,7 +147,7 @@
 #dywc > .content > div .accept_wrap > a.accept2 {
 	font-size: 0.75em;
 	text-decoration: none;
-	font-family: 'Esphimere Light Italic';
+	font-family: 'San Francisco';
 	font-size: 1.0em;
 	text-transform: uppercase;
 }

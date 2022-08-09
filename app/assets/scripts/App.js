@@ -2,7 +2,7 @@ import "../styles/styles.css"
 import "lazysizes"
 
 // import CookieNotice from "./modules/CookieNotice"
-import JQuery from "./modules/jquery"
+import JQuery from './modules/jquery'
 import StickyHeader from "./modules/StickyHeader"
 import BackToTop from "./modules/BackToTop"
 
