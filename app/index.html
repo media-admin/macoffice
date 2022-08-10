@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='de'>
+<html class="outer-html" lang='de'>
 	<head>
 		<title>LocalDev - STARTSEITE - mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt</title>
 		<meta charset="UTF-8">
@@ -70,23 +70,38 @@
 		<header class="site-header-top">
 			<div class="site-header-top__contact-information">
 				<div class="site-header-top__contact-information-opening">
-					<img class="site-header-top__contact-information-opening-icon" src="assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
+					<picture">
+						<source srcset="assets/images/icons/icon_opening-hours-header-light_desktop.svg" media="(prefers-color-scheme: dark)">
+						<img class="site-header-top__contact-information-opening-icon" src="assets/images/icons/icon_opening-hours-header-dark_desktop.svg"/>
+					</picture>
 					<p class="site-header-top__contact-information-opening-hours">Mo - Fr 10 - 18 Uhr <span class="additional-info"> | </span> Sa 10 - 13 Uhr<div class="site-header-top__contact-information-opening-sign"></div></p>
 				</div>
 				<div class="site-header-top__contact-information-address">
-					<img class="site-header-top__contact-information-address-icon" src="assets/images/icons/icon_address-header-light_desktop.svg"/>
+					<picture>
+						<source srcset="assets/images/icons/icon_address-header-light_desktop.svg" media="(prefers-color-scheme: dark)">
+						<img class="site-header-top__contact-information-address-icon" src="assets/images/icons/icon_address-header-dark_desktop.svg"/>
+					</picture>
 					<p class="site-header-top__contact-information-address-data">Fischauer Gasse 150, 2700 Wiener Neustadt</p>
 				</div>
 				<div class="site-header-top__contact-information-phone">
-					<img class="site-header-top__contact-information-phone-icon" src="assets/images/icons/icon_phone-header-light_desktop.svg"/>
+					<picture>
+						<source srcset="assets/images/icons/icon_phone-header-light_desktop.svg" media="(prefers-color-scheme: dark)">
+						<img class="site-header-top__contact-information-phone-icon" src="assets/images/icons/icon_phone-header-dark_desktop.svg"/>
+					</picture>
 					<a class="site-header-top__contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
 				</div>
 				<div class="site-header-top__contact-information-mail">
-					<img class="site-header-top__contact-information-mail-icon" src="assets/images/icons/icon_mail-header-light_desktop.svg"/>
+					<picture>
+						<source srcset="assets/images/icons/icon_mail-header-light_desktop.svg" media="(prefers-color-scheme: dark)">
+						<img class="site-header-top__contact-information-mail-icon" src="assets/images/icons/icon_mail-header-light_desktop.svg"/>
+					</picture>
 					<a class="site-header-top__contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
 				</div>
 				<div class="site-header-top__contact-information-hotline">
-					<img class="site-header-top__contact-information-hotline-icon" src="assets/images/icons/icon_call-header-light_desktop.svg"/>
+					<picture>
+						<source srcset="assets/images/icons/icon_call-header-light_desktop.svg" media="(prefers-color-scheme: dark)">
+						<img class="site-header-top__contact-information-hotline-icon" src="assets/images/icons/icon_call-header-light_desktop.svg"/>
+					</picture>
 					<a class="site-header-top__contact-information-hotline-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
 				</div>
 			</div>
@@ -95,11 +110,17 @@
 			<div class="site-header__branding">
 				<div class="site-header__logo">
 					<a class="site-header-logo__link wrapper" href="index.html">
-						<img class="site-header__logo-img" src="assets/images/logos/macoffice_header-logo-light_desktop.svg" alt="Logo mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">
+						<picture>
+							<source srcset="assets/images/logos/macoffice_header-logo-light_desktop.svg" media="(prefers-color-scheme: dark)">
+							<img class="site-header__logo-img" src="assets/images/logos/macoffice_header-logo-dark_desktop.svg" alt="Logo mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">
+						</picture>
 					</a>
 				</div>
 				<div class="site-header__apple-haendler">
-					<img class="site-header__apple-haendler-img" src="assets/images/logos/apple-haendler_header-logo-light_desktop.svg" alt="Logo Autorisierter Händler">
+					<picture>
+						<source srcset="assets/images/logos/apple-haendler_header-logo-light_desktop.svg" media="(prefers-color-scheme: dark)">
+						<img class="site-header__apple-haendler-img" src="assets/images/logos/apple-haendler_header-logo-dark_desktop.svg" alt="Logo Autorisierter Händler">
+					</picture>
 				</div>
 			</div>
 
@@ -125,6 +146,14 @@
 							this.classList.toggle ("checked");
 						}
 					</script>
+
+					<script>
+							function switchMode() {
+								var element = document.body;
+								element.classList.toggle("dark-mode");
+							}
+					</script>
+
 
 						<div class="navbar">
 							<ul class="navbar__navigation-list">
@@ -166,27 +195,42 @@
 
 							<div class="site-header__navi-contact-information">
 								<div class="site-header__navi-contact-information-phone">
-									<img class="site-header__navi-contact-information-phone-icon" src="assets/images/icons/icon_phone-header-dark_desktop.svg"/>
+									<picture>
+										<source srcset="assets/images/icons/icon_phone-header-light_desktop.svg" media="(prefers-color-scheme: dark)">
+										<img class="site-header__navi-contact-information-phone-icon" src="assets/images/icons/icon_phone-header-dark_desktop.svg"/>
+									</picture>
 									<a class="site-header__navi-contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
 								</div>
 								<div class="site-header__navi-contact-information-mail">
-									<img class="site-header__navi-contact-information-mail-icon" src="assets/images/icons/icon_mail-header-dark_desktop.svg"/>
+									<picture>
+										<source srcset="assets/images/icons/icon_mail-header-light_desktop.svg" media="(prefers-color-scheme: dark)">
+										<img class="site-header__navi-contact-information-mail-icon" src="assets/images/icons/icon_mail-header-dark_desktop.svg"/>
+									</picture>
 									<a class="site-header__navi-contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
 								</div>
 								<div class="site-header__navi-contact-information-call">
-									<img class="site-header__navi-contact-information-call-icon" src="assets/images/icons/icon_call-header-dark_desktop.svg"/>
+									<picture>
+										<source srcset="assets/images/icons/icon_call-header-light_desktop.svg" media="(prefers-color-scheme: dark)">
+										<img class="site-header__navi-contact-information-call-icon" src="assets/images/icons/icon_call-header-dark_desktop.svg"/>
+									</picture>
 									<a class="site-header__navi-contact-information-call-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
 								</div>
 
 								<div class="site-header__search">
 										<a class="site-header__search-link wrapper" href="#">
-											<img class="site-header__search-icon" src="assets/images/icons/icon_search-light_desktop.svg" alt="Icon Suchen">
+											<picture>
+												<source srcset="assets/images/icons/icon_search-light_desktop.svg" media="(prefers-color-scheme: dark)">
+												<img class="site-header__search-icon" src="assets/images/icons/icon_search-light_desktop.svg" alt="Icon Suchen">
+											</picture>
 										</a>
 									</div>
 									<div class="site-header__mode-switcher">
-										<a class="site-header__mode-switcher-link wrapper" href="#">
-											<img class="site-header__mode-switcher--icon" src="assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
-										</a>
+										<button class="site-header__mode-switcher-link wrapper" onclick="switchMode()">
+											<picture>
+												<source srcset="assets/images/icons/icon_light-mode_desktop.svg" media="(prefers-color-scheme: dark)">
+												<img class="site-header__mode-switcher--icon" src="assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
+											</picture>
+										</button>
 									</div>
 								</div>
 
@@ -197,12 +241,14 @@
 							<div class="site-header__search">
 								<a class="site-header__search-link wrapper" href="#">
 									<img class="site-header__search-icon" src="assets/images/icons/icon_search-light_desktop.svg" alt="Icon Suchen">
+
 								</a>
 							</div>
 							<div class="site-header__mode-switcher">
-								<a class="site-header__mode-switcher-link wrapper" href="#">
+								<button class="site-header__mode-switcher-link wrapper" onclick="switchMode()">
 									<img class="site-header__mode-switcher--icon" src="assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
-								</a>
+
+								</button>
 							</div>
 						</div>
 					</div>
@@ -249,37 +295,58 @@
 				<div class="site-footer__branding">
 					<div class="site-footer__logo">
 						<a class="site-footer__logo-link wrapper" href="index.html">
-							<img class="site-footer__logo-img" src="assets/images/logos/macoffice_footer-logo-light_smartphone.svg" alt="Logo mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">
+							<picture>
+								<source srcset="assets/images/logos/macoffice_footer-logo-dark_smartphone.svg" media="(prefers-color-scheme: dark)">
+								<img class="site-footer__logo-img" src="assets/images/logos/macoffice_footer-logo-light_smartphone.svg" alt="Logo mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">
+							</picture>
 						</a>
 					</div>
 					<div class="site-footer__apple-haendler">
-						<img class="site-footer__apple-haendler-img" src="assets/images/logos/apple-haendler_footer-logo-light_smartphone.svg" alt="Logo Autorisierter Händler">
+						<picture>
+							<source srcset="assets/images/logos/apple-haendler_footer-logo-light_smartphone.svg" media="(prefers-color-scheme: dark)">
+							<img class="site-footer__apple-haendler-img" src="assets/images/logos/apple-haendler_footer-logo-light_smartphone.svg" alt="Logo Autorisierter Händler">
+						</picture>
 					</div>
 				</div>
 
 				<div class="site-footer__contact">
 					<div class="site-footer__contact-address">
-						<img class="site-footer__contact-address-icon" src="assets/images/icons/icon_address-header-light_desktop.svg"/>
+						<picture>
+							<source srcset="assets/images/icons/icon_address-header-dark_desktop.svg" media="(prefers-color-scheme: dark)">
+							<img class="site-footer__contact-address-icon" src="assets/images/icons/icon_address-header-light_desktop.svg"/>
+						</picture>
 						<p class="site-footer__contact-address-title">Adresse</p>
 						<p class="site-footer__contact-address-data">Fischauer Gasse 150<br/>2700 Wiener Neustadt<br/>Österreich</p>
 					</div>
 
 					<div class="site-footer__contact-information">
 						<div class="site-footer__contact-information-phone">
-							<img class="site-footer__contact-information-phone-icon" src="assets/images/icons/icon_phone-header-light_desktop.svg"/>
+							<picture>
+								<source srcset="assets/images/icons/icon_phone-header-dark_desktop.svg" media="(prefers-color-scheme: dark)">
+								<img class="site-footer__contact-information-phone-icon" src="assets/images/icons/icon_phone-header-light_desktop.svg"/>
+							</picture>
 							<a class="site-footer__contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
 						</div>
 						<div class="site-footer__contact-information-mail">
-							<img class="site-footer__contact-information-mail-icon" src="assets/images/icons/icon_mail-header-light_desktop.svg"/>
+							<picture>
+								<source srcset="assets/images/icons/icon_mail-header-dark_desktop.svg" media="(prefers-color-scheme: dark)">
+								<img class="site-footer__contact-information-mail-icon" src="assets/images/icons/icon_mail-header-light_desktop.svg"/>
+							</picture>
 							<a class="site-footer__contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
 						</div>
 						<div class="site-footer__contact-information-hotline">
-							<img class="site-footer__contact-information-hotline-icon" src="assets/images/icons/icon_call-header-light_desktop.svg"/>
+							<picture>
+								<source srcset="assets/images/icons/icon_call-header-dark_desktop.svg" media="(prefers-color-scheme: dark)">
+								<img class="site-footer__contact-information-hotline-icon" src="assets/images/icons/icon_call-header-light_desktop.svg"/>
+							</picture>
 							<a class="site-footer__contact-information-hotline-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
 						</div>
 					</div>
 					<div class="site-footer__contact-opening">
-						<img class="site-footer__contact-opening-icon" src="assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
+						<picture>
+							<source srcset="assets/images/icons/icon_opening-hours-header-dark_desktop.svg" media="(prefers-color-scheme: dark)">
+							<img class="site-footer__contact-opening-icon" src="assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
+						</picture>
 						<p class="site-footer__contact-opening-title">Öffnungszeiten</p>
 						<p class="site-footer__contact-opening-hours">Montag - Freitag von 10 - 18 Uhr<br/>Samstag von 10 - 13 Uhr</p>
 					</div>
@@ -333,6 +400,7 @@
 		</footer>
 
 		<!-- Start Scripts Area -->
+
 
 	</body>
 </html>

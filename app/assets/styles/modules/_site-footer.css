@@ -153,6 +153,8 @@
 		@mixin atMedium {
 			position: absolute;
 			width: 25%;
+			/* top: 225px
+			top: 90px; */
 			top: 225px;
 			font-size: 0.8rem;
 			line-height: 1.5rem;
@@ -262,7 +264,7 @@
 &__contact-information-hotline-icon {
 	position: relative;
 	width: 18px;
-	top: -8px;
+	/* top: -8px; */
 	padding-right: 0.5rem;
 }
 

@@ -1,0 +1,106 @@
+/* === Mode Switcher === */
+.dark-mode {
+
+	/* --- General Styles --- */
+	filter: invert(100%);
+
+	img {
+		filter: invert(100%);
+	}
+
+	/* --- Top Site Header --- */
+	.site-header-top {
+
+	}
+
+	.site-header-top a {
+	}
+
+	.site-header-top__contact-information-opening-icon {
+	}
+
+	.site-header-top__contact-information-address-icon {
+	}
+
+	.site-header-top__contact-information-phone-icon {
+	}
+
+	.site-header-top__contact-information-mail-icon {
+	}
+
+	.site-header-top__contact-information-hotline-icon {
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+	/* --- Site Header --- */
+	.site-header {
+		border-bottom-color: $mainRed !important;
+	}
+
+
+	.site-header__navi-contact-information {
+		border-top: 2px solid $mainRed !important;
+		border-bottom: 2px solid $mainRed !important;
+	}
+
+
+	.site-header .navbar-item--submenu-button:after {
+		filter: invert(100%);
+	}
+
+
+	.site-header .navbar-item__submenu .navbar-item a:hover {
+		filter: invert(100%);
+	}
+
+
+	/* --- Site Footer --- */
+	.site-footer {
+		filter: invert(100%);
+	}
+
+	.site-footer__logo-link {
+		filter: invert(100%);
+	}
+
+	.site-footer__apple-haendler {
+		filter: invert(100%);
+	}
+
+	.site-footer__social-media-area {
+		filter: invert(100%);
+	}
+
+
+
+
+
+
+	/* --- Back To Top Button --- */
+	.back-to-top img {
+		filter: invert(100%);
+	}
+
+
+
+
+
+
+}
+
+
+@media (prefers-color-scheme: dark) {
+
+
+
+}

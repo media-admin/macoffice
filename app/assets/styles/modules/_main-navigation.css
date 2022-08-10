@@ -79,8 +79,8 @@ menu.site-menu {
 }
 
 .is-active .navbar li a {
-  font-size: 1.4rem;
-  line-height: 2.2rem;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
   font-weight: 700;
   text-decoration: none;
   color: $regularGrayLightMode;
@@ -254,9 +254,12 @@ menu.site-menu {
 
 
 .is-active .navbar-item__submenu .navbar-item a {
-
+  font-size: 1.0rem;
+  font-weight: 300;
 
   @mixin atMedium {
+    font-size: 1.0rem;
+    font-weight: 300;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }

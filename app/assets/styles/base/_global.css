@@ -66,6 +66,16 @@ body {
 
 /* === Image Styles === */
 
+picture {
+	position: relative;
+	display: contents;
+	max-width: 100%;
+	width: auto;
+	height: auto;
+}
+
+
+
 img {
 	max-width: 100%;
 	height: auto;
