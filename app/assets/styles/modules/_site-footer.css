@@ -154,6 +154,8 @@
 			position: absolute;
 			width: 25%;
 			top: 225px;
+			font-size: 0.8rem;
+			line-height: 1.5rem;
 		}
 
 		@mixin atLarge {
@@ -183,6 +185,10 @@
 		position: relative;
 		display: inline;
 		text-decoration: underline;
+
+		@mixin atMedium {
+			font-weight: 500 !important;
+		}
 	}
 
 	&__contact-address-data {
@@ -271,7 +277,11 @@
 
 	&__contact-opening {
 	position: relative;
-	width: 50%;
+	width: 70%;
+
+	@mixin atMedium {
+		width: 60%;
+	}
 }
 
 &__contact-opening-icon {
@@ -285,6 +295,10 @@
 	position: relative;
 	display: inline;
 	text-decoration: underline;
+
+	@mixin atMedium {
+		font-weight: 700 !important;
+	}
 }
 
 &__contact-opening-hours {
@@ -423,7 +437,7 @@
 
 &__main-navigation-list-item {
 	position: relative;
-	width: 50%;
+	width: 100%;
 	font-size: 1.2rem;
 	line-height: 1.8rem;
 	padding-top: 0.6rem;
@@ -443,7 +457,7 @@
 
 
 &__main-navigation-list > &__main-navigation-list-item {
-
+	width: 100%;
 
 	@mixin atMedium {
 		margin-right: 25px;
@@ -460,7 +474,19 @@
 
 	@mixin atMedium {
 		margin-left: 35%;
-		margin-right: 35%;
+		margin-right: -15%;
+	}
+
+	@mixin atLarge {
+
+	}
+}
+
+&__main-navigation-list > &__main-navigation-list-item:last-of-type {
+
+
+	@mixin atMedium {
+		margin-left: 25%;
 	}
 
 	@mixin atLarge {
@@ -505,6 +531,7 @@
 
 
 &__main-navigation-list-item--submenu > &__main-navigation-list-item {
+	width: 50%;
 	font-size: 0.8rem;
 	font-weight: 300;
 	list-style-type: none;
