@@ -23,7 +23,20 @@
 
 
 /* --- Article Styles --- */
+
+article {
+	padding-left: 18px;
+	padding-right: 18px;
+
+	@mixin atMedium {
+
+
+	}
+
+}
+
 article p {
+	position: relative;
 	line-height: 2.4rem;
 }
 
@@ -98,6 +111,53 @@ ul {
 
 
 .h2 {
+	overflow: hidden !important;
+	position: relative;
+	text-align: left;
+
+	&__section-headline {
+		font-size: 1.8rem;
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__section-headline:before {
+		content: "";
+		display: inline-block;
+		width: 10000px;
+		height: 1px;
+		border-bottom: 1px solid $regularGrayLightMode;
+		position: absolute;
+		top: 50%;
+		left: 18px;
+		padding-top: 0.75rem;
+
+		@mixin atMedium {
+			height: 2px;
+			border-bottom: 2px solid $regularGrayLightMode;
+		}
+
+	}
+
+	&__section-headline span {
+		position: relative;
+		padding: 0 0.25rem;
+		display: inline-block;
+		max-width: 80%;
+		background-color: $lightGrayLightMode;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+	/*
 
 	&__heading {
 		font-size: 2.2rem;
@@ -145,6 +205,8 @@ ul {
 		padding-right: 0.25rem;
 		padding-left: 25%;
 	}
+
+	*/
 
 }
 

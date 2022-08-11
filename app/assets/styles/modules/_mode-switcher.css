@@ -1,5 +1,6 @@
 /* === Mode Switcher === */
 .dark-mode {
+	background-color: $falseBlack !important;
 
 	/* --- General Styles --- */
 	filter: invert(100%);
@@ -7,6 +8,14 @@
 	img {
 		filter: invert(100%);
 	}
+
+	.site-body {
+
+	}
+
+
+
+
 
 	/* --- Top Site Header --- */
 	.site-header-top {
@@ -49,8 +58,8 @@
 
 
 	.site-header__navi-contact-information {
-		border-top: 2px solid $mainRed !important;
-		border-bottom: 2px solid $mainRed !important;
+		filter: invert(100%);
+		background-color: $falseBlack !important;
 	}
 
 
@@ -62,6 +71,22 @@
 	.site-header .navbar-item__submenu .navbar-item a:hover {
 		filter: invert(100%);
 	}
+
+
+
+	/* --- Site Main --- */
+	.site-main {
+
+	}
+
+	.card__title {
+		filter: invert(100%);
+	}
+
+	.card__line--dotted {
+		filter: invert(100%);
+	}
+
 
 
 	/* --- Site Footer --- */
@@ -91,12 +116,12 @@
 		filter: invert(100%);
 	}
 
-
-
-
-
-
 }
+
+
+
+
+
 
 
 @media (prefers-color-scheme: dark) {

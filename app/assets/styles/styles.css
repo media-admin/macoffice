@@ -7,10 +7,13 @@
 @import "modules/_dywc";
 @import "modules/_button-back-to-top";
 @import "modules/_text-styles";
+
+@import "modules/_cards";
 @import "modules/_site-header-top";
 @import "modules/_site-header";
 @import "modules/_main-navigation";
 
+@import "modules/_featured-posts";
 @import "modules/_intro";
 @import "modules/_news-section";
 
