@@ -7,15 +7,21 @@
 @import "modules/_dywc";
 @import "modules/_button-back-to-top";
 @import "modules/_text-styles";
-
 @import "modules/_cards";
+@import "modules/_accordions";
+
+
 @import "modules/_site-header-top";
 @import "modules/_site-header";
 @import "modules/_main-navigation";
 
-@import "modules/_featured-posts";
 @import "modules/_intro";
+@import "modules/_featured-posts-section";
 @import "modules/_news-section";
+@import "modules/_product-categories-section";
+@import "modules/_services-section";
+@import "modules/_faq-section";
+@import "modules/_about-us-section";
 
 @import "modules/_site-footer";
 @import "modules/_modal";

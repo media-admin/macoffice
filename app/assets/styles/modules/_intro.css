@@ -8,6 +8,10 @@
 		padding-bottom: 2.0rem;
 	}
 
+
+
+	/*
+
 	&__headline {
 		margin-bottom: 0.25rem;
 	}
@@ -70,8 +74,6 @@
 
 }
 
-/* === General Hover Styles === */
-
 span.hover__alt-text {
 	opacity: 0;
 }
@@ -83,5 +85,7 @@ span.hover__alt-text {
 		background-color: $regularGrayLightMode;
 		margin: 2.0rem 0.0rem;
 	}
+
+	*/
 
 }

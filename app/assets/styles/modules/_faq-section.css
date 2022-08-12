@@ -1,0 +1,67 @@
+/* === FAQ SECTION === */
+
+.faq {
+
+	@mixin atMedium {
+
+	}
+
+	&__headline {
+		font-weight: 700;
+		color: $regularGrayLightMode;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__intro {
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__container {
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__accordion {
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__accordion-item {
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__accordion-title {
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__accordion-content {
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+}

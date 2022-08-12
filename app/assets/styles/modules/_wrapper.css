@@ -2,6 +2,8 @@
 	padding-left: 18px;
 	padding-right: 18px;
 
+
+
 	&--medium {
 		max-width: 976px;
 	}
@@ -9,4 +11,5 @@
 	&--narrow {
 		max-width: 470px;
 	}
+
 }

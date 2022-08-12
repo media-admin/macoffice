@@ -109,7 +109,6 @@ ul {
 }
 
 
-
 .h2 {
 	overflow: hidden !important;
 	position: relative;
@@ -217,7 +216,6 @@ ul {
 		font-size: 1.4rem;
 		font-weight: 700;
 		line-height: 1.6rem;
-		text-transform: lowercase;
 		letter-spacing: 0.1rem;
 		margin: 0;
 		padding-top: 1.0rem;
@@ -233,4 +231,17 @@ ul {
 	letter-spacing: 0.05rem;
 	color: $mainRed;
 	margin: 0;
+}
+
+
+.intro {
+	font-size: 1.0rem;
+	font-weight: 700;
+	line-height: 1.6rem;
+	text-align: left;
+
+	@mixin atMedium {
+
+	}
+
 }
