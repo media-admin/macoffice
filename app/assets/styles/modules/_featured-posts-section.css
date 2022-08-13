@@ -1,1 +1,105 @@
 /* === FEATURED POSTS SECTION === */
+.featured-posts {
+	position: relative;
+	width: calc(100%+36px) !important;
+	background-color: white;
+	margin-top: 1.0rem;
+	margin-bottom: 1.0rem;
+
+	&__headline span {
+		background-color: white !important;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+	&__container {
+		position: relative;
+		display: flex;
+		flex: 1;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 2%;
+		flex-basis: 100%;
+		flex-grow: 0;
+		flex-shrink: 0;
+		justify-content: space-around;
+
+		align-items: flex-start;
+
+
+		margin: 0.5rem;
+		padding: 0.25rem;
+
+		@mixin atMedium {
+			flex: 2;
+			flex-basis: 50%;
+		}
+
+	}
+
+
+	&__card {
+		position: relative;
+		width: 100%;
+
+		@mixin atMedium {
+			width: 48%;
+		}
+
+	}
+
+
+
+	&__img {
+		width: 100%;
+		height: auto;
+		margin-bottom: 10px;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+
+	&__title {
+		font-size: 1.6rem;
+		line-height: 1.8rem;
+		margin-bottom: 0.5rem;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__subtitle {
+		font-size: 0.8rem;
+		font-weight: 500;
+		line-height: 1.2rem;
+		letter-spacing: 0.1rem;
+		margin: 0;
+		margin-bottom: 1.5rem;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__content {
+		line-height: 2.0rem;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+}
+

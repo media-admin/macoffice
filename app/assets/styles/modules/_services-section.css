@@ -1,1 +1,179 @@
 /* === SERVICES SECTION === */
+.services {
+	color: white !important;
+	background-color: black;
+
+	@mixin atMedium {
+
+	}
+
+
+	&__headline {
+		color: white;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+	&__headline span {
+		background-color: black;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+	&__intro {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+	&__container {
+		position: relative;
+		display: flex;
+		flex: 1;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 2%;
+		flex-basis: 100%;
+		flex-grow: 0;
+		flex-shrink: 0;
+		justify-content: space-around;
+
+		align-items: flex-start;
+
+		color: white !important;
+
+
+		z-index: 1;
+
+		margin: 0.5rem;
+		padding: 0.25rem;
+
+		@mixin atMedium {
+			flex: 2;
+			flex-basis: 50%;
+		}
+
+	}
+
+
+	&__card {
+		position: relative;
+		width: 100%;
+		background-color: $falseBlack;
+
+		@mixin atMedium {
+			width: 48%;
+		}
+
+	}
+
+
+	&__pretitle {
+		color: white !important;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+	&__title {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__title span {
+		color: white;
+		background-color: black;
+
+		@mixin atMedium {
+
+			}
+
+	}
+
+
+	&__content {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__link {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+	&__thumbnail {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__thumbnail--full {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+
+	&__thumbnail--half {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__thumbnail--third {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__thumbnail--quarter {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+}

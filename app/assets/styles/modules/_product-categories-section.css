@@ -1,1 +1,108 @@
 /* === PRODUCT FAMILIES SECTION === */
+
+.product-categories {
+
+
+
+	@mixin atMedium {
+
+	}
+
+
+	&__headline {
+
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__intro {
+
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__container {
+		position: relative;
+		display: flex;
+		flex: 2;
+		flex-direction: row;
+		flex-wrap: wrap;
+		flex-basis: 50%;
+		flex-grow: 0;
+		flex-shrink: 0;
+		justify-content: space-around;
+
+		align-items: flex-start;
+
+		text-align: center;
+
+		margin: 0.5rem;
+		padding: 0.25rem;
+
+		@mixin atMedium {
+			flex: 5;
+			flex-basis: 20%;
+		}
+
+	}
+
+	&__link {
+		text-decoration: none;
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__picture {
+
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__img {
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__content {
+		padding-bottom: 0.0rem;
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__title {
+		color: $regularGrayLightMode;
+		font-size: 0.9rem;
+		font-weight: 700;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+}

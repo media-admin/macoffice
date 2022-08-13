@@ -22,6 +22,7 @@ progress {
 
 body {
 	font-family: 'system', 'San Francisco', 'Inter', sans-serif;
+	font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", 'Inter', Roboto, Ubuntu, sans-serif;
 	font-size: 16px;
 	color: $regularGrayLightMode;
 	background-color: $lightGrayLightMode;
@@ -216,6 +217,16 @@ button {
 
 	}
 
+	&:hover {
+		color: white !important;
+		background-color: $mainRed !important;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
 }
 
 .btn {
@@ -241,12 +252,32 @@ button {
 
 		}
 
+		&:hover {
+			color: white !important;
+			background-color: $mainRed !important;
+
+			@mixin atMedium {
+
+			}
+
+		}
+
 	}
 
 	&--red {
 		color: white;
 		background-color: $mainRed;
 		@mixin atMedium {
+
+		}
+
+		&:hover {
+			color: white !important;
+			background-color: $middleGrayLightMode !important;
+
+			@mixin atMedium {
+
+			}
 
 		}
 
@@ -257,6 +288,16 @@ button {
 		background-color: white;
 
 		@mixin atMedium {
+
+		}
+
+		&:hover {
+			color: white !important;
+			background-color: $mainRed !important;
+
+			@mixin atMedium {
+
+			}
 
 		}
 

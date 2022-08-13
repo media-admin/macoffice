@@ -124,6 +124,7 @@ ul {
 
 	}
 
+	/*
 	&__section-headline:before {
 		content: "";
 		display: inline-block;
@@ -141,6 +142,7 @@ ul {
 		}
 
 	}
+	*/
 
 	&__section-headline span {
 		position: relative;

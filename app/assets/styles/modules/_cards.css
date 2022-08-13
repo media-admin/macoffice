@@ -79,7 +79,7 @@
 		@mixin atMedium {
 			position: relative;
 			width: 4%;
-			border-bottom: 10px dotted $mainRed;
+			border-bottom: 6px dotted $mainRed;
 		}
 
 	}

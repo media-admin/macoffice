@@ -320,6 +320,15 @@
 
   }
 
+  &__mode-switcher-link:hover  {
+    background-color: transparent !important;
+
+    @mixin atMedium {
+
+    }
+
+  }
+
 
 &__mode-switcher-link img  {
   position: relative;

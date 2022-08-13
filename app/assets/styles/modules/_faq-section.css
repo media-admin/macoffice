@@ -1,6 +1,7 @@
 /* === FAQ SECTION === */
 
 .faq {
+	margin-bottom: 1.5rem;
 
 	@mixin atMedium {
 
@@ -25,6 +26,20 @@
 	}
 
 	&__container {
+
+
+
+		@mixin atMedium {
+
+
+		}
+
+	}
+
+
+	&__card {
+
+
 
 		@mixin atMedium {
 
