@@ -13,16 +13,28 @@
 
 	}
 
-
+	.btn--gray:hover {
+		filter: invert(100%);
+		background-color: $mainRed !important;
+	}
 
 
 
 	/* --- Top Site Header --- */
 	.site-header-top {
-
+		margin-top: -45px;
+		filter: invert(100%);
 	}
 
+	.site-header-top__contact-information {
+		filter: invert(100%);
+	}
+
+
+
+
 	.site-header-top a {
+
 	}
 
 	.site-header-top__contact-information-opening-icon {
@@ -38,7 +50,6 @@
 	}
 
 	.site-header-top__contact-information-hotline-icon {
-
 	}
 
 
@@ -59,6 +70,7 @@
 
 	.site-header__navi-contact-information {
 		filter: invert(100%);
+		color: white !important;
 		background-color: $falseBlack !important;
 	}
 
@@ -72,6 +84,22 @@
 		filter: invert(100%);
 	}
 
+
+	#site-header__logo-img-light {
+		display: none;
+	}
+
+	#site-header__logo-img-dark {
+		display: inherit;
+	}
+
+	#site-header__apple-haendler-light {
+		display: none;
+	}
+
+	#site-header__apple-haendler-dark {
+		display: inherit;
+	}
 
 
 	/* --- Site Main --- */
@@ -89,6 +117,30 @@
 
 
 
+
+
+
+
+	.product-categories__card {
+
+	}
+
+	.product-categories__card img {
+		filter: invert(100%);
+	}
+
+
+	.product-categories__title {
+		filter: invert(100%);
+	}
+
+
+
+
+
+
+
+
 	/* --- Site Footer --- */
 	.site-footer {
 		filter: invert(100%);
@@ -101,6 +153,42 @@
 	.site-footer__apple-haendler {
 		filter: invert(100%);
 	}
+
+
+	.site-footer__contact-address-icon {
+		filter: invert(100%);
+	}
+
+	.site-footer__contact-address-icon img {
+		filter: invert(100%);
+	}
+
+
+	.site-footer__contact-information-phone-icon {
+		filter: invert(100%);
+	}
+
+
+	.site-footer__contact-information-mail-icon {
+		filter: invert(100%);
+	}
+
+
+
+	.site-footer__contact-information-hotline-icon {
+		filter: invert(100%);
+	}
+
+
+	.site-footer__contact-opening-icon {
+		filter: invert(100%);
+	}
+
+
+
+
+
+
 
 	.site-footer__social-media-area {
 		filter: invert(100%);

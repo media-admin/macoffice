@@ -1,1 +1,27 @@
 /* === ABOUT US SECTION === */
+.about-us {
+	position: relative;
+	width: calc(100%+36px) !important;
+	width: 100vw;
+	margin-left: -18px;
+	background-color: white !important;
+	margin-top: 1.0rem;
+	margin-bottom: 1.0rem;
+	padding: 18px;
+	padding-left: 36px;
+
+
+	@mixin atMedium {
+
+	}
+
+	&__headline span {
+		background-color: white !important;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+}

@@ -702,28 +702,47 @@
 
 					<div class="site-footer__contact">
 						<div class="site-footer__contact-address">
-							<img  class="site-footer__contact-address-icon" src="assets/images/icons/icon_address-footer_desktop.svg"/>
+							<picture class="site-footer__contact-address-icon" >
+								<source media="(min-width: 38em)" srcset="assets/images/icons/icon_address-footer_smartphone.svg">
+								<source srcset="assets/images/icons/icon_address-footer_desktop.svg">
+								<img src="assets/images/icons/icon_address-footer_smartphone.svg"/>
+							</picture>
+							<source media="(min-width: 38em)" srcset="assets/images/icons/icon_address-footer_smartphone.svg">
+								<source srcset="assets/images/icons/icon_address-footer_desktop.svg">
+								<img src="assets/images/icons/icon_address-footer_smartphone.svg"/>
+							</picture>
 							<p class="site-footer__contact-address-title">Adresse</p>
 							<p class="site-footer__contact-address-data">Fischauer Gasse 150<br/>2700 Wiener Neustadt<br/>Österreich</p>
 						</div>
 
 						<div class="site-footer__contact-information">
 							<div class="site-footer__contact-information-phone">
-								<img class="site-footer__contact-information-phone-icon" src="assets/images/icons/icon_phone-footer_desktop.svg"/>
+								<picture>
+									<source media="(min-width: 38em)" srcset="assets/images/icons/icon_phone-header-dark_desktop.svg">
+									<img class="site-footer__contact-information-phone-icon" src="assets/images/icons/icon_phone-header-light_desktop.svg"/>
+								</picture>
 								<a class="site-footer__contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
 							</div>
 							<div class="site-footer__contact-information-mail">
 								<picture>
-								<img class="site-footer__contact-information-mail-icon" src="assets/images/icons/icon_mail-footer_desktop.svg"/>
+									<source media="(min-width: 38em)" srcset="assets/images/icons/icon_mail-header-dark_desktop.svg">
+									<img class="site-footer__contact-information-mail-icon" src="assets/images/icons/icon_mail-header-light_desktop.svg"/>
+								</picture>
 								<a class="site-footer__contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
 							</div>
 							<div class="site-footer__contact-information-hotline">
-								<img class="site-footer__contact-information-hotline-icon" src="assets/images/icons/icon_call-footer_desktop.svg"/>
+								<picture>
+									<source media="(min-width: 38em)" srcset="assets/images/icons/icon_call-header-dark_desktop.svg">
+									<img class="site-footer__contact-information-hotline-icon" src="assets/images/icons/icon_call-header-light_desktop.svg"/>
+								</picture>
 								<a class="site-footer__contact-information-hotline-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
 							</div>
 						</div>
 						<div class="site-footer__contact-opening">
-							<img class="site-footer__contact-opening-icon" src="assets/images/icons/icon_opening-hours-footer_desktop.svg"/>
+							<picture>
+								<source media="(min-width: 38em)" srcset="assets/images/icons/icon_opening-hours-header-dark_desktop.svg">
+								<img class="site-footer__contact-opening-icon" src="assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
+							</picture>
 							<p class="site-footer__contact-opening-title">Öffnungszeiten</p>
 							<p class="site-footer__contact-opening-hours">Montag - Freitag von 10 - 18 Uhr<br/>Samstag von 10 - 13 Uhr</p>
 						</div>

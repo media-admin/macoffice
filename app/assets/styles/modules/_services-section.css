@@ -1,7 +1,16 @@
 /* === SERVICES SECTION === */
 .services {
+	position: relative;
+	width: calc(100%+36px) !important;
+	width: 100vw;
+	margin-left: -18px;
 	color: white !important;
 	background-color: black;
+	margin-top: 1.0rem;
+	margin-bottom: 1.0rem;
+	padding: 18px;
+	padding-left: 36px;
+
 
 	@mixin atMedium {
 
@@ -40,6 +49,7 @@
 
 	&__container {
 		position: relative;
+		width: 100%;
 		display: flex;
 		flex: 1;
 		flex-direction: row;
@@ -51,18 +61,16 @@
 		justify-content: space-around;
 
 		align-items: flex-start;
-
 		color: white !important;
-
-
 		z-index: 1;
-
 		margin: 0.5rem;
 		padding: 0.25rem;
 
 		@mixin atMedium {
 			flex: 2;
 			flex-basis: 50%;
+			margin: inherit;
+			padding: 1.5rem;
 		}
 
 	}
@@ -72,6 +80,8 @@
 		position: relative;
 		width: 100%;
 		background-color: $falseBlack;
+		padding-right: 0px !important;
+		padding-left: 0px !important;
 
 		@mixin atMedium {
 			width: 48%;
@@ -80,8 +90,20 @@
 	}
 
 
+	&__card-container {
+		padding: 0 !important;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
 	&__pretitle {
 		color: white !important;
+		padding-right: 18px !important;
+		padding-left: 18px !important;
 
 		@mixin atMedium {
 
@@ -91,7 +113,8 @@
 
 
 	&__title {
-
+		padding-right: 18px !important;
+		padding-left: 18px !important;
 
 		@mixin atMedium {
 
@@ -110,16 +133,27 @@
 	}
 
 
-	&__content {
-
-
-		@mixin atMedium {
-
-		}
-
-	}
-
 	&__link {
+			margin: 0 -1%;;
+			padding: 0;
+			top: 0;
+			left: 0;
+
+			@mixin atMedium {
+
+			}
+
+		}
+
+
+	&__content {
+		display: flex;
+		margin: 0;
+		padding: 0;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
 
 
 		@mixin atMedium {
@@ -127,10 +161,67 @@
 		}
 
 	}
+
+
+
+	&__thumbnail-container {
+		position: relative;
+		display: flex;
+		width: 100%;
+		margin: 0px;
+		padding: 0px;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+	&__thumbnail-container--column-1 {
+		position: relative;
+		left: 0px;
+		bottom: 0px;
+		width: 50%;
+
+		display: flex;
+
+		margin: 0px;
+		padding: 0px;
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+
+	&__thumbnail-container--column-2 {
+		position: relative;
+		right: 0px;
+		bottom: 0px;
+		width: 50%;
+
+		margin: 0px;
+		padding: 0px;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
 
 
 	&__thumbnail {
-
+		position: relative;
+		width: 100%;
+		object-fit: cover;
+		margin: 0px;
+		padding: 0px;
 
 		@mixin atMedium {
 
@@ -149,7 +240,35 @@
 
 
 
-	&__thumbnail--half {
+	&__thumbnail_container--half-left {
+		width: 100%;
+		max-height: 400px;
+		height: auto;
+		top: 0px;
+		left: 0px;
+		width: 50%;
+		border-radius: 0px 0px 17px 0px ;
+
+		margin: 0px;
+		padding: 0px;
+
+
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__thumbnail_container--half-right {
+		width: 100%;
+		max-height: 400px;
+		height: auto;
+		top: 0px;
+		right: 0px;
+		width: 50%;
+		border-radius: 0px 0px 17px 0px;
+
 
 
 		@mixin atMedium {
@@ -167,13 +286,68 @@
 
 	}
 
-	&__thumbnail--quarter {
-
+	&__thumbnail-container--quarter-top-left {
+		width: 100%;
+		max-height: 200px;
+		height: auto;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		border-radius: 0px 0px 17px 0px;
 
 		@mixin atMedium {
 
 		}
 
 	}
+
+
+	&__thumbnail-container--quarter-top-right {
+		width: 100%;
+		max-height: 200px;
+		height: auto;
+		top: 0px;
+		right: 0px;
+		width: 100%;
+		border-radius: 0px 0px 17px 0px;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+	&__thumbnail-container--quarter-bottom-left {
+		width: 100%;
+		max-height: 200px;
+		height: auto;
+		bottom: 0px;
+		left: 0px;
+		width: 100%;
+		border-radius: 0px 0px 17px 0px;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
+	&__thumbnail-container--quarter-bottom-right {
+		width: 100%;
+		max-height: 200px;
+		height: auto;
+		bottom: 0px;
+		right: 0px;
+		width: 100%;
+		border-radius: 0px 0px 17px 0px;
+
+		@mixin atMedium {
+
+		}
+
+	}
+
+
 
 }

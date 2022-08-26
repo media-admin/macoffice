@@ -2,12 +2,11 @@
 .featured-posts {
 	position: relative;
 	width: calc(100%+36px) !important;
-	background-color: white;
 	margin-top: 1.0rem;
 	margin-bottom: 1.0rem;
 
 	&__headline span {
-		background-color: white !important;
+		background-color: $lightGrayLightMode !important;
 
 		@mixin atMedium {
 

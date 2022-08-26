@@ -20,17 +20,61 @@ progress {
 
 /* === General Styles === */
 
+html {
+	background-color: $lightGrayLightMode;
+}
+
+
+
 body {
 	font-family: 'system', 'San Francisco', 'Inter', sans-serif;
 	font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", 'Inter', Roboto, Ubuntu, sans-serif;
 	font-size: 16px;
 	color: $regularGrayLightMode;
-	background-color: $lightGrayLightMode;
+}
+
+/*
+.outer-container {
+	position: relative;
+	display: block;
+	max-width: 1400px;
+	width: 100%;
+	margin: 0 auto;
+
+	@mixin atMedium {
+
+	}
+
+	@mixin atLarge {
+
+	}
+
 }
 
 
+.inner-container {
+	position: relative;
+	display: block;
+	max-width: 1400px;
+	width: 100%;
+	margin: 0 auto !important;
+
+
+	@mixin atMedium {
+
+	}
+
+	@mixin atLarge {
+
+	}
+
+}
+*/
+
+
 .site-body {
-	background-color: $lightGrayLightMode;
+
+
 
 	@mixin atMedium {
 

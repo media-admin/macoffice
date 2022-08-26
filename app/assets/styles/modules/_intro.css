@@ -8,6 +8,13 @@
 		padding-bottom: 2.0rem;
 	}
 
+	&__wrapper {
+		width: 99%;
+		margin: 0 auto;
+		padding-right: 1.0rem;
+		padding-left: 1.0rem;
+	}
+
 
 
 	/*

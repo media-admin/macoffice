@@ -2,9 +2,13 @@
 .news-posts {
 	position: relative;
 	width: calc(100%+36px) !important;
+	width: 100vw;
+	margin-left: -18px;
 	background-color: white;
 	margin-top: 1.0rem;
 	margin-bottom: 1.0rem;
+	padding: 18px;
+	padding-left: 36px;
 
 	&__headline span {
 		background-color: white !important;
@@ -18,6 +22,7 @@
 
 	&__container {
 		position: relative;
+		width: 100%;
 		display: flex;
 		flex: 1;
 		flex-direction: row;
@@ -29,14 +34,14 @@
 		justify-content: space-around;
 
 		align-items: flex-start;
-
-
 		margin: 0.5rem;
 		padding: 0.25rem;
 
 		@mixin atMedium {
 			flex: 2;
 			flex-basis: 50%;
+			margin: inherit;
+			padding: 0.25rem;
 		}
 
 	}

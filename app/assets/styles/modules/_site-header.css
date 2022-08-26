@@ -349,3 +349,19 @@
 
 }
 
+#site-header__logo-img-light {
+  display: inherit;
+}
+
+#site-header__logo-img-dark {
+  display: none;
+}
+
+
+  #site-header__apple-haendler-light {
+  display: inherit;
+}
+
+#site-header__apple-haendler-dark {
+  display: none;
+}

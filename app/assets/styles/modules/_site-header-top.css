@@ -4,7 +4,7 @@
   top: 0px;
   display: flex;
   width: 100%;
-  height: 15px;
+  height: auto;
   background-color: $falseBlack;
   padding-left: 18px;
   padding-right: 18px;
