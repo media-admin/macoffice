@@ -51,6 +51,7 @@
 	}
 
 
+
 	&__container {
 		position: relative;
 		width: 100%;
@@ -76,6 +77,7 @@
 			margin: inherit;
 			/* padding-top: 0.75rem; */
 			padding-bottom: 1.5rem;
+
 		}
 
 	}
@@ -87,6 +89,8 @@
 		background-color: $falseBlack;
 		padding-right: 0px !important;
 		padding-left: 0px !important;
+		padding: 0.0rem !important;
+
 
 		@mixin atMedium {
 			width: 48%;
@@ -102,6 +106,10 @@
 
 		}
 
+	}
+
+	& > .card__container {
+		padding: 0.0rem !important;
 	}
 
 
@@ -174,50 +182,13 @@
 		display: flex;
 		width: 100%;
 		margin: 0px;
-		padding: 0px;
+		padding: 0px !important;
 
 		@mixin atMedium {
 
 		}
 
 	}
-
-
-	&__thumbnail-container--column-1 {
-		position: relative;
-		left: 0px;
-		bottom: 0px;
-		width: 50%;
-
-		display: flex;
-
-		margin: 0px;
-		padding: 0px;
-
-
-		@mixin atMedium {
-
-		}
-
-	}
-
-
-
-	&__thumbnail-container--column-2 {
-		position: relative;
-		right: 0px;
-		bottom: 0px;
-		width: 50%;
-
-		margin: 0px;
-		padding: 0px;
-
-		@mixin atMedium {
-
-		}
-
-	}
-
 
 
 
@@ -247,117 +218,6 @@
 		}
 
 	}
-
-
-
-	&__thumbnail_container--half-left {
-		width: 100%;
-		max-height: 400px;
-		height: auto;
-		top: 0px;
-		left: 0px;
-		width: 50%;
-		border-radius: 0px 0px 17px 0px ;
-
-		margin: 0px;
-		padding: 0px;
-
-
-
-		@mixin atMedium {
-
-		}
-
-	}
-
-	&__thumbnail_container--half-right {
-		width: 100%;
-		max-height: 400px;
-		height: auto;
-		top: 0px;
-		right: 0px;
-		width: 50%;
-		border-radius: 0px 0px 17px 0px;
-
-
-
-		@mixin atMedium {
-
-		}
-
-	}
-
-	&__thumbnail--third {
-
-
-		@mixin atMedium {
-
-		}
-
-	}
-
-	&__thumbnail-container--quarter-top-left {
-		width: 100%;
-		max-height: 200px;
-		height: auto;
-		top: 0px;
-		left: 0px;
-		width: 100%;
-		border-radius: 0px 0px 17px 0px;
-
-		@mixin atMedium {
-
-		}
-
-	}
-
-
-	&__thumbnail-container--quarter-top-right {
-		width: 100%;
-		max-height: 200px;
-		height: auto;
-		top: 0px;
-		right: 0px;
-		width: 100%;
-		border-radius: 0px 0px 17px 0px;
-
-		@mixin atMedium {
-
-		}
-
-	}
-
-	&__thumbnail-container--quarter-bottom-left {
-		width: 100%;
-		max-height: 200px;
-		height: auto;
-		bottom: 0px;
-		left: 0px;
-		width: 100%;
-		border-radius: 0px 0px 17px 0px;
-
-		@mixin atMedium {
-
-		}
-
-	}
-
-
-	&__thumbnail-container--quarter-bottom-right {
-		width: 100%;
-		max-height: 200px;
-		height: auto;
-		bottom: 0px;
-		right: 0px;
-		width: 100%;
-		border-radius: 0px 0px 17px 0px;
-
-		@mixin atMedium {
-
-		}
-
-	}
-
 
 
 }
