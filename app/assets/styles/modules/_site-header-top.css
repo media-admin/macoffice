@@ -4,8 +4,8 @@
   top: 0px;
   display: flex;
   width: 100%;
-  height: auto;
-  background-color: $falseBlack;
+  height: 8px;
+  background-color: $middleGrayLightMode;
   padding-left: 18px;
   padding-right: 18px;
 
@@ -55,7 +55,7 @@
       margin-top: 1.3rem;
       width: 15px;
       height: 15px;
-      background-color: green;
+      background-color: transparent;
       border-radius: 10px;
       margin-left: 1.0rem;
       margin-right: 0.5rem;

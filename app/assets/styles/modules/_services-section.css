@@ -1,7 +1,7 @@
 /* === SERVICES SECTION === */
 .services {
 	position: relative;
-	width: calc(100%+36px) !important;
+	/* width: calc(100%+36px) !important; */
 	width: 100vw;
 	margin-left: -18px;
 	color: white !important;
@@ -14,6 +14,10 @@
 
 	@mixin atMedium {
 
+	}
+
+	& a {
+		text-decoration: none;
 	}
 
 
@@ -63,14 +67,15 @@
 		align-items: flex-start;
 		color: white !important;
 		z-index: 1;
-		margin: 0.5rem;
+		/* margin: 0.5rem; */
 		padding: 0.25rem;
 
 		@mixin atMedium {
 			flex: 2;
 			flex-basis: 50%;
 			margin: inherit;
-			padding: 1.5rem;
+			/* padding-top: 0.75rem; */
+			padding-bottom: 1.5rem;
 		}
 
 	}
@@ -230,7 +235,12 @@
 	}
 
 	&__thumbnail--full {
-
+		left: 0;
+		right: 0;
+		bottom: 0;
+		overflow: hidden;
+		margin-top: 2.0rem;
+		margin-bottom: -25px;
 
 		@mixin atMedium {
 

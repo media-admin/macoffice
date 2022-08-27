@@ -22,13 +22,14 @@ progress {
 
 html {
 	background-color: $lightGrayLightMode;
+	hyphens: auto;
 }
 
 
 
 body {
-	font-family: 'system', 'San Francisco', 'Inter', sans-serif;
-	font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", 'Inter', Roboto, Ubuntu, sans-serif;
+	/* font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", 'Inter', Roboto, Ubuntu, sans-serif; */
+	font-family: 'San Francisco', 'system', 'Inter', sans-serif;
 	font-size: 16px;
 	color: $regularGrayLightMode;
 }

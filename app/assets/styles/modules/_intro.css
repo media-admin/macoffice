@@ -1,7 +1,7 @@
 /* === INTRO SECTION === */
 .intro {
-	padding-top: 8.0rem;
-	padding-bottom: 2.5rem;
+	padding-top: 0.5rem;
+	padding-bottom: 1.5rem;
 
 	@mixin atMedium {
 		padding-top: 2.0rem;

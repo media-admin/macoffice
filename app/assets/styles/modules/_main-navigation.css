@@ -132,7 +132,7 @@ menu.site-menu {
     font-weight: 500;
     text-decoration: none;
     color: $regularGrayLightMode;
-    padding-top: 10px;
+    padding-top: 15px;
   }
 }
 
@@ -195,17 +195,12 @@ menu.site-menu {
     display: none;
     position: absolute;
     float: left;
+    width: 100%;
     top: 40px;
-
     background-color: rgba(255,255,255,0.95);
     box-shadow: 0px 3px 22px -3px #000000;
-
     margin-right: 10%;
-
-    padding-top: 0.5rem;
-    padding-bottom: 1.0rem;
-    padding-left: 1.0rem;
-
+    padding-bottom: 0.5rem;
     z-index: 1 !important;
 
 
@@ -246,8 +241,10 @@ menu.site-menu {
 
 
   @mixin atMedium {
+    font-weight: 300;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    padding-left: 1.0rem;
   }
 
 }
@@ -262,6 +259,7 @@ menu.site-menu {
     font-weight: 300;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    padding-left: 1.0rem;
   }
 
 }
@@ -275,9 +273,7 @@ menu.site-menu {
     width: 100%;
     color: white !important;
     background-color: $mainRed;
-    margin-left: -16px;
-
-    padding-left: 16px;
+    padding-left: 1.0rem;;
   }
 }
 

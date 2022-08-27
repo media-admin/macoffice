@@ -67,6 +67,7 @@
       width: auto;
       left: auto;
       transform: translateX(0);
+      padding-top: 6px;
 
       .site-header--dark & {
         transform: scale(0.85);
@@ -169,7 +170,7 @@
     border-top: 2px solid $mainRed;
     border-bottom: 2px solid $mainRed;
     padding-left: 18px;
-    padding-right: 18px;
+    /* padding-right: 18px; */
     padding-bottom: 0.75rem;
 
 
@@ -200,7 +201,7 @@
   }
 
   &__navi-contact-information-phone-icon {
-    width: 15px;
+    width: 20px;
     padding-right: 0.25rem;
     padding-top: 1.5rem;
 
@@ -224,7 +225,7 @@
   }
 
   &__navi-contact-information-mail-icon {
-    width: 15px;
+    width: 20px;
     padding-right: 0.25rem;
     padding-top: 1.5rem;
   }
@@ -235,13 +236,13 @@
 
   &__navi-contact-information-call {
     position: relative;
-    width: 60%;
+    width: 70%;
    line-height: 0.8rem;
    padding-bottom: 0.5rem;
   }
 
   &__navi-contact-information-call-icon {
-    width: 15px;
+    width: 20px;
     padding-right: 0.25rem;
     padding-top: 1.5rem;
   }
@@ -257,6 +258,7 @@
     top: 5px;
     line-height: 0.8rem;
     padding-right: 15px;
+    display: none;
 
     @mixin atMedium {
       width: auto;
@@ -289,7 +291,7 @@
     position: relative;
     width: 15%;
     height: 28px;
-    top: 15px;
+    top: 10px;
     border-left: 1px solid $lightGrayDarkMode;
     margin-bottom: 0.25rem;
     margin-left: 10px;
@@ -311,7 +313,7 @@
     position: relative;
     border: none;
     background-color: transparent;
-    padding-left: 10px;
+    /* padding-left: 10px; */
     padding-right: 10px;
 
     @mixin atMedium {
@@ -319,6 +321,22 @@
     }
 
   }
+
+
+  &__mode-switcher-link  {
+    position: relative;
+    border: none;
+    background-color: transparent;
+    margin-top: -10px;
+    /* padding-left: 10px; */
+    padding-right: 10px;
+
+    @mixin atMedium {
+
+    }
+
+  }
+
 
   &__mode-switcher-link:hover  {
     background-color: transparent !important;
@@ -330,17 +348,11 @@
   }
 
 
-&__mode-switcher-link img  {
-  position: relative;
-  width: 100px;
-  height: auto;
-  top: -2px;
+&__mode-switcher-link-icon  {
+  margin-left: 15px;
 
   @mixin atMedium {
-    position: relative;
-    width: 58px;
-    height: auto;
-    top: -2px;
+
   }
 }
 
