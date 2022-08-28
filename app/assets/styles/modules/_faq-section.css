@@ -18,6 +18,7 @@
 	}
 
 	&__intro {
+		font-weight: 500;
 
 		@mixin atMedium {
 

@@ -69,7 +69,6 @@ ul {
 		font-size: 3.0rem;
 		font-weight: 700;
 		line-height: 3.0rem;
-		text-transform: lowercase;
 		letter-spacing: 0.10rem;
 		margin: 1.0rem 0;
 		padding-left: 1.0rem;
@@ -90,7 +89,6 @@ ul {
 		font-weight: 500;
 		line-height: 1.4rem;
 		letter-spacing: 0.05rem;
-		text-transform: lowercase;
 		color: $mainRed;
 		margin: 0;
 		margin-top: 1.0rem;
