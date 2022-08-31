@@ -27,9 +27,13 @@ function shortcode_featured_posts() {
 add_shortcode( 'shortcode_featured_posts', 'shortcode_featured_posts' );
 
 
+function shortcode_product_categories() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_product-categories');
+	return ob_get_clean();
+}
 
-
-
+add_shortcode( 'shortcode_product_categories', 'shortcode_product_categories' );
 
 
 

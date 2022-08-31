@@ -21,6 +21,11 @@
 	}
 
 
+	&__intro {
+		font-weight: 400;
+	}
+
+
 	&__headline {
 		color: white;
 

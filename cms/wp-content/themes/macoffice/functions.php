@@ -152,6 +152,7 @@ function check_for_category_single_template( $t ) {
 
 function macoffice_register_menu() {
 	register_nav_menu( 'nav-menu-main', 'Hauptnavigation', 'macoffice' );
+	register_nav_menu( 'footer-navigation', 'Footernavigation', 'macoffice' );
 	register_nav_menu( 'nav-menu-footer', 'Footermenü', 'macoffice' );
 }
 
@@ -228,7 +229,8 @@ add_action('pre_get_posts', function($query) {
 
 	/* --- Navigation Walker for HAUPTNAVIGATION --- */
 	require_once( 'classes/navwalker.php' );
-
+	require_once( 'classes/footer-navwalker.php' );
+	require_once( 'classes/footermenu-navwalker.php' );
 
 
 

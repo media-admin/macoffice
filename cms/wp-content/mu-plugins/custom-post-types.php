@@ -186,6 +186,39 @@ function custom_post_types() {
 		'menu_icon' => 'dashicons-bell'
 	));
 
+	add_post_type_support( 'notification', 'thumbnail' );
+
+
+	/* --- Custom Post Type HOMEPAGE SECTIONS --- */
+
+	$labels = array(
+		'name' =>  'Homepage-Bereiche',
+		'add_new' => 'Neuen Homepage-Bereich erstellen',
+		'edit_item' => 'Homepage-Bereich bearbeiten',
+		'singular_name' => 'Homepage-Bereich',
+		'all_items' => 'Alle Homepage-Bereich',
+		'supports' => array('title', 'editor', 'author', 'custom-fields',
+	));
+
+	register_post_type( 'homepage-section', array(
+		'show_in_rest' => true,
+		'public' => true,
+		'show_ui' => true,
+		'labels' => $labels,
+		'supports' => ['title', 'editor', 'author', 'custom-fields', 'revisions'],
+		'has_archive' => false,
+		'exclude_from_search' => true,
+		'menu_position' => 15,
+		'show_in_admin_bar'   => false,
+		'show_in_nav_menus'   => false,
+		'publicly_queryable'  => true,
+		'menu_icon' => 'dashicons-building'
+	));
+
+	add_post_type_support( 'homepage-section', '' );
+
+
+
 
 	/* --- Custom Post Type SLIDER ---
 	$labels = array(
