@@ -65,7 +65,7 @@ get_header(); ?>
 		<section id="product-categories" class="product-categories section-container wrapper" data-matching-link="#product-categories-link">
 			<h2 class="product-categories__headline h2__section-headline"><span>Produktfamilien<span></h2>
 
-			<div class="">
+			<div class="intro-container">
 
 				<?php
 
@@ -296,9 +296,9 @@ get_header(); ?>
 
 				$loop = new WP_Query( $args );
 					while ( $loop->have_posts() ) : $loop->the_post(); ?>
-						<p class="faq__intro intro">
+						<div class="faq__intro intro">
 							<?php the_content();?>
-						</p>
+						</div>
 					<?php endwhile; ?>
 
 				<?php
@@ -312,7 +312,7 @@ get_header(); ?>
 		<section id="about-us" class="about-us section-container wrapper" data-matching-link="#faq-link">
 			<h2 class="about-us__headline h2__section-headline"><span>Über uns<span></h2>
 
-			<div class="about-us__container">
+			<div class="about-us__container wrapper">
 
 				<?php
 
