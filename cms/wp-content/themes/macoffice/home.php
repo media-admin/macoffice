@@ -7,7 +7,7 @@ get_header(); ?>
 		<!-- <h1 class="site-title">Startseite</h1> -->
 
 		<section id="featured-posts" class="featured-posts section-container" data-matching-link="#featured-posts-link">
-			<h2 class="featured-posts__headline h2__section-headline"><span>Themen im Fokus<span></h2>
+			<h2 class="featured-posts__headline h2__section-headline">Themen im Fokus</h2>
 
 			<div class="intro-container wrapper">
 				<?php
@@ -35,7 +35,7 @@ get_header(); ?>
 		</section>
 
 		<section id="news-posts" class="news-posts section-container container--white wrapper" data-matching-link="#news-posts-link">
-			<h2 class="news-posts__headline h2__section-headline"><span>News<span></h2>
+			<h2 class="news-posts__headline h2__section-headline">News</h2>
 
 			<div class="intro-container wrapper">
 				<?php
@@ -63,7 +63,7 @@ get_header(); ?>
 		</section>
 
 		<section id="product-categories" class="product-categories section-container wrapper" data-matching-link="#product-categories-link">
-			<h2 class="product-categories__headline h2__section-headline"><span>Produktfamilien<span></h2>
+			<h2 class="product-categories__headline h2__section-headline">Produktfamilien</h2>
 
 			<div class="intro-container">
 
@@ -204,7 +204,7 @@ get_header(); ?>
 		</section>
 
 		<section id="services" class="services section-container container--black wrapper" data-matching-link="#services-link">
-			<h2 class="services__headline h2__section-headline"><span>Leistungen<span></h2>
+			<h2 class="services__headline h2__section-headline">Leistungen</h2>
 
 			<div class="services__container">
 
@@ -283,7 +283,7 @@ get_header(); ?>
 		</section>
 
 		<section id="faq" class="faq section-container wrapper" data-matching-link="#faq-link">
-			<h2 class="faq__headline h2__section-headline"><span>Fragen & Antworten<span></h2>
+			<h2 class="faq__headline h2__section-headline">Fragen & Antworten</h2>
 
 				<?php
 
@@ -310,7 +310,7 @@ get_header(); ?>
 		</section>
 
 		<section id="about-us" class="about-us section-container wrapper" data-matching-link="#faq-link">
-			<h2 class="about-us__headline h2__section-headline"><span>Über uns<span></h2>
+			<h2 class="about-us__headline h2__section-headline">Über uns</h2>
 
 			<div class="about-us__container wrapper">
 

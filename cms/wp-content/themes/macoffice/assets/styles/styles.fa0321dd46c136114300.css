@@ -1448,102 +1448,42 @@ h1.title--single {
 }
 
 
-
 .h2 {
 	overflow: hidden !important;
 	position: relative;
 	text-align: left;
-
-
-	/*
-
-	&__heading {
-		font-size: 2.2rem;
-		font-weight: 700;
-		line-height: 2.6rem;
-		letter-spacing: 0.1rem;
-		text-transform: lowercase;
-		margin: 0;
-		margin-top: 4.0rem;
-		padding-top: 2.0rem;
-		padding-bottom: 1.0rem;
-	}
-
-	&__heading--left-aligned {
-		text-align: left !important;
-		padding-left: 0.25rem;
-		padding-right: 25%;
-	}
-
-	&__heading--right-aligned {
-		text-align: right !important;
-		padding-right: 0.25rem;
-		padding-left: 25%;
-	}
-
-	&__subheading {
-		font-size: 1.0rem;
-		font-weight: 500;
-		line-height: 1.4rem;
-		letter-spacing: 0.05rem;
-		color: $mainRed;
-		margin: 0;
-		margin-top: 0.0rem;
-		margin-bottom: 1.0rem;
-	}
-
-	&__subheading--left-aligned {
-		text-align: left !important;
-		padding-left: 0.25rem;
-		padding-right: 25%;
-	}
-
-	&__subheading--right-aligned {
-		text-align: right !important;
-		padding-right: 0.25rem;
-		padding-left: 25%;
-	}
-
-	*/
-
 }
 
 .h2__section-headline {
-		font-size: 1.8rem;
-
-	}
+	position: relative;
+	font-size: 1.8rem;
+	line-height: 2.2rem;
+	margin-right: 1.0rem;
+	overflow: hidden;
+}
 
 @media (min-width: 800px) {
-	}
 
-/*
-	&__section-headline:before {
-		content: "";
-		display: inline-block;
-		width: 10000px;
-		height: 1px;
-		border-bottom: 1px solid $regularGrayLightMode;
-		position: absolute;
-		top: 50%;
-		left: 18px;
-		padding-top: 0.75rem;
-
-		@mixin atMedium {
-			height: 2px;
-			border-bottom: 2px solid $regularGrayLightMode;
-		}
-
-	}
-	*/
-
-.h2__section-headline span {
-	position: relative;
-	padding: 0 0.25rem;
-	padding-left: 0.0rem;
-	display: inline-block;
-	/* max-width: 80%; */
-	background-color: #F5F5F5;
 }
+
+
+.h2__section-headline:after {
+	content: "";
+	top: 48%;
+	width: 100% !important;
+	margin-left: 0.5rem;
+	height: 1.5px;
+	position: absolute;
+	background: #707070;
+}
+
+@media (min-width: 800px) {
+	.h2__section-headline:after {
+		/* width: 84% !important; */
+	}
+}
+
+
 
 @media (min-width: 800px) {
 	}
@@ -3433,12 +3373,14 @@ span.hover__alt-text {
 /* === FAQ SECTION === */
 
 .faq {
-	margin-bottom: 1.5rem;
-
+	margin-bottom: 4.0rem;
 }
 
 @media (min-width: 800px) {
+	.faq {
+		margin-bottom: 5.5rem;
 	}
+}
 
 .faq__headline {
 		font-weight: 700;
@@ -4478,17 +4420,211 @@ filter: invert(100%);
 	}
 
 
-
-
-
 /* --- Back To Top Button --- */
 
 .dark-mode .back-to-top img {
-		filter: invert(100%);
-	}
+	filter: invert(100%);
+}
+
+
+/* === PREFERRING DARK MODE ===
 
 @media (prefers-color-scheme: dark) {
 
+	/* --- General Styles ---
+	html {
+		filter: invert(100%);
+	}
 
+	img {
+		filter: invert(100%);
+	}
+
+	.video-container {
+		filter: invert(100%);
+	}
+
+	.site-main {
+		background-color: #e0e1e1 !important;
+	}
+
+	.btn--gray:hover {
+		background-color: #A12528 !important;
+		filter: invert(100%);
+	}
+
+
+	/* --- Top Site Header ---
+
+	.site-header-top {
+		filter: invert(100%);
+	}
+
+	@media (min-width: 800px) {
+		.site-header-top {
+			margin-top: -45px;
+			filter: invert(100%)
+		}
+	}
+
+	.site-header-top__contact-information {
+		filter: invert(100%);
+	}
+
+	.site-header-top p {
+		filter: invert(90%);
+	}
+
+	.site-header-top a {
+		filter: invert(90%);
+	}
+
+	.site-header-top__contact-information-opening-sign {
+		filter: invert(100%);
+	}
+
+	.site-header-top__contact-information-opening-icon {
+	}
+
+	.site-header-top__contact-information-address-icon {
+	}
+
+	.site-header-top__contact-information-phone-icon {
+	}
+
+	.site-header-top__contact-information-mail-icon {
+	}
+
+	.site-header-top__contact-information-hotline-icon {
+	}
+
+	/* --- Site Header ---
+
+	.site-header {
+		border-bottom: 3px solid #5edad7 !important;
+	}
+
+	.site-header__navi-contact-information {
+		filter: invert(100%);
+		color: white !important;
+		background-color: #1F1E1E !important;
+	}
+
+	.site-header .navbar-item--submenu-button:after {
+		filter: invert(100%);
+	}
+
+	.site-header .navbar-item__submenu .navbar-item a:hover {
+		filter: invert(100%);
+	}
+
+	#site-header__logo-img-light {
+		display: none;
+	}
+
+	#site-header__logo-img-dark {
+		display: inherit;
+	}
+
+	#site-header__apple-haendler-light {
+		display: none;
+	}
+
+	#site-header__apple-haendler-dark {
+		display: inherit;
+	}
+
+	/* --- Site Main ---
+
+	.site-main {
+
+	}
+
+	h1.title--single {
+		filter: invert(100%);
+	}
+
+	.card__title {
+		filter: invert(100%);
+	}
+
+	.card__line--dotted {
+		filter: invert(100%);
+	}
+
+	.product-categories__card {
+
+	}
+
+	.product-categories__card img {
+		filter: invert(100%);
+	}
+
+	.product-categories__title {
+		filter: invert(100%);
+	}
+
+
+	.accordion button:hover {
+		filter: invert(100%);
+	}
+
+
+	.accordion button:focus {
+		filter: invert(100%);
+	}
+
+
+
+	/* --- Site Footer ---
+
+	.site-footer {
+		filter: invert(100%);
+	}
+
+	.site-footer__logo-link {
+		filter: invert(100%);
+	}
+
+	.site-footer__apple-haendler {
+		filter: invert(100%);
+	}
+
+	.site-footer__contact-address-icon {
+		filter: invert(0%);
+	}
+
+	.site-footer__contact-address-icon img {
+		filter: invert(0%);
+	}
+
+	.site-footer__contact-information-phone-icon {
+		filter: invert(0%);
+	}
+
+	.site-footer__contact-information-mail-icon {
+		filter: invert(0%);
+	}
+
+	.site-footer__contact-information-hotline-icon {
+		filter: invert(0%);
+	}
+
+	.site-footer__contact-opening-icon {
+		filter: invert(0%);
+	}
+
+	.site-footer__social-media-area {
+		filter: invert(100%);
+	}
+
+
+	/* --- Back To Top Button ---
+
+	.back-to-top img {
+		filter: invert(100%);
+	}
 
 }
+
+*/
