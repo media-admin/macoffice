@@ -3191,9 +3191,8 @@ span.hover__alt-text {
 	}
 }
 
-.services__headline span {
-	background-color: black;
-
+.h2__section-headline.services__headline:after {
+	background-color: white;
 }
 
 @media (min-width: 800px) {
