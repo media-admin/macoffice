@@ -45,14 +45,14 @@
 		<meta name="theme-color" content="#707173">
 		<meta name="msapplication-navbutton-color" content="#525050">
 		<meta name="msapplication-TileColor" content="#838282">
-		<meta name="msapplication-TileImage" content="assets/images/favicon/windows-tile-icon-144x144.png">
+		<meta name="msapplication-TileImage" content="<?php bloginfo( 'template_directory' ); ?>/assets/images/favicon/windows-tile-icon-144x144.png">
 		<meta name="application-name" content="mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">
 
 		<!-- Internet Explorer 11 Tiles -->
-		<meta name="msapplication-square70x70logo" content="assets/images/favicon/ms-ie11-icon-70x70.png">
-		<meta name="msapplication-square150x150logo" content="assets/images/favicon/ms-ie11-icon-150x150.png">
-		<meta name="msapplication-wide310x150logo" content="assets/images/favicon/ms-ie11-icon-310x150.png">
-		<meta name="msapplication-square310x310logo" content="assets/images/favicon/ms-ie11-icon-310x310.png">
+		<meta name="msapplication-square70x70logo" content="<?php bloginfo( 'template_directory' ); ?>/assets/images/favicon/ms-ie11-icon-70x70.png">
+		<meta name="msapplication-square150x150logo" content="<?php bloginfo( 'template_directory' ); ?>/assets/images/favicon/ms-ie11-icon-150x150.png">
+		<meta name="msapplication-wide310x150logo" content="<?php bloginfo( 'template_directory' ); ?>/assets/images/favicon/ms-ie11-icon-310x150.png">
+		<meta name="msapplication-square310x310logo" content="<?php bloginfo( 'template_directory' ); ?>/assets/images/favicon/ms-ie11-icon-310x310.png">
 
 		<!-- Open Graph -->
 		<meta property="og:title" content="mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">

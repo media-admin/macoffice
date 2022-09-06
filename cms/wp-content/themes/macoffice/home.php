@@ -7,7 +7,7 @@ get_header(); ?>
 		<!-- <h1 class="site-title">Startseite</h1> -->
 
 		<section id="featured-posts" class="featured-posts section-container" data-matching-link="#featured-posts-link">
-			<h2 class="featured-posts__headline h2__section-headline"><span>Featured Products<span></h2>
+			<h2 class="featured-posts__headline h2__section-headline"><span>Themen im Fokus<span></h2>
 
 			<div class="intro-container wrapper">
 				<?php
@@ -65,7 +65,7 @@ get_header(); ?>
 		<section id="product-categories" class="product-categories section-container wrapper" data-matching-link="#product-categories-link">
 			<h2 class="product-categories__headline h2__section-headline"><span>Produktfamilien<span></h2>
 
-			<div class="wrapper">
+			<div class="">
 
 				<?php
 
@@ -208,7 +208,7 @@ get_header(); ?>
 
 			<div class="services__container">
 
-				<div class="wrapper">
+				<div class="services__intro wrapper">
 
 					<?php
 

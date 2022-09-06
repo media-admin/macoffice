@@ -1,0 +1,209 @@
+0000.000 (0) Opened log file at time: Wed, 31 Aug 2022 23:51:19 +0000 on https://macoffice.dev/cms
+0000.001 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.22.19 WP: 6.0.2 PHP: 7.4.27 (fpm-fcgi, Darwin 85-124-246-62.static.upcbusiness.at 20.6.0 Darwin Kernel Version 20.6.0: Tue Jun 21 20:50:28 PDT 2022; root:xnu-7195.141.32~1/RELEASE_X86_64 x86_64) MySQL: 10.6.4-MariaDB (max packet size=16777216) WPLANG: de_DE Server: nginx/1.21.4 safe_mode: 0 max_execution_time: 900 memory_limit: 512M (used: 12.2M | 2M) multisite: N openssl: OpenSSL 1.1.1m  14 Dec 2021 mcrypt: N LANG:  ZipArchive::addFile: Y
+0000.002 (0) Free space on disk containing Updraft's temporary directory: 87583.8 MB
+0000.004 (0) Tasks: Backup files: 1 (schedule: unset) Backup DB: 1 (schedule: unset)
+0000.006 (0) Requesting semaphore lock (fd) (apparently not via scheduler)
+0000.007 (0) Set semaphore last lock (fd) time to 2022-08-31 23:51:19
+0000.008 (0) Semaphore lock (fd) complete
+0000.009 (0) Backup run: resumption=0, nonce=511ade950c4f, file_nonce=511ade950c4f begun at=1661989879 (0s ago), job type=backup
+0000.010 (0) Scheduling a resumption (1) after 300 seconds (1661990179) in case this run gets aborted
+0000.027 (0) Checking if we have a zip executable available
+0000.027 (0) Testing: /usr/bin/zip
+0000.033 (0) Output: zip warning: binziptest/test.zip not found or empty
+0000.034 (0) Output: adding: binziptest/subdir1/	(in=0) (out=0) (stored 0%)
+0000.034 (0) Output: adding: binziptest/subdir1/subdir2/	(in=0) (out=0) (stored 0%)
+0000.035 (0) Output: adding: binziptest/subdir1/subdir2/test.html	(in=131) (out=107) (deflated 18%)
+0000.035 (0) Output: total bytes=131, compressed=107 -> 18% savings
+0000.042 (0) Output: adding: binziptest/subdir1/subdir2/test2.html	(in=138) (out=113) (deflated 18%)
+0000.043 (0) Output: total bytes=269, compressed=220 -> 18% savings
+0000.044 (0) Working binary zip found: /usr/bin/zip
+0000.045 (0) Zip engine: found/will use a binary zip: /usr/bin/zip
+0000.046 (0) Creation of backups of directories: beginning
+0000.049 (0) Beginning creation of dump of plugins (split every: 400 MB)
+0000.110 (0) Total entities for the zip file: 296 directories, 1773 files (0 skipped as non-modified), 35.5 MB
+0000.113 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 100 files added (on-disk size: 0 KB)
+0000.116 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 200 files added (on-disk size: 0 KB)
+0000.119 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 300 files added (on-disk size: 0 KB)
+0000.122 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 400 files added (on-disk size: 0 KB)
+0000.125 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 500 files added (on-disk size: 0 KB)
+0000.128 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 600 files added (on-disk size: 0 KB)
+0000.129 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 25 MB added on this batch (25.1 MB, 1773 files batched, 628 (628) added so far); re-opening (prior size: 0 KB)
+0000.997 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: size is now: 7.00 MB
+0000.998 (0) A useful amount of data was added after this amount of zip processing: 1.9 s (normalised: 1.9 s, rate: 13717.9 KB/s)
+0000.999 (0) Performance is good - will increase the amount of data we attempt to batch (time=1.8763279914856, normalised_time=1.8661800536929, max_time=0.99852585792542, data points known=1, old_max_bytes=26214400, new_max_bytes=84282542)
+0001.002 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 700 files added (on-disk size: 7156.3 KB)
+0001.005 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 800 files added (on-disk size: 7156.3 KB)
+0001.008 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 900 files added (on-disk size: 7156.3 KB)
+0001.011 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 1000 files added (on-disk size: 7156.3 KB)
+0001.015 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 1100 files added (on-disk size: 7156.3 KB)
+0001.019 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 1200 files added (on-disk size: 7156.3 KB)
+0001.022 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 1300 files added (on-disk size: 7156.3 KB)
+0001.025 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 1400 files added (on-disk size: 7156.3 KB)
+0001.028 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 1500 files added (on-disk size: 7156.3 KB)
+0001.031 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 1600 files added (on-disk size: 7156.3 KB)
+0001.032 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 1000 files added on this batch (8.7 MB, 1773 files batched, 1001 (1629) added so far); re-opening (prior size: 7156.3 KB)
+0001.362 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: size is now: 9.50 MB
+0001.366 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.tmp: 1700 files added (on-disk size: 9752.1 KB)
+0001.442 (0) Creating zip file manifest (backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.list-temp.tmp)
+0001.448 (0) Successfully created zip file manifest (size: 154732)
+0001.521 (0) Created plugins zip (0) - 11227 KB in 1.5 s (7633 KB/s) (sha1: cd8a17feeac0bcfcec1fb6ff5b8db4a7e97c83eb, sha256: da99d5ba143aaace5b7a173985bb50157ddde50684d0ad391c97951791fa5afd)
+0001.522 (0) Beginning creation of dump of themes (split every: 400 MB)
+0001.543 (0) Total entities for the zip file: 88 directories, 550 files (0 skipped as non-modified), 26.4 MB
+0001.546 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip.tmp: 100 files added (on-disk size: 0 KB)
+0001.550 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip.tmp: 200 files added (on-disk size: 0 KB)
+0001.553 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip.tmp: 300 files added (on-disk size: 0 KB)
+0001.556 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip.tmp: 400 files added (on-disk size: 0 KB)
+0001.559 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip.tmp: 500 files added (on-disk size: 0 KB)
+0002.190 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip.tmp: size is now: 22.60 MB
+0002.197 (0) Creating zip file manifest (backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip.list-temp.tmp)
+0002.200 (0) Successfully created zip file manifest (size: 41522)
+0002.363 (0) Created themes zip (0) - 23128.8 KB in 0.8 s (27550 KB/s) (sha1: 578fe93352d9e1801cbc630164300ac553856276, sha256: e5eb65d1ed289e49ffc8768a173934dedca3452af949fcd27493e5164fe03cfc)
+0002.366 (0) Exclusion option setting (uploads): backup*,*backups,backwpup*,wp-clone,snapshots
+0002.366 (0) Looking for candidates to backup in: /Users/markus.tritremmel/Valet-Umgebung/macoffice/cms/wp-content/uploads
+0002.367 (0) finding files: 2022: adding to list (1)
+0002.368 (0) finding files: 2021: adding to list (2)
+0002.368 (0) Beginning creation of dump of uploads (split every: 400 MB)
+0002.383 (0) Total entities for the zip file: 5 directories, 436 files (0 skipped as non-modified), 46.7 MB
+0002.387 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-uploads.zip.tmp: 100 files added (on-disk size: 0 KB)
+0002.390 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-uploads.zip.tmp: 200 files added (on-disk size: 0 KB)
+0002.393 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-uploads.zip.tmp: 300 files added (on-disk size: 0 KB)
+0002.397 (0) Zip: backup_2022-09-01-0151_MacOffice_511ade950c4f-uploads.zip.tmp: 400 files added (on-disk size: 0 KB)
+0002.597 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-uploads.zip.tmp: size is now: 46.80 MB
+0002.602 (0) Creating zip file manifest (backup_2022-09-01-0151_MacOffice_511ade950c4f-uploads.zip.list-temp.tmp)
+0002.604 (0) Successfully created zip file manifest (size: 29538)
+0002.923 (0) Created uploads zip (0) - 47916.2 KB in 0.6 s (86559.8 KB/s) (sha1: 92a1ea306af4d83eee5976af7523435b46e2b944, sha256: 9fa678a1348044feea86ada7ab2ff759eac3b4f0f1ab74a42bde4d9986d98a23)
+0002.925 (0) Beginning backup of other directories found in the content directory (index: 0)
+0002.926 (0) Exclusion option setting (others): upgrade,cache,updraft,backup*,*backups,mysql.sql,debug.log
+0002.926 (0) Looking for candidates to backup in: /Users/markus.tritremmel/Valet-Umgebung/macoffice/cms/wp-content
+0002.927 (0) finding files: upgrade: skipping: excluded by options
+0002.927 (0) finding files: .DS_Store: adding to list (1)
+0002.928 (0) finding files: index.php: adding to list (2)
+0002.928 (0) finding files: plugins: skipping: this is the plugins directory
+0002.929 (0) finding files: uploads: skipping: this is the uploads directory
+0002.930 (0) finding files: updraft: skipping: this is the updraft directory
+0002.930 (0) finding files: languages: adding to list (3)
+0002.930 (0) finding files: themes: skipping: this is the themes directory
+0002.931 (0) finding files: mu-plugins: adding to list (4)
+0002.935 (0) Total entities for the zip file: 4 directories, 86 files (0 skipped as non-modified), 3.5 MB
+0003.069 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-others.zip.tmp: size is now: 1.00 MB
+0003.071 (0) Creating zip file manifest (backup_2022-09-01-0151_MacOffice_511ade950c4f-others.zip.list-temp.tmp)
+0003.073 (0) Successfully created zip file manifest (size: 5104)
+0003.081 (0) Created others zip (0) - 1045.2 KB in 0.1 s (7011.3 KB/s) (sha1: 39195ba3d593ae2a8c050b981d9e6469f0448d9a, sha256: 13ed1349b78a81b0cacfa567b27044628730a0b6857393480ab6219037ca9c4c)
+0003.084 (0) Saving backup status to database (elements: 8)
+0003.085 (0) Beginning creation of database dump (WordPress DB)
+0003.085 (0) SQL compatibility mode is: ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+0003.088 (0) Testing potential mysqldump binary: /usr/local/bin/mysqldump
+0003.162 (0) Output: /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;\n/*!40103 SET TIME_ZONE='+00:00' */;\n/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;\n/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\n/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;\n/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;\nDROP TABLE IF EXISTS `moff_options`;\n/*!40101 SET @saved_cs_client     = @@character_set_client */;\n/*!40101 SET character_set_client = utf8 */;\nC (truncated - 1537 bytes total)
+0003.162 (0) Working binary mysqldump found: /usr/local/bin/mysqldump
+0003.167 (0) Table moff_options: Total expected rows (via COUNT): 194
+0003.168 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0003.175 (0) Table moff_options: Rows added in this batch (next record: 759): 190 (uncompressed bytes in this segment=336676) in 0.01 seconds
+0003.178 (0) Table moff_options: finishing file(s) (2, 46.5 KB)
+0003.181 (0) Table moff_users: Total expected rows (via COUNT): 1
+0003.182 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0003.183 (0) Table moff_users: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=1389) in 0.00 seconds
+0003.186 (0) Table moff_users: finishing file(s) (2, 0.6 KB)
+0003.189 (0) Table moff_usermeta: Total expected rows (via COUNT): 27
+0003.190 (0) Table is relatively small; fetch_rows will thus be: 50 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0003.191 (0) Table moff_usermeta: Rows added in this batch (next record: 30): 27 (uncompressed bytes in this segment=2436) in 0.00 seconds
+0003.193 (0) Table moff_usermeta: finishing file(s) (2, 1.2 KB)
+0003.196 (0) Table moff_commentmeta: Total expected rows (via COUNT): 2
+0003.197 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0003.198 (0) Table moff_commentmeta: Rows added in this batch (next record: 2): 2 (uncompressed bytes in this segment=836) in 0.00 seconds
+0003.200 (0) Table moff_commentmeta: finishing file(s) (2, 0.5 KB)
+0003.203 (0) Table moff_comments: Total expected rows (via COUNT): 1
+0003.203 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0003.204 (0) Table moff_comments: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=2157) in 0.00 seconds
+0003.206 (0) Table moff_comments: finishing file(s) (2, 0.8 KB)
+0003.208 (0) Table moff_links: Total expected rows (via COUNT): 0
+0003.209 (0) Table moff_links: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1278) in 0.00 seconds
+0003.211 (0) Table moff_links: finishing file(s) (2, 0.5 KB)
+0003.215 (0) Table moff_postmeta: Total expected rows (via COUNT): 729
+0003.215 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0003.219 (0) Table moff_postmeta: Rows added in this batch (next record: 786): 729 (uncompressed bytes in this segment=132225) in 0.01 seconds
+0003.222 (0) Table moff_postmeta: finishing file(s) (2, 11.7 KB)
+0003.225 (0) Table moff_posts: Total expected rows (via COUNT): 241
+0003.225 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0003.233 (0) Table moff_posts: Rows added in this batch (next record: 250): 241 (uncompressed bytes in this segment=286961) in 0.01 seconds
+0003.236 (0) Table moff_posts: finishing file(s) (2, 31.9 KB)
+0003.239 (0) Table moff_term_relationships: Total expected rows (approximate): 58
+0003.240 (0) Table moff_term_relationships: Rows added in this batch (next record: 100000): 58 (uncompressed bytes in this segment=1473) in 0.00 seconds
+0003.242 (0) Table moff_term_relationships: finishing file(s) (2, 0.5 KB)
+0003.289 (0) Table moff_term_taxonomy: Total expected rows (via COUNT): 9
+0003.289 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0003.291 (0) Table moff_term_taxonomy: Rows added in this batch (next record: 9): 9 (uncompressed bytes in this segment=1177) in 0.04 seconds
+0003.294 (0) Table moff_term_taxonomy: finishing file(s) (2, 0.5 KB)
+0003.298 (0) Table moff_termmeta: Total expected rows (via COUNT): 0
+0003.299 (0) Table moff_termmeta: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=669) in 0.00 seconds
+0003.303 (0) Table moff_termmeta: finishing file(s) (2, 0.4 KB)
+0003.306 (0) Table moff_terms: Total expected rows (via COUNT): 9
+0003.307 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0003.308 (0) Table moff_terms: Rows added in this batch (next record: 9): 9 (uncompressed bytes in this segment=1095) in 0.00 seconds
+0003.312 (0) Table moff_terms: finishing file(s) (2, 0.5 KB)
+0003.313 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_options.table.tmpr760.gz (1/12/fopen): adding to final database dump
+0003.315 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_options.table.gz (2/12/fopen): adding to final database dump
+0003.316 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_users.table.tmpr2.gz (3/12/fopen): adding to final database dump
+0003.317 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_users.table.gz (4/12/fopen): adding to final database dump
+0003.318 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_usermeta.table.tmpr31.gz (5/12/fopen): adding to final database dump
+0003.319 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_usermeta.table.gz (6/12/fopen): adding to final database dump
+0003.319 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_commentmeta.table.tmpr3.gz (7/12/fopen): adding to final database dump
+0003.320 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_commentmeta.table.gz (8/12/fopen): adding to final database dump
+0003.321 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_comments.table.tmpr2.gz (9/12/fopen): adding to final database dump
+0003.321 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_comments.table.gz (10/12/fopen): adding to final database dump
+0003.322 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_links.table.tmpr0.gz (11/12/fopen): adding to final database dump
+0003.323 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_links.table.gz (12/12/fopen): adding to final database dump
+0003.323 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_postmeta.table.tmpr787.gz (13/12/fopen): adding to final database dump
+0003.326 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_postmeta.table.gz (14/12/fopen): adding to final database dump
+0003.326 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_posts.table.tmpr251.gz (15/12/fopen): adding to final database dump
+0003.328 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_posts.table.gz (16/12/fopen): adding to final database dump
+0003.329 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_term_relationships.table.tmpr100001.gz (17/12/fopen): adding to final database dump
+0003.330 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_term_relationships.table.gz (18/12/fopen): adding to final database dump
+0003.330 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_term_taxonomy.table.tmpr10.gz (19/12/fopen): adding to final database dump
+0003.331 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_term_taxonomy.table.gz (20/12/fopen): adding to final database dump
+0003.332 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_termmeta.table.tmpr0.gz (21/12/fopen): adding to final database dump
+0003.333 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_termmeta.table.gz (22/12/fopen): adding to final database dump
+0003.334 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_terms.table.tmpr10.gz (23/12/fopen): adding to final database dump
+0003.335 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db-table-moff_terms.table.gz (24/12/fopen): adding to final database dump
+0003.345 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db.gz: finished writing out complete database file (95.8 KB)
+0003.353 (0) Total database tables backed up: 12 (backup_2022-09-01-0151_MacOffice_511ade950c4f-db.gz, size: 98199, sha1: 3d9b756c22a5dd92ac95811c6f38aaa129ffe22c, sha256: c4812faa476fd5a41ce9ab219da31c40f9169a5a18471c1ca68c782b9f8d2bf5)
+0003.356 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+0003.356 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+0003.357 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+0003.358 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-others.zip: others: This file has not yet been successfully uploaded: will queue
+0003.359 (0) backup_2022-09-01-0151_MacOffice_511ade950c4f-db.gz: db: This file has not yet been successfully uploaded: will queue
+0003.359 (0) Saving backup history. Total backup size: 81.5 MB
+0003.361 (0) Requesting upload of the files that have not yet been successfully uploaded (5)
+0003.363 (0) Cloud backup selection (1/1): none with instance (1/1) (last)
+0003.363 (0) No remote despatch: user chose no remote backup service
+0003.364 (0) Recording as successfully uploaded: backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip
+0003.365 (0) Deleting zip manifest (backup_2022-09-01-0151_MacOffice_511ade950c4f-plugins.zip.list.tmp)
+0003.366 (0) Recording as successfully uploaded: backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip
+0003.367 (0) Deleting zip manifest (backup_2022-09-01-0151_MacOffice_511ade950c4f-themes.zip.list.tmp)
+0003.368 (0) Recording as successfully uploaded: backup_2022-09-01-0151_MacOffice_511ade950c4f-uploads.zip
+0003.369 (0) Deleting zip manifest (backup_2022-09-01-0151_MacOffice_511ade950c4f-uploads.zip.list.tmp)
+0003.369 (0) Recording as successfully uploaded: backup_2022-09-01-0151_MacOffice_511ade950c4f-others.zip
+0003.370 (0) Deleting zip manifest (backup_2022-09-01-0151_MacOffice_511ade950c4f-others.zip.list.tmp)
+0003.371 (0) Recording as successfully uploaded: backup_2022-09-01-0151_MacOffice_511ade950c4f-db.gz
+0003.374 (0) Retain: beginning examination of existing backup sets; user setting: retain_files=2, retain_db=2
+0003.374 (0) Number of backup sets in history: 2; groups (db): 1
+0003.375 (0) Examining (for databases) backup set with group_id=0, nonce=511ade950c4f, datestamp=1661989879 (Aug 31 2022 23:51:19)
+0003.376 (0) This backup set is the backup set just made, so will not be deleted.
+0003.376 (0) Examining (for databases) backup set with group_id=0, nonce=b79f5917d0d6, datestamp=1661645449 (Aug 28 2022 00:10:49)
+0003.376 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0003.376 (0) Number of backup sets in history: 2; groups (files): 1
+0003.377 (0) Examining (for files) backup set with nonce=511ade950c4f, datestamp=1661989879 (Aug 31 2022 23:51:19)
+0003.377 (0) This backup set is the backup set just made, so will not be deleted.
+0003.377 (0) This backup set is the backup set just made, so will not be deleted.
+0003.377 (0) This backup set is the backup set just made, so will not be deleted.
+0003.377 (0) This backup set is the backup set just made, so will not be deleted.
+0003.377 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0003.378 (0) Examining (for files) backup set with nonce=b79f5917d0d6, datestamp=1661645449 (Aug 28 2022 00:10:49)
+0003.378 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0003.378 (0) Retain: saving new backup history (sets now: 2) and finishing retain operation
+0003.379 (0) Resume backup (511ade950c4f, 0): finish run
+0003.380 (0) Decremented the semaphore (fd) by 1
+0003.381 (0) Semaphore (fd) unlocked
+0003.382 (0) There were no errors in the uploads, so the 'resume' event (1) is being unscheduled
+0003.383 (0) The backup apparently succeeded and is now complete
+0003.384 (0) No email will/can be sent - the user has not configured an email address.
+0003.384 (0) Die Sicherung war anscheinend erfolgreich und ist nun vollständig
