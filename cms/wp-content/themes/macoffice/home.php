@@ -6,6 +6,14 @@ get_header(); ?>
 	<div class="site-content">
 		<!-- <h1 class="site-title">Startseite</h1> -->
 
+			<!-- PLATZHALTER FÜR STORE HOURS
+
+			<div class="">
+				<?php // include ('classes/storeHours/open-closed-sign.php'); ?>
+			</div>
+			-->
+
+
 		<section id="featured-posts" class="featured-posts section-container" data-matching-link="#featured-posts-link">
 			<h2 class="featured-posts__headline h2__section-headline">Themen im Fokus</h2>
 

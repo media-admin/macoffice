@@ -93,9 +93,13 @@ add_filter( 'body_class', 'macoffice_add_slug_body_class' );
 /* === Styles and Scripts === */
 function macoffice_register_styles() {
 
+	// Import Cookie Script Stylesheets
+	wp_register_style( 'cookie-style', get_template_directory_uri() . '/assets/styles/dywc.css' );
+	wp_enqueue_style( 'cookie-style' );
+
 	/* --- Import Cookie Script Stylesheets --- */
-	wp_register_style( 'styles', get_template_directory_uri() . '/assets/styles/styles.fa0321dd46c136114300.css' );
-	wp_enqueue_style( 'styles' );
+	wp_register_style( 'custom-styles', get_template_directory_uri() . '/assets/styles/styles.fa0321dd46c136114300.css' );
+	wp_enqueue_style( 'custom-styles' );
 
 
 	/* --- Import Theme Styles via style.css --- */
@@ -125,6 +129,13 @@ function macoffice_register_scripts() {
 	// Import Button Back-to-Top
 	wp_register_script( 'button-back-to-top', get_template_directory_uri() . '/assets/scripts/button-back-to-top.js', '', null, true );
 	wp_enqueue_script( 'button-back-to-top' );
+
+	// Import Cookie Notice Scripts
+	wp_register_script( 'dywc', get_template_directory_uri() . '/assets/scripts/dywc.js', '', null, true );
+	wp_enqueue_script( 'dywc' );
+
+	wp_register_script( 'cookie-notice', get_template_directory_uri() . '/assets/scripts/cookie-notice.js', '', null, true );
+	wp_enqueue_script( 'cookie-notice' );
 
 }
 

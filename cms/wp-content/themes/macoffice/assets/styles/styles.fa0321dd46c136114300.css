@@ -1064,7 +1064,7 @@ button:hover {
 #dywc > .content p {
 	margin: 15px 0;
 	font-size: 14px;
-	line-height: 16px;
+	line-height: 1.4rem;
 	font-weight: normal;
 	padding: 0;
 }
@@ -1076,7 +1076,7 @@ button:hover {
 #dywc > .content a {
 	font-size: 14px;
 	line-height: 16px;
-	color: #525050;
+	color: #707070;
 }
 
 #dywc > .content a.info {
@@ -1085,7 +1085,7 @@ button:hover {
 }
 
 #dywc > .content > div {
-	background-color: #525050;
+	background-color: #F5F5F5;
 	padding: 15px 0px;
 	color: #000000;
 	font-size: 14px;
@@ -1143,19 +1143,15 @@ button:hover {
 
 #dywc > .content > div .accept_wrap > a.accept {
 	color: #ffffff;
-	font-family: 'San Francisco';
 	background-color: #A12528;;
 	padding: 8px 18px;
 	text-decoration: none;
-	text-transform: uppercase;
 }
 
 #dywc > .content > div .accept_wrap > a.accept2 {
 	font-size: 0.75em;
 	text-decoration: none;
-	font-family: 'San Francisco';
 	font-size: 1.0em;
-	text-transform: uppercase;
 }
 
 #dywc > .content > div:last-child {
@@ -1208,7 +1204,7 @@ button:hover {
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: flex-start;
-	background-color: #525050;
+	background-color: #F5F5F5;
 	margin: 0 0 1px 0;
 	padding: 5px;
 	box-sizing: border-box;
@@ -1298,7 +1294,7 @@ button:hover {
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: flex-start;
-	background-color: #525050;
+	background-color: #F5F5F5;
 	margin: 0 0 1px 0;
 	padding: 2px 5px;
 	box-sizing: border-box;
@@ -1402,6 +1398,42 @@ ul {
 }
 
 /* === Heading Styles === */
+
+h1 {
+	position: relative;
+	font-size: 2.4rem;
+	font-weight: 300;
+	letter-spacing: 2px;
+	line-height: 2.2rem;
+	margin-right: 1.0rem;
+	overflow: hidden;
+}
+
+@media (min-width: 800px) {
+
+}
+
+
+h1:after {
+	content: "";
+	top: 48%;
+	width: 100% !important;
+	margin-left: 0.5rem;
+	height: 1.5px;
+	position: absolute;
+	background: #707070;
+}
+
+@media (min-width: 800px) {
+	h1:after {
+		/* width: 84% !important; */
+	}
+}
+
+
+
+
+
 
 .h1__title {
 		font-size: 3.0rem;
@@ -1783,39 +1815,51 @@ h1.title--single {
   background-color: #525050;
   padding-left: 18px;
   padding-right: 18px;
-
-
 }
 
 @media (min-width: 800px) {
-
-.site-header-top {
+	.site-header-top {
     height: 45px;
     font-size: 1.0rem;
     color: white;
     line-height: 1.6rem;
-
-
-}
 	}
+}
 
 @media (min-width: 1200px) {
-	}
+}
 
 .site-header-top__contact-information {
-      display: none;
-    }
+  display: none;
+}
+
+
 
 @media (min-width: 800px) {
-
-.site-header-top__contact-information {
-        position: relative;
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center
-    }
+	.site-header-top__contact-information {
+    	position: relative;
+    	width: 100%;
+    	display: flex;
+    	justify-content: flex-start;
+    	align-items: center;
+			font-size: 1.0rem;
 	}
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
+	.site-header-top__contact-information {
+		font-size: 0.8rem !important;
+	}
+}
+
+
+@media only screen and (min-device-width: 820px) and (max-device-width: 1180px) and (orientation:landscape) {
+	.site-header-top__contact-information {
+		font-size: 0.8rem !important;
+	}
+}
+
+
 
 @media (min-width: 1200px) {
 	}
@@ -1832,18 +1876,54 @@ h1.title--single {
     }
 
 .site-header-top__contact-information-opening-hours {
-      color: white;
-    }
+    color: white;
+  }
 
 .site-header-top__contact-information-opening-sign {
-      margin-top: 1.3rem;
-      width: 15px;
-      height: 15px;
-      background-color: transparent;
-      border-radius: 10px;
-      margin-left: 1.0rem;
-      margin-right: 0.5rem;
-    }
+  width: 15px;
+  height: 15px;
+	line-height: 1.0rem;
+  background-color: transparent;
+	margin-top: 1.3rem;
+  margin-right: 0.5rem;
+	margin-left: 1.0rem;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
+	.site-header-top__contact-information-opening-sign {
+		margin-top: 1.15rem;
+	}
+}
+
+
+@media only screen and (min-device-width: 820px) and (max-device-width: 1180px) and (orientation:landscape) {
+	.site-header-top__contact-information-opening-sign {
+		margin-top: 1.15rem;
+	}
+}
+
+.opening-hours__state-open {
+	background-color: green;
+	border-radius: 50%
+}
+
+.opening-hours__state-closing {
+	background-color: orange;
+	border-radius: 50%
+}
+
+.opening-hours__state-closed {
+	background-color: red;
+	border-radius: 50%
+}
+
+.opening-hours__state-unclear {
+	background-color: yellow;
+	border-radius: 50%
+}
+
+
+
 
 .site-header-top__contact-information-address {
       display: inline-flex;
@@ -2444,6 +2524,7 @@ menu.site-menu {
     position: relative;
     display: flex;
     width: 100%;
+	  justify-content: space-between;
     align-items: flex-start;
     margin-top: 1.0rem;
     margin-bottom: 1.0rem;
@@ -2459,17 +2540,32 @@ menu.site-menu {
 @media (min-width: 800px) {
 
 	.navbar__navigation-list li {
-    	position: relative;
-    	display: flex;
-    	width: 100%;
-    	align-items: flex-start;
-    	justify-content: space-between;
-    	font-size: 1.0rem;
-    	line-height: 1.4rem;
-    	font-weight: 500;
-    	text-decoration: none;
-    	color: #707070;
-			padding-top: 15px;
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    font-size: 1.0rem;
+    line-height: 1.4rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: #707070;
+		padding-top: 15px;
+	}
+
+	@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
+		.navbar__navigation-list li {
+			width: auto;
+			padding-right: 5%;
+		}
+	}
+
+
+	@media only screen and (min-device-width: 820px) and (max-device-width: 1180px) and (orientation:landscape) {
+		.navbar__navigation-list li {
+			width: auto;
+			padding-right: 5%;
+		}
 	}
 
 	.navbar-item__submenu li {
@@ -3248,6 +3344,12 @@ span.hover__alt-text {
 	}
 	}
 
+
+.leistungen .services__container .wrapper {
+	color: black !important;
+}
+
+
 .services__card {
 		position: relative;
 		width: 100%;
@@ -3459,6 +3561,176 @@ span.hover__alt-text {
 @media (min-width: 800px) {
 }
 
+
+
+
+/* === GOOGLE MAPS === */
+
+.video_wrapper {
+	background-image: url( '' );
+	background-size: cover;
+	position: relative;
+	width: 100% !important;
+	height: auto !important;
+}
+
+
+.video_trigger {
+	padding: 30px;
+}
+
+
+.video_trigger:before {
+	content: '\f04b';
+	font-family: 'FontAwesome';
+	position: absolute;
+	z-index: -1;
+	font-size: 120px;
+	color: rgba( 255, 255, 255, .2 );
+	width: 120px;
+	height: 120px;
+	line-height: 120px;
+	text-align: center;
+	top: -webkit-calc( 50% - 60px );
+	top: calc( 50% - 60px );
+	left: -webkit-calc( 50% - 60px );
+	left: calc( 50% - 60px );
+}
+
+
+.video_layer {
+	position: relative;
+	display: none;
+	height: inherit;
+	width: inherit;
+	margin: auto;
+}
+
+
+iframe {
+	border: 0px none transparent;
+	height: inherit;
+	width: inherit;
+	vertical-align: middle;
+}
+
+
+
+/* === YOUTUBE VIDEOS === */
+
+.video--fullwidth iframe {
+	position: relative !important;
+	width: 100% !important;
+	height: 100% !important;
+	min-height: 550px;
+}
+
+
+/* Video Wrapper */
+.video_wrapper {
+
+	background: rgba(112,122,122,0.15);
+	background-size: cover;
+	position: relative;
+	height: 400px;
+	width: 100%;
+	text-align: center;
+
+		.video_trigger {
+
+		padding: 130px 30px;
+
+		height: -webkit-calc( 100% - 260px );
+		height: -moz-calc( 100% - 260px );
+		height: -o-calc( 100% - 260px );
+		height: calc( 100% - 260px );
+
+		width: -webkit-calc( 100% - 60px );
+		width: -moz-calc( 100% - 60px );
+		width: -o-calc( 100% - 60px );
+		width: calc( 100% - 60px );
+
+		position: absolute;
+		bottom: 0;
+		z-index: 9;
+		background-color: rgba( 0, 0, 0, .8 );
+		color: #fff;
+
+		&:before {
+			content: '\f04b';
+			font-family: 'FontAwesome';
+			position: absolute;
+			z-index: -1;
+			font-size: 120px;
+			color: rgba( 255, 255, 255, .2 );
+			width: 120px;
+			height: 120px;
+			line-height: 120px;
+			text-align: center;
+			top: -webkit-calc( 50% - 60px );
+			top: calc( 50% - 60px );
+			left: -webkit-calc( 50% - 60px );
+			left: calc( 50% - 60px );
+		}
+
+	}
+
+	.video_layer {
+
+	position: relative;
+	display: none;
+	height: inherit;
+	width: inherit;
+	margin: auto;
+
+	iframe {
+		border: 0px none transparent;
+		height: inherit;
+		width: inherit;
+		vertical-align: middle;
+	}
+
+	}
+
+}
+
+p.text-center {
+	position: relative !important;
+	display: block !important;
+	margin: 25px auto !important;
+	margin-top: 5% !important;
+	padding: 15px !important;
+}
+
+.button--load-more {
+	position: relative !important;
+	display: inline-block !important;
+	width: auto !important;
+	color: #ffffff;
+	font-size: 0.9rem;
+	font-weight: 500;
+	line-height: 1.2em;
+	text-align: center !important;
+	background: #A12528;
+	border: none;
+	border-radius: 28px;
+	margin: 0.25rem 0;
+	margin-bottom: 2rem !important;
+	padding: 0.75rem 1rem;
+}
+
+.button--load-more:hover {
+	color: #A12528;
+	background:  #ffffff;
+}
+
+
+
+
+
+
+
+
 /* === SITE-FOOTER === */
 
 .site-footer {
@@ -3608,6 +3880,7 @@ span.hover__alt-text {
 	}
 }
 
+
 .site-footer__branding {
 	position: relative;
 	display: flex;
@@ -3675,15 +3948,27 @@ span.hover__alt-text {
 
 @media (min-width: 800px) {
 
-.site-footer__contact {
-			position: absolute;
-			width: 25%;
-			/* top: 225px
-			top: 90px; */
-			font-size: 0.8rem;
-			line-height: 1.5rem
+	.site-footer__contact {
+		position: absolute;
+		width: 25%;
+		/* top: 225px
+		top: 90px; */
+		font-size: 0.8rem;
+		line-height: 1.5rem
 	}
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
+	.site-footer__contact {
+		width: 35%;
 	}
+}
+
+@media only screen and (min-device-width: 820px) and (max-device-width: 1180px) and (orientation:landscape) {
+	.site-footer__contact {
+		width: 35%;
+	}
+}
 
 @media (min-width: 1200px) {
 	}
@@ -3854,6 +4139,13 @@ span.hover__alt-text {
 		width: 100%;
 	}
 
+}
+
+
+@media only screen and (min-device-width: 820px) and (max-device-width: 1180px) and (orientation:landscape) {
+	.site-footer__main-navigation-container {
+		width: 70%;
+	}
 }
 
 
@@ -4424,6 +4716,8 @@ filter: invert(100%);
 .dark-mode .back-to-top img {
 	filter: invert(100%);
 }
+
+
 
 
 /* === PREFERRING DARK MODE ===

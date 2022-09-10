@@ -36,6 +36,33 @@ function shortcode_product_categories() {
 add_shortcode( 'shortcode_product_categories', 'shortcode_product_categories' );
 
 
+function shortcode_services_overview() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_services-overview');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_services_overview', 'shortcode_services_overview' );
+
+
+function shortcode_google_maps() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_google-maps');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_google_maps', 'shortcode_google_maps' );
+
+
+function shortcode_youtube_video() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_youtube-video');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_youtube_video', 'shortcode_youtube_video' );
+
+
 
 function show_tags()
 {

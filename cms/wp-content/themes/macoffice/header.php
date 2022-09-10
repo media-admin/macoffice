@@ -73,19 +73,21 @@
 
 		<?php wp_head(); ?>
 
-		<!-- Slick Slider
-		<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.9.0/slick/slick.min.js"></script>
-		-->
-
 	</head>
 
-	<body class="site-body home">
+	<body <?php body_class( 'site-body' ); ?>>
 
 		<header class="site-header-top">
 			<div class="site-header-top__contact-information">
 				<div class="site-header-top__contact-information-opening">
 					<img class="site-header-top__contact-information-opening-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
-					<p class="site-header-top__contact-information-opening-hours">Mo - Fr 10 - 18 Uhr <span class="additional-info"> | </span> Sa 10 - 13 Uhr<div class="site-header-top__contact-information-opening-sign"></div></p>
+					<p class="site-header-top__contact-information-opening-hours">Mo - Fr 10 - 18 Uhr <span class="additional-info"> | </span> Sa 10 - 13 Uhr
+						<div class="site-header-top__contact-information-opening-sign">
+							<div class="refresh-opening-state">
+								<?php include ('classes/storeHours/open-closed-sign.php'); ?>
+							</div>
+						</div>
+					</p>
 				</div>
 				<div class="site-header-top__contact-information-address">
 					<img class="site-header-top__contact-information-address-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_address-header-light_desktop.svg"/>
@@ -130,45 +132,6 @@
 						<span class="line"></span>
 					</div>
 				</menu>
-
-				<!--
-				<div class="navbar">
-					<ul class="navbar__navigation-list">
-						<li class="navbar-item"><a href="#">News</a></li>
-						<li class="navbar-item navbar-item-products navbar-item--submenu-button"><a href="#">Produkte</a>
-							<ul class="navbar-item__submenu">
-								<li class="navbar-item"><a href="https://www.apple.com/at/mac/" target="_blank">Mac</a></li>
-								<li class="navbar-item"><a href="https://www.apple.com/at/iphone/" target="_blank">iPhone</a></li>
-								<li class="navbar-item"><a href="https://www.apple.com/at/ipad/" target="_blank">iPad</a></li>
-								<li class="navbar-item"><a href="https://www.apple.com/at/watch/" target="_blank">Apple Watch</a></li>
-								<li class="navbar-item"><a href="https://www.apple.com/at/airpods/" target="_blank">AirPods</a></li>
-								<li class="navbar-item"><a href="https://www.apple.com/at/airtag/" target="_blank">AirTag</a></li>
-								<li class="navbar-item"><a href="https://www.apple.com/at/apple-tv-4k/" target="_blank">Apple TV</a></li>
-								<li class="navbar-item"><a href="https://www.apple.com/at/homepod-mini/" target="_blank">HomePod mini</a></li>
-								<li class="navbar-item"><a href="https://www.apple.com/at/shop/accessories/all" target="_blank">Zubehör</a></li>
-								<li class="navbar-item"><a href="https://www.apple.com/at/shop/gift-cards" target="_blank">Apple Gift Card</a></li>
-							</ul>
-						</li>
-						<li class="navbar-item navbar-item--submenu-button"><a href="#">Leistungen</a>
-							<ul class="navbar-item__submenu">
-								<li class="navbar-item"><a href="#">Beratung & Consulting</a></li>
-								<li class="navbar-item"><a href="#">Service & Support</a></li>
-								<li class="navbar-item"><a href="#">Reparatur & Garantie</a></li>
-								<li class="navbar-item"><a href="#">Finanzierung</a></li>
-							</ul>
-						</li>
-						<li class="navbar-item"><a href="#">Fragen & Antworten</a></li>
-						<li class="navbar-item navbar-item--submenu-button"><a href="#">Über uns</a>
-							<ul class="navbar-item__submenu">
-								<li class="navbar-item"><a href="#">Kontakt & Anfahrt</a></li>
-								<li class="navbar-item"><a href="#">Unser Team</a></li>
-								<li class="navbar-item"><a href="#">Das Unternehmen</a></li>
-								<li class="navbar-item"><a href="#">Jobs</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-				-->
 
 				<!-- Main Navigation -->
 				<div class="navbar">
