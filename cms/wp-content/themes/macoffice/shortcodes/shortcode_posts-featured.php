@@ -23,7 +23,7 @@
 						<div class='dotted line--dotted card__line--dotted'></div>
 						<?php the_post_thumbnail('full', ['class' => 'featured-posts__thumbnail card__thumbnail']); ?>
 						<div class="featured-posts__content card__content">
-							<?php the_content();?>
+							<?php the_excerpt();?>
 						</div>
 					</div>
 				</a>

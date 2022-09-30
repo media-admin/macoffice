@@ -361,13 +361,13 @@ template {
 	font-family: 'FontAwesome Solid';
 	font-style: normal;
 	font-weight: normal;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-solid-900.eot); /* IE9 Compact Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-solid-900.eot'); /* IE9 Compact Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-solid-900.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-solid-900.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-solid-900.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-solid-900.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-solid-900.svg#AbrilFatface) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-solid-900.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-solid-900.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-solid-900.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-solid-900.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-solid-900.svg#AbrilFatface') format('svg'); /* Legacy iOS */
 }
 
 /* --- Font Awesome Brands --- */
@@ -376,13 +376,13 @@ template {
 	font-family: 'FontAwesome Brands';
 	font-style: normal;
 	font-weight: normal;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-brands-400.eot); /* IE9 Compact Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-brands-400.eot'); /* IE9 Compact Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-brands-400.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-brands-400.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-brands-400.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-brands-400.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/fa-brands-400.svg#AbrilFatface) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-brands-400.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-brands-400.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-brands-400.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-brands-400.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/fa-brands-400.svg#AbrilFatface') format('svg'); /* Legacy iOS */
 }
 
 /* --- Font Inter by Google Inc. --- */
@@ -393,13 +393,13 @@ template {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 100;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.eot); /* IE9 Compat Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.eot'); /* IE9 Compat Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.svg#Inter) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-100.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* inter-200 - latin */
@@ -408,13 +408,13 @@ template {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 200;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.eot); /* IE9 Compat Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.eot'); /* IE9 Compat Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.svg#Inter) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-200.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* inter-300 - latin */
@@ -423,13 +423,13 @@ template {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 300;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.eot); /* IE9 Compat Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.eot'); /* IE9 Compat Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.svg#Inter) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-300.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* inter-regular - latin */
@@ -438,13 +438,13 @@ template {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 400;
-	src: url(assets/fonts/inter-v12-latin-regular.eot); /* IE9 Compat Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-regular.eot'); /* IE9 Compat Modes */
 	src: local(''),
-			 url(assets/fonts/inter-v12-latin-regular.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(assets/fonts/inter-v12-latin-regular.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(assets/fonts/inter-v12-latin-regular.woff) format('woff'), /* Modern Browsers */
-			 url(assets/fonts/inter-v12-latin-regular.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(assets/fonts/inter-v12-latin-regular.svg#Inter) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-regular.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-regular.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* inter-500 - latin */
@@ -453,13 +453,13 @@ template {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 500;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.eot); /* IE9 Compat Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.eot'); /* IE9 Compat Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.svg#Inter) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-500.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* inter-600 - latin */
@@ -468,13 +468,13 @@ template {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 600;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.eot); /* IE9 Compat Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.eot'); /* IE9 Compat Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.svg#Inter) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-600.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* inter-700 - latin */
@@ -483,13 +483,13 @@ template {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 700;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.eot); /* IE9 Compat Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.eot'); /* IE9 Compat Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.svg#Inter) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-700.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* inter-800 - latin */
@@ -498,13 +498,13 @@ template {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 800;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.eot); /* IE9 Compat Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.eot'); /* IE9 Compat Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.svg#Inter) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-800.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* inter-900 - latin */
@@ -513,13 +513,13 @@ template {
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 900;
-	src: url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.eot); /* IE9 Compat Modes */
+	src: url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.eot'); /* IE9 Compat Modes */
 	src: local(''),
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.woff2) format('woff2'), /* Super Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.woff) format('woff'), /* Modern Browsers */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.ttf) format('truetype'), /* Safari, Android, iOS */
-			 url(https://macoffice.dev/cms/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.svg#Inter) format('svg'); /* Legacy iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.woff2') format('woff2'), /* Super Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.woff') format('woff'), /* Modern Browsers */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.ttf') format('truetype'), /* Safari, Android, iOS */
+			 url('https://macoffice.dev/wp-content/themes/macoffice/assets/fonts/inter-v12-latin-900.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
 /* --- Font San Francisco by Apple Inc. --- */
@@ -1404,7 +1404,7 @@ h1 {
 	font-size: 2.4rem;
 	font-weight: 300;
 	letter-spacing: 2px;
-	line-height: 2.2rem;
+	line-height: 2.8rem;
 	margin-right: 1.0rem;
 	overflow: hidden;
 }
@@ -1416,7 +1416,7 @@ h1 {
 
 h1:after {
 	content: "";
-	top: 48%;
+	top: 50%;
 	width: 100% !important;
 	margin-left: 0.5rem;
 	height: 1.5px;

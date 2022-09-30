@@ -27,6 +27,15 @@ function shortcode_featured_posts() {
 add_shortcode( 'shortcode_featured_posts', 'shortcode_featured_posts' );
 
 
+function shortcode_business_posts() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_posts-business');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_business_posts', 'shortcode_business_posts' );
+
+
 function shortcode_product_categories() {
 	ob_start();
 	get_template_part( 'shortcodes/shortcode_product-categories');
@@ -61,6 +70,15 @@ function shortcode_youtube_video() {
 }
 
 add_shortcode( 'shortcode_youtube_video', 'shortcode_youtube_video' );
+
+
+function shortcode_leasing_calculator() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_leasing-calculator');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_leasing_calculator', 'shortcode_leasing_calculator' );
 
 
 

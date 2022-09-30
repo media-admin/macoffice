@@ -6,7 +6,7 @@
 	</div>
 	<div class="video_layer">
 		<div class="video-container">
-			<iframe src="https://www.youtube-nocookie.com/embed/IbH24PzEwP4?rel=0" border="0" data-scaling="true" data-format="16:9" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+			<iframe src="https://www.youtube-nocookie.com/embed/IbH24PzEwP4?rel=0&origin=https://macoffice.dev" border="0" data-scaling="true" data-format="16:9" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
 		</div>
 	</div>
 </div>
