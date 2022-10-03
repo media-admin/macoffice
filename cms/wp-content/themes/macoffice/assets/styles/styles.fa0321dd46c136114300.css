@@ -688,38 +688,42 @@ p > a {
 */
 
 @media (min-width: 800px) {
-	}
+}
 
 @media (min-width: 1200px) {
-	}
+}
 
 @media (min-width: 1200px) {
-	}
+}
 
 .site-content {
-
 	padding-top: 8.0rem;
 	padding-bottom: 2.5rem;
-
 }
 
-@media (min-width: 800px) {
-
-.site-content {
+@media only screen and (min-width: 992px) {
+	.site-content {
 		position: initial;
-		top: 25px
-
-}
+		top: 25px;
 	}
+}
+
+
+@media (orientation: landscape) and (min-width: 769px) {
+	.site-content {
+		position: initial;
+		top: 0px !important;
+	}
+}
+
 
 @media (min-width: 1200px) {
-
-.site-content {
-		padding-top: 2.0rem;
-		padding-bottom: 2.0rem
-
-}
+	.site-content {
+			padding-top: 2.0rem;
+			padding-bottom: 2.0rem
 	}
+}
+
 
 @media (min-width: 1200px) {
 	}
@@ -2020,7 +2024,7 @@ h1.title--single {
     height: auto;
     background-color: #F5F5F5;
     border-bottom: 3px solid #A12528;
-    margin-top: 45px;
+    /* margin-top: 45px; */
     z-index: 1 !important;
 
 
@@ -2893,18 +2897,16 @@ span.hover__alt-text {
 }
 
 .featured-posts__headline {
-		margin-left: 1.0rem;
+	margin-left: 1.0rem;
+}
 
-	}
 
 @media (min-width: 800px) {
-
-.featured-posts__headline {
+	.featured-posts__headline {
 			padding-left: 18px;
 			padding-right: 18px
-
 	}
-	}
+}
 
 .featured-posts__headline span {
 		background-color: #F5F5F5 !important;
@@ -2932,13 +2934,29 @@ span.hover__alt-text {
 	}
 
 @media (min-width: 800px) {
-
-.featured-posts__container {
-			flex: 2;
-			flex-basis: 50%
-
+	.featured-posts__container {
+		flex: 2;
+		flex-basis: 50%
 	}
+}
+
+
+@media (min-width: 1200px) {
+	.featured-posts__container {
+		flex: 3;
+		flex-basis: 33%;
 	}
+}
+
+
+@media (min-width: 2400px) {
+	.featured-posts__container {
+		flex: 4;
+		flex-basis: 25%;
+	}
+}
+
+
 
 .featured-posts__card {
 		position: relative;
@@ -2949,10 +2967,26 @@ span.hover__alt-text {
 @media (min-width: 800px) {
 
 .featured-posts__card {
-			width: 48%
+		width: 48%;
+	}
+}
 
+
+@media (min-width: 1200px) {
+	.featured-posts__card {
+		width: 32%;
 	}
+}
+
+
+@media (min-width: 2400px) {
+	.featured-posts__card {
+		width: 24%;
 	}
+}
+
+
+
 
 .featured-posts__img {
 		width: 100%;
@@ -3070,7 +3104,24 @@ span.hover__alt-text {
 			padding: 0.25rem !important
 
 	}
+}
+
+
+@media (min-width: 1200px) {
+	.news-posts__container {
+		flex: 3;
+		flex-basis: 33%;
 	}
+}
+
+
+@media (min-width: 2400px) {
+	.news-posts__container {
+		flex: 4;
+		flex-basis: 25%;
+	}
+}
+
 
 .news-posts__card {
 		position: relative;
@@ -3084,7 +3135,23 @@ span.hover__alt-text {
 			width: 48%
 
 	}
+}
+
+
+@media (min-width: 1200px) {
+	.news-posts__card {
+		width: 32%;
 	}
+}
+
+
+@media (min-width: 2400px) {
+	.news-posts__card {
+		width: 24%;
+	}
+}
+
+
 
 .news-posts__img {
 		width: 100%;
@@ -3334,7 +3401,7 @@ span.hover__alt-text {
 
 @media (min-width: 800px) {
 
-.services__container {
+	.services__container {
 			flex: 2;
 			flex-basis: 50%;
 			margin: inherit;
@@ -3342,7 +3409,16 @@ span.hover__alt-text {
 			padding-bottom: 1.5rem
 
 	}
+}
+
+
+@media (min-width: 2400px) {
+
+	.services__container {
+		flex: 3;
+		flex-basis: 25%;
 	}
+}
 
 
 .leistungen .services__container .wrapper {
@@ -3361,12 +3437,21 @@ span.hover__alt-text {
 	}
 
 @media (min-width: 800px) {
-
-.services__card {
-			width: 48%
+	.services__card {
+		width: 48%
 
 	}
+}
+
+
+@media (min-width: 2400px) {
+	.services__card {
+		width: 24%
+
 	}
+}
+
+
 
 .services__card-container {
 		padding: 0 !important;
@@ -3723,6 +3808,48 @@ p.text-center {
 	color: #A12528;
 	background:  #ffffff;
 }
+
+
+
+
+
+/* === LEASING CALCULATOR === */
+
+#leasingForm {
+
+}
+
+.leasing-amount {
+
+}
+
+.leasing-amount__label {
+	line-height: 1.6rem;
+}
+
+.leasing-amount__field {
+	width: 25%;
+	text-align: center;
+	line-height: 1.6rem;
+	margin-top: 1.0rem;
+	margin-right: 0.5rem;
+	margin-bottom: 1.0rem;
+	margin-left: 0.5rem;
+	padding: 0.25rem 0.5rem;
+}
+
+
+.leasing-amount__btn {
+	margin-top: 1.0rem;
+	margin-bottom: 1.0rem;
+}
+
+
+#leasingResult {
+
+}
+
+
 
 
 

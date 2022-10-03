@@ -124,23 +124,21 @@
 					}
 			</script>
 
-
-			<!-- Refreshing Store Hours Status -->
-			<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js" />
+			<!-- Refreshing Store Hours Status
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js" type="text/javascript"></script>
 
 			<script type="text/javascript">
 				jQuery(document).ready(function() {
 				jQuery('.refresh').load('https://macoffice.dev/cms/refresh.php');
 
 				var auto_refresh = setInterval(
-					function ()
-					{
+					function () {
 						jQuery('.refresh').load('https://macoffice.dev/cms/refresh.php').fadeIn("slow");
 					}, 5000); // refresh every 5000 milliseconds
 						$.ajaxSetup({ cache: true });
 					});
 			 </script>
-
+			 -->
 
 			<!-- Light Mode/Dark Mode Switcher -->
 
