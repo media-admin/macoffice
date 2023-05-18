@@ -184,6 +184,12 @@ $columns = apply_filters('pmxi_manage_imports_columns', $columns);
 										<em><?php echo str_replace("\\", '/', preg_replace('%^(\w+://[^:]+:)[^@]+@%', '$1*****@', $item['path'])); ?></em>
 										<?php endif; ?>
 									<?php endif ?>
+
+									<?php $delete_missing_notice = wp_all_import_delete_missing_notice($item['options']); ?>
+									<?php if (!empty($delete_missing_notice)): ?>
+                                        <div class="wpai-row-notice" style="padding-top:10px;"><p><?php echo $delete_missing_notice; ?></p></div>
+									<?php endif; ?>
+
 									<div class="row-actions">
 										<?php do_action('pmxi_import_menu', $item['id'], $this->baseUrl); ?>
 										<?php
@@ -329,7 +335,18 @@ $columns = apply_filters('pmxi_manage_imports_columns', $columns);
 										}
 										printf(__('Last run: %s', 'wp_all_import_plugin'), ($item['registered_on'] == '0000-00-00 00:00:00') ? __('never', 'wp_all_import_plugin') : get_date_from_gmt($item['registered_on'], "m/d/Y g:i a")); echo '<br/>';
 										printf(__('%d %s created', 'wp_all_import_plugin'), $item['created'], $cpt_name); echo '<br/>';
-										printf(__('%d updated, %d skipped, %d deleted'), $item['updated'], $item['skipped'], $item['deleted']);
+										//printf(__('%d updated, %d skipped, %d deleted'), $item['updated'], $item['skipped'], $item['deleted']);
+
+                                        $log_msg = sprintf(__('%d updated, %d skipped'), $item['updated'], $item['skipped']);
+                                        if ($item['options']['is_delete_missing']) {
+                                            if (empty($item['options']['delete_missing_action']) || $item['options']['delete_missing_action'] != 'remove') {
+                                                $log_msg = sprintf(__('%d updated, %d skipped, %d missing'), $item['updated'], $item['skipped'], $item['changed_missing']);
+                                            } else {
+                                                $log_msg = sprintf(__('%d updated, %d skipped, %d deleted'), $item['updated'], $item['skipped'], $item['deleted']);
+                                            }
+                                        }
+                                        printf($log_msg);
+
 										//printf(__('%d records', 'wp_all_import_plugin'), $item['post_count']);
 									}
 

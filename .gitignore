@@ -1,6 +1,7 @@
-# === STATIC DEV ENVIRONMENT ===
-
+# GENERAL SETTINGS
+# -----------------------------
 # Numerous always-ignore extensions
+# -----------------------------
 *.diff
 *.err
 *.orig
@@ -11,72 +12,87 @@
 *.vi
 *~
 *.sass-cache
-node_modules/
 .tmp/
 
+
+
 # OS or Editor folders
-.DS_Store
+# -----------------------------
 Thumbs.db
 .cache
 .project
 .settings
 .tmproj
 .nova
-*.esproj
-nbproject
-*.sublime-project
-*.sublime-workspace
-*.komodoproject
-.komodotools
-_notes
-dwsync.xml
 
-# Exclude static environment's dist folder
-dist
 
-# Exclude WordPress Installation temporarily <<<<<< INCLUDE WHEN STATIC DEVELOPMENT HAS BEEN FINISHED >>>>>>>
-_cms
-
-# === WORDPRESS INSTALLATION ===
-
-# ignore everything in the root except the "wp-content" directory.
-wp-admin/
-wp-includes/
-LICENSE
-README.md
-license.txt
-liesmich.html
-readme.html
-/*.php
-!wp-content/
-
-# ignore everything in the "wp-content" directory, except:
-# "mu-plugins", "plugins", "themes" directory
-wp-content/*
-!wp-content/mu-plugins/
-!wp-content/mu-plugins/*
-!wp-content/plugins/
-!wp-content/plugins/*
-!wp-content/themes/
-
-# ignore these plugins
-wp-content/plugins/hello.php
-
-# ignore specific themes
-wp-content/themes/twenty*/
-
-# ignore node dependency directories
-node_modules/
-
-# ignore nova directory
-.nova/
-
-# ignore every DS_Store File on any location
+# Ignore every DS_Store File on any location
+# -----------------------------
+.DS_Store
 *.DS_Store
 */*.DS_Store
 
-# ignore log files and databases
-*.log
-*.sql
-*.sqlite
 
+
+
+
+# STATIC ENVIRONMENT
+# -----------------------------
+
+# Ignore .htaccess files
+# -----------------------------
+*.htaccess
+*/.htaccess
+
+
+# Ignore node dependency directories
+# -----------------------------
+/node_modules
+package-lock.json
+*package-lock.json
+*/package-lock.json
+
+
+
+
+# Exclude static environment's dist folder
+# -----------------------------
+dist
+
+
+# Exclude WordPress Installation temporarily <<<<<< INCLUDE WHEN STATIC DEVELOPMENT HAS BEEN FINISHED >>>>>>>
+# -----------------------------
+index.php
+backups/*
+
+!cms
+
+cms/wp-admin
+cms/wp-includes
+cms/*.php
+cms/*.html
+cms/*.txt
+
+
+# DYNAMIC ENVIRONMENT
+# -----------------------------
+
+# ignore everything in the "wp-content" directory, except:
+# "mu-plugins", "plugins", "themes" directory
+# -----------------------------
+cms/wp-content/*
+
+!cms/wp-content/mu-plugins/
+!cms/wp-content/mu-plugins/*
+
+!cms/wp-content/plugins/
+!cms/wp-content/plugins/*
+
+!cms/wp-content/themes/
+!cms/wp-content/themes/*
+
+cms/wp-content/themes/index.php
+cms/wp-content/themes/twentytwenty/*
+cms/wp-content/themes/twentytwentyone/*
+cms/wp-content/themes/twentytwentytwo/*
+cms/wp-content/themes/twentytwentythree/*

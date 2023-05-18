@@ -33,6 +33,22 @@ body.wpallimport-plugin {
 
 }
 
+.wpallimport-plugin a.video-embed {
+	overflow: hidden;
+	text-indent: -99999px;
+	display: inline-block;
+	width: 25px;
+	height: 17px;
+	background-repeat: no-repeat;
+	background-image: url("../img/video.png");
+	vertical-align: middle;
+	margin-left: 5px;
+	position: relative;
+	top: 4px;
+	background-size: cover;
+
+}
+
 .wpallimport-plugin .wpallimport-footer {
 	display: flex;
 	justify-content: center;
@@ -417,8 +433,14 @@ body.wpallimport-plugin {
 		color: #777;
 	}
 
-.wpallimport-plugin div.input > label{
-	color: #000;
+.wpallimport-unique-key-wrapper {
+	padding-bottom: 1.5em;
+}
+.wpallimport-plugin div > label{
+	color: #3c434a;
+}
+.wpallimport-plugin div.input > label.disabled{
+	color: #777;
 }
 .wpallimport-plugin div.input.pmxi_checked > label{
 	color: #000;
@@ -436,6 +458,10 @@ body.wpallimport-plugin {
 .wpallimport-plugin .wpallimport-collapsed-content h4{
 	color: #40acad;
 	text-decoration: none;
+}
+.wpallimport-plugin .wpallimport-collapsed-content h4{
+	margin-top: 1.5em;
+	margin-bottom: 0.5em;
 }
 .wpallimport-plugin div.error,
 .wpallimport-plugin div.updated{
@@ -743,6 +769,19 @@ body.wpallimport-plugin {
 }
 .wpallimport-plugin .wp_all_import_change_taxonomy_type #taxonomy_to_import .dd-options li a{
 	padding: 5px;
+}
+.wpallimport-plugin .important-warning {
+	color: #b32d2e;
+	font-weight: bold;
+}
+.wpallimport-plugin .delete-missing-error-wrapper .delete-missing-error {
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin-bottom: 10px;
+	border-left: 5px solid red;
+}
+.wpallimport-plugin .delete-missing-error-wrapper input[type="checkbox"] {
+	border: 1px solid red;
 }
 /*--------------------------------------------------------------------------
 *
@@ -2901,6 +2940,34 @@ body.wpallimport-plugin {
 	margin-left: 6px;
 }
 
+.wpallimport-plugin .wpai-warning-check > .ui-widget-header > button.ui-button {
+    display: none;
+}
+
+.wpallimport-plugin .wpai-warning-check button.wpai-warning-cancel-button,
+.wpallimport-plugin .wpai-warning-check button.wpai-warning-cancel-button:hover,
+.wpallimport-plugin .wpai-warning-check button.wpai-warning-cancel-button:active {
+    background: #e4e6e6;
+    padding: 8px 16px;
+    color: #777;
+    border: none;
+    font-weight: 400;
+}
+
+.wpallimport-plugin .wpai-warning-check button.wpai-warning-confirm-button,
+.wpallimport-plugin .wpai-warning-check button.wpai-warning-confirm-button:hover,
+.wpallimport-plugin .wpai-warning-check button.wpai-warning-confirm-button:active {
+    background: #425f9a;
+    padding: 8px 16px;
+    color: #fff;
+    border: none;
+    font-weight: 400;
+}
+
+.wpallimport-plugin .wpai-warning-check .confirm-error {
+    border-color: red;
+}
+
 /*--------------------------------------------------------------------------
 *
 *	Step 5 - Confirm Import Settings
@@ -2931,13 +2998,22 @@ body.wpallimport-plugin {
 	content: '';
 	width: 24px;
 	background: url(../img/s-check.png) no-repeat;
-  background-size: auto;
-	background-size: auto;
 	background-size: 24px;
 	height: 24px;
 	margin-right: 10px;
 	vertical-align: -42%;
 	display: inline-block;
+}
+
+.wpallimport-plugin p.exclamation:before {
+	content: '';
+	width: 24px;
+	height: 24px;
+	margin-right: 10px;
+	vertical-align: -42%;
+	display: inline-block;
+	background: url(../img/ui_4.0/exclamation.png) no-repeat !important;
+	background-size: 23px !important;
 }
 
 .wpallimport-plugin form.confirm{
@@ -3027,14 +3103,19 @@ body.wpallimport-plugin {
 	background: #fff;
 	color: #222222;
 	position: relative;
+	overflow: hidden;
 }
-	.wpallimport-plugin #processbar div{
-		background: #76d771;
-		height: 70px;
-		width: 0%;
-		position: absolute;
-		top:0;
-	}
+.wpallimport-plugin #processbar div{
+	background: #76d771;
+	height: 70px;
+	width: 0%;
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-khtml-border-radius: 0;
+	-webkit-border-radius: 0;
+	position: absolute;
+	top:0;
+}
 .wpallimport-plugin .progress_processed {
 	margin-bottom: 20px;
 	text-align: right;
@@ -3221,12 +3302,11 @@ body.wpallimport-plugin {
 
 /*@+ XML representation */
 .wpallimport-plugin .tag {
-	position: fixed;
-	max-width: 450px;
+	position: relative;
 	padding-bottom: 20px;
 	margin-right: 15px;
 	margin-top: 10px;
-	width: 22%;
+	width: 100%;
 }
 .wpallimport-plugin #wp-content-editor-tools{
 	background: #fff !important;
@@ -3249,7 +3329,7 @@ body.wpallimport-plugin {
 }
 .wpallimport-plugin .tag .wpallimport-xml {
 	/*max-height: 525px;*/
-	max-width: 450px;
+	/*max-width: 450px;*/
 	overflow: auto;
 	border: 1px solid #ddd;
 	border-top:none;
@@ -3655,11 +3735,24 @@ body.wpallimport-plugin {
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
-/*--------------------------------------------------------------------------
-*
-*	RTL
-*
-*-------------------------------------------------------------------------*/
+.delete-missing-helper-texts {
+	padding: 5px;
+	margin-bottom: 20px;
+}
+.wpallimport-plugin .delete-missing-helper-texts .helper-text {
+	border: 1px solid #ddd;
+	border-left: 3px solid #DAA414;
+	padding: 10px;
+	display: none;
+}
+.wpallimport-plugin .delete-missing-confirmation-modal {
+	display: none;
+}
+	/*--------------------------------------------------------------------------
+    *
+    *	RTL
+    *
+    *-------------------------------------------------------------------------*/
 
 body.rtl.wpallimport-plugin .wpallimport-collapsed .wpallimport-collapsed-header
 {

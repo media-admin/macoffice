@@ -4,6 +4,7 @@ namespace wpai_acf_add_on\fields\acf;
 
 use wpai_acf_add_on\ACFService;
 use wpai_acf_add_on\fields\Field;
+use wpai_acf_add_on\fields\FieldFactory;
 
 /**
  * Class FieldFlexibleContent

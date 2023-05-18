@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Simple Custom Post Order - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-02-05 12:24:21+0000\n"
+"PO-Revision-Date: 2022-10-04 01:14:10+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.3\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Simple Custom Post Order - Stable (latest release)\n"
 
@@ -101,7 +101,7 @@ msgstr "Ordne Elemente (Beiträge, Seiten und Individuelle Inhaltstypen) mit ein
 
 #. Plugin URI of the plugin
 msgid "https://wordpress.org/plugins-wp/simple-custom-post-order/"
-msgstr "https://wordpress.org/plugins-wp/simple-custom-post-order/"
+msgstr "https://de.wordpress.org/plugins/simple-custom-post-order/"
 
 #. Plugin Name of the plugin
 #: simple-custom-post-order.php:136

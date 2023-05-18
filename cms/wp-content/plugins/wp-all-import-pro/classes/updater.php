@@ -52,6 +52,22 @@ if( ! class_exists('PMXI_Updater') ) {
 
             add_action( 'after_plugin_row_' . $this->name, array( $this, 'show_update_notification' ), 11, 2 );
             add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
+            add_filter( 'plugin_auto_update_setting_html', array( $this, 'plugin_auto_update_setting_html' ), 10, 3 );
+        }
+
+        /**
+         * Hide the 'Enable auto-updates' link.
+         *
+         * @param $html
+         * @param $plugin_file
+         * @param $plugin_data
+         * @return mixed|string
+         */
+        public function plugin_auto_update_setting_html($html, $plugin_file, $plugin_data ) {
+            if ( $plugin_file == $this->name ) {
+                $html = '';
+            }
+            return $html;
         }
 
         /**
@@ -187,6 +203,10 @@ if( ! class_exists('PMXI_Updater') ) {
 
                 global $wpdb;
 
+	            if(!is_object($update_cache)) {
+		            $update_cache = new stdClass();
+	            }
+
                 $cache_key    = md5( 'edd_plugin_' .sanitize_key( $this->name ) . '_version_info' );
                 $version_info = get_transient( $cache_key );
 
@@ -254,17 +274,17 @@ if( ! class_exists('PMXI_Updater') ) {
             $update_msg_classes = $shiny_updates ? 'notice inline notice-warning notice-alt' : 'pre-shiny-updates';
             $new_version = '';
 
-            if ( ! empty( $update_cache->response[ $this->name ] ) && version_compare( $this->version, $version_info->new_version, '<' ) ) {
+            if ( ! empty( $update_cache->response[ $this->name ] ) && version_compare( $this->version, $version_info->new_version, '<' )) {
 
                 // build a plugin list row, with update notification
                 $changelog_link = self_admin_url('plugin-install.php?tab=plugin-information&plugin='. $this->slug .'&section=changelog&TB_iframe=true&width=772&height=412');
                 if (!empty($version_info->php_version) && version_compare( $this->php_version, $version_info->php_version, '<')) {
                     $new_version = "<span class=\"wp-all-import-pro-new-version-notice\">" . sprintf(
-                            __('WP All Import requires PHP %1s or greater, you are using PHP %2s. Please contact your host and tell them to update your server to at least PHP %1s.', 'wp_all_import_plugin'),
-                            $version_info->php_version,
-                            $this->php_version,
-                            $version_info->php_version
-                        ) . "</span>";
+                        __('WP All Import '. $version_info->new_version .' requires PHP %1s or greater, you are using PHP %2s. Please contact your host and tell them to update your server to at least PHP %1s.', 'wp_all_import_plugin'),
+                        $version_info->php_version,
+                        $this->php_version,
+                        $version_info->php_version
+                    ) . "</span>";
                 } elseif ( empty( $version_info->download_link ) ) {
                     if ($shiny_updates) $update_msg_classes .= ' post-shiny-updates';
                     $new_version = "<span class=\"wp-all-import-pro-new-version-notice\">" . sprintf(
@@ -290,9 +310,15 @@ if( ! class_exists('PMXI_Updater') ) {
                 return;
             }
 
+            $screen  = get_current_screen();
+            $columns = get_column_headers( $screen );
+
+            // If something went wrong with retrieving the columns, default to 3 for colspan.
+            $colspan = ! is_countable( $columns ) ? 3 : count( $columns );
+
             ?>
             <tr class="plugin-update-tr <?php echo $active; ?> wp-all-import-pro-custom">
-                <td colspan="3" class="plugin-update">
+                <td colspan="<?php echo $colspan;?>" class="plugin-update colspanchange">
                     <div class="update-message <?php echo $update_msg_classes; ?>">
                         <p>
                             <?php echo $new_version; ?>

@@ -15,7 +15,7 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 	$hasVariations = false;
 
 	$input = new PMXE_Input();
-	
+
 	$post = $input->post('data', array());
 
 	$filter_args = array(
@@ -29,8 +29,8 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 	$export_id = $input->get('id', 0);
 	if (empty($export_id))
 	{
-		$export_id = ( ! empty(PMXE_Plugin::$session->update_previous)) ? PMXE_Plugin::$session->update_previous : 0;		
-	} 	
+		$export_id = ( ! empty(PMXE_Plugin::$session->update_previous)) ? PMXE_Plugin::$session->update_previous : 0;
+	}
 
 	$export = new PMXE_Export_Record();
 	$export->getById($export_id);
@@ -83,7 +83,7 @@ function pmxe_wp_ajax_wpae_filtering_count(){
     } catch (\Wpae\App\Service\Addons\AddonNotFoundException $e) {
 	    die($e->getMessage());
     }
-    
+
 	PMXE_Plugin::$session->set('whereclause', $filters->get('queryWhere'));
 	PMXE_Plugin::$session->set('joinclause',  $filters->get('queryJoin'));
 	PMXE_Plugin::$session->save_data();
@@ -95,7 +95,7 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 
 	$is_products_export = ($post['cpt'] == 'product' and class_exists('WooCommerce'));
 
-	if ($post['export_type'] == 'advanced') 
+	if ($post['export_type'] == 'advanced')
 	{
 		if (XmlExportEngine::$is_user_export)
 		{
@@ -128,10 +128,10 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 
 			ob_start();
 			// get comments depends on filters
-			add_action('comments_clauses', 'wp_all_export_comments_clauses', 10, 1);								
+			add_action('comments_clauses', 'wp_all_export_comments_clauses', 10, 1);
 			$exportQuery = eval('return new WP_Comment_Query(array(' . PMXE_Plugin::$session->get('wp_query') . '));');
 			$foundRecords = count($exportQuery->get_comments());
-			remove_action('comments_clauses', 'wp_all_export_comments_clauses');			
+			remove_action('comments_clauses', 'wp_all_export_comments_clauses');
 			ob_get_clean();
 		}
         elseif(XmlExportEngine::$is_woo_review_export)
@@ -158,7 +158,7 @@ function pmxe_wp_ajax_wpae_filtering_count(){
             // get total custom post type records
 			$totalQuery = eval('return new WP_Query(array(' . PMXE_Plugin::$session->get('wp_query') . ', \'offset\' => 0, \'posts_per_page\' => 10 ));');
 			if ( ! empty($totalQuery->found_posts)){
-				$total_records = $totalQuery->found_posts;			
+				$total_records = $totalQuery->found_posts;
 			}
 
 			wp_reset_postdata();
@@ -166,21 +166,38 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 			ob_start();
 			// get custom post type records depends on filters
 			add_filter('posts_where', 'wp_all_export_posts_where', 10, 1);
+
 			add_filter('posts_join', 'wp_all_export_posts_join', 10, 1);							
 			
-			$exportQuery = eval('return new WP_Query(array(' . PMXE_Plugin::$session->get('wp_query') . ', \'offset\' => 0, \'posts_per_page\' => 10 ));');							
+			$exportQuery = eval('return new WP_Query(array(' . PMXE_Plugin::$session->get('wp_query') . ', \'offset\' => 0, \'posts_per_page\' => 10 ));');
+
+            /*
+             * We have to add this hack to cope with the percent encoding WP added in 4.8.3 [https://make.wordpress.org/core/2017/10/31/changed-behaviour-of-esc_sql-in-wordpress-4-8-3/]
+             * When it's present in the object's 'request' at this point it can't be properly decoded after the object is
+             * saved to the database. We use the remove_placeholder_escape() method to revert it to literal percent symbols.
+             * That allows things to work as expected. It's likely necessary so long as we're saving the WP_Query object
+             * to the database.
+             */
+			global $wpdb;
+			$exportQuery->request = $wpdb->remove_placeholder_escape($exportQuery->request);
+
+            // We need to remove the placeholders from these values as well.
+			foreach( $exportQuery->query_vars['search_orderby_title'] as $key => $value ){
+				$exportQuery->query_vars['search_orderby_title'][$key] = $wpdb->remove_placeholder_escape($value);
+			}
+
 			if ( ! empty($exportQuery->found_posts)){				
 				$foundRecords = $exportQuery->found_posts;
 			}
-			remove_filter('posts_join', 'wp_all_export_posts_join');			
+			remove_filter('posts_join', 'wp_all_export_posts_join');
 			remove_filter('posts_where', 'wp_all_export_posts_where');
-			ob_get_clean();					
+			ob_get_clean();
 		}
 	}
 	else
 	{
 		if ( 'users' == $post['cpt'] or 'shop_customer' == $post['cpt'] )
-		{			
+		{
 
 		    if( 'shop_customer' == $post['cpt'] ){
 
@@ -200,11 +217,11 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 			ob_start();
 			// get users depends on filters
 			add_action('pre_user_query', 'wp_all_export_pre_user_query', 10, 1);
-			$exportQuery = new WP_User_Query( array( 'orderby' => 'ID', 'order' => 'ASC', 'number' => 10 ));		
+			$exportQuery = new WP_User_Query( array( 'orderby' => 'ID', 'order' => 'ASC', 'number' => 10 ));
 			if ( ! empty($exportQuery->results)){
-				$foundRecords = $exportQuery->get_total();			
+				$foundRecords = $exportQuery->get_total();
 			}
-			remove_action('pre_user_query', 'wp_all_export_pre_user_query');			
+			remove_action('pre_user_query', 'wp_all_export_pre_user_query');
 			ob_get_clean();
 		}
 		elseif( 'comments' == $post['cpt'] )
@@ -230,9 +247,9 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 
 			ob_start();
 			// get comments depends on filters
-			add_action('comments_clauses', 'wp_all_export_comments_clauses', 10, 1);			
-					
-			if ( version_compare($wp_version, '4.2.0', '>=') ) 
+			add_action('comments_clauses', 'wp_all_export_comments_clauses', 10, 1);
+
+			if ( version_compare($wp_version, '4.2.0', '>=') )
 			{
 				$exportQuery = new WP_Comment_Query( array( 'post__not_in' => $products->posts,'orderby' => 'comment_ID', 'order' => 'ASC'));
 				$foundRecords = count($exportQuery->get_comments());
@@ -241,7 +258,7 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 			{
 				$foundRecords = count(get_comments( array( 'post__not_in' => $products->posts, 'orderby' => 'comment_ID', 'order' => 'ASC')));
 			}
-			remove_action('comments_clauses', 'wp_all_export_comments_clauses');			
+			remove_action('comments_clauses', 'wp_all_export_comments_clauses');
 			ob_get_clean();
 		}
         elseif( 'shop_review' == $post['cpt'] )
@@ -426,30 +443,49 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 
     if ( $post['is_confirm_screen'] )
 	{
-		?>
-				
-		<?php if ($foundRecords > 0) :?>
-			<h3><?php esc_html_e('Your export is ready to run.', 'wp_all_export_plugin'); ?></h3>
-			<h4><?php printf(esc_html__('WP All Export will export %d %s.', 'wp_all_export_plugin'), $foundRecords, wp_all_export_get_cpt_name($cpt, $foundRecords, $post)); ?></h4>
-		<?php else: ?>
-			<?php if (! $export->isEmpty() and ($export->options['export_only_new_stuff'] or $export->options['export_only_modified_stuff'])): ?>
-				<h3><?php esc_html_e('Nothing to export.', 'wp_all_export_plugin'); ?></h3>
-				<h4><?php printf(esc_html__("All %s have already been exported.", "wp_all_export_plugin"), wp_all_export_get_cpt_name($cpt, 2, $post)); ?></h4>
-			<?php elseif ($total_records > 0): ?>
-				<h3><?php esc_html_e('Nothing to export.', 'wp_all_export_plugin'); ?></h3>
-				<h4><?php printf(esc_html__("No matching %s found for selected filter rules.", "wp_all_export_plugin"), wp_all_export_get_cpt_name($cpt, 2, $post)); ?></h4>
-			<?php else: ?>
-				<h3><?php esc_html_e('Nothing to export.', 'wp_all_export_plugin'); ?></h3>
-				<h4><?php printf(esc_html__("There aren't any %s to export.", "wp_all_export_plugin"), wp_all_export_get_cpt_name($cpt, 2, $post)); ?></h4>
-			<?php endif; ?>
-		<?php endif; ?>
+	    if((isset($post['enable_real_time_exports']) && $post['enable_real_time_exports'])) {
+	        ?>
+            <h3><?php esc_html_e('Your export is ready to run.', 'wp_all_export_plugin'); ?></h3>
+            <h4><?php printf(esc_html__('WP All Export will export the most recent %s.', 'wp_all_export_plugin'), strtolower(wp_all_export_get_cpt_name($cpt, 1, $post))); ?></h4>
+            <?php
+        }
+        else {
 
-		<?php	
+                ?>
+
+                <?php if ($foundRecords > 0) : ?>
+                    <h3><?php esc_html_e('Your export is ready to run.', 'wp_all_export_plugin'); ?></h3>
+                    <h4><?php printf(esc_html__('WP All Export will export %d %s.', 'wp_all_export_plugin'), $foundRecords, wp_all_export_get_cpt_name($cpt, $foundRecords, $post)); ?></h4>
+                <?php else: ?>
+                    <?php if (!$export->isEmpty() and ($export->options['export_only_new_stuff'] or $export->options['export_only_modified_stuff'])): ?>
+                        <h3><?php esc_html_e('Nothing to export.', 'wp_all_export_plugin'); ?></h3>
+                        <h4><?php printf(esc_html__("All %s have already been exported.", "wp_all_export_plugin"), wp_all_export_get_cpt_name($cpt, 2, $post)); ?></h4>
+                    <?php elseif ($total_records > 0): ?>
+                        <h3><?php esc_html_e('Nothing to export.', 'wp_all_export_plugin'); ?></h3>
+                        <h4><?php printf(esc_html__("No matching %s found for selected filter rules.", "wp_all_export_plugin"), wp_all_export_get_cpt_name($cpt, 2, $post)); ?></h4>
+                    <?php else: ?>
+                        <h3><?php esc_html_e('Nothing to export.', 'wp_all_export_plugin'); ?></h3>
+                        <h4><?php printf(esc_html__("There aren't any %s to export.", "wp_all_export_plugin"), wp_all_export_get_cpt_name($cpt, 2, $post)); ?></h4>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+                <?php
+
+        }
 	}
 	elseif( $post['is_template_screen'] )
 	{
-	  	?>
-				
+
+	    if(isset(XMLExportEngine::$exportOptions['enable_real_time_exports']) && XMLExportEngine::$exportOptions['enable_real_time_exports'])
+        {
+            ?>
+            <h3><?php esc_html_e('Your export is ready to run.', 'wp_all_export_plugin'); ?></h3>
+            <h4><?php printf(esc_html__('WP All Export will export the most recent %s.', 'wp_all_export_plugin'), strtolower(wp_all_export_get_cpt_name($cpt, 1, $post))); ?></h4>
+            <?php
+        }
+        else {
+	    ?>
+
 		<?php if ($foundRecords > 0) :?>
 			<h3><span class="matches_count"><?php echo $foundRecords; ?></span> <strong><?php echo wp_all_export_get_cpt_name($cpt, $foundRecords, $post); ?></strong> will be exported</h3>
 			<h4><?php esc_html_e("Drag &amp; drop data to include in the export file.", "wp_all_export_plugin"); ?></h4>
@@ -466,12 +502,17 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 			<?php endif; ?>
 		<?php endif; ?>
 
+            <?php }
+            ?>
+
 		<?php
 	}
+	
 	else
 	{
 		?>
-		<div class="founded_records">			
+
+        <div class="founded_records">
 			<?php if ($foundRecords > 0) :?>
 				<h3><span class="matches_count"><?php echo $foundRecords; ?></span> <strong><?php echo wp_all_export_get_cpt_name($cpt, $foundRecords, $post); ?></strong> will be exported</h3>
 				<h4><?php esc_html_e("Continue to configure and run your export.", "wp_all_export_plugin"); ?></h4>
@@ -482,8 +523,8 @@ function pmxe_wp_ajax_wpae_filtering_count(){
 			<?php endif; ?>
 		</div>
 		<?php
-	}	
-	
+	}
+
 	exit(json_encode(array('html' => ob_get_clean(), 'found_records' => $foundRecords, 'hasVariations' => $hasVariations))); die;
 
 }

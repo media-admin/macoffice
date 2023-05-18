@@ -1,6 +1,10 @@
 <div class="repeater">
     <div class="input" style="margin-bottom: 10px;">
         <div class="input">
+	        <?php
+	        // Ensure that $current_field array is initialized for PHP 8+.
+	        if( false === $current_field)
+		        $current_field = ['is_variable' => '', 'foreach' => '']; ?>
             <input type="radio" id="is_variable_<?php echo str_replace(array('[',']'), '', $field_name);?>_<?php echo $field['key'];?>_no" class="switcher variable_repeater_mode" name="fields<?php echo $field_name; ?>[<?php echo $field['key'];?>][is_variable]" value="no" <?php echo 'yes' != $current_field['is_variable'] ? 'checked="checked"': '' ?>/>
             <label for="is_variable_<?php echo str_replace(array('[',']'), '', $field_name);?>_<?php echo $field['key'];?>_no" class="chooser_label"><?php _e('Fixed Repeater Mode', 'wp_all_import_acf_add_on' )?></label>
         </div>

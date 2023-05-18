@@ -116,6 +116,12 @@ if ( ! class_exists('XmlExportACF') )
 									{
 										$fieldData = $field;
 
+										// Exclude block message fields.
+										if( strpos($fieldData['name'], 'block') !== false && $fieldData['type'] == 'message') continue;
+
+										// Don't include non-data field types (such as those used for visual organization).
+										if (in_array($fieldData['type'], array('tab'))) continue;
+
 										if (empty($fieldData['ID']))
 										{
 											$fieldData['ID'] = $fieldData['id'] = uniqid();
@@ -216,7 +222,7 @@ if ( ! class_exists('XmlExportACF') )
 
 			$put_to_csv = true;
 
-			$field_name    = (!empty($exportOptions['cc_label'][$ID])) ? $exportOptions['cc_label'][$ID] : $exportOptions['name'];
+			$field_name    = (!empty($exportOptions['cc_label'][$ID])) ? $exportOptions['cc_label'][$ID] : '';
 			$field_options = (!empty($exportOptions['cc_options'][$ID])) ? unserialize($exportOptions['cc_options'][$ID]) : $exportOptions;
 			$field_settings = (!empty($exportOptions['cc_settings'][$ID])) ? json_decode($exportOptions['cc_settings'][$ID], true) : false;
 
@@ -669,7 +675,13 @@ if ( ! class_exists('XmlExportACF') )
 
 						if ( ! empty($field_options['multiple']))
 						{
-							$field_value = implode($implode_delimiter, $field_value);
+						    if(!is_array($field_value)) {
+                                $field_value = implode($implode_delimiter, $field_value);
+                            } else {
+						        $field_value = implode($implode_delimiter, array_map(function($value) {
+						            return maybe_serialize($value);
+                                }, $field_value));
+                            }
 						}
 
 						break;
@@ -821,7 +833,9 @@ if ( ! class_exists('XmlExportACF') )
 
                             foreach ($blocks as $block) {
                                 if (strpos($block['blockName'], 'acf/') !== false) {
-                                    acf_setup_meta($block['attrs']['data'], $pid);
+                                    if(isset($block['attrs']['data']) && $block['attrs']['data']) {
+                                        acf_setup_meta($block['attrs']['data'], $pid);
+                                    }
                                 }
                             }
                         }
@@ -1326,6 +1340,11 @@ if ( ! class_exists('XmlExportACF') )
 									$is_acf_group_visible = true;
 									break;
 								}
+								// Include local ACF blocks field groups except when exporting Users.
+                                elseif( !XmlExportEngine::$is_user_export && $rule['param'] == 'block'){
+									$is_acf_group_visible = true;
+									break;
+								}
 							}
 						}
 						else{
@@ -1435,7 +1454,7 @@ if ( ! class_exists('XmlExportACF') )
 
 		public static function prepare_import_template( $exportOptions, &$templateOptions, &$acf_list, $element_name, $field_options, $parent_delimiter = false)
 		{
-			$field_tpl_key = $element_name . '[1]';
+			$field_tpl_key = (preg_match('/^[0-9]/', $element_name)) ? 'el_' . $element_name . '[1]' : $element_name . '[1]';
 
 			$acf_list[] = '[' . $field_options['name'] . '] ' . $field_options['label'];
 
@@ -1744,7 +1763,9 @@ if ( ! class_exists('XmlExportACF') )
 							{
 								foreach ($field_options['layouts'] as $key => $layout)
 								{
-									if ( ! empty($sub_fields) )
+									$key = intval($key);
+
+								    if ( ! empty($sub_fields) )
 									{
 										$field_template['layouts'][(string)($key + 1)]['acf_fc_layout'] = $layout['name'];
 
@@ -1783,7 +1804,9 @@ if ( ! class_exists('XmlExportACF') )
 							{
 								foreach ($field['layouts'] as $key => $layout)
 								{
-									if ( ! empty($layout['sub_fields']))
+									$key = intval($key);
+
+								    if ( ! empty($layout['sub_fields']))
 									{
 										$field_template['layouts'][(string)($key + 1)]['acf_fc_layout'] = $layout['key'];
 

@@ -687,6 +687,19 @@ p > a {
 }
 */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (min-width: 800px) {
 }
 
@@ -2024,7 +2037,7 @@ h1.title--single {
     height: auto;
     background-color: #F5F5F5;
     border-bottom: 3px solid #A12528;
-    /* margin-top: 45px; */
+    margin-top: 45px;
     z-index: 1 !important;
 
 
@@ -3350,7 +3363,7 @@ span.hover__alt-text {
 
 @media (min-width: 800px) {
 	.services__headline {
-		padding-left: 1.0rem;
+		padding-left: 0.0rem;
 	}
 }
 
@@ -3645,6 +3658,19 @@ span.hover__alt-text {
 
 @media (min-width: 800px) {
 }
+
+
+/* === SINGLE PAGE === */
+
+@media (min-width: 800px) {
+	.single .thumbnail--full {
+		max-width: 1024px;
+		height: auto;
+	}
+}
+
+
+
 
 
 

@@ -24,7 +24,7 @@
  * Ersetze datenbankname_hier_einfuegen
  * mit dem Namen der Datenbank, die du verwenden möchtest.
  */
-define( 'DB_NAME', 'macoffice2022-dev' );
+define( 'DB_NAME', 'macoffice-maintain' );
 
 /**
  * Ersetze benutzername_hier_einfuegen

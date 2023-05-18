@@ -17,6 +17,8 @@
 
 	<?php $visible_sections = apply_filters('pmxi_visible_template_sections', array('caption', 'main', 'taxonomies', 'cf', 'featured', 'other', 'nested'), $post['custom_type']); ?>
 
+    <?php if (!$this->isWizard){ require_once 'filters.php'; } ?>
+
 	<table class="wpallimport-layout">
 		<tr>
 			<td class="left">
@@ -35,7 +37,7 @@
 				<?php if ( in_array('caption', $visible_sections) ): ?>
 
 					<div class="wpallimport-collapsed wpallimport-section">
-						<div class="wpallimport-content-section" style="overflow: hidden; padding-bottom: 0;">
+						<div class="wpallimport-content-section" style="overflow: hidden; padding-bottom: 0; margin-top: 0;">
 							<div class="wpallimport-collapsed-header" style="margin-bottom: 15px;">
                                 <?php if ( in_array($post_type, ['comments', 'woo_reviews'] ) ){ ?>
                                     <h3><?php _e('Comment', 'wp_all_import_plugin'); ?></h3>
@@ -101,7 +103,7 @@
 													<input type="hidden" name="is_leave_html" value="0" />
 													<input type="checkbox" id="is_leave_html" name="is_leave_html" class="fix_checkbox" value="1" <?php echo $post['is_leave_html'] ? 'checked="checked"' : '' ?> style="position:relative;"/>
 													<label for="is_leave_html"><?php _e('Decode HTML entities with <b>html_entity_decode</b>', 'wp_all_import_plugin') ?></label>
-                                                    <a class="wpallimport-help" href="#help" style="position:relative; top:1px;" title="If HTML code is showing up in your posts, use this option. You can also use <br /><br /><i>[html_entity_decode({my/xpath})]</i><br /><br /> or <br /><br /><i>[htmlentities({my/xpath})]</i><br /><br /> or <br /><br /><i>[htmlspecialchars_decode({my/xpath})]</i><br /><br /> to decode or encode HTML in your file.">?</a>
+                                                    <a class="wpallimport-help" href="#help" style="position:relative; top:1px;" title="If HTML code is showing up in your posts, use this option. You can also use <br /><br /><i>[html_entity_decode({my/xpath})]</i><br /><br /> or <br /><br /><i>[htmlentities({my/xpath})]</i><br /><br /> or <br /><br /><i>[htmlspecialchars_decode({my/xpath})]</i><br /><br /> to decode or encode HTML in this import file.">?</a>
 												</div>
 											</div>
 										</div>

@@ -16,10 +16,13 @@ if ( ! class_exists( 'ACF_Field_User' ) ) :
 		function initialize() {
 
 			// Props.
-			$this->name     = 'user';
-			$this->label    = __( 'User', 'acf' );
-			$this->category = 'relational';
-			$this->defaults = array(
+			$this->name          = 'user';
+			$this->label         = __( 'User', 'acf' );
+			$this->category      = 'relational';
+			$this->description   = __( 'Allows the selection of one or more users which can be used to create relationships between data objects.', 'acf' );
+			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-user.png';
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/user/', 'docs', 'field-type-selection' );
+			$this->defaults      = array(
 				'role'          => '',
 				'multiple'      => 0,
 				'allow_null'    => 0,
@@ -328,10 +331,10 @@ if ( ! class_exists( 'ACF_Field_User' ) ) :
 			// phpcs:disable WordPress.Security.NonceVerification.Recommended
 			// Modify Request args.
 			if ( isset( $_REQUEST['s'] ) ) {
-				$_REQUEST['search'] = $_REQUEST['s'];
+				$_REQUEST['search'] = sanitize_text_field( $_REQUEST['s'] );
 			}
 			if ( isset( $_REQUEST['paged'] ) ) {
-				$_REQUEST['page'] = $_REQUEST['paged'];
+				$_REQUEST['page'] = absint( $_REQUEST['paged'] );
 			}
 			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
@@ -362,7 +365,7 @@ if ( ! class_exists( 'ACF_Field_User' ) ) :
 			}
 
 			// Verify that this is a legitimate request using a separate nonce from the main AJAX nonce.
-			if ( ! isset( $_REQUEST['user_query_nonce'] ) || ! wp_verify_nonce( $_REQUEST['user_query_nonce'], 'acf/fields/user/query' . $query->field['key']) ) {
+			if ( ! isset( $_REQUEST['user_query_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_REQUEST['user_query_nonce'] ), 'acf/fields/user/query' . $query->field['key'] ) ) {
 				$query->send( new WP_Error( 'acf_invalid_request', __( 'Invalid request.', 'acf' ), array( 'status' => 404 ) ) );
 			}
 		}

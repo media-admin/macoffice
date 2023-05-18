@@ -139,7 +139,7 @@ class Ftp extends AbstractFtpAdapter
         }
 	    restore_error_handler();
 
-        if ( ! $this->connection) {
+        if ( ! (is_resource($this->connection ) || is_object( $this->connection )) ) {
             throw new ConnectionRuntimeException('Could not connect to host: ' . $this->getHost() . ', port:' . $this->getPort() . '<br/><br/>The FTP server address, username, or password is probably incorrect.');
         }
 
@@ -232,7 +232,7 @@ class Ftp extends AbstractFtpAdapter
      */
     public function disconnect()
     {
-        if (is_resource($this->connection || is_object( $this->connection ))) {
+        if (is_resource($this->connection ) || is_object( $this->connection )) {
             @ftp_close($this->connection);
         }
 
@@ -535,7 +535,7 @@ class Ftp extends AbstractFtpAdapter
      */
     public function isConnected()
     {
-        return is_resource($this->connection || is_object( $this->connection ))
+        return (is_resource($this->connection ) || is_object( $this->connection ))
             && $this->getRawExecResponseCode('NOOP') === 200;
     }
 

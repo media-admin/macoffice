@@ -33,6 +33,12 @@ final class FieldFactory {
         $class = '\\wpai_acf_add_on\\fields\\acf\\Field' . $class_suffix;
         if (!class_exists($class)) {
             $class = '\\wpai_acf_add_on\\fields\\acf\\' . $fieldData['type'] . '\\Field' . $class_suffix;
+
+			// If class still doesn't exist check using alternate field name in namespace. Ensure the class isn't
+	        // using a version specific name before using the alternate.
+	        if(!class_exists($class) && !class_exists($class.'V5') && !class_exists($class.'V4')){
+		        $class = '\\wpai_acf_add_on\\fields\\acf\\' . 'field_' . $fieldData['type'] . '\\Field' . $class_suffix;
+	        }
         }
 	    $class = apply_filters( 'wp_all_import_acf_field_class', $class , $fieldData, $post, $fieldName, $fieldParent );
 	    $field = apply_filters( 'wp_all_import_acf_field_field', $field,  $class, $fieldData, $post, $fieldName, $fieldParent );

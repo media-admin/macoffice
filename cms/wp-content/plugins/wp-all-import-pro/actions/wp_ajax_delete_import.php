@@ -78,7 +78,8 @@ function pmxi_wp_ajax_delete_import(){
 			if ( ! $import->isEmpty() ) {
 				if ((int) $post['iteration'] === 1) {
 					$import->set(array(
-						'deleted' => 0
+						'deleted' => 0,
+						'changed_missing' => 0
 					))->update();
 				}
 

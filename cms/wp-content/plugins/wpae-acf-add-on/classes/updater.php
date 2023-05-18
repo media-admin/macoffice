@@ -62,7 +62,7 @@ if( ! class_exists('PMAE_Updater') ) {
         public function plugin_row_meta( $links, $file ) {
             if ( $file == $this->name ) {
                 $row_meta = array(
-                    'changelog'    => '<a href="' . admin_url( 'plugin-install.php?tab=plugin-information&plugin=wpae-user-add-on-pro&section=changelog&TB_iframe=true&width=772&height=477' ) . '" class="thickbox open-plugin-details-modal" title="' . esc_attr( __( 'View WP All Import - User Add-On Changelog', 'wp_all_export_woocommerce_add_on' ) ) . '">' . __( 'Changelog', 'wp_all_export_woocommerce_add_on' ) . '</a>',
+                    'changelog'    => '<a href="' . admin_url( 'plugin-install.php?tab=plugin-information&plugin=wpae-acf-add-on-pro&section=changelog&TB_iframe=true&width=772&height=477' ) . '" class="thickbox open-plugin-details-modal" title="' . esc_attr( __( 'View WP All Import - ACF Add-On Changelog', 'wp_all_export_woocommerce_add_on' ) ) . '">' . __( 'Changelog', 'wp_all_export_acf_add_on' ) . '</a>',
                 );
 
                 return array_merge( $links, $row_meta );

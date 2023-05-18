@@ -37,9 +37,13 @@ if (!class_exists('XmlExportCustomRecord')) {
         }
 
         public static function prepare_data($record, $exportOptions, $xmlWriter, $implode_delimiter, $preview) {
+
             $article = array();
 
-            if (wp_all_export_is_compatible() && isset($exportOptions['is_generate_import']) && $exportOptions['is_generate_import'] && $exportOptions['import_id']) {
+            if (
+                $exportOptions['is_generate_import'] && wp_all_export_is_compatible()
+                && (!isset($exportOptions['enable_real_time_exports']) || !$exportOptions['enable_real_time_exports']) && $exportOptions['import_id']
+            ){
                 $postRecord = new PMXI_Post_Record();
                 $postRecord->clear();
                 $postRecord->getBy(array(
@@ -51,7 +55,8 @@ if (!class_exists('XmlExportCustomRecord')) {
                     $postRecord->set(array(
                         'post_id' => $record->id,
                         'import_id' => $exportOptions['import_id'],
-                        'unique_key' => $record->id
+                        'unique_key' => $record->id,
+                        'product_key' => ''
                     ))->save();
                 }
                 unset($postRecord);

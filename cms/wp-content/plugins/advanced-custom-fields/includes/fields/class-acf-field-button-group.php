@@ -20,10 +20,13 @@ if ( ! class_exists( 'acf_field_button_group' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'button_group';
-			$this->label    = __( 'Button Group', 'acf' );
-			$this->category = 'choice';
-			$this->defaults = array(
+			$this->name          = 'button_group';
+			$this->label         = __( 'Button Group', 'acf' );
+			$this->category      = 'choice';
+			$this->description   = __( 'A group of buttons with values that you specify, users can choose one option from the values provided.', 'acf' );
+			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-button-group.png';
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/button-group/', 'docs', 'field-type-selection' );
+			$this->defaults      = array(
 				'choices'       => array(),
 				'default_value' => '',
 				'allow_null'    => 0,
@@ -141,20 +144,20 @@ if ( ! class_exists( 'acf_field_button_group' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Choices', 'acf' ),
-					'hint'  => __( 'Enter each choice on a new line.', 'acf' ) . '<br />' . __( 'For more control, you may specify both a value and label like this:', 'acf' ) . '<br /><span class="acf-field-setting-example">' . __( 'red : Red', 'acf' ) . '</span>',
-					'type'  => 'textarea',
-					'name'  => 'choices',
+					'label'        => __( 'Choices', 'acf' ),
+					'instructions' => __( 'Enter each choice on a new line.', 'acf' ) . '<br />' . __( 'For more control, you may specify both a value and label like this:', 'acf' ) . '<br /><span class="acf-field-setting-example">' . __( 'red : Red', 'acf' ) . '</span>',
+					'type'         => 'textarea',
+					'name'         => 'choices',
 				)
 			);
 
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Default Value', 'acf' ),
-					'hint'  => __( 'Appears when creating a new post', 'acf' ),
-					'type'  => 'text',
-					'name'  => 'default_value',
+					'label'        => __( 'Default Value', 'acf' ),
+					'instructions' => __( 'Appears when creating a new post', 'acf' ),
+					'type'         => 'text',
+					'name'         => 'default_value',
 				)
 			);
 

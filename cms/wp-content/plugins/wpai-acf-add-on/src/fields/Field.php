@@ -266,9 +266,17 @@ abstract class Field implements FieldInterface {
         }
 
         // Do not import empty fields.
-        $value = $this->getFieldValue();
+        if ( in_array($this->getType(), ['file', 'image', 'gallery']) ) {
+            $value = ( $this->isNotEmpty() ) ? true : '';
+        } else {
+            $value = $this->getFieldValue();
+        }		
+		
         if ($value === '' && ! in_array($this->getType(), ['group', 'repeater', 'clone', 'flexible_content', 'button_group'])) {
-            return FALSE;
+            $is_import_empty_acf_fields = apply_filters("wp_all_import_is_import_empty_acf_fields", true, $this->parsingData['import']->id);
+            if (empty($is_import_empty_acf_fields)) {
+                return FALSE;
+            }
         }
 
         switch ($this->getImportType()) {

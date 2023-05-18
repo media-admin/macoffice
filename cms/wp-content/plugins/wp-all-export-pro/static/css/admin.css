@@ -21,7 +21,6 @@
 
 .wpallexport-plugin .wp-all-export-link-wrapper{
 	display: inline-block;
-	text-aling: left;
 	transition-duration: 0.3s;
 	transition-timing-function: ease;
 	transition-property: all;
@@ -30,32 +29,83 @@
 	font-weight: 600;
 	line-height: 1.75;
 	font-size: 16px;
-	font-family: 'Graphik';
-}
-
-.wpallexport-plugin .wp-all-export-link{
-
+	padding-bottom: 10px;
+	margin-left: 0!important;
 }
 
 .wpallexport-plugin .wp-all-export-link:hover, .wpallexport-plugin .wp-all-export-link:focus{
 	color: #007a7c;
 }
 
+/* Export Finished */
+
+.wpallexport-plugin .export-finished .wpallexport-content-section-wrap.rte-complete{
+	display: flex; align-items: center; justify-content: center;
+}
+
+.wpallexport-plugin .export-finished .wpallexport-content-section.rte-complete{
+	max-width: 700px;
+}
+
+.wpallexport-plugin .export-finished h2{
+	color:#425f9a;
+	font-size:24px;
+	margin-bottom: 20px;
+}
+
+.wpallexport-plugin .export-finished{
+	padding-top: 10px;
+	text-align:left;
+}
+
+.wpallexport-plugin .export-finished .input{
+	padding-top:20px;
+	text-align:center;
+}
+
+.wpallexport-plugin .export-finished  .wpallexport-admin-link.rte-complete{
+	text-align: left;
+	margin: -10px 0 -20px 0;
+}
+
+.wpallexport-plugin .export-finished  .wpallexport-admin-link-padded.rte-complete{
+	text-align: left;
+	margin: -10px 0 26px 0;
+}
+
+.wpallexport-plugin .export-finished .wp-all-export-link-wrapper{
+
+	margin-left:20px;
+}
+
 .wpallexport-plugin .wp-all-export-link-text{
-	font-family: 'Graphik';
 	font-weight: 500;
+	font-size: 16px;
 	text-decoration: none;
 	float:left;
-	font-size: 16px;
+	text-align: left;
+	margin-left: 0!important;
 }
 
 .wpallexport-plugin .wp-all-export-link-arrow{
-	margin-left: 10px;
-	transition-duration: .3s;
-	transition-timing-function: ease;
-	transition-property: all;
-	height: auto;
+	margin-left: 5px;
+	position:relative;
+	height: 9px;
 
+}
+
+.wpallexport-plugin .admin-page-link .wp-all-export-link-text{
+	font-size: 14px;
+}
+
+.wpallexport-plugin .admin-page-link .wp-all-export-link-arrow{
+	top: -2px;
+}
+
+.wpallexport-plugin .wp-all-export-paragraph{
+	font-size: 16px;
+	color: #777;
+	text-align:left;
 }
 
 .wpallexport-plugin .wp_all_export_custom_xml_help,
@@ -4542,4 +4592,90 @@ input label {
 	border: none;
 	flex: 1;
 	border-radius: 0 3px 3px 0;
+}
+
+
+.wpallexport-settings-page .wpallexport-content-section {
+	margin-top: 10px;
+
+}
+
+.wpallexport-settings-page .wpallexport-collapsed-header {
+	padding-left: 25px !important;
+}
+
+.wpallexport-settings-page .wpallexport-collapsed-content {
+	padding: 0 !important;
+}
+
+.wpallexport-settings-page .form-table {
+	max-width:none;
+}
+
+.wpallexport-settings-page .input.wpallexport_realtime_show_bom {
+	margin:5px 0;
+	max-width: 900px;
+}
+
+.wpallexport-settings-page .input.wpallexport_realtime_show_bom > div{
+
+	margin-left: 24px;
+	margin-bottom: 15px;
+}
+
+.wpallexport-settings-page .input.wpallexport_realtime_show_bom > div p{
+
+	margin-bottom: 10px;
+	font-size: 12px;
+	line-height: 22px;
+}
+
+.wpallexport-settings-page .wpae-hidden {
+	display:none;
+}
+
+.wpallexport-settings-page .input {
+	margin:5px 0;
+}
+
+
+.wpallexport-settings-page .wpallexport-help {
+	position: relative;
+	top: 0 !important;
+}
+
+
+.wpallexport-settings-page .wpallexport-help.upper {
+	position: relative;
+	top: -2px !important;
+}
+
+.wpallexport-settings-page .switcher-target-split_large_exports {
+	display:block;
+	clear: both;
+	width: 100%;
+}
+
+.wpallexport-settings-page .wp_all_export_sub_input {
+	width: 50px;
+}
+
+.wpallexport-settings-page .wp_all_export_sub_input.records_per_iteration {
+	width: 40px !important;
+}
+
+
+
+.wpallexport-settings-page label.save_import_as_label {
+	width: 103px;
+}
+
+.wpallexport-settings-page input.friendly-name {
+	vertical-align:middle;
+	background:#fff !important;
+	width: 350px;
+}
+
+.wpallexport-settings-page .wpae-align-right {
+	text-align:right;
 }

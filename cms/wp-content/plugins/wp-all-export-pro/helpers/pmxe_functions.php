@@ -1,5 +1,34 @@
 <?php
 
+	// Generate standardized text links
+	if ( ! function_exists('wp_all_export_generate_link')){
+		function wp_all_export_generate_link( $text, $href ){
+
+			?>
+
+			<span class="wp-all-export-link-wrapper">
+				<a class="wp-all-export-link" href="<?php echo esc_url($href); ?>" target="_blank">
+					<span class="wp-all-export-link-text"><?php echo $text; ?></span>
+					<svg class="wp-all-export-link-arrow" width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<title>Arrow</title>
+						<path d="M8 1.5L12 5.5L8 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+						<path d="M11.5 5.5H1" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+					</svg>
+				</a>
+			</span>
+
+			<?php
+
+		}
+	}
+	
+	if ( ! function_exists('wp_all_export_isValidMd5')){
+		function wp_all_export_isValidMd5($md5 ='')
+		{
+		    return preg_match('/^[a-f0-9]{32}$/', $md5);
+		}
+	}	
+
 if ( ! function_exists( 'wp_all_export_isValidMd5' ) ) {
 	function wp_all_export_isValidMd5( $md5 = '' ) {
 		return preg_match( '/^[a-f0-9]{32}$/', $md5 );
