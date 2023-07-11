@@ -64,6 +64,8 @@ dist
 # -----------------------------
 index.php
 backups/*
+/images
+images/*
 
 !cms
 
