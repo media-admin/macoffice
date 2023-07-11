@@ -172,10 +172,34 @@
 				</div>
 
 				<div class="site-header__search">
-					<a class="site-header__search-link wrapper" href="#">
-						<img class="site-header__search-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
+					<a class="site-header__search-link wrapper"  id="close" onclick="SEARCH_DIALOG.classList.toggle('is-active')">
+						<img class="site-header__search-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon-search.svg"/>
 					</a>
+
+					<div id="SEARCH_DIALOG" class="modal">
+						<div class="modal-background"></div>
+						<div class="modal-content">
+							<?php aws_get_search_form( true ); ?>
+						</div>
+						<button id="close" class="modal-close is-large" aria-label="close"></button>
+					</div>
 				</div>
+
+				<!-- <div class="search-area">
+					<a id="close" class="" onclick="SEARCH_DIALOG.classList.toggle('is-active')">
+						<img class="" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon-search.svg" alt="Suchen Icon">
+						</a>
+
+						<div id="SEARCH_DIALOG" class="modal">
+							<div class="modal-background"></div>
+							<div class="modal-content">
+								<?php /* echo do_shortcode('[yith_woocommerce_ajax_search]'); */ ?>
+								<?php aws_get_search_form( true ); ?>
+							</div>
+							<button id="close" class="modal-close is-large" aria-label="close"></button>
+						</div>
+				</div> -->
+
 				<div class="site-header__mode-switcher">
 					<button class="site-header__mode-switcher-link " onclick="switchMode()">
 						<img class="site-header__mode-switcher-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg"/>

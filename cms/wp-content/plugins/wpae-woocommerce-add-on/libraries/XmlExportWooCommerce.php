@@ -343,7 +343,7 @@ if ( ! class_exists('XmlExportWooCommerce') )
                                 );
 
                             } else if ($taxonomy['label'] === 'product_tag') {
-                                $available_data['product_fields'][] = array(
+                                $available_data['existing_taxonomies'][] = array(
                                     'name' => 'Product Tags',
                                     'label' => $taxonomy['label'],
                                     'type' => 'cats',
@@ -1241,6 +1241,10 @@ if ( ! class_exists('XmlExportWooCommerce') )
 
                                 foreach ($attributeOptions as $templateKey => $xpathKey){
 
+                                    if(!is_array($templateOptions[$templateKey])) {
+                                        continue;
+                                    }
+                                    
                                     if ( ! in_array('{'. $xpathKey . $attribute_name .'[1]}', $templateOptions[$templateKey]) ){
                                         $templateOptions[$templateKey][]  = '{'. $xpathKey . $attribute_name .'[1]}';
                                     }

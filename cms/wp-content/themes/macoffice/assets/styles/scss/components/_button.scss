@@ -1,0 +1,162 @@
+/* == BUTTONS == */
+.wp-block-button {
+  margin: 0.5rem 0.0rem;
+}
+
+
+.wp-block-buttons > .wp-block-button {
+  margin: 0.5rem 0.0rem;
+}
+
+
+.wp-block-button__link {
+  display: initial;
+  background-color: transparent;
+  border-radius: 0;
+  padding: inherit;
+}
+
+
+button {
+  font-size: 1.0rem;
+  font-weight: 500;
+  border-radius: 28px;
+  border: none;
+  margin: 0.25rem 0;
+  margin-bottom: 2.0rem;
+  padding: 0.75rem 2.0rem;
+  cursor: pointer;
+}
+
+
+button:hover {
+  color: $color-white !important;
+  background-color: $color-primary !important;
+}
+
+
+.btn {
+  font-size: 1.6rem;
+  font-weight: 500;
+  border-radius: 28px;
+  border: none;
+  margin: 0.25rem 0;
+  margin-bottom: 2.0rem;
+  padding: 0.75rem 2.0rem;
+  cursor: pointer;
+}
+
+
+.btn--gray {
+  color: $color-white;
+  background-color: $color-secondary;
+}
+
+
+.btn--gray:hover {
+  color: $color-white !important;
+  background-color: $color-primary !important;
+}
+
+
+.btn--red {
+  color: $color-white;
+  background-color: $color-primary;
+}
+
+
+.btn--red:hover {
+  color: $color-white !important;
+  background-color: $color-secondary !important;
+}
+
+
+.btn--white {
+  color: $color-primary;
+  background-color: $color-white;
+}
+
+
+.btn--white:hover {
+  color: $color-white !important;
+  background-color: $color-primary !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+.btn,
+.btn:link,
+.btn:visited {
+  position: relative;
+  display: inline-block;
+  font-size: 1.6rem;
+  font-family: "Sanchez", serif;
+  font-weight: 600;
+  line-height: 2.6rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 5px;
+  color: inherit;
+  border: 1px solid;
+  margin: 1rem 0;
+  margin-top: 3rem;
+  padding: 0.75rem 1.5rem;
+}
+
+
+.btn:hover,
+.btn:link:hover,
+.btn:visited:hover {
+  cursor: pointer;
+}
+
+.btn--white,
+.btn--white:link,
+.btn--white:visited {
+  color: white;
+}
+
+
+.wp-block-button__link {
+  position: relative;
+  display: inline-block;
+  font-size: 1.6rem;
+  font-family: "Sanchez", serif;
+  font-weight: 600;
+  line-height: 2.6rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 5px;
+  background-color: transparent;
+  border-radius: 0;
+  color: inherit;
+  border: 1px solid;
+  margin: 1rem 0;
+  margin-top: 3rem;
+  padding: 0.75rem 1.5rem;
+
+  @include atMedium {
+    font-size: 2.2rem;
+    line-height: 3.2rem;
+  }
+}
+
+
+.btn--white .wp-block-button__link,
+.btn--white:link .wp-block-button__link,
+.btn--white:visited .wp-block-button__link {
+  color: white;
+} */

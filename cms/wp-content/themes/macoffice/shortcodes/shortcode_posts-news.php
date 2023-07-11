@@ -6,7 +6,7 @@
 		'post_status' => 'publish',
 		'posts_per_page' => -1,
 		'post_type' => 'post',
-		'category_name' => 'news',
+		'category_name' => 'neuheiten',
 	);
 
 	$loop = new WP_Query( $args );

@@ -102,6 +102,9 @@ define( 'WP_DEBUG', false );
 
 /* Füge individuelle Werte zwischen dieser Zeile und der „Schluss mit dem Bearbeiten“ Zeile ein. */
 
+/* Germanzied Verschlüsselung */
+define( 'WC_GZD_ENCRYPTION_KEY', 'f43b15f87925375ecc8322ed4bb467b1c6a01b1d861cd26091c039ba6a0e4330' );
+
 
 
 /* Das war’s, Schluss mit dem Bearbeiten! Viel Spaß. */

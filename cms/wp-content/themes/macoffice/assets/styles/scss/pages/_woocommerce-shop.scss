@@ -1,0 +1,127 @@
+/* == PAGE WOOCOMMERCE SHOW */
+.woocommerce-shop {
+
+
+
+	& .content-area {
+		padding-top: 8.0rem;
+		padding-bottom: 2.5rem;
+
+		@include atMedium {
+			padding-top: 15.0rem;
+			padding-bottom: 2.0rem;
+			padding-right: 1.8rem;
+			padding-left: 1.8rem;
+		}
+
+		@include atLarge {
+			padding-top: 17.0rem;
+			padding-bottom: 2.0rem;
+		}
+	}
+
+
+	& .site-main {
+
+		@include atMedium {
+			padding-right: 1.8rem;
+			padding-left: 1.8rem;
+		}
+	}
+
+
+	&.woocommerce .woocommerce-breadcrumb {
+		position: relative;
+		width: calc(100% - 1.6rem);
+		border-bottom: 1px solid $color-secondary-light;
+		margin-bottom: 2.0rem;
+		padding-bottom: 1.5rem;
+	}
+
+
+	&.woocommerce div.product {
+		position: relative;
+		display: flex;
+		flex: 2 !important;
+	}
+
+
+	&.woocommerce ul.products li.product a img {
+		max-width: 100%;
+		width: 100%;
+		height: auto;
+		max-height: 250px;
+		object-fit: scale-down;
+	}
+
+
+	&.woocommerce div.product div.images.woocommerce-product-gallery {
+		width: calc(50% - 1.8rem);
+	}
+
+
+	&.woocommerce div.product div.summary {
+		width: calc(50% - 1.8rem);
+	}
+
+
+	&.woocommerce #content div.product div.summary,
+	&.woocommerce div.product div.summary,
+	&.woocommerce-page #content div.product div.summary,
+	&.woocommerce-page div.product div.summary {
+		float: none !important;
+		width: auto !important;
+		clear: all !important;
+	}
+
+
+	&.woocommerce ul.products li.product .woocommerce-loop-category__title,
+	&.woocommerce ul.products li.product .woocommerce-loop-product__title,
+	&.woocommerce ul.products li.product h3 {
+		font-size: 1.8rem !important;
+		min-height: 9.4rem !important;
+		height: auto !important;
+	}
+
+
+	&.woocommerce ul.products li.product .price {
+		font-size: 2.0rem;
+		line-height: 2.0rem;
+	}
+
+
+	&.woocommerce .product p.wc-gzd-additional-info {
+		font-size: 1.4rem;
+		margin-top: 0.25rem;
+		margin-bottom: 0.25rem;
+	}
+
+
+	& .tinvwl_add_to_wishlist_button {
+		color: $color-white;
+		background-color: $color-secondary;
+		font-weight: 500;
+		border-radius: 28px;
+		border: none;
+		margin: 0.25rem 0;
+		margin-bottom: 2.0rem;
+		padding: 0.75rem 2.0rem 0.75rem 1.0rem;
+		cursor: pointer;
+	}
+
+
+	& .tinvwl_add_to_wishlist_button:hover {
+		background-color: $color-primary;
+	}
+
+
+	& .related-products {
+		display: block;
+	}
+
+	& .woocommerce-pagination {
+		margin-bottom: 3.0rem;
+	}
+
+
+}

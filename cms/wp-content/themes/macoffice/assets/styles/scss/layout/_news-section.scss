@@ -1,0 +1,119 @@
+/* === NEWS SECTION === */
+
+.news-posts {
+	position: relative;
+	width: 100vw;
+	margin-left: -1.8rem;
+	margin-right: -1.8rem;
+	background-color: $color-white !important;
+	margin-top: 1.0rem;
+	margin-bottom: 1.0rem;
+	padding: 1.8rem;
+
+	@include atMedium {
+		width: unset !important;
+		padding-left: 3.6rem;
+		padding-right: 3.6rem;
+		overflow: hidden;
+	}
+}
+
+
+.news-posts__headline {
+	padding-left: 1.0rem;
+
+	@include atMedium {
+		margin-bottom: 3.0rem;
+		padding-left: 1.8rem;
+		padding-right: 1.8rem;
+	}
+}
+
+
+.news-posts__headline span {
+	background-color: $color-white !important;
+
+	@include atMedium {
+		padding-left: 3.6rem;
+	}
+}
+
+
+.news-posts__container {
+		position: relative;
+		/* width: 100%; */
+		display: flex;
+		flex: 1;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 2%;
+		flex-basis: 100%;
+		flex-grow: 0;
+		flex-shrink: 0;
+		justify-content: space-around;
+		align-items: flex-start;
+		/* margin: 0.5rem; */
+		padding: 0.25rem;
+
+		@include atMedium {
+			flex: 2;
+			flex-basis: 50%;
+			margin: inherit;
+			margin: 1.5rem 0.5rem !important;
+			padding: 0.25rem !important;
+		}
+
+		@include atLarge {
+			flex: 3;
+			flex-basis: 33%;
+		}
+
+		@include atXLarge() {
+			flex: 4;
+			flex-basis: 25%;
+		}
+	}
+
+
+.news-posts__card {
+	position: relative;
+	width: 100%;
+
+	@include atMedium {
+		width: 48%;
+	}
+
+	@include atLarge {
+		width: 32%;
+	}
+
+	@include atXLarge() {
+		width: 24%;
+	}
+}
+
+
+.news-posts__img {
+	width: 100%;
+	height: auto;
+	margin-bottom: 10px;
+}
+
+
+.news-posts__title {
+
+	/* margin-bottom: 0.5rem; */
+}
+
+
+.news-posts__subtitle {
+	font-weight: 500;
+	letter-spacing: 0.1rem;
+	margin: 0;
+	margin-bottom: 1.5rem;
+}
+
+
+.news-posts__content {
+	line-height: 2.0rem;
+}

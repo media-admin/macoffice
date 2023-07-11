@@ -150,17 +150,40 @@
 				function toggleAccordion() {
 					const itemToggle = this.getAttribute('aria-expanded');
 
+					/* Only one accordion might be open at the same time
 					for (i = 0; i < items.length; i++) {
 						items[i].setAttribute('aria-expanded', 'false');
 					}
+					*/
 
 					if (itemToggle == 'false') {
 						this.setAttribute('aria-expanded', 'true');
+					}
+
+					if (itemToggle == 'true') {
+						this.setAttribute('aria-expanded', 'false');
 					}
 				}
 
 				items.forEach(item => item.addEventListener('click', toggleAccordion));
 			</script>
+
+
+
+
+			<script>
+				jQuery(document).ready(() => {
+					const modal = jQuery('.modal');
+					jQuery('#showModal').click(function(){
+						modal.addClass('is-active');
+				});
+				jQuery('.modal-close').click(function(){
+						modal.removeClass('is-active');
+				});
+				});
+			</script>
+
+
 
 		</body>
 </html>

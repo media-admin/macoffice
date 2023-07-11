@@ -1,0 +1,454 @@
+/* == TYPOGRAPHY SETTINGS == */
+/* -- FONT IMPORTS -- */
+
+/* --- Font Awesome Solid --- */
+@font-face {
+  font-family: 'FontAwesome Solid';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../../fonts/FontAwesome-Solid/fa-solid-900.eot'); /* IE9 Compact Modes */
+  src: local(''),
+       url('../../fonts/FontAwesome-Solid/fa-solid-900.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/FontAwesome-Solid/fa-solid-900.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/FontAwesome-Solid/fa-solid-900.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/FontAwesome-Solid/fa-solid-900.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/FontAwesome-Solid/fa-solid-900.svg#AbrilFatface') format('svg'); /* Legacy iOS */
+}
+
+/* --- Font Awesome Brands --- */
+@font-face {
+  font-family: 'FontAwesome Brands';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../../fonts/FontAwesome-Brands/fa-brands-400.eot'); /* IE9 Compact Modes */
+  src: local(''),
+       url('../../fonts/FontAwesome-Brands/fa-brands-400.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/FontAwesome-Brands/fa-brands-400.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/FontAwesome-Brands/fa-brands-400.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/FontAwesome-Brands/fa-brands-400.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/FontAwesome-Brands/fa-brands-400.svg#AbrilFatface') format('svg'); /* Legacy iOS */
+}
+
+/* --- Font Inter by Google Inc. --- */
+/* inter-100 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100;
+  src: url('../../fonts/Inter/inter-v12-latin-100.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../../fonts/Inter/inter-v12-latin-100.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/Inter/inter-v12-latin-100.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-100.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-100.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/Inter/inter-v12-latin-100.svg#Inter') format('svg'); /* Legacy iOS */
+}
+
+/* inter-200 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 200;
+  src: url('../../fonts/Inter/inter-v12-latin-200.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../../fonts/Inter/inter-v12-latin-200.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/Inter/inter-v12-latin-200.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-200.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-200.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/Inter/inter-v12-latin-200.svg#Inter') format('svg'); /* Legacy iOS */
+}
+
+/* inter-300 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../../fonts/Inter/inter-v12-latin-300.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../../fonts/Inter/inter-v12-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/Inter/inter-v12-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-300.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/Inter/inter-v12-latin-300.svg#Inter') format('svg'); /* Legacy iOS */
+}
+
+/* inter-regular - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../../fonts/Inter/inter-v12-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../../fonts/Inter/inter-v12-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/Inter/inter-v12-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/Inter/inter-v12-latin-regular.svg#Inter') format('svg'); /* Legacy iOS */
+}
+
+/* inter-500 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../../fonts/Inter/inter-v12-latin-500.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../../fonts/Inter/inter-v12-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/Inter/inter-v12-latin-500.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-500.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/Inter/inter-v12-latin-500.svg#Inter') format('svg'); /* Legacy iOS */
+}
+
+/* inter-600 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../../fonts/Inter/inter-v12-latin-600.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../../fonts/Inter/inter-v12-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/Inter/inter-v12-latin-600.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-600.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/Inter/inter-v12-latin-600.svg#Inter') format('svg'); /* Legacy iOS */
+}
+
+/* inter-700 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../../fonts/Inter/inter-v12-latin-700.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../../fonts/Inter/inter-v12-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/Inter/inter-v12-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-700.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/Inter/inter-v12-latin-700.svg#Inter') format('svg'); /* Legacy iOS */
+}
+
+/* inter-800 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  src: url('../../fonts/Inter/inter-v12-latin-800.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../../fonts/Inter/inter-v12-latin-800.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/Inter/inter-v12-latin-800.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-800.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-800.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/Inter/inter-v12-latin-800.svg#Inter') format('svg'); /* Legacy iOS */
+}
+
+/* inter-900 - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src: url('../../fonts/Inter/inter-v12-latin-900.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('../../fonts/inter-v12-latin-900.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../../fonts/Inter/inter-v12-latin-900.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-900.woff') format('woff'), /* Modern Browsers */
+       url('../../fonts/Inter/inter-v12-latin-900.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../../fonts/Inter/inter-v12-latin-900.svg#Inter') format('svg'); /* Legacy iOS */
+}
+
+
+
+/* === TEXT STYLES === */
+/* === General Text Styles === */
+
+h1 {
+}
+
+.site-title {
+  position: relative;
+}
+
+
+/* --- Article Styles --- */
+
+article {
+  padding-left: 1.8rem;
+  padding-right: 1.8rem;
+}
+
+
+article p {
+  position: relative;
+  line-height: 2.4rem;
+}
+
+/* --- Cite Styles --- */
+
+.cite__project-special {
+  position: relative;
+  display: block;
+  width: 80%;
+  font-size: 2.2rem;
+  font-weight: 300;
+  line-height: 3.4rem;
+  text-align: center !important;
+  margin: 5.0rem auto !important;
+}
+
+/* --- List Styles --- */
+
+ul {
+  list-style-type: square;
+  color: $color-secondary;
+}
+
+/* === Heading Styles === */
+
+h1 {
+  position: relative;
+  font-size: 3.4rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  line-height: 3.8rem;
+  color: $color-secondary;
+  margin-right: 1.0rem;
+  overflow: hidden;
+}
+
+
+h1:after {
+  content: "";
+  top: 50%;
+  width: 100% !important;
+  margin-left: 0.5rem;
+  height: 1.5px;
+  position: absolute;
+  color: $color-secondary;
+  background: $color-secondary;
+
+  @include atMedium {
+    /* width: 84% !important; */
+  }
+}
+
+
+.h1__title {
+  font-size: 4.0rem;
+  font-weight: 700;
+  line-height: 4.0rem;
+  letter-spacing: 0.10rem;
+  color: $color-secondary;
+  margin: 1.0rem 0;
+  padding-left: 1.0rem;
+}
+
+.h1__title--left-aligned {
+  text-align: left;
+  padding-left: 1.0rem;
+}
+
+.h1__title--right-aligned {
+  text-align: right;
+  padding-right: 1.0rem;
+}
+
+.h1__subtitle {
+  font-size: 2.0rem;
+  font-weight: 500;
+  line-height: 2.4rem;
+  letter-spacing: 0.05rem;
+  color: $color-primary;
+  margin: 0;
+  margin-top: 2.0rem;
+  margin-bottom: 3.0rem;
+}
+
+.h1__subtitle--left-aligned {
+  text-align: left;
+  padding-left: 1.0rem;
+}
+
+.h1__subtitle--right-aligned {
+  text-align: right;
+}
+
+h1.title--single {
+  color: $color-primary;
+}
+
+.h2 {
+  overflow: hidden !important;
+  position: relative;
+  text-align: left;
+  line-height: 4.6rem;
+  color: $color-secondary;
+  margin-bottom: 1.0rem;
+}
+
+.h2__section-headline {
+  position: relative;
+  font-size: 2.8rem;
+  line-height: 4.6rem;
+  color: $color-secondary;
+  margin-right: 1.0rem;
+  overflow: hidden;
+
+  @include atMedium {
+    margin-top: 2.4rem;
+    margin-bottom: 2.4rem;
+  }
+
+}
+
+.h2__section-headline:after {
+  content: "";
+  top: 48%;
+  width: 100% !important;
+  margin-left: 0.5rem;
+  height: 1.5px;
+  position: absolute;
+  background: $color-secondary;
+
+  @include atMedium {
+    /* width: 84% !important; */
+  }
+}
+
+.h3__heading {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 2.6rem;
+  letter-spacing: 0.1rem;
+  color: $color-secondary;
+  margin: 0;
+  padding-top: 1.0rem;
+  padding-bottom: 2.0rem;
+}
+
+.subheading {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.8rem;
+  letter-spacing: 0.05rem;
+  color: $color-primary;
+  margin: 0;
+}
+
+.intro {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 2.2rem;
+  text-align: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -- Default Classes --
+body {
+  font-size: 1.5rem;
+  font-family: "Sanchez", serif;
+  line-height: 2.6rem;
+
+  hyphens: auto;
+  hyphenate-limit-chars: auto 3;
+  hyphenate-limit-lines: 4;
+  -webkit-hyphens: auto;
+  -webkit-hyphenate-limit-chars: auto 3;
+  -webkit-hyphenate-limit-lines: 4;
+  -ms-hyphens: auto;
+  -ms-hyphenate-limit-chars: auto 3;
+  -ms-hyphenate-limit-lines: 4;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-family: "Leckerli One", sans-serif;
+  line-height: 3.4rem;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-family: "Sanchez", serif;
+  line-height: 2.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1.6rem;
+  font-family: "Sanchez", serif;
+  line-height: 2.2rem;
+  font-weight: 400;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+
+  @include atMedium {
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+  }
+}
+
+p {
+  font-size: 1.4rem;
+  font-family: "Sanchez", serif;
+  line-height: 2.6rem;
+  margin-bottom: 1.0rem;
+}
+
+a {
+}
+
+strong {
+  font-size: 1.4rem;
+  font-family: "Sanchez", serif;
+  line-height: 2.2rem;
+  font-weight: 500;
+
+  @include atMedium {
+    font-size: 1.5rem;
+    line-height: 2.6rem;
+  }
+}
+
+
+.mega-huge strong {
+  font-size: 2.5rem;
+  font-family: "Leckerli One", sans-serif;
+  line-height: 3.4rem;
+  color: $color-primary;
+  padding-left: 1.5rem;
+
+  @include atMedium {
+    font-size: 3.4rem;
+    line-height: 5.4rem;
+  }
+}
+
+ol {
+  font-size: 1.4rem;
+  line-height: 2.6rem;
+  margin-left: 2.5rem;
+}
+
+
+.site-content ul {
+  font-size: 1.4rem;
+  line-height: 2.6rem;
+  margin-left: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+*/

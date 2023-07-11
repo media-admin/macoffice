@@ -18,6 +18,11 @@ class XmlImportWooPriceService extends XmlImportWooServiceBase {
      * @return float|int|string
      */
     public function adjustPrice($price, $field, $options = array()) {
+
+    	// Ensure $price is stored as a double to avoid PHP 8+ issues.
+	    if( !empty($price) )
+	        $price = (double) $price;
+
         if (empty($options)){
             $options = $this->getImport()->options;
         }
@@ -30,7 +35,7 @@ class XmlImportWooPriceService extends XmlImportWooServiceBase {
                             if (empty($price)) {
                                 return $price;
                             }
-                            $price = ($price / 100) * $options['single_product_regular_price_adjust'];
+                            $price = ($price / 100) * (double) $options['single_product_regular_price_adjust'];
                             break;
                         case '$':
                             $price += (double) $options['single_product_regular_price_adjust'];
@@ -47,10 +52,14 @@ class XmlImportWooPriceService extends XmlImportWooServiceBase {
                             if (empty($price)) {
                                 return $price;
                             }
-                            $price = ($price / 100) * $options['single_product_sale_price_adjust'];
+                            $price = ($price / 100) * (double) $options['single_product_sale_price_adjust'];
                             break;
                         case '$':
-                            $price += (double) $options['single_product_sale_price_adjust'];
+                            $sale_price_adjust = (double) $options['single_product_sale_price_adjust'];
+                            if (empty($price) && $sale_price_adjust <= 0) {
+                                return $price;
+                            }
+                            $price += $sale_price_adjust;
                             break;
                     }
                     $price = ((double) $price > 0) ? number_format((double) $price, 2, '.', '') : 0;

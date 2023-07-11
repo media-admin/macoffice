@@ -40,7 +40,7 @@ function pmwi_wp_all_import_post_skipped($pid, $import_id, $current_xml_node) {
 	        }
 			// Update iteration for first variation.
 	        $firstVariationID = get_post_meta($pid, XmlImportWooCommerceService::FIRST_VARIATION, TRUE);
-	        if ($firstVariationID) {
+	        if ($firstVariationID && in_array($import->options['matching_parent'], array('first_is_parent_id', 'first_is_variation'))) {
 		        $postRecord = new \PMXI_Post_Record();
 		        $postRecord->clear();
 		        $postRecord->getBy([

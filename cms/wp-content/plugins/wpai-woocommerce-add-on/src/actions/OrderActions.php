@@ -77,6 +77,7 @@ class OrderActions extends Actions {
 
                     $args = array(
                         'post_type' => 'product',
+						'post_status' => 'any',
                         'meta_key' => '_sku',
                         'meta_value' => $productItem['sku'],
                         'meta_compare' => '=',

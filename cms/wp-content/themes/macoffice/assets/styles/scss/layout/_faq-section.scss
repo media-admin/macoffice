@@ -1,0 +1,24 @@
+/* === FAQ SECTION === */
+
+.faq {
+	margin-bottom: 4.4rem;
+
+	@include atMedium {
+		margin-bottom: 6.8rem;
+	}
+}
+
+
+.faq__headline {
+	font-weight: 700;
+	color: $color-secondary;
+}
+
+
+.faq__intro {
+	font-weight: 500;
+
+	@include atMedium {
+		margin-top: -2.0rem !important;
+	}
+}

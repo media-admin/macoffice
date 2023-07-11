@@ -1,0 +1,83 @@
+/* == LARGE HERO */
+
+
+
+
+
+
+
+
+
+
+/* .large-hero {
+  position: relative;
+  width: 100%;
+  min-height: 250px;
+  max-height: 350px;
+  height: auto;
+  margin: 0;
+  overflow: hidden;
+
+  @include atMedium {
+    position: relative;
+    min-height: 768px;
+    max-height: 768px;
+    height: auto;
+    top: -115px;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  &__img {
+    position: relative;
+    display: block;
+    height: auto;
+    -o-object-fit: cover;
+    object-fit: cover;
+    object-position: center center;
+
+    @include atMedium {
+      width: 100%;
+      min-height: 768px;
+      height: auto;
+    }
+  }
+
+
+  &__img--smartphone {
+    @include atMedium {
+      display: none;
+    }
+  }
+
+
+  &__img--desktop {
+    display: none;
+
+    @include atMedium {
+      display: initial;
+    }
+  }
+
+
+
+  &__text h1 {
+    position: relative;
+    font-size: 2.8rem;
+    font-family: "Leckerli One", sans-serif;
+    line-height: 3.4rem;
+    font-weight: 500;
+    color: $color-primary;
+    background-color: $color-tertiary;
+    padding: 0.8rem 2rem;
+
+    @include atMedium {
+      position: absolute;
+      font-size: 6.5rem;
+      left: 8rem;
+      bottom: 5rem;
+      width: auto;
+      padding: 2.5rem 3.5rem;
+    }
+  }
+} */

@@ -36,6 +36,15 @@ function shortcode_business_posts() {
 add_shortcode( 'shortcode_business_posts', 'shortcode_business_posts' );
 
 
+function shortcode_private_posts() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_posts-private');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_private_posts', 'shortcode_private_posts' );
+
+
 function shortcode_product_categories() {
 	ob_start();
 	get_template_part( 'shortcodes/shortcode_product-categories');

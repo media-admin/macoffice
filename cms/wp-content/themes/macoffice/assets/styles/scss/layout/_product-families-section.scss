@@ -1,0 +1,89 @@
+/* === PRODUCT FAMILIES SECTION === */
+
+.product-categories .intro-container {
+
+	@include atMedium {
+		padding-left: 1.0rem;
+		padding-right: 1.0rem;
+	}
+}
+
+
+.product-categories__container {
+	position: relative;
+	display: flex;
+	flex: 2;
+	flex-direction: row;
+	flex-wrap: wrap;
+	flex-basis: 50%;
+	gap: 2%;
+	flex-grow: 0;
+	flex-shrink: 0;
+	justify-content: space-around;
+	align-items: flex-start;
+	text-align: center;
+	/* margin: 0.5rem; */
+	border-bottom: 1px solid rgba(112, 112, 112, 0.2);
+	margin-bottom: 5.0rem;
+	padding-bottom: 5.0rem;
+
+	@include atMedium {
+		flex: 5;
+		flex-basis: 20%;
+	}
+}
+
+
+.product-categories__headline {
+
+	@include atMedium {
+		padding-left: 1.0rem;
+	}
+}
+
+
+.product-categories__card {
+	position: relative;
+	width: 45%;
+	height: auto;
+
+	@include atMedium {
+		width: 18%;
+		min-height: 180px;
+	}
+}
+
+
+.product-categories .card__container {
+	padding: 0;
+}
+
+
+.product-categories__link {
+	text-decoration: none;
+}
+
+
+.product-categories__img {
+	position: relative;
+	display: flex;
+	max-width: 100%;
+	width: 30%;
+	height: auto;
+	bottom: -5px;
+	margin: 12% auto 2rem auto;
+}
+
+
+.product-categories__content {
+	padding-bottom: 0.0rem;
+}
+
+
+.product-categories__title {
+	color: $color-secondary;
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-top: auto;
+	margin-bottom: 2.0rem;
+}

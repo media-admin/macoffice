@@ -10,7 +10,8 @@ function pmwi_pmxi_missing_post($pid) {
         $variation = new WC_Product_Variation($pid);
 	    // Variations should be set to 'private' instead of 'draft'
 	    // when using 'Instead of deletion, change post status to Draft'.
-	    if (XmlImportWooCommerceService::getInstance()->getImport()->options['set_missing_to_draft']) {
+        $options = XmlImportWooCommerceService::getInstance()->getImport()->options;
+	    if ($options['is_send_removed_to_trash'] || $options['is_change_post_status_of_removed'] && $options['status_of_removed'] != 'publish') {
 		    $variation->set_status('private');
 	    }
         $attributes = $variation->get_attributes();

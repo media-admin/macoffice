@@ -6,7 +6,7 @@
 		'post_status' => 'publish',
 		'posts_per_page' => -1,
 		'post_type' => 'post',
-		'category_name' => 'im-fokus',
+		'category_name' => 'lieblingsprodukte',
 
 	);
 

@@ -1,0 +1,71 @@
+/* == PAGE MERKZETTEL */
+
+.wishlist_products_counter_number {
+	font-size: 1.2rem;
+	font-weight: 400;
+	color: $color-white;
+	background-color: $color-primary;
+	border-radius: 50%;
+	vertical-align: text-bottom;
+	padding: 0.25rem 0.65rem;
+}
+
+.wishlist {
+
+	& .tinv-wishlist .tinv-header {
+		display: none;
+	}
+
+	& .tinv-wishlist .tinvwl-table-manage-list .product-cb {
+		width: 2.0rem;
+	}
+
+	& thead tr th:first-child,
+	& tbody tr td:first-child {
+		width: 4.0rem;
+		min-width: 4.0rem;
+		max-width: 4.0rem;
+		word-break: break-all;
+		margin-left: 2.0rem;
+	}
+
+	& .product-remove {
+		color: green;
+	}
+
+	& .tinv-wishlist .product-remove button .ftinvwl {
+		margin-left: -2px;
+	}
+
+	& .product-name {
+		text-align: left;
+	}
+
+	& .product-price {
+		text-align: left;
+	}
+
+	& .product-date {
+		text-align: left;
+	}
+
+	& .product-stock {
+		text-align: left;
+	}
+
+	& .tinvwl-input-group .form-control {
+		padding: 0.25rem 0.5rem;
+	}
+
+	& .tinvwl-input-group-btn {
+		vertical-align: middle;
+	}
+
+	& .tinv-wishlist .tinvwl-to-left .tinvwl-input-group .form-control+.tinvwl-input-group-btn .button {
+		color: $color-white;
+		background-color: $color-secondary;
+		border-radius: 25px;
+		padding: 1.0rem 2rem;
+	}
+
+}

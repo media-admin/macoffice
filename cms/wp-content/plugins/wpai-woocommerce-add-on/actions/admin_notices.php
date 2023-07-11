@@ -1,7 +1,7 @@
-<?php 
+<?php
 
 function pmwi_admin_notices() {
-	// notify user if history folder is not writable	
+	// notify user if history folder is not writable
 
 	if ( ! class_exists( 'Woocommerce' )) {
 		?>
@@ -26,22 +26,21 @@ function pmwi_admin_notices() {
 			) ?>
 		</p></div>
 		<?php
-		
+
 		deactivate_plugins( PMWI_ROOT_DIR . '/wpai-woocommerce-add-on.php');
-		
+
 	}
-	if ( class_exists( 'PMXI_Plugin' ) and ( version_compare(PMXI_VERSION, '4.1.4 RC5') < 0 and PMXI_EDITION == 'paid' or version_compare(PMXI_VERSION, '3.2.7') <= 0 and PMXI_EDITION == 'free') ) {
-		?>
-		<div class="error"><p>
-			<?php printf(
-					__('<b>%s Plugin</b>: Please update your WP All Import to the latest version', PMWI_Plugin::TEXT_DOMAIN),
-					PMWI_Plugin::getInstance()->getName()
-			) ?>
-		</p></div>
-		<?php
-		
-		deactivate_plugins( PMWI_ROOT_DIR . '/wpai-woocommerce-add-on.php');
-	}
+
+    if ( class_exists( 'PMXI_Plugin' ) and ( version_compare(PMXI_VERSION, '4.7.9-beta-2.8') < 0 and PMXI_EDITION == 'paid' or version_compare(PMXI_VERSION, '3.7.3') < 0 and PMXI_EDITION == 'free') ) {
+        ?>
+        <div class="error"><p>
+                <?php printf(
+                    __('<b>%s Plugin</b>: The latest version of WP All Import is required to use this add-on. Any imports that require this add-on will not run correctly until you update WP All Import.', 'wp_all_import_user_add_on'),
+                    PMWI_Plugin::getInstance()->getName()
+                ) ?>
+            </p></div>
+        <?php
+    }
 
 	if ( class_exists( 'Woocommerce' ) and defined('WOOCOMMERCE_VERSION') and version_compare(WOOCOMMERCE_VERSION, '3.0') <= 0 ) {
 		?>
@@ -52,7 +51,7 @@ function pmwi_admin_notices() {
 			) ?>
 		</p></div>
 		<?php
-		
+
 		deactivate_plugins( PMWI_ROOT_DIR . '/wpai-woocommerce-add-on.php');
 	}
 
@@ -74,7 +73,7 @@ function pmwi_admin_notices() {
 			in_array((string)$type, array('updated', 'error')) or $type = 'updated';
 			?>
 			<div class="<?php echo $type ?>"><p><?php echo $m ?></p></div>
-			<?php 
+			<?php
 		}
 	}
 }

@@ -1,0 +1,70 @@
+/* === NOTIFICATIONS === */
+
+/* Notification Box */
+.notification {
+	position: fixed;
+	top: 10px;
+	width: 80%;
+	background-color: rgba($color-tertiary,0.95); /* Red */
+	color: $color-secondary;
+	border: 2px solid $color-primary;
+	margin: 25px 5%;
+	margin-top: 10px;
+	padding: 20px;
+	z-index: 10000;
+
+	@include atMedium {
+		width: 60%;
+		margin: 25px 20%;
+		margin-top: 40px;
+	}
+}
+
+
+.notification__body {
+	position: relative;
+	width: 95%;
+	margin: 0 auto;
+
+	@include atMedium {
+		width: 80%;
+	}
+}
+
+
+.notification__title {
+	width: 100%;
+	font-size: 1.6rem;
+	font-weight: 600;
+	text-align: center;
+	border-bottom: 0px;
+	border-bottom: 2px solid $color-primary;
+	margin: 0.5rem auto;
+	margin-bottom: 2.0rem;
+	padding-bottom: 2.0rem;
+}
+
+
+.notification__content {
+	font-size: 1.4rem;
+	line-height: 2.0rem;
+	margin-bottom: 1.5rem;
+}
+
+
+/* Close button */
+.closebtn {
+	margin-left: 15px;
+	color: $color-secondary;
+	font-weight: normal;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+/* Mouse over the Close button */
+.closebtn:hover {
+	color: $color-primary;
+}

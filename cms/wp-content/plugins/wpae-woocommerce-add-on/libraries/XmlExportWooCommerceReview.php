@@ -261,7 +261,7 @@ if (!class_exists('XmlExportWooCommerceReview')) {
 
             global $wp_version;
 
-            if(PMXE_Plugin::$session->get('exportQuery') && !XmlExportEngine::$exportQuery) {
+            if(!empty(PMXE_Plugin::$session) && PMXE_Plugin::$session->get('exportQuery') && !XmlExportEngine::$exportQuery) {
                 XmlExportEngine::$exportQuery = PMXE_Plugin::$session->get('exportQuery');
             }
 

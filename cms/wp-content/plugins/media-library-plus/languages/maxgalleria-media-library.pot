@@ -1,0 +1,294 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: maxgalleria-media-library\n"
+"POT-Creation-Date: 2023-02-23 09:57-0300\n"
+"PO-Revision-Date: 2023-02-23 09:57-0300\n"
+"Last-Translator: Alan Pasho <apasho@gmail.com>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.9\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../includes/media-library.php:83
+msgid "Current PHP version, "
+msgstr ""
+
+#: ../includes/media-library.php:83
+msgid ", is outdated. Please upgrade to version 7.4."
+msgstr ""
+
+#: ../includes/media-library.php:105
+msgid "Location:"
+msgstr ""
+
+#: ../includes/mlf-settings.php:29
+msgid "Add an index to the postmeta table"
+msgstr ""
+
+#: ../includes/mlf-settings.php:29
+msgid ""
+"For sites with a large number of media files, check this option to create a "
+"new index fro the postmeta table to speed by the loading of the Media "
+"Library Folders Pro page."
+msgstr ""
+
+#: ../includes/mlf-settings.php:30
+msgid "Skip .webp images when syncing media library files"
+msgstr ""
+
+#: ../includes/mlf-settings.php:30
+msgid ""
+"For sites that automatically generate .webp versions of their image files, "
+"check this option to prevent the .webp files from being added to the media "
+"library when syncing."
+msgstr ""
+
+#: ../includes/mlf-thumbnails.php:70 ../media-library-plus.php:3978
+#, php-format
+msgid ""
+"All done! %1$s image(s) were successfully resized in %2$s seconds and there "
+"were %3$s failure(s). To try regenerating the failed images again, <a href="
+"\"%4$s\">click here</a>. %5$s"
+msgstr ""
+
+#: ../includes/mlf-thumbnails.php:71 ../media-library-plus.php:3979
+#, php-format
+msgid ""
+"All done! %1$s image(s) were successfully resized in %2$s seconds and there "
+"were 0 failures. %3$s"
+msgstr ""
+
+#: ../includes/mlf-thumbnails.php:85 ../media-library-plus.php:3993
+msgid "Total Images: "
+msgstr ""
+
+#: ../includes/mlf-thumbnails.php:172 ../media-library-plus.php:4080
+#, php-format
+msgid ""
+"The resize request was abnormally terminated (ID %s). This is likely due to "
+"the image exceeding available memory or some other type of fatal error."
+msgstr ""
+
+#: ../media-library-plus.php:14
+msgid ""
+"You must deactivate Media Library Folders before activating Media Library "
+"Folders Pro"
+msgstr ""
+
+#: ../media-library-plus.php:404
+msgid "Media Library Folders"
+msgstr ""
+
+#: ../media-library-plus.php:405
+msgid "Folders & Files"
+msgstr ""
+
+#: ../media-library-plus.php:406
+msgid "Thumbnails"
+msgstr ""
+
+#: ../media-library-plus.php:407
+msgid "Image SEO"
+msgstr ""
+
+#: ../media-library-plus.php:408
+msgid "Settings"
+msgstr ""
+
+#: ../media-library-plus.php:409
+msgid "Support"
+msgstr ""
+
+#: ../media-library-plus.php:462
+msgid "Brought to you by "
+msgstr ""
+
+#: ../media-library-plus.php:463
+msgid "Makers of"
+msgstr ""
+
+#: ../media-library-plus.php:463
+msgid "and"
+msgstr ""
+
+#: ../media-library-plus.php:468
+msgid "Click here to"
+msgstr ""
+
+#: ../media-library-plus.php:468
+msgid "Fix Common Problems"
+msgstr ""
+
+#: ../media-library-plus.php:469
+msgid "Need more help? Check out our "
+msgstr ""
+
+#: ../media-library-plus.php:469
+msgid "Support Forums"
+msgstr ""
+
+#: ../media-library-plus.php:470
+msgid "Or Email Us at"
+msgstr ""
+
+#: ../media-library-plus.php:580 ../media-library-plus.php:2709
+#: ../media-library-plus.php:2734 ../media-library-plus.php:2780
+#: ../media-library-plus.php:3320
+msgid "missing nonce!"
+msgstr ""
+
+#: ../media-library-plus.php:1218 ../media-library-plus.php:1273
+#: ../media-library-plus.php:1302 ../media-library-plus.php:1321
+#: ../media-library-plus.php:1921 ../media-library-plus.php:2349
+#: ../media-library-plus.php:2528 ../media-library-plus.php:2759
+#: ../media-library-plus.php:4208
+msgid "missing nonce! Please refresh this page."
+msgstr ""
+
+#: ../media-library-plus.php:1964
+msgid "The folder was created."
+msgstr ""
+
+#: ../media-library-plus.php:1970
+msgid "There was a problem creating the folder."
+msgstr ""
+
+#: ../media-library-plus.php:1976
+msgid "The folder already exists."
+msgstr ""
+
+#: ../media-library-plus.php:2016
+msgid "The URL to the folder or image is not correct: "
+msgstr ""
+
+#: ../media-library-plus.php:2108
+msgid "The uploads folder cannot be deleted."
+msgstr ""
+
+#: ../media-library-plus.php:2138
+msgid "The folder, "
+msgstr ""
+
+#: ../media-library-plus.php:2138
+msgid ", is not empty. Please delete or move files from the folder"
+msgstr ""
+
+#: ../media-library-plus.php:2154
+msgid "The folder could not be deleted."
+msgstr ""
+
+#: ../media-library-plus.php:2157
+msgid "The folder is not empty and could not be deleted."
+msgstr ""
+
+#: ../media-library-plus.php:2166
+msgid "The folder was deleted."
+msgstr ""
+
+#: ../media-library-plus.php:2186
+msgid "The file(s) were deleted"
+msgstr ""
+
+#: ../media-library-plus.php:2204
+msgid "The file(s) were not deleted"
+msgstr ""
+
+#: ../media-library-plus.php:2418
+msgid "Search results for: "
+msgstr ""
+
+#: ../media-library-plus.php:2803
+msgid "Added"
+msgstr ""
+
+#: ../media-library-plus.php:2823
+msgid "Scanning for new folders in "
+msgstr ""
+
+#: ../media-library-plus.php:2848 ../media-library-plus.php:2882
+#: ../media-library-plus.php:2913 ../media-library-plus.php:2962
+msgid "Adding"
+msgstr ""
+
+#: ../media-library-plus.php:3755
+msgid ""
+"Add an index to the postmeta table. <em>Recommend for sites with a high "
+"number of media files. Uncheck to remove the index.</em>"
+msgstr ""
+
+#: ../media-library-plus.php:3759
+msgid ""
+"Skip WEBP images when syncing media library files. <em>For sites where WEBP "
+"files are automatically generated.</em>"
+msgstr ""
+
+#: ../media-library-plus.php:4753
+msgid "Scanning for new files and folders...please wait."
+msgstr ""
+
+#: ../media-library-plus.php:4758
+msgid "Syncing finished."
+msgstr ""
+
+#: ../media-library-plus.php:4784
+msgid "Adding "
+msgstr ""
+
+#: ../media-library-plus.php:4787
+msgid " is not an allowed file type. It was not added."
+msgstr ""
+
+#: ../media-library-plus.php:4911
+msgid "Finished copying files. "
+msgstr ""
+
+#: ../media-library-plus.php:4913
+msgid "Finished moving files. "
+msgstr ""
+
+#: ../media-library-plus.php:5150
+msgid "Unable to move "
+msgstr ""
+
+#: ../media-library-plus.php:5150
+msgid "; please check the folder and file permissions."
+msgstr ""
+
+#: ../media-library-plus.php:5156
+msgid "The destination is not a folder: "
+msgstr ""
+
+#: ../media-library-plus.php:5161
+msgid "Cannot find destination folder: "
+msgstr ""
+
+#: ../media-library-plus.php:5171
+msgid "Cannot find the file: "
+msgstr ""
+
+#: ../media-library-plus.php:5178
+msgid " was copied to "
+msgstr ""
+
+#: ../media-library-plus.php:5180
+msgid " was not copied."
+msgstr ""
+
+#: ../media-library-plus.php:5184
+msgid " was moved to "
+msgstr ""
+
+#: ../media-library-plus.php:5186
+msgid " was not moved."
+msgstr ""
+
+#: ../mlp-reset.php:199
+msgid "Number of attachments"
+msgstr ""

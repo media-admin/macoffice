@@ -1,0 +1,108 @@
+/* === INTRO SECTION === */
+
+.intro {
+	padding-top: 0.5rem;
+	padding-bottom: 1.5rem;
+
+	@include atMedium {
+		/* padding-top: 2.0rem; */
+		padding-top: -2.0rem;
+		padding-bottom: 2.0rem;
+	}
+
+	&__wrapper {
+		width: 99%;
+		margin: 0 auto;
+		padding-right: 1.0rem;
+		padding-left: 1.0rem;
+	}
+}
+
+
+
+
+
+	/*
+
+
+.intro {
+	padding-top: 0.5rem;
+	padding-bottom: 1.5rem;
+
+
+	&__headline {
+		margin-bottom: 0.25rem;
+	}
+
+	&__subtitle {
+		margin-bottom: 1.25rem;
+	}
+
+	&__company-listing {
+		list-style-image: none;
+		padding-left: 10px !important;
+	}
+
+	&__list-item {
+		display: grid;
+
+		grid-template-columns: 1fr 1fr;
+		column-gap: 15px;
+		align-items: center;
+		margin-bottom: 1.0rem;
+	}
+
+	&__list-img {
+		position: relative;
+		display: block;
+		min-width: 92px;
+		max-width: 30%;
+		max-height: 92px;
+		height: auto;
+	}
+
+
+	&__list-content {
+		display: inline-block;
+		padding: 0.5rem;
+		padding-top: 0.0rem;
+	}
+
+
+	&__list-title {
+		font-size: 1.6rem;
+		line-height: 1.6rem;
+		color: $regularGrayLightMode;
+		margin-bottom: auto;
+		margin-top: 1.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+
+	&__list-subtitle {
+		position: relative;
+		width: 100%;
+		font-size: 0.8rem;
+		font-weight: 500;
+		letter-spacing: 0.1rem;
+		color: $mainRed;
+		margin: 0;
+		margin-bottom: 1.5rem;
+	}
+
+}
+
+span.hover__alt-text {
+	opacity: 0;
+}
+
+.intro {
+
+	&__company-listing-separator {
+		height: 1px;
+		background-color: $regularGrayLightMode;
+		margin: 2.0rem 0.0rem;
+	}
+
+}
+	*/

@@ -1,0 +1,182 @@
+/* === SERVICES SECTION === */
+
+.services {
+	position: relative;
+	width: 100vw;
+	margin-left: -1.8rem;
+	margin-right: -1.8rem;
+	background-color: $color-full-black !important;
+	margin-top: 1.0rem;
+	margin-bottom: 1.0rem;
+	padding: 1.8rem;
+	z-index: 0;
+
+	@include atMedium {
+		width: unset !important;
+		padding-left: 3.6rem;
+		padding-right: 3.6rem;
+		overflow: hidden;
+	}
+}
+
+
+.services a {
+	text-decoration: none;
+}
+
+
+.services__headline {
+	color: $color-white;
+	padding-left: 1.5rem;
+
+	@include atMedium {
+		padding-left: 0.0rem;
+	}
+}
+
+
+.h2__section-headline.services__headline:after {
+	background-color: $color-white;
+}
+
+
+.services__intro {
+	font-weight: 400;
+
+	@include atMedium {
+		padding-left: 2.0rem;
+	}
+}
+
+
+.services__container {
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex: 1;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 2%;
+	flex-basis: 100%;
+	flex-grow: 0;
+	flex-shrink: 0;
+	justify-content: space-around;
+	align-items: flex-start;
+	color: $color-white !important;
+	/* z-index: 1; */
+	/* margin: 0.5rem; */
+	padding: 0.25rem;
+
+	@include atMedium {
+		flex: 2;
+		flex-basis: 50%;
+		margin: inherit;
+		/* padding-top: 0.75rem; */
+		padding-bottom: 1.5rem;
+	}
+
+	@include atXLarge() {
+		flex: 3;
+		flex-basis: 25%;
+	}
+}
+
+
+.leistungen .services__container .wrapper {
+	color: $color-full-black !important;
+}
+
+
+.services__card {
+	position: relative;
+	width: 100%;
+	background-color: $color-black;
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+	padding: 0.0rem !important;
+
+	@include atMedium {
+		width: 48%;
+	}
+
+	@include atXLarge() {
+		width: 24%;
+	}
+}
+
+
+.services__card-container {
+	padding: 0 !important;
+}
+
+
+.services > .card__container {
+	padding: 0.0rem !important;
+}
+
+
+.services__pretitle {
+	color: $color-white !important;
+	padding-right: 1.8rem !important;
+	padding-left: 1.8rem !important;
+}
+
+
+.services__title {
+	padding-right: 1.8rem !important;
+	padding-left: 1.8rem !important;
+}
+
+
+.services__title span {
+	color: $color-white;
+	background-color: $color-full-black;
+}
+
+
+.services__link {
+	margin: 0 - 1% ;
+	padding: 0;
+	top: 0;
+	left: 0;
+}
+
+
+.services__content {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+
+.services__thumbnail-container {
+	position: relative;
+	display: flex;
+	width: 100%;
+	margin: 0px;
+	padding: 0px !important;
+}
+
+
+.services__thumbnail {
+	position: relative;
+	width: 100%;
+	-o-object-fit: cover;
+		 object-fit: cover;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+.services__thumbnail--full {
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	margin-top: 2.0rem;
+	margin-bottom: -25px;
+}
