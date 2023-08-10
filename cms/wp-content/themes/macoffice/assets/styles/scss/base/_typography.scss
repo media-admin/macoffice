@@ -12,7 +12,7 @@
        url('../../fonts/FontAwesome-Solid/fa-solid-900.woff2') format('woff2'), /* Super Modern Browsers */
        url('../../fonts/FontAwesome-Solid/fa-solid-900.woff') format('woff'), /* Modern Browsers */
        url('../../fonts/FontAwesome-Solid/fa-solid-900.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../../fonts/FontAwesome-Solid/fa-solid-900.svg#AbrilFatface') format('svg'); /* Legacy iOS */
+       url('../../fonts/FontAwesome-Solid/fa-solid-900.svg#FontAwesomeSolid') format('svg'); /* Legacy iOS */
 }
 
 /* --- Font Awesome Brands --- */
@@ -169,6 +169,12 @@ h1 {
 }
 
 
+p {
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  margin-bottom: 1.0rem;
+}
+
 /* --- Article Styles --- */
 
 article {
@@ -200,6 +206,13 @@ article p {
 ul {
   list-style-type: square;
   color: $color-secondary;
+  list-style-position: inside;
+  margin-left: 0.5rem;
+}
+
+.site-content ul li {
+  margin-left: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 /* === Heading Styles === */

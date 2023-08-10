@@ -5,7 +5,7 @@ Plugin URI: http://maxgalleria.com
 Description: Plugin for reseting Media Library Folders
 Author: Max Foundry
 Author URI: http://maxfoundry.com
-Version: 8.0.7
+Version: 8.1.0
 Copyright 2015-2021 Max Foundry, LLC (http://maxfoundry.com)
 Text Domain: mlp-reset
 */
@@ -19,16 +19,45 @@ if(!defined("MAXGALLERIA_MEDIA_LIBRARY_UPLOAD_FOLDER_ID"))
 if(!defined("MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL"))
   define('MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL', rtrim(plugin_dir_url(__FILE__), '/'));
 
-define("MLF_RESET_NONCE", "mgmlp_reset_nonce");
+if(!defined('MLFP_BDA'))    
+  define("MLFP_BDA", "mlfp-bda");
+
+if(!defined('MLFP_BDA_USER_ROLE'))    
+  define("MLFP_BDA_USER_ROLE","mlfp-bda-user-role");
+
+if(!defined('MLFP_BDA_AUTO_PROTECT'))    
+  define("MLFP_BDA_AUTO_PROTECT", "mlfp-bda-auto-protect");
+
+if(!defined('MLFP_BDA_AUTO_PROTECT_DISABLED'))    
+  define("MLFP_BDA_AUTO_PROTECT_DISABLED", "mlfp-bda-auto-protect-disabled");  
+
+if(!defined('MLF_RESET_NONCE'))    
+  define("MLF_RESET_NONCE", "mgmlp_reset_nonce");
+
+if(!defined('MLFP_BDA_DISPLAY_FE_IMAGES'))    
+  define("MLFP_BDA_DISPLAY_FE_IMAGES", "mlfp-bda-display-fe-images");
+
+if(!defined('MLFP_BDA_PREVENT_RIGHT_CLICK'))    
+  define("MLFP_BDA_PREVENT_RIGHT_CLICK", "mlfp-bda-prevent-right-click");
+
+if(!defined('MLFP_NO_ACCESS_PAGE_TITLE'))    
+  define("MLFP_NO_ACCESS_PAGE_TITLE", "mlfp-no-access-page-id-title");
+
+if(!defined('MLFP_NO_ACCESS_PAGE_ID'))    
+  define("MLFP_NO_ACCESS_PAGE_ID", "mlfp-no-access-page-id");
 
 add_action('wp_ajax_nopriv_clean_database', 'clean_database');
-add_action('wp_ajax_clean_database', 'clean_database');				
+add_action('wp_ajax_clean_database', 'clean_database');			
+
+add_action('wp_ajax_nopriv_mlfr_remove_tables', 'mlfr_remove_tables');
+add_action('wp_ajax_mlfr_remove_tables', 'mlfr_remove_tables');
 
 function mlp_reset_menu() {
   add_menu_page(esc_html__('Media Library Folders Reset','mlp-reset'), esc_html__('Media Library Folders Reset','mlp-reset'), 'manage_options', 'mlp-reset', 'mlp_reset' );
   add_submenu_page('mlp-reset', esc_html__('Display Attachment URLs','mlp-reset'), esc_html__('Display Attachment URLs','mlp-reset'), 'manage_options', 'mlpr-show-attachments', 'mlpr_show_attachments');
   add_submenu_page('mlp-reset', esc_html__('Display Folder Data','mlp-reset'), esc_html__('Display Folder Data','mlp-reset'), 'manage_options', 'mlpr-show-folders', 'mlpr_show_folders');
   add_submenu_page('mlp-reset', esc_html__('Check for Folders Without Parent IDs','mlp-reset'), esc_html__('Check for Folders Without Parent IDs','mlp-reset'), 'manage_options', 'mlpr-folders-no-ids', 'mlpr_folders_no_ids');
+  add_submenu_page('mlp-reset', esc_html__('Remove Other MLF Database Tables','mlp-reset'), esc_html__('Remove Other MLF Database Tables','mlp-reset'), 'manage_options', 'mlpr-remove-tables', 'mlpr_remove_tables');
   add_submenu_page('mlp-reset', esc_html__('Reset Media Library Folders Data','mlp-reset'), esc_html__('Reset Media Library Folders Data','mlp-reset'), 'manage_options', 'data-reset', 'data_reset');
 }
 add_action('admin_menu', 'mlp_reset_menu');
@@ -368,3 +397,153 @@ function mlpr_folders_no_ids() {
     <?php
   }  
 }
+
+function mlpr_remove_tables() {
+  
+  ?>
+  
+	<h3><?php esc_html_e('Remove Other MLF Database Tables & Settings','mlp-reset'); ?></h3>
+  
+  <p><?php esc_html_e('To remove the auxiliary tables added by Media Library Folders, in order to completely uninstall the plugin, select the tables to be remove and click the \'Remove Selected Tables\' button. All data stored in the selected tables will be lost.','mlp-reset'); ?></p>
+  
+  <p><?php esc_html_e('Before deleting the block direct access tables, be sure to unblock currently blocked files and deactivate Block Direct Access in Media Library Folders Settings.','mlp-reset'); ?></p>
+  
+  <div><input type="checkbox" id="mlfr-bda" name="bda" value="" ><label for="bda"><?php esc_html_e('Block Direct Access Table','mlp-reset'); ?></label></div>    
+  <div><input type="checkbox" id="mlfr-bda-ips" name="bda-ips" value="" ><label for="bda-ips"><?php esc_html_e('Blocked IPs Table','mlp-reset'); ?></label></div>  
+    
+  <p>
+    <a id="remove-tables" class="button-primary"><?php esc_html_e('Remove Selected Tables','mlp-reset'); ?></a>
+    <img id="mlfr-ajaxloader" alt="loading GIF" src="<?php echo MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL; ?>/images/ajax-loader.gif" style="position: relative;top: 10px;left: 10px; display:none;" width="32" height="32">    
+  </p>
+  <p id="return-message"></p>
+  
+  <script>
+	jQuery(document).ready(function(){
+    
+    //jQuery("#remove-tables").click(function () {
+    jQuery(document).on("click","#remove-tables",function(){
+      
+      var mlfr_bda = jQuery('#mlfr-bda:checkbox:checked').length > 0;
+      var mlfr_bda_ips = jQuery('#mlfr-bda-ips:checkbox:checked').length > 0;
+            
+      if(mlfr_bda == false && mlfr_bda_ips == false ) {
+        jQuery("#return-message").html("<?php esc_html_e('No items were selected.','mlp-reset'); ?>");
+        jQuery("#mlfr-ajaxloader").hide();
+        return false;
+      }      
+
+      if(confirm("<?php esc_html_e('Are you sure you want to remove the selected tables, data and settings?','mlp-reset'); ?>")) {
+        
+        jQuery("#return-message").html("");
+        jQuery("#mlfr-ajaxloader").show();
+                                
+        jQuery.ajax({
+          type: "POST",
+          async: true,
+          data: { action: "mlfr_remove_tables", 
+            mlfr_bda: mlfr_bda,
+            mlfr_bda_ips: mlfr_bda_ips,
+            nonce: '<?php echo wp_create_nonce(MLF_RESET_NONCE); ?>' },
+          url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+          dataType: "html",
+          success: function (data) {
+            jQuery("#return-message").html(data);            
+						jQuery("#mlfr-bda").prop('checked', false);  
+						jQuery("#mlfr-bda-ips").prop('checked', false);  
+            jQuery("#mlfr-ajaxloader").hide();
+          },
+          error: function (err) { 
+            jQuery("#mlfr-ajaxloader").hide();
+            alert(err.responseText);
+          }
+        });  
+                
+      }     
+    
+	  });  
+	
+	});  
+  </script>  
+
+  <?php
+    
+}
+
+
+function mlfr_remove_tables () {
+      
+  global $wpdb;
+  $message = '';
+   
+    
+  if ( !wp_verify_nonce( $_POST['nonce'], MLF_RESET_NONCE)) {
+    exit(__('missing nonce! Please refresh this page.','mlp-reset'));
+  }
+  
+  $mlfr_bda = false;
+  $mlfr_bda_ips = false;
+  
+  if ((isset($_POST['mlfr_bda'])) && (strlen(trim($_POST['mlfr_bda'])) > 0))
+    $mlfr_bda = trim(sanitize_text_field($_POST['mlfr_bda']));
+  
+  if ((isset($_POST['mlfr_bda_ips'])) && (strlen(trim($_POST['mlfr_bda_ips'])) > 0))
+    $mlfr_bda_ips = trim(sanitize_text_field($_POST['mlfr_bda_ips']));
+  
+  if($mlfr_bda == 'true') {
+    $message .= mlfr_remove_db_table("mgmlp_block_access");
+    
+    delete_option(MLFP_BDA);
+    delete_option(MLFP_BDA_USER_ROLE);
+    delete_option(MLFP_BDA_AUTO_PROTECT);
+    delete_option(MLFP_BDA_AUTO_PROTECT_DISABLED);
+    delete_option(MLFP_BDA_DISPLAY_FE_IMAGES);
+    delete_option(MLFP_BDA_PREVENT_RIGHT_CLICK);
+    delete_option(MLFP_NO_ACCESS_PAGE_TITLE);
+    delete_option(MLFP_NO_ACCESS_PAGE_ID);
+    
+    $download_page = get_page_by_path("mlfp-download");
+    
+    if($download_page)
+      wp_delete_post($download_page->ID);
+    
+    $download_template = mlf_get_theme_dir() . '/page-mlfp-download.php';
+    
+    if(file_exists($download_template))
+      unlink($download_template);
+
+  }  
+  
+  if($mlfr_bda_ips == 'true')
+    $message .= "<br>" . mlfr_remove_db_table("mgmlp_blocked_ips");
+  
+  echo $message;
+  
+  die();
+}
+
+function mlfr_remove_db_table ($table) {
+  
+  global $wpdb;
+  
+  $table_name = $wpdb->prefix . $table; 
+  
+  $sql = "DROP TABLE $table_name";
+  //error_log($sql);
+  
+  $result = $wpdb->query($sql);
+  if ($wpdb->last_error) {
+    return $wpdb->last_error;
+  } else {
+    return $table . esc_html__(' was deleted.','mlp-reset');
+  }
+
+}
+
+function mlf_get_theme_dir() {
+  if(is_child_theme())
+    return WP_CONTENT_DIR . '/themes/' . get_stylesheet();
+  else
+    return WP_CONTENT_DIR . '/themes/' . get_template();
+}
+
+

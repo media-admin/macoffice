@@ -299,7 +299,7 @@ msgstr "اگر فایلی را منتقل کنید ، فایل ترجمه شده
 msgid "WPML: Automatically move translations"
 msgstr "WPML: به صورت خودکار ترجمه ها منتقل می شوند."
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr ""
 

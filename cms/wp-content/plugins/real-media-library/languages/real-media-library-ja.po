@@ -302,7 +302,7 @@ msgstr "ファイルを移動すると、対応する翻訳済みファイルも
 msgid "WPML: Automatically move translations"
 msgstr "WPML: 自動で翻訳を移動する"
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr ""
 

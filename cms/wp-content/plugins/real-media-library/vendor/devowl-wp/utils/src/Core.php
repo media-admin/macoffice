@@ -85,10 +85,11 @@ trait Core
         $installed = $this->getActivator()->getDatabaseVersion();
         if ($installed !== $this->getPluginConstant(Constants::PLUGIN_CONST_VERSION)) {
             $slug = $this->getPluginConstant(Constants::PLUGIN_CONST_SLUG);
+            $textdomain = $this->getPluginConstant(Constants::PLUGIN_CONST_TEXT_DOMAIN);
             $this->debug('(Re)install the database tables', __FUNCTION__);
             $this->getActivator()->install();
             // Clear localization cache for JSON MO files
-            $this->getPluginClassInstance(Constants::PLUGIN_CLASS_LOCALIZATION)->clearMoCacheDir($slug);
+            $this->getPluginClassInstance(Constants::PLUGIN_CLASS_LOCALIZATION)->clearMoCacheDir($slug, $textdomain);
             /**
              * A new version got installed for this plugin. Consider to use the [`versionCompareOlderThan()`](../php/classes/MatthiasWeb-Utils-Core.html#method_versionCompareOlderThan)
              * method from the Core class.

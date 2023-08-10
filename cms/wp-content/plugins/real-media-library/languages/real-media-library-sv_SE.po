@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: n/a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "POT-Creation-Date: n/a\n"
-"PO-Revision-Date: 2023-07-01 21:02+0000\n"
-"Last-Translator: Matthias Günter <matthias.guenter@devowl.io>\n"
+"PO-Revision-Date: 2023-07-18 08:45+0000\n"
+"Last-Translator: Swedish translator <account+sv@devowl.io>\n"
 "Language-Team: Swedish <https://translate.devowl.io/projects/wordpress-real-"
 "media-library-backend-php/develop/sv/>\n"
 "Language: sv_SE\n"
@@ -15,20 +15,20 @@ msgstr ""
 "X-Generator: Weblate 4.16.4\n"
 
 #. Plugin Name of the plugin
-#, fuzzy
-#| msgid "RealMediaLibrary:Reset"
 msgid "Real Media Library"
-msgstr "RealMediaLibrary:Återställ"
+msgstr "Real Media Library"
 
 #. Plugin URI of the plugin
 msgid "https://devowl.io/wordpress-real-media-library/"
-msgstr ""
+msgstr "https://devowl.io/wordpress-real-media-library/"
 
 #. Description of the plugin
 msgid ""
 "Organize uploaded media in folders, collections and galleries: A file "
 "manager for WordPress. Media management made easy!"
 msgstr ""
+"Organisera uppladdade media i mappar, samlingar och gallerier: En "
+"filhanterare för WordPress. Mediehantering på ett enkelt sätt!"
 
 #. Author of the plugin
 msgid "devowl.io"
@@ -86,7 +86,7 @@ msgstr ""
 #: inc/api/attachment.php:108 inc/api/attachment.php:129
 #: inc/api/attachment.php:145
 msgid "The given folder was not found."
-msgstr "Den angivna mappen går inte att hitta."
+msgstr "Den angivna mappen hittades inte."
 
 #: inc/Assets.php:247
 msgid "https://devowl.io/"
@@ -94,7 +94,7 @@ msgstr "https://devowl.io/"
 
 #: inc/Assets.php:249
 msgid "Complementary Plugins"
-msgstr "Kompletterande plugins"
+msgstr "Kompletterande tillägg"
 
 #: inc/Assets.php:267
 msgid ""
@@ -290,7 +290,7 @@ msgstr ""
 msgid "WPML: Automatically move translations"
 msgstr "WPML: Flytta översättningar automatiskt"
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr ""
 

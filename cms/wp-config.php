@@ -86,6 +86,8 @@ define('NONCE_SALT',       '$TM0c{}`{QS#{%g]9p:jK}Nc]D%3E?2(mf`[=B0&k)Sm-%>GW3c2
  */
 $table_prefix = 'moff_';
 
+set_time_limit(300);
+
 /**
  * Für Entwickler: Der WordPress-Debug-Modus.
  *
@@ -101,6 +103,8 @@ $table_prefix = 'moff_';
 define( 'WP_DEBUG', false );
 
 /* Füge individuelle Werte zwischen dieser Zeile und der „Schluss mit dem Bearbeiten“ Zeile ein. */
+define('WP_MEMORY_LIMIT', '200M');
+
 
 /* Germanzied Verschlüsselung */
 define( 'WC_GZD_ENCRYPTION_KEY', 'f43b15f87925375ecc8322ed4bb467b1c6a01b1d861cd26091c039ba6a0e4330' );

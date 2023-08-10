@@ -28,12 +28,18 @@
 }
 
 
+h2.wp-block-heading {
+	margin-top: 1.5rem;
+}
+
+
 h3.wp-block-heading {
+	width: auto;
 	display: inline-block;
 	font-weight: 300;
-	border-bottom: 3px solid $color-primary;
-	padding-bottom: 0.15rem;
-	width: auto;
+	border-bottom: 2px solid $color-primary;
+	margin-bottom: 1.0rem;
+	padding-bottom: 0.05rem;
 }
 
 /* Tables */

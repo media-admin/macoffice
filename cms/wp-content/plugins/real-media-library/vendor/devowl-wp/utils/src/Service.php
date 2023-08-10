@@ -263,6 +263,42 @@ class Service
         return \base64_decode($output);
     }
     /**
+     * When saving JSON in a registered post meta we need to convert the JavaScript `JSON.stringify`ied result
+     * to a valid PHP encoded JSON string with backslashes:
+     *
+     * ```
+     * json_encode("https://")      // -> "https:\/\/"
+     * JSON.stringify("https://)    // -> "https://"
+     * ```
+     *
+     * You only need to use this `sanitize_callback` when your meta value contains slashes `/`, otherwise you could
+     * get error messages like `Could not update the meta value of %s in database.`.
+     *
+     * Example usage:
+     *
+     * ```php
+     * register_meta('post', self::META_NAME_TECHNICAL_DEFINITIONS, [
+     *     'object_subtype' => self::CPT_NAME,
+     *     'type' => 'string',
+     *     'single' => true,
+     *     'sanitize_callback' => [Service::class, 'sanitizePostMetaJson'],
+     *     'show_in_rest' => true
+     * ]);
+     * ```
+     *
+     * @param string $value
+     * @see https://github.com/WordPress/WordPress/blob/99366f31d23cdbad3296fa78d7813e2d3664790a/wp-includes/rest-api/fields/class-wp-rest-meta-fields.php#L372-L379
+     * @see https://app.clickup.com/t/861n4602e
+     * @deprecated Do not use this, use `register_meta` with `type=object|array` instead!
+     */
+    public static function sanitizePostMetaJson($value)
+    {
+        if (Utils::isRest() && Utils::isJson($value)) {
+            return \json_encode(\json_decode($value));
+        }
+        return $value;
+    }
+    /**
      * Get a new instance of Service.
      *
      * @param PluginReceiver $core

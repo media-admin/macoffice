@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: n/a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "POT-Creation-Date: n/a\n"
-"PO-Revision-Date: 2023-06-01 11:40+0000\n"
+"PO-Revision-Date: 2023-07-11 16:04+0000\n"
 "Last-Translator: Matthias Günter <matthias.guenter@devowl.io>\n"
 "Language-Team: Dutch (informal) <https://translate.devowl.io/projects/"
 "wordpress-real-media-library-backend-php/develop/nl@informal/>\n"
@@ -90,7 +90,7 @@ msgstr "De gegeven map was niet gevonden."
 
 #: inc/Assets.php:247
 msgid "https://devowl.io/"
-msgstr ""
+msgstr "https://devowl.io/"
 
 #: inc/Assets.php:249
 msgid "Complementary Plugins"
@@ -295,7 +295,7 @@ msgstr ""
 msgid "WPML: Automatically move translations"
 msgstr "WPML: Verplaats vertalingen automatisch"
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr ""
 
@@ -1096,7 +1096,7 @@ msgstr ""
 
 #: inc/view/Lang.php:193
 msgid "Product license not for production use!"
-msgstr ""
+msgstr "Productlicentie niet voor productiegebruik!"
 
 #: inc/view/Lang.php:194
 msgid "Learn more"
@@ -1104,7 +1104,7 @@ msgstr "Meer informatie"
 
 #: inc/view/Lang.php:195
 msgid "https://devowl.io/knowledge-base/license-installation-type/"
-msgstr ""
+msgstr "https://devowl.io/knowledge-base/license-installation-type/"
 
 #: inc/view/Lang.php:196
 msgid ""
@@ -1115,27 +1115,27 @@ msgstr ""
 
 #: inc/view/Lang.php:200
 msgid "License activation"
-msgstr ""
+msgstr "Licentieactivering"
 
 #: inc/view/Lang.php:201
 msgid "Get your free license"
-msgstr ""
+msgstr "Ontvang je gratis licentie"
 
 #: inc/view/Lang.php:202
 msgid "Activate license & continue"
-msgstr ""
+msgstr "Licentie activeren & doorgaan"
 
 #: inc/view/Lang.php:203
 msgid "Activate free license & Continue"
-msgstr ""
+msgstr "Gratis licentie activeren & doorgaan"
 
 #: inc/view/Lang.php:204
 msgid "Continue without regular updates and without any support"
-msgstr ""
+msgstr "Doorgaan zonder regelmatige updates en zonder klantenservice"
 
 #: inc/view/Lang.php:205
 msgid "Continue without any support and without e.g. discount announcements"
-msgstr ""
+msgstr "Doorgaan zonder klantenservice en zonder bijv. kortingsaankondigingen"
 
 #: inc/view/Lang.php:209
 msgid ""
@@ -1167,7 +1167,7 @@ msgstr "Ik wil meer leren!"
 
 #: inc/view/Lang.php:219
 msgid "No, not interested..."
-msgstr ""
+msgstr "Nee, niet geïnteresseerd..."
 
 #: inc/view/Lang.php:222
 msgid "You like collections?"

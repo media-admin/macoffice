@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: n/a\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: n/a\n"
-"PO-Revision-Date: 2023-06-01 11:32+0000\n"
-"Last-Translator: Jan Karres <jan.karres@devowl.io>\n"
+"PO-Revision-Date: 2023-08-02 06:58+0000\n"
+"Last-Translator: Matthias Günter <matthias.guenter@devowl.io>\n"
 "Language-Team: Russian (formal) <https://translate.devowl.io/projects/devowl-"
 "wp-utils-backend-php/develop/ru@formal/>\n"
 "Language: ru_RU\n"
@@ -14,6 +14,17 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.16.4\n"
+
+#. translators:
+#: Localization.php:424
+msgid ""
+"Some language packs could not be downloaded for the textdomain %1$s (Error: "
+"%2$s, Endpoint: %3$s)."
+msgstr ""
+
+#: Localization.php:474
+msgid "Retry"
+msgstr "Повторить попытку"
 
 #. translators:
 #: Service.php:117

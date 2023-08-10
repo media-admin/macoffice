@@ -12,6 +12,15 @@ msgstr ""
 "X-Generator: WP-CLI 2.8.1\n"
 
 #. translators:
+#: Localization.php:424
+msgid "Some language packs could not be downloaded for the textdomain %1$s (Error: %2$s, Endpoint: %3$s)."
+msgstr ""
+
+#: Localization.php:474
+msgid "Retry"
+msgstr ""
+
+#. translators:
 #: Service.php:117
 msgid "<strong>An unexpected network error has occurred!</strong> One or more WordPress plugins tried to call the WordPress REST API, which failed. Most likely a <strong>security plugin%s</strong>, a web <strong>server configuration</strong> or active <strong>ad-blocker extension</strong> installed on your browser disabled the REST API. Please make sure that the following REST API namespaces are reachable to use your plugin without problems:"
 msgstr ""

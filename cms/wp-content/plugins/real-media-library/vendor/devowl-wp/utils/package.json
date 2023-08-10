@@ -1,6 +1,6 @@
 {
     "name": "@devowl-wp/utils",
-    "version": "1.15.0",
+    "version": "1.15.6",
     "private": true,
     "description": "Utility functionality for all your WordPress plugins.",
     "homepage": "https://devowl.io",
@@ -82,7 +82,7 @@
         "vendor"
     ],
     "dependencies": {
-        "@devowl-wp/api": "^0.5.6",
+        "@devowl-wp/api": "^0.5.7",
         "@wordpress/i18n": "~4.0.0",
         "core-js": "~3.29.0",
         "deepmerge": "~4.3.0",
@@ -100,16 +100,16 @@
     },
     "devDependencies": {
         "@devowl-wp/composer-licenses": "^0.1.13",
-        "@devowl-wp/continuous-integration": "^0.3.6",
-        "@devowl-wp/continuous-localization": "^0.5.0",
-        "@devowl-wp/eslint-config": "^0.2.0",
-        "@devowl-wp/monorepo-utils": "^0.1.5",
-        "@devowl-wp/node-gitlab-ci": "^0.7.2",
+        "@devowl-wp/continuous-integration": "^0.3.7",
+        "@devowl-wp/continuous-localization": "^0.5.1",
+        "@devowl-wp/eslint-config": "^0.2.1",
+        "@devowl-wp/monorepo-utils": "^0.1.6",
+        "@devowl-wp/node-gitlab-ci": "^0.7.3",
         "@devowl-wp/npm-licenses": "^0.1.12",
-        "@devowl-wp/phpcs-config": "^0.1.10",
+        "@devowl-wp/phpcs-config": "^0.1.12",
         "@devowl-wp/phpunit-config": "^0.1.10",
         "@devowl-wp/ts-config": "^0.1.11",
-        "@devowl-wp/webpack-config": "^0.2.16",
+        "@devowl-wp/webpack-config": "^0.2.17",
         "@types/concurrently": "~6.4.0",
         "@types/cypress-cucumber-preprocessor": "~4.0.0",
         "@types/jest": "~26.0.24",
@@ -192,5 +192,5 @@
             "ignore-packages-here@1.0.0"
         ]
     },
-    "phpunit-coverage-threshold": 40
+    "phpunit-coverage-threshold": 30
 }

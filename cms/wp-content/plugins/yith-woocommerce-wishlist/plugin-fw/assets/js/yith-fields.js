@@ -103,7 +103,9 @@
 		}
 	};
 
-	uploadHandler.initOnce();
+	$( function () {
+		uploadHandler.initOnce();
+	} );
 
 	var imageGallery = {
 		selectors: {
@@ -220,7 +222,9 @@
 			}
 		}
 	};
-	imageGallery.initOnce();
+	$( function () {
+		imageGallery.initOnce();
+	} );
 
 
 	// Codemirror.

@@ -33,10 +33,10 @@ for ( const [blockName, blockArgs] of Object.entries( yithGutenbergBlocks ) ) {
 		keywords   : blockArgs.keywords,
 		edit       : createEditFunction( blockName, blockArgs ),
 		usesContext: [
-			'postId',
+			'postId'
 		],
 		save       : ( { attributes } ) => {
-			return generateShortcode( blockArgs, attributes );
+			return blockArgs?.shortcode_name && !blockArgs.render_callback ? generateShortcode( blockArgs, attributes ) : null;
 		},
 		deprecated : [
 			{

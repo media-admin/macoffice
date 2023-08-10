@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: n/a\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: n/a\n"
-"PO-Revision-Date: 2022-12-12 09:43+0000\n"
+"PO-Revision-Date: 2023-08-02 09:34+0000\n"
 "Last-Translator: Matthias Günter <matthias.guenter@devowl.io>\n"
 "Language-Team: German (formal) <https://translate.devowl.io/projects/devowl-"
 "wp-utils-backend-php/develop/de@formal/>\n"
@@ -12,7 +12,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13.1\n"
+"X-Generator: Weblate 4.16.4\n"
+
+#. translators:
+#: Localization.php:424
+msgid ""
+"Some language packs could not be downloaded for the textdomain %1$s (Error: "
+"%2$s, Endpoint: %3$s)."
+msgstr ""
+"Einige Sprachpakete konnten für die Textdomain %1$s nicht heruntergeladen "
+"werden (Fehler: %2$s, Endpunkt: %3$s)."
+
+#: Localization.php:474
+msgid "Retry"
+msgstr "Erneut versuchen"
 
 #. translators:
 #: Service.php:117

@@ -68,6 +68,7 @@ class Core extends BaseCore implements IOverrideCore
         // Enable `no-store` for our relevant WP REST API endpoints
         ServiceNoStore::hook('/' . UtilsService::getNamespace($this));
         ServiceNoStore::hook('/' . Service::LEGACY_NAMESPACE);
+        \MatthiasWeb\RealMediaLibrary\Localization::enableWordPressDotOrgLanguagePacksDownload(RML_SLUG, RML_SLUG_LITE);
         // Register creatables
         \wp_rml_register_creatable(FolderFolder::class, RML_TYPE_FOLDER);
         // Register all your before init hooks here

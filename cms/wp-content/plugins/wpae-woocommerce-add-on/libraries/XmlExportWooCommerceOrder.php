@@ -484,7 +484,7 @@ if ( ! class_exists('XmlExportWooCommerceOrder') )
 								{
 									foreach ($order_refunds as $refund) 
 									{										
-										$_refund_total += get_post_meta($refund->ID, '_refund_amount', true);
+										$_refund_total += (float)get_post_meta($refund->ID, '_refund_amount', true);
 									}
 								}
 								
@@ -638,7 +638,7 @@ if ( ! class_exists('XmlExportWooCommerceOrder') )
 													}
 												}
 
-												$_line_subtotal = ($_qty) ? number_format($_line_total/$_qty, 2) : 0;
+												$_line_subtotal = ($_qty) ? number_format((float)$_line_total/(float)$_qty, 2) : 0;
 
 												$item_data[$element_name] = pmxe_filter( $_line_subtotal, $ItemsfieldSnipped);
 
@@ -776,7 +776,7 @@ if ( ! class_exists('XmlExportWooCommerceOrder') )
 						
 							$_order_shipping_tax = get_post_meta($record->ID, '_order_shipping_tax', true);
 							$_order_tax 		 = get_post_meta($record->ID, '_order_tax', true);
-							$_order_tax_total    = $_order_shipping_tax + $_order_tax;												
+							$_order_tax_total    = (float)$_order_shipping_tax + (float)$_order_tax;
 							
 							$data[$options['cc_name'][$elId]] = pmxe_filter( $_order_tax_total, $fieldSnipped);			
 							
@@ -854,7 +854,7 @@ if ( ! class_exists('XmlExportWooCommerceOrder') )
 												foreach ($meta_data as $meta) {
 													if ($meta['meta_key'] == 'discount_amount'){			
 														$coupons_data['Coupon Code'] = $order_coupon->order_item_name;
-														$coupons_data[$element_name] = pmxe_filter( $meta['meta_value'] * (-1), $FeesfieldSnipped);														
+														$coupons_data[$element_name] = pmxe_filter( (float)$meta['meta_value'] * (-1), $FeesfieldSnipped);
 														break;
 													}	
 												}
@@ -876,7 +876,7 @@ if ( ! class_exists('XmlExportWooCommerceOrder') )
 						// Calculate Total Discount Amount
 						if ( $options['cc_value'][$elId] == '_cart_discount' ){
 							$_cart_discount = get_post_meta($record->ID, '_cart_discount', true);							
-							$data[$options['cc_name'][$elId]] = pmxe_filter( $_cart_discount * (-1), $fieldSnipped);																
+							$data[$options['cc_name'][$elId]] = pmxe_filter( (float)$_cart_discount * (-1), $fieldSnipped);
 						}
 
 						if ( ! empty($this->order_surcharge) ){													
@@ -905,7 +905,7 @@ if ( ! class_exists('XmlExportWooCommerceOrder') )
 													if ($meta['meta_key'] == '_line_total'){															
 														$surcharge_data['Fee Name'] = $order_surcharge->order_item_name;
 														$surcharge_data[$element_name] = pmxe_filter( $meta['meta_value'], $SurchargefieldSnipped);
-														$this->__total_fee_amount += $meta['meta_value'];
+														$this->__total_fee_amount += (float)$meta['meta_value'];
 														break;
 													}	
 												}

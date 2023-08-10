@@ -57,10 +57,22 @@ trait Assets
             // Always request the users locale settings (https://core.trac.wordpress.org/ticket/44758)
             '_locale' => 'user',
         ]);
+        $slug = $this->getPluginConstant(Constants::PLUGIN_CONST_SLUG);
         $file = $this->getPluginConstant(Constants::PLUGIN_CONST_FILE);
         $fileDir = $file === null ? null : \dirname($file);
+        $chunksLanguageFolder = null;
+        if ($file !== null) {
+            //if (defined('WP_LANG_DIR') && !empty(constant('WP_LANG_DIR')) && !(defined('DEVOWL_WP_DEV') && constant('DEVOWL_WP_DEV'))) {
+            //    $chunksLanguageFolder =
+            //        trailingslashit(content_url(str_replace(constant('WP_CONTENT_DIR'), '', constant('WP_LANG_DIR')))) .
+            //        'mo-cache/' .
+            //        $slug;
+            //} else {
+            $chunksLanguageFolder = \plugins_url(\substr(PackageLocalization::getParentLanguageFolder($fileDir . '/' . Constants::LOCALIZATION_PUBLIC_JSON_I18N), \strlen($fileDir)), $file);
+            //}
+        }
         return [
-            'slug' => $this->getPluginConstant(Constants::PLUGIN_CONST_SLUG),
+            'slug' => $slug,
             'textDomain' => $this->getPluginConstant(Constants::PLUGIN_CONST_TEXT_DOMAIN),
             'version' => $this->getPluginConstant(Constants::PLUGIN_CONST_VERSION),
             'restUrl' => $this->getAsciiUrl(Service::getUrl($this)),
@@ -72,7 +84,7 @@ trait Assets
             'restRecreateNonceEndpoint' => \admin_url('admin-ajax.php?action=rest-nonce'),
             'publicUrl' => $file !== null ? \trailingslashit(\plugins_url('public', $file)) : null,
             'chunkFolder' => $file !== null ? \basename($this->getPublicFolder()) : null,
-            'chunksLanguageFolder' => $file !== null ? \plugins_url(\substr(PackageLocalization::getParentLanguageFolder($fileDir . '/' . Constants::LOCALIZATION_PUBLIC_JSON_I18N), \strlen($fileDir)), $file) : null,
+            'chunksLanguageFolder' => $chunksLanguageFolder,
             'chunks' => $file !== null ? $this->getChunkTranslationMap() : null,
             // We put custom variables to "others" because if you put for example
             // a boolean to the first-level it is interpreted as "1" instead of `true`.

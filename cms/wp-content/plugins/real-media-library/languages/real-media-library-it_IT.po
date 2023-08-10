@@ -306,7 +306,7 @@ msgstr ""
 msgid "WPML: Automatically move translations"
 msgstr "WPML: Sposta le traduzioni automaticamente"
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr ""
 

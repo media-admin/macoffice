@@ -330,8 +330,8 @@ add_action('pre_get_posts', function($query) {
 
 function macoffice_add_woocommerce_support() {
 	add_theme_support( 'woocommerce', array(
-		'thumbnail_image_width' => 350,
-		'single_image_width'    => 350,
+		'thumbnail_image_width' => 450,
+		'single_image_width'    => 450,
 		'product_grid'          => array(
 			'default_rows'    => 3,
 			'min_rows'        => 2,
@@ -1048,7 +1048,7 @@ add_filter('ngettext', 'change_rp_text', 10, 3);
 function change_rp_text($translated, $text, $domain)
 	{
  	if ($text === 'Related products' && $domain === 'woocommerce') {
-		 	$translated = esc_html__('Wird gerne gemeinsam gekauft', $domain);
+		 	$translated = esc_html__('Weitere beliebte Artikel', $domain);
  	}
  	return $translated;
 	}

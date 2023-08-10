@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 4.21.6 (2023-08-04)
+
+**Note:** This package (@devowl-wp/real-media-library) has been updated because a dependency, which is also shipped with this package, has changed.
+
+
+
+
+
+## 4.21.5 (2023-08-04)
+
+**Note:** This package (@devowl-wp/real-media-library) has been updated because a dependency, which is also shipped with this package, has changed.
+
+
+
+
+
+## 4.21.4 (2023-08-04)
+
+
+### fix
+
+* language packs could not be downloaded from SVN repository for slugs ending with -lite (CU-861n4ahzb)
+
+
+
+
+
+## 4.21.3 (2023-08-02)
+
+**Note:** This package (@devowl-wp/real-media-library) has been updated because a dependency, which is also shipped with this package, has changed.
+
+
+
+
+
+## 4.21.2 (2023-08-02)
+
+
+### chore
+
+* checked compatibility with WordPress 6.3 (CU-861n42pdy)
+* review 1 (CU-861n4ahzb)
+
+
+### fix
+
+* compatibility with WPML in the free version as the folder selector is shown behind media dialog (CU-861n3wrmv)
+
+
+
+
+
+## 4.21.1 (2023-07-18)
+
+**Note:** This package (@devowl-wp/real-media-library) has been updated because a dependency, which is also shipped with this package, has changed.
+
+
+
+
+
 # 4.21.0 (2023-07-06)
 
 

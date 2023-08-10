@@ -185,6 +185,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			$args = array(
 				'create_menu_page' => true,
 				'plugin_slug'      => YWCTM_SLUG,
+				'is_free'          => true,
 				'parent_slug'      => '',
 				'page_title'       => 'YITH WooCommerce Catalog Mode',
 				'menu_title'       => 'Catalog Mode',

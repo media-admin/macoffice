@@ -302,7 +302,7 @@ msgstr "Hvis du flytter en fil, flyttes den tilsvarende oversatte fil også."
 msgid "WPML: Automatically move translations"
 msgstr "WPML: Flyt automatisk oversættelser"
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr ""
 

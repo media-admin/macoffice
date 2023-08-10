@@ -286,7 +286,7 @@ msgstr "यदि आप कोई फ़ाइल ले जाते हैं
 msgid "WPML: Automatically move translations"
 msgstr "WPML: स्वतः ही अनुवाद प्रतिस्थापित करें"
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr ""
 

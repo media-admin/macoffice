@@ -344,7 +344,7 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 				wp_enqueue_style( 'yith-wcwl-admin' );
 				wp_enqueue_script( 'yith-wcwl-admin' );
 
-				if ( isset( $_GET['tab'] ) && 'dashboard-popular' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				if ( isset( $_GET['tab'], $_GET['sub_tab'] ) && 'dashboard' === $_GET['tab'] && 'dashboard-popular' === $_GET['sub_tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					wp_enqueue_style( 'yith-wcwl-material-icons' );
 					wp_enqueue_editor();
 				}

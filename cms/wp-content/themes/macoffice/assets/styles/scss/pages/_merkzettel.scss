@@ -2,10 +2,11 @@
 
 .wishlist_products_counter_number {
 	font-size: 1.2rem;
-	font-weight: 400;
-	color: $color-white;
+	font-weight: 600;
+	/* color: $color-white;
 	background-color: $color-primary;
-	border-radius: 50%;
+	border-radius: 50%; */
+	color: $color-primary;
 	vertical-align: text-bottom;
 	padding: 0.25rem 0.65rem;
 }
@@ -14,6 +15,14 @@
 
 	& .tinv-wishlist .tinv-header {
 		display: none;
+	}
+
+	& .woocommerce-info {
+		border-top-color: $color-primary;
+	}
+
+	& .woocommerce-info:before {
+		color: $color-primary;
 	}
 
 	& .tinv-wishlist .tinvwl-table-manage-list .product-cb {

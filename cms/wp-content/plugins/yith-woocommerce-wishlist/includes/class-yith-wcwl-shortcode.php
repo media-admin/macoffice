@@ -646,11 +646,12 @@ if ( ! class_exists( 'YITH_WCWL_Shortcode' ) ) {
 		 * @since 1.0.0
 		 */
 		public static function add_to_wishlist( $atts, $content = null ) {
-			global $product;
+			global $post, $product;
 
 			// product object.
 			$current_product = ( isset( $atts['product_id'] ) ) ? wc_get_product( $atts['product_id'] ) : false;
-			$current_product = $current_product ? $current_product : $product;
+			$current_product = $current_product ? $current_product : ( $product instanceof WC_Product ? $product : false );
+			$current_product = $current_product ? $current_product : ( $post instanceof WP_Post ? wc_get_product( $post->ID ) : false );
 
 			if ( ! $current_product || ! $current_product instanceof WC_Product ) {
 				return '';
@@ -837,7 +838,12 @@ if ( ! class_exists( 'YITH_WCWL_Shortcode' ) ) {
 
 			$atts = shortcode_atts(
 				$additional_params,
-				$atts
+				is_array( $atts ) ? array_filter(
+					$atts,
+					function( $item ) {
+						return ! empty( $item ) || is_bool( $item );
+					}
+				) : array()
 			);
 
 			// add no-icon class when item is shown without icon.

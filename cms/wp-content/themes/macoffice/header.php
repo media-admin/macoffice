@@ -67,11 +67,10 @@
 		<?php if (is_front_page() ) : ?>
 			<title>Startseite | <?php bloginfo( 'name' ); ?></title>
 		<?php else : ?>
-			<title><?php wp_title($sep = ''); ?> | <?php bloginfo( 'name' ); ?></title>
+			<title><?php wp_title($sep = ''); ?></title>
 		<?php endif; ?>
 
 		<?php wp_enqueue_script('jquery'); ?>
-
 		<?php wp_head(); ?>
 
 	</head>

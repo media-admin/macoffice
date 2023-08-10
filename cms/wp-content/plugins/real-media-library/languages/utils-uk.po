@@ -16,6 +16,17 @@ msgstr ""
 "X-Generator: Weblate 4.16.4\n"
 
 #. translators:
+#: Localization.php:424
+msgid ""
+"Some language packs could not be downloaded for the textdomain %1$s (Error: "
+"%2$s, Endpoint: %3$s)."
+msgstr ""
+
+#: Localization.php:474
+msgid "Retry"
+msgstr ""
+
+#. translators:
 #: Service.php:117
 msgid ""
 "<strong>An unexpected network error has occurred!</strong> One or more "

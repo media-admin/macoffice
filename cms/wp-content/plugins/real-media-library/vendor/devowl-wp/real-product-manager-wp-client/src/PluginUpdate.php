@@ -73,6 +73,7 @@ class PluginUpdate
         \add_option(self::OPTION_NAME_FIRST_INITIALIZATION_PREFIX . $initiator->getPluginSlug(), \time());
         \add_action('init', [$this, 'init']);
         \add_filter('auto_update_plugin', [$this, 'auto_update_plugin'], 10, 2);
+        \add_filter('DevOwl/Utils/Localization/LanguagePacks/' . $initiator->getPluginSlug(), [$this, 'language_packs'], 10, 2);
         //wp_maybe_auto_update(); // For testing purposes, trigger auto update
         $this->getAnnouncementPool()->initialize();
     }
@@ -93,6 +94,19 @@ class PluginUpdate
         $this->getPluginUpdateChecker()->probablyEnableExternalUpdates();
         // We do not handle the response as the activation automatically creates a warning for our user
         $this->getCurrentBlogLicense()->activateProgrammatically();
+    }
+    /**
+     * For licensed plugin installations, endable the download from assets.devowl.io for language packs.
+     *
+     * @param array $urls
+     * @param boolean $isPrereleaseVersion
+     */
+    public function language_packs($urls, $isPrereleaseVersion)
+    {
+        if (!$isPrereleaseVersion && !empty($this->getCurrentBlogLicense()->getActivation()->getCode())) {
+            $urls['devowl'][1] = \true;
+        }
+        return $urls;
     }
     /**
      * Check for auto updates and do not update major versions.

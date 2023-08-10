@@ -189,6 +189,11 @@ if ( ! class_exists( 'AWS_WCFM' ) ) :
                 foreach ( $taxonomy as $taxonomy_slug ) {
                     $vendor_tax = $store->get_store_taxonomies( $taxonomy_slug );
                     if ( ! empty( $vendor_tax) ) {
+                        foreach ( $vendor_tax as $vendor_tax_key => $vendor_tax_i ) {
+                            if ( is_array( $vendor_tax_i ) ) {
+                                $vendor_tax[$vendor_tax_key] = implode('', array_values($vendor_tax_i) );
+                            }
+                        }
                         $all_vendor_tax = array_merge( $all_vendor_tax, $vendor_tax );
                     }
                 }

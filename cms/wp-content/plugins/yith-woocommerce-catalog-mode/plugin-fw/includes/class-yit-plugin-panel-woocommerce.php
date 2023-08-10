@@ -498,7 +498,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
 
 				do_action( 'yit_panel_wc_after_update' );
 
-				$this->add_notice( __( 'Options saved correctly!', 'yith-plugin-fw' ), 'success' );
+				$this->add_notice( __( 'Options saved!', 'yith-plugin-fw' ), 'success' );
 
 			} elseif (
 				isset( $_REQUEST['yit-action'] ) && 'wc-options-reset' === sanitize_key( wp_unslash( $_REQUEST['yit-action'] ) )
@@ -868,16 +868,20 @@ if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
 				wp_die( - 1 );
 			}
 
-			$posted      = $_POST;
-			$tabs        = $this->get_available_tabs();
-			$yit_options = $this->get_main_array_options();
-			$current_tab = isset( $_REQUEST['tab'] ) ? sanitize_key( wp_unslash( $_REQUEST['tab'] ) ) : false;
-			$current_tab = ! ! $current_tab && in_array( $current_tab, $tabs, true ) ? $current_tab : $tabs[0];
-			$option_id   = isset( $_REQUEST['toggle_id'] ) ? sanitize_key( wp_unslash( $_REQUEST['toggle_id'] ) ) : '';
-			$updated     = false;
+			$posted          = $_POST;
+			$tabs            = $this->get_available_tabs();
+			$yit_options     = $this->get_main_array_options();
+			$current_tab     = isset( $_REQUEST['tab'] ) ? sanitize_key( wp_unslash( $_REQUEST['tab'] ) ) : false;
+			$current_tab     = ! ! $current_tab && in_array( $current_tab, $tabs, true ) ? $current_tab : $tabs[0];
+			$sub_tabs        = array_keys( $this->get_sub_tabs( $current_tab ) );
+			$current_sub_tab = sanitize_key( wp_unslash( $_REQUEST['sub_tab'] ?? '' ) );
+			$current_sub_tab = ! ! $current_sub_tab && in_array( $current_sub_tab, $sub_tabs, true ) ? $current_sub_tab : $sub_tabs[0] ?? '';
+			$option_key      = ! ! $current_sub_tab ? $current_sub_tab : $current_tab;
+			$option_id       = isset( $_REQUEST['toggle_id'] ) ? sanitize_key( wp_unslash( $_REQUEST['toggle_id'] ) ) : '';
+			$updated         = false;
 
-			if ( ! empty( $yit_options[ $current_tab ] ) && ! empty( $option_id ) ) {
-				$tab_options = $yit_options[ $current_tab ];
+			if ( ! empty( $yit_options[ $option_key ] ) && ! empty( $option_id ) ) {
+				$tab_options = $yit_options[ $option_key ];
 				foreach ( $tab_options as $key => $item ) {
 					if ( ! isset( $item['id'] ) ) {
 						unset( $tab_options[ $key ] );
@@ -885,6 +889,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
 				}
 
 				$option_array = array_combine( wp_list_pluck( $tab_options, 'id' ), $tab_options );
+
 				if ( isset( $option_array[ $option_id ] ) ) {
 					$value = isset( $posted[ $option_id ] ) ? $posted[ $option_id ] : '';
 

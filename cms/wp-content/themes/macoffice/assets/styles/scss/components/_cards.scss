@@ -65,13 +65,17 @@
 
 	@include atMedium {
 		position: relative;
-		width: 4%;
-		border-bottom: 6px dotted $color-primary;
+		width: 5%;
+		border-bottom: 4px dotted $color-primary;
 	}
 }
 
 
 .card__thumbnail {
+	max-height: 450px;
+	height: auto;
+	max-width: 100%;
+	width: auto;
 	margin-top: 1.0rem;
 	margin-bottom: 1.0rem;
 }

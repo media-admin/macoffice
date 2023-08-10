@@ -308,7 +308,7 @@ msgstr "Ak presuniete súbor, presunie sa aj príslušný preložený súbor."
 msgid "WPML: Automatically move translations"
 msgstr "WPML: Automatický presun prekladov"
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr "https://devowl.io/go/real-media-library?source=rml-lite"
 

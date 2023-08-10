@@ -13,15 +13,17 @@ trait CorePro
     // Documented in ICore
     public function overrideConstructFreemium()
     {
-        \add_filter('http_request_args', [$this, 'http_request_args_lite'], 10, 2);
-        \add_filter('site_transient_update_plugins', [$this, 'site_transient_update_plugins']);
-        \add_filter('plugin_row_meta', [$this, 'plugin_row_meta_lite'], 10, 2);
         /**
          * This trait always needs to be used along with base trait.
          *
          * @var Base
          */
         $base = $this;
+        $slug = $base->getPluginConstant(Constants::PLUGIN_CONST_SLUG_PRO);
+        \add_filter('http_request_args', [$this, 'http_request_args_lite'], 10, 2);
+        \add_filter('site_transient_update_plugins', [$this, 'site_transient_update_plugins']);
+        \add_filter('plugin_row_meta', [$this, 'plugin_row_meta_lite'], 10, 2);
+        \add_filter('DevOwl/Utils/Localization/LanguagePacks/' . $slug, [$this, 'language_packs'], 10, 2);
         \register_activation_hook(\plugin_basename($base->getPluginConstant('FILE')), [$this, 'deactivate_lite_version']);
     }
     /**
@@ -143,6 +145,19 @@ trait CorePro
             // Silence is golden.
         }
         return $links;
+    }
+    /**
+     * For the pro version, endable the download from assets.devowl.io for language packs.
+     *
+     * @param array $urls
+     * @param boolean $isPrereleaseVersion
+     */
+    public function language_packs($urls, $isPrereleaseVersion)
+    {
+        if (!$isPrereleaseVersion) {
+            $urls['devowl'][1] = \true;
+        }
+        return $urls;
     }
     // Documented in ICore
     public function isLiteNoticeDismissed($set = null)

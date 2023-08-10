@@ -27,6 +27,7 @@ class Constants
      * Used in frontend localization to detect the i18n files.
      */
     const LOCALIZATION_PUBLIC_JSON_I18N = 'public/languages/json';
+    const LOCALIZATION_MO_CACHE_FOLDER = 'mo-cache';
     /**
      * Enqueue scripts and styles in admin pages.
      */

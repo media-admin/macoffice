@@ -757,6 +757,7 @@ YITH UI
     padding            : 8px 30px 8px 10px;
     border             : var(--yith-field-border);
     box-shadow         : var(--yith-field-shadow);
+    color              : var(--yith-content-text);
 }
 
 .yith-plugin-ui select:disabled {
@@ -793,7 +794,8 @@ YITH UI
     box-shadow : none !important;
 }
 
-.yith-plugin-ui .select2-container .select2-selection--single {
+.yith-plugin-ui .select2-container .select2-selection--single,
+.wc-wp-version-gte-53 .yith-plugin-ui .select2-container .select2-selection--single {
     height      : auto;
     line-height : 1;
 }
@@ -805,7 +807,8 @@ YITH UI
 /* old panel*/
 
 .yith-plugin-fw-select2-container {
-    z-index : 9999999;
+    z-index   : 9999999;
+    font-size : 14px;
 }
 
 .yith-plugin-ui span.select2.select2-container.select2-container--default,
@@ -815,12 +818,20 @@ span.select2.select2-container.select2-container--default.yith-plugin-fw-select2
     box-shadow    : var(--yith-field-shadow);
     color         : var(--yith-content-text);
     background    : var(--yith-field-background);
+    font-size     : 14px;
 }
 
 .yith-plugin-ui .select2-container--default .select2-selection--single .select2-selection__rendered,
-.yith-plugin-ui .select2-container--default .select2-selection--single .select2-selection__rendered:hover {
+.yith-plugin-ui .select2-container--default .select2-selection--single .select2-selection__rendered:hover,
+.wc-wp-version-gte-53 .yith-plugin-ui .select2-container--default .select2-selection--single .select2-selection__rendered,
+.wc-wp-version-gte-53 .yith-plugin-ui .select2-container--default .select2-selection--single .select2-selection__rendered:hover {
     color       : var(--yith-content-text);
     line-height : 30px;
+}
+
+.yith-plugin-ui .select2-container--default .select2-selection--single .select2-selection__rendered:hover,
+.wc-wp-version-gte-53 .yith-plugin-ui .select2-container--default .select2-selection--single .select2-selection__rendered:hover {
+    color : var(--yith-primary);
 }
 
 .yith-plugin-ui .select2-container--default .select2-selection--single .select2-selection__placeholder {

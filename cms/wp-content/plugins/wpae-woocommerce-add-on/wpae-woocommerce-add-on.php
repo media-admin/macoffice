@@ -3,7 +3,7 @@
 Plugin Name: WP All Export - WooCommerce Export Add-On Pro
 Plugin URI: http://www.wpallimport.com/
 Description: Export WooCommerce Products, Orders and Reviews from WordPress. Requires WP All Export Pro.
-Version: 1.0.6
+Version: 1.0.7
 Author: Soflyy
 */
 /**
@@ -24,7 +24,7 @@ define('PMWE_ROOT_URL', rtrim(plugin_dir_url(__FILE__), '/'));
  */
 define('PMWE_PREFIX', 'pmwe_');
 
-define('PMWE_VERSION', '1.0.6');
+define('PMWE_VERSION', '1.0.7');
 
 if ( class_exists('PMWE_Plugin') and PMWE_EDITION == "free"){
 

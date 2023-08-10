@@ -103,7 +103,7 @@ select.selectBox.change-wishlist{
     width: auto!important;
 }
 
-/* === 3. PRETTY PHOTO STYLE === */
+/* === 2. PRETTY PHOTO STYLE === */
 
 .yith-wcwl-with-pretty-photo{
     overflow: hidden;
@@ -841,6 +841,10 @@ div.product .woocommerce-price-and-add .single_add_to_wishlist.button {
     margin: 0;
     box-shadow: none;
     text-shadow: none;
+}
+
+.add-to-wishlist-before_image {
+    position: relative;
 }
 
 .add-to-wishlist-before_image .yith-wcwl-add-to-wishlist {

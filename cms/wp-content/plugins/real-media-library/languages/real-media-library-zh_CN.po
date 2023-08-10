@@ -277,7 +277,7 @@ msgstr "如果您移动一个文件，也要移动相关的翻译文件。"
 msgid "WPML: Automatically move translations"
 msgstr "WPML:自动移动翻译"
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr ""
 

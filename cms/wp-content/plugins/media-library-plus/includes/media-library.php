@@ -110,6 +110,14 @@ if($image_seo === 'on') {
 <input type="hidden" id="move-or-copy-status" value="<?php echo esc_attr($move_or_copy) ?>" />
 <input type="hidden" id="sort-type" value="<?php echo esc_attr($sort_type) ?>" />
 
+<?php if($this->bda == 'on') { ?>
+  <?php 
+    $download_page = get_permalink(get_option(MLFP_BDA_DOWNLOAD_PAGE)); 
+    $download_link = esc_url(add_query_arg('download', '', $download_page));             
+    ?>
+  <input type="hidden" id="mlfp-download-page" value="<?php echo $download_link ?>" />
+<?php } ?>
+
 <div id="mgmlp-outer-container">
   
   <div id="folder-tree-container">
@@ -228,6 +236,17 @@ if($image_seo === 'on') {
         </li>
       </ul>
       
+      <?php if($this->bda == 'on') { ?>
+        <div id="mg-stb-left">
+          <select id="mlf-bulk-select" class="gray-blue-link">
+            <option>Bulk Actions</option>
+            <option value="mgmlp-block-files">Block/Unblock File Access</option>
+            <option value="mlfp-configure-private-links">Configure Blocked Download Links</option>
+          </select>
+          <a id="mlp-bulk-apply" class="gray-blue-link">Apply</a>
+        </div>      
+      <?php } ?>      
+      
     </div>
     <div style="clear:both"></div>
     <div class="mg-folders-secondary-tool-bar">
@@ -320,10 +339,46 @@ if($image_seo === 'on') {
     </div>
         
   </div>
-</div>  
+</div>
+
 <?php } ?>
 
-
+<div id="mlfp-config-links-popup">
+  <div class="mlf-popup-content">
+    <h2><?php esc_html_e('Configure Blocked Files Links','maxgalleria-media-library') ?></h2>
+    
+    <div id="alwrapbda">
+      <div id="ajaxloaderbda" style="display: none;"></div>
+    </div>   
+    
+    <a id="close-links-popup" title="<?php esc_html_e('Close popup without saving','maxgalleria-media-library') ?>">x</a> 
+    <hr>
+    
+    <div class="popup-content-bottom">
+      <table id="blocked-files">
+        <thead>
+          <tr>
+            <td class="bda-name-col"><?php esc_html_e('File','maxgalleria-media-library') ?></td>
+            <td class="bda-count-col mflp-align-center"><?php esc_html_e('Count','maxgalleria-media-library') ?></td>
+            <td class="bda-limit-col mflp-align-center"><?php esc_html_e('Limit','maxgalleria-media-library') ?></td>
+            <td class="bda-exp-date-col mflp-align-center"><?php esc_html_e('Expiration Date','maxgalleria-media-library') ?></td>
+            <td class="bda-copy-link-col"></td>
+          </tr>
+        </thead>
+        <tbody id="blocked-links-list">          
+        </tbody>
+      </table>
+    <hr>    
+      <p>
+        <a id="mlfp-save-bda-info" class="gray-blue-link"><?php esc_html_e('Save & Close','maxgalleria-media-library') ?></a>
+      </p>
+      <div style="clear:both"></div>
+      <p id="links-config-message">
+      </p>
+    </div>
+        
+  </div>
+</div>  
 
 <script>
   
@@ -721,7 +776,216 @@ jQuery(document).ready(function(){
     jQuery('#mgmlp-media-search-input').val('');
   });	
   
-});  
+  jQuery(document).on("click", "#mlp-bulk-apply", function (e) {
+    e.stopImmediatePropagation();
+        
+    var bulk_selection = jQuery('#mlf-bulk-select').val();
+    
+    if(jQuery(this).hasClass("disabled-button")) {
+      console.log('disabled-button');
+      return false;
+    }
+    
+    console.log('bulk_selection',bulk_selection);
+          
+    switch(bulk_selection) {
+      
+      case 'mgmlp-block-files':  
+        mlfp_block_files();
+        break;
+        
+      case 'mlfp-configure-private-links':
+        configure_private_links();
+        break;
+        
+    }  
+    
+  })
+  
+  jQuery('#close-links-popup').on('click', function (e) {
+    e.stopImmediatePropagation();
+    jQuery('#mlfp-config-links-popup').fadeOut(300);
+  });
+  
+  jQuery(document).on("click", "#mlfp-save-bda-info", function (e) {
+    
+    e.stopImmediatePropagation();
+    jQuery('#mlfp-config-links-popup').fadeOut(300);
+    
+    jQuery('tbody#blocked-links-list tr').each(function() {  
+      var image_id = jQuery(this).attr('data-id');
+      var download_limit = jQuery('#limit-'+image_id).val();
+      var expiration_date = jQuery('#ex-date-'+image_id).val();
+      update_bda_record(image_id, download_limit, expiration_date);
+    });     
+      
+  });
+  
+  jQuery(document).on("click", ".bda-copy-link", function (e) {
+    
+    e.stopImmediatePropagation();
+    var file_name = jQuery(this).closest('.bda-row').find('.bda-name-col').text();    
+    
+    var hash = jQuery(this).data('hash');  
+    var url = jQuery('#mlfp-download-page').val() + "=" + hash;
+    //console.log('hash',url);
+    copyToClipboard(url)
+    var copy_message = file_name  + ' ' + mgmlp_ajax.link_copied;
+    jQuery('#links-config-message').html(copy_message);
+  });
+    
+  jQuery(document).on("click", "#bda-update-fields", function (e) {
+    e.stopImmediatePropagation();
+    console.log("bda_expiration_date");
+    
+    var bda_limit = jQuery('#bulk-download-limit').val();
+    //bda_limit = bda_limit.trim();
+    console.log('bda_limit',bda_limit);
+    if(bda_limit != '') {      
+      jQuery('tbody#blocked-links-list tr').each(function() {  
+        var image_id = jQuery(this).attr('data-id');
+        jQuery('#limit-'+image_id).val(bda_limit);
+      });
+    }
+    
+    var bda_expiration_date = jQuery('#bulk-expiration-date').val();
+    console.log('bda_expiration_date',bda_expiration_date);
+    if(bda_expiration_date != '') {
+      jQuery('tbody#blocked-links-list tr').each(function() {  
+        var image_id = jQuery(this).attr('data-id');
+        var expiration_date = jQuery('#ex-date-'+image_id).val(bda_expiration_date);        
+      });
+    }      
+  });
+    
+}); // document ready end
+
+// from https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined#65996386
+function copyToClipboard(textToCopy) {
+  // navigator clipboard api needs a secure context (https)
+  if (navigator.clipboard && window.isSecureContext) {
+    // navigator clipboard api method'
+    return navigator.clipboard.writeText(textToCopy);
+  } else {
+    let textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    return new Promise((res, rej) => {
+      document.execCommand('copy') ? res() : rej();
+      textArea.remove();
+    });
+  }
+}
+
+function update_bda_record(image_id, download_limit, expiration_date) {
+  
+  jQuery("#ajaxloaderbda").show();
+    
+  jQuery.ajax({
+    type: "POST",
+    async: true,
+    data: { action: "mlfp_update_bda_record", image_id: image_id, download_limit: download_limit, expiration_date: expiration_date, nonce: mgmlp_ajax.nonce },
+    url: mgmlp_ajax.ajaxurl,
+    dataType: "html",
+    success: function (data) {
+      jQuery("#ajaxloaderbda").hide();
+    },
+    error: function (err){
+      jQuery("#ajaxloader").hide();
+      alert(err.responseText);
+    }
+  });
+  
+}  
+
+function mlfp_block_files() {
+  
+  console.log('mlfp_block_files');
+  
+  if(jQuery("#current-folder-id").val() === undefined) 
+    var current_folder = sessionStorage.getItem('folder_id');
+  else
+    var current_folder = jQuery('#current-folder-id').val();
+
+  // promise array/counter will call refresh when done
+  var promisesArray = [];
+  var successCounter = 0;
+  var promise;			    
+  var file_count = 0;
+
+  jQuery('input[type=checkbox].mgmlp-media:checked').each(function() {  
+
+    var file_id = jQuery(this).attr("id");
+    var protected = jQuery(this).attr("protected");
+    console.log('file_id',file_id);
+    //console.log(this);
+    console.log('protected',protected);
+    file_count++;
+    jQuery("#ajaxloader").show();
+    
+    console.log('file_id',file_id,'current_folder',current_folder,'protected',protected);
+
+    promise = 
+      jQuery.ajax({
+        type: "POST",
+        async: true,
+        data: { action: "mlfp_toggle_file_access", file_id: file_id, current_folder: current_folder, protected: protected, nonce: mgmlp_ajax.nonce },
+        url: mgmlp_ajax.ajaxurl,
+        dataType: "html",
+        success: function (data) { 
+          jQuery("#ajaxloader").hide();
+          jQuery("#folder-message").html(data);      
+          mlf_refresh(current_folder);
+        },
+        error: function (err){ 
+          jQuery("#ajaxloader").hide();
+          alert(err.responseText)
+        }
+      });  
+
+      promise.done(function(msg) {
+        successCounter++;
+      });
+
+      promise.fail(function(jqXHR) { /* error out... */ });
+
+      promisesArray.push(promise);      
+
+  });
+
+  jQuery.when.apply($, promisesArray).done(function() {
+    console.log('promise done');
+  });
+  
+}  
+
+function configure_private_links() {
+  
+  var count = 0;
+  
+  jQuery('#blocked-links-list').html('');
+  
+  jQuery('#mlfp-config-links-popup').fadeIn(300);
+    
+  jQuery('#blocked-links-list').append("<tr id='bulk-blocked-row'><td class='bda-name-col'><?php esc_html_e('Bulk Configure', 'maxgalleria-media-library' ); ?></td><td class='bda-count-col'></td><td class='bda-limit-col mflp-align-center'><input type='text' id='bulk-download-limit' class='bda-limit-input mflp-align-right' value='' ></td><td class='bda-exp-date-col'><input type='date' class='bda-exp-date-input' id='bulk-expiration-date' value=''></td><td class='bda-copy-link-col'><a id='bda-update-fields' class='gray-blue-link'>Copy Fields</a></td></tr>")
+    
+  jQuery('input[type=checkbox].mgmlp-media:checked').each(function() {  
+    if(count > 20) {
+      return false;
+    }  
+    var image_id = jQuery(this).attr("id");
+    var title = jQuery(this).closest('.attachment-name').find('.mediafile').text();    
+    //console.log('title',title);
+    get_blocked_file_info(image_id, title, count);
+    count++;
+  });
+       
+}
 
 function create_new_folder(new_folder_name) {
 
@@ -800,53 +1064,6 @@ function do_mlfp_search() {
         
 }
 
-function bulk_delete_files() {
-  
-  jQuery("#folder-message").html('');			
-
-  if(jQuery("#current-folder-id").val() === undefined) 
-    var current_folder = sessionStorage.getItem('folder_id');
-  else
-    var current_folder = jQuery('#current-folder-id').val();
-
-  jQuery(".mgmlp-folder").prop('disabled', false);
-
-  var delete_ids = new Array();
-  jQuery('input[type=checkbox].mgmlp-media:checked').each(function() {  
-    delete_ids[delete_ids.length] = jQuery(this).attr("id");
-  });
-
-  if(delete_ids.length === 0) {
-    alert(mgmlp_ajax.nothing_selected);
-    return false;
-  }
-  
-  if(confirm(mgmlp_ajax.confirm_file_delete)) {
-    var serial_delete_ids = JSON.stringify(delete_ids.join());
-    jQuery("#ajaxloader").show();
-    jQuery.ajax({
-      type: "POST",
-      async: true,
-      data: { action: "delete_maxgalleria_media", serial_delete_ids: serial_delete_ids, parent_id: current_folder, nonce: mgmlp_ajax.nonce },
-      //var delete_data = jQuery.serialize(data);
-      url : mgmlp_ajax.ajaxurl,
-      dataType: "json",
-      success: function (data) {
-
-        jQuery("#folder-message").html(data.message);
-        if(data.refresh)
-          jQuery("#mgmlp-file-container").html(data.files);						
-        jQuery("#ajaxloader").hide();            
-
-      },
-      error: function (err)
-        { alert(err.responseText);}
-    });
-  } 
-
-  
-}
-
 function bulk_regenerate_thumbnails() {
   
       var image_ids = new Array();
@@ -885,6 +1102,55 @@ function bulk_regenerate_thumbnails() {
       });                
   
 }
+
+function display_protected_files() {
+  jQuery(".mlfp-protected").each(function () {
+    var image_element = jQuery(this).find("img.attachment-thumbnail");
+    var src = image_element.attr("src");
+    if(src.indexOf("protected-content") >= 0) {
+      jQuery(image_element).attr("src", "");
+      console.log("src", src);
+      jQuery.ajax({
+        type: "POST",
+        async: true,
+        data: { action: "mlfp_load_image", src: src, nonce: mgmlp_ajax.nonce },
+        url: mgmlp_ajax.ajaxurl,
+        success: function (data) {
+          if(data.length > 0)
+            jQuery(image_element).attr("src", data);
+        },
+        error: function (err){
+          alert(err.responseText);
+        }
+      });
+    }
+  });  
+}
+
+function get_blocked_file_info(image_id, title, count) {
+  
+  jQuery("#ajaxloaderbda").show();
+  
+	jQuery.ajax({
+		type: "POST",
+		async: true,
+		data: { action: "mlfp_display_bda_info", image_id: image_id, title: title, count: count, nonce: mgmlp_ajax.nonce },
+		url: mgmlp_ajax.ajaxurl,
+		dataType: "html",
+		success: function (data) { 
+      console.log('data',data);
+      if(data != 'none') {
+        jQuery("#ajaxloaderbda").hide();
+        jQuery('#blocked-links-list').append(data);
+      }                          
+		},
+		error: function (err){ 
+			alert(err.responseText)
+		}
+	});
+    
+}
+
 </script>   
   
 

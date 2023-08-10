@@ -304,7 +304,7 @@ msgstr "Jos siirrät tiedoston, myös vastaava käännetty tiedosto siirretään
 msgid "WPML: Automatically move translations"
 msgstr "WPML: Siirrä käännökset automaattisesti"
 
-#: inc/Core.php:106
+#: inc/Core.php:108
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr "https://devowl.io/go/real-media-library?source=rml-lite"
 

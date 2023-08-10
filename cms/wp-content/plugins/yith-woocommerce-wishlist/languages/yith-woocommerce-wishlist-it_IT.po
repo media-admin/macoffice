@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: YITH WooCommerce Wishlist\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yith-woocommerce-"
 "wishlist\n"
-"POT-Creation-Date: 2023-07-07 07:33:53+00:00\n"
+"POT-Creation-Date: 2023-08-02 09:51:45+00:00\n"
 "PO-Revision-Date: 2020-10-16 14:05+0200\n"
 "Last-Translator: Nicola Mustone <mail@nicolamustone.it>\n"
 "Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
@@ -119,7 +119,7 @@ msgstr "Prodotto rimosso con successo."
 msgid "Please, make sure to enter a valid title"
 msgstr "Inserisci un valido titolo"
 
-#: includes/class-yith-wcwl-frontend.php:675
+#: includes/class-yith-wcwl-frontend.php:789
 msgid ""
 "We are sorry, but this feature is available only if cookies on your browser "
 "are enabled."
@@ -127,11 +127,11 @@ msgstr ""
 "Spiacenti, questa funzionalità è disponibile solo se hai abilitato i cookie "
 "nel tuo browser."
 
-#: includes/class-yith-wcwl-frontend.php:685
+#: includes/class-yith-wcwl-frontend.php:799
 msgid "Product added to cart successfully"
 msgstr "Prodotto aggiunto al carrello con successo"
 
-#: includes/class-yith-wcwl-frontend.php:968
+#: includes/class-yith-wcwl-frontend.php:1084
 #: includes/class-yith-wcwl-shortcode.php:257
 #: plugin-options/settings/wishlist_page-options.php:249
 #: templates/wishlist-view-footer-mobile.php:59
@@ -344,7 +344,7 @@ msgstr "Condividi per email"
 msgid "Share on WhatsApp"
 msgstr "Condividi su WhatsApp"
 
-#: includes/class-yith-wcwl-shortcode.php:753
+#: includes/class-yith-wcwl-shortcode.php:754
 msgid "Remove from list"
 msgstr "Rimuovi dalla lista"
 

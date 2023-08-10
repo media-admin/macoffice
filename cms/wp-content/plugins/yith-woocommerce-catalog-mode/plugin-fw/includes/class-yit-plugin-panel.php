@@ -1492,7 +1492,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 				'reset'            => $this->get_message( __( 'Settings reset', 'yith-plugin-fw' ) . '.', 'success', false ),
 				'delete'           => $this->get_message( __( 'Element deleted correctly.', 'yith-plugin-fw' ), 'success', false ),
 				'updated'          => $this->get_message( __( 'Element updated correctly.', 'yith-plugin-fw' ), 'success', false ),
-				'settings-updated' => $this->get_message( __( 'Element updated correctly.', 'yith-plugin-fw' ), 'success', false ),
+				'settings-updated' => $this->get_message( __( 'Options saved!', 'yith-plugin-fw' ), 'success', false ),
 				'imported'         => $this->get_message( __( 'Database imported correctly.', 'yith-plugin-fw' ), 'success', false ),
 				'no-imported'      => $this->get_message( __( 'An error has occurred during import. Please try again.', 'yith-plugin-fw' ), 'error', false ),
 				'file-not-valid'   => $this->get_message( __( 'The added file is not valid.', 'yith-plugin-fw' ), 'error', false ),

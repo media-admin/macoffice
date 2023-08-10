@@ -25,10 +25,10 @@
 	<article class="services__card card">
 		<div class="services__card-container card__container">
 			<a class="services__link" href="/leistungen#verkauf">
-				<p class="services__pretitle card__pretitle">5 Tage die Woche</p>
+				<p class="services__pretitle card__pretitle">Kompetenz trifft Liebe zum Produkt</p>
 				<h3 class="services__title card__title">Verkauf</h3>
 				<div class="services__content card__content">
-					<img class="services__thumbnail--full services__thumbnail card__thumbnail" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/homepage/img_beratung-und-consulting@0.5x_web.png" alt="">
+					<img class="services__thumbnail--full services__thumbnail card__thumbnail" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/services/services-img_verkauf.png" alt="Bereich Verkauf">
 				</div>
 			</a>
 		</div>
@@ -37,10 +37,10 @@
 	<article class="services__card card">
 		<div class="services__card-container card__container">
 			<a class="services__link" href="/leistungen#service-hardware">
-				<p class="services__pretitle card__pretitle">Wir wickeln für Sie ab</p>
+				<p class="services__pretitle card__pretitle">Reparaturen vom Profi</p>
 				<h3 class="services__title card__title">Service Hardware</h3>
 				<div class="services__content card__content">
-					<img class="services__thumbnail--full services__thumbnail card__thumbnail" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/homepage/img_service-und-support@0.5x_web.png" alt="Alt Text">
+					<img class="services__thumbnail--full services__thumbnail card__thumbnail" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/services/services-img_service-hardware.png" alt="Bereich Service Hardware">
 				</div>
 			</a>
 		</div>
@@ -49,10 +49,10 @@
 	<article class="services__card card">
 		<div class="services__card-container card__container">
 			<a class="services__link" href="/leistungen#serivice-software">
-				<p class="services__pretitle card__pretitle">Vor Ort oder Remote</p>
+				<p class="services__pretitle card__pretitle">Erfahrung nutzbar gemacht</p>
 				<h3 class="services__title card__title">Software Service</h3>
 					<div class="services__content card__content">
-						<img class="services__thumbnail--full services__thumbnail card__thumbnail" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/homepage/img_reparatur-und-garantie@0.5x_web.png" alt="Alt Text">
+						<img class="services__thumbnail--full services__thumbnail card__thumbnail" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/services/services-img_service-software.png" alt="Bereich Service Software">
 				</div>
 			</a>
 		</div>
@@ -61,10 +61,10 @@
 	<article class="services__card card">
 		<div class="services__card-container card__container">
 			<a class="services__link" href="/leistungen#consulting">
-				<p class="services__pretitle card__pretitle">Mit einem starken Partner</p>
+				<p class="services__pretitle card__pretitle">Fachwissen auf Abruf</p>
 				<h3 class="services__title card__title">Consulting</h3>
 				<div class="services__content card__content">
-					<img class="services__thumbnail--full services__thumbnail card__thumbnail" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/homepage/img_finanzierung@0.5x_web.png" alt="Alt Text">
+					<img class="services__thumbnail--full services__thumbnail card__thumbnail" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/services/services-img_consulting.png" alt="Bereich Consulting">
 				</div>
 			</a>
 		</div>

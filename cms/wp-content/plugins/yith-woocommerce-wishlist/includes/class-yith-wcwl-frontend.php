@@ -33,7 +33,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $version = '3.23.0';
+		public $version = '3.24.0';
 
 		/**
 		 * Plugin database version
@@ -86,7 +86,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 
 			// templates.
 			add_action( 'init', array( $this, 'add_button' ) );
-			add_filter( 'body_class', array( $this, 'add_body_class' ) );
+			add_filter( 'body_class', array( $this, 'add_body_class' ), 90 );
 			add_action( 'template_redirect', array( $this, 'add_nocache_headers' ) );
 			add_action( 'wp_head', array( $this, 'add_noindex_header' ) );
 			add_filter( 'wp_robots', array( $this, 'add_noindex_robots' ) );
@@ -96,7 +96,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 			add_action( 'yith_wcwl_wishlist_after_wishlist_content', array( $this, 'wishlist_footer' ), 10, 1 );
 
 			// template modifications.
-			add_filter( 'woocommerce_post_class', array( $this, 'add_products_class_on_loop' ) );
+			add_filter( 'post_class', array( $this, 'add_products_class_on_loop' ), 20, 3 );
 
 			// scripts.
 			add_action( 'wp_head', array( $this, 'detect_javascript' ), 0 );
@@ -141,6 +141,24 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @since 1.0.0
 		 */
 		public function add_button() {
+			$this->add_button_for_single();
+			$this->add_button_for_loop();
+
+			// Add the link "Add to wishlist" for Gutenberg blocks.
+			add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'add_button_for_blocks_product_grid_item' ), 10, 3 );
+		}
+
+		/**
+		 * Add ATW button to Single product page
+		 * Accounts for both Legacy Templates and Blockified ones
+		 *
+		 * @return void
+		 * @since 3.24.0
+		 */
+		public function add_button_for_single() {
+			// Add the link "Add to wishlist".
+			$position = get_option( 'yith_wcwl_button_position', 'add-to-cart' );
+
 			/**
 			 * APPLY_FILTERS: yith_wcwl_positions
 			 *
@@ -172,13 +190,26 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 				)
 			);
 
-			// Add the link "Add to wishlist".
-			$position = get_option( 'yith_wcwl_button_position', 'add-to-cart' );
+			if ( 'shortcode' === $position || ! isset( $positions[ $position ] ) ) {
+				return;
+			}
 
-			if ( 'shortcode' !== $position && isset( $positions[ $position ] ) ) {
+			if ( yith_plugin_fw_wc_is_using_block_template_in_single_product() ) {
+				$this->add_button_for_blockified_template( 'single-product', $position );
+			} else {
 				add_action( $positions[ $position ]['hook'], array( $this, 'print_button' ), $positions[ $position ]['priority'] );
 			}
 
+		}
+
+		/**
+		 * Add ATW button to Archive product page
+		 * Accounts for both Legacy Templates and Blockified ones
+		 *
+		 * @return void
+		 * @since 3.24.0
+		 */
+		public function add_button_for_loop() {
 			// check if Add to wishlist button is enabled for loop.
 			$enabled_on_loop = 'yes' === get_option( 'yith_wcwl_show_on_loop', 'no' );
 
@@ -216,12 +247,95 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 			// Add the link "Add to wishlist" in the loop.
 			$position = get_option( 'yith_wcwl_loop_position', 'after_add_to_cart' );
 
-			if ( 'shortcode' !== $position && isset( $positions[ $position ] ) ) {
-				add_action( $positions[ $position ]['hook'], array( $this, 'print_button' ), $positions[ $position ]['priority'] );
+			if ( 'shortcode' === $position || ! isset( $positions[ $position ] ) ) {
+				return;
 			}
 
-			// Add the link "Add to wishlist" for Gutenberg blocks.
-			add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'add_button_for_block' ), 10, 3 );
+			if ( yith_plugin_fw_wc_is_using_block_template_in_product_catalogue() ) {
+				$this->add_button_for_blockified_template( 'archive-product', $position );
+			} else {
+				add_action( $positions[ $position ]['hook'], array( $this, 'print_button' ), $positions[ $position ]['priority'] );
+			}
+		}
+
+		/**
+		 * Hooks action required to print ATW button in correct locations inside a Blockified template
+		 *
+		 * @param string $template Template to change.
+		 * @param string $position Position where to add button.
+		 * @return void
+		 * @since 3.24.0
+		 */
+		public function add_button_for_blockified_template( $template, $position ) {
+			switch ( $position ) {
+				case 'add-to-cart':
+				case 'after_add_to_cart':
+					$block = 'single-product' === $template ? 'add-to-cart-form' : 'product-button';
+					add_filter( "render_block_woocommerce/$block", array( $this, 'add_button_after_block' ), 10, 3 );
+					break;
+				case 'before_add_to_cart':
+					$block = 'single-product' === $template ? 'add-to-cart-form' : 'product-button';
+					add_filter( "render_block_woocommerce/$block", array( $this, 'add_button_before_block' ), 10, 3 );
+					break;
+				case 'thumbnails':
+					add_filter( 'render_block_woocommerce/product-image-gallery', array( $this, 'add_button_after_block' ), 10, 3 );
+					break;
+				case 'before_image':
+					add_filter( 'render_block_woocommerce/product-image', array( $this, 'add_button_before_block' ), 10, 3 );
+					break;
+				case 'summary':
+					add_filter( 'render_block_woocommerce/product-details', array( $this, 'add_button_after_block' ), 10, 3 );
+					break;
+			}
+		}
+
+		/**
+		 * Prepend ATW button to a block
+		 * Uses block context to retrieve product id.
+		 *
+		 * @param string   $block_content The block content.
+		 * @param string   $parsed_block  The full block, including name and attributes.
+		 * @param WP_Block $block         The block instance.
+		 *
+		 * @return string Filtered block content.
+		 */
+		public function add_button_before_block( $block_content, $parsed_block, $block ) {
+			$post_id = $block->context['postId'];
+			$product = wc_get_product( $post_id );
+
+			if ( ! $product ) {
+				return $block_content;
+			}
+
+			$button = $this->get_button( $product->get_id() );
+
+			return "$button $block_content";
+		}
+
+		/**
+		 * Append ATW button to a block
+		 * Uses block context to retrieve product id.
+		 *
+		 * @param string   $block_content The block content.
+		 * @param string   $parsed_block  The full block, including name and attributes.
+		 * @param WP_Block $block         The block instance.
+		 *
+		 * @return string Filtered block content.
+		 */
+		public function add_button_after_block( $block_content, $parsed_block, $block ) {
+			global $post;
+
+			$post_id = isset( $block->context['postId'] ) ? $block->context['postId'] : false;
+			$post_id = $post_id ?? isset( $post->ID ) ? $post->ID : false;
+			$product = wc_get_product( $post_id );
+
+			if ( ! $product ) {
+				return $block_content;
+			}
+
+			$button = $this->get_button( $product->get_id() );
+
+			return "$block_content $button";
 		}
 
 		/**
@@ -233,7 +347,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 *
 		 * @return string Filtered HTML.
 		 */
-		public function add_button_for_block( $item_html, $data, $product ) {
+		public function add_button_for_blocks_product_grid_item( $item_html, $data, $product ) {
 			// Add the link "Add to wishlist" in the loop.
 			$position = get_option( 'yith_wcwl_loop_position', 'after_add_to_cart' );
 			$button   = $this->get_button( $product->get_id() );
@@ -796,12 +910,14 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		/**
 		 * Add class to products when Add to Wishlist is shown on loop
 		 *
-		 * @param array $classes Array of available classes for the product.
+		 * @param array        $classes Array of available classes for the product.
+		 * @param string|array $class   Additional class.
+		 * @param int          $post_id Post ID.
 		 * @return array Array of filtered classes for the product
 		 * @since 3.0.0
 		 */
-		public function add_products_class_on_loop( $classes ) {
-			if ( yith_wcwl_is_single() ) {
+		public function add_products_class_on_loop( $classes, $class = '', $post_id = 0 ) {
+			if ( yith_wcwl_is_single() || doing_action( 'body_class' ) || ! $post_id || ! in_array( get_post_type( $post_id ), array( 'product', 'product_variation' ), true ) ) {
 				return $classes;
 			}
 
