@@ -227,6 +227,7 @@
 						endforeach;
 					endif;
 					?>
+                    <div class="switcher-target-is_update_categories" style="padding-left:17px;">
 					<div class="input" style="margin-bottom:3px;">
 						<input type="radio" id="update_categories_logic_all_except" name="update_categories_logic" value="all_except" <?php echo ( "all_except" == $post['update_categories_logic'] ) ? 'checked="checked"': '' ?> class="switcher"/>
 						<label for="update_categories_logic_all_except"><?php _e('Leave these taxonomies alone, update all others', 'wp_all_import_plugin') ?></label>

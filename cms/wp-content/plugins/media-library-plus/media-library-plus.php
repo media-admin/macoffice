@@ -3,7 +3,7 @@
 Plugin Name: Media Library Folders
 Plugin URI: http://maxgalleria.com
 Description: Gives you the ability to adds folders and move files in the WordPress Media Library.
-Version: 8.1.0
+Version: 8.1.3
 Author: Max Foundry
 Author URI: http://maxfoundry.com
 
@@ -35,6 +35,9 @@ class MGMediaLibraryFolders {
   public $bda_user_role;
   public $bda_folder_id;
   public $bdp_autoprotect;
+  public $capability;
+  public $display_fe_protected_images;
+  public $prevent_right_click;
   
 
   public function __construct() {
@@ -72,7 +75,7 @@ class MGMediaLibraryFolders {
   
 	public function set_global_constants() {	
 		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_KEY', 'maxgalleria_media_library_version');
-		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_NUM', '8.1.0');
+		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_NUM', '8.1.3');
 		define('MAXGALLERIA_MEDIA_LIBRARY_IGNORE_NOTICE', 'maxgalleria_media_library_ignore_notice');
 		define('MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_NAME', trim(dirname(plugin_basename(__FILE__)), '/'));
     if(!defined('MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR'))
@@ -904,7 +907,7 @@ public function add_attachment_to_folder2( $metadata, $attachment_id ) {
   if($folder_id !== false && $folder_id != null) {
     $this->add_new_folder_parent($attachment_id, $folder_id);
     
-    error_log("bdp_autoprotect " . $this->bdp_autoprotect);    
+    //error_log("bdp_autoprotect " . $this->bdp_autoprotect);    
     if($this->bdp_autoprotect == 'on') {
       $message = $this->move_to_protected_folder($attachment_id, $folder_id, 0);
     }    
@@ -1070,7 +1073,7 @@ public function get_parent_by_name($sub_folder) {
 
             $attach_id = $this->add_new_attachment($filename, $folder_id, $title_text, $alt_text, $seo_title_text);
             
-            error_log("bdp_autoprotect " . $this->bdp_autoprotect);
+            //error_log("bdp_autoprotect " . $this->bdp_autoprotect);
             if($this->bdp_autoprotect == 'on') {
               $message = $this->move_to_protected_folder($attach_id, $folder_id, 0);
             }
@@ -4005,6 +4008,7 @@ and meta_key = '_wp_attached_file'";
               <li><span><?php esc_html_e('Media Library Maintenance and Bulk File Import','maxgalleria-media-library') ?></span></li>							
               <li><span><?php esc_html_e('Jetpack and the Wordpress Gallery Shortcode Generator','maxgalleria-media-library') ?></span></li>
               <li><span><?php esc_html_e('Block Direct Access for Selected Files','maxgalleria-media-library') ?></span></li>
+              <li><span><?php esc_html_e('AI-powered image generation','maxgalleria-media-library') ?></span></li>
             </ul>
           </div>
           <div class="mlf-clearfix"></div>
@@ -4357,7 +4361,7 @@ and meta_key = '_wp_attached_file'";
 		</p>
 		<p>
 			<input type="checkbox" name="meta_index" id="meta_index" value="" <?php checked($meta_index, 'on') ?>>
-			<label><?php  esc_html_e('Add an index to the postmeta table. <em>Recommend for sites with a high number of media files. Uncheck to remove the index.</em>', 'maxgalleria-media-library'); ?></label>			
+			<label><?php esc_html_e('Add an index to the postmeta table.', 'maxgalleria-media-library'); ?> <em><?php esc_html_e('Recommend for sites with a high number of media files. Uncheck to remove the index.', 'maxgalleria-media-library'); ?></em></label>			      
 		</p>
     <p>
 			<input type="checkbox" name="skip_webp" id="skip_webp" value="" <?php checked($this->sync_skip_webp, 'on') ?>>
@@ -4453,27 +4457,31 @@ and meta_key = '_wp_attached_file'";
 				// set the time limit o five minutes
 				@set_time_limit( 300 ); 
 
-				// regenerate the thumbnails
-        if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' ) {
-          $this->remove_existing_thumbnails($image_id, addslashes($image_path));
-				  $metadata = wp_generate_attachment_metadata( $image_id, addslashes($image_path));
-        } else {
-          $this->remove_existing_thumbnails($image_id, $image_path);
-				  $metadata = wp_generate_attachment_metadata( $image_id, $image_path );
+        $mime_type = get_post_mime_type($image_id);
+        if($mime_type != 'image/svg+xml') {
+        
+          // regenerate the thumbnails
+          if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' ) {
+            $this->remove_existing_thumbnails($image_id, addslashes($image_path));
+            $metadata = wp_generate_attachment_metadata( $image_id, addslashes($image_path));
+          } else {
+            $this->remove_existing_thumbnails($image_id, $image_path);
+            $metadata = wp_generate_attachment_metadata( $image_id, $image_path );
+          }
+
+          // check for errors
+          if (is_wp_error($metadata)) {
+            echo esc_html__('Error: ','maxgalleria-media-library') . "$base_name ". $metadata->get_error_message();
+            continue;
+          }	
+          if(empty($metadata)) {
+            printf( esc_html__('Unknown error with %s','maxgalleria-media-library'), $base_name);
+            continue;
+          }	
+
+          // update the meta data
+          wp_update_attachment_metadata( $image_id, $metadata );
         }
-
-				// check for errors
-				if (is_wp_error($metadata)) {
-					echo esc_html__('Error: ','maxgalleria-media-library') . "$base_name ". $metadata->get_error_message();
-					continue;
-				}	
-				if(empty($metadata)) {
-					printf( esc_html__('Unknown error with %s','maxgalleria-media-library'), $base_name);
-					continue;
-				}	
-
-				// update the meta data
-				wp_update_attachment_metadata( $image_id, $metadata );
 				$counter++;
 
 			} else {
@@ -4569,10 +4577,12 @@ and meta_key = '_wp_attached_file'";
 				$images = array_map( 'intval', explode( ',', trim( sanitize_text_field($_REQUEST['ids']), ',' ) ) );
 				$ids = implode( ',', $images );
 			} else {
-				if ( ! $images = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%' ORDER BY ID DESC" ) ) {
+				if ( ! $images = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%' AND post_mime_type != 'image/svg+xml' ORDER BY ID DESC" ) ) {
 					echo '	<p>' . sprintf( esc_html__( "Unable to find any images. Are you sure", 'maxgalleria-media-library') . "<a href='%s'>" . esc_html__(" some exist? ", 'maxgalleria-media-library' ) . "</a>",  esc_url_raw(admin_url( 'upload.php?post_mime_type=image'))) . "</p></div>";
 					return;
 				}
+        
+        error_log("IMAGES: " . print_r($images, true));
 
 				// Generate the list of IDs
 				$ids = array();
@@ -4784,23 +4794,27 @@ and meta_key = '_wp_attached_file'";
 
 		@set_time_limit( 900 ); // 5 minutes per image should be PLENTY
 
-    if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' ) {
-      $this->remove_existing_thumbnails($image->ID, addslashes($fullsizepath));
-		  $metadata = wp_generate_attachment_metadata( $image->ID, addslashes($fullsizepath));
-    } else {
-      $this->remove_existing_thumbnails($image->ID, $fullsizepath);
-		  $metadata = wp_generate_attachment_metadata( $image->ID, $fullsizepath );
-    }  
+    if($image->post_mime_type != 'image/svg+xml') {
+      if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' ) {
+        $this->remove_existing_thumbnails($image->ID, addslashes($fullsizepath));
+        $metadata = wp_generate_attachment_metadata( $image->ID, addslashes($fullsizepath));
+      } else {
+        $this->remove_existing_thumbnails($image->ID, $fullsizepath);
+        $metadata = wp_generate_attachment_metadata( $image->ID, $fullsizepath );
+      }  
+    }
 
-		if ( is_wp_error( $metadata ) )
-			$this->die_json_error_msg( $image->ID, $metadata->get_error_message() );
-		if ( empty( $metadata ) )
-			$this->die_json_error_msg( $image->ID, esc_html__( 'Unknown failure reason.', 'maxgalleria-media-library' ) );
+    if(isset($metadata)) {
+      if ( is_wp_error( $metadata ) )
+        $this->die_json_error_msg( $image->ID, $metadata->get_error_message() );
+      if ( empty( $metadata ) )
+        $this->die_json_error_msg( $image->ID, esc_html__( 'Unknown failure reason.', 'maxgalleria-media-library' ) );
 
-		// If this fails, then it just means that nothing was changed (old value == new value)
-		wp_update_attachment_metadata( $image->ID, $metadata );
+      // If this fails, then it just means that nothing was changed (old value == new value)
+      wp_update_attachment_metadata( $image->ID, $metadata );
+    }
 
-		die( json_encode( array( 'success' => sprintf( esc_html__( '&quot;%1$s&quot; (ID %2$s) was successfully resized in %3$s seconds.', 'maxgalleria-media-library' ), esc_html( get_the_title( $image->ID ) ), $image->ID, timer_stop() ) ) ) );
+    die( json_encode( array( 'success' => sprintf( esc_html__( '&quot;%1$s&quot; (ID %2$s) was successfully resized in %3$s seconds.', 'maxgalleria-media-library' ), esc_html( get_the_title( $image->ID ) ), $image->ID, timer_stop() ) ) ) );
 	}
 
 	// Helper to make a JSON error message
@@ -5602,11 +5616,11 @@ AND meta_key = '_wp_attached_file'";
                 }
               }
 
-              if(copy($image_path, $destination_name )) {                                          
-
+              if(copy($image_path, $destination_name )) {  
+                
                 $destination_url = $this->get_file_url($destination_name);
-                $title_text = get_the_title($copy_id);
-                $alt_text = get_post_meta($copy_id, '_wp_attachment_image_alt');										
+                $title_text = get_the_title($copy_id);                
+                $alt_text = get_post_meta($copy_id, '_wp_attachment_image_alt', true);                  
                 $attach_id = $this->add_new_attachment($destination_name, $folder_id, $title_text, $alt_text);
                 if($attach_id === false){
                   $copy_status = false; 

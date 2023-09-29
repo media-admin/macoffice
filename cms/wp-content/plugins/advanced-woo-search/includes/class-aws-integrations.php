@@ -22,6 +22,11 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
         private $current_theme = '';
 
         /**
+         * @var AWS_Integrations Child theme name
+         */
+        private $child_theme = '';
+
+        /**
          * @var AWS_Integrations The single instance of the class
          */
         protected static $_instance = null;
@@ -208,6 +213,10 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                     add_action( 'wp_head', array( $this, 'blocksy_wp_head' ) );
                 }
 
+                if ( 'Kapee' === $this->current_theme ) {
+                    add_action( 'kapee_get_template_before', array( $this, 'kapee_get_template_before' ), 10, 3 );
+                }
+
                 // WP Bottom Menu
                 if ( defined( 'WP_BOTTOM_MENU_VERSION' ) ) {
                     add_action( 'wp_head', array( $this, 'wp_bottom_menu_wp_head' ) );
@@ -230,11 +239,6 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
 
             // WP all import finish
             //add_action( 'pmxi_after_xml_import', array( $this, 'pmxi_after_xml_import' ) );
-
-            // BeRocket WooCommerce AJAX Products Filter
-            if ( defined( 'BeRocket_AJAX_filters_version' ) ) {
-                add_filter( 'aws_search_page_filters', array( $this, 'berocket_search_page_filters' ) );
-            }
 
             // Product Sort and Display for WooCommerce plugin
             if ( defined( 'WC_PSAD_NAME' ) ) {
@@ -353,6 +357,11 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                 include_once( AWS_DIR . '/includes/modules/class-aws-products-visibility.php' );
             }
 
+            // WooCommerce Products Visibility
+            if ( class_exists('WooCommerce_Products_Visibility') ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-wcpv.php' );
+            }
+
             // WPBakery plugin
             if ( defined( 'WPB_VC_VERSION' ) ) {
                 include_once( AWS_DIR . '/includes/modules/class-aws-wpbakery.php' );
@@ -432,6 +441,11 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
             // Shopengine plugin
             if ( class_exists( 'ShopEngine' ) ) {
                 include_once( AWS_DIR . '/includes/modules/class-aws-shopengine.php' );
+            }
+
+            // BeRocket WooCommerce AJAX Products Filter
+            if ( defined( 'BeRocket_AJAX_filters_version' ) ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-berocket-filters.php' );
             }
 
         }
@@ -1608,6 +1622,18 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
         <?php }
 
         /*
+         * Kapee theme header search form replace
+         */
+        public function kapee_get_template_before( $located, $templates, $args ) {
+            if ( $templates === 'template-parts/header/elements/ajax-search.php' && ! isset( $this->data['kapee_form'] ) ) {
+                aws_get_search_form();
+                $this->data['kapee_form'] = true;
+                echo '<style>.kapee-ajax-search { display:none; } .header-main .aws-container, .header-col .aws-container { width:100%; }</style>';
+            }
+
+        }
+
+        /*
          * WP Bottom Menu
          */
         public function wp_bottom_menu_wp_head() { ?>
@@ -1787,6 +1813,14 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                 $selectors[] = "#header form[role='search']";
             }
 
+            if ( 'Kapee' === $this->current_theme ) {
+                $selectors[] = ".kapee-ajax-search";
+            }
+
+            if ( 'Sinatra' === $this->current_theme ) {
+                $selectors[] = '.si-header-widgets .si-search-form';
+            }
+
             // WCFM - WooCommerce Multivendor Marketplace
             if ( class_exists( 'WCFMmp' ) ) {
                 $selectors[] = '#wcfmmp-store .woocommerce-product-search';
@@ -1912,68 +1946,6 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
             }
         }
 
-        /*
-         * BeRocket WooCommerce AJAX Products Filter
-         */
-        public function berocket_search_page_filters( $filters ) {
-
-            if ( isset( $_GET['filters'] ) ) {
-
-                $get_filters = explode( '|', $_GET['filters'] );
-
-                foreach( $get_filters as $get_filter ) {
-
-                    if ( $get_filter === '_stock_status[1]' ) {
-                        $filters['in_status'] = true;
-                    } elseif ( $get_filter === '_stock_status[2]' ) {
-                        $filters['in_status'] = false;
-                    } elseif ( $get_filter === '_sale[1]' ) {
-                        $filters['on_sale'] = true;
-                    } elseif ( $get_filter === '_sale[2]' ) {
-                        $filters['on_sale'] = false;
-                    } elseif ( strpos( $get_filter, 'price[' ) === 0 ) {
-                        if ( preg_match( '/([\w]+)\[(\d+)_(\d+)\]/', $get_filter, $matches ) ) {
-                            $filters['price_min'] = intval( $matches[2] );
-                            $filters['price_max'] = intval( $matches[3] );
-                        }
-                    } elseif ( preg_match( '/(.+)\[(.+?)\]/', $get_filter, $matches ) ) {
-                        $taxonomy = $matches[1];
-                        $operator = strpos( $matches[2], '-' ) !== false ? 'OR' : 'AND';
-                        $explode_char = strpos( $matches[2], '-' ) !== false ? '-' : '+';
-                        $terms_arr = explode( $explode_char, $matches[2] );
-                        // if used slugs instead of IDs for terms
-                        if ( preg_match( '/[a-z]/', $matches[2] ) ) {
-                            $new_terms_arr = array();
-                            foreach ( $terms_arr as $term_slug ) {
-                                $term = get_term_by('slug', $term_slug, $taxonomy );
-                                if ( $term ) {
-                                    $new_terms_arr[] = $term->term_id;
-                                }
-                                if ( ! $term && strpos( $taxonomy, 'pa_' ) !== 0 ) {
-                                    $term = get_term_by('slug', $term_slug, 'pa_' . $taxonomy );
-                                    if ( $term ) {
-                                        $new_terms_arr[] = $term->term_id;
-                                    }
-                                }
-                            }
-                            if ( $new_terms_arr ) {
-                                $terms_arr = $new_terms_arr;
-                            }
-                        }
-                        $filters['tax'][$taxonomy] = array(
-                            'terms' => $terms_arr,
-                            'operator' => $operator,
-                            'include_parent' => true,
-                        );
-                    }
-
-                }
-
-            }
-
-            return $filters;
-
-        }
 
         /*
          * Product Sort and Display for WooCommerce plugin disable on search page

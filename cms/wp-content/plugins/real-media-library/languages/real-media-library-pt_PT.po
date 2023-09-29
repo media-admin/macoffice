@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: n/a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "POT-Creation-Date: n/a\n"
-"PO-Revision-Date: 2021-09-10 08:35+0000\n"
+"PO-Revision-Date: 2023-08-09 13:40+0000\n"
 "Last-Translator: Matthias Günter <matthias.guenter@devowl.io>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.devowl.io/projects/"
-"wordpress-real-media-library-backend-php/ci-mojito/pt_BR/>\n"
+"wordpress-real-media-library-backend-php/develop/pt_BR/>\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.8\n"
+"X-Generator: Weblate 4.16.4\n"
 
 #. Plugin Name of the plugin
 #, fuzzy
@@ -176,8 +176,8 @@ msgstr ""
 msgid "For this file is %d shortcut available in the following folder:"
 msgid_plural ""
 "For this file are %d shortcuts available in the following folders:"
-msgstr[0] "Para este arquivo, há % atalho disponível na seguinte pasta:"
-msgstr[1] "Para este arquivo, há % atalhos disponíveis nas seguintes pastas:"
+msgstr[0] "Para este arquivo, há %d atalho disponível na seguinte pasta:"
+msgstr[1] "Para este arquivo, há %d atalhos disponíveis nas seguintes pastas:"
 
 #: inc/attachment/CustomField.php:177
 msgid ""
@@ -473,7 +473,7 @@ msgstr ""
 #. translators:
 #: inc/overrides/pro/folder/Creatable.php:107
 msgid "The parent %d does not exist."
-msgstr "O parent % não existe."
+msgstr "O parent %d não existe."
 
 #: inc/overrides/pro/folder/Creatable.php:161
 msgid "The given parent does not exist to set the parent for this folder."
@@ -854,9 +854,9 @@ msgstr ""
 "Este é um atalho de um arquivo da biblioteca de mídia. Os atalhos não "
 "precisam de armazenamento físico *(0 kB)*. Se você quiser alterar o arquivo "
 "em si, faça isso no arquivo original (por exemplo, substitua o arquivo de "
-"mídia por um plug-in). Observe também que os campos nos atalhos podem ser "
-"diferentes do arquivo original, por exemplo \"Título\", \"Descrição\" ou "
-"\"Legenda\"."
+"mídia por um plug-in).\n"
+"Observe também que os campos nos atalhos podem ser diferentes do arquivo "
+"original, por exemplo \"Título\", \"Descrição\" ou \"Legenda\"."
 
 #: inc/view/Lang.php:111
 msgid ""
@@ -1139,10 +1139,8 @@ msgid ""
 msgstr ""
 
 #: inc/view/Lang.php:193
-#, fuzzy
-#| msgid "Product license not yet activated."
 msgid "Product license not for production use!"
-msgstr "A licença do produto ainda não foi ativada."
+msgstr "Licença de produto não para uso em produção!"
 
 #: inc/view/Lang.php:194
 #, fuzzy
@@ -1166,10 +1164,8 @@ msgid "License activation"
 msgstr ""
 
 #: inc/view/Lang.php:201
-#, fuzzy
-#| msgid "Get your PRO license now!"
 msgid "Get your free license"
-msgstr "Adquira sua licença PRO agora!"
+msgstr "Obtenha sua licença gratuita"
 
 #: inc/view/Lang.php:202
 msgid "Activate license & continue"
@@ -1235,9 +1231,8 @@ msgstr ""
 "ajudam você a localizar com facilmente onde suas imagens estão localizadas."
 
 #: inc/view/Lang.php:230
-#, fuzzy
 msgid "Custom content order?"
-msgstr "Ordem de imagem personalizada"
+msgstr "Ordem de imagem personalizada?"
 
 #: inc/view/Lang.php:232
 msgid ""
@@ -1260,9 +1255,8 @@ msgstr ""
 "nome decrescente) ou arraste e solte."
 
 #: inc/view/Lang.php:246
-#, fuzzy
 msgid "Want to create subfolders?"
-msgstr "Clique aqui para criar uma nova pasta"
+msgstr "Clique aqui para criar uma nova pasta?"
 
 #: inc/view/Lang.php:249
 msgid ""
@@ -1283,9 +1277,8 @@ msgid ""
 msgstr ""
 
 #: inc/view/Lang.php:263
-#, fuzzy
 msgid "Want to upload entire folders?"
-msgstr "Clique aqui para criar uma nova pasta"
+msgstr "Clique aqui para criar uma nova pasta?"
 
 #: inc/view/Lang.php:264
 msgid ""

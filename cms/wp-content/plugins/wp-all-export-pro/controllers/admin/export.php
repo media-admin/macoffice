@@ -137,6 +137,7 @@ class PMXE_Admin_Export extends PMXE_Controller_Admin
             PMXE_Plugin::$session->set('created_at_version', $post['created_at_version']);
 
             if (!empty($post['auto_generate'])) {
+                PMXE_Plugin::$session->set('auto_generate', 1);
                 $auto_generate = XmlCsvExport::auto_genetate_export_fields($post, $this->errors);
 
                 foreach ($auto_generate as $key => $value) {
@@ -440,6 +441,11 @@ class PMXE_Admin_Export extends PMXE_Controller_Admin
         if ($this->input->post('is_submitted')) {
 
             check_admin_referer('options', '_wpnonce_options');
+
+            $auto_generate = PMXE_Plugin::$session->get('auto_generate', false);
+            if( $auto_generate ) {
+                $post['order_item_per_row'] = 0;
+            }
 
             if ($post['is_generate_templates'] and '' == $post['template_name']) {
                 $friendly_name = $this->getFriendlyName($post);

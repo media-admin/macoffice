@@ -47,6 +47,7 @@ mailpoet
 mailpoet-premium
 maxbuttons
 maxbuttons-pro
+maxgalleria-export
 mg-backup
 mlfp_exim_files
 nginx-helper

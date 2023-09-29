@@ -14,8 +14,9 @@ final class XmlExportCpt
 	{
 		$variationOptionsFactory = new  VariationOptionsFactory();
 		$variationOptions = $variationOptionsFactory->createVariationOptions(PMXE_EDITION);
-		$entry = $variationOptions->preprocessPost($entry);
-
+        if($entry instanceof \WP_Post) {
+            $entry = $variationOptions->preprocessPost($entry);
+        }
 		$article = array();
 
 		// associate exported post with import
@@ -25,16 +26,24 @@ final class XmlExportCpt
 		{
 			$postRecord = new PMXI_Post_Record();
 			$postRecord->clear();
+
+            if(!isset($entry->ID)) {
+                $entryId = $entry->id;
+	            $entry->ID = $entry->id;
+            } else {
+                $entryId = $entry->ID;
+            }
+
 			$postRecord->getBy(array(
-				'post_id' => $entry->ID,
+				'post_id' => $entryId,
 				'import_id' => $exportOptions['import_id'],
 			));
 
 			if ($postRecord->isEmpty()){
 				$postRecord->set(array(
-					'post_id' => $entry->ID,
+					'post_id' => $entryId,
 					'import_id' => $exportOptions['import_id'],
-					'unique_key' => $entry->ID,
+					'unique_key' => $entryId,
 					'product_key' => ''
 				))->save();
 			}
@@ -49,8 +58,11 @@ final class XmlExportCpt
 
 		if(isset($exportOptions['ids']) && is_array($exportOptions['ids'])) {
 			foreach ($exportOptions['ids'] as $ID => $value) {
-				$pType = $entry->post_type;
-
+                if(in_array('shop_order', $exportOptions['cpt'])) {
+                    $pType = 'shop_order';
+                } else {
+                    $pType = $entry->post_type;
+                }
 				if ($is_item_data and $subID != $ID) continue;
 
 				// skip shop order items data
@@ -351,7 +363,11 @@ final class XmlExportCpt
 							if (!empty($fieldValue)) {
 
 								$val = "";
-								$cur_meta_values = get_post_meta($entry->ID, $fieldValue);
+                                if(PMXE_Plugin::hposEnabled()) {
+                                    $cur_meta_values = get_post_meta($entry->id, $fieldValue);
+                                } else {
+                                    $cur_meta_values = get_post_meta($entry->ID, $fieldValue);
+                                }
 
 								if (!empty($cur_meta_values) and is_array($cur_meta_values)) {
 									foreach ($cur_meta_values as $key => $cur_meta_value) {
@@ -367,8 +383,13 @@ final class XmlExportCpt
 
 								if (empty($cur_meta_values)) {
 									if (empty($article[$element_name])) {
-										wp_all_export_write_article($article, $element_name, apply_filters('pmxe_custom_field', pmxe_filter('', $fieldSnippet), $fieldValue, $entry->ID));
-									}
+                                        if(PMXE_Plugin::hposEnabled()) {
+                                            wp_all_export_write_article($article, $element_name, apply_filters('pmxe_custom_field', pmxe_filter('', $fieldSnippet), $fieldValue, $entry->id));
+
+                                        } else {
+                                            wp_all_export_write_article($article, $element_name, apply_filters('pmxe_custom_field', pmxe_filter('', $fieldSnippet), $fieldValue, $entry->ID));
+                                        }
+                                    }
 								}
 
 								/** TODO: Refactor logic */
@@ -415,7 +436,7 @@ final class XmlExportCpt
 
                                     if ($blocks) {
                                         foreach ($blocks as $block) {
-                                            if ($block['attrs']['id'] == $field_options['key']) {
+                                            if ( isset($block['attrs']['id']) && $block['attrs']['id'] == $field_options['key'] ) {
                                                 $field_value = $block['data'][$fieldLabel];
                                             }
                                         }
@@ -514,9 +535,11 @@ final class XmlExportCpt
 
 						    if( $fieldLabel == 'product_visibility' ) {
                                 $product = wc_get_product( $entry->ID );
-                                $value = $product->get_catalog_visibility();
-                                $value = apply_filters('pmxe_woo_field', $value, $element_name, $entry->ID);
-                                wp_all_export_write_article($article, $element_name,$value);
+                                if($product) {
+                                    $value = $product->get_catalog_visibility();
+                                    $value = apply_filters('pmxe_woo_field', $value, $element_name, $entry->ID);
+                                    wp_all_export_write_article($article, $element_name, $value);
+                                }
                             } else {
                                 if (!empty($fieldValue)) {
 
@@ -694,6 +717,10 @@ final class XmlExportCpt
 		switch ($element_type) 
 		{
 			case 'id':
+				// Ensure that combined fields aren't used as the unique_key.
+				if( isset($options['cc_combine_multiple_fields'][$ID]) && $options['cc_combine_multiple_fields'][$ID] == 1){
+					break;
+				}
                 if ($field_tpl_key == 'ID' && !$ID && $exportOptions['export_to'] == 'csv' && $exportOptions['export_to_sheet'] != 'csv'){
                     $field_tpl_key = 'id';
                 }

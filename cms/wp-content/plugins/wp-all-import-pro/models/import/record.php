@@ -88,8 +88,10 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 
 	/**
 	 * Import all files matched by path
+	 *
 	 * @param callback[optional] $logger Method where progress messages are submmitted
-	 * @return PMXI_Import_Record
+	 *
+	 * @return array|PMXI_Import_Record
 	 * @chainable
 	 */
 	public function execute($logger = NULL, $cron = true, $history_log_id = false) {
@@ -437,6 +439,12 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                                             case 'comments':
                                                                 wp_trash_comment($missingPostRecord['post_id']);
                                                                 break;
+                                                            case 'shop_order':
+                                                                $order = wc_get_order($missingPostRecord['post_id']);
+                                                                if ($order && !is_wp_error($order)) {
+                                                                    $order->delete();
+                                                                }
+                                                                break;
                                                             default:
                                                                 if ($final_post_type = get_post_type($missingPostRecord['post_id']) and 'trash' != get_post_status($missingPostRecord['post_id'])) {
                                                                     wp_trash_post($missingPostRecord['post_id']);
@@ -627,6 +635,15 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                                         do_action('pmxi_delete_gf_entries', $ids, $this);
                                                         foreach ($ids as $entry_id) {
                                                             GFAPI::delete_entry($entry_id);
+                                                        }
+                                                        break;
+                                                    case 'shop_order':
+                                                        do_action('pmxi_delete_shop_orders', $ids, $this);
+                                                        foreach ($ids as $order_id) {
+                                                            $order = wc_get_order($order_id);
+                                                            if ($order && !is_wp_error($order)) {
+                                                                $order->delete(true);
+                                                            }
                                                         }
                                                         break;
                                                     default:
@@ -1860,14 +1877,31 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                     $comment_post_found = true;
                                 }
                             }
+
+                            if ( $comment_post_found === false ) {
+                                $product = wp_all_import_get_page_by_title( $comment_post[ $i ], 'product' );
+
+                                if ( $product && ! is_wp_error( $product ) ) {
+                                    // Do not allow import comments for products
+                                    if ($this->options['custom_type'] == 'comments' && $comment_posts[0] && $comment_posts[0]->post_type === 'product') {
+                                        $comment_post_found = false;
+                                    } else {
+                                        $comment_post[$i]   = $product->ID;
+                                        $comment_post_found = true;
+                                    }
+                                }
+                                
+                            }
                         }
                     }
                     if (empty($comment_post_found) || is_wp_error($comment_post[$i])){
                         $skipped++;
                         if($this->options['custom_type'] == 'woo_reviews'){
-                            $logger and call_user_func($logger, sprintf(__('<b>SKIPPED</b>: Review product not found by id `%s`', 'wp_all_import_plugin'), $comment_post[$i]));
+							/* translators: 1: Post Title, Slug, or ID */
+                            $logger and call_user_func($logger, sprintf(__('<b>SKIPPED</b>: Review product not found for `%s`', 'wp_all_import_plugin'), $comment_post[$i]));
                         }else {
-                            $logger and call_user_func($logger, sprintf(__('<b>SKIPPED</b>: Comment post not found by id `%s`', 'wp_all_import_plugin'), $comment_post[$i]));
+	                        /* translators: 1: Post Title, Slug, or ID */
+                            $logger and call_user_func($logger, sprintf(__('<b>SKIPPED</b>: Comment post not found for `%s`', 'wp_all_import_plugin'), $comment_post[$i]));
                         }
                         $logger and !$is_cron and PMXI_Plugin::$session->warnings++;
                         $logger and !$is_cron and PMXI_Plugin::$session->chunk_number++;
@@ -2052,6 +2086,13 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 						), $this->options['custom_type'], $this->id, $i);
 						$logger and call_user_func($logger, __('Combine all data for gravity form entries ...', 'wp_all_import_plugin'));
 						break;
+                    case 'shop_order':
+                        $articleData = apply_filters('wp_all_import_combine_article_data', array(
+                            'date_created' => $addons_data['PMWI_Plugin']['pmwi_order']['date'][$i],
+                            'status' => ("xpath" == $this->options['pmwi_order']['status']) ? $addons_data['PMWI_Plugin']['pmwi_order']['status'][$i] : $this->options['pmwi_order']['status'],
+                        ), $this->options['custom_type'], $this->id, $i);
+                        $logger and call_user_func($logger, __('Combine all data for orders ...', 'wp_all_import_plugin'));
+                        break;
                     default:
                         $articleData = apply_filters('wp_all_import_combine_article_data', array(
                             'post_type' => $post_type[$i],
@@ -2158,7 +2199,7 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                         $duplicates = array();
 						if ('pid' == $this->options['duplicate_indicator']) {
 							$duplicate_id = $duplicate_indicator_values[$i];
-							if ($duplicate_id && !in_array($this->options['custom_type'], array('import_users', 'shop_customer', 'taxonomies', 'comments', 'woo_reviews', 'gf_entries'))) {
+							if ($duplicate_id && !in_array($this->options['custom_type'], array('import_users', 'shop_customer', 'taxonomies', 'comments', 'woo_reviews', 'gf_entries', 'shop_order'))) {
                                 $duplicate_post_type = get_post_type($duplicate_id);
                                 if ($articleData['post_type'] == 'product' && $duplicate_post_type == 'product_variation') {
                                     $duplicate_post_type = 'product';
@@ -2169,7 +2210,7 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                             }
 						// handle duplicates according to import settings
 						} else {
-							$duplicates = pmxi_findDuplicates($articleData, $custom_duplicate_name[$i], $custom_duplicate_value[$i], $this->options['duplicate_indicator'], $duplicate_indicator_values[$i]);
+							$duplicates = pmxi_findDuplicates($articleData, $custom_duplicate_name[$i], $custom_duplicate_value[$i], $this->options['duplicate_indicator'], $duplicate_indicator_values[$i], $this->options['custom_type']);
 							$duplicate_id = ( ! empty($duplicates)) ? array_shift($duplicates) : false;
 						}
 
@@ -2195,6 +2236,15 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                     }
                                     $post_to_update = get_term_by('id', $post_to_update_id = $duplicate_id, $this->options['taxonomy_type']);
                                     break;
+                                case 'shop_order':
+                                    $post_to_update_id = $duplicate_id;
+                                    $post_to_update = wc_get_order($post_to_update_id);
+                                    if (is_wp_error($post_to_update) || !$post_to_update instanceof \WC_Order) {
+                                        $post_to_update = FALSE;
+                                        $post_to_update_id = FALSE;
+                                        $logger and call_user_func($logger, sprintf(__('Duplicate order wasn\'t found for `%s`...', 'wp_all_import_plugin'), $this->getRecordTitle($articleData)));
+                                    }
+                                    break;
 	                            case 'gf_entries':
 		                            $post_to_update = GFAPI::get_entry($post_to_update_id = $duplicate_id);
 		                            // Compare entry form ID.
@@ -2217,6 +2267,18 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                     'import_id' => $this->id,
                                     'post_id' => $post_to_update_id
                                 ]);
+                                // Assign post with current import.
+                                $recordData = array(
+                                    'post_id' => $post_to_update_id,
+                                    'import_id' => $this->id,
+                                    'unique_key' => $unique_keys[$i]
+                                );
+                                $product_key = (($post_type[$i] == "product" and PMXI_Admin_Addons::get_addon('PMWI_Plugin')) ? $addons_data['PMWI_Plugin']['single_product_ID'][$i] : '');
+                                if ($post_type[$i] == "taxonomies"){
+                                    $product_key = 'taxonomy_term';
+                                }
+                                $recordData['product_key'] = $product_key;
+                                $postRecord->isEmpty() and $postRecord->set($recordData)->insert();
                             }
 						} else {
 							$logger and call_user_func($logger, sprintf(__('Duplicate post wasn\'t found for post `%s`...', 'wp_all_import_plugin'), $this->getRecordTitle($articleData)));
@@ -2275,7 +2337,8 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 					'ftp_port'                 => '',
 					'ftp_root'                 => '',
 					'ftp_path'                 => '',
-					'ftp_host'                 => ''
+					'ftp_host'                 => '',
+                    'security'                 => ''
 				);
 
                 // Added Add-On options to ignore hash invalidation options.
@@ -2288,6 +2351,8 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                         $hash_ignore_options[] = $slug . 'do_not_remove_images';
                     }
                 }
+
+                $hash_ignore_options = apply_filters('wp_all_import_hash_ignore_options', $hash_ignore_options, $this->id);
 
 				$missing_images = array();
 				// Duplicate record is found
@@ -2421,6 +2486,21 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                 if ( ! $this->options['is_update_url'] ) $articleData['user_url'] = $post_to_update->user_url;
 
 								break;
+
+                            case 'shop_order':
+                                if ( ! $this->options['is_update_status']) { // preserve status and trashed flag
+                                    $articleData['status'] = $post_to_update->get_status();
+                                    $logger and call_user_func($logger, sprintf(__('Preserve status of already existing order for `%s`', 'wp_all_import_plugin'), $this->getRecordTitle($articleData)));
+                                }
+                                if ( ! $this->options['is_update_excerpt']){
+                                    $articleData['customer_note'] = $post_to_update->get_customer_note();
+                                    $logger and call_user_func($logger, sprintf(__('Preserve order customer note of already existing order for `%s`', 'wp_all_import_plugin'), $this->getRecordTitle($articleData)));
+                                }
+                                if ( ! $this->options['is_update_dates']) { // preserve date of already existing article when duplicate is found
+                                    $articleData['date_created'] = $post_to_update->get_date_created();
+                                    $logger and call_user_func($logger, sprintf(__('Preserve date of already existing order for `%s`', 'wp_all_import_plugin'), $this->getRecordTitle($articleData)));
+                                }
+                                break;
 
                             case 'taxonomies':
                                 if ( ! $this->options['is_update_content']){
@@ -2969,12 +3049,12 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                         $term = (empty($articleData['ID'])) ? wp_insert_term($articleData['post_title'], $this->options['taxonomy_type'], array(
                             'parent'      => empty($articleData['post_parent']) ? 0 : $articleData['post_parent'],
                             'slug'        => $articleData['slug'],
-                            'description' => $articleData['post_content']
+                            'description' => esc_html($articleData['post_content'])
                         )) : wp_update_term($articleData['ID'], $this->options['taxonomy_type'], array(
                             'name'        => $articleData['post_title'],
                             'parent'      => empty($articleData['post_parent']) ? 0 : $articleData['post_parent'],
                             'slug'        => $articleData['slug'],
-                            'description' => $articleData['post_content']
+                            'description' => esc_html($articleData['post_content'])
                         ));
                         if (is_wp_error($term)){
                             $pid = $term;
@@ -3017,6 +3097,26 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 			                }
 		                }
 	                	break;
+                    case 'shop_order':
+                        if (empty($articleData['ID'])) {
+                            $logger and call_user_func($logger, sprintf(__('<b>CREATING</b> `%s` `%s`', 'wp_all_import_plugin'), $this->getRecordTitle($articleData), $custom_type_details->labels->singular_name));
+                        } else {
+                            $logger and call_user_func($logger, sprintf(__('<b>UPDATING</b> `%s` `%s`', 'wp_all_import_plugin'), $this->getRecordTitle($articleData), $custom_type_details->labels->singular_name));
+                            $articleData['order_id'] = $articleData['ID'];
+                        }
+	                    // Ensure that no automated order status notes are added unless explicitly allowed.
+                        if( empty( $this->options['pmwi_order']['notes_add_auto_order_status_notes'] )){
+	                        $logger and call_user_func($logger, __('<b>Note:</b> blocking automatic order status change notes', 'wp_all_import_plugin'));
+	                        add_filter('woocommerce_new_order_note_data', [$this, 'woocommerce_new_order_note_data'], 10, 2);
+						}
+                        $order = (empty($articleData['ID'])) ? wc_create_order($articleData) : wc_update_order($articleData);
+	                    remove_filter('woocommerce_new_order_note_data', [$this, 'woocommerce_new_order_note_data']);
+                        if ( is_wp_error($order) ) {
+                            $logger and call_user_func($logger, sprintf(__('<b>ERROR</b> %s', 'wp_all_import_plugin'), $order->get_error_message()));
+                        } elseif ( ! empty($order) ) {
+                            $pid = $order->get_id();
+                        }
+                        break;
                     default:
                         if (empty($articleData['ID'])) {
                             $logger and call_user_func($logger, sprintf(__('<b>CREATING</b> `%s` `%s`', 'wp_all_import_plugin'), $this->getRecordTitle($articleData), $custom_type_details->labels->singular_name));
@@ -3112,6 +3212,9 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 									case 'comments':
 										delete_comment_meta( $pid, $image_custom_field );
 										break;
+                                    case 'shop_order':
+                                        $order->delete_meta_data($image_custom_field);
+                                        break;
 									case 'gf_entries':
 										// No actions required.
 										break;
@@ -3147,6 +3250,9 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 	                            case 'gf_entries':
 		                            // No actions required.
 		                            break;
+                                case 'shop_order':
+                                    $existing_meta_keys = $order->get_meta_data();
+                                    break;
                                 default:
 	                                $existing_meta_keys = get_post_meta($pid, '');
                                 break;
@@ -3216,6 +3322,9 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                         case 'comments':
                                             delete_comment_meta($pid, $cur_meta_key);
                                             break;
+                                        case 'shop_order':
+                                            $order->delete_meta_data($cur_meta_key);
+                                            break;
 	                                    case 'gf_entries':
 		                                    // No actions required.
 		                                    break;
@@ -3240,6 +3349,9 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                             case 'woo_reviews':
                                             case 'comments':
                                                 delete_comment_meta($pid, $cur_meta_key);
+                                                break;
+                                            case 'shop_order':
+                                                $order->delete_meta_data($cur_meta_key);
                                                 break;
 	                                        case 'gf_entries':
 		                                        // No actions required.
@@ -3280,6 +3392,11 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 							break;
 					}
 
+                    // Save order object before add-ons import proccess.
+                    if ($this->options['custom_type'] == 'shop_order') {
+                        $order->save();
+                    }
+
 					// [addons import]
 
 					// prepare data for import
@@ -3312,6 +3429,11 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 					}
 
 					// [/addons import]
+
+                    // Load order object after add-ons import proccess.
+                    if ($this->options['custom_type'] == 'shop_order') {
+                        $order = wc_get_order($pid);
+                    }
 
 					if (empty($articleData['ID']) or $this->options['update_all_data'] == 'yes' or ($this->options['update_all_data'] == 'no' and $this->options['is_update_custom_fields']) or ($this->options['update_all_data'] == 'no' and !empty($this->options['is_update_attributes']) and $post_type[$i] == "product" and class_exists('PMWI_Plugin'))) {
 
@@ -3350,6 +3472,10 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                 case 'comments':
                                     $meta_type = 'comment';
                                     $existing_meta_keys = get_comment_meta($pid, '');
+                                    break;
+                                case 'shop_order':
+                                    $meta_type = 'shop_order';
+                                    $existing_meta_keys = $order->get_meta_data();
                                     break;
 	                            case 'gf_entries':
 		                            // No actions required.
@@ -3459,31 +3585,55 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                 }
 							}
 
-							$add_meta_data    = array_chunk( $meta_data['add'][ $meta_type ], 20 );
-							$update_meta_data = $meta_data['update'][ $meta_type ];
-							$table            = _get_meta_table( $meta_type );
-							$meta_id          = $meta_type . '_id';
+                            switch ($this->options['custom_type']){
+                                case 'shop_order':
 
-                            // Add meta data.
-							foreach ( $add_meta_data as $meta ) {
-								$this->wpdb->query( "INSERT INTO {$table} ({$meta_id}, meta_key, meta_value) VALUES " . join( ',', $meta ) );
-							}
+                                    foreach ($meta_fields as $meta_key => $meta_value) {
+                                        $internal_meta_key = ! empty( $meta_key ) && $order->get_data_store() && in_array( $meta_key, $order->get_data_store()->get_internal_meta_keys(), true );
+                                        if (!$internal_meta_key) {
+											$meta_value = maybe_unserialize($meta_value);
+                                            $order->update_meta_data($meta_key, $meta_value);
+                                            // Trigger actions for updated meta fields.
+                                            do_action( 'pmxi_update_post_meta', $pid, $meta_key, $meta_value); // hook that was triggered after post meta data updated
+                                        }
+                                    }
 
-							// Update meta data.
-							foreach ( $update_meta_data as $meta_key => $meta_value ) {
-								$this->wpdb->query( $this->wpdb->prepare("UPDATE {$table} SET meta_value = %s WHERE meta_key = '{$meta_key}' and {$meta_id} = {$pid}", $meta_value) );
-							}
+                                    break;
+                                default:
 
-							// Trigger actions for updated meta fields.
-							foreach ($meta_fields as $meta_key => $meta_value) {
-                                do_action( 'pmxi_update_post_meta', $pid, $meta_key, maybe_unserialize($meta_value)); // hook that was triggered after post meta data updated
+                                    $add_meta_data    = array_chunk( $meta_data['add'][ $meta_type ], 20 );
+                                    $update_meta_data = $meta_data['update'][ $meta_type ];
+                                    $table            = _get_meta_table( $meta_type );
+                                    $meta_id          = $meta_type . '_id';
+
+                                    // Add meta data.
+                                    foreach ( $add_meta_data as $meta ) {
+                                        $this->wpdb->query( "INSERT INTO {$table} ({$meta_id}, meta_key, meta_value) VALUES " . join( ',', $meta ) );
+                                    }
+
+                                    // Update meta data.
+                                    foreach ( $update_meta_data as $meta_key => $meta_value ) {
+                                        $this->wpdb->query( $this->wpdb->prepare("UPDATE {$table} SET meta_value = %s WHERE meta_key = '{$meta_key}' and {$meta_id} = {$pid}", $meta_value) );
+                                    }
+
+                                    // Trigger actions for updated meta fields.
+                                    foreach ($meta_fields as $meta_key => $meta_value) {
+                                        do_action( 'pmxi_update_post_meta', $pid, $meta_key, maybe_unserialize($meta_value)); // hook that was triggered after post meta data updated
+                                    }
+
+                                    wp_cache_delete($pid, $meta_type . '_meta');
+                                    //$this->executeSQL();
+
+                                    break;
                             }
-
-                            wp_cache_delete($pid, $meta_type . '_meta');
-							//$this->executeSQL();
 						}
 					}
 					// [/custom fields]
+
+                    // Save order object after custom fields import.
+                    if ($this->options['custom_type'] == 'shop_order') {
+                        $order->save();
+                    }
 
 					// Page Template
                     global $wp_version;
@@ -3724,11 +3874,33 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                     }
                                 }
                             }
-                            // Update post content
-                            wp_update_post( [
-                                'ID' => $pid,
-                                'post_content' => $articleData['post_content']
-                            ] );
+                            switch ($this->options['custom_type']){
+                                case 'import_users':
+                                case 'shop_customer':
+                                case 'shop_order':
+                                case 'gf_entries':
+                                    // No action needed.
+                                    break;
+                                case 'comments':
+                                case 'woo_reviews':
+                                    wp_update_comment([
+                                        'comment_ID' => $pid,
+                                        'comment_content' => $articleData['post_content']
+                                    ]);
+                                    break;
+                                case 'taxonomies':
+                                    wp_update_term($pid, $this->options['taxonomy_type'], [
+                                        'description' => esc_html($articleData['post_content'])
+                                    ]);
+                                    break;
+                                default:
+                                    // Update post content
+                                    wp_update_post( [
+                                        'ID' => $pid,
+                                        'post_content' => $articleData['post_content']
+                                    ] );
+                                    break;
+                            }
                         }
                     }
 
@@ -4568,12 +4740,14 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 									unset($existing_taxonomies[$tx_name][$i]);
 								}
 
-								// create term if not exists
+								// Create terms if they don't exist on the site unless set to not create terms.
+								!empty($txes[$i]) && !empty($this->options['do_not_create_terms']) && $logger and call_user_func($logger, __('- <b>Note</b>: No new terms will be created due to `Do not create new terms` setting.', 'wp_all_import_plugin'));
+
 								if ( ! empty($txes[$i]) ):
 									foreach ($txes[$i] as $key => $single_tax) {
 										$is_created_term = false;
 										if (is_array($single_tax) and isset($single_tax['name']) and $single_tax['name'] != "") {
-											$parent_id = ( ! empty($single_tax['parent'])) ? pmxi_recursion_taxes($single_tax['parent'], $tx_name, $txes[$i], $key) : '';
+											$parent_id = ( ! empty($single_tax['parent'])) ? pmxi_recursion_taxes($single_tax['parent'], $tx_name, $txes[$i], $key, $this->options['do_not_create_terms']) : '';
 											$term = (empty($this->options['tax_is_full_search_' . $this->options['tax_logic'][$tx_name]][$tx_name])) ? is_exists_term($single_tax['name'], $tx_name, (int)$parent_id) : is_exists_term($single_tax['name'], $tx_name);
 											if ( empty($term) and !is_wp_error($term) ){
 												$term = (empty($this->options['tax_is_full_search_' . $this->options['tax_logic'][$tx_name]][$tx_name])) ? is_exists_term(htmlspecialchars($single_tax['name']), $tx_name, (int)$parent_id) : is_exists_term(htmlspecialchars($single_tax['name']), $tx_name);
@@ -4587,7 +4761,7 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                                     $term_name = wp_unslash( $term_args['name'] );
                                                     $term_slug = sanitize_title( $term_name );
                                                     $term = (empty($this->options['tax_is_full_search_' . $this->options['tax_logic'][$tx_name]][$tx_name])) ? is_exists_term($term_slug, $tx_name, (int)$parent_id) : is_exists_term($term_slug, $tx_name);
-                                                    if ( empty($term) and !is_wp_error($term) ) {
+                                                    if( empty($this->options['do_not_create_terms']) && empty($term) && !is_wp_error($term) ) {
                                                         $term_attr = array('parent' => (!empty($parent_id)) ? $parent_id : 0);
                                                         $term = wp_insert_term(
                                                             $single_tax['name'], // the term
@@ -4625,11 +4799,17 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 													}
 													if (!in_array($term->term_taxonomy_id, $assign_taxes)) $assign_taxes[] = $term->term_taxonomy_id;
 													if (!$is_created_term){
-														if ( empty($parent_id) ){
-															$logger and call_user_func($logger, sprintf(__('- Attempted to create parent %s %s `%s`, duplicate detected. Importing %s to existing `%s` %s, ID %d, slug `%s` ...', 'wp_all_import_plugin'), $custom_type_details->labels->singular_name, $tx_name, $single_tax['name'], $custom_type_details->labels->singular_name, $term->name, $tx_name, $term->term_id, $term->slug));
-														}
-														else{
-															$logger and call_user_func($logger, sprintf(__('- Attempted to create child %s %s `%s`, duplicate detected. Importing %s to existing `%s` %s, ID %d, slug `%s` ...', 'wp_all_import_plugin'), $custom_type_details->labels->singular_name, $tx_name, $single_tax['name'], $custom_type_details->labels->singular_name, $term->name, $tx_name, $term->term_id, $term->slug));
+														if(empty($this->options['do_not_create_terms'])){
+															if ( empty($parent_id) ){
+																$logger and call_user_func($logger, sprintf(__('- Attempted to create parent %s %s `%s`, duplicate detected. Importing %s to existing `%s` %s, ID %d, slug `%s` ...', 'wp_all_import_plugin'), $custom_type_details->labels->singular_name, $tx_name, $single_tax['name'], $custom_type_details->labels->singular_name, $term->name, $tx_name, $term->term_id, $term->slug));
+															}
+															else{
+																$logger and call_user_func($logger, sprintf(__('- Attempted to create child %s %s `%s`, duplicate detected. Importing %s to existing `%s` %s, ID %d, slug `%s` ...', 'wp_all_import_plugin'), $custom_type_details->labels->singular_name, $tx_name, $single_tax['name'], $custom_type_details->labels->singular_name, $term->name, $tx_name, $term->term_id, $term->slug));
+															}
+														}else{
+
+															$logger and call_user_func($logger, sprintf(__('- Importing %s to existing `%s` %s, ID %d, slug `%s` ...', 'wp_all_import_plugin'), $custom_type_details->labels->singular_name, $tx_name, $single_tax['name'], $custom_type_details->labels->singular_name, $term->name, $tx_name, $term->term_id, $term->slug));
+
 														}
 													}
 												}
@@ -4669,7 +4849,7 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 					$is_update = ! empty($articleData['ID']);
 
 					// fire important hooks after custom fields are added
-					if ( ! $this->options['is_fast_mode'] and ! in_array($this->options['custom_type'], array('import_users', 'shop_customer', 'taxonomies', 'comments', 'woo_reviews', 'gf_entries'))){
+					if ( ! $this->options['is_fast_mode'] and ! in_array($this->options['custom_type'], array('import_users', 'shop_customer', 'taxonomies', 'comments', 'woo_reviews', 'gf_entries', 'shop_order'))){
                         $_post = $this->wpdb->get_row( $this->wpdb->prepare( "SELECT * FROM {$this->wpdb->posts} WHERE ID = %d LIMIT 1", $pid ) );
                         if (!empty($_post)) {
                             $_post = sanitize_post( $_post, 'raw' );
@@ -4807,6 +4987,7 @@ class PMXI_Import_Record extends PMXI_Model_Record {
             case 'woo_reviews':
                 $title = wp_trim_words($articleData['comment_content'], 10);
                 break;
+            case 'shop_order':
 	        case 'gf_entries':
 	        	$title = $articleData['date_created'];
 	        	break;
@@ -5219,24 +5400,10 @@ class PMXI_Import_Record extends PMXI_Model_Record {
     }
 
     protected function get_missing_records($iteration) {
-        $missing_ids = [];
-        switch ($this->options['delete_missing_action']) {
-            case 'remove':
-                // Remove all records.
-                if ($this->options['delete_missing_logic'] == 'all') {
-                    $missing_ids = $this->get_missing_records_from_all($iteration);
-                } else {
-                    $missing_ids = $this->get_missing_records_from_imported($iteration);
-                }
-                break;
-            default:
-                // Keep missing records.
-                if ($this->options['delete_missing_logic'] == 'all') {
-                    $missing_ids = $this->get_missing_records_from_all($iteration);
-                } else {
-                    $missing_ids = $this->get_missing_records_from_imported($iteration);
-                }
-                break;
+        if ($this->options['delete_missing_logic'] == 'all') {
+            $missing_ids = $this->get_missing_records_from_all($iteration);
+        } else {
+            $missing_ids = $this->get_missing_records_from_imported($iteration);
         }
         return $missing_ids;
     }
@@ -5336,6 +5503,12 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                         case 'comments':
                                             wp_trash_comment($missingPostRecord['post_id']);
                                             break;
+                                        case 'shop_order':
+                                            $order = wc_get_order($missingPostRecord['post_id']);
+                                            if ($order && !is_wp_error($order)) {
+                                                $order->delete();
+                                            }
+                                            break;
                                         default:
                                             if ($final_post_type = get_post_type($missingPostRecord['post_id']) and 'trash' != get_post_status($missingPostRecord['post_id'])) {
                                                 wp_trash_post($missingPostRecord['post_id']);
@@ -5393,6 +5566,9 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                 }
 
                                 if (!empty($this->options['missing_records_stock_status']) && class_exists('PMWI_Plugin') && $this->options['custom_type'] == "product") {
+
+									// WooCo doesn't play nice when changing status to 'outofstock' if backorders are enabled.
+	                                update_post_meta( $missingPostRecord['post_id'], '_backorders', 'no');
                                     update_post_meta( $missingPostRecord['post_id'], '_stock_status', 'outofstock' );
                                     update_post_meta( $missingPostRecord['post_id'], '_stock', 0 );
 
@@ -5402,6 +5578,7 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                         $term_ids[] = $outofstock_term->term_taxonomy_id;
                                     }
                                     $this->associate_terms( $missingPostRecord['post_id'], $term_ids, 'product_visibility', $logger );
+	                                $logger and call_user_func($logger, sprintf(__('Instead of deletion: change Product with ID `%s` - mark as Out of Stock', 'wp_all_import_plugin'), $missingPostRecord['post_id']));
                                     $to_delete = false;
                                 }
 
@@ -5526,6 +5703,15 @@ class PMXI_Import_Record extends PMXI_Model_Record {
                                     do_action('pmxi_delete_gf_entries', $ids, $this);
                                     foreach ($ids as $post_id) {
                                         GFAPI::delete_entry($post_id);
+                                    }
+                                    break;
+                                case 'shop_order':
+                                    do_action('pmxi_delete_shop_orders', $ids, $this);
+                                    foreach ($ids as $order_id) {
+                                        $order = wc_get_order($order_id);
+                                        if ($order && !is_wp_error($order)) {
+                                            $order->delete(true);
+                                        }
                                     }
                                     break;
                                 default:
@@ -5675,8 +5861,10 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 
 	/**
 	 * Clear associations with posts via Ajax
+	 *
 	 * @param bool[optional] $keepPosts When set to false associated wordpress posts will be deleted as well
-	 * @return PMXI_Import_Record
+	 *
+	 * @return bool
 	 * @chainable
 	 */
 	public function deletePostsAjax($keepPosts = TRUE, $is_deleted_images = 'auto', $is_delete_attachments = 'auto') {
@@ -5799,6 +5987,15 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 			        GFAPI::delete_entry($id);
 		        }
 	        	break;
+            case 'shop_order':
+                do_action('pmxi_delete_shop_orders', $ids, $this);
+                foreach ($ids as $order_id) {
+                    $order = wc_get_order($order_id);
+                    if ($order && !is_wp_error($order)) {
+                        $order->delete(true);
+                    }
+                }
+                break;
             default:
                 do_action('pmxi_delete_post', $ids, $this);
                 foreach ($ids as $id) {
@@ -5898,5 +6095,17 @@ class PMXI_Import_Record extends PMXI_Model_Record {
 
 	    }
     }
+
+	/**
+	 * Do not add system generated notes during import process.
+	 *
+	 * @param $note_data
+	 * @param $order_data
+	 *
+	 * @return array
+	 */
+	public function woocommerce_new_order_note_data($note_data, $order_data) {
+		return [];
+	}
 
 }

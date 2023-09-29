@@ -33,7 +33,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $version = '3.24.0';
+		public $version = '3.25.0';
 
 		/**
 		 * Plugin database version
@@ -348,6 +348,12 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @return string Filtered HTML.
 		 */
 		public function add_button_for_blocks_product_grid_item( $item_html, $data, $product ) {
+			$enabled_on_loop = 'yes' === get_option( 'yith_wcwl_show_on_loop', 'no' );
+
+			if ( ! $enabled_on_loop ) {
+				return $item_html;
+			}
+
 			// Add the link "Add to wishlist" in the loop.
 			$position = get_option( 'yith_wcwl_loop_position', 'after_add_to_cart' );
 			$button   = $this->get_button( $product->get_id() );
@@ -364,6 +370,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 
 			// removes empty parts.
 			$parts = array_filter( $parts );
+			$index = false;
 
 			// searches for index to cut parts array.
 			switch ( $position ) {

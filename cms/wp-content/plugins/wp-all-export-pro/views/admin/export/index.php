@@ -115,7 +115,7 @@ do_action('pmxe_addons_html');
 										foreach ($sorted_cpt as $key => $ct) {
 
                                                 // Remove unused post types
-                                                if( in_array($key, array('wp_block', 'customize_changeset', 'custom_css', 'scheduled_action', 'scheduled-action', 'user_request', 'oembed_cache'))) {
+                                                if( in_array($key, array('wp_block', 'customize_changeset', 'custom_css', 'scheduled_action', 'scheduled-action', 'user_request', 'oembed_cache', 'wp_navigation'))) {
                                                    continue;
                                                 }
 

@@ -45,7 +45,7 @@
 	</p>
 
 	<p>
-		See the <a href='http://www.wpallimport.com/documentation/cron/'>documentation</a> for more details.
+		See the <a href='https://www.wpallimport.com/documentation/cron/'>documentation</a> for more details.
 	</p>
 
 <?php else: ?>

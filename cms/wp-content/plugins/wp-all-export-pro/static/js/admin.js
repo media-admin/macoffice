@@ -686,7 +686,7 @@
 
 		    		$('#wp_all_export_available_rules').html('<div class="wp_all_export_preloader" style="display:block;"></div>');
 
-		    		var date_fields = ['post_date', 'post_modified', 'comment_date', 'comment_parent_date', 'comment_parent_date_gmt', 'user_registered', 'cf__completed_date', 'product_date'];
+		    		var date_fields = ['post_date', 'post_modified', 'comment_date', 'comment_parent_date', 'comment_parent_date_gmt', 'user_registered', 'cf__completed_date', 'product_date', '_date_paid'];
 
 	    			if ( date_fields.indexOf(params.selected) > -1 )
 		    		{
@@ -1584,7 +1584,7 @@
 
 			var $fieldType = $elementType.val();
 
-			if ($elementLabel == '_sale_price_dates_from' || $elementLabel == '_sale_price_dates_to') $fieldType = 'date';
+			if ($elementLabel == '_sale_price_dates_from' || $elementLabel == '_sale_price_dates_to' || $elementLabel == '_date_paid') $fieldType = 'date';
 
 			// set up additional element settings by element type
 			switch ( $fieldType )
@@ -1601,6 +1601,7 @@
 				case 'comment_parent_date_gmt':
 				case 'user_registered':
 				case 'post_modified':
+				case '_date_paid':
 					var $dateType = $addAnotherForm.find('select.date_field_export_data').val();
 					if ($dateType == 'unix')
 						$clone.find('input[name^=cc_settings]').val('unix');
@@ -1635,6 +1636,7 @@
 						case 'post_date':
 						case 'post_modified':
 						case '_completed_date':
+						case '_date_paid':
 							var $dateType = $addAnotherForm.find('select.date_field_export_data').val();
 							if ($dateType == 'unix')
 								$clone.find('input[name^=cc_settings]').val('unix');
@@ -1807,6 +1809,7 @@
                             case 'post_date':
                             case 'post_modified':
                             case '_completed_date':
+							case '_date_paid':
 
                                 $addAnotherForm.find('select.date_field_export_data').find('option').each(function () {
                                     if ($(this).val() == $settings || $settings != 'unix' && $(this).val() == 'php')

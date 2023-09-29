@@ -15,11 +15,11 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.16.4\n"
 
-#: AbstractInitiator.php:182
+#: AbstractInitiator.php:206
 msgid "https://devowl.io/account"
 msgstr "https://devowl.io/account"
 
-#: AbstractInitiator.php:187
+#: AbstractInitiator.php:211
 msgid ""
 "https://devowl.io/knowledge-base/devowl-where-can-i-find-my-license-key/"
 msgstr ""

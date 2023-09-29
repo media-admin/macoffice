@@ -11,23 +11,27 @@
 	padding: 0.25rem 0.65rem;
 }
 
-.wishlist {
+.merkzettel {
 
 	& .tinv-wishlist .tinv-header {
 		display: none;
 	}
 
+
 	& .woocommerce-info {
 		border-top-color: $color-primary;
 	}
+
 
 	& .woocommerce-info:before {
 		color: $color-primary;
 	}
 
+
 	& .tinv-wishlist .tinvwl-table-manage-list .product-cb {
 		width: 2.0rem;
 	}
+
 
 	& thead tr th:first-child,
 	& tbody tr td:first-child {
@@ -38,43 +42,111 @@
 		margin-left: 2.0rem;
 	}
 
+
 	& .product-remove {
 		color: green;
 	}
+
 
 	& .tinv-wishlist .product-remove button .ftinvwl {
 		margin-left: -2px;
 	}
 
+
 	& .product-name {
 		text-align: left;
 	}
+
 
 	& .product-price {
 		text-align: left;
 	}
 
+
 	& .product-date {
 		text-align: left;
 	}
+
 
 	& .product-stock {
 		text-align: left;
 	}
 
+
+	& .product-subtotal {
+		text-align: right;
+	}
+
+
 	& .tinvwl-input-group .form-control {
 		padding: 0.25rem 0.5rem;
 	}
 
+
 	& .tinvwl-input-group-btn {
 		vertical-align: middle;
 	}
+
 
 	& .tinv-wishlist .tinvwl-to-left .tinvwl-input-group .form-control+.tinvwl-input-group-btn .button {
 		color: $color-white;
 		background-color: $color-secondary;
 		border-radius: 25px;
 		padding: 1.0rem 2rem;
+	}
+
+
+	& .tinv-wishlist tfoot .tinvwl-to-right>* {
+		position: absolute;
+		right: 0;
+	}
+
+
+
+
+	.tinv-wishlist .tinv-modal {
+
+
+		& .tinv-modal-inner {
+			background-color: $color-white;
+		}
+
+
+		& h2 {
+			overflow: hidden !important;
+			position: relative;
+			text-align: left;
+			font-size: 2.8rem;
+			line-height: 4.6rem;
+			color: $color-secondary;
+			margin-right: 1.0rem;
+			margin-bottom: 1.0rem;
+			overflow: hidden;
+
+			@include atMedium {
+				margin-top: 2.4rem;
+				margin-bottom: 2.4rem;
+			}
+		}
+	}
+
+
+	.tinv-wishlist .estimate-dialogbox form textarea {
+		position: relative;
+		width: 100%;
+		padding: 0.5rem;
+	}
+
+
+	.tinv-wishlist .estimate-dialogbox form button {
+		font-size: 1.6rem;
+		font-weight: 500;
+		border-radius: 28px;
+		border: none;
+		margin: 0.25rem 0;
+		margin-bottom: 2.0rem;
+		padding: 0.75rem 2.0rem;
+		cursor: pointer;
 	}
 
 }

@@ -215,7 +215,7 @@ if ( ! class_exists('XmlExportWooCommerce') )
 					{
 						$uc_title = ucwords(trim(str_replace("_", " ", $title)));
 
-						if($title == __('Excerpt')) {
+						if($title == __('Excerpt') || $title == 'Excerpt') {
 							return __('Short Description');
 						}
 

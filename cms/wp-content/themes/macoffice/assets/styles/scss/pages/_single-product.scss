@@ -12,6 +12,7 @@
 		background: none;
 	}
 
+
 	& .content-area {
 		padding-top: 8.0rem;
 		padding-bottom: 2.5rem;
@@ -52,6 +53,7 @@
 		position: relative;
 		display: flex;
 		flex: 2 !important;
+		margin-bottom: 5rem;
 	}
 
 
@@ -86,6 +88,18 @@
 	}
 
 
+	&.woocommerce div.product p.price {
+		line-height: 2.0rem;
+		color: $color-green;
+		margin-top: 1.0rem;
+	}
+
+
+	&.woocommerce div.product .stock {
+		color: $color-black;
+	}
+
+
 	&.woocommerce div.product div.summary {
 		width: calc(50% - 1.8rem);
 	}
@@ -98,6 +112,7 @@
 		float: none !important;
 		width: auto !important;
 		clear: all !important;
+		margin-bottom: 3.0rem;
 	}
 
 
@@ -122,13 +137,16 @@
 
 
 
-	&.related products {
+	&.related .products {
 		display: block;
+		margin-top: 3.0rem;
 	}
 
 
 
-	& .tinvwl_add_to_wishlist_button {
+	& .tinvwl_add_to_wishlist_button,
+	&.tinvwl_add_to_wishlist_button  {
+		font-family: 'Inter', system-ui, sans-serif !important;
 		color: $color-white;
 		background-color: $color-secondary;
 		font-weight: 500;
@@ -141,12 +159,19 @@
 	}
 
 
-	& .tinvwl_add_to_wishlist_button:hover {
+	& .tinvwl_add_to_wishlist-text {
+		position: relative;
+		padding-top: 0.5rem;
+	}
+
+
+	& .tinvwl_add_to_wishlist_button:hover,
+	&.tinvwl_add_to_wishlist_button:hover {
 		background-color: $color-primary;
 	}
 
 
-	& .woocommerce ul.products li.product a img {
+	&.woocommerce ul.products li.product a img {
 		max-width: 100%;
 		width: 100%;
 		height: auto;
@@ -171,9 +196,20 @@
 	&.woocommerce ul.products li.product .price {
 		font-size: 2.0rem;
 		line-height: 2.0rem;
+		color: $color-green;
 	}
 
 
+
+	&.woocommerce ul.products li.product a img {
+		min-height: 250px;
+		max-height: 250px;
+		height: auto;
+		width: auto;
+		display: block;
+		margin: 0 0 1em;
+		box-shadow: none;
+		object-fit: scale-down;
+	}
+
 }
-
-

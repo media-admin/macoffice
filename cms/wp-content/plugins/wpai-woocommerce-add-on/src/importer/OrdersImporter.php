@@ -14,7 +14,6 @@ use wpai_woocommerce_add_on\importer\orders\items\ImportOrderCouponItems;
 use wpai_woocommerce_add_on\importer\orders\items\ImportOrderFeeItems;
 use wpai_woocommerce_add_on\importer\orders\items\ImportOrderProductItems;
 use wpai_woocommerce_add_on\importer\orders\items\ImportOrderShippingItems;
-use wpai_woocommerce_add_on\importer\orders\items\ImportOrderTaxItems;
 
 /**
  * Class OrdersImporter
@@ -42,24 +41,34 @@ class OrdersImporter extends Importer {
             add_filter('woocommerce_email_classes', [$this, 'woocommerce_email_classes'], 99, 1);
         }
 
-        $this->importers['orderAddress'] = new ImportOrderAddress($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderPayment'] = new ImportOrderPayment($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderProductItems'] = new ImportOrderProductItems($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderFeeItems'] = new ImportOrderFeeItems($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderCouponItems'] = new ImportOrderCouponItems($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderShippingItems'] = new ImportOrderShippingItems($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderTotal'] = new ImportOrderTotal($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderRefunds'] = new ImportOrderRefunds($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderNotes'] = new ImportOrderNotes($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderTaxItems'] = new ImportOrderTaxItems($this->getIndexObject(), $this->getOptions(), $data);
-        $this->importers['orderDetails'] = new ImportOrderDetails($this->getIndexObject(), $this->getOptions(), $data);
+        add_filter('woocommerce_new_order_note_data', [$this, 'woocommerce_new_order_note_data'], 10, 2);
+
+        $order = wc_get_order($this->index->getPid());
+
+        $this->importers['orderAddress'] = new ImportOrderAddress($this->getIndexObject(), $this->getOptions(), $order, $data);
+        $this->importers['orderPayment'] = new ImportOrderPayment($this->getIndexObject(), $this->getOptions(), $order, $data);
+        $this->importers['orderProductItems'] = new ImportOrderProductItems($this->getIndexObject(), $this->getOptions(), $order, $data);
+        $this->importers['orderFeeItems'] = new ImportOrderFeeItems($this->getIndexObject(), $this->getOptions(), $order, $data);
+        $this->importers['orderCouponItems'] = new ImportOrderCouponItems($this->getIndexObject(), $this->getOptions(), $order, $data);
+        $this->importers['orderShippingItems'] = new ImportOrderShippingItems($this->getIndexObject(), $this->getOptions(), $order, $data);
+        $this->importers['orderTotal'] = new ImportOrderTotal($this->getIndexObject(), $this->getOptions(), $order, $data);
+        $this->importers['orderRefunds'] = new ImportOrderRefunds($this->getIndexObject(), $this->getOptions(), $order, $data);
+        $this->importers['orderNotes'] = new ImportOrderNotes($this->getIndexObject(), $this->getOptions(), $order, $data);
+        $this->importers['orderDetails'] = new ImportOrderDetails($this->getIndexObject(), $this->getOptions(), $order, $data);
 
         /** @var ImportOrderBase $importer */
         foreach ($this->importers as $importer) {
             $importer->import();
         }
+
+        $order->update_taxes();
+
     }
 
+    /**
+     * @param $emails
+     * @return array
+     */
     public function woocommerce_email_classes($emails) {
         remove_all_actions( 'woocommerce_order_status_cancelled_to_completed_notification');
         remove_all_actions( 'woocommerce_order_status_cancelled_to_on-hold_notification');
@@ -76,6 +85,18 @@ class OrdersImporter extends Importer {
         remove_all_actions( 'woocommerce_order_status_pending_to_on-hold_notification');
         remove_all_actions( 'woocommerce_order_status_pending_to_processing_notification');
         remove_all_actions( 'woocommerce_order_status_processing_to_cancelled_notification');
+        return [];
+    }
+
+    /**
+     * Do not add system generated notes during import process.
+     *
+     * @param $note_data
+     * @param $order_data
+     *
+     * @return array
+     */
+    public function woocommerce_new_order_note_data($note_data, $order_data) {
         return [];
     }
 

@@ -3,7 +3,7 @@
 Plugin Name: WP All Import Pro
 Plugin URI: http://www.wpallimport.com/
 Description: The most powerful solution for importing XML and CSV files to WordPress. Import to Posts, Pages, and Custom Post Types. Support for imports that run on a schedule, ability to update existing imports, and much more.
-Version: 4.8.0
+Version: 4.8.5
 Requires PHP: 7.2.5
 Author: Soflyy
 */
@@ -26,7 +26,7 @@ if ( is_plugin_active('wp-all-import/plugin.php') ){
     /**
      *
      */
-    define('PMXI_VERSION', '4.8.0');
+    define('PMXI_VERSION', '4.8.5');
 
     /**
      *
@@ -152,7 +152,7 @@ if ( is_plugin_active('wp-all-import/plugin.php') ){
         /**
          * @var string
          */
-        public static $capabilities = 'manage_options';
+        public static $capabilities = 'install_plugins';
 
         /**
          * @var string
@@ -308,6 +308,11 @@ if ( is_plugin_active('wp-all-import/plugin.php') ){
 		 * @param string $pluginFilePath Plugin main file
 		 */
 		protected function __construct() {
+
+            if(!is_multisite() || defined('WPAI_WPAE_ALLOW_INSECURE_MULTISITE') && 1 === WPAI_WPAE_ALLOW_INSECURE_MULTISITE){
+                self::$capabilities = 'manage_options';
+            }
+
 		    // Load libraries only on admin dashboard or cron import.
 		    if (!$this->isAdminDashboardOrCronImport()) {
 		        return;
@@ -334,7 +339,7 @@ if ( is_plugin_active('wp-all-import/plugin.php') ){
             }
 
 			$this->options = array_intersect_key($current_options, $options_default) + $options_default;
-			$this->options = array_intersect_key($options_default, array_flip(array('info_api_url'))) + $this->options; // make sure hidden options apply upon plugin reactivation
+			$this->options = array_intersect_key($options_default, array_flip(array('info_api_url', 'info_api_url_new'))) + $this->options; // make sure hidden options apply upon plugin reactivation
 			if ('' == $this->options['cron_job_key']) {
                 $this->options['cron_job_key'] = wp_all_import_url_title(wp_all_import_rand_char(12));
             }
@@ -1196,7 +1201,7 @@ if ( is_plugin_active('wp-all-import/plugin.php') ){
 						$wpdb->query('DELETE FROM ' . $post->getTable() . ' WHERE post_id NOT IN (SELECT ID FROM ' . $wpdb->posts .') AND post_id NOT IN ( SELECT ID FROM ' . $wpdb->users . ') AND post_id NOT IN ( SELECT term_taxonomy_id FROM ' . $wpdb->term_taxonomy . ') AND post_id NOT IN ( SELECT comment_ID FROM ' . $wpdb->comments . ')');
 		            }
 		            switch_to_blog($old_blog);
-		            return;
+		            return false;
 		        }
 		    }
 
@@ -1478,6 +1483,7 @@ if ( is_plugin_active('wp-all-import/plugin.php') ){
 				'is_update_post_type' => 1,
 				'is_update_post_format' => 1,
 				'update_categories_logic' => 'full_update',
+                'do_not_create_terms' => 0,
 				'taxonomies_list' => array(),
 				'taxonomies_only_list' => array(),
 				'taxonomies_except_list' => array(),
@@ -1717,7 +1723,7 @@ if ( is_plugin_active('wp-all-import/plugin.php') ){
             // retrieve our license key from the DB
             $wp_all_import_options = get_option('PMXI_Plugin_Options');
             // setup the updater
-            $updater = new PMXI_Updater( $wp_all_import_options['info_api_url'], __FILE__, array(
+            $updater = new PMXI_Updater( $wp_all_import_options['info_api_url_new'], __FILE__, array(
                     'version' 	=> PMXI_VERSION,		// current version number
                     'license' 	=> (!empty($wp_all_import_options['licenses']['PMXI_Plugin'])) ? PMXI_Plugin::decode($wp_all_import_options['licenses']['PMXI_Plugin']) : false, // license key (used get_option above to retrieve from DB)
                     'item_name' => PMXI_Plugin::getEddName(), 	// name of this plugin

@@ -8,7 +8,7 @@
 			<h2><?php _e('Review Import File', 'wp_all_import_plugin'); ?></h2>
 		</div>
 		<div class="wpallimport-links">
-			<a href="http://www.wpallimport.com/support/" target="_blank"><?php _e('Support', 'wp_all_import_plugin'); ?></a> | <a href="http://www.wpallimport.com/documentation/" target="_blank"><?php _e('Documentation', 'wp_all_import_plugin'); ?></a>
+			<a href="https://www.wpallimport.com/support/" target="_blank"><?php _e('Support', 'wp_all_import_plugin'); ?></a> | <a href="https://www.wpallimport.com/documentation/" target="_blank"><?php _e('Documentation', 'wp_all_import_plugin'); ?></a>
 		</div>
 	</div>
 	<div class="clear"></div>

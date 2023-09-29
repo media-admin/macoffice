@@ -248,7 +248,7 @@
 			<?php if ($this->isWizard or $this->isTemplateEdit): ?>
 				<td class="right template-sidebar">
 					<div style="position:relative;">
-					<?php $this->tag( false ); ?>
+					    <?php $this->tag( false ); ?>
 					</div>
 				</td>
 			<?php endif ?>

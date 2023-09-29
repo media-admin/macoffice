@@ -30,6 +30,7 @@ abstract class BaseFolder implements IFolder
     protected $restrictionsCount = 0;
     protected $systemReservedFolders = ['/', '..', '.'];
     protected $contentCustomOrder;
+    protected $owner;
     // Documented in IFolder
     public function anyParentHas($column, $value = null, $valueFormat = '%s', $includeSelf = \false, $until = null)
     {

@@ -5,6 +5,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils;
 use Exception;
 use WP_Error;
 use WP_Filesystem_Direct;
+use WP_Hook;
 use WP_Rewrite;
 // @codeCoverageIgnoreStart
 \defined('ABSPATH') or die('No script kiddies please!');
@@ -15,6 +16,30 @@ use WP_Rewrite;
  */
 class Utils
 {
+    /**
+     * Run $callback with the $handler disabled for the $hook action/filter
+     *
+     * @param string $hook filter name
+     * @param callable $callback function execited while filter disabled
+     * @return mixed value returned by $callback
+     * @see https://gist.github.com/westonruter/6647252#gistcomment-2668616
+     */
+    public static function withoutFilters($hook, $callback)
+    {
+        global $wp_filter;
+        $wp_hook = null;
+        // Remove and cache the filter
+        if (isset($wp_filter[$hook]) && $wp_filter[$hook] instanceof WP_Hook) {
+            $wp_hook = $wp_filter[$hook];
+            unset($wp_filter[$hook]);
+        }
+        $retval = \call_user_func($callback);
+        // Add back the filter
+        if ($wp_hook instanceof WP_Hook) {
+            $wp_filter[$hook] = $wp_hook;
+        }
+        return $retval;
+    }
     /**
      * Checks if the current request is a WP REST API request.
      *
@@ -49,16 +74,20 @@ class Utils
      * Check if passed string is JSON.
      *
      * @param string $string
+     * @param mixed $default
      * @see https://stackoverflow.com/a/6041773/5506547
      * @return array|false
      */
-    public static function isJson($string)
+    public static function isJson($string, $default = \false)
     {
-        if ($string === null) {
-            return \false;
+        if (\is_array($string)) {
+            return $string;
+        }
+        if (!\is_string($string)) {
+            return $default;
         }
         $result = \json_decode($string, ARRAY_A);
-        return \json_last_error() === \JSON_ERROR_NONE ? $result : \false;
+        return \json_last_error() === \JSON_ERROR_NONE ? $result : $default;
     }
     /**
      * Get the nonce salt of the current WordPress installation. This one can be used to hash data unique to the WordPress instance.

@@ -52,6 +52,16 @@
 		height: auto;
 		max-height: 250px;
 		object-fit: scale-down;
+
+		min-height: 250px;
+		max-height: 250px;
+		height: auto;
+		width: auto;
+		display: block;
+		margin: 0 0 1em;
+		box-shadow: none;
+		object-fit: scale-down;
+
 	}
 
 
@@ -87,6 +97,18 @@
 	&.woocommerce ul.products li.product .price {
 		font-size: 2.0rem;
 		line-height: 2.0rem;
+		color: $color-green;
+	}
+
+
+	&.woocommerce div.product .stock {
+		color: $color-black;
+	}
+
+
+	&.woocommerce .product-meta.product-sku {
+		font-size: 1.4rem;
+		line-height: 2.0rem;
 	}
 
 
@@ -97,7 +119,9 @@
 	}
 
 
-	& .tinvwl_add_to_wishlist_button {
+	& .tinvwl_add_to_wishlist_button,
+	&.tinvwl_add_to_wishlist_button  {
+		font-family: 'Inter', system-ui, sans-serif !important;
 		color: $color-white;
 		background-color: $color-secondary;
 		font-weight: 500;
@@ -110,7 +134,8 @@
 	}
 
 
-	& .tinvwl_add_to_wishlist_button:hover {
+	& .tinvwl_add_to_wishlist_button:hover,
+	&.tinvwl_add_to_wishlist_button:hover {
 		background-color: $color-primary;
 	}
 
@@ -118,6 +143,19 @@
 	& .related-products {
 		display: block;
 	}
+
+
+	& .woocommerce ul.products li.product a img {
+		min-height: 250px;
+		max-height: 250px;
+		height: auto;
+		width: auto;
+		display: block;
+		margin: 0 0 1em;
+		box-shadow: none;
+		object-fit: scale-down;
+	}
+
 
 
 	& .woocommerce-pagination {

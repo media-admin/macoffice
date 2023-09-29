@@ -14,6 +14,35 @@ get_header(); ?>
 			-->
 
 
+		<section id="news-posts" class="news-posts section-container container--white wrapper" data-matching-link="#news-posts-link">
+			<h2 class="news-posts__headline h2__section-headline">Neuheiten, die faszinieren</h2>
+
+			<div class="intro-container wrapper">
+				<?php
+
+				$args = array(
+					'post_status' => 'publish',
+					'posts_per_page' => -1,
+					'post_type' => 'homepage-section',
+					'p' => 198,
+				);
+
+				$loop = new WP_Query( $args );
+					while ( $loop->have_posts() ) : $loop->the_post(); ?>
+						<?php the_content();?>
+					<?php endwhile; ?>
+
+				<?php
+				wp_reset_postdata();
+				?>
+
+			</div>
+
+			<?php echo do_shortcode("[shortcode_news_posts]"); ?>
+
+		</section>
+
+
 		<section id="featured-posts" class="featured-posts section-container" data-matching-link="#featured-posts-link">
 			<h2 class="featured-posts__headline h2__section-headline">Lieblingsprodukte, die Freude bereiten</h2>
 
@@ -42,33 +71,14 @@ get_header(); ?>
 
 		</section>
 
-		<section id="news-posts" class="news-posts section-container container--white wrapper" data-matching-link="#news-posts-link">
-			<h2 class="news-posts__headline h2__section-headline">Neuheiten, die faszinieren</h2>
 
-			<div class="intro-container wrapper">
-				<?php
+		<section id="default-posts" class="default-posts section-container" data-matching-link="#default-posts-link">
+			<h2 class="default-posts__headline h2__section-headline">Weitere Beiträge</h2>
 
-				$args = array(
-					'post_status' => 'publish',
-					'posts_per_page' => -1,
-					'post_type' => 'homepage-section',
-					'p' => 198,
-				);
-
-				$loop = new WP_Query( $args );
-					while ( $loop->have_posts() ) : $loop->the_post(); ?>
-						<?php the_content();?>
-					<?php endwhile; ?>
-
-				<?php
-				wp_reset_postdata();
-				?>
-
-			</div>
-
-			<?php echo do_shortcode("[shortcode_news_posts]"); ?>
+			<?php echo do_shortcode("[shortcode_default_posts]"); ?>
 
 		</section>
+
 
 		<?php echo do_shortcode("[shortcode_product_categories]"); ?>
 

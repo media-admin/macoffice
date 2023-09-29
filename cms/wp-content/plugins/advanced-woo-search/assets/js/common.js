@@ -159,18 +159,22 @@ AwsHooks.filters = AwsHooks.filters || {};
             showResults: function( response ) {
 
                 var resultNum = 0;
+                var taxName = '';
+
                 var html = '<ul>';
 
                 if ( typeof response.tax !== 'undefined' ) {
 
                     $.each(response.tax, function (i, taxes) {
 
+                        taxName = i;
+
                         if ( ( typeof taxes !== 'undefined' ) && taxes.length > 0 ) {
                             $.each(taxes, function (i, taxitem) {
 
                                 resultNum++;
 
-                                html += '<li class="aws_result_item aws_result_tag" style="position:relative;">';
+                                html += '<li class="aws_result_item aws_result_tag aws_result_tax_' + taxName + '" style="position:relative;">';
                                     html += '<div class="aws_result_link">';
                                         html += '<a class="aws_result_link_top" href="' + taxitem.link + '">' + taxitem.name + '</a>';
                                         html += '<span class="aws_result_content">';
@@ -268,7 +272,7 @@ AwsHooks.filters = AwsHooks.filters || {};
                 html += '</ul>';
 
                 // @since 2.05
-                html = AwsHooks.apply_filters( 'aws_results_html', html, { response: response, data: d } );
+                html = AwsHooks.apply_filters( 'aws_results_html', html, { response: response, data: d, translate: translate } );
 
 
                 methods.hideLoader();
@@ -430,27 +434,38 @@ AwsHooks.filters = AwsHooks.filters || {};
 
             analytics: function( label, submit ) {
                 if ( d.useAnalytics ) {
+
                     try {
                         var sPage = submit ? '' : '/?s=' + encodeURIComponent( 'ajax-search:' + label );
+
+                        var tagF = false;
                         if ( typeof gtag !== 'undefined' && gtag !== null ) {
-                            gtag('event', 'AWS search', {
+                            tagF = gtag;
+                        } else if ( typeof window.dataLayer !== 'undefined' && window.dataLayer !== null ) {
+                            tagF = function () { window.dataLayer.push(arguments) };
+                        }
+
+                        if ( tagF ) {
+                            tagF('event', 'AWS search', {
                                 'event_label': label,
                                 'event_category': 'AWS Search Term',
                                 'transport_type' : 'beacon'
                             });
                             if ( sPage ) {
-                                gtag('event', 'page_view', {
+                                tagF('event', 'page_view', {
                                     'page_path': sPage,
                                     'page_title' : 'AWS search'
                                 });
                             }
                         }
+
                         if ( typeof ga !== 'undefined' && ga !== null ) {
                             ga('send', 'event', 'AWS search', 'AWS Search Term', label);
                             if ( sPage ) {
                                 ga( 'send', 'pageview', sPage );
                             }
                         }
+
                         if ( typeof pageTracker !== "undefined" && pageTracker !== null ) {
                             if ( sPage ) {
                                 pageTracker._trackPageview( sPage );

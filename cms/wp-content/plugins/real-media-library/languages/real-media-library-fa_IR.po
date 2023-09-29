@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: n/a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "POT-Creation-Date: n/a\n"
-"PO-Revision-Date: 2021-09-10 08:35+0000\n"
+"PO-Revision-Date: 2023-08-09 13:40+0000\n"
 "Last-Translator: Matthias Günter <matthias.guenter@devowl.io>\n"
 "Language-Team: Persian <https://translate.devowl.io/projects/wordpress-real-"
-"media-library-backend-php/ci-mojito/fa/>\n"
+"media-library-backend-php/develop/fa/>\n"
 "Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.8\n"
+"X-Generator: Weblate 4.16.4\n"
 
 #. Plugin Name of the plugin
 #, fuzzy
@@ -159,11 +159,11 @@ msgid ""
 "\"Caption\"."
 msgstr ""
 "این میانبر یک فایل کتابخانه رسانه ای است. میانبرها به هیچ فضای ذخیره سازی "
-"بدنی نیازی به <strong> (0 کیلوبایت) </ strong> ندارند. اگر می خواهید خود "
-"فایل را تغییر دهید ، باید این کار را در فایل اصلی انجام دهید (مثلاً فایل "
-"رسانه را از طریق یک افزونه جایگزین کنید). <br/> همچنین توجه داشته باشید که "
-"قسمت های میانبرها می توانند با فایل اصلی متفاوت باشند ، به عنوان مثال \"عنوان"
-"\" ، \"توضیحات\" یا \"عنوان\"."
+"بدنی نیازی به <strong> (0 کیلوبایت) </strong> ندارند. اگر می خواهید خود فایل "
+"را تغییر دهید ، باید این کار را در فایل اصلی انجام دهید (مثلاً فایل رسانه را "
+"از طریق یک افزونه جایگزین کنید). <br/> همچنین توجه داشته باشید که قسمت های "
+"میانبرها می توانند با فایل اصلی متفاوت باشند ، به عنوان مثال \"عنوان\" ، "
+"\"توضیحات\" یا \"عنوان\"."
 
 #. translators:
 #: inc/attachment/CustomField.php:154
@@ -306,7 +306,7 @@ msgstr ""
 #. translators:
 #: inc/exception/FolderAlreadyExistsException.php:30
 msgid "'%s' already exists in this folder."
-msgstr "'٪ s' قبلاً در این پوشه وجود دارد."
+msgstr "'%s' قبلاً در این پوشه وجود دارد."
 
 #. translators:
 #: inc/exception/OnlyInProVersionException.php:22
@@ -457,7 +457,7 @@ msgid ""
 "<strong> galleries</strong> there."
 msgstr ""
 "یک مجموعه نمی تواند حاوی فایل باشد. اما می توانید مجموعه های دیگر و <strong> "
-"گالری </ strong> را در آنجا ایجاد کنید."
+"گالری </strong> را در آنجا ایجاد کنید."
 
 #. translators:
 #: inc/overrides/pro/folder/Creatable.php:107
@@ -833,12 +833,12 @@ msgid ""
 "Note also that the fields in the shortcuts can be different to the original "
 "file, for example \"Title\", \"Description\" or \"Caption\"."
 msgstr ""
-"این میانبر یک فایل کتابخانه رسانه ای است. میانبرها به هیچ فضای ذخیره سازی "
-"بدنی نیازی به <strong> (0 کیلوبایت) </ strong> ندارند. اگر می خواهید خود "
-"فایل را تغییر دهید ، باید این کار را در فایل اصلی انجام دهید (مثلاً فایل "
-"رسانه را از طریق یک افزونه جایگزین کنید). <br/> همچنین توجه داشته باشید که "
-"قسمت های میانبرها می توانند با فایل اصلی متفاوت باشند ، به عنوان مثال \"عنوان"
-"\" ، \"توضیحات\" یا \"عنوان\"."
+"این یک میانبر از یک فایل کتابخانه رسانه است. میانبرها به هیچ فضای ذخیره سازی "
+"فیزیکی نیاز ندارند *(0 کیلوبایت)*. اگر می خواهید خود فایل را تغییر دهید، "
+"باید این کار را در فایل اصلی انجام دهید (به عنوان مثال فایل رسانه را از طریق "
+"یک افزونه جایگزین کنید).\n"
+"همچنین توجه داشته باشید که فیلدهای موجود در میانبرها می توانند با فایل اصلی "
+"متفاوت باشند، به عنوان مثال \"عنوان\"، \"توضیحات\" یا \"عنوان\"."
 
 #: inc/view/Lang.php:111
 msgid ""
@@ -1014,10 +1014,11 @@ msgid ""
 "\n"
 "You can also order the images into *a custom image order* per drag&drop."
 msgstr ""
-"یک *پوشه داده گالری* فقط می تواند شامل تصاویر باشد.برای شما راحت تر است که "
-"می توانید محل گالری های بصری خود را تشخیص دهید.\n"
-"همچنین شما می توانید تصاویر خود را در هر بار کشیدن و رها کردن درون *یک مرتب "
-"سازی سفارشی تصاویر* مرتب سازی کنید."
+"یک *پوشه داده های گالری* فقط می تواند حاوی تصاویر باشد. تشخیص محل قرارگیری "
+"گالری های بصری برای شما آسان تر است.\n"
+"\n"
+"همچنین می‌توانید تصاویر را به *ترتیب سفارشی تصویر* در هر کشیدن و رها کردن "
+"سفارش دهید."
 
 #: inc/view/Lang.php:162
 msgid "Settings"
@@ -1126,10 +1127,8 @@ msgstr ""
 "files to physical folders.</a>"
 
 #: inc/view/Lang.php:193
-#, fuzzy
-#| msgid "Product license not yet activated."
 msgid "Product license not for production use!"
-msgstr "مجوز استفاده از این محصول هنوز فعال نشده است."
+msgstr "مجوز استفاده از این محصول هنوز فعال نشده است.!"
 
 #: inc/view/Lang.php:194
 #, fuzzy
@@ -1153,10 +1152,8 @@ msgid "License activation"
 msgstr ""
 
 #: inc/view/Lang.php:201
-#, fuzzy
-#| msgid "Get your PRO license now!"
 msgid "Get your free license"
-msgstr "همین حالا نسخه *PRO* افزونه را دریافت کنید!"
+msgstr "همین حالا نسخه *PRO* افزونه را دریافت کنید"
 
 #: inc/view/Lang.php:202
 msgid "Activate license & continue"
@@ -1221,9 +1218,8 @@ msgstr ""
 "شما کمک می کنند تا گالری های تصویر خود را به راحتی تشخیص دهید."
 
 #: inc/view/Lang.php:230
-#, fuzzy
 msgid "Custom content order?"
-msgstr "مرتب سازی سفارشی تصویر"
+msgstr "مرتب سازی سفارشی تصویر?"
 
 #: inc/view/Lang.php:232
 msgid ""
@@ -1246,9 +1242,8 @@ msgstr ""
 "کشیدن و رها کردن سازمان دهی کنید."
 
 #: inc/view/Lang.php:246
-#, fuzzy
 msgid "Want to create subfolders?"
-msgstr "جهت ایجاد پوشه جدید کلیک کنید"
+msgstr "جهت ایجاد پوشه جدید کلیک کنید?"
 
 #: inc/view/Lang.php:249
 msgid ""
@@ -1269,9 +1264,8 @@ msgid ""
 msgstr ""
 
 #: inc/view/Lang.php:263
-#, fuzzy
 msgid "Want to upload entire folders?"
-msgstr "جهت ایجاد پوشه جدید کلیک کنید"
+msgstr "جهت ایجاد پوشه جدید کلیک کنید?"
 
 #: inc/view/Lang.php:264
 msgid ""

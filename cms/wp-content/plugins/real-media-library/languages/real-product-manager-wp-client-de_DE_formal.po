@@ -14,11 +14,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.8\n"
 
-#: AbstractInitiator.php:182
+#: AbstractInitiator.php:206
 msgid "https://devowl.io/account"
 msgstr "https://devowl.io/de/account"
 
-#: AbstractInitiator.php:187
+#: AbstractInitiator.php:211
 msgid ""
 "https://devowl.io/knowledge-base/devowl-where-can-i-find-my-license-key/"
 msgstr ""

@@ -128,6 +128,13 @@ class PluginUpdate
             $newsletter = $request->get_param('newsletter');
             $firstName = $request->get_param('firstName');
             $email = $request->get_param('email');
+            // Get additional checkboxes
+            foreach ($initiator->formAdditionalCheckboxes() as $additionalCheckbox) {
+                $result = $additionalCheckbox['stateFn'](\boolval($request->get_param($additionalCheckbox['id'])));
+                if (\is_wp_error($result)) {
+                    return $result;
+                }
+            }
             $pluginUpdater = $initiator->getPluginUpdater();
             $result = $pluginUpdater->updateLicenseSettings($licenses === null ? null : \json_decode($licenses, ARRAY_A), $telemetry, $newsletter, $firstName, $email);
             // Enable auto updates
@@ -269,7 +276,9 @@ class PluginUpdate
             $licenses[] = $license->getAsArray();
         }
         $user = \get_userdata(\get_current_user_id());
-        return ['slug' => $slug, 'licenses' => $licenses, 'hasInteractedWithFormOnce' => $licenseActivation->hasInteractedWithFormOnce(), 'name' => $initiator->getPluginName(), 'needsLicenseKeys' => $initiator->isExternalUpdateEnabled(), 'privacyProvider' => $initiator->getPrivacyProvider(), 'privacyPolicy' => $initiator->getPrivacyPolicy(), 'accountSiteUrl' => $initiator->getAccountSiteUrl(), 'licenseKeyHelpUrl' => $initiator->getLicenseKeyHelpUrl(), 'allowsAutoUpdates' => $initiator->isAutoUpdatesEnabled(), 'allowsTelemetry' => $initiator->isTelemetryEnabled(), 'allowsNewsletter' => $initiator->isNewsletterEnabled(), 'announcementsActive' => $initiator->getPluginUpdater()->getAnnouncementPool()->isActive(), 'potentialNewsletterUser' => ['firstName' => $user->first_name, 'email' => $user->user_email], 'checkUpdateLink' => $initiator->getPluginUpdater()->getPluginUpdateChecker()->getCheckUpdateLink(), 'showBlogName' => \is_multisite(), 'showNetworkWideUpdateIssueNotice' => \is_multisite() ? !\is_plugin_active_for_network(\plugin_basename($initiator->getPluginFile())) : \false];
+        return ['slug' => $slug, 'licenses' => $licenses, 'hasInteractedWithFormOnce' => $licenseActivation->hasInteractedWithFormOnce(), 'name' => $initiator->getPluginName(), 'needsLicenseKeys' => $initiator->isExternalUpdateEnabled(), 'privacyProvider' => $initiator->getPrivacyProvider(), 'privacyPolicy' => $initiator->getPrivacyPolicy(), 'accountSiteUrl' => $initiator->getAccountSiteUrl(), 'additionalCheckboxes' => \array_map(function ($arr) {
+            return ['id' => $arr['id'], 'text' => $arr['text']];
+        }, $initiator->formAdditionalCheckboxes()), 'licenseKeyHelpUrl' => $initiator->getLicenseKeyHelpUrl(), 'allowsAutoUpdates' => $initiator->isAutoUpdatesEnabled(), 'allowsTelemetry' => $initiator->isTelemetryEnabled(), 'allowsNewsletter' => $initiator->isNewsletterEnabled(), 'announcementsActive' => $initiator->getPluginUpdater()->getAnnouncementPool()->isActive(), 'potentialNewsletterUser' => ['firstName' => $user->first_name, 'email' => $user->user_email], 'checkUpdateLink' => $initiator->getPluginUpdater()->getPluginUpdateChecker()->getCheckUpdateLink(), 'showBlogName' => \is_multisite(), 'showNetworkWideUpdateIssueNotice' => \is_multisite() ? !\is_plugin_active_for_network(\plugin_basename($initiator->getPluginFile())) : \false];
     }
     /**
      * New instance.

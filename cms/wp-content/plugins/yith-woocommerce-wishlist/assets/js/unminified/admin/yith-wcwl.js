@@ -23,7 +23,7 @@ jQuery( function( $ ) {
                     return;
                 }
 
-                var target = elem.closest('tr');
+                var target = elem.closest( '.yith-plugin-fw__panel__option' );
 
                 if (!target.length) {
                     return;
@@ -31,12 +31,9 @@ jQuery( function( $ ) {
 
                 if( val ){
                     target.show().fadeTo("slow", 1);
-                }
-                else{
+                } else{
                     target.is( ':visible' ) ? target.fadeTo("slow", 0, function(){ target.hide() }) : target.css('opacity', 0).hide();
                 }
-
-                // val ? target.removeClass('yith-disabled') : target.addClass('yith-disabled');
             });
 
             if (typeof complete != 'undefined') {
@@ -400,13 +397,6 @@ jQuery( function( $ ) {
 		e.preventDefault();
 		$( this ).closest( '.yith-wcwl-row' ).toggleClass( 'active' );
 		const target = $( this ).data( 'target' );
-		$( '#'+target ).slideToggle();
-	} )
-
-	$( document ).on( 'click', '.yith-wcwl-row:not(.active)', function( e ){
-		e.preventDefault();
-		$( this ).toggleClass( 'active' );
-		const target = $( this ).find( '.yith-plugin-fw__action-button--edit-action' ).data( 'target' );
 		$( '#'+target ).slideToggle();
 	} )
 

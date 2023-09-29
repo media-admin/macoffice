@@ -8,7 +8,7 @@
 			<h2><?php _e('Confirm & Run', 'wp_all_import_plugin'); ?></h2>
 		</div>
 		<div class="wpallimport-links">
-			<a href="http://www.wpallimport.com/support/" target="_blank"><?php _e('Support', 'wp_all_import_plugin'); ?></a> | <a href="http://www.wpallimport.com/documentation/" target="_blank"><?php _e('Documentation', 'wp_all_import_plugin'); ?></a>
+			<a href="https://www.wpallimport.com/support/" target="_blank"><?php _e('Support', 'wp_all_import_plugin'); ?></a> | <a href="https://www.wpallimport.com/documentation/" target="_blank"><?php _e('Documentation', 'wp_all_import_plugin'); ?></a>
 		</div>
 
 		<div class="clear"></div>
@@ -115,7 +115,7 @@
 			<div class="wpallimport-notify-wrapper">
 				<div class="found_records terminated">
 					<h3><?php _e('Your server terminated the import process', 'wp_all_import_plugin');?></h3>
-					<h4 style="width: 77%; line-height: 25px;"><?php printf(__("<a href='%s' target='_blank'>Read more</a> about how to prevent this from happening again.", "wp_all_import_plugin"), "http://www.wpallimport.com/documentation/troubleshooting/terminated-imports/"); ?></h4>
+					<h4 style="width: 77%; line-height: 25px;"><?php printf(__("<a href='%s' target='_blank'>Read more</a> about how to prevent this from happening again.", "wp_all_import_plugin"), "https://www.wpallimport.com/documentation/problems-with-import-files/"); ?></h4>
 				</div>
 			</div>
 			<input type="submit" id="wpallimport-try-again" style="position: absolute; top: 30%; right: 10px; display: block; padding-top: 1px;" value="<?php _e('Continue Import','wp_all_import_plugin');?>" class="button button-primary button-hero wpallimport-large-button">

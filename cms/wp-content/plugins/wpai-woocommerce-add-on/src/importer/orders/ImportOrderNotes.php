@@ -74,10 +74,7 @@ class ImportOrderNotes extends ImportOrderBase {
                 $comment_approved = 1;
                 $comment_date = $note['date'];
                 $is_customer_note = $note['visibility'] == "private" ? 0 : 1;
-                $commentdata = apply_filters('woocommerce_new_order_note_data', compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_agent', 'comment_type', 'comment_parent', 'comment_approved', 'comment_date'), array(
-                    'order_id' => $this->getOrderID(),
-                    'is_customer_note' => $is_customer_note
-                ));
+                $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_agent', 'comment_type', 'comment_parent', 'comment_approved', 'comment_date');
 
                 if ($note_item->isEmpty()) {
                     $comment_id = FALSE;

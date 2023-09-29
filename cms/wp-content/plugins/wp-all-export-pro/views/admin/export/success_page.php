@@ -103,7 +103,7 @@ if (current_user_can(PMXE_Plugin::$capabilities)) {
                     <?php endif; ?>
 
                     <div style="margin-top:30px;">
-                        <h3 style="margin-bottom: 0; margin-top: -10px;"><?php echo esc_html_e("Secure URL", 'wp_all_export_plugin'); ?></h3>
+                        <h3 style="margin-bottom: 0; margin-top: -10px;"><?php esc_html_e("Secure URL", 'wp_all_export_plugin'); ?></h3>
 
 
                         <div id="wpae-secure-url-container">

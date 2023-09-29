@@ -112,12 +112,6 @@
 }
 
 
-.site-footer__link-teamviewer {
-  color: $color-white !important;
-  background-color: $color-secondary;
-  border-radius: 25px;
-  padding: 0.75rem 2.0rem;
-}
 
 
 .site-footer__container--black {
@@ -155,7 +149,7 @@
 
   @include atMedium {
     display: flex;
-    width: 65%;
+    width: 90%;
   }
 }
 
@@ -293,7 +287,7 @@
 
 .site-footer__contact-information {
   position: relative;
-  width: 100%;
+  width: 80%;
 }
 
 
@@ -446,12 +440,67 @@ img.site-footer__social-media-icon {
 
 
 
+.site-footer__vcard {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: left;
+
+  flex-grow: 0;     /* do not grow   - initial value: 0 */
+  flex-shrink: 0;   /* do not shrink - initial value: 1 */
+  flex-basis: 50%; /* width/height  - initial value: auto */
+
+  width: calc( 100% - 50px ) !important;
+
+  font-size: 1.3rem;
+  line-height: 2.4rem;
+
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+
+  @include atMedium {
+    position: relative;
+    display: block;
+    width: 10% !important;
+
+    flex-grow: initial;     /* do not grow   - initial value: 0 */
+    flex-shrink: initial;   /* do not shrink - initial value: 1 */
+    flex-basis: initial; /* width/height  - initial value: auto */
+
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+
+
+.site-footer__vcard-link {
+  position: relative;
+  width: 80%;
+}
+
+
+.site-footer__vcard-img {
+  position: relative;
+  width: 60%;
+  height: auto;
+}
+
+
+
+
+
 /* ---------------> HIER GEHTS UM */
 
 .site-footer__main-navigation-container {
 
   @include atMedium {
-    width: 35%;
+    width: 10%;
   }
 }
 
@@ -472,7 +521,7 @@ img.site-footer__social-media-icon {
 
   @include atMedium {
     /* position: relative; */
-    display: inline-flex;
+    display: flex;
     width: 100%;
 
     /* display: flex; */
@@ -494,7 +543,7 @@ img.site-footer__social-media-icon {
     justify-content: space-evenly;
 
     margin-top: 1.5rem;
-    margin-bottom: 3.5rem;
+    /* margin-bottom: 3.5rem; */
 
     padding-left: 0;
     padding-right: 0;
@@ -547,12 +596,25 @@ img.site-footer__social-media-icon {
   padding-left: 0px;
 
   @include atMedium {
-    display: flex;
+    position: relative;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     flex-basis: initial;
     justify-content: space-between;
   }
 }
+
+
+.site-footer__main-navigation-list li {
+
+
+  @include atMedium {
+    margin-bottom: 1.0rem;
+  }
+}
+
+
 
 
 .site-footer__main-navigation-list a {
@@ -561,6 +623,7 @@ img.site-footer__social-media-icon {
   @include atMedium {
     font-size: 1.2rem;
     line-height: 2.2rem;
+    margin-bottom: 2.0rem;
   }
 }
 
@@ -622,14 +685,40 @@ img.site-footer__social-media-icon {
 }
 
 
-.site-footer__main-navigation-list > .site-footer__main-navigation-list-item:nth-of-type(4) {
+
+.site-footer__main-navigation-list > .navbar-item:nth-of-type(4) a {
 
   @include atMedium {
+    position: absolute;
     width: 100%;
+    margin-top: 4rem;
   }
 }
 
 
+
+.site-footer__main-navigation-list > .navbar-item:nth-of-type(5) a {
+
+  @include atMedium {
+    position: absolute;
+    width: 100%;
+    margin-top: 6rem;
+  }
+}
+
+
+
+.site-footer__link-teamviewer {
+  color: $color-white !important;
+  background-color: $color-secondary;
+  border-radius: 25px;
+  padding: 0.75rem 2.0rem;
+
+  @include atMedium {
+   position: absolute;
+   left: -2rem;
+  }
+}
 
 
 
@@ -647,10 +736,12 @@ img.site-footer__social-media-icon {
   @include atMedium {
     display: block;
     /* width: 100%; */
-    width: 98%;
+    width: 80%;
     bottom: 0px;
     margin: 0 auto;
-    margin-top: 25px;
+    margin: initial;
+    margin-top: 0;
+    padding-top: 1.0rem;
     padding-bottom: 2.0rem;
   }
 }

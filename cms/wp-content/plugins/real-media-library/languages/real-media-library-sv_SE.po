@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: n/a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "POT-Creation-Date: n/a\n"
-"PO-Revision-Date: 2023-07-18 08:45+0000\n"
-"Last-Translator: Swedish translator <account+sv@devowl.io>\n"
+"PO-Revision-Date: 2023-08-09 13:40+0000\n"
+"Last-Translator: Matthias Günter <matthias.guenter@devowl.io>\n"
 "Language-Team: Swedish <https://translate.devowl.io/projects/wordpress-real-"
 "media-library-backend-php/develop/sv/>\n"
 "Language: sv_SE\n"
@@ -158,8 +158,8 @@ msgstr ""
 msgid "For this file is %d shortcut available in the following folder:"
 msgid_plural ""
 "For this file are %d shortcuts available in the following folders:"
-msgstr[0] "Den här filen har en länk i denna mapp:"
-msgstr[1] "Dess filer har länkar i denna mapp:"
+msgstr[0] "Denna fil har %d länkar i denna mapp:"
+msgstr[1] "Denna fil har %d länkar i denna mapp:"
 
 #: inc/attachment/CustomField.php:177
 msgid ""
@@ -453,7 +453,7 @@ msgstr ""
 #. translators:
 #: inc/overrides/pro/folder/Creatable.php:107
 msgid "The parent %d does not exist."
-msgstr "Den angivna mappen finns inte."
+msgstr "Den överordnade mappen %d finns inte."
 
 #: inc/overrides/pro/folder/Creatable.php:161
 msgid "The given parent does not exist to set the parent for this folder."
@@ -712,7 +712,7 @@ msgstr "Inga poster hittades"
 #: inc/view/Lang.php:75
 msgid "Are you sure to delete *{name}*? All files gets moved to Unorganized."
 msgstr ""
-"Är du säker på att du vill radera  *{name}*? Alla filer flyttas till "
+"Är du säker på att du vill radera *{name}*? Alla filer flyttas till "
 "Osorterade."
 
 #: inc/view/Lang.php:76
@@ -1227,9 +1227,8 @@ msgstr ""
 "eller genom att dra och släpp."
 
 #: inc/view/Lang.php:246
-#, fuzzy
 msgid "Want to create subfolders?"
-msgstr "Klicka här för att skapa en ny mapp"
+msgstr "Klicka här för att skapa en ny mapp?"
 
 #: inc/view/Lang.php:249
 msgid ""
@@ -1250,9 +1249,8 @@ msgid ""
 msgstr ""
 
 #: inc/view/Lang.php:263
-#, fuzzy
 msgid "Want to upload entire folders?"
-msgstr "Klicka här för att skapa en ny mapp"
+msgstr "Klicka här för att skapa en ny mapp?"
 
 #: inc/view/Lang.php:264
 msgid ""

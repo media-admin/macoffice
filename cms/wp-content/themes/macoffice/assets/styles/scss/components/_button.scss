@@ -86,7 +86,17 @@ button:hover {
 
 
 
+/* -- Wishlist Buttons -- */
 
+.tinv-wishlist .tinvwl_add_to_wishlist_button.tinvwl-icon-heart:before, .woocommerce ul.products li.product a.tinvwl-button.tinvwl_add_to_wishlist_button.tinvwl-icon-heart:before, .woocommerce-page ul.products li.product a.tinvwl-button.tinvwl-icon-heart.tinvwl_add_to_wishlist_button:before, a.wishlist_products_counter.top_wishlist-heart:before, span.wishlist_products_counter.top_wishlist-heart:before, a.sidr-class-wishlist_products_counter.sidr-class-top_wishlist-heart:before, .tinvwl_cart_to_wishlist_button.tinvwl-icon-heart:before, .tinvwl_all_cart_to_wishlist_button.tinvwl-icon-heart:before {
+  position: relative;
+  top: -0.25rem;
+}
+
+
+ul.products li.product .tinvwl_add_to_wishlist_button {
+  padding-top: 1rem;
+}
 
 
 
@@ -160,3 +170,5 @@ button:hover {
 .btn--white:visited .wp-block-button__link {
   color: white;
 } */
+
+

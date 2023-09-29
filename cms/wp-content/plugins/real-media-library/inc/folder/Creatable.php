@@ -43,7 +43,7 @@ abstract class Creatable extends \MatthiasWeb\RealMediaLibrary\folder\BaseFolder
      * @param string $absolute
      * @param int $order
      * @param int $cnt
-     * @param array $row
+     * @param object $row
      * @throws \Exception
      */
     public function __construct($id, $parent = -1, $name = '', $slug = '', $absolute = '', $order = -1, $cnt = 0, $row = [])

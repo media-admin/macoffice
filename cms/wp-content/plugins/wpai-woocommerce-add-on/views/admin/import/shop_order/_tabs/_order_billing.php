@@ -4,7 +4,7 @@
 			<div class="form-field wpallimport-radio-field">
 				<input type="radio" id="billing_source_existing" name="pmwi_order[billing_source]" value="existing" <?php echo 'existing' == $post['pmwi_order']['billing_source'] ? 'checked="checked"' : '' ?> class="switcher"/>
 				<label for="billing_source_existing" style="width:auto;"><?php _e('Try to load data from existing customer', PMWI_Plugin::TEXT_DOMAIN) ?></label>
-				<a href="#help" class="wpallimport-help" title="<?php _e('If no customer is found the order will be skipped.', PMWI_Plugin::TEXT_DOMAIN) ?>" style="position:relative; top: 4px;">?</a>
+				<a href="#help" class="wpallimport-help" title="<?php _e('If no customer is found the order will be skipped.', PMWI_Plugin::TEXT_DOMAIN) ?>" style="position:relative; top: 4px;left:6px;">?</a>
 			</div>
 			<span class="wpallimport-clear"></span>
 			<div class="switcher-target-billing_source_existing" style="padding-left:27px;">															

@@ -66,7 +66,6 @@ if ( ! function_exists( 'wp_all_export_rrmdir' ) ) {
 					}
 				}
 			}
-			reset( $objects );
 			rmdir( $dir );
 		}
 	}

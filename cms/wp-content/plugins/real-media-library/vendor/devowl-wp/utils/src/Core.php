@@ -87,17 +87,26 @@ trait Core
             $slug = $this->getPluginConstant(Constants::PLUGIN_CONST_SLUG);
             $textdomain = $this->getPluginConstant(Constants::PLUGIN_CONST_TEXT_DOMAIN);
             $this->debug('(Re)install the database tables', __FUNCTION__);
-            $this->getActivator()->install();
             // Clear localization cache for JSON MO files
             $this->getPluginClassInstance(Constants::PLUGIN_CLASS_LOCALIZATION)->clearMoCacheDir($slug, $textdomain);
-            /**
-             * A new version got installed for this plugin. Consider to use the [`versionCompareOlderThan()`](../php/classes/MatthiasWeb-Utils-Core.html#method_versionCompareOlderThan)
-             * method from the Core class.
-             *
-             * @hook DevOwl/Utils/NewVersionInstallation/$slug
-             * @param {string} $installed Previously version, can be also `null` for new installations
-             */
-            \do_action('DevOwl/Utils/NewVersionInstallation/' . $slug, $installed);
+            if ($this->getActivator()->install()) {
+                /**
+                 * A new version got installed for this plugin. Consider to use the [`versionCompareOlderThan()`](../php/classes/MatthiasWeb-Utils-Core.html#method_versionCompareOlderThan)
+                 * method from the Core class.
+                 *
+                 * @hook DevOwl/Utils/NewVersionInstallation/$slug
+                 * @param {string} $installed Previously version, can be also `null` for new installations
+                 */
+                \do_action('DevOwl/Utils/NewVersionInstallation/' . $slug, $installed);
+                /**
+                 * A new version got installed for a plugin. Please use `DevOwl/Utils/NewVersionInstallation/$slug`.
+                 *
+                 * @hook DevOwl/Utils/NewVersionInstallation
+                 * @param {string} $installed Previously version, can be also `null` for new installations
+                 * @param {string} $slug
+                 */
+                \do_action('DevOwl/Utils/NewVersionInstallation', $installed, $slug);
+            }
         }
     }
     /**

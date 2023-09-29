@@ -259,10 +259,10 @@ function pmxe_pmxe_after_export($export_id, $export, $file = false)
             if ($export->options['export_to'] == 'csv') {
                 $f = fopen($filepath, 'r');
 
-                $headers = fgetcsv($f);
+                $headers = fgetcsv($f, null, $export->options['delimiter']);
 
                 while(!feof($f)) {
-                    $data = fgetcsv($f);
+                    $data = fgetcsv($f, null, $export->options['delimiter']);
                     $currentLine = [];
                     if(is_array($data)) {
                         foreach ($data as $key => $value) {
@@ -396,6 +396,9 @@ function pmxe_pmxe_after_export($export_id, $export, $file = false)
             $wp_uploads = wp_upload_dir();
 
             $fileurl = str_replace($wp_uploads['basedir'], $wp_uploads['baseurl'], $filepath);
+
+			// Add file edit time parameter to avoid caching of linked files by Cloudflare (or other caches).
+	        $fileurl = add_query_arg('v', filemtime($filepath), $fileurl);
 
             if ($export->isRte()) {
 

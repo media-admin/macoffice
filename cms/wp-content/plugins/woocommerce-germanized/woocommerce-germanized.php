@@ -3,13 +3,13 @@
  * Plugin Name: Germanized for WooCommerce
  * Plugin URI: https://www.vendidero.de/woocommerce-germanized
  * Description: Germanized for WooCommerce extends WooCommerce to become a legally compliant store in the german market.
- * Version: 3.13.3
+ * Version: 3.13.5
  * Author: vendidero
  * Author URI: https://vendidero.de
  * Requires at least: 5.4
- * Tested up to: 6.2
+ * Tested up to: 6.3
  * WC requires at least: 3.9
- * WC tested up to: 7.9
+ * WC tested up to: 8.1
  *
  * Text Domain: woocommerce-germanized
  * Domain Path: /i18n/languages/
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 *
 		 * @var string
 		 */
-		public $version = '3.13.3';
+		public $version = '3.13.5';
 
 		/**
 		 * @var WooCommerce_Germanized $instance of the plugin
@@ -646,7 +646,6 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 				'woocommerce_gzd_compatibilities',
 				array(
 					'wpml'                             => 'WC_GZD_Compatibility_WPML',
-					'wpml-string-translation'          => 'WC_GZD_Compatibility_WPML_String_Translation',
 					'polylang'                         => 'WC_GZD_Compatibility_Polylang',
 					'woo-poly-integration'             => 'WC_GZD_Compatibility_Woo_Poly_Integration',
 					'woocommerce-dynamic-pricing'      => 'WC_GZD_Compatibility_WooCommerce_Dynamic_Pricing',
@@ -659,6 +658,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 					'woocommerce-subscriptions'        => 'WC_GZD_Compatibility_WooCommerce_Subscriptions',
 					'woo-paypalplus'                   => 'WC_GZD_Compatibility_Woo_PaypalPlus',
 					'woocommerce-paypal-payments'      => 'WC_GZD_Compatibility_WooCommerce_PayPal_Payments',
+					'translatepress-multilingual'      => 'WC_GZD_Compatibility_TranslatePress_Multilingual',
 					'elementor-pro'                    => 'WC_GZD_Compatibility_Elementor_Pro',
 					'elementor'                        => 'WC_GZD_Compatibility_Elementor',
 					'klarna-checkout-for-woocommerce'  => 'WC_GZD_Compatibility_Klarna_Checkout_For_WooCommerce',
@@ -967,13 +967,25 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			}
 
 			wp_register_script(
-				'wc-gzd-unit-price-observer',
-				$frontend_script_path . 'unit-price-observer' . $suffix . '.js',
+				'wc-gzd-unit-price-observer-queue',
+				$frontend_script_path . 'unit-price-observer-queue' . $suffix . '.js',
 				array(
 					'jquery',
 					'woocommerce',
-					'accounting',
-					'wc-single-product',
+				),
+				WC_GERMANIZED_VERSION,
+				true
+			);
+
+			wp_register_script(
+				'wc-gzd-unit-price-observer',
+				$frontend_script_path . 'unit-price-observer' . $suffix . '.js',
+				array_merge(
+					is_product() ? array( 'wc-single-product' ) : array(),
+					array(
+						'wc-gzd-unit-price-observer-queue',
+						'accounting',
+					)
 				),
 				WC_GERMANIZED_VERSION,
 				true
@@ -1023,10 +1035,10 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 					// Enqueue variation scripts
 					wp_enqueue_script( 'wc-gzd-add-to-cart-variation' );
 				}
+			}
 
-				if ( apply_filters( 'woocommerce_gzd_refresh_unit_price_on_price_change', true ) ) {
-					wp_enqueue_script( 'wc-gzd-unit-price-observer' );
-				}
+			if ( apply_filters( 'woocommerce_gzd_refresh_unit_price_on_price_change', ( is_shop() || is_product() || is_product_category() || is_product_tag() ) ) ) {
+				wp_enqueue_script( 'wc-gzd-unit-price-observer' );
 			}
 
 			wp_register_style( 'woocommerce-gzd-layout', $assets_path . 'css/layout' . $suffix . '.css', array(), WC_GERMANIZED_VERSION );
@@ -1105,11 +1117,32 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		}
 
 		public function get_variation_script_params() {
+			$price_selector = 'p.price';
+
+			if ( is_singular( 'product' ) && function_exists( 'wc_current_theme_is_fse_theme' ) && wc_current_theme_is_fse_theme() && class_exists( '\Automattic\WooCommerce\Blocks\BlockTemplatesController', false ) && class_exists( '\Automattic\WooCommerce\Blocks\Utils\BlockTemplateUtils', false ) ) {
+				try {
+					$instance = \Automattic\WooCommerce\Blocks\Package::container()->get( \Automattic\WooCommerce\Blocks\BlockTemplatesController::class );
+
+					if ( is_callable( array( $instance, 'block_template_is_available' ) ) && method_exists( '\Automattic\WooCommerce\Blocks\Utils\BlockTemplateUtils', 'template_has_legacy_template_block' ) ) {
+						$has_single_product_block_template = $instance->block_template_is_available( 'single-product' );
+
+						if ( $has_single_product_block_template ) {
+							$templates = get_block_templates( array( 'slug__in' => array( 'single-product' ) ) );
+
+							if ( ! isset( $templates[0] ) || ! \Automattic\WooCommerce\Blocks\Utils\BlockTemplateUtils::template_has_legacy_template_block( $templates[0] ) ) {
+								$price_selector = 'div.wc-block-components-product-price';
+							}
+						}
+					}
+				} catch ( Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+				}
+			}
+
 			return apply_filters(
 				'woocommerce_gzd_add_to_cart_variation_params',
 				array(
 					'wrapper'        => '.product',
-					'price_selector' => 'p.price',
+					'price_selector' => $price_selector,
 					'replace_price'  => true,
 				)
 			);
@@ -1160,6 +1193,18 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 				wp_localize_script( 'wc-gzd-add-to-cart-variation', 'wc_gzd_add_to_cart_variation_params', $this->get_variation_script_params() );
 			}
 
+			if ( wp_script_is( 'wc-gzd-unit-price-observer-queue' ) && ! in_array( 'wc-gzd-unit-price-observer-queue', $this->localized_scripts, true ) ) {
+				$this->localized_scripts[] = 'wc-gzd-unit-price-observer-queue';
+
+				$params = array(
+					'ajax_url'                 => WC()->ajax_url(),
+					'wc_ajax_url'              => WC_AJAX::get_endpoint( '%%endpoint%%' ),
+					'refresh_unit_price_nonce' => wp_create_nonce( 'wc-gzd-refresh-unit-price' ),
+				);
+
+				wp_localize_script( 'wc-gzd-unit-price-observer-queue', 'wc_gzd_unit_price_observer_queue_params', $params );
+			}
+
 			if ( wp_script_is( 'wc-gzd-unit-price-observer' ) && ! in_array( 'wc-gzd-unit-price-observer', $this->localized_scripts, true ) ) {
 				global $post;
 
@@ -1174,9 +1219,6 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 				$params = array_merge(
 					$params,
 					array(
-						'ajax_url'                 => WC()->ajax_url(),
-						'wc_ajax_url'              => WC_AJAX::get_endpoint( '%%endpoint%%' ),
-						'refresh_unit_price_nonce' => wp_create_nonce( 'wc-gzd-refresh-unit-price' ),
 						'product_id'               => $post ? $post->ID : '',
 						'price_decimal_sep'        => wc_get_price_decimal_separator(),
 						'price_thousand_sep'       => wc_get_price_thousand_separator(),
@@ -1383,7 +1425,6 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 * @return array
 		 */
 		public function add_emails( $mails ) {
-
 			foreach ( $this->get_custom_email_ids() as $class_name => $email_id ) {
 				$path = WC_GERMANIZED_ABSPATH . 'includes/emails/';
 				$file = 'class-' . trim( str_replace( '_', '-', strtolower( $class_name ) ) ) . '.php';

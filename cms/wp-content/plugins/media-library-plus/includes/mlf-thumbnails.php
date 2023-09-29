@@ -214,7 +214,7 @@
 
 	<p><?php printf( esc_html__( "Click the button below to regenerate thumbnails for all images in the Media Library. This is helpful if you have added new thumbnail sizes to your site. Existing thumbnails will not be removed to prevent breaking any links.", 'maxgalleria-media-library' ), admin_url( 'options-media.php' ) ); ?></p>
 
-	<p><?php printf( esc_html__( "You can regenerate thumbnails for individual images from the Media Library Folders page by checking the box below one or more images and clicking the Regenerate Thumbnails button. The regenerate operation is not reversible but you can always generate the sizes you need by adding additional thumbnail sizes to your theme.", 'maxgalleria-media-library'), admin_url( 'upload.php' ) ); ?></p>
+	<p><?php printf( esc_html__( "You can regenerate thumbnails for individual images from the Media Library Folders page by checking the box below one or more images and clicking the Regenerate Thumbnails button. The regenerate operation is not reversible but you can always generate the sizes you need by adding additional thumbnail sizes to your theme. SVG files do not have thumbanils and are automatically skipped.", 'maxgalleria-media-library'), admin_url( 'upload.php' ) ); ?></p>
 
 	<p><input type="submit" class="button-primary hide-if-no-js" name="regenerate-thumbnails" id="regenerate-thumbnails" value="<?php esc_html_e( 'Regenerate All Thumbnails', 'maxgalleria-media-library' ) ?>" /></p>
 

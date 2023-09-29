@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: YITH WooCommerce Wishlist\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yith-woocommerce-"
 "wishlist\n"
-"POT-Creation-Date: 2023-08-02 09:51:45+00:00\n"
+"POT-Creation-Date: 2023-09-13 10:30:25+00:00\n"
 "PO-Revision-Date: 2020-10-16 14:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
@@ -119,7 +119,7 @@ msgstr "Product succesvol verwijderd."
 msgid "Please, make sure to enter a valid title"
 msgstr "let op dat u een geldige titel invoert"
 
-#: includes/class-yith-wcwl-frontend.php:789
+#: includes/class-yith-wcwl-frontend.php:796
 msgid ""
 "We are sorry, but this feature is available only if cookies on your browser "
 "are enabled."
@@ -127,11 +127,11 @@ msgstr ""
 "Sorry, deze optie is alleen beschikbaar als cookies in uw browser zijn "
 "ingeschakeld."
 
-#: includes/class-yith-wcwl-frontend.php:799
+#: includes/class-yith-wcwl-frontend.php:806
 msgid "Product added to cart successfully"
 msgstr "Product succesvol toegevoegd aan winkelwagen"
 
-#: includes/class-yith-wcwl-frontend.php:1084
+#: includes/class-yith-wcwl-frontend.php:1091
 #: includes/class-yith-wcwl-shortcode.php:257
 #: plugin-options/settings/wishlist_page-options.php:249
 #: templates/wishlist-view-footer-mobile.php:59

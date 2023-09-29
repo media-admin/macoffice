@@ -600,6 +600,30 @@ final class XmlImportWooCommerceService {
     }
 
     /**
+     * Find existing product by SKU, ID or title.
+     *
+     * @param $identifier
+     * @return bool|\WC_Product
+     */
+    public static function getProductByIdentifier($identifier) {
+        $product_id = wc_get_product_id_by_sku($identifier);
+        if ( empty($product_id) ) {
+            $result = wp_all_import_get_page_by_title($identifier, ['product', 'product_variation']);
+            if ( $result && !is_wp_error($result) ) {
+                $product_id = $result->ID;
+            }
+            if ( empty($product_id) && is_numeric($identifier) ) {
+                $product_id = (int) $identifier;
+            }
+        }
+        $product = FALSE;
+        if ( ! empty($product_id) ) {
+            $product = WC()->product_factory->get_product($product_id);
+        }
+        return $product;
+    }
+
+    /**
      * @param $input
      * @return array
      */

@@ -34,3 +34,15 @@
 #leasingResult {
 
 }
+
+
+.leasing-calculator__container {
+	& thead tr th:first-child,
+	& tbody tr td:first-child {
+		width: initial;
+		min-width: initial;
+		max-width: initial;
+		word-break: break-all;
+	}
+
+}

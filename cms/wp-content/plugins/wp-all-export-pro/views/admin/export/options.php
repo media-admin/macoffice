@@ -132,8 +132,8 @@ $l10n = array(
                 </form>
                 <div style="color: #425F9A; font-size: 14px; font-weight: bold; margin: 0 0 15px; line-height: 25px; text-align: center;">
                     <div id="no-subscription" style="display: none;">
-                        <?php echo esc_html_e("Looks like you're trying out Automatic Scheduling!");?><br/>
-                        <?php echo esc_html_e("Your Automatic Scheduling settings won't be saved without a subscription.");?>
+                        <?php esc_html_e("Looks like you're trying out Automatic Scheduling!");?><br/>
+                        <?php esc_html_e("Your Automatic Scheduling settings won't be saved without a subscription.");?>
                     </div>
                 </div>
 					<div class="wpallexport-submit-buttons" style="text-align: center; <?php if ($this->isWizard) { ?> height: 60px; <?php } ?> ">

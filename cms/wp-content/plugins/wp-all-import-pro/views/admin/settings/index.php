@@ -36,7 +36,7 @@
 								<?php } ?>
 
 							<?php } ?>
-							<p class="description"><?php _e('A license key is required to access plugin updates. You can use your license key on an unlimited number of websites. Do not distribute your license key to 3rd parties. You can get your license key in the <a target="_blank" href="http://www.wpallimport.com/portal">customer portal</a>.', 'wp_all_import_plugin'); ?></p>
+							<p class="description"><?php _e('A license key is required to access plugin updates. You can use your license key on an unlimited number of websites. Do not distribute your license key to 3rd parties. You can get your license key in the <a target="_blank" href="https://www.wpallimport.com/portal">customer portal</a>.', 'wp_all_import_plugin'); ?></p>
 							<p class="submit-buttons">
 								<?php wp_nonce_field('edit-license', '_wpnonce_edit-license') ?>
 								<input type="hidden" name="is_license_submitted" value="1" />
@@ -307,7 +307,7 @@
 							<?php } ?>
 
 						<?php } ?>
-						<p class="description"><?php _e('A license key is required to access plugin updates. You can use your license key on an unlimited number of websites. Do not distribute your license key to 3rd parties. You can get your license key in the <a target="_blank" href="http://www.wpallimport.com/portal">customer portal</a>.', 'wp_all_import_plugin'); ?></p>
+						<p class="description"><?php _e('A license key is required to access plugin updates. You can use your license key on an unlimited number of websites. Do not distribute your license key to 3rd parties. You can get your license key in the <a target="_blank" href="https://www.wpallimport.com/portal">customer portal</a>.', 'wp_all_import_plugin'); ?></p>
 						<p class="submit-buttons">
 							<?php wp_nonce_field('edit-license', '_wpnonce_edit-license') ?>
 							<input type="hidden" name="is_license_submitted" value="1" />

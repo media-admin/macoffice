@@ -18,6 +18,18 @@
 }
 
 
+
+/* --- Set Anchor higher --- */
+.anchor {
+	visibility: hidden;
+	height: 0px !important;
+	position: absolute;
+	margin: -160px;
+	transition: all ease-in-out 0.3;
+}
+
+
+
 /* --- WordPress Helper Classes --- */
 
 /* Heading */
@@ -81,3 +93,4 @@ tbody tr td:first-child {
 .hr__post-navigation--after {
 	margin-top: 2.25rem;
 }
+

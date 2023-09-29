@@ -39,11 +39,44 @@ do_action( 'woocommerce_before_main_content' );
 <header class="woocommerce-products-header">
 	<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
 		<h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
-
 	<?php endif; ?>
 
 	<?php
-	/**
+	// SHOW ONLY IF NOT SHOP PAGE AND MORE THAN 20 PRODUCTS
+
+	if (!is_shop() ) {
+		$product_counter = wc_get_loop_prop( 'total' );
+		if ($product_counter > 20)  {
+			$product_categories = get_terms([
+				'taxonomy' => get_queried_object()->taxonomy,
+				'parent'   => get_queried_object_id(),
+			]);
+			echo '<div class="product-categories__container">';
+				foreach ($product_categories as $category) {
+					if($category->category_parent == 0) { //this checks for 1st level that you wanted
+						echo '<div class="product-categories__card card">';
+							echo '<a class="product-categories__link" href="' . get_term_link( $category->slug, $category->taxonomy ) . '">';
+								echo '<div class="card__container wrapper">';
+									$cat_thumb_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
+									$cat_thumb_url = wp_get_attachment_thumb_url( $cat_thumb_id );
+									echo '<img class="product-categories__img" src="' . $cat_thumb_url . '" alt="" />';
+									echo '<div class="product-categories__content card__content">';
+										echo '<h4  class="product-categories__title card__title">' . $category->name . '</h4>';
+									echo '</div>';
+								echo '</div>';
+							echo '</a>';
+						echo '</div>';
+					}
+				}
+			echo '</div>';
+			} else {
+				echo "";
+			}
+		}
+	?>
+
+	<?php
+	/**p
 	 * Hook: woocommerce_archive_description.
 	 *
 	 * @hooked woocommerce_taxonomy_archive_description - 10

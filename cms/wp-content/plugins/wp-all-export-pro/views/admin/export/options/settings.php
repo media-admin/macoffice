@@ -143,10 +143,10 @@ if (!defined('ABSPATH')) {
                                 <input type="hidden" name="include_bom" value="0"/>
                                 <input type="checkbox" id="include_bom" name="include_bom"
                                        value="1" <?php echo $post['include_bom'] ? 'checked="checked"' : '' ?> />
-                                <label for="include_bom"><?php esc_html_e('Include BOM in export file', 'wp_all_export_plugin') ?></label>
+                                <label for="include_bom"><?php esc_html_e('Include BOM to enable non-ASCII characters in Excel', 'wp_all_export_plugin') ?></label>
                                 <span>
                                     <a href="#help" class="wpallexport-help"
-                                       title="<?php esc_html_e('The BOM will help some programs like Microsoft Excel read your export file if it includes non-English characters.', 'wp_all_export_plugin'); ?>">?</a>
+                                       title="<?php esc_html_e('The BOM will help some programs like Microsoft Excel read your export file if it contains non-ASCII characters. These can include curly quotation marks or non-English characters such as umlauts.', 'wp_all_export_plugin'); ?>">?</a>
                                 </span>
                             </div>
                             <div class="wpallexport-no-realtime-options <?php if ($post['enable_real_time_exports']) { ?> wpae-hidden<?php } ?>" >

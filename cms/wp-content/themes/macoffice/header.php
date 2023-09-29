@@ -70,6 +70,10 @@
 			<title><?php wp_title($sep = ''); ?></title>
 		<?php endif; ?>
 
+		<?php // require 'classes/servicePrices/config.php';  ?>
+		<?php // require 'classes/servicePrices/meta.php'; ?>
+
+
 		<?php wp_enqueue_script('jquery'); ?>
 		<?php wp_head(); ?>
 
@@ -124,7 +128,6 @@
 
 			<!-- Hamburger Menu Toggle -->
 			<nav class="main-navigation">
-
 				<menu class="site-menu">
 					<div class="burger-menu">
 						<span class="line"></span>
@@ -132,7 +135,6 @@
 						<span class="line"></span>
 					</div>
 				</menu>
-
 				<!-- Main Navigation -->
 				<div class="navbar">
 					<ul class="navbar__navigation-list">
@@ -152,10 +154,9 @@
 						?>
 					</ul>
 				</div>
-
-
 			</nav>
 
+			<!-- Smartphone only START -->
 			<div class="site-header__navi-contact-information">
 				<div class="site-header__navi-contact-information-phone">
 					<img class="site-header__navi-contact-information-phone-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_phone-header-dark_desktop.svg"/>
@@ -170,53 +171,58 @@
 					<a class="site-header__navi-contact-information-call-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
 				</div>
 
-				<div class="site-header__search">
-					<a class="site-header__search-link wrapper"  id="close" onclick="SEARCH_DIALOG.classList.toggle('is-active')">
-						<img class="site-header__search-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon-search.svg"/>
+				<div class="site-header__search-area">
+					<a id="search-link" class="site-header__search-link">
+						<img class="site-header__search-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_search.svg" alt="Suchen Icon"/>
 					</a>
 
-					<div id="SEARCH_DIALOG" class="modal">
+
+					<div id="smartphone_search" class="modal">
 						<div class="modal-background"></div>
 						<div class="modal-content">
-							<?php aws_get_search_form( true ); ?>
+							<span class="close">&times;</span>
+							<?php if ( function_exists( 'aws_get_search_form' ) ) { aws_get_search_form( true, array( 'id' => 1 ) ); } ?>
 						</div>
-						<button id="close" class="modal-close is-large" aria-label="close"></button>
 					</div>
+
 				</div>
 
-				<!-- <div class="search-area">
-					<a id="close" class="" onclick="SEARCH_DIALOG.classList.toggle('is-active')">
-						<img class="" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon-search.svg" alt="Suchen Icon">
-						</a>
-
-						<div id="SEARCH_DIALOG" class="modal">
-							<div class="modal-background"></div>
-							<div class="modal-content">
-								<?php /* echo do_shortcode('[yith_woocommerce_ajax_search]'); */ ?>
-								<?php aws_get_search_form( true ); ?>
-							</div>
-							<button id="close" class="modal-close is-large" aria-label="close"></button>
-						</div>
-				</div> -->
-
-				<div class="site-header__mode-switcher">
+			<div class="site-header__mode-switcher">
 					<button class="site-header__mode-switcher-link " onclick="switchMode()">
 						<img class="site-header__mode-switcher-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg"/>
 					</button>
 				</div>
 			</div>
+			<!-- Smartphone only END -->
 
+
+			<!-- Desktop only START -->
 			<div class="site-header__navi-additional-area">
-				<div class="site-header__search">
-					<a class="site-header__search-link wrapper" href="#">
-						<img class="site-header__search-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_search-dark_desktop.svg" alt="Icon Suchen">
+
+				<div class="site-header__search-area">
+					<a id="search_button_desktop" class="site-header__search-link">
+						<img class="site-header__search-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_search.svg" alt="Suchen Icon"/>
 					</a>
+
+
+					<div id="search_modal_desktop" class="modal">
+						<div class="modal-background"></div>
+						<div class="modal-content">
+							<span class="modal-close-btn">&times;</span>
+							<?php if ( function_exists( 'aws_get_search_form' ) ) { aws_get_search_form( true, array( 'id' => 1 ) ); } ?>
+						</div>
+					</div>
 				</div>
+
+
+
 				<div class="site-header__mode-switcher">
 					<button class="site-header__mode-switcher-link wrapper" onclick="switchMode()">
 						<img class="site-header__mode-switcher--icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
 					</button>
 				</div>
+
 			</div>
+			<!-- Desktop only END -->
 
 		</header>

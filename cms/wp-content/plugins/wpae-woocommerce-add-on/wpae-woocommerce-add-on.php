@@ -3,7 +3,7 @@
 Plugin Name: WP All Export - WooCommerce Export Add-On Pro
 Plugin URI: http://www.wpallimport.com/
 Description: Export WooCommerce Products, Orders and Reviews from WordPress. Requires WP All Export Pro.
-Version: 1.0.7
+Version: 1.0.9
 Author: Soflyy
 */
 /**
@@ -24,7 +24,7 @@ define('PMWE_ROOT_URL', rtrim(plugin_dir_url(__FILE__), '/'));
  */
 define('PMWE_PREFIX', 'pmwe_');
 
-define('PMWE_VERSION', '1.0.7');
+define('PMWE_VERSION', '1.0.9');
 
 if ( class_exists('PMWE_Plugin') and PMWE_EDITION == "free"){
 
@@ -188,6 +188,11 @@ else {
 			$page = strtolower($input->getpost('page', ''));
             $action = $input->getpost('action', 'index');
 
+            // IF PMXE_VERSION is less than 1.8.5-beta-1.0
+            if(defined('PMXE_VERSION') && version_compare(PMXE_VERSION, '1.8.5-beta-1.0', '<' )) {
+                PMXE_Plugin::getInstance()->showDismissibleNotice('<strong>WP All Export WooCommerce Add-On:</strong> The latest version of WP All Export Pro (1.8.5+) is required. Any exports that require this add-on will not run correctly until you update WP All Export Pro.', 'woocommerce_add_on_minimum_version_hpos');
+            }
+
             $adminDispatcher->dispatch($page, $action);
 		}
 
@@ -239,10 +244,19 @@ else {
 
 	// retrieve our license key from the DB
 	$wpae_woocommerce_addon_options = get_option('PMXE_Plugin_Options');
-	
-	if (!empty($wpae_woocommerce_addon_options['info_api_url'])){
+
+    // Favor new API URL, but fallback to old if needed.
+    if( !empty($wpae_woocommerce_addon_options['info_api_url_new'])){
+        $api_url = $wpae_woocommerce_addon_options['info_api_url_new'];
+    }elseif( !empty($wpae_woocommerce_addon_options['info_api_url'])){
+        $api_url = $wpae_woocommerce_addon_options['info_api_url'];
+    }else{
+        $api_url = null;
+    }
+
+	if (!empty($api_url)){
 		// setup the updater
-		$updater = new PMWE_Updater( $wpae_woocommerce_addon_options['info_api_url'], __FILE__, array(
+		$updater = new PMWE_Updater( $api_url, __FILE__, array(
 				'version' 	=> PMWE_VERSION,		// current version number
 				'license' 	=> false, // license key (used get_option above to retrieve from DB)
 				'item_name' => PMWE_Plugin::getEddName(), 	// name of this plugin

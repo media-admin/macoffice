@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: n/a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "POT-Creation-Date: n/a\n"
-"PO-Revision-Date: 2021-09-10 08:35+0000\n"
+"PO-Revision-Date: 2023-08-09 13:40+0000\n"
 "Last-Translator: Matthias Günter <matthias.guenter@devowl.io>\n"
 "Language-Team: Chinese (Simplified) <https://translate.devowl.io/projects/"
-"wordpress-real-media-library-backend-php/ci-mojito/zh_Hans/>\n"
+"wordpress-real-media-library-backend-php/develop/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.8\n"
+"X-Generator: Weblate 4.16.4\n"
 
 #. Plugin Name of the plugin
 #, fuzzy
@@ -153,7 +153,7 @@ msgstr ""
 msgid "For this file is %d shortcut available in the following folder:"
 msgid_plural ""
 "For this file are %d shortcuts available in the following folders:"
-msgstr[0] "对于此文件，以下文件夹中提供了％d快捷方式："
+msgstr[0] "对于此文件，以下文件夹中提供了%d快捷方式："
 
 #: inc/attachment/CustomField.php:177
 msgid ""
@@ -289,7 +289,7 @@ msgstr "'%s'在此文件夹中已存在。"
 #. translators:
 #: inc/exception/OnlyInProVersionException.php:22
 msgid "This functionality is not available in the free version (%s)."
-msgstr "免费版本（％s）中不提供此功能。"
+msgstr "免费版本（%s）中不提供此功能。"
 
 #: inc/folder/Creatable.php:181
 msgid "You need to provide a set of files."
@@ -438,7 +438,7 @@ msgstr ""
 #. translators:
 #: inc/overrides/pro/folder/Creatable.php:107
 msgid "The parent %d does not exist."
-msgstr "给定的文件夹不存在。"
+msgstr "父 %d 不存在。"
 
 #: inc/overrides/pro/folder/Creatable.php:161
 msgid "The given parent does not exist to set the parent for this folder."
@@ -802,9 +802,10 @@ msgid ""
 "Note also that the fields in the shortcuts can be different to the original "
 "file, for example \"Title\", \"Description\" or \"Caption\"."
 msgstr ""
-"这是媒体库文件的快捷方式。快捷键不需要任何物理存储*(0kb)*。如果您想要更改文件"
-"本身，您必须在原始文件中这样做(例如，通过插件替换媒体文件)。还要注意，快捷键"
-"中的字段可能与原始文件不同，例如“标题”、“描述”或“标题”。"
+"这是媒体库文件的快捷方式。快捷方式不需要任何物理存储空间*(0 kB)*。如果要更改"
+"文件本身，必须在原始文件中进行（例如通过插件替换媒体文件）。\n"
+"还请注意，快捷方式中的字段可以与原始文件不同，例如 \"标题\"、\"描述 \"或 \"标"
+"题\"。"
 
 #: inc/view/Lang.php:111
 msgid ""
@@ -959,10 +960,10 @@ msgid ""
 "You can create a *visual gallery* by using a shortcode in the Visual Editor "
 "on your pages/postings."
 msgstr ""
-"集合可以不包含任何文件。但是你可以在那里创建其他的收藏品和“画廊”。上面提到的"
-"图库只是一个*图库数据文件夹*，这意味着它们不会自动出现在你的前端(你的网站)。"
-"您可以创建一个*visual gallery*从这个*gallery数据文件夹*通过可视化编辑器在您的"
-"页面/文章。"
+"集合不能包含文件。不过，您可以在其中创建其他收藏集和*图库*。该图库只是一个*图"
+"库数据文件夹*，即在网站上不会自动显示。\n"
+"\n"
+"您可以在页面/文章的可视化编辑器中使用简码创建*可视化图库*。"
 
 #: inc/view/Lang.php:155
 msgid "Click this to create a *new gallery data folder*"
@@ -975,8 +976,9 @@ msgid ""
 "\n"
 "You can also order the images into *a custom image order* per drag&drop."
 msgstr ""
-"一个“图库数据文件夹”只能包含图像。对你来说，区分你的视觉画廊在哪里更简单。你"
-"也可以将图片放入自定义的拖放顺序中。"
+"图库数据文件夹*只能包含图片。这样更容易区分视觉图库的位置。\n"
+"\n"
+"您还可以通过拖放将图片排序为*自定义图片顺序*。"
 
 #: inc/view/Lang.php:162
 msgid "Settings"
@@ -1078,10 +1080,8 @@ msgid ""
 msgstr ""
 
 #: inc/view/Lang.php:193
-#, fuzzy
-#| msgid "Product license not yet activated."
 msgid "Product license not for production use!"
-msgstr "产品许可证尚未激活。"
+msgstr "产品许可证不得用于生产！"
 
 #: inc/view/Lang.php:194
 #, fuzzy
@@ -1128,7 +1128,7 @@ msgstr ""
 msgid ""
 "You will be redirected to the external website of PRO version. Please "
 "confirm to continue!"
-msgstr "您将重定向到Pro版本的外部网站，确认继续。"
+msgstr "您将重定向到Pro版本的外部网站，确认继续。!"
 
 #: inc/view/Lang.php:213
 msgid "PRO Feature"
@@ -1192,9 +1192,8 @@ msgstr ""
 "序。"
 
 #: inc/view/Lang.php:246
-#, fuzzy
 msgid "Want to create subfolders?"
-msgstr "单击此以创建一个新文件夹"
+msgstr "单击此以创建一个新文件夹?"
 
 #: inc/view/Lang.php:249
 msgid ""
@@ -1215,9 +1214,8 @@ msgid ""
 msgstr ""
 
 #: inc/view/Lang.php:263
-#, fuzzy
 msgid "Want to upload entire folders?"
-msgstr "单击此以创建一个新文件夹"
+msgstr "单击此以创建一个新文件夹?"
 
 #: inc/view/Lang.php:264
 msgid ""

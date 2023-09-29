@@ -24,7 +24,7 @@ class PMXI_Admin_Addons extends PMXI_Controller_Admin {
             'active' => (class_exists('PMWI_Plugin') and defined('PMWI_EDITION') and PMWI_EDITION == 'paid'),
             'free_installed' => (class_exists('PMWI_Plugin') and defined('PMWI_EDITION') and PMWI_EDITION == 'free'),
             'required_plugins' => false,
-            'url' => 'http://www.wpallimport.com/woocommerce-product-import'
+            'url' => 'https://www.wpallimport.com/woocommerce-product-import/'
         );
 
         // ACF add-on
@@ -35,7 +35,7 @@ class PMXI_Admin_Addons extends PMXI_Controller_Admin {
             'active' => (class_exists('PMAI_Plugin') and defined('PMAI_EDITION') and PMAI_EDITION == 'paid'),
             'free_installed' => (class_exists('PMAI_Plugin') and defined('PMAI_EDITION') and PMAI_EDITION == 'free'),
             'required_plugins' => array('Advanced Custom Fields' => class_exists('acf')),
-            'url' => 'http://www.wpallimport.com/advanced-custom-fields/'
+            'url' => 'https://www.wpallimport.com/advanced-custom-fields/'
         );
 
         // Toolset Types add-on
@@ -46,7 +46,7 @@ class PMXI_Admin_Addons extends PMXI_Controller_Admin {
             'active' => (class_exists('PMTI_Plugin') and defined('PMTI_EDITION') and PMTI_EDITION == 'paid'),
             'free_installed' => (class_exists('PMTI_Plugin') and defined('PMTI_EDITION') and PMTI_EDITION == 'free'),
             'required_plugins' => array('Toolset Types' => defined(TYPES_VERSION)),
-            'url' => 'http://www.wpallimport.com/advanced-custom-fields/'
+            'url' => 'https://www.wpallimport.com/advanced-custom-fields/'
         );
 
         // WPML add-on
@@ -57,7 +57,7 @@ class PMXI_Admin_Addons extends PMXI_Controller_Admin {
             'active' => (class_exists('PMLI_Plugin') and defined('PMLI_EDITION') and PMLI_EDITION == 'paid'),
             'free_installed' => (class_exists('PMLI_Plugin') and defined('PMLI_EDITION') and PMLI_EDITION == 'free'),
             'required_plugins' => array('WPML' => class_exists('SitePress')),
-            'url' => 'http://www.wpallimport.com/add-ons/wpml/'
+            'url' => 'https://www.wpallimport.com/add-ons/wpml/'
         );
 
         // User add-on
@@ -68,7 +68,7 @@ class PMXI_Admin_Addons extends PMXI_Controller_Admin {
             'active' => (class_exists('PMUI_Plugin') and defined('PMUI_EDITION') and PMUI_EDITION == 'paid'),
             'free_installed' => (class_exists('PMUI_Plugin') and defined('PMUI_EDITION') and PMUI_EDITION == 'free'),
             'required_plugins' => false,
-            'url' => 'http://www.wpallimport.com/add-ons/user-import/'
+            'url' => 'https://www.wpallimport.com/import-wordpress-users/'
         );
 
         // Gravity Forms add-on
@@ -79,7 +79,7 @@ class PMXI_Admin_Addons extends PMXI_Controller_Admin {
             'active' => (class_exists('PMGI_Plugin') and defined('PMGI_EDITION') and PMGI_EDITION == 'paid'),
             'free_installed' => (class_exists('PMGI_Plugin') and defined('PMGI_EDITION') and PMGI_EDITION == 'free'),
             'required_plugins' => array('Gravity Forms' => class_exists('GFForms')),
-            'url' => ''
+            'url' => 'https://www.wpallimport.com/import-gravity-forms-entries-from-xml-csv/'
         );
 
         // Meta Box add-on
@@ -101,7 +101,7 @@ class PMXI_Admin_Addons extends PMXI_Controller_Admin {
             'active' => (class_exists('PMLCA_Plugin') and defined('PMLCA_EDITION') and PMLCA_EDITION == 'paid'),
             'free_installed' => (class_exists('PMLCA_Plugin') and defined('PMLCA_EDITION') and PMLCA_EDITION == 'free'),
             'required_plugins' => false,
-            'url' => 'http://www.wpallimport.com/add-ons/link-cloaking/'
+            'url' => ''
         );
 
         self::$free['PMWI_Plugin'] = array(
@@ -111,7 +111,7 @@ class PMXI_Admin_Addons extends PMXI_Controller_Admin {
             'active' => (class_exists('PMWI_Plugin') and defined('PMWI_EDITION') and PMWI_EDITION == 'free'),
             'paid_installed' => (class_exists('PMWI_Plugin') and defined('PMWI_EDITION') and PMWI_EDITION == 'paid'),
             'required_plugins' => false,
-            'url' => 'http://wordpress.org/plugins/woocommerce-xml-csv-product-import'
+            'url' => 'https://wordpress.org/plugins/woocommerce-xml-csv-product-import'
         );
         self::$free['PMWITabs_Plugin'] = array(
             'title' => __("WooCommerce Tabs Addon",'wp_all_import_plugin'),
@@ -120,7 +120,7 @@ class PMXI_Admin_Addons extends PMXI_Controller_Admin {
             'active' => class_exists('PMWITabs_Plugin'),
             'paid_installed' => false,
             'required_plugins' => array('WooCommerce Addon' => class_exists('PMWI_Plugin')),
-            'url' => 'http://www.wpallimport.com'
+            'url' => 'https://www.wpallimport.com'
         );
 
 

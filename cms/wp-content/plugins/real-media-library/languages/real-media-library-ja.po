@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: n/a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "POT-Creation-Date: n/a\n"
-"PO-Revision-Date: 2021-09-10 08:35+0000\n"
+"PO-Revision-Date: 2023-08-09 13:40+0000\n"
 "Last-Translator: Matthias Günter <matthias.guenter@devowl.io>\n"
 "Language-Team: Japanese <https://translate.devowl.io/projects/wordpress-real-"
-"media-library-backend-php/ci-mojito/ja/>\n"
+"media-library-backend-php/develop/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.8\n"
+"X-Generator: Weblate 4.16.4\n"
 
 #. Plugin Name of the plugin
 #, fuzzy
@@ -119,7 +119,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"メモ:  ショートカットファイルを削除しても、ソースファイルは削除されません。"
+"メモ: ショートカットファイルを削除しても、ソースファイルは削除されません\n"
 "ショートカットでないファイルを削除すると、関連するすべてのショートカットも同"
 "時に削除されます。"
 
@@ -553,7 +553,7 @@ msgid ""
 "choose. This saves you time every time you open the media library!"
 msgstr ""
 "メディアライブラリは、「最後に開いたフォルダー」または「選択したフォルダー」"
-"で常に開くことができ、時間を節約できます。"
+"で常に開くことができ、時間を節約できます。!"
 
 #: inc/usersettings/InfiniteScrolling.php:45
 msgid "Enable infinite scrolling in grid view"
@@ -789,7 +789,7 @@ msgstr ""
 
 #: inc/view/Lang.php:94
 msgid "Successfully created *{name}*"
-msgstr "*{name}* の作成に成功しました !"
+msgstr "*{name}* の作成に成功しました"
 
 #: inc/view/Lang.php:96
 msgid "Deleting *{name}*..."
@@ -1004,9 +1004,12 @@ msgid ""
 "You can create a *visual gallery* by using a shortcode in the Visual Editor "
 "on your pages/postings."
 msgstr ""
-"追加の*コレクション*や*ギャラリー*を作成できます。コレクションには、ファイル"
-"を含めることはできません。ギャラリーは、ただの*ギャラリーデータフォルダー*"
-"で、サイトに自動で表示されることはありません。"
+"किसी संग्रह में फ़ाइलें नहीं हो सकतीं. हालाँकि, आप वहां अतिरिक्त संग्रह और *गैलरी* बना सकते "
+"हैं। यह गैलरी केवल एक *गैलरी डेटा फ़ोल्डर* है, यानी वे वेबसाइट पर स्वचालित रूप से दिखाई "
+"नहीं देती हैं।\n"
+"\n"
+"आप अपने पेज/पोस्टिंग पर विज़ुअल एडिटर में एक शॉर्टकोड का उपयोग करके एक *विज़ुअल गैलरी* "
+"बना सकते हैं।"
 
 #: inc/view/Lang.php:155
 msgid "Click this to create a *new gallery data folder*"
@@ -1132,10 +1135,8 @@ msgstr ""
 "方法</a>をご覧ください。"
 
 #: inc/view/Lang.php:193
-#, fuzzy
-#| msgid "Product license not yet activated."
 msgid "Product license not for production use!"
-msgstr "製品ライセンスは、まだ有効化されていません。"
+msgstr "製品ライセンスは生産用ではありません！"
 
 #: inc/view/Lang.php:194
 #, fuzzy
@@ -1159,10 +1160,8 @@ msgid "License activation"
 msgstr ""
 
 #: inc/view/Lang.php:201
-#, fuzzy
-#| msgid "Get your PRO license now!"
 msgid "Get your free license"
-msgstr "今すぐ PRO ライセンスをゲットしましょう !"
+msgstr "無料ライセンスを取得する"
 
 #: inc/view/Lang.php:202
 msgid "Activate license & continue"
@@ -1206,7 +1205,7 @@ msgstr "Pro 版を入手 !"
 
 #: inc/view/Lang.php:218
 msgid "I want to learn more!"
-msgstr "詳細を見る"
+msgstr "詳細を見る!"
 
 #: inc/view/Lang.php:219
 msgid "No, not interested..."
@@ -1290,11 +1289,11 @@ msgstr ""
 "Real Media Library を使用すると、ドラッグ & ドロップでフォルダー全体をアップ"
 "ロードできます。すべてのフォルダー、サブフォルダー、およびファイルがアップ"
 "ロードされ、同じ構造でメディアライブラリに表示されます。PRO 版を入手し、フォ"
-"ルダーをアップロードしてください  !"
+"ルダーをアップロードしてください !"
 
 #: inc/view/Options.php:39
 msgid "RealMediaLibrary:General"
-msgstr "RealMediaLibrary:  一般"
+msgstr "RealMediaLibrary:一般"
 
 #: inc/view/Options.php:45
 msgid "Load RML functionality in frontend"

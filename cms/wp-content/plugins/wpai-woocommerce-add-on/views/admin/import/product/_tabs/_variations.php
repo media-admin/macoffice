@@ -27,7 +27,7 @@
 				<a href="#help" class="wpallimport-help" title="<?php _e('Parent SKU column in the below example.', PMWI_Plugin::TEXT_DOMAIN) ?>" style="position:relative;">?</a>
 			</p>
 			<p class="form-field">
-				<strong><?php _e("Example Data For Use With This Option",PMWI_Plugin::TEXT_DOMAIN);?> </strong> - <a href="http://www.wpallimport.com/wp-content/uploads/2014/10/data-example-1.csv" target="_blank"><?php _e("download",PMWI_Plugin::TEXT_DOMAIN);?></a>
+				<strong><?php _e("Example Data For Use With This Option",PMWI_Plugin::TEXT_DOMAIN);?> </strong> - <a href="https://www.wpallimport.com/wp-content/uploads/2014/10/data-example-1.csv" target="_blank"><?php _e("download",PMWI_Plugin::TEXT_DOMAIN);?></a>
 				<span class="wpallimport-clear"></span>
 				<img src="<?php echo PMWI_ROOT_URL; ?>/static/img/data-example-1.png"/>														
 			</p>			
@@ -52,7 +52,7 @@
 				<a href="#help" class="wpallimport-help" title="<?php _e('Leave empty to use SKU settings from general tab.', PMWI_Plugin::TEXT_DOMAIN) ?>" style="position:relative;">?</a>
 			</p>
 			<p class="form-field">
-				<strong><?php _e("Example Data For Use With This Option",PMWI_Plugin::TEXT_DOMAIN);?> </strong> - <a href="http://www.wpallimport.com/wp-content/uploads/2014/10/data-example-2.csv" target="_blank"><?php _e("download",PMWI_Plugin::TEXT_DOMAIN);?></a>
+				<strong><?php _e("Example Data For Use With This Option",PMWI_Plugin::TEXT_DOMAIN);?> </strong> - <a href="https://www.wpallimport.com/wp-content/uploads/2014/10/data-example-2.csv" target="_blank"><?php _e("download",PMWI_Plugin::TEXT_DOMAIN);?></a>
 				<span class="wpallimport-clear"></span>
 				<img src="<?php echo PMWI_ROOT_URL; ?>/static/img/data-example-2.png"/>		
 			</p>			
@@ -71,7 +71,7 @@
 				<input type="text" class="short" placeholder="" name="single_product_id_first_is_parent_title" value="<?php echo ($post['single_product_id_first_is_parent_title']) ? esc_attr($post['single_product_id_first_is_parent_title']) : ((!empty(PMXI_Plugin::$session->options['title'])) ? esc_attr(PMXI_Plugin::$session->options['title']) : ''); ?>"/>
 			</p>
 			<p class="form-field">
-				<strong><?php _e("Example Data For Use With This Option",PMWI_Plugin::TEXT_DOMAIN);?> </strong> - <a href="http://www.wpallimport.com/wp-content/uploads/2014/10/data-example-3.csv" target="_blank"><?php _e("download",PMWI_Plugin::TEXT_DOMAIN);?></a>
+				<strong><?php _e("Example Data For Use With This Option",PMWI_Plugin::TEXT_DOMAIN);?> </strong> - <a href="https://www.wpallimport.com/wp-content/uploads/2014/10/data-example-3.csv" target="_blank"><?php _e("download",PMWI_Plugin::TEXT_DOMAIN);?></a>
 				<span class="wpallimport-clear"></span>
 				<img src="<?php echo PMWI_ROOT_URL; ?>/static/img/data-example-3.png"/>			
 			</p>			
@@ -94,7 +94,7 @@
 				<a href="#help" class="wpallimport-help" title="<?php _e('Leave empty to use SKU settings from general tab.', PMWI_Plugin::TEXT_DOMAIN) ?>" style="position:relative;">?</a>
 			</p>
 			<p class="form-field">
-				<strong><?php _e("Example Data For Use With This Option",PMWI_Plugin::TEXT_DOMAIN);?> </strong> - <a href="http://www.wpallimport.com/wp-content/uploads/2014/10/data-example-4.csv" target="_blank"><?php _e("download",PMWI_Plugin::TEXT_DOMAIN);?></a>
+				<strong><?php _e("Example Data For Use With This Option",PMWI_Plugin::TEXT_DOMAIN);?> </strong> - <a href="https://www.wpallimport.com/wp-content/uploads/2014/10/data-example-4.csv" target="_blank"><?php _e("download",PMWI_Plugin::TEXT_DOMAIN);?></a>
 				<span class="wpallimport-clear"></span>
 				<img src="<?php echo PMWI_ROOT_URL; ?>/static/img/data-example-4.png"/>			
 			</p>			
@@ -111,7 +111,7 @@
 
 			<div class="input">
 
-				<p class="form-field"><a href="http://youtu.be/F1NX4po0dsc" target="_blank"><?php _e("Video Example", PMWI_Plugin::TEXT_DOMAIN);?></a></p>
+				<p class="form-field"><a href="https://youtu.be/F1NX4po0dsc" target="_blank"><?php _e("Video Example", PMWI_Plugin::TEXT_DOMAIN);?></a></p>
 				
 				<p class="form-field">
 					<label style="width:150px;"><?php _e("Variations XPath", PMWI_Plugin::TEXT_DOMAIN); ?></label>

@@ -165,7 +165,6 @@ class PluginUpdate
             return [\get_network()->site_id];
         }
         $currentBlogId = \get_current_blog_id();
-        $basename = \plugin_basename($this->getInitiator()->getPluginFile());
         // Multisite (all blog IDs)
         $blogIds = [];
         if (\function_exists('get_sites') && \class_exists('WP_Site_Query')) {
@@ -176,12 +175,7 @@ class PluginUpdate
                 if (\is_array($inBlogIds) && !\in_array($blogId, $inBlogIds, \true)) {
                     continue;
                 }
-                // The blog is only relevant, if the plugin is active
-                \switch_to_blog($blogId);
-                if (\is_plugin_active($basename)) {
-                    $blogIds[] = $blogId;
-                }
-                \restore_current_blog();
+                $blogIds[] = $blogId;
             }
         } else {
             $blogIds[] = $currentBlogId;

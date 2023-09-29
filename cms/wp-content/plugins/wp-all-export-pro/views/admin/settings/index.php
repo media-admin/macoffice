@@ -39,7 +39,7 @@ if(!defined('ABSPATH')) {
                             <?php } ?>
 
                         <?php } ?>
-                        <p class="description"><?php wp_kses_post(_e('A license key is required to access plugin updates. You can use your license key on an unlimited number of websites. Do not distribute your license key to 3rd parties. You can get your license key in the <a target="_blank" href="http://www.wpallimport.com/portal">customer portal</a>.', 'wp_all_export_plugin')); ?></p>
+                        <p class="description"><?php echo wp_kses_post(__('A license key is required to access plugin updates. You can use your license key on an unlimited number of websites. Do not distribute your license key to 3rd parties. You can get your license key in the <a target="_blank" href="http://www.wpallimport.com/portal">customer portal</a>.', 'wp_all_export_plugin')); ?></p>
                         <p class="submit-buttons">
                             <?php wp_nonce_field('edit-license', '_wpnonce_edit-license') ?>
                             <input type="hidden" name="is_license_submitted" value="1"/>
@@ -80,7 +80,7 @@ if(!defined('ABSPATH')) {
                     $scheduling = \Wpae\Scheduling\Scheduling::create();
                     if (!($scheduling->checkLicense())) {
                         ?>
-                        <p class="description"><?php wp_kses_post(_e('A license key is required to use Automatic Scheduling. If you have already subscribed, <a href="https://www.wpallimport.com/portal/automatic-scheduling/" target="_blank">click here to access your license key</a>.<br>If you don\'t have a license, <a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=515704" target="_blank">click here to subscribe</a>.', 'wp_all_export_plugin')); ?></p>
+                        <p class="description"><?php echo wp_kses_post(__('A license key is required to use Automatic Scheduling. If you have already subscribed, <a href="https://www.wpallimport.com/portal/automatic-scheduling/" target="_blank">click here to access your license key</a>.<br>If you don\'t have a license, <a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=515704" target="_blank">click here to subscribe</a>.', 'wp_all_export_plugin')); ?></p>
                         <?php
                     }
                     ?>

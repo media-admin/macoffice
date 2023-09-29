@@ -49,7 +49,7 @@ class Validation {
 		add_action( 'woocommerce_order_refund_object_updated_props', array( __CLASS__, 'refresh_refund_order' ), 10, 1 );
 
 		// Check if order is shipped
-		add_action( 'woocommerce_gzd_shipment_status_changed', array( __CLASS__, 'maybe_update_order_date_shipped' ), 10, 4 );
+		add_action( 'woocommerce_gzd_shipment_before_status_change', array( __CLASS__, 'maybe_update_order_date_shipped' ), 5, 2 );
 
 		add_action( 'woocommerce_gzd_shipping_provider_deactivated', array( __CLASS__, 'maybe_disable_default_shipping_provider' ), 10 );
 	}
@@ -69,12 +69,10 @@ class Validation {
 	}
 
 	/**
-	 * @param $shipment_id
-	 * @param $status_from
-	 * @param $status_to
+	 * @param integer $shipment_id
 	 * @param Shipment $shipment
 	 */
-	public static function maybe_update_order_date_shipped( $shipment_id, $status_from, $status_to, $shipment ) {
+	public static function maybe_update_order_date_shipped( $shipment_id, $shipment ) {
 		if ( 'simple' === $shipment->get_type() && ( $order = $shipment->get_order() ) ) {
 			self::check_order_shipped( $order );
 		}
@@ -83,6 +81,8 @@ class Validation {
 	public static function check_order_shipped( $order ) {
 		if ( $shipment_order = wc_gzd_get_shipment_order( $order ) ) {
 			if ( $shipment_order->is_shipped() ) {
+				$order_id = $shipment_order->get_order()->get_id();
+
 				/**
 				 * Action that fires as soon as an order has been shipped completely.
 				 * That is the case when the order contains all relevant shipments and all the shipments are marked as shipped.
@@ -92,10 +92,17 @@ class Validation {
 				 * @since 3.1.0
 				 * @package Vendidero/Germanized/Shipments
 				 */
-				do_action( 'woocommerce_gzd_shipments_order_shipped', $shipment_order->get_order()->get_id() );
+				do_action( 'woocommerce_gzd_shipments_order_shipped', $order_id );
 
-				$shipment_order->get_order()->update_meta_data( '_date_shipped', time() );
-				$shipment_order->get_order()->save();
+				/**
+				 * Make sure to instantiate a new order instance as the woocommerce_gzd_shipments_order_shipped hook
+				 * might trigger the order save event. We must prevent old order data to be updated again after the
+				 * potential update within the hook. This issue seems to only occur related to the HPOS post sync feature.
+				 */
+				if ( $order = wc_get_order( $order_id ) ) {
+					$order->update_meta_data( '_date_shipped', time() );
+					$order->save();
+				}
 			} else {
 				$shipment_order->get_order()->delete_meta_data( '_date_shipped' );
 				$shipment_order->get_order()->save();

@@ -221,7 +221,7 @@ h1 {
   position: relative;
   font-size: 3.4rem;
   font-weight: 300;
-  letter-spacing: 2px;
+  /* letter-spacing: 2px; */
   line-height: 3.8rem;
   color: $color-secondary;
   margin-right: 1.0rem;
@@ -249,7 +249,7 @@ h1:after {
   font-size: 4.0rem;
   font-weight: 700;
   line-height: 4.0rem;
-  letter-spacing: 0.10rem;
+  /* letter-spacing: 0.10rem; */
   color: $color-secondary;
   margin: 1.0rem 0;
   padding-left: 1.0rem;
@@ -269,7 +269,7 @@ h1:after {
   font-size: 2.0rem;
   font-weight: 500;
   line-height: 2.4rem;
-  letter-spacing: 0.05rem;
+  /* letter-spacing: 0.05rem; */
   color: $color-primary;
   margin: 0;
   margin-top: 2.0rem;
@@ -331,7 +331,7 @@ h1.title--single {
   font-size: 2.4rem;
   font-weight: 700;
   line-height: 2.6rem;
-  letter-spacing: 0.1rem;
+  /* letter-spacing: 0.1rem; */
   color: $color-secondary;
   margin: 0;
   padding-top: 1.0rem;
@@ -342,7 +342,7 @@ h1.title--single {
   font-size: 1.4rem;
   font-weight: 500;
   line-height: 1.8rem;
-  letter-spacing: 0.05rem;
+  /* letter-spacing: 0.05rem; */
   color: $color-primary;
   margin: 0;
 }

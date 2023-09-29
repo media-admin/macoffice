@@ -5,7 +5,7 @@ Plugin URI: http://maxgalleria.com
 Description: Plugin for reseting Media Library Folders
 Author: Max Foundry
 Author URI: http://maxfoundry.com
-Version: 8.1.0
+Version: 8.1.3
 Copyright 2015-2021 Max Foundry, LLC (http://maxfoundry.com)
 Text Domain: mlp-reset
 */

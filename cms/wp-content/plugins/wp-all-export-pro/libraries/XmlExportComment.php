@@ -368,6 +368,10 @@ if (!class_exists('XmlExportComment')) {
 
                     switch ($fieldType) {
                         case 'comment_ID':
+                            if ($element_name == 'ID' && !$ID && isset($exportOptions['export_to']) && $exportOptions['export_to'] == 'csv' && isset($exportOptions['export_to_sheet']) && $exportOptions['export_to_sheet'] != 'csv') {
+                                $element_name = 'id';
+                            }
+
                             wp_all_export_write_article($article, $element_name, apply_filters('pmxe_comment_id', pmxe_filter($comment->comment_ID, $fieldSnipped), $comment->comment_ID));
                             break;
                         case 'comment_post_ID':

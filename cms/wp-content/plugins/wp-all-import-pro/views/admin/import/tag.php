@@ -9,22 +9,28 @@
             </div>
         </div>
         <div class="clear"></div>
-		<?php if ( ! empty($elements->length) ):?>
-			<div class="wpallimport-xml resetable">
-				<?php
-				if ( ! empty($elements->length) ) {
-                    if ( PMXI_Plugin::$session->options['delimiter'] ) {
-                        PMXI_Render::render_csv_element($elements->item($elements->length > 1 ? $tagno : 0), true);
-                    } else {
-                        PMXI_Render::render_xml_element($elements->item($elements->length > 1 ? $tagno : 0), true);
+        <?php if ($is_ajax): ?>
+            <?php if ( ! empty($elements->length) ):?>
+                <div class="wpallimport-xml resetable">
+                    <?php
+                    if ( ! empty($elements->length) ) {
+                        if ( PMXI_Plugin::$session->options['delimiter'] ) {
+                            PMXI_Render::render_csv_element($elements->item($elements->length > 1 ? $tagno : 0), true);
+                        } else {
+                            PMXI_Render::render_xml_element($elements->item($elements->length > 1 ? $tagno : 0), true);
+                        }
                     }
-                }
-				?>
-			</div>
-		<?php else: ?>
-			<div class="error inline below-h2" style="padding:10px; margin-top:45px;">
-				<?php printf(__('History file not found. Probably you are using wrong encoding or XPath.', 'wp_all_import_plugin')); ?>
-			</div>
-		<?php endif; ?>
+                    ?>
+                </div>
+            <?php else: ?>
+                <div class="error inline below-h2" style="padding:10px; margin-top:45px;">
+                    <?php printf(__('History file not found. Probably you are using wrong encoding or XPath.', 'wp_all_import_plugin')); ?>
+                </div>
+            <?php endif; ?>
+        <?php else:?>
+            <div class="notice inline below-h2" style="padding:10px; margin-top:45px;">
+                <?php printf(__('Loading history file...<br/><br/>If your preview doesn\'t appear, there is a problem with your history/import file. Check that your import file is UTF-8 encoded and that you haven\'t incorrectly modified the XPath value in the filter section above.', 'wp_all_import_plugin')); ?>
+            </div>
+        <?php endif; ?>
 	</div>
 </div>

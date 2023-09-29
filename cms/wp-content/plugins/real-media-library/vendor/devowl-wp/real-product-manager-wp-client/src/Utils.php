@@ -196,7 +196,7 @@ class Utils
     public static function mapBlogsToHosts($blogIds)
     {
         // Map blog ids to potential hostnames and reverse
-        $hostnames = [];
+        $hostnames = ['blog' => [], 'host' => []];
         $isMu = \is_multisite();
         foreach ($blogIds as $blogId) {
             if ($isMu) {

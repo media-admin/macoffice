@@ -17,9 +17,9 @@ class RemoteFilesystem {
 	private $rel_type;
 	private $default_port = false;
 	private $error_stack = [];
-	private $type;
+	private $type = '';
 	private $contents;
-	private $orig_type = false;
+	private $orig_type = '';
 	private $allow_hidden_files_folders;
 	// Should match list in classes/upload.php#56 - xml|gzip|zip|csv|tsv|gz|json|txt|dat|psv|sql|xls|xlsx
 	private $allowed_file_extensions = ['xml','gzip','zip','csv','tsv','gz','json','txt','dat','psv','sql','xls','xlsx'];
@@ -103,7 +103,7 @@ class RemoteFilesystem {
 	private function buildFilesystem( $type ) {
 
 		$this->type = $type;
-		if( $this->orig_type === false )
+		if( $this->orig_type === '' )
 			$this->orig_type = $type;
 
 		try {
@@ -210,8 +210,8 @@ class RemoteFilesystem {
 
 				} elseif ( $this->orig_type === $this->type && empty( $this->options['privateKey'] ) ) {
 
-					$this->type         = ( $this->type === 'sftp' ) ? 'ftp' : 'sftp';
-					$this->default_port = ( $this->type === 'sftp' ) ? [ 22, 2222 ] : [ 21 ];
+					$this->type         = $this->type === 'sftp' ? 'ftp' : 'sftp';
+					$this->default_port = $this->type === 'sftp' ? [ 22, 2222 ] : [ 21 ];
 
 					$this->error_stack[] = $this->error;
 					$this->error         = false;

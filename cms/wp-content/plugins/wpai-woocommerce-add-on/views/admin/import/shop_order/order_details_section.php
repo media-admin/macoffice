@@ -26,7 +26,7 @@
 								<div class="switcher-target-order_status" style="margin-top:10px;">
 									<span class="wpallimport-slide-content" style="padding-left:0;">
 										<input type="text" class="short" name="pmwi_order[status_xpath]" value="<?php echo esc_attr($post['pmwi_order']['status_xpath']) ?>"/>
-										<a href="#help" class="wpallimport-help" title="<?php printf(__('Order status can be matched by title or slug: %s. If order status is not found \'Pending Payment\' will be applied to order.', PMWI_Plugin::TEXT_DOMAIN), implode(", ", $statuses_for_tooltip)); ?>" style="position:relative; top:-1px;">?</a>
+										<a href="#help" class="wpallimport-help" title="<?php printf(__('Order status can be matched by title or slug: %s. If order status is not found \'Pending Payment\' will be applied to order.', PMWI_Plugin::TEXT_DOMAIN), implode(", ", $statuses_for_tooltip)); ?>" style="position:relative; top:-1px;left:4px;">?</a>
 									</span>
 								</div>								
 							</div>	
@@ -36,7 +36,7 @@
 						<td>
 							<!-- Order Date -->
 							<div class="input">
-								<h4><?php _e('Date', PMWI_Plugin::TEXT_DOMAIN) ?><a href="#help" class="wpallimport-help" style="position:relative; top: -1px;" title="<?php _e('Use any format supported by the PHP <b>strtotime</b> function. That means pretty much any human-readable date will work.', PMWI_Plugin::TEXT_DOMAIN) ?>">?</a></h4>
+								<h4><?php _e('Date', PMWI_Plugin::TEXT_DOMAIN) ?><a href="#help" class="wpallimport-help" style="position:relative; top: -1px;left:5px;" title="<?php _e('Use any format supported by the PHP <b>strtotime</b> function. That means pretty much any human-readable date will work.', PMWI_Plugin::TEXT_DOMAIN) ?>">?</a></h4>
 								<div class="input">
 									<input type="text" class="datepicker" name="pmwi_order[date]" value="<?php echo esc_attr($post['pmwi_order']['date']) ?>"/>
 								</div>								

@@ -130,6 +130,30 @@ abstract class AbstractInitiator
         // Silence is golden.
     }
     /**
+     * Allows to configure additional checkboxes in the license activation form.
+     *
+     * It should return an array in form of:
+     *
+     * ```
+     * [
+     *   [
+     *     'id' => 'my-checkbox',
+     *     'text' => 'This is my awesome checkbox',
+     *     'stateFn' => function($state) {
+     *       // Do anything with $state
+     *       // You can also return `WP_Error`
+     *     }
+     *   ]
+     * ]
+     * ```
+     *
+     * @return array
+     */
+    public function formAdditionalCheckboxes()
+    {
+        return [];
+    }
+    /**
      * Return `false` if you want to disable license per site in multisite.
      * For wordpress.org plugins (free) the multisite-license is disabled.
      *

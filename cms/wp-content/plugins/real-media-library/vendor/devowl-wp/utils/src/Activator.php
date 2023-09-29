@@ -177,6 +177,7 @@ trait Activator
      *
      * @param boolean $errorlevel Set true to throw errors.
      * @param callable $installThisCallable Set a callable to install this one instead of the default.
+     * @return bool Returns `false` when e.g. the migration got locked
      */
     public function install($errorlevel = \false, $installThisCallable = null)
     {
@@ -189,7 +190,7 @@ trait Activator
         // Check if we've attempted to run this migration in the past 10 minutes. If so, it may still be running.
         if ($installThisCallable === null) {
             if ($this->isMigrationLocked()) {
-                return;
+                return \false;
             }
             \update_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_migration', \time());
         }
@@ -214,6 +215,7 @@ trait Activator
             \update_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_version', $this->getPluginConstant(Constants::PLUGIN_CONST_VERSION));
             \update_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_migration', 0);
         }
+        return \true;
     }
     /**
      * Check if the migration is locked. It uses a time span of 10 minutes (like Yoast SEO plugin).

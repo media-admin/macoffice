@@ -46,6 +46,15 @@ class WC_GZD_Product {
 			$product = wc_get_product( $product );
 		}
 
+		$this->set_wc_product( $product );
+	}
+
+	/**
+	 * @param WC_Product $product
+	 *
+	 * @return void
+	 */
+	public function set_wc_product( $product ) {
 		$this->child = $product;
 	}
 
@@ -1267,7 +1276,6 @@ class WC_GZD_Product {
 	 * @return boolean
 	 */
 	public function has_unit() {
-
 		if ( $this->get_unit() !== '' && $this->get_unit_price_regular() > 0 && $this->get_unit_base() !== '' ) {
 			return true;
 		}

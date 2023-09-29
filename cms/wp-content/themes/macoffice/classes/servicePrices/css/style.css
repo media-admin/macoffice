@@ -1,0 +1,28 @@
+.dashelement{
+    margin-top: 70px;
+    text-align: center;
+}
+
+.verylarge {
+    min-height: 150px;
+    min-width: 400px;
+    font-size: xx-large;
+}
+
+body {
+background-color: rgba(248, 103, 41, 0.07);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+.smallerpic {
+  max-width: 300px;
+}

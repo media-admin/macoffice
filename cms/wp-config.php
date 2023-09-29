@@ -100,7 +100,11 @@ set_time_limit(300);
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
-define( 'WP_DEBUG', false );
+define( 'WP_DEBUG', true );
+
+// Disable display of errors and warnings
+define( 'WP_DEBUG_DISPLAY', true );
+
 
 /* Füge individuelle Werte zwischen dieser Zeile und der „Schluss mit dem Bearbeiten“ Zeile ein. */
 define('WP_MEMORY_LIMIT', '200M');

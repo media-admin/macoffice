@@ -79,6 +79,7 @@ class All_Brands {
 		$args     = array(
 			'posts_per_page' => -1,
 			'post_type'      => 'product',
+			'fields'         => 'ids',
 			'tax_query'      => array(
 				array(
 					'taxonomy' => 'pwb-brand',

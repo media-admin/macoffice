@@ -1,6 +1,6 @@
 <div class="leasing-calculator__container">
 
-	<form id="leasingForm" method="POST" action="https://macoffice.dev/cms/wp-content/themes/macoffice/classes/getLeasingResult.php?amount">
+	<form id="leasingForm" method="POST" action="https://www.macoffice.at/wp-content/themes/macoffice/classes/getLeasingResult.php?amount">
 
 		<p class="leasing-amount">
 			<label class="leasing-amount__label" for="amount"><strong>Gewünschter Leasing-Betrag</strong> (netto)</label><br/>
@@ -18,27 +18,25 @@
 
 		<div id="leasingResult"></div>
 
-		 <script src="https://macoffice.dev/cms/wp-content/themes/macoffice/assets/vendor/jquery-1.4.3/jquery.min.js" type="text/javascript"></script>
+		 <script src="https://macoffice-maintain.dev/cms/wp-content/themes/macoffice/assets/vendor/jquery-1.4.3/jquery.min.js" type="text/javascript"></script>
 
 		<script type="text/javascript">
 
-			$("#leasingForm").submit(function(e) {
+			jQuery("#leasingForm").submit(function(e) {
 				e.preventDefault();
 
-				$.ajax({
+				jQuery.ajax({
 					type: "POST",
-					url: "https://macoffice.dev/cms/wp-content/themes/macoffice/classes/getLeasingResult.php",
-					data: $(this).serialize(),
+					url: "https://macoffice-maintain.dev/cms/wp-content/themes/macoffice/classes/getLeasingResult.php",
+					data: jQuery(this).serialize(),
 					success: function (data) {
-						$("#leasingResult").html(data);
+						jQuery("#leasingResult").html(data);
 					}
 				});
 
 				return false;
 
 			});
-
-
 
 		</script>
 

@@ -42,7 +42,7 @@ function pmxe_wp_ajax_wpae_available_rules(){
 			
 			<?php
 		}
-		elseif( in_array($post['selected'], array('post_date', 'post_modified', 'user_registered', 'comment_date', 'cf__completed_date')) || $is_date )
+		elseif( in_array($post['selected'], array('post_date', 'post_modified', 'user_registered', 'comment_date', 'cf__completed_date', '_date_paid')) || $is_date )
 		{
 			?>
 			<option value="equals"><?php esc_html_e('equals', 'wp_all_export_plugin'); ?></option>

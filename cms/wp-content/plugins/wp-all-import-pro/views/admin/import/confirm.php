@@ -11,7 +11,7 @@
 				<h2><?php _e('Confirm & Run', 'wp_all_import_plugin'); ?></h2>
 			</div>
 			<div class="wpallimport-links">
-				<a href="http://www.wpallimport.com/support/" target="_blank"><?php _e('Support', 'wp_all_import_plugin'); ?></a> | <a href="http://www.wpallimport.com/documentation/" target="_blank"><?php _e('Documentation', 'wp_all_import_plugin'); ?></a>
+				<a href="https://www.wpallimport.com/support/" target="_blank"><?php _e('Support', 'wp_all_import_plugin'); ?></a> | <a href="https://www.wpallimport.com/documentation/" target="_blank"><?php _e('Documentation', 'wp_all_import_plugin'); ?></a>
 			</div>
 		</div>
 		<div class="clear"></div>
@@ -49,7 +49,7 @@
 				<?php endif; ?>
 			</div>
 		</div>
-		<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/#invalid" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>
+		<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="https://www.wpallimport.com/documentation/problems-with-import-files/#problem-with-file" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>
 	</div>
 
 	<?php
@@ -313,16 +313,16 @@
                                                     <?php
                                                     switch($post['update_attributes_logic']){
                                                         case 'full_update':
-                                                            _e('all attributes', PMWI_Plugin::TEXT_DOMAIN);
+                                                            _e('all attributes', PMXI_Plugin::LANGUAGE_DOMAIN);
                                                             break;
                                                         case 'only':
-                                                            printf(__('only these attributes: %s', PMWI_Plugin::TEXT_DOMAIN), $post['attributes_only_list']);
+                                                            printf(__('only these attributes: %s', PMXI_Plugin::LANGUAGE_DOMAIN), $post['attributes_only_list']);
                                                             break;
                                                         case 'all_except':
-                                                            printf(__('all attributes except these: %s', PMWI_Plugin::TEXT_DOMAIN), $post['attributes_except_list']);
+                                                            printf(__('all attributes except these: %s', PMXI_Plugin::LANGUAGE_DOMAIN), $post['attributes_except_list']);
                                                             break;
                                                         case 'add_new':
-                                                            _e('don\'t touch existing attributes, add new attributes', PMWI_Plugin::TEXT_DOMAIN);
+                                                            _e('don\'t touch existing attributes, add new attributes', PMXI_Plugin::LANGUAGE_DOMAIN);
                                                             break;
                                                     } ?>
                                                 </li>
@@ -338,7 +338,7 @@
                                                             printf(__('only these custom fields : %s', 'wp_all_import_plugin'), $post['custom_fields_only_list']);
                                                             break;
                                                         case 'all_except':
-                                                            printf(__('all cusom fields except these: %s', 'wp_all_import_plugin'), $post['custom_fields_except_list']);
+                                                            printf(__('all custom fields except these: %s', 'wp_all_import_plugin'), $post['custom_fields_except_list']);
                                                             break;
                                                     } ?>
                                                 </li>
@@ -359,7 +359,11 @@
                                                         case 'all_except':
                                                             printf(__('leave these taxonomies: %s alone, update all others', 'wp_all_import_plugin'), $post['taxonomies_except_list']);
                                                             break;
-                                                    } ?>
+                                                    }
+
+                                                    if(!empty($post['do_not_create_terms']))
+                                                        _e(' - no new terms will be created', 'wp_all_import_plugin');
+                                                    ?>
                                                 </li>
                                             <?php endif; ?>
                                         </ul>

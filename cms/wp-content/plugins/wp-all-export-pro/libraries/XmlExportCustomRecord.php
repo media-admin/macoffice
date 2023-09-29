@@ -17,7 +17,13 @@ if (!class_exists('XmlExportCustomRecord')) {
         public static $is_active = true;
 
         public function __construct() {
-            if (XmlExportEngine::$exportOptions['export_type'] == 'specific' and strpos(XmlExportEngine::$exportOptions['cpt'][0], 'custom_') !== 0) {
+
+            $cpt = XmlExportEngine::$exportOptions['cpt'];
+
+            if(!is_array($cpt)) {
+                $cpt = [$cpt];
+            }
+            if (XmlExportEngine::$exportOptions['export_type'] == 'specific' and strpos($cpt[0], 'custom_') !== 0) {
                 self::$is_active = false;
                 return;
             }

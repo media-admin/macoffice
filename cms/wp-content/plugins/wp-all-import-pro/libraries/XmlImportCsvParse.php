@@ -324,7 +324,7 @@ class PMXI_CsvParser
      * each cell in the dataset.
      *
      * @access public
-     * @return void
+     * @return bool
      * @see walkColumn(), walkRow(), fillColumn(), fillRow(), fillCell()
      */
     public function walkGrid($callback)
@@ -429,7 +429,7 @@ class PMXI_CsvParser
      *    the array gets ignored if it does not match the length of rows
      *
      * @access public
-     * @return void
+     * @return bool
      */
     public function fillColumn($column, $values = null)
     {
@@ -595,7 +595,7 @@ class PMXI_CsvParser
      * @param mixed $y the column to fetch
      *
      * @access public
-     * @return void
+     * @return bool
      */
     public function hasCell($x, $y)
     {
@@ -845,7 +845,7 @@ class PMXI_CsvParser
                 return $in_str;
             }
             else
-                return utf8_encode($in_str);
+                return mb_convert_encoding( $in_str, 'UTF-8', 'ISO-8859-1' );
 
         }
 
@@ -988,7 +988,7 @@ class PMXI_CsvParser
             }
             $empty_columns = 0;
             foreach ($keys as $key) {
-                if (preg_replace("%\s%", "", $key) == '') $empty_columns++;
+                if (empty($key) || preg_replace("%\s%", "", $key) == '') $empty_columns++;
             }
             // Skip empty lines.
             if ($empty_columns == count($keys)) continue;

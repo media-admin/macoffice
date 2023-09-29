@@ -1166,7 +1166,7 @@
 
 		// Taxonnomies
 		$form.find('#show_hidden_ctx').on('click', function(){
-			$(this).parents('table:first').find('tr.private_ctx').toggle();
+			$form.find('tr.private_ctx').toggle();
 		});
 
 		// Test & Preview images
@@ -1775,7 +1775,7 @@
 			$tag.find('.navigation a').on('click', function () {
 				tagno += '#prev' == $(this).attr('href') ? -1 : 1;
 				$tag.addClass('loading').css('opacity', 0.7);
-				$.post($tagURL, {tagno: tagno, import_action: import_action, security: wp_all_import_security}, function (data) {
+				$.post($tagURL, {tagno: tagno, import_action: import_action, xpath: $('input[name="xpath"]').val(), security: wp_all_import_security}, function (data) {
 					var $indicator = $('<span />').insertBefore($tag);
 					$tag.replaceWith(data.html);
 					fix_tag_position();
@@ -1927,6 +1927,8 @@
 	$('ol.sortable').each(function(){
 		if ( ! $(this).children('li').not('.template').length ) $(this).next('.add-new-ico').trigger('click');
 	});
+
+	$('.tagno').trigger('change');
 
 	$('form.wpallimport-template.edit').each(function() {
 
@@ -2553,6 +2555,7 @@
 
 	        if (position_top > offset_top){
 				$('.tag').css({'top': position_top - offset_top});
+				$('.wpallimport-xml').css({'max-height': ($(window).height() - 220) + 'px' });
 	        } else {
 				$('.tag').css({'top': '0' });
 				$('.wpallimport-xml').css({'max-height': ($(window).height() - 220) + 'px' });

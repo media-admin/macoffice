@@ -3,7 +3,7 @@
 Plugin Name: WP All Export Pro
 Plugin URI: http://www.wpallimport.com/export/
 Description: Export any post type to a CSV or XML file. Edit the exported data, and then re-import it later using WP All Import.
-Version: 1.8.3
+Version: 1.8.5
 Author: Soflyy
 */
 
@@ -46,7 +46,7 @@ if (class_exists('PMXE_Plugin') and PMXE_EDITION == "free") {
      */
     define('PMXE_PREFIX', 'pmxe_');
 
-    define('PMXE_VERSION', '1.8.3');
+    define('PMXE_VERSION', '1.8.5');
 
     define('PMXE_EDITION', 'paid');
 
@@ -290,7 +290,7 @@ if (class_exists('PMXE_Plugin') and PMXE_EDITION == "free") {
             $current_options = get_option($option_name, array());
             $current_options = is_array($current_options) ? $current_options : array();
             $this->options = array_intersect_key($current_options, $options_default) + $options_default;
-            $this->options = array_intersect_key($options_default, array_flip(array('info_api_url'))) + $this->options; // make sure hidden options apply upon plugin reactivation
+            $this->options = array_intersect_key($options_default, array_flip(array('info_api_url', 'info_api_url_new'))) + $this->options; // make sure hidden options apply upon plugin reactivation
             if ('' == $this->options['cron_job_key']) $this->options['cron_job_key'] = wp_all_export_url_title(wp_all_export_rand_char(12));
             if ('' == $this->options['zapier_api_key']) $this->options['zapier_api_key'] = wp_all_export_rand_char(32);
 
@@ -368,74 +368,82 @@ if (class_exists('PMXE_Plugin') and PMXE_EDITION == "free") {
          */
         public function adminInit()
         {
-            $addons_not_included = get_option('wp_all_export_pro_addons_not_included',false);
 
-            $addons = new \Wpae\App\Service\Addons\AddonService();
-            if( !$addons_not_included && !defined('PMAE_VERSION')) {
+            if(!wp_doing_ajax()) {
 
-	            $this->showDismissibleNotice('<strong>WP All Export add-ons are now required to export ACF and WooCommerce data</strong> <br/><br/>
+                $addons_not_included = get_option('wp_all_export_pro_addons_not_included', false);
+
+                $addons = new \Wpae\App\Service\Addons\AddonService();
+                if (!$addons_not_included && !defined('PMAE_VERSION')) {
+
+                    $this->showDismissibleNotice('<strong>WP All Export add-ons are now required to export ACF and WooCommerce data</strong> <br/><br/>
 Some of the features you used in WP All Export Pro now require paid add-ons. If you had a WP All Export license before this change you are eligible to receive these add-ons free of charge. In that case, they have been added to the account where you originally purchased WP All Export Pro.
 <br/><br/>
 <a href="https://wpallimport.com/portal/downloads/?utm_source=export-plugin-pro&utm_medium=wpae-addons-notice&utm_campaign=export-add-ons-added-to-acount" target="_blank">Click here to download your new export add-ons.</a>', 'wpae_woocommerce_required_notice');
 
+                }
+
+                if (defined('PMWE_VERSION') && version_compare(PMWE_VERSION, '1.0.8-beta-1.1', '<')) {
+                    $this->showDismissibleNotice('<strong>WP All Export:</strong> The latest version of the WP All Export WooCommerce Add-On (1.0.8+) is required. Any exports that require this add-on will not run correctly until you update the WP All Export WooCommerce Add-On.', 'wpae_woocommerce_required_version_notice');
+                }
+
+                wp_enqueue_style('wp-all-export-updater', PMXE_ROOT_URL . '/static/css/plugin-update-styles.css', array(), PMXE_VERSION);
+
+                wp_enqueue_script('wp-all-export-notice-dismiss', PMXE_ROOT_URL . '/static/js/pmxe_notice_dismiss.js', array('jquery'), PMXE_VERSION);
+
+                // create history folder
+                $uploads = wp_upload_dir();
+
+                $wpallimportDirs = array(WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY, self::TEMP_DIRECTORY, self::UPLOADS_DIRECTORY, self::CRON_DIRECTORY);
+
+                foreach ($wpallimportDirs as $destination) {
+
+                    $dir = $uploads['basedir'] . DIRECTORY_SEPARATOR . $destination;
+
+                    if (!is_dir($dir)) wp_mkdir_p($dir);
+
+                    if (!@file_exists($dir . DIRECTORY_SEPARATOR . 'index.php')) @touch($dir . DIRECTORY_SEPARATOR . 'index.php');
+
+                }
+
+                if (!is_dir($uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY) or !is_writable($uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY)) {
+                    $this->showNoticeAndDisablePlugin(sprintf(esc_html__('Uploads folder %s must be writable', 'wp_all_export_plugin'), $uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY));
+                }
+
+                if (!is_dir($uploads['basedir'] . DIRECTORY_SEPARATOR . self::UPLOADS_DIRECTORY) or !is_writable($uploads['basedir'] . DIRECTORY_SEPARATOR . self::UPLOADS_DIRECTORY)) {
+                    $this->showNoticeAndDisablePlugin(sprintf(esc_html__('Uploads folder %s must be writable', 'wp_all_export_plugin'), $uploads['basedir'] . DIRECTORY_SEPARATOR . self::UPLOADS_DIRECTORY));
+                }
+
+                if (!$addons_not_included && $this->addons->userExportsExistAndAddonNotInstalled() && current_user_can('manage_options')) {
+                    $this->showDismissibleNotice(__('<strong style="font-size:16px">WP All Export Pro requires the User Export Add-On Pro</strong><p>Your User and Customer exports will not be able to run until you install the User Export Add-On Pro for WP All Export Pro. That add-on has been added to all customer accounts which had a WP All Export license before this requirement, free of charge.</p>', PMXE_Plugin::LANGUAGE_DOMAIN)
+                        . '<p><a class="button button-primary" href="https://wpallimport.com/portal/downloads" target="_blank">' . __('Download Add-On', PMXE_Plugin::LANGUAGE_DOMAIN) . '</a></p>', 'wpae_user_addon_not_installed_notice');
+                }
+
+                if (!$addons_not_included && $this->addons->wooCommerceExportsExistAndAddonNotInstalled() && current_user_can('manage_options') && \class_exists('WooCommerce')) {
+                    $this->showDismissibleNotice(__('<strong style="font-size:16px">WP All Export Pro requires the WooCommerce Export Add-On Pro</strong><p>Your Products, Orders, Reviews and Coupons exports will not be able to run until you install the WooCommerce Export Add-On Pro for WP All Export Pro. That add-on has been added to all customer accounts which had a WP All Export license before this requirement, free of charge.</p>', PMXE_Plugin::LANGUAGE_DOMAIN)
+                        . '<p><a class="button button-primary" href="https://wpallimport.com/portal/downloads" target="_blank">' . __('Download Add-On', PMXE_Plugin::LANGUAGE_DOMAIN) . '</a></p>', 'wpae_woocommerce_addon_not_installed_notice');
+                }
+
+                if (!$addons_not_included && $this->addons->acfExportsExistAndNotInstalled() && current_user_can('manage_options')) {
+                    $this->showDismissibleNotice(__('<strong style="font-size:16px">WP All Export Pro requires the ACF Export Add-On Pro</strong><p>Exports that contain ACF fields will not be able to run until you install the ACF Export Add-On Pro for WP All Export Pro. That add-on has been added to all customer accounts which had a WP All Export license before this requirement, free of charge.</p>', PMXE_Plugin::LANGUAGE_DOMAIN)
+                        . '<p><a class="button button-primary" href="https://wpallimport.com/portal/downloads" target="_blank">' . __('Download Add-On', PMXE_Plugin::LANGUAGE_DOMAIN) . '</a></p>', 'wpae_acf_addon_not_installed_notice');
+                }
+
+                if ($this->addons->wooCommerceRealTimeExportsExistAndAddonNotInstalled() && current_user_can('manage_options')) {
+                    $this->showDismissibleNotice(__('<strong>WP All Export Pro:</strong> An export configured to run in real time requires the WooCommerce Export Add-On and will not export newly created records while the add-on is deactivated.</p>'), 'wpae_real_time_woocommerce_addon_not_installed_notice');
+                }
+
+                if ($this->addons->userRealTimeExportsExistAndAddonNotInstalled() && current_user_can('manage_options')) {
+                    $this->showDismissibleNotice(__('<strong>WP All Export Pro:</strong> An export configured to run in real time requires the User Export Add-On and will not export newly created users while the add-on is deactivated.</p>'), 'wpae_real_time_woocommerce_addon_not_installed_notice');
+                }
+
+                if ($this->addons->acfRealTimeExportsExistAndNotInstalled() && current_user_can('manage_options')) {
+                    $this->showDismissibleNotice(__('<strong>WP All Export Pro:</strong> An export configured to run in real time requires the ACF Export Add-On and will not export newly created records while the add-on is deactivated.</p>'), 'wpae_real_time_woocommerce_addon_not_installed_notice');
+                }
+
+                $functions = $uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
+
             }
-
-            wp_enqueue_style('wp-all-export-updater', PMXE_ROOT_URL . '/static/css/plugin-update-styles.css', array(), PMXE_VERSION);
-
-            wp_enqueue_script('wp-all-export-notice-dismiss', PMXE_ROOT_URL . '/static/js/pmxe_notice_dismiss.js', array('jquery'), PMXE_VERSION);
-
-            // create history folder
-            $uploads = wp_upload_dir();
-
-            $wpallimportDirs = array(WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY, self::TEMP_DIRECTORY, self::UPLOADS_DIRECTORY, self::CRON_DIRECTORY);
-
-            foreach ($wpallimportDirs as $destination) {
-
-                $dir = $uploads['basedir'] . DIRECTORY_SEPARATOR . $destination;
-
-                if (!is_dir($dir)) wp_mkdir_p($dir);
-
-                if (!@file_exists($dir . DIRECTORY_SEPARATOR . 'index.php')) @touch($dir . DIRECTORY_SEPARATOR . 'index.php');
-
-            }
-
-            if (!is_dir($uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY) or !is_writable($uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY)) {
-                $this->showNoticeAndDisablePlugin(sprintf(esc_html__('Uploads folder %s must be writable', 'wp_all_export_plugin'), $uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY));
-            }
-
-            if (!is_dir($uploads['basedir'] . DIRECTORY_SEPARATOR . self::UPLOADS_DIRECTORY) or !is_writable($uploads['basedir'] . DIRECTORY_SEPARATOR . self::UPLOADS_DIRECTORY)) {
-                $this->showNoticeAndDisablePlugin(sprintf(esc_html__('Uploads folder %s must be writable', 'wp_all_export_plugin'), $uploads['basedir'] . DIRECTORY_SEPARATOR . self::UPLOADS_DIRECTORY));
-            }
-
-            if (!$addons_not_included && $this->addons->userExportsExistAndAddonNotInstalled() && current_user_can('manage_options')) {
-                $this->showDismissibleNotice(__('<strong style="font-size:16px">WP All Export Pro requires the User Export Add-On Pro</strong><p>Your User and Customer exports will not be able to run until you install the User Export Add-On Pro for WP All Export Pro. That add-on has been added to all customer accounts which had a WP All Export license before this requirement, free of charge.</p>', PMXE_Plugin::LANGUAGE_DOMAIN)
-                    . '<p><a class="button button-primary" href="https://wpallimport.com/portal/downloads" target="_blank">' . __('Download Add-On', PMXE_Plugin::LANGUAGE_DOMAIN) . '</a></p>', 'wpae_user_addon_not_installed_notice');
-            }
-
-            if (!$addons_not_included && $this->addons->wooCommerceExportsExistAndAddonNotInstalled() && current_user_can('manage_options') && \class_exists('WooCommerce')) {
-                $this->showDismissibleNotice(__('<strong style="font-size:16px">WP All Export Pro requires the WooCommerce Export Add-On Pro</strong><p>Your Products, Orders, Reviews and Coupons exports will not be able to run until you install the WooCommerce Export Add-On Pro for WP All Export Pro. That add-on has been added to all customer accounts which had a WP All Export license before this requirement, free of charge.</p>', PMXE_Plugin::LANGUAGE_DOMAIN)
-                    . '<p><a class="button button-primary" href="https://wpallimport.com/portal/downloads" target="_blank">' . __('Download Add-On', PMXE_Plugin::LANGUAGE_DOMAIN) . '</a></p>', 'wpae_woocommerce_addon_not_installed_notice');
-            }
-
-            if (!$addons_not_included && $this->addons->acfExportsExistAndNotInstalled() && current_user_can('manage_options')) {
-                $this->showDismissibleNotice(__('<strong style="font-size:16px">WP All Export Pro requires the ACF Export Add-On Pro</strong><p>Exports that contain ACF fields will not be able to run until you install the ACF Export Add-On Pro for WP All Export Pro. That add-on has been added to all customer accounts which had a WP All Export license before this requirement, free of charge.</p>', PMXE_Plugin::LANGUAGE_DOMAIN)
-                    . '<p><a class="button button-primary" href="https://wpallimport.com/portal/downloads" target="_blank">' . __('Download Add-On', PMXE_Plugin::LANGUAGE_DOMAIN) . '</a></p>', 'wpae_acf_addon_not_installed_notice');
-            }
-
-            if($this->addons->wooCommerceRealTimeExportsExistAndAddonNotInstalled() && current_user_can('manage_options')) {
-                $this->showDismissibleNotice(__('<strong>WP All Export Pro:</strong> An export configured to run in real time requires the WooCommerce Export Add-On and will not export newly created records while the add-on is deactivated.</p>'), 'wpae_real_time_woocommerce_addon_not_installed_notice');
-            }
-
-            if($this->addons->userRealTimeExportsExistAndAddonNotInstalled() && current_user_can('manage_options')) {
-                $this->showDismissibleNotice(__('<strong>WP All Export Pro:</strong> An export configured to run in real time requires the User Export Add-On and will not export newly created users while the add-on is deactivated.</p>'), 'wpae_real_time_woocommerce_addon_not_installed_notice');
-            }
-
-            if($this->addons->acfRealTimeExportsExistAndNotInstalled() && current_user_can('manage_options')) {
-                $this->showDismissibleNotice(__('<strong>WP All Export Pro:</strong> An export configured to run in real time requires the ACF Export Add-On and will not export newly created records while the add-on is deactivated.</p>'), 'wpae_real_time_woocommerce_addon_not_installed_notice');
-            }
-
-            $functions = $uploads['basedir'] . DIRECTORY_SEPARATOR . WP_ALL_EXPORT_UPLOADS_BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'functions.php';
-
             if (!@file_exists($functions)) @touch($functions);
 
             self::$session = new PMXE_Handler();
@@ -705,7 +713,7 @@ Some of the features you used in WP All Export Pro now require paid add-ons. If 
                 $len = strlen($prefix);
                 if (strncmp($prefix, $className, $len) !== 0) {
                     // no, move to the next registered autoloader
-                    return;
+                    return false;
                 }
 
                 // get the relative class name
@@ -1066,7 +1074,7 @@ Some of the features you used in WP All Export Pro now require paid add-ons. If 
                 'ids' => array(),
                 'rules' => array(),
                 'records_per_iteration' => 50,
-                'include_bom' => 0,
+                'include_bom' => 1,
                 'include_functions' => 1,
                 'split_large_exports' => 0,
                 'split_large_exports_count' => 10000,
@@ -1143,6 +1151,11 @@ Some of the features you used in WP All Export Pro now require paid add-ons. If 
             return $subject;
         }
 
+        public static function hposEnabled()
+        {
+            return class_exists('Automattic\WooCommerce\Utilities\OrderUtil') && \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled();
+        }
+
     }
 
     PMXE_Plugin::getInstance();
@@ -1153,7 +1166,7 @@ Some of the features you used in WP All Export Pro now require paid add-ons. If 
         $wp_all_export_options = get_option('PMXE_Plugin_Options');
 
         // setup the updater
-        $updater = new PMXE_Updater($wp_all_export_options['info_api_url'], __FILE__, array(
+        $updater = new PMXE_Updater($wp_all_export_options['info_api_url_new'], __FILE__, array(
                 'version' => PMXE_VERSION,        // current version number
                 'license' => (!empty($wp_all_export_options['license'])) ? PMXE_Plugin::decode($wp_all_export_options['license']) : false, // license key (used get_option above to retrieve from DB)
                 'item_name' => PMXE_Plugin::getEddName(),    // name of this plugin

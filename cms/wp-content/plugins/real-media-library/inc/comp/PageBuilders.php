@@ -158,6 +158,10 @@ class PageBuilders
      */
     private function bbuilder()
     {
+        \add_action('fl_builder_ui_enqueue_scripts', function () {
+            $this->getCore()->getAssets()->admin_enqueue_scripts('fl_builder_ui_enqueue_scripts');
+        });
+        // Legacy
         \add_action('fl_before_sortable_enqueue', [$this, 'fl_before_sortable_enqueue']);
         \add_filter('fl_builder_responsive_ignore', [$this, 'fl_builder_responsive_ignore']);
     }

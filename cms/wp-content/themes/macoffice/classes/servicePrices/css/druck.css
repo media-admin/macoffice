@@ -1,0 +1,24 @@
+.dashelement{
+    margin-top: 100px;
+    text-align: center;
+}
+
+.verylarge {
+    min-height: 150px;
+    min-width: 400px;
+    font-size: xx-large;
+}
+
+.img {
+    max-width: 400px;
+    filter: grayscale(100%);
+
+}
+
+.blue {
+    color: blue;
+}
+
+.gray {
+    color: gray;
+}

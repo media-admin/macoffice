@@ -190,7 +190,7 @@ add_action( 'wp_enqueue_scripts', 'macoffice_register_styles' );
 
 function macoffice_register_scripts() {
 
-	/* --- Import Main Scripts
+	/* --- Import Main Scripts -- */
 
 	/* --- Import Cookie Notice Scripts --- */
 	wp_register_script( 'dywc', get_template_directory_uri() . '/assets/scripts/dywc.js', '', null, true );
@@ -582,7 +582,25 @@ add_action( 'woocommerce_after_shop_loop_item', 'macoffice_shop_display_ids', 15
 
 
 
+/* Editing and display the In Stock Text */
 
+function macoffice_shop_display_availability_text() {
+
+	global $product;
+
+	$stock = $product->get_stock_quantity();
+	error_log( $stock );
+
+	if ( $stock > 0 ) {
+		$availability = 'lagernd';
+	} else {
+		$availability = 'auf Anfrage';
+	}
+
+	echo $availability;
+}
+
+add_action( 'woocommerce_after_shop_loop_item', 'macoffice_shop_display_availability_text', 15 );
 
 
 
@@ -683,7 +701,7 @@ function macoffice_single_product_show_id(){
 add_action( 'woocommerce_single_product_summary', 'macoffice_single_product_show_id', 11 );
 
 
-	/* Adding the Price */
+/* Adding the Price */
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 11 );
 
 
@@ -747,12 +765,12 @@ function macoffice_custom_get_availability_text( $availability, WC_Product $prod
 	$stock = $product->get_stock_quantity();
 	error_log( $stock );
 
-	if ( $product->is_in_stock() ) {
-			if ( $stock > 0 ) {
-					$availability = 'Nur noch ' . $stock . ' St&uuml;ck auf Lager';
-			}
+	// if ( $product->is_in_stock() ) {
+	if ( $stock > 0 ) {
+		// $availability = 'Nur noch ' . $stock . ' St&uuml;ck auf Lager';
+		$availability = 'lagernd';
 	} else {
-			$availability = __( 'Nur auf Bestellung', 'macoffice' );
+			$availability = 'auf Anfrage';
 	}
 
 	return $availability;
