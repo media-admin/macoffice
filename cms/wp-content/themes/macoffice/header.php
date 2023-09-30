@@ -171,26 +171,25 @@
 					<a class="site-header__navi-contact-information-call-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
 				</div>
 
-				<div class="site-header__search-area">
-					<a id="search-link" class="site-header__search-link">
-						<img class="site-header__search-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_search.svg" alt="Suchen Icon"/>
-					</a>
-
-
-					<div id="smartphone_search" class="modal">
-						<div class="modal-background"></div>
-						<div class="modal-content">
-							<span class="close">&times;</span>
-							<?php if ( function_exists( 'aws_get_search_form' ) ) { aws_get_search_form( true, array( 'id' => 1 ) ); } ?>
+				<div class="site-header__additional-area--smartphone">
+					<div class="site-header__search-area--smartphone">
+						<a id="search_button_smartphone" class="site-header__search-link">
+							<img class="site-header__search-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_search.svg" alt="Suchen Icon"/>
+						</a>
+						<div id="search_modal_smartphone" class="modal">
+							<div class="modal-background"></div>
+							<div class="modal-content">
+								<span class="modal-close-btn--smartphone">&times;</span>
+								<?php if ( function_exists( 'aws_get_search_form' ) ) { aws_get_search_form( true, array( 'id' => 1 ) ); } ?>
+							</div>
 						</div>
 					</div>
 
-				</div>
-
-			<div class="site-header__mode-switcher">
-					<button class="site-header__mode-switcher-link " onclick="switchMode()">
-						<img class="site-header__mode-switcher-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg"/>
-					</button>
+					<div class="site-header__mode-switcher site-header__mode-switcher--smartphone">
+						<button class="site-header__mode-switcher-link " onclick="switchMode()">
+							<img class="site-header__mode-switcher-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg"/>
+						</button>
+					</div>
 				</div>
 			</div>
 			<!-- Smartphone only END -->
@@ -204,7 +203,6 @@
 						<img class="site-header__search-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_search.svg" alt="Suchen Icon"/>
 					</a>
 
-
 					<div id="search_modal_desktop" class="modal">
 						<div class="modal-background"></div>
 						<div class="modal-content">
@@ -215,10 +213,9 @@
 				</div>
 
 
-
 				<div class="site-header__mode-switcher">
 					<button class="site-header__mode-switcher-link wrapper" onclick="switchMode()">
-						<img class="site-header__mode-switcher--icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
+						<img class="site-header__mode-switcher-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
 					</button>
 				</div>
 
