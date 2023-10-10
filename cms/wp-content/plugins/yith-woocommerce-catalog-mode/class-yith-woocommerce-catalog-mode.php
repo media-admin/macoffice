@@ -65,7 +65,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return self::$instance;
-
 		}
 
 		/**
@@ -104,7 +103,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 					add_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'hide_add_to_cart_wishlist' ), 10, 2 );
 				}
 			}
-
 		}
 
 		/**
@@ -134,7 +132,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			if ( ! empty( $_GET['page'] ) && ( sanitize_text_field( wp_unslash( $_GET['page'] ) ) === $this->panel_page || 'yith_vendor_ctm_settings' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				wp_enqueue_style( 'ywctm-admin' );
 			}
-
 		}
 
 		/**
@@ -220,7 +217,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			$this->panel = new YIT_Plugin_Panel_WooCommerce( $args );
-
 		}
 
 		/**
@@ -290,7 +286,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return $pages;
-
 		}
 
 		/**
@@ -302,7 +297,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		public function check_hide_cart_checkout_pages() {
 
 			return $this->check_user_admin_enable() && $this->disable_shop();
-
 		}
 
 		/**
@@ -322,7 +316,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				wp_safe_redirect( home_url() );
 				exit;
 			}
-
 		}
 
 		/**
@@ -350,7 +343,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return $disabled;
-
 		}
 
 		/**
@@ -387,7 +379,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return apply_filters( 'ywctm_applied_roles', $apply, $product_id );
-
 		}
 
 		/**
@@ -415,7 +406,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				remove_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 10 );
 
 			}
-
 		}
 
 		/**
@@ -560,7 +550,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return $hide;
-
 		}
 
 		/**
@@ -587,7 +576,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				$css = implode( ', ', $classes ) . '{display: none !important}';
 				wp_add_inline_style( 'ywctm-frontend', $css );
 			}
-
 		}
 
 		/**
@@ -629,7 +617,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return $classes;
-
 		}
 
 		/**
@@ -680,7 +667,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return $classes;
-
 		}
 
 		/**
@@ -738,7 +724,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return $passed;
-
 		}
 
 		/**
@@ -801,7 +786,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return $value;
-
 		}
 
 		/**
@@ -856,7 +840,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				</style>
 				<?php
 			}
-
 		}
 
 		/**
@@ -905,7 +888,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			$links = yith_add_action_links( $links, $this->panel_page, false );
 
 			return $links;
-
 		}
 
 		/**
@@ -931,9 +913,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			return $new_row_meta_args;
-
 		}
-
 	}
 
 }

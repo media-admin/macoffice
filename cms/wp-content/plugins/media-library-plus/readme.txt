@@ -3,7 +3,7 @@ Contributors: maxfoundry, AlanP57
 Tags: media library folders, media library folders, organize media library
 Requires at least: 4.0
 Tested up to: 6.3.1
-Stable tag: 8.1.3
+Stable tag: 8.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -197,6 +197,9 @@ Users can upload multiple files by using drag and drop. When the Add Files butto
 Because most images and files in the media library have corresponding links embedded in site’s posts and pages, Media Library Folders does not allow folders to be rename or moved in order to prevent breaking these links. Rather, to rename or move a folder, one needs to create a new folder and move the files from the old folder to the new. During the move process, Media Library Folders will scan the sites standard posts and pages for any links matching the old address of the images or files and update them to the new address.
 
 == Changelog ==
+= 8.1.4 =
+* Fixed SQL issue affecting multisite installations
+
 = 8.1.3 =
 * Fixed issue with SVG files deleted when regenerating thumbnail images
  

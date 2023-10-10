@@ -1,0 +1,37 @@
+/* == PAGE AGBs */
+.agbs {
+  /* --- B2C --- */
+  /* --- B2B --- */
+}
+.agbs .agb-privat ol {
+  list-style-position: inside;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+.agbs .agb-privat ol.level-one {
+  font-weight: 600;
+}
+.agbs .agb-privat ol.level-two {
+  font-weight: 400;
+}
+.agbs .agb-privat ol li {
+  line-height: 2.25rem;
+  margin-bottom: 1rem;
+}
+.agbs .agb-gewerblich ol {
+  list-style-position: inside;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+.agbs .agb-gewerblich ol.level-one {
+  font-weight: 600;
+}
+.agbs .agb-gewerblich ol.level-two {
+  font-weight: 400;
+}
+.agbs .agb-gewerblich ol li {
+  line-height: 2.25rem;
+  margin-bottom: 1rem;
+}
+
+/*# sourceMappingURL=agbs.css.map */

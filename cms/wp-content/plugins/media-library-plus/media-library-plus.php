@@ -3,7 +3,7 @@
 Plugin Name: Media Library Folders
 Plugin URI: http://maxgalleria.com
 Description: Gives you the ability to adds folders and move files in the WordPress Media Library.
-Version: 8.1.3
+Version: 8.1.4
 Author: Max Foundry
 Author URI: http://maxfoundry.com
 
@@ -75,7 +75,7 @@ class MGMediaLibraryFolders {
   
 	public function set_global_constants() {	
 		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_KEY', 'maxgalleria_media_library_version');
-		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_NUM', '8.1.3');
+		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_NUM', '8.1.4');
 		define('MAXGALLERIA_MEDIA_LIBRARY_IGNORE_NOTICE', 'maxgalleria_media_library_ignore_notice');
 		define('MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_NAME', trim(dirname(plugin_basename(__FILE__)), '/'));
     if(!defined('MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR'))
@@ -2978,7 +2978,7 @@ AND pm.meta_key = '_wp_attached_file'";
 from {$wpdb->prefix}posts
 LEFT JOIN {$wpdb->prefix}mgmlp_folders ON($wpdb->posts.ID = {$wpdb->prefix}mgmlp_folders.post_id)
 LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID)
-LEFT JOIN {$wpdb->prefix}users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
+LEFT JOIN $wpdb->users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
 LEFT JOIN $block_access_table ON($block_access_table.attachment_id = {$wpdb->prefix}posts.ID)
 where post_type = 'mgmlp_media_folder' and pm.meta_key = '_wp_attached_file' and SUBSTRING_INDEX(pm.meta_value, '/', -1) like '%%%s%%')
 union all
@@ -2986,7 +2986,7 @@ union all
 from $wpdb->posts 
 LEFT JOIN {$wpdb->prefix}mgmlp_folders ON( $wpdb->posts.ID = {$wpdb->prefix}mgmlp_folders.post_id) 
 LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID) 
-LEFT JOIN {$wpdb->prefix}users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
+LEFT JOIN $wpdb->users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
 LEFT JOIN $block_access_table ON($block_access_table.attachment_id = {$wpdb->prefix}posts.ID)
 where post_type = 'attachment' and pm.meta_key = '_wp_attached_file' and SUBSTRING_INDEX(pm.meta_value, '/', -1) like '%%%s%%') order by attached_file", $search_string, $search_string);
 
@@ -2996,14 +2996,14 @@ where post_type = 'attachment' and pm.meta_key = '_wp_attached_file' and SUBSTRI
 from {$wpdb->prefix}posts
 LEFT JOIN {$wpdb->prefix}mgmlp_folders ON($wpdb->posts.ID = {$wpdb->prefix}mgmlp_folders.post_id)
 LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID)
-LEFT JOIN {$wpdb->prefix}users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
+LEFT JOIN $wpdb->users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
 where post_type = 'mgmlp_media_folder' and pm.meta_key = '_wp_attached_file' and SUBSTRING_INDEX(pm.meta_value, '/', -1) like '%%%s%%')
 union all
 (select $wpdb->posts.ID, post_author, post_title, {$wpdb->prefix}mgmlp_folders.folder_id, pm.meta_value as attached_file, 'b' as item_type, 0 as block
 from $wpdb->posts 
 LEFT JOIN {$wpdb->prefix}mgmlp_folders ON( $wpdb->posts.ID = {$wpdb->prefix}mgmlp_folders.post_id) 
 LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID) 
-LEFT JOIN {$wpdb->prefix}users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
+LEFT JOIN $wpdb->users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
 where post_type = 'attachment' and pm.meta_key = '_wp_attached_file' and SUBSTRING_INDEX(pm.meta_value, '/', -1) like '%%%s%%') order by attached_file", $search_string, $search_string);
       
     }

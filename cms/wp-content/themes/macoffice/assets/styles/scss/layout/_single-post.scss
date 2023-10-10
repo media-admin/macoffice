@@ -15,7 +15,29 @@
 		width: 65%;
 	}
 
+	& .link--next:before {
+		display: inline-block;
+		font-family: 'FontAwesome Solid';
+		content: "\f053";
+		font-weight: 300;
+		color: $color-primary;
+		padding-right: 5px;
+	}
 
+
+	& .link--previous {
+		text-align: right;
+	}
+
+
+	& .link--previous:after {
+		display: inline-block;
+		font-family: 'FontAwesome Solid';
+		content: "\f054";
+		font-weight: 300;
+		color: $color-primary;
+		padding-left: 5px;
+	}
 
 
 

@@ -199,6 +199,10 @@ function macoffice_register_scripts() {
 	wp_register_script( 'cookie-notice', get_template_directory_uri() . '/assets/scripts/cookie-notice.js', '', null, true );
 	wp_enqueue_script( 'cookie-notice' );
 
+	/* --- Import Tabs --- */
+	wp_register_script( 'tabs', get_template_directory_uri() . '/assets/scripts/tabs.js', '', null, true );
+	wp_enqueue_script( 'tabs' );
+
 	/* --- Import Button Back-to-Top --- */
 	wp_register_script( 'button-back-to-top', get_template_directory_uri() . '/assets/scripts/button-back-to-top.js', '', null, true );
 	wp_enqueue_script( 'button-back-to-top' );

@@ -2362,6 +2362,70 @@ ul.products li.product .tinvwl_add_to_wishlist_button {
   word-break: break-all;
 }
 
+/* == TABS == */
+:root {
+  --tab-main: #bd06f3;
+  --tab-gray: #ccc;
+}
+
+.tab-area {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start !important;
+  align-content: space-between;
+  flex-direction: row;
+  gap: 0px !important;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #707070;
+  margin-top: 4rem;
+  margin-bottom: 1px !important;
+  padding-top: 1rem;
+  overflow: hidden;
+}
+
+.tab-area div {
+  float: left;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tab-area a.wp-block-button__link {
+  color: #A12528 !important;
+  background-color: transparent !important;
+}
+
+.tab-area div a {
+  font-size: 2rem;
+  padding: 2rem 4rem !important;
+}
+
+.tab-area div:hover a,
+.tab-area div.active a {
+  color: #f5f5f5 !important;
+  background-color: #A12528 !important;
+}
+
+.tab-area div.active,
+.tab-area div:hover {
+  color: #707070 !important;
+  z-index: 3;
+}
+
+.tab-content {
+  display: none;
+  border-top: none;
+  background-color: #f5f5f5;
+  padding: 3.5rem 1.5rem;
+}
+
+.active {
+  display: block;
+}
+
 /* === NOTIFICATIONS === */
 /* Notification Box */
 .notification {
@@ -3130,7 +3194,7 @@ ul.products li.product .tinvwl_add_to_wishlist_button {
   .site-header__mode-switcher-link-icon {
     width: 7rem;
     height: auto;
-    margin-top: -5px;
+    margin-top: -10px;
     margin-left: initial;
   }
 }
@@ -3264,7 +3328,7 @@ menu.site-menu {
   background: #F5F5F5;
   transition: 0.8s;
   z-index: 1;
-  padding-top: 25px;
+  /* padding-top: 25px; */
 }
 
 @media (min-width: 800px) {
@@ -3623,6 +3687,25 @@ menu.site-menu {
 }
 .single-post .site-heading__wrapper {
   width: 65%;
+}
+.single-post .link--next:before {
+  display: inline-block;
+  font-family: "FontAwesome Solid";
+  content: "\f053";
+  font-weight: 300;
+  color: #A12528;
+  padding-right: 5px;
+}
+.single-post .link--previous {
+  text-align: right;
+}
+.single-post .link--previous:after {
+  display: inline-block;
+  font-family: "FontAwesome Solid";
+  content: "\f054";
+  font-weight: 300;
+  color: #A12528;
+  padding-left: 5px;
 }
 
 /* === INTRO SECTION === */
@@ -4151,7 +4234,7 @@ span.hover__alt-text {
   margin-bottom: 2rem;
 }
 
-/* === SERVICES SECTION === */
+/* === SERVICES OVERVIEW === */
 .services {
   position: relative;
   width: 100vw;
@@ -4264,15 +4347,21 @@ span.hover__alt-text {
   padding: 0rem !important;
 }
 
-.services__pretitle {
-  color: #f5f5f5 !important;
-  padding-right: 1.8rem !important;
-  padding-left: 1.8rem !important;
+.services__card-header {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1.8rem;
+  padding-left: 1.8rem;
 }
 
-.services__title {
-  padding-right: 1.8rem !important;
-  padding-left: 1.8rem !important;
+.services__pretitle {
+  color: #f5f5f5 !important;
 }
 
 .services__title span {
@@ -5145,36 +5234,38 @@ h1.home {
   padding-bottom: 0.5rem;
 }
 
-/* == PAGE AGBs GEBWERBLICH */
-.agb-gewerblich ol {
+/* == PAGE AGBs */
+.agbs {
+  /* --- B2C --- */
+  /* --- B2B --- */
+}
+.agbs .agb-privat ol {
   list-style-position: inside;
   padding-top: 1rem;
   padding-bottom: 0.5rem;
 }
-.agb-gewerblich ol.level-one {
+.agbs .agb-privat ol.level-one {
   font-weight: 600;
 }
-.agb-gewerblich ol.level-two {
+.agbs .agb-privat ol.level-two {
   font-weight: 400;
 }
-.agb-gewerblich ol li {
+.agbs .agb-privat ol li {
   line-height: 2.25rem;
   margin-bottom: 1rem;
 }
-
-/* == PAGE AGBs PRIVAT */
-.agb-privat ol {
+.agbs .agb-gewerblich ol {
   list-style-position: inside;
   padding-top: 1rem;
   padding-bottom: 0.5rem;
 }
-.agb-privat ol.level-one {
+.agbs .agb-gewerblich ol.level-one {
   font-weight: 600;
 }
-.agb-privat ol.level-two {
+.agbs .agb-gewerblich ol.level-two {
   font-weight: 400;
 }
-.agb-privat ol li {
+.agbs .agb-gewerblich ol li {
   line-height: 2.25rem;
   margin-bottom: 1rem;
 }

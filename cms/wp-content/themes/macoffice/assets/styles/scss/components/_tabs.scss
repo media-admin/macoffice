@@ -1,0 +1,72 @@
+
+/* == TABS == */
+
+:root {
+	--tab-main: #bd06f3;
+	--tab-gray: #ccc;
+}
+
+.tab-area {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start !important;
+	align-content: space-between;
+	flex-direction: row;
+	gap: 0px !important;
+	background-color: $color-white;
+	border-bottom: 1px solid $color-secondary;
+	margin-top: 4rem;
+	margin-bottom: 1px !important;
+	padding-top: 1.0rem;
+	overflow: hidden;
+}
+
+
+.tab-area div{
+	float: left;
+	font-size: 1.6rem;
+	line-height: 2.0rem;
+	border-bottom: 3px solid transparent;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+
+.tab-area a.wp-block-button__link {
+	color: $color-primary !important;
+	background-color: transparent !important;
+}
+
+
+.tab-area div a {
+	font-size: 2.0rem;
+	padding: 2.0rem 4.0rem !important;
+}
+
+
+.tab-area div:hover a,
+.tab-area div.active a {
+	color: $color-white !important;
+	background-color: $color-primary !important;
+}
+
+
+.tab-area div.active,
+.tab-area div:hover {
+	color: $color-secondary !important;
+	z-index: 3;
+}
+
+
+.tab-content {
+	display: none;
+	border-top: none;
+	background-color: $color-white;
+	padding: 3.5rem 1.5rem;
+}
+
+
+.active {
+	display: block;
+}

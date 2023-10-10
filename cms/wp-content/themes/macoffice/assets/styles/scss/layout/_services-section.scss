@@ -1,4 +1,4 @@
-/* === SERVICES SECTION === */
+/* === SERVICES OVERVIEW === */
 
 .services {
 	position: relative;
@@ -115,16 +115,27 @@
 }
 
 
+.services__card-header {
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-content: center;
+	justify-content: space-between;
+	align-items: center;
+	padding-right: 1.8rem;
+	padding-left: 1.8rem;
+}
+
+
 .services__pretitle {
 	color: $color-white !important;
-	padding-right: 1.8rem !important;
-	padding-left: 1.8rem !important;
 }
 
 
 .services__title {
-	padding-right: 1.8rem !important;
-	padding-left: 1.8rem !important;
+
 }
 
 

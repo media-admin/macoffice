@@ -19,6 +19,7 @@
 @import "components/youtube-video";
 /* @import "components/contact-forms"; --> LÖSCHEN ??? */
 @import "components/leasing-calculator.scss";
+@import "components/tabs";
 @import "components/notifications";
 @import "components/button-back-to-top";
 
@@ -42,8 +43,7 @@
 /* pages */
 @import "pages/home";
 @import "pages/leistungen";
-@import "pages/agbs-gewerblich";
-@import "pages/agbs-privat";
+@import "pages/agbs";
 
 /* woocommerce */
 @import "pages/single-product";
