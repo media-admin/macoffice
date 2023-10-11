@@ -352,6 +352,6 @@ if ( ! class_exists( 'YITH_WCWL_Install' ) ) {
  * @return \YITH_WCWL_Install
  * @since 2.0.0
  */
-function YITH_WCWL_Install() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function YITH_WCWL_Install() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid, Universal.Files.SeparateFunctionsFromOO
 	return YITH_WCWL_Install::get_instance();
 }

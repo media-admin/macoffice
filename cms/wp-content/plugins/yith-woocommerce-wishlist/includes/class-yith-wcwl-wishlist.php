@@ -234,7 +234,7 @@ if ( ! class_exists( 'YITH_WCWL_Wishlist' ) ) {
 			 *
 			 * @return bool
 			 */
-			if ( is_user_logged_in() && current_user_can( 'manage_woocommerce' ) && apply_filters( 'yith_wcwl_admin_can', true, $capability, $current_user, $this ) ) {
+			if ( is_user_logged_in() && current_user_can( 'manage_woocommerce' ) && apply_filters( 'yith_wcwl_admin_can', true, $capability, $current_user, $this ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
 				return true;
 			}
 

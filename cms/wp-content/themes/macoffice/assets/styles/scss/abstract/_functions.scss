@@ -11,225 +11,314 @@
 
 
 /* === LIGHT MODE / DARK MODE SWITCHER === */
-.dark-mode {
 
-	/* --- General Styles --- */
-	filter: invert(100%);
 
-	& img {
-		filter: invert(100%);
+
+:root[data-applied-mode="dark"] {
+	color-scheme: dark;
+
+
+	body {
+		color-scheme: dark;
+
+ 	/* --- General Styles --- */
+ 	filter: invert(100%);
+
+ 	& img {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .video-container {
+	 	filter: invert(0%);
+ 	}
+
+ 	& .wp-block-video {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .google-map .btn {
+	 	filter: invert(100%);
+ 	}
+
+
+ 	& p > a {
+			text-decoration-color: $color-primary-invert;
+		}
+
+		& .single-post .link--previous:after {
+			color: $color-primary-invert;
+		}
+
+		& .single-post .link--next:before {
+			color: $color-primary-invert;
+		}
+
+
+		& h3.wp-block-heading {
+			border-bottom-color: $color-primary-invert;
+		}
+
+
+
+
+ 	& .site-main {
+	 	background-color: $color-tertiary !important;
+ 	}
+
+ 	& .btn--gray:hover {
+	 	background-color: $color-primary !important;
+	 	filter: invert(100%);
+ 	}
+
+
+ 	/* --- Top Site Header --- */
+ 	& .site-header-top {
+	 	filter: invert(100%);
+
+
+ 	}
+
+ 	& .site-header-top__contact-information {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .site-header-top p {
+	 	filter: invert(90%);
+ 	}
+
+ 	& .site-header-top a {
+	 	filter: invert(90%);
+ 	}
+
+ 	& .site-header-top__contact-information-opening-sign {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .site-header-top__contact-information-opening-icon {
+ 	}
+
+ 	& .site-header-top__contact-information-address-icon {
+ 	}
+
+ 	& .site-header-top__contact-information-phone-icon {
+ 	}
+
+ 	& .site-header-top__contact-information-mail-icon {
+ 	}
+
+ 	& .site-header-top__contact-information-hotline-icon {
+ 	}
+
+
+ 	/* --- Site Header --- */
+ 	& .site-header {
+	 	border-bottom: 3px solid #5edad7 !important;
+ 	}
+
+ 	& .site-header__navi-contact-information {
+	 	filter: invert(100%);
+	 	color: $color-white !important;
+	 	background-color: $color-black !important;
+ 	}
+
+ 	& .site-header .navbar-item--submenu-button:after {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .site-header .navbar-item__submenu .navbar-item a:hover {
+	 	filter: invert(100%);
+ 	}
+
+ 	& #site-header__logo-img-light {
+	 	display: none;
+ 	}
+
+ 	& #site-header__logo-img-dark {
+	 	display: inherit;
+ 	}
+
+ 	& #site-header__apple-haendler-light {
+	 	display: none;
+ 	}
+
+ 	& #site-header__apple-haendler-dark {
+	 	display: inherit;
+ 	}
+
+ 	& .wishlist_products_counter_number {
+	 	filter: invert(100%);
+ 	}
+
+
+ 	/* --- Site Main --- */
+ 	& .site-main {
+ 	}
+
+ 	& h1.title--single {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .card__title {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .card__line--dotted {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .product-categories__card {
+ 	}
+
+ 	& .product-categories__card img {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .product-categories__title {
+	 	filter: invert(100%);
+ 	}
+
+
+ 	& .accordion button:hover {
+	 	filter: invert(100%);
+ 	}
+
+
+ 	& .accordion button:focus {
+	 	filter: invert(100%);
+ 	}
+
+
+
+
+ 	/* --- Page Merkzettel --- */
+ 	& .tinv-wishlist .tinv-header {
+	 	display: none;
+ 	}
+
+ 	& .woocommerce-info {
+	 	border-top-color: $color-primary;
+ 	}
+
+ 	& .woocommerce-info:before {
+	 	color: $color-primary;
+	 	filter: invert(100%);
+ 	}
+
+ 	& .merkzettel .woocommerce-info {
+ 		border-top-color: $color-primary-invert;
+ 	}
+
+
+
+ 	/* --- Tabs --- */
+ 	& .tab-area div:hover a,
+ 	& .tab-area div.active a {
+ 		filter: invert(100%);
+ 	}
+
+
+ 	& .tab-area a.wp-block-button__link {
+	 	filter: invert(100%);
+ 	}
+
+
+	& .tab-area {
+		background-color: transparent;
 	}
 
-	& .video-container {
-		filter: invert(100%);
-	}
 
-	& .site-main {
-		background-color: $color-tertiary !important;
-	}
-
-	& .btn--gray:hover {
-		background-color: $color-primary !important;
-		filter: invert(100%);
-	}
-
-
-	/* --- Top Site Header --- */
-	& .site-header-top {
-		filter: invert(100%);
-
-
-	}
-
-	& .site-header-top__contact-information {
-		filter: invert(100%);
-	}
-
-	& .site-header-top p {
-		filter: invert(90%);
-	}
-
-	& .site-header-top a {
-		filter: invert(90%);
-	}
-
-	& .site-header-top__contact-information-opening-sign {
-		filter: invert(100%);
-	}
-
-	& .site-header-top__contact-information-opening-icon {
-	}
-
-	& .site-header-top__contact-information-address-icon {
-	}
-
-	& .site-header-top__contact-information-phone-icon {
-	}
-
-	& .site-header-top__contact-information-mail-icon {
-	}
-
-	& .site-header-top__contact-information-hotline-icon {
-	}
-
-
-	/* --- Site Header --- */
-	& .site-header {
-		border-bottom: 3px solid #5edad7 !important;
-	}
-
-	& .site-header__navi-contact-information {
-		filter: invert(100%);
-		color: $color-white !important;
-		background-color: $color-black !important;
-	}
-
-	& .site-header .navbar-item--submenu-button:after {
-		filter: invert(100%);
-	}
-
-	& .site-header .navbar-item__submenu .navbar-item a:hover {
-		filter: invert(100%);
-	}
-
-	& #site-header__logo-img-light {
-		display: none;
-	}
-
-	& #site-header__logo-img-dark {
-		display: inherit;
-	}
-
-	& #site-header__apple-haendler-light {
-		display: none;
-	}
-
-	& #site-header__apple-haendler-dark {
-		display: inherit;
-	}
-
-	& .wishlist_products_counter_number {
-		filter: invert(100%);
-	}
-
-
-	/* --- Site Main --- */
-	& .site-main {
-	}
-
-	& h1.title--single {
-		filter: invert(100%);
-	}
-
-	& .card__title {
-		filter: invert(100%);
-	}
-
-	& .card__line--dotted {
-		filter: invert(100%);
-	}
-
-	& .product-categories__card {
-	}
-
-	& .product-categories__card img {
-		filter: invert(100%);
-	}
-
-	& .product-categories__title {
-		filter: invert(100%);
-	}
-
-
-	& .accordion button:hover {
-		filter: invert(100%);
-	}
-
-
-	& .accordion button:focus {
-		filter: invert(100%);
+	& .tab-content {
+		background-color: transparent;
 	}
 
 
 
 
-	/* --- Page Merkzettel --- */
-	& .tinv-wishlist .tinv-header {
-		display: none;
-	}
-
-	& .woocommerce-info {
-		border-top-color: $color-primary;
-	}
-
-	.woocommerce-info:before {
-		color: $color-primary;
-	}
 
 
-	/* --- Site Footer --- */
-	& .site-footer {
-		filter: invert(100%);
-	}
-
-	& .site-footer__logo-link {
-		filter: invert(100%);
-	}
-
-	& .site-footer__logo-img {
+	/* --- Services --- */
+	& .services_card-apple-role-logo {
 		filter: invert(0%);
 	}
 
-	& .site-footer__apple-haendler {
-		filter: invert(100%);
+
+
+
+ 	/* --- Site Footer --- */
+ 	& .site-footer {
+	 	filter: invert(100%);
+	 	border-top: 1px solid $color-secondary;
+ 	}
+
+ 	& .site-footer__logo-link {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .site-footer__logo-img {
+	 	-webkit-filter: invert(0%);
+	 	-moz-filter: invert(0%);
+	 	-ms-filter: invert(0%);
+	 	-o-filter: invert(0%);
+	 	filter: invert(0%);
+ 	}
+
+
+ 	& .site-footer__apple-haendler {
+	 	filter: invert(100%);
+ 	}
+
+ 	& .site-footer__contact-address-icon {
+	 	filter: invert(0%);
+ 	}
+
+ 	& .site-footer__contact-address-icon img {
+	 	filter: invert(0%);
+ 	}
+
+ 	& .site-footer__contact-information-phone-icon {
+	 	filter: invert(0%);
+ 	}
+
+ 	& .site-footer__contact-information-mail-icon {
+	 	filter: invert(0%);
+ 	}
+
+ 	& .site-footer__contact-information-hotline-icon {
+	 	filter: invert(0%);
+ 	}
+
+ 	& .site-footer__contact-opening-icon {
+	 	filter: invert(0%);
+ 	}
+
+ 	& .site-footer__social-media-area {
+	 	filter: invert(100%);
+ 	}
+
+
+ 	& .site-footer__vcard-img {
+			filter: invert(0%);
+		}
+
+
+ 	/* --- Back To Top Button --- */
+ 	& .back-to-top img {
+	 	filter: invert(100%);
+ 	}
+
+
+ 	/* --- Cookie Consent --- */
+ 	& #dywc {
+	 	border-color: $color-primary-invert;
+ 	}
+
+
+ 	& #dywc > .content > div .accept_wrap > a.accept {
+			filter: invert(100%);
+		}
+
 	}
-
-	& .site-footer__contact-address-icon {
-		filter: invert(0%);
-	}
-
-	& .site-footer__contact-address-icon img {
-		filter: invert(0%);
-	}
-
-	& .site-footer__contact-information-phone-icon {
-		filter: invert(0%);
-	}
-
-	& .site-footer__contact-information-mail-icon {
-		filter: invert(0%);
-	}
-
-	& .site-footer__contact-information-hotline-icon {
-		filter: invert(0%);
-	}
-
-	& .site-footer__contact-opening-icon {
-		filter: invert(0%);
-	}
-
-	& .site-footer__social-media-area {
-		filter: invert(100%);
-	}
-
-
-	/* --- Back To Top Button --- */
-	& .back-to-top img {
-		filter: invert(100%);
-	}
-
-
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

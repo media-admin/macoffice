@@ -229,6 +229,10 @@
   left: 50%;
   top: 30px;
   transform: translateX(-50%);
+
+  @include atMedium {
+    top: 80px;
+  }
 }
 
 #dywc.rt {

@@ -366,6 +366,11 @@ template {
 
 /* === GENERAL STYLES === */
 
+:root[data-applied-mode="light"] {
+  color-scheme: light;
+}
+
+
 html {
   background-color: $color-white;
   /* color-scheme: light dark; */

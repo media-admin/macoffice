@@ -111,7 +111,7 @@ if ( ! function_exists( 'yith_wcwl_locate_template' ) ) {
 	 * @return string
 	 * @since 1.0.0
 	 */
-	function yith_wcwl_locate_template( $path, $var = null ) {
+	function yith_wcwl_locate_template( $path, $var = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter, Universal.NamingConventions.NoReservedKeywordParameterNames.varFound
 		$woocommerce_base = WC()->template_path();
 
 		$template_woocommerce_path = $woocommerce_base . $path;
@@ -154,7 +154,7 @@ if ( ! function_exists( 'yith_wcwl_get_template' ) ) {
 	 * @return string|void
 	 * @since 1.0.0
 	 */
-	function yith_wcwl_get_template( $path, $var = null, $return = false ) {
+	function yith_wcwl_get_template( $path, $var = null, $return = false ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.varFound, Universal.NamingConventions.NoReservedKeywordParameterNames.returnFound
 		$located = yith_wcwl_locate_template( $path, $var );
 
 		if ( $var && is_array( $var ) ) {
@@ -187,7 +187,7 @@ if ( ! function_exists( 'yith_wcwl_get_template_part' ) ) {
 	 *
 	 * @return string|null
 	 */
-	function yith_wcwl_get_template_part( $template = '', $template_part = '', $template_layout = '', $var = array(), $return = false ) {
+	function yith_wcwl_get_template_part( $template = '', $template_part = '', $template_layout = '', $var = array(), $return = false ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.varFound, Universal.NamingConventions.NoReservedKeywordParameterNames.returnFound
 		if ( ! empty( $template_part ) ) {
 			$template_part = '-' . $template_part;
 		}
@@ -690,7 +690,7 @@ if ( ! function_exists( 'yith_wcwl_merge_in_array' ) ) {
 	 *
 	 * @return array Result of the merge
 	 */
-	function yith_wcwl_merge_in_array( $array, $element, $pivot, $position = 'after' ) {
+	function yith_wcwl_merge_in_array( $array, $element, $pivot, $position = 'after' ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
 		// search for the pivot inside array.
 		$pos = array_search( $pivot, array_keys( $array ), true );
 
@@ -898,7 +898,7 @@ if ( ! function_exists( 'yith_frontend_css_color_picker' ) ) {
 	 * @return void
 	 * @deprecated
 	 */
-	function yith_frontend_css_color_picker( $name, $id, $value, $desc = '' ) {
+	function yith_frontend_css_color_picker( $name, $id, $value, $desc = '' ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 		_deprecated_function( 'yith_frontend_css_color_picker', '3.0.0' );
 
 		$value = ! empty( $value ) ? $value : '#ffffff';
@@ -909,6 +909,5 @@ if ( ! function_exists( 'yith_frontend_css_color_picker' ) ) {
 				  <input name="' . esc_attr( $id ) . '" id="' . esc_attr( $id ) . '" type="text" value="' . esc_attr( $value ) . '" class="colorpick colorpickpreview" style="background-color: ' . esc_attr( $value ) . '" /> <div id="colorPickerDiv_' . esc_attr( $id ) . '" class="colorpickdiv"></div>
 				  </td></tr></table>
 			  </div>';
-
 	}
 }

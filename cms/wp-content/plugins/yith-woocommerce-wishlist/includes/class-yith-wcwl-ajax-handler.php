@@ -384,7 +384,6 @@ if ( ! class_exists( 'YITH_WCWL_Ajax_Handler' ) ) {
 			<?php
 
 			die();
-
 		}
 
 		/**

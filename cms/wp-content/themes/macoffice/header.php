@@ -7,6 +7,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<meta http-equiv="content-type" content="text/html; charset=macintosh" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scaleable=no">
+		<meta name="color-scheme" content="light dark" />
 		<meta name="keywords" content="macoffice mac)office Apple Autorisierter H&auml;ndler Reseller Service Provider Wr. Wiener Neustadt 2700 Österreich Niederösterreich Hardware Software Dienstleistung Beratung Kauf iPad iPhone 14 MacBook Pro Air iMac M1 M2 Mac mini Watch Ultra Series 8 TV AirTag Pencil macOS iOS iPadOS watchOS tvOS Macintosh Magic Mouse Keyboard Adobe Creative Cloud RAM Speicher Displaytausch Batterietausch Akku Reparatur Reparaturbonus">
 
 		<!-- === FAVICONS === -->
@@ -73,6 +74,9 @@
 		<?php // require 'classes/servicePrices/config.php';  ?>
 		<?php // require 'classes/servicePrices/meta.php'; ?>
 
+		<!-- <script>
+			const colorScheme = localStorage.getItem("color-scheme") || "light-mode";
+		</script> -->
 
 		<?php wp_enqueue_script('jquery'); ?>
 		<?php wp_head(); ?>
@@ -212,9 +216,13 @@
 					</div>
 				</div>
 
-
 				<div class="site-header__mode-switcher">
-					<button class="site-header__mode-switcher-link wrapper" onclick="switchMode()">
+					<!-- <button class="site-header__mode-switcher-link wrapper" onclick="switchMode()"> -->
+					<!-- <button id="theme-toggle" class="site-header__mode-switcher-link wrapper" aria-label="Aktiviere Dark Mode/Light Mode" onclick="toggleTheme()"> -->
+					<!-- <span id="mode">system</span>
+							 <button id="theme-toggle" class="site-header__mode-switcher-link wrapper" > -->
+								 <span id="mode">system</span>
+					<button id="theme-toggle" class="site-header__mode-switcher-link btn wrapper">
 						<img class="site-header__mode-switcher-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
 					</button>
 				</div>

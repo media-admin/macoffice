@@ -207,7 +207,7 @@ if ( ! class_exists( 'YITH_WCWL_Wishlist_Item_Data_Store' ) ) {
 			}
 
 			if ( ! $data ) {
-				throw new Exception( __( 'Invalid wishlist item.', 'yith-woocommerce-wishlist' ) );
+				throw new Exception( esc_html__( 'Invalid wishlist item.', 'yith-woocommerce-wishlist' ) );
 			}
 
 			$item->set_props(

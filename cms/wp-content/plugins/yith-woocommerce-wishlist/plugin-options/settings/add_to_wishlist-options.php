@@ -194,7 +194,6 @@ return apply_filters(
 				'yith-type'    => 'multi-colorpicker',
 				'colorpickers' => array(
 					array(
-						'desc' => __( 'Choose colors for the "Add to wishlist" button', 'yith-woocommerce-wishlist' ),
 						array(
 							'name'    => __( 'Background', 'yith-woocommerce-wishlist' ),
 							'id'      => 'background',
@@ -212,7 +211,6 @@ return apply_filters(
 						),
 					),
 					array(
-						'desc' => __( 'Choose colors for the "Add to wishlist" button on hover state', 'yith-woocommerce-wishlist' ),
 						array(
 							'name'    => __( 'Background Hover', 'yith-woocommerce-wishlist' ),
 							'id'      => 'background_hover',

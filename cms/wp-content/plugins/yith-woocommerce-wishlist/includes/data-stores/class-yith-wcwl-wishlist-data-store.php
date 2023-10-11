@@ -249,7 +249,7 @@ if ( ! class_exists( 'YITH_WCWL_Wishlist_Data_Store' ) ) {
 			$token = $wishlist->get_token();
 
 			if ( ! $id && ! $token ) {
-				throw new Exception( __( 'Invalid wishlist.', 'yith-woocommerce-wishlist' ) );
+				throw new Exception( esc_html__( 'Invalid wishlist.', 'yith-woocommerce-wishlist' ) );
 			}
 
 			$wishlist_data = $wishlist->get_id() ? wp_cache_get( 'wishlist-id-' . $wishlist->get_id(), 'wishlists' ) : wp_cache_get( 'wishlist-token-' . $wishlist->get_token(), 'wishlists' );
@@ -271,7 +271,7 @@ if ( ! class_exists( 'YITH_WCWL_Wishlist_Data_Store' ) ) {
 			}
 
 			if ( ! $wishlist_data ) {
-				throw new Exception( __( 'Invalid wishlist.', 'yith-woocommerce-wishlist' ) );
+				throw new Exception( esc_html__( 'Invalid wishlist.', 'yith-woocommerce-wishlist' ) );
 			}
 
 			// set wishlist props.

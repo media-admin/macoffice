@@ -27,7 +27,7 @@
 									<a class="site-footer__logo-link wrapper" href="<?php echo get_home_url(); ?>">
 										<picture>
 											<source srcset="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/macoffice_footer-logo-dark_smartphone.svg" media="(prefers-color-scheme: dark)">
-											<img class="site-footer__logo-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/macoffice_footer-logo-light_smartphone.svg" alt="Logo mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">
+											<img id='site-footer__logo' class="site-footer__logo-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/macoffice_footer-logo-light_smartphone.svg" alt="Logo mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">
 										</picture>
 									</a>
 								</div>
@@ -204,13 +204,165 @@
 
 
 
-			<!-- Dark Mode Toggle -->
+			<!-- Dark Mode Toggle #1
 			<script async>
 					function switchMode() {
 						var element = document.body;
 						element.classList.toggle("dark-mode");
 					}
 			</script>
+-->
+
+			<!-- Dark Mode Toggle #2
+			<script defer>
+
+				jQuery(document).ready(function(){
+					let theme = localStorage.getItem("theme");
+
+					if(theme === null) {
+							const prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)');
+							if (prefersDarkTheme.matches) {
+									localStorage.setItem("theme", "dark");
+									theme = "dark";
+							} else {
+									localStorage.setItem("theme", "light");
+									theme = "light";
+							}
+					}
+
+
+					if (theme === "dark") {
+							document.body.classList.remove("theme-light");
+							document.body.classList.add("theme-dark");
+					} else if (theme === "light") {
+							document.body.classList.remove("theme-dark");
+							document.body.classList.add("theme-light");
+					}
+				});
+
+
+				function toggleTheme() {
+					const body = document.body;
+					if (body.classList.contains("theme-dark")) {
+							body.classList.remove("theme-dark");
+							body.classList.add("theme-light");
+							localStorage.setItem("theme", "light");
+							mobileVibrate([50]);
+					} else {
+							body.classList.remove("theme-light");
+							body.classList.add("theme-dark");
+							localStorage.setItem("theme", "dark");
+							mobileVibrate([50]);
+					}
+				}
+
+			</script>
+			-->
+
+
+
+			<!-- Dark Mode Toggle #3 -->
+			<script>
+
+				function getUserPreference() {
+					return localStorage.getItem('theme') || 'system';
+				}
+				function saveUserPreference(userPreference) {
+					localStorage.setItem('theme', userPreference);
+				}
+
+				function getAppliedMode(userPreference) {
+					if (userPreference === 'light') {
+						return 'light';
+					}
+					if (userPreference === 'dark') {
+						return 'dark';
+					}
+					// system
+					if (matchMedia('(prefers-color-scheme: light)').matches) {
+						return 'light';
+					}
+					return 'dark';
+				}
+
+				function setAppliedMode(mode) {
+					document.documentElement.dataset.appliedMode = mode;
+				}
+
+				function rotatePreferences(userPreference) {
+					// if (userPreference === 'system') {
+					//	return 'light'
+					// }
+					if (userPreference === 'light') {
+						return 'dark';
+					}
+					if (userPreference === 'dark') {
+						// return 'system';
+						return 'light';
+					}
+					// for invalid values, just in case
+					// return 'system';
+					return 'light';
+				}
+
+				const themeDisplay = document.getElementById('mode');
+				const themeToggler = document.getElementById('theme-toggle');
+
+				let userPreference = getUserPreference();
+				setAppliedMode(getAppliedMode(userPreference));
+				themeDisplay.innerText = userPreference;
+
+				themeToggler.onclick = () => {
+					const newUserPref = rotatePreferences(userPreference);
+					userPreference = newUserPref;
+					saveUserPreference(newUserPref);
+					themeDisplay.innerText = newUserPref;
+					setAppliedMode(getAppliedMode(newUserPref));
+				}
+
+			</script>
+
+
+
+			<!-- Dark Mode Toggle #4
+			<script>
+			/*
+					Copyright (c) 2020 - present, DITDOT Ltd.
+					https://www.ditdot.hr/en
+			*/
+
+			function load() {
+				const button = document.querySelector(".btn");
+
+				// MediaQueryList object
+				const useDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+				// Toggles the "dark-mode" class based on if the media query matches
+				function toggleDarkMode(state) {
+					// Older browser don't support the second parameter in the
+					// classList.toggle method so you'd need to handle this manually
+					// if you need to support older browsers.
+					document.documentElement.classList.toggle("dark-mode", state);
+				}
+
+				// Initial setting
+				toggleDarkMode(useDark.matches);
+
+				// Listen for changes in the OS settings
+				useDark.addListener((evt) => toggleDarkMode(evt.matches));
+
+				// Toggles the "dark-mode" class on click
+				button.addEventListener("click", () => {
+					document.documentElement.classList.toggle("dark-mode");
+				});
+			}
+
+			window.addEventListener("DOMContentLoaded", load);
+
+			</script>
+			-->
+
+
 
 			<!-- Refreshing Store Hours Status
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js" type="text/javascript"></script>
@@ -255,10 +407,6 @@
 
 				items.forEach(item => item.addEventListener('click', toggleAccordion));
 			</script>
-
-
-
-
 
 		</body>
 </html>

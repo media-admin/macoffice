@@ -42,7 +42,6 @@
 
 
 .site-header--dark {
-
   @include atLarge {
     background-color: rgba(white, 0.85) !important;
   }
@@ -440,6 +439,10 @@
 
 /* --- MODE SWITCHER --- */
 
+#mode {
+  font-size: 0.1px;
+}
+
 .site-header__mode-switcher  {
   position: relative;
   display: inline-grid;
@@ -509,7 +512,7 @@
   @include atMedium {
     width: 7.0rem;
     height: auto;
-    margin-top: -10px;
+    margin-top: -20px;
     margin-left: initial;
   }
 }

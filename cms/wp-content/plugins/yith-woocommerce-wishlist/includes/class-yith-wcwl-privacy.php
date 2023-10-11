@@ -22,7 +22,6 @@ if ( ! class_exists( 'YITH_WCWL_Privacy' ) ) {
 		/**
 		 * Constructor method
 		 *
-		 * @return \YITH_WCWL_Privacy
 		 * @since 2.2.2
 		 */
 		public function __construct() {

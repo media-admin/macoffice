@@ -151,12 +151,10 @@ Yes, of course you can. To avoid Wishlist page to show product prices, you can h
 
 ## Changelog
 
-### 3.25.0 - Released on 13 September 2023
+### 3.26.0 - Released on 10 October 2023
 
-* New: support for WooCommerce 8.1
+* New: support for WooCommerce 8.2
 * Update: YITH plugin framework
-* Fix: check on Loop Settings before appending ATW button to Products Grid blocks
-* Fix: prevent warning when using "Use Shortcode" position for ATW and showing WooCommerce product blocks
 
 ## Support
 

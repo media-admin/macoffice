@@ -10,17 +10,17 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 } // Exit if accessed directly
 
 $sub_tabs = array(
-	'settings-general'            => array(
+	'settings-general'         => array(
 		'title'              => _x( 'General', 'Tab title in plugin settings panel', 'yith-woocommerce-wishlist' ),
 		'yith-wcwl-priority' => 20,
 		'description'        => _x( 'Configure the plugin general settings.', 'Tab description in plugin settings panel', 'yith-woocommerce-wishlist' ),
 	),
-	'settings-add_to_wishlist'             => array(
+	'settings-add_to_wishlist' => array(
 		'title'              => _x( 'Add to wishlist', 'Tab title in plugin settings panel', 'yith-woocommerce-wishlist' ),
 		'yith-wcwl-priority' => 20,
 		'description'        => _x( 'Configure the Add to wishlist settings.', 'Tab description in plugin settings panel', 'yith-woocommerce-wishlist' ),
 	),
-	'settings-wishlist_page' => array(
+	'settings-wishlist_page'   => array(
 		'title'              => _x( 'Wishlist page', 'Tab title in plugin settings panel', 'yith-woocommerce-wishlist' ),
 		'yith-wcwl-priority' => 20,
 		'description'        => _x( 'Configure the wishlist page settings.', 'Tab description in plugin settings panel', 'yith-woocommerce-wishlist' ),

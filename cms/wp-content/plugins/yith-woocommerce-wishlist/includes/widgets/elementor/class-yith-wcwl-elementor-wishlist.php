@@ -133,7 +133,6 @@ if ( ! class_exists( 'YITH_WCWL_Elementor_Wishlist' ) ) {
 			);
 
 			$this->end_controls_section();
-
 		}
 
 		/**
@@ -156,6 +155,5 @@ if ( ! class_exists( 'YITH_WCWL_Elementor_Wishlist' ) ) {
 
 			echo do_shortcode( "[yith_wcwl_wishlist {$attribute_string}]" );
 		}
-
 	}
 }

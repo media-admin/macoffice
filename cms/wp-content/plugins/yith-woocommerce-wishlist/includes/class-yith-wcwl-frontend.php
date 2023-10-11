@@ -33,7 +33,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $version = '3.25.0';
+		public $version = '3.26.0';
 
 		/**
 		 * Plugin database version
@@ -199,7 +199,6 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 			} else {
 				add_action( $positions[ $position ]['hook'], array( $this, 'print_button' ), $positions[ $position ]['priority'] );
 			}
-
 		}
 
 		/**
@@ -529,7 +528,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 				return;
 			}
 
-			wp_no_robots();
+			wp_robots_no_robots();
 		}
 
 		/**
@@ -875,7 +874,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @var $var array Array of parameters for current view
 		 * @return void
 		 */
-		public function main_wishlist_content( $var ) {
+		public function main_wishlist_content( $var ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.varFound
 			$template = isset( $var['template_part'] ) ? $var['template_part'] : 'view';
 			$layout   = ! empty( $var['layout'] ) ? $var['layout'] : '';
 
@@ -890,7 +889,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @var $var array Array of parameters for current view
 		 * @return void
 		 */
-		public function wishlist_header( $var ) {
+		public function wishlist_header( $var ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.varFound
 			$template = isset( $var['template_part'] ) ? $var['template_part'] : 'view';
 			$layout   = ! empty( $var['layout'] ) ? $var['layout'] : '';
 
@@ -905,7 +904,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @var $var array Array of parameters for current view
 		 * @return void
 		 */
-		public function wishlist_footer( $var ) {
+		public function wishlist_footer( $var ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.varFound
 			$template = isset( $var['template_part'] ) ? $var['template_part'] : 'view';
 			$layout   = ! empty( $var['layout'] ) ? $var['layout'] : '';
 
@@ -923,7 +922,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @return array Array of filtered classes for the product
 		 * @since 3.0.0
 		 */
-		public function add_products_class_on_loop( $classes, $class = '', $post_id = 0 ) {
+		public function add_products_class_on_loop( $classes, $class = '', $post_id = 0 ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.classFound
 			if ( yith_wcwl_is_single() || doing_action( 'body_class' ) || ! $post_id || ! in_array( get_post_type( $post_id ), array( 'product', 'product_variation' ), true ) ) {
 				return $classes;
 			}
@@ -1169,7 +1168,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 * @return string Filtered font-awesome class
 		 * @since 2.0.2
 		 */
-		public function update_font_awesome_classes( $class ) {
+		public function update_font_awesome_classes( $class ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.classFound
 			$exceptions = array(
 				'icon-envelope'           => 'fa-envelope-o',
 				'icon-star-empty'         => 'fa-star-o',
@@ -1731,7 +1730,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
 		 *
 		 * @return string Formatted CSS rule
 		 */
-		protected function build_css_rule( $rule, $value, $default = '' ) {
+		protected function build_css_rule( $rule, $value, $default = '' ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.defaultFound
 			$value = ( '0' === $value || ( ! empty( $value ) && ! is_array( $value ) ) ) ? $value : $default;
 
 			return sprintf( rtrim( $rule, ';' ) . ';', $value );
@@ -1824,7 +1823,7 @@ if ( ! class_exists( 'YITH_WCWL_Frontend' ) ) {
  * @return \YITH_WCWL_Frontend|\YITH_WCWL_Frontend_Premium
  * @since 2.0.0
  */
-function YITH_WCWL_Frontend() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function YITH_WCWL_Frontend() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid, Universal.Files.SeparateFunctionsFromOO
 	if ( defined( 'YITH_WCWL_PREMIUM' ) ) {
 		$instance = YITH_WCWL_Frontend_Premium::get_instance();
 	} elseif ( defined( 'YITH_WCWL_EXTENDED' ) ) {
