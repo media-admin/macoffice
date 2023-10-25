@@ -56,10 +56,11 @@ class LicenseActivation
      *
      * @param string $code
      * @param string $uuid
+     * @param boolean $telemetry
      */
-    public function patch($code, $uuid)
+    public function patch($code, $uuid, $telemetry)
     {
-        $body = ['licenseActivation' => ['license' => ['licenseKey' => $code], 'client' => ['uuid' => $uuid, 'properties' => $this->getClientProperties()], 'properties' => [['key' => 'pluginVersion', 'value' => $this->getPluginUpdate()->getInitiator()->getPluginVersion()]]]];
+        $body = ['licenseActivation' => ['license' => ['licenseKey' => $code], 'client' => ['uuid' => $uuid, 'properties' => $this->getClientProperties()], 'telemetryDataSharingOptIn' => $telemetry, 'properties' => [['key' => 'pluginVersion', 'value' => $this->getPluginUpdate()->getInitiator()->getPluginVersion()]]]];
         return ClientUtils::request($this->getPluginUpdate()->getInitiator(), self::ENDPOINT_LICENSE_ACTIVATION, $body, 'PATCH');
     }
     /**

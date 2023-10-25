@@ -3,11 +3,11 @@
 namespace Simple_History\Services;
 
 use Simple_History\Helpers;
-use Simple_History\Services\Plus_Licences;
-use Simple_History\Plus_Plugin;
+use Simple_History\Services\AddOns_Licences;
+use Simple_History\AddOn_Plugin;
 
 class Licences_Settings_Page extends Service {
-	/** @var Plus_Licences $licences_service */
+	/** @var AddOns_Licences $licences_service */
 	private $licences_service;
 
 	private const SETTINGS_SECTION_ID = 'simple_history_settings_section_tab_licenses';
@@ -17,19 +17,24 @@ class Licences_Settings_Page extends Service {
 	private const OPTION_LICENSE_MESSAGE = 'example_plugin_license_message';
 
 	public function loaded() {
-		$licences_service = $this->simple_history->get_service( Plus_Licences::class );
+		$licences_service = $this->simple_history->get_service( AddOns_Licences::class );
 
 		// Bail if licences service not found.
-		if ( ! $licences_service || ! $licences_service instanceof Plus_Licences ) {
+		if ( ! $licences_service || ! $licences_service instanceof AddOns_Licences ) {
 			return;
 		}
 
 		$this->licences_service = $licences_service;
 
 		// Add settings tab.
+		// Run on prio 20 so it runs after add ons have done their loaded actions.
 		// For now only if any add-ons are installed.
 		// TODO: Always show this in the future, when add-ons system are tested.
-		add_action( 'plugins_loaded', [ $this, 'on_plugins_loaded' ] );
+		add_action(
+			'plugins_loaded',
+			[ $this, 'on_plugins_loaded' ],
+			20
+		);
 	}
 
 	public function on_plugins_loaded() {
@@ -151,15 +156,22 @@ class Licences_Settings_Page extends Service {
 	 * Output fields to enter licence key for each plus plugin.
 	 */
 	public function license_keys_field_output() {
-		foreach ( $this->licences_service->get_plus_plugins() as $one_plus_plugin ) {
-			$this->output_licence_key_fields_for_plugin( $one_plus_plugin );
+		if ( is_main_site() ) {
+			foreach ( $this->licences_service->get_addon_plugins() as $one_plus_plugin ) {
+				$this->output_licence_key_fields_for_plugin( $one_plus_plugin );
+			}
+		} else {
+			printf(
+				'<p>%s</p>',
+				esc_html__( 'On multisite installations you enter the licence keys on the main site.', 'simple-history' )
+			);
 		}
 	}
 
 	/**
 	 * Output fields to enter licence key and to activate, deactiave, and show info, for one plus plugin.
 	 *
-	 * @param Plus_Plugin $plus_plugin One plus plugin.
+	 * @param AddOn_Plugin $plus_plugin One plus plugin.
 	 */
 	private function output_licence_key_fields_for_plugin( $plus_plugin ) {
 		$license_key = $plus_plugin->get_license_key();
@@ -217,7 +229,11 @@ class Licences_Settings_Page extends Service {
 				</p>
 
 				<p>
-					<input type="text" class="regular-text" name="licence_key" value="<?php echo esc_attr( $license_key ); ?>" />
+					<input 
+						type="text" class="regular-text" name="licence_key" 
+						value="<?php echo esc_attr( $license_key ); ?>" 
+						placeholder="<?php esc_attr_e( 'Enter license key...', 'simple-history' ); ?>"
+					 />
 				</p>
 	
 				<?php

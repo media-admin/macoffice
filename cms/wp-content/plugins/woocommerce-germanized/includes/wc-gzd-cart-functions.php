@@ -651,8 +651,8 @@ function wc_gzd_cart_product_units( $title, $cart_item, $cart_item_key = '' ) {
 	return wp_kses_post( $title );
 }
 
-function wc_gzd_cart_applies_for_photovoltaic_system_vat_exemption() {
-	return apply_filters( 'woocommerce_gzd_cart_applies_for_photovoltaic_system_vat_exemption', wc_gzd_cart_customer_applies_for_photovoltaic_system_vat_exemption() && wc_gzd_cart_contains_photovoltaic_system() );
+function wc_gzd_cart_applies_for_photovoltaic_system_vat_exemption( $items = false ) {
+	return apply_filters( 'woocommerce_gzd_cart_applies_for_photovoltaic_system_vat_exemption', wc_gzd_cart_customer_applies_for_photovoltaic_system_vat_exemption() && wc_gzd_cart_contains_photovoltaic_system( $items ) );
 }
 
 function wc_gzd_cart_customer_applies_for_photovoltaic_system_vat_exemption() {
@@ -1210,7 +1210,6 @@ function wc_gzd_get_legal_text_service_email_notice() {
 }
 
 function wc_gzd_get_chosen_shipping_rates( $args = array() ) {
-
 	$args = wp_parse_args(
 		$args,
 		array(

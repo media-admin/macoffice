@@ -4,7 +4,7 @@ Contributors: eskapism
 Donate link: https://www.paypal.me/eskapism
 Tags: history, log, changes, changelog, audit, audit log, event log, user tracking, trail, pages, attachments, users, dashboard, admin, syslog, feed, activity, stream, audit trail, brute-force
 Tested up to: 6.3
-Stable tag: 4.7.0
+Stable tag: 4.7.1
 
 View changes made by users within WordPress. See who created a page, uploaded an attachment or approved an comment, and more.
 
@@ -189,7 +189,7 @@ See the [hooks documentation](https://simple-history.com/docs/hooks/) for more i
 
 Events in the log are stored for 60 days by default. Events older than this will be removed.
 
-This can be modified using the filter [`simple_history/db_purge_days_interval`](https://simple-history.com/docs/hooks/#simplehistorydbpurgedaysinterval) or using the upcoming [Simple History Plus add-on](https://simple-history.com/simple-history-plus/).
+This can be modified using the filter [`simple_history/db_purge_days_interval`](https://simple-history.com/docs/hooks/#simplehistorydbpurgedaysinterval) or using the [Simple History Extended Settings add-on](https://simple-history.com/add-ons/extended-settings).
 
 ## Screenshots
 
@@ -211,6 +211,12 @@ This can be modified using the filter [`simple_history/db_purge_days_interval`](
    A simple way to see any uncommon activity, for example an increased number of logins or similar.
 
 ## Changelog
+
+### 4.7.1 (October 2023)
+
+- Fix: Only context table was cleared when clearing the database. Now also the events table is cleared.
+- Add function `AddOns_Licences::get_plugin()`.
+- Misc internal code cleanup and improvements.
 
 ### 4.7.0 (October 2023)
 

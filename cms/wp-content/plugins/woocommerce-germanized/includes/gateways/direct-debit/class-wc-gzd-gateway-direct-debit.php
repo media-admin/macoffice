@@ -18,6 +18,32 @@ class WC_GZD_Gateway_Direct_Debit extends WC_Payment_Gateway {
 
 	public static $has_loaded = false;
 
+	protected $enable_pre_notification;
+
+	protected $debit_days;
+
+	protected $generate_mandate_id;
+
+	protected $mandate_id_format;
+
+	protected $company_info;
+
+	protected $company_identification_number;
+
+	protected $company_account_holder;
+
+	protected $company_account_iban;
+
+	protected $company_account_bic;
+
+	protected $pain_format;
+
+	protected $remember;
+
+	protected $mask;
+
+	protected $mandate_text;
+
 	public $admin_fields = array();
 
 	/**
@@ -98,13 +124,11 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 		);
 
 		if ( $this->get_option( 'enabled' ) === 'yes' && ! $this->supports_encryption() ) {
-
 			ob_start();
 			include_once 'views/html-encryption-notice.php';
 			$notice = ob_get_clean();
 
 			$this->method_description .= $notice;
-
 		}
 
 		// Force disabling remember account data if encryption is not supported
@@ -791,7 +815,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 		do_action( 'woocommerce_gzd_direct_debit_order_data_updated', $order, $user_id, $this );
 
 		if ( $this->supports_encryption() && 'yes' === $this->remember && ! empty( $user_id ) && ! empty( $iban ) ) {
-
 			update_user_meta( $user_id, 'direct_debit_holder', $holder );
 			update_user_meta( $user_id, 'direct_debit_iban', $iban );
 			update_user_meta( $user_id, 'direct_debit_bic', $bic );
@@ -813,10 +836,9 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	}
 
 	/**
-	 * @param WC_Order $order
+	 * @param WC_Order|integer $order
 	 */
 	public function set_order_meta( $order ) {
-
 		if ( is_numeric( $order ) ) {
 			$order = wc_get_order( $order );
 		}
@@ -833,7 +855,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	}
 
 	public function generate_mandate() {
-
 		if ( ! $this->is_available() ) {
 			exit();
 		}
@@ -1193,7 +1214,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	}
 
 	public function validate_fields() {
-
 		if ( ! $this->is_available() || ! isset( $_POST['payment_method'] ) || $_POST['payment_method'] !== $this->id ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			return;
 		}
@@ -1250,7 +1270,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	 * Outputs scripts used for simplify payment
 	 */
 	public function payment_scripts() {
-
 		if ( ! is_checkout() || ! $this->is_available() ) {
 			return;
 		}
@@ -1264,10 +1283,10 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 		wp_register_style( 'woocommerce_prettyPhoto_css_debit', $assets_path . 'css/prettyPhoto.css', array(), WC_GERMANIZED_VERSION );
 		wp_enqueue_style( 'woocommerce_prettyPhoto_css_debit' );
 
-		wp_register_script( 'wc-gzd-iban', WC_germanized()->plugin_url() . '/includes/gateways/direct-debit/assets/js/iban' . $suffix . '.js', array( 'wc-checkout' ), WC_GERMANIZED_VERSION, true );
+		wp_register_script( 'wc-gzd-iban', WC_germanized()->get_assets_build_url( 'static/iban.js' ), array( 'wc-checkout' ), WC_GERMANIZED_VERSION, true );
 		wp_enqueue_script( 'wc-gzd-iban' );
 
-		wp_register_script( 'wc-gzd-direct-debit', WC_germanized()->plugin_url() . '/includes/gateways/direct-debit/assets/js/direct-debit' . $suffix . '.js', array( 'wc-gzd-iban' ), WC_GERMANIZED_VERSION, true );
+		wp_register_script( 'wc-gzd-direct-debit', WC_germanized()->get_assets_build_url( 'static/direct-debit.js' ), array( 'wc-gzd-iban' ), WC_GERMANIZED_VERSION, true );
 		wp_localize_script(
 			'wc-gzd-direct-debit',
 			'direct_debit_params',
@@ -1331,6 +1350,10 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	 */
 	public function process_payment( $order_id ) {
 		$order = wc_get_order( $order_id );
+
+		if ( apply_filters( 'woocommerce_gzd_direct_debit_store_fields_on_processing', false, $order ) ) {
+			$this->update_order( $order, true );
+		}
 
 		/**
 		 * Filter that allows default direct debit gateway order status.

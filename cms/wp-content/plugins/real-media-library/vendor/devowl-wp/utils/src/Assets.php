@@ -696,6 +696,8 @@ JS;
                     // so we cannot exclude by e.g. handle name
                     // See https://github.com/wp-media/wp-rocket/blob/ffac5d90e5a83bcb5a29b8e43f059a31adfae629/inc/Engine/Optimization/DeferJS/DeferJS.php#L128-L139
                     'data-alt-type="application/ld+json"',
+                    // Compatibility with Swift Performance
+                    'data-dont-merge',
                 ]), \sprintf(
                     // function(k, v) {
                     //     if (["%1$s"].indexOf(k) > -1 && typeof v === "string" && v.startsWith(%3$d)) {

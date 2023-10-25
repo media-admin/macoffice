@@ -107,7 +107,8 @@ define( 'WP_DEBUG_DISPLAY', true );
 
 
 /* Füge individuelle Werte zwischen dieser Zeile und der „Schluss mit dem Bearbeiten“ Zeile ein. */
-define('WP_MEMORY_LIMIT', '200M');
+// define( 'WP_MEMORY_LIMIT', '256M' );
+define( 'WP_MEMORY_LIMIT', '512M' );
 
 
 /* Germanzied Verschlüsselung */

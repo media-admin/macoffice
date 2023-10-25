@@ -3,6 +3,148 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 4.21.13 (2023-10-12)
+
+
+### Build Process
+
+* composer.lock had same content-hash accross some projects (CU-866aybq9e)
+
+
+### Maintenance
+
+* major update apidoc (CU-3cj43t)
+* major update jest-junit glob @types/jest jest ts-jest (CU-3cj43t)
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)
+* major update webpack components (CU-3cj43t)
+
+
+<details><summary>Dependency updates @devowl-wp/freemium 1.3.61</summary>
+
+
+**_Purpose of dependency:_** _Make your plugin to a freemium plugin with predefined Envato support_
+##### Maintenance
+
+* major update jest-junit glob @types/jest jest ts-jest (CU-3cj43t)
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)
+* major update webpack components (CU-3cj43t)</details>
+
+<details><summary>Dependency updates @devowl-wp/real-product-manager-wp-client 1.18.1</summary>
+
+
+**_Purpose of dependency:_** _A WordPress client for Real Product Manager_
+##### Maintenance
+
+* major update jest-junit glob @types/jest jest ts-jest (CU-3cj43t)
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)
+* major update webpack components (CU-3cj43t)
+* prepare upgrade wizard for v4 release (CU-861n7amqx)</details>
+
+<details><summary>Dependency updates @devowl-wp/real-utils 1.11.13</summary>
+
+
+**_Purpose of dependency:_** _Create cross-selling ads, about page, rating and newsletter input for WP Real plugins._
+##### Maintenance
+
+* major update jest-junit glob @types/jest jest ts-jest (CU-3cj43t)
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)
+* major update webpack components (CU-3cj43t)</details>
+
+<details><summary>Dependency updates @devowl-wp/utils 1.15.13</summary>
+
+
+**_Purpose of dependency:_** _Utility functionality for all your WordPress plugins._
+##### Bug Fixes
+
+* compatibility with latest Swift Performance version (CU-866aybgxm)
+
+
+##### Maintenance
+
+* drop concurrently package as no longer needed (CU-3cj43t)
+* major update apidoc (CU-3cj43t)
+* major update jest-junit glob @types/jest jest ts-jest (CU-3cj43t)
+* major update tsc-watch immer lint-staged sort-package-json (CU-3cj43t)
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)
+* major update webpack components (CU-3cj43t)
+* remove supports-color, update focusable-selectors react-quill react-codemirror2 js-cookie (CU-3cj43t)
+* update Lerna v7 (CU-31956up)</details>
+
+<details><summary>Development dependency update @devowl-wp/continuous-integration 0.4.2</summary>
+
+
+**_Purpose of dependency:_** _DevOps macros, job templates and jobs for Gitlab CI and @devowl-wp/node-gitlab-ci._
+##### Maintenance
+
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)
+* update Lerna v7 (CU-31956up)</details>
+
+<details><summary>Development dependency update @devowl-wp/continuous-localization 0.7.4</summary>
+
+
+**_Purpose of dependency:_** _Provide a CLI to push and pull localization files from different translation management systems._
+##### Maintenance
+
+* major update commander (CU-3cj43t)
+* major update jest-junit glob @types/jest jest ts-jest (CU-3cj43t)
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)</details>
+
+<details><summary>Development dependency update @devowl-wp/eslint-config 0.2.3</summary>
+
+
+**_Purpose of dependency:_** _Provide eslint configuration for our complete monorepo._
+##### Maintenance
+
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)</details>
+
+<details><summary>Development dependency update @devowl-wp/monorepo-utils 0.1.9</summary>
+
+
+**_Purpose of dependency:_** _Predefined monorepo utilities and tasks._
+##### Continuous Integration
+
+* include changelogs from dependencies (CU-2k54tcb)
+
+
+##### Maintenance
+
+* major update commander (CU-3cj43t)
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)
+* update Lerna v7 (CU-31956up)</details>
+
+<details><summary>Development dependency update @devowl-wp/node-gitlab-ci 0.7.6</summary>
+
+
+**_Purpose of dependency:_** _Create dynamic GitLab CI pipelines in JavaScript or TypeScript for each project. Reuse and inherit instructions and avoid duplicate code!_
+##### Maintenance
+
+* major update commander (CU-3cj43t)
+* major update jest-junit glob @types/jest jest ts-jest (CU-3cj43t)
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)</details>
+
+<details><summary>Development dependency update @devowl-wp/regexp-translation-extractor 0.2.19</summary>
+
+
+**_Purpose of dependency:_** _Provide a performant translation extractor based on regular expression._
+##### Maintenance
+
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)</details>
+
+<details><summary>Development dependency update @devowl-wp/webpack-config 0.2.20</summary>
+
+
+**_Purpose of dependency:_** _Webpack config builder for multiple ecosystems like standalone React frontends, Antd, Preact and WordPress._
+##### Maintenance
+
+* major update jest-junit glob @types/jest jest ts-jest (CU-3cj43t)
+* major update tsc-watch immer lint-staged sort-package-json (CU-3cj43t)
+* major update typescript [@typescript-eslint](https://git.devowl.io/typescript-eslint) typedoc (CU-3cj43t)
+* major update webpack components (CU-3cj43t)</details>
+
+
+
+
+
 ## 4.21.12 (2023-09-29)
 
 

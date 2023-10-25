@@ -128,7 +128,7 @@ class Simple_History {
 			Services\Dashboard_Widget::class,
 			Services\Network_Menu_Items::class,
 			Services\Plugin_List_Link::class,
-			Services\Plus_Licences::class,
+			Services\AddOns_Licences::class,
 			Services\Licences_Settings_Page::class,
 		];
 	}
@@ -376,8 +376,8 @@ class Simple_History {
 	 * @return bool True if plugin was registered, false if not.
 	 */
 	public function register_plugin_with_license( $plugin_id, $plugin_slug, $version, $plugin_name, $product_id ) {
-		/** @var Services\Plus_Licences|null $licences_service */
-		$licences_service = $this->get_service( Services\Plus_Licences::class );
+		/** @var Services\AddOns_Licences|null $licences_service */
+		$licences_service = $this->get_service( Services\AddOns_Licences::class );
 
 		if ( is_null( $licences_service ) ) {
 			return false;
@@ -819,8 +819,6 @@ class Simple_History {
 	public function clear_log() {
 		global $wpdb;
 
-		$tableprefix = $wpdb->prefix;
-
 		$simple_history_table = $this->get_events_table_name();
 		$simple_history_contexts_table = $this->get_contexts_table_name();
 
@@ -830,7 +828,7 @@ class Simple_History {
 		$num_rows = $wpdb->get_var( $sql_num_rows, 0 );
 
 		// Use truncate instead of delete because it's much faster (I think, writing this much later).
-		$sql = "TRUNCATE {$tableprefix}{$simple_history_table}";
+		$sql = "TRUNCATE {$simple_history_table}";
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$wpdb->query( $sql );
 

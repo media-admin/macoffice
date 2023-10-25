@@ -3,13 +3,13 @@
  * Plugin Name: Germanized for WooCommerce
  * Plugin URI: https://www.vendidero.de/woocommerce-germanized
  * Description: Germanized for WooCommerce extends WooCommerce to become a legally compliant store in the german market.
- * Version: 3.13.5
+ * Version: 3.14.0
  * Author: vendidero
  * Author URI: https://vendidero.de
  * Requires at least: 5.4
- * Tested up to: 6.3
+ * Tested up to: 6.4
  * WC requires at least: 3.9
- * WC tested up to: 8.1
+ * WC tested up to: 8.2
  *
  * Text Domain: woocommerce-germanized
  * Domain Path: /i18n/languages/
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 *
 		 * @var string
 		 */
-		public $version = '3.13.5';
+		public $version = '3.14.0';
 
 		/**
 		 * @var WooCommerce_Germanized $instance of the plugin
@@ -437,8 +437,14 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 *
 		 * @return string
 		 */
-		public function plugin_url() {
-			return untrailingslashit( plugins_url( '/', WC_GERMANIZED_PLUGIN_FILE ) );
+		public function plugin_url( $rel_path = '' ) {
+			$url = untrailingslashit( plugins_url( '/', WC_GERMANIZED_PLUGIN_FILE ) );
+
+			if ( ! empty( $rel_path ) ) {
+				$url = trailingslashit( $url ) . $rel_path;
+			}
+
+			return $url;
 		}
 
 		/**
@@ -446,8 +452,14 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 *
 		 * @return string
 		 */
-		public function plugin_path() {
-			return untrailingslashit( plugin_dir_path( WC_GERMANIZED_PLUGIN_FILE ) );
+		public function plugin_path( $rel_path = '' ) {
+			$path = untrailingslashit( plugin_dir_path( WC_GERMANIZED_PLUGIN_FILE ) );
+
+			if ( ! empty( $rel_path ) ) {
+				$path = trailingslashit( $path ) . $rel_path;
+			}
+
+			return $path;
 		}
 
 		/**
@@ -596,6 +608,8 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			if ( 'yes' === get_option( 'woocommerce_gzd_enable_virtual_vat' ) && ! \Vendidero\EUTaxHelper\Helper::oss_procedure_is_enabled() ) {
 				include_once WC_GERMANIZED_ABSPATH . 'includes/class-wc-gzd-deprecated-virtual-vat-helper.php';
 			}
+
+			\Vendidero\Germanized\Package::init( $this );
 		}
 
 		public function woocommerce_loaded_includes() {
@@ -918,19 +932,32 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			);
 		}
 
+		public function get_assets_build_url( $script_or_style ) {
+			$assets_url = $this->plugin_url() . '/build';
+			$is_debug   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
+			$is_style   = '.css' === substr( $script_or_style, -4 );
+			$is_static  = strstr( $script_or_style, 'static/' );
+
+			if ( $is_style && ! strstr( $script_or_style, '-styles' ) ) {
+				$script_or_style = str_replace( '.css', '-styles.css', $script_or_style );
+			}
+
+			if ( $is_debug && $is_static && ! $is_style ) {
+				$assets_url = $this->plugin_url() . '/assets/js';
+			}
+
+			return trailingslashit( $assets_url ) . $script_or_style;
+		}
+
 		/**
 		 * Add Scripts to frontend
 		 */
 		public function add_scripts() {
 			global $post;
 
-			$suffix               = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-			$assets_path          = WC_germanized()->plugin_url() . '/assets/';
-			$frontend_script_path = $assets_path . 'js/';
-
 			wp_register_script(
 				'wc-gzd-revocation',
-				$frontend_script_path . 'revocation' . $suffix . '.js',
+				$this->get_assets_build_url( 'static/revocation.js' ),
 				array(
 					'jquery',
 					'woocommerce',
@@ -943,7 +970,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 
 			wp_register_script(
 				'wc-gzd-checkout',
-				$frontend_script_path . 'checkout' . $suffix . '.js',
+				$this->get_assets_build_url( 'static/checkout.js' ),
 				array(
 					'jquery',
 					'wc-checkout',
@@ -954,7 +981,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 
 			wp_register_script(
 				'wc-gzd-cart-voucher',
-				$frontend_script_path . 'cart-voucher' . $suffix . '.js',
+				$this->get_assets_build_url( 'static/cart-voucher.js' ),
 				array(
 					'jquery',
 				),
@@ -963,12 +990,13 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			);
 
 			if ( function_exists( 'WC' ) ) {
+				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 				wp_register_script( 'accounting', WC()->plugin_url() . '/assets/js/accounting/accounting' . $suffix . '.js', array( 'jquery' ), '0.4.2' ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 			}
 
 			wp_register_script(
 				'wc-gzd-unit-price-observer-queue',
-				$frontend_script_path . 'unit-price-observer-queue' . $suffix . '.js',
+				$this->get_assets_build_url( 'static/unit-price-observer-queue.js' ),
 				array(
 					'jquery',
 					'woocommerce',
@@ -979,7 +1007,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 
 			wp_register_script(
 				'wc-gzd-unit-price-observer',
-				$frontend_script_path . 'unit-price-observer' . $suffix . '.js',
+				$this->get_assets_build_url( 'static/unit-price-observer.js' ),
 				array_merge(
 					is_product() ? array( 'wc-single-product' ) : array(),
 					array(
@@ -993,7 +1021,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 
 			wp_register_script(
 				'wc-gzd-add-to-cart-variation',
-				$frontend_script_path . 'add-to-cart-variation' . $suffix . '.js',
+				$this->get_assets_build_url( 'static/add-to-cart-variation.js' ),
 				array(
 					'jquery',
 					'woocommerce',
@@ -1005,7 +1033,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 
 			wp_register_script(
 				'wc-gzd-force-pay-order',
-				$frontend_script_path . 'force-pay-order' . $suffix . '.js',
+				$this->get_assets_build_url( 'static/force-pay-order.js' ),
 				array(
 					'jquery',
 					'jquery-blockui',
@@ -1041,7 +1069,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 				wp_enqueue_script( 'wc-gzd-unit-price-observer' );
 			}
 
-			wp_register_style( 'woocommerce-gzd-layout', $assets_path . 'css/layout' . $suffix . '.css', array(), WC_GERMANIZED_VERSION );
+			wp_register_style( 'woocommerce-gzd-layout', $this->get_assets_build_url( 'static/layout.css' ), array(), WC_GERMANIZED_VERSION );
 			wp_enqueue_style( 'woocommerce-gzd-layout' );
 
 			/**
@@ -1050,14 +1078,9 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			 * This hook executes right after Germanized has registered and enqueued relevant scripts and styles for the
 			 * frontend.
 			 *
-			 * @param string $suffix The asset suffix e.g. .min in non-debugging mode.
-			 * @param string $frontend_script_path The absolute URL to the plugins JS files.
-			 * @param string $assets_path The absolute URL to the plugins asset files.
-			 *
 			 * @since 1.0.0
-			 *
 			 */
-			do_action( 'woocommerce_gzd_registered_scripts', $suffix, $frontend_script_path, $assets_path );
+			do_action( 'woocommerce_gzd_registered_scripts' );
 		}
 
 		public function add_fallback_scripts() {
@@ -1219,11 +1242,11 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 				$params = array_merge(
 					$params,
 					array(
-						'product_id'               => $post ? $post->ID : '',
-						'price_decimal_sep'        => wc_get_price_decimal_separator(),
-						'price_thousand_sep'       => wc_get_price_thousand_separator(),
-						'qty_selector'             => 'input.quantity, input.qty',
-						'refresh_on_load'          => false,
+						'product_id'         => $post ? $post->ID : '',
+						'price_decimal_sep'  => wc_get_price_decimal_separator(),
+						'price_thousand_sep' => wc_get_price_thousand_separator(),
+						'qty_selector'       => 'input.quantity, input.qty',
+						'refresh_on_load'    => false,
 					)
 				);
 

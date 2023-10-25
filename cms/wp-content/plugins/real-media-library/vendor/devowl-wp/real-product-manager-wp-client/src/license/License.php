@@ -188,7 +188,7 @@ class License
             return new WP_Error(License::ERROR_CODE_NOT_ACTIVATED, \__('You have not yet activated a license for this plugin on your website.', RPM_WP_CLIENT_TD), ['blog' => $this->getBlogId(), 'slug' => $this->getSlug()]);
         }
         $this->switch();
-        $response = $this->getClient()->patch($code, $this->getUuid());
+        $response = $this->getClient()->patch($code, $this->getUuid(), $activation->isTelemetryDataSharingOptIn());
         $this->restore();
         $this->validateRemoteResponse($response);
         return $response;

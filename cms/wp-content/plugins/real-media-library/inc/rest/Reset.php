@@ -302,11 +302,11 @@ class Reset
      * @param WP_REST_Request $request
      * @return WP_REST_Response|WP_Error
      *
+     * @since 4.6.0
      * @api {delete} /realmedialibrary/v1/notice/lite Dismiss the lite notice for a given time (transient)
      * @apiName DismissLiteNotice
      * @apiGroup Plugin
      * @apiVersion 4.6.0
-     * @since 4.6.0
      * @apiPermission activate_plugins
      */
     public function routeNoticeDismissLite()
@@ -323,11 +323,11 @@ class Reset
      * @param WP_REST_Request $request
      * @return WP_REST_Response|WP_Error
      *
+     * @since 4.6.2
      * @api {delete} /realmedialibrary/v1/notice/import Dismiss the import tax notice for a given time (transient)
      * @apiName DismissImportTaxNotice
      * @apiGroup Plugin
      * @apiVersion 4.6.2
-     * @since 4.6.2
      * @apiPermission activate_plugins
      */
     public function routeNoticeDismissImportTax()

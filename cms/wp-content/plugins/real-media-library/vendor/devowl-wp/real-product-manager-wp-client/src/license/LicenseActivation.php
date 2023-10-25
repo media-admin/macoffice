@@ -306,12 +306,28 @@ class LicenseActivation
     }
     /**
      * Check if this license activation has enabled telemetry data sharing.
+     *
+     * **Attention**: When you provide a `$set` variable, please also call `License#syncWithRemote` so the external update
+     * server gets noticed about this change!
+     *
+     * @param boolean $set
+     * @return boolean When `$set` is a `boolean`, it will return `true` if telemetry data sharing was successfully enabled
      */
-    public function isTelemetryDataSharingOptIn()
+    public function isTelemetryDataSharingOptIn($set = null)
     {
         $license = $this->getLicense();
         $license->switch();
-        $result = \get_option(License::OPTION_NAME_TELEMETRY_PREFIX . $license->getSlug());
+        $optionName = License::OPTION_NAME_TELEMETRY_PREFIX . $license->getSlug();
+        $result = \get_option($optionName);
+        if (\is_bool($set)) {
+            if ($license->isNoUsage() || empty($this->getCode())) {
+                return \false;
+            }
+            if ($set === $result) {
+                return \true;
+            }
+            return \update_option($optionName, $set);
+        }
         $license->restore();
         return \boolval($result);
     }
