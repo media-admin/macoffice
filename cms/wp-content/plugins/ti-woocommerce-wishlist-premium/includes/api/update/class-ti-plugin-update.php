@@ -61,6 +61,9 @@ class TI_Api_Manager_Update_API_Check {
 	 */
 	public $renew_license_url;
 
+	private $plugin_or_theme;
+	private $slug;
+
 	/**
 	 * Software Title
 	 *

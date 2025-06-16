@@ -20,25 +20,26 @@ class TInvWL_Admin_Settings_Table extends TInvWL_Admin_BaseSection {
 	/**
 	 * Priority for admin menu
 	 *
-	 * @var integer
+	 * @var int
 	 */
-	public $priority = 40;
+	public int $priority = 40;
 
 	/**
 	 * This class
 	 *
-	 * @var \TInvWL_Admin_Settings_General
+	 * @var TInvWL_Admin_Settings_Table
 	 */
-	protected static $_instance = null;
+	protected static ?self $_instance = null;
 
 	/**
 	 * Get this class object
 	 *
 	 * @param string $plugin_name Plugin name.
+	 * @param string $plugin_version Plugin version.
 	 *
-	 * @return \TInvWL_Admin_Settings_General
+	 * @return TInvWL_Admin_Settings_Table
 	 */
-	public static function instance( $plugin_name = TINVWL_PREFIX, $plugin_version = TINVWL_VERSION ) {
+	public static function instance( string $plugin_name = TINVWL_PREFIX, string $plugin_version = TINVWL_VERSION ): self {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self( $plugin_name, $plugin_version );
 		}
@@ -63,7 +64,7 @@ class TInvWL_Admin_Settings_Table extends TInvWL_Admin_BaseSection {
 	 *
 	 * @return array
 	 */
-	function menu() {
+	public function menu(): array {
 		return array(
 			'title'      => __( 'Table Options', 'ti-woocommerce-wishlist-premium' ),
 			'page_title' => __( 'Wishlist Table Options', 'ti-woocommerce-wishlist-premium' ),
@@ -93,10 +94,10 @@ class TInvWL_Admin_Settings_Table extends TInvWL_Admin_BaseSection {
 						'std'  => true,
 					),
 					array(
-						'type'  => 'checkboxonoff',
-						'name'  => 'add_to_cart',
-						'text'  => __( 'Show "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
-						'std'   => true,
+						'type' => 'checkboxonoff',
+						'name' => 'add_to_cart',
+						'text' => __( 'Show "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
+						'std'  => true,
 					),
 					array(
 						'type'  => 'text',
@@ -329,7 +330,7 @@ class TInvWL_Admin_Settings_Table extends TInvWL_Admin_BaseSection {
 	 *
 	 * @param array $data Post section data.
 	 */
-	function constructor_save( $data ) {
+	public function constructor_save( array $data ): void {
 		if ( filter_input( INPUT_POST, 'save_buttons-setting_reset' ) ) {
 			foreach ( array_keys( $data ) as $key ) {
 				$data[ $key ] = array();

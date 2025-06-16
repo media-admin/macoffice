@@ -15,6 +15,7 @@ use MatthiasWeb\RealMediaLibrary\lite\order\Sortable;
 // @codeCoverageIgnoreEnd
 /**
  * Enables the /reset, /import and /export REST for admins (manage_options).
+ * @internal
  */
 class Reset
 {

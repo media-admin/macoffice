@@ -26,6 +26,40 @@ class BackWPup_Install
             }
         }
 
+		// Migration for the new UI.
+		BackWPup_Migrate::migrate();
+
+		$backwpup_backup_files_job_id    = get_site_option( 'backwpup_backup_files_job_id', false );
+		$backwpup_backup_database_job_id = get_site_option( 'backwpup_backup_database_job_id', false );
+
+		$jobids = BackWPup_Option::get_job_ids();
+		if ( false === $backwpup_backup_files_job_id && false === $backwpup_backup_database_job_id ) {
+			$backwpup_backup_files_job_id = BackWPup_Option::next_job_id();
+			update_site_option( 'backwpup_backup_files_job_id', $backwpup_backup_files_job_id );
+			update_site_option( 'backwpup_backup_database_job_id', $backwpup_backup_files_job_id + 1 );
+			$default_jobs = BackWPup_Option::get_default_jobs();
+			$jobs         = BackWPup_Job::get_jobs();
+			$jobs         = array_merge( $default_jobs, $jobs );
+			update_site_option( 'backwpup_jobs', $jobs );
+		} elseif ( ! in_array( (int) $backwpup_backup_files_job_id, $jobids, true ) && ! in_array( (int) $backwpup_backup_database_job_id, $jobids, true ) ) {
+			$default_jobs = BackWPup_Option::get_default_jobs();
+			$jobs         = BackWPup_Job::get_jobs();
+			$jobs         = array_merge( $default_jobs, $jobs );
+			update_site_option( 'backwpup_jobs', $jobs );
+		}
+
+		// V5 jobs migration.
+		if ( $backwpup_backup_files_job_id === $backwpup_backup_database_job_id ) {
+			$backwpup_backup_database_job_id = $backwpup_backup_files_job_id + 1;
+			// We should migrate the combined job to two separate jobs.
+			BackWPup_Option::update( $backwpup_backup_files_job_id, 'type', BackWPup_JobTypes::$type_job_files );
+			BackWPup_Option::update( $backwpup_backup_database_job_id, 'type', BackWPup_JobTypes::$type_job_database );
+			update_site_option( 'backwpup_backup_database_job_id', $backwpup_backup_database_job_id );
+			BackWPup_Job::enable_job( $backwpup_backup_database_job_id );
+			$filecron = BackWPup_Option::get( $backwpup_backup_files_job_id, 'cron' );
+			BackWPup_Option::update( $backwpup_backup_database_job_id, 'cron', $filecron );
+		}
+
         //changes for 3.2
         $no_translation = get_site_option('backwpup_cfg_jobnotranslate');
         if ($no_translation) {
@@ -42,21 +76,23 @@ class BackWPup_Install
             add_option('backwpup_jobs', [], null, 'no');
         }
 
-        //remove old schedule
-        wp_clear_scheduled_hook('backwpup_cron');
-        //make new schedule
-        $activejobs = BackWPup_Option::get_job_ids('activetype', 'wpcron');
-        if (!empty($activejobs)) {
-            foreach ($activejobs as $id) {
-                $cron_next = BackWPup_Cron::cron_next(BackWPup_Option::get($id, 'cron'));
-                wp_schedule_single_event($cron_next, 'backwpup_cron', ['arg' => $id]);
-            }
-        }
-        $activejobs = BackWPup_Option::get_job_ids('activetype', 'easycron');
-        if (!empty($activejobs)) {
-            foreach ($activejobs as $id) {
-                BackWPup_EasyCron::update($id);
-            }
+		// remove old schedule.
+		wp_clear_scheduled_hook( 'backwpup_cron' );
+		// replace easycron with wpcron.
+		$activejobs = BackWPup_Option::get_job_ids( 'activetype', 'easycron' );
+		if ( ! empty( $activejobs ) ) {
+			update_site_option( 'backwpup_easycron_update', true );
+			foreach ( $activejobs as $id ) {
+				BackWPup_EasyCron::update_to_wpcron( $id );
+			}
+		}
+		// make new schedule.
+		$activejobs = BackWPup_Option::get_job_ids( 'activetype', 'wpcron' );
+		if ( ! empty( $activejobs ) ) {
+			foreach ( $activejobs as $id ) {
+				$cron_next = BackWPup_Cron::cron_next( BackWPup_Option::get( $id, 'cron' ) );
+				wp_schedule_single_event( $cron_next, 'backwpup_cron', [ 'arg' => $id ] );
+			}
         }
 
         //add Cleanup schedule
@@ -80,21 +116,25 @@ class BackWPup_Install
             $role->add_cap('backwpup_restore');
         }
 
-        //add/overwrite roles
-        add_role('backwpup_admin', __('BackWPup Admin', 'backwpup'), [
-            'read' => true,                         // make it usable for single user
-            'backwpup' => true, 					// BackWPup general accesses (like Dashboard)
-            'backwpup_jobs' => true,				// accesses for job page
-            'backwpup_jobs_edit' => true,			// user can edit/delete/copy/export jobs
-            'backwpup_jobs_start' => true,		    // user can start jobs
-            'backwpup_backups' => true,			    // accesses for backups page
-            'backwpup_backups_download' => true,	// user can download backup files
-            'backwpup_backups_delete' => true,	    // user can delete backup files
-            'backwpup_logs' => true,				// accesses for logs page
-            'backwpup_logs_delete' => true,		    // user can delete log files
-            'backwpup_settings' => true,			// accesses for settings page
-            'backwpup_restore' => true,				// accesses for restore page
-        ]);
+		// add/overwrite roles.
+		add_role(
+			'backwpup_admin',
+			__( 'BackWPup Admin', 'backwpup' ),
+			[
+				'read'                      => true,                         // make it usable for single user.
+				'backwpup'                  => true,           // BackWPup general accesses (like Dashboard).
+				'backwpup_jobs'             => true,        // accesses for job page.
+				'backwpup_jobs_edit'        => true,     // user can edit/delete/copy/export jobs.
+				'backwpup_jobs_start'       => true,        // user can start jobs.
+				'backwpup_backups'          => true,         // accesses for backups page.
+				'backwpup_backups_download' => true,  // user can download backup files.
+				'backwpup_backups_delete'   => true,      // user can delete backup files.
+				'backwpup_logs'             => true,        // accesses for logs page.
+				'backwpup_logs_delete'      => true,       // user can delete log files.
+				'backwpup_settings'         => true,      // accesses for settings page.
+				'backwpup_restore'          => true,       // accesses for restore page.
+			]
+			);
 
         add_role('backwpup_check', __('BackWPup jobs checker', 'backwpup'), [
             'read' => true,
@@ -129,16 +169,17 @@ class BackWPup_Install
         //add default options
         BackWPup_Option::default_site_options();
 
-        //update version
-        update_site_option('backwpup_version', BackWPup::get_plugin_data('Version'));
+		// update version.
+		update_site_option( 'backwpup_previous_version', get_site_option( 'backwpup_version', BackWPup::get_plugin_data( 'Version' ) ) );
+		update_site_option( 'backwpup_version', BackWPup::get_plugin_data( 'Version' ) );
 
-        //only redirect if not in WP CLI environment
-        if (!$version_db && !(defined(\WP_CLI::class) && WP_CLI)) {
-            wp_redirect(network_admin_url('admin.php') . '?page=backwpupabout&welcome=1');
+		// only redirect if not in WP CLI environment.
+		if ( ! $version_db && ! ( defined( \WP_CLI::class ) && WP_CLI ) ) {
+			wp_redirect( network_admin_url( 'admin.php' ) . '?page=backwpup' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 
             exit();
         }
-    }
+	}
 
     private static function upgrade_from_version_two()
     {

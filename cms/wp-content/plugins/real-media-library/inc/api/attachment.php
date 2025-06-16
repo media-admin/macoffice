@@ -60,6 +60,7 @@ if (!\function_exists('wp_rml_get_attachments')) {
      * @param string $order The order statement
      * @param string $orderby The order by statement
      * @return null|int[] Null if folder not exists or array of post ids
+     * @internal
      */
     function wp_rml_get_attachments($fid, $order = null, $orderby = null)
     {
@@ -76,6 +77,7 @@ if (!\function_exists('wp_attachment_folder')) {
      * @param int $attachmentId The attachment ID, if you pass an array you get an array of folder IDs
      * @param int $default If no folder was found for this, this value is returned for the attachment
      * @return int|mixed Folder ID or $default or Array
+     * @internal
      */
     function wp_attachment_folder($attachmentId, $default = null)
     {
@@ -88,9 +90,10 @@ if (!\function_exists('wp_attachment_order_update')) {
      *
      * @param int $folderId The folder id where the attachment exists
      * @param int $attachmentId The attachment which should be moved
-     * @param int $nextId The attachment next to the currentId, if it is false the currentId should be moved to the end of table.
+     * @param int|false $nextId The attachment next to the currentId, if it is false the currentId should be moved to the end of table.
      * @param int $lastIdInView If you have pagination, you can pass the last id from this view
      * @return boolean True or array with error strings
+     * @internal
      */
     function wp_attachment_order_update($folderId, $attachmentId, $nextId, $lastIdInView = \false)
     {
@@ -123,6 +126,7 @@ if (!\function_exists('wp_rml_move')) {
      * @param boolean $supress_validation Supress the permission validation
      * @param boolean $isShortcut Determines, if the ID's are copies
      * @return boolean|string[] True or Array with errors
+     * @internal
      */
     function wp_rml_move($to, $ids, $supress_validation = \false, $isShortcut = \false)
     {
@@ -162,6 +166,7 @@ if (!\function_exists('wp_rml_create_shortcuts')) {
      * @param int[] $ids Array of attachment ids
      * @param boolean $supress_validation Supress the permission validation
      * @return boolean|string[] True or Array with errors
+     * @internal
      */
     function wp_rml_create_shortcuts($to, $ids, $supress_validation = \false)
     {
@@ -173,6 +178,7 @@ if (!\function_exists('wp_rml_created_shortcuts_last_ids')) {
      * If you create shortcuts you can get the ids for those shortcuts with this function.
      *
      * @return int[]
+     * @internal
      */
     function wp_rml_created_shortcuts_last_ids()
     {
@@ -186,6 +192,7 @@ if (!\function_exists('wp_attachment_ensure_source_file')) {
      *
      * @param int|WP_Post $post The attachment id or a WP_Post object
      * @return int|WP_Post
+     * @internal
      */
     function wp_attachment_ensure_source_file($post)
     {
@@ -204,6 +211,7 @@ if (!\function_exists('wp_attachment_has_shortcuts')) {
      * @param int $postId The attachment id
      * @param int $fid The folder id, if false, it checks if there generally exists shortcuts
      * @return boolean
+     * @internal
      */
     function wp_attachment_has_shortcuts($postId, $fid = \false)
     {
@@ -227,6 +235,7 @@ if (!\function_exists('wp_attachment_get_shortcuts')) {
      * @param int $fid The folder id, if false, it checks if there generally exists shortcuts
      * @param boolean $extended If true the result is an array with all information about the associated folder
      * @return mixed
+     * @internal
      */
     function wp_attachment_get_shortcuts($postId, $fid = \false, $extended = \false)
     {
@@ -254,6 +263,7 @@ if (!\function_exists('wp_attachment_is_shortcut')) {
      * @param int|WP_Post $post The attachment id or a WP_Post object
      * @param boolean $returnSourceId If true, the return will be the source attachment id or 0 if it is no shortcut
      * @return boolean|int
+     * @internal
      */
     function wp_attachment_is_shortcut($post, $returnSourceId = \false)
     {
@@ -278,6 +288,7 @@ if (!\function_exists('_wp_rml_synchronize_attachment')) {
      * @param int $fid The folder ID
      * @param boolean $isShortcut true = Is shortcut in the given folder, false = Is no shortcut, mainly in this folder
      * @return boolean
+     * @internal
      */
     function _wp_rml_synchronize_attachment($postId, $fid, $isShortcut = \false)
     {

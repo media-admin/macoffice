@@ -49,93 +49,94 @@ class BackWPup_JobType_DBDump extends BackWPup_JobTypes
     public function edit_tab($jobid)
     {
         /** @var wpdb $wpdb */
-        global $wpdb; ?>
-        <input name="dbdumpwpony" type="hidden" value="1" />
-        <h3 class="title"><?php _e('Settings for database backup', 'backwpup'); ?></h3>
-        <p></p>
+		global $wpdb; ?>
+		<input readonly disabled name="dbdumpwpony" type="hidden" value="1" />
+		<h3 class="title"><?php esc_html_e( 'Settings for database backup', 'backwpup' ); ?></h3>
+		<p></p>
         <table class="form-table">
             <tr>
                 <th scope="row"><?php _e('Tables to backup', 'backwpup'); ?></th>
-                <td>
-                    <input type="button" class="button-secondary" id="dball" value="<?php esc_attr_e('all', 'backwpup'); ?>">&nbsp;
-					<input type="button" class="button-secondary" id="dbnone" value="<?php esc_attr_e('none', 'backwpup'); ?>">&nbsp;
-                    <input type="button" class="button-secondary" id="dbwp" value="<?php echo esc_attr($wpdb->prefix); ?>">
+				<td>
+					<input readonly disabled type="button" class="button-secondary" id="dball" value="<?php esc_attr_e( 'all', 'backwpup' ); ?>">&nbsp;
+					<input readonly disabled type="button" class="button-secondary" id="dbnone" value="<?php esc_attr_e( 'none', 'backwpup' ); ?>">&nbsp;
+					<input readonly disabled type="button" class="button-secondary" id="dbwp" value="<?php echo esc_attr( $wpdb->prefix ); ?>">
 					<?php
                     $tables = $wpdb->get_results('SHOW FULL TABLES FROM `' . DB_NAME . '`', ARRAY_N);
         echo '<fieldset id="dbtables"><div style="width: 30%; float:left; min-width: 250px; margin-right: 10px;">';
         $next_row = ceil(count($tables) / 3);
         $counter = 0;
 
-        foreach ($tables as $table) {
-            $tabletype = '';
-            if ($table[1] !== 'BASE TABLE') {
-                $tabletype = ' <i>(' . strtolower(esc_html($table[1])) . ')</i>';
-            }
-            echo '<label for="idtabledb-' . esc_html($table[0]) . '""><input class="checkbox" type="checkbox"' . checked(!in_array($table[0], BackWPup_Option::get($jobid, 'dbdumpexclude'), true), true, false) . ' name="tabledb[]" id="idtabledb-' . esc_html($table[0]) . '" value="' . esc_html($table[0]) . '"/> ' . esc_html($table[0]) . $tabletype . '</label><br />';
-            ++$counter;
-            if ($next_row <= $counter) {
-                echo '</div><div style="width: 30%; float:left; min-width: 250px; margin-right: 10px;">';
-                $counter = 0;
-            }
-        }
-        echo '</div></fieldset>'; ?>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="iddbdumpfile"><?php _e('Backup file name', 'backwpup'); ?></label></th>
-                <td>
-                    <input id="iddbdumpfile" name="dbdumpfile" type="text"
-                           value="<?php echo esc_attr(BackWPup_Option::get($jobid, 'dbdumpfile')); ?>"
-                           class="medium-text code"/>.sql
-                </td>
-            </tr>
-			<tr>
-				<th scope="row"><?php _e('Backup file compression', 'backwpup'); ?></th>
-				<td>
-					<fieldset>
-						<?php
-                        echo '<label for="iddbdumpfilecompression"><input class="radio" type="radio"' . checked('', BackWPup_Option::get($jobid, 'dbdumpfilecompression'), false) . ' name="dbdumpfilecompression"  id="iddbdumpfilecompression" value="" /> ' . __('none', 'backwpup') . '</label><br />';
-        if (function_exists('gzopen')) {
-            echo '<label for="iddbdumpfilecompression-gz"><input class="radio" type="radio"' . checked('.gz', BackWPup_Option::get($jobid, 'dbdumpfilecompression'), false) . ' name="dbdumpfilecompression" id="iddbdumpfilecompression-gz" value=".gz" /> ' . __('GZip', 'backwpup') . '</label><br />';
-        } else {
-            echo '<label for="iddbdumpfilecompression-gz"><input class="radio" type="radio"' . checked('.gz', BackWPup_Option::get($jobid, 'dbdumpfilecompression'), false) . ' name="dbdumpfilecompression" id="iddbdumpfilecompression-gz" value=".gz" disabled="disabled" /> ' . __('GZip', 'backwpup') . '</label><br />';
-        } ?>
-					</fieldset>
+					foreach ( $tables as $table ) {
+						$tabletype = '';
+						if ( 'BASE TABLE' !== $table[1] ) {
+							$tabletype = ' <i>(' . strtolower( esc_html( $table[1] ) ) . ')</i>';
+						}
+						echo '<label for="idtabledb-' . esc_html( $table[0] ) . '""><input readonly disabled class="checkbox" type="checkbox"' . checked( ! in_array( $table[0], BackWPup_Option::get( $jobid, 'dbdumpexclude' ), true ), true, false ) . ' name="tabledb[]" id="idtabledb-' . esc_html( $table[0] ) . '" value="' . esc_html( $table[0] ) . '"/> ' . esc_html( $table[0] ) . $tabletype . '</label><br />'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						++$counter;
+						if ( $next_row <= $counter ) {
+							echo '</div><div style="width: 30%; float:left; min-width: 250px; margin-right: 10px;">';
+							$counter = 0;
+						}
+					}
+					echo '</div></fieldset>';
+					?>
 				</td>
 			</tr>
         </table>
 <?php
     }
 
-    /**
-     * @param $id
-     */
-    public function edit_form_post_save($id)
-    {
-        /** @var wpdb $wpdb */
-        global $wpdb;
+	/**
+	 * Handles saving database dump settings based on provided parameters.
+	 *
+	 * @param int   $id     The job ID.
+	 * @param array $params Optional. The parameters passed to update the database settings.
+	 *                      If empty, the method falls back to using $_POST.
+	 *
+	 * @return void
+	 */
+	public function edit_form_post_save( $id, array $params = [] ) {
+		/**
+		 * DB Object from WP
+		 *
+		 * @var wpdb $wpdb
+		 */
+		global $wpdb;
 
-        if ($_POST['dbdumpfilecompression'] === '' || $_POST['dbdumpfilecompression'] === '.gz') {
-            BackWPup_Option::update($id, 'dbdumpfilecompression', $_POST['dbdumpfilecompression']);
-        }
-        BackWPup_Option::update($id, 'dbdumpfile', BackWPup_Job::sanitize_file_name($_POST['dbdumpfile']));
-        //selected tables
-        $dbdumpexclude = [];
-        $checked_db_tables = [];
-        if (isset($_POST['tabledb'])) {
-            foreach ($_POST['tabledb'] as $dbtable) {
-                $checked_db_tables[] = sanitize_text_field($dbtable);
-            }
-        }
-        $dbtables = $wpdb->get_results('SHOW TABLES FROM `' . DB_NAME . '`', ARRAY_N);
+		// If $params is empty, fallback to $_POST (for backward compatibility).
+		if ( empty( $params ) ) {
+			$params = $_POST; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		}
 
-        foreach ($dbtables as $dbtable) {
-            if (!in_array($dbtable[0], $checked_db_tables, true)) {
-                $dbdumpexclude[] = $dbtable[0];
-            }
-        }
-        BackWPup_Option::update($id, 'dbdumpexclude', $dbdumpexclude);
-    }
+		// Save database dump file compression.
+		if ( isset( $params['dbdumpfilecompression'] ) && ( '' === $params['dbdumpfilecompression'] || '.gz' === $params['dbdumpfilecompression'] ) ) {
+			BackWPup_Option::update( $id, 'dbdumpfilecompression', $params['dbdumpfilecompression'] );
+		}
+
+		// Save database dump file name.
+		if ( ! empty( $params['dbdumpfile'] ) ) {
+			BackWPup_Option::update( $id, 'dbdumpfile', BackWPup_Job::sanitize_file_name( $params['dbdumpfile'] ) );
+		}
+
+		// Selected tables.
+		$dbdumpexclude     = [];
+		$checked_db_tables = isset( $params['tabledb'] ) && is_array( $params['tabledb'] )
+			? array_map( 'sanitize_text_field', $params['tabledb'] )
+			: [];
+
+		// Retrieve all tables from the database.
+		$dbtables = $wpdb->get_results( 'SHOW TABLES FROM `' . DB_NAME . '`', ARRAY_N ); // phpcs:ignore
+
+		// Identify tables to exclude.
+		foreach ( $dbtables as $dbtable ) {
+			if ( ! in_array( $dbtable[0], $checked_db_tables, true ) ) {
+				$dbdumpexclude[] = $dbtable[0];
+			}
+		}
+
+		// Save excluded tables.
+		BackWPup_Option::update( $id, 'dbdumpexclude', $dbdumpexclude );
+	}
 
     /**
      * Dumps the Database.
@@ -152,10 +153,10 @@ class BackWPup_JobType_DBDump extends BackWPup_JobTypes
             $job_object->log(sprintf(__('%d. Try to backup database&#160;&hellip;', 'backwpup'), $job_object->steps_data[$job_object->step_working]['STEP_TRY']));
         }
 
-        //build filename
-        if (empty($job_object->steps_data[$job_object->step_working]['dbdumpfile'])) {
-            $job_object->steps_data[$job_object->step_working]['dbdumpfile'] = $job_object->generate_filename($job_object->job['dbdumpfile'], 'sql') . $job_object->job['dbdumpfilecompression'];
-        }
+		// build filename.
+		if ( empty( $job_object->steps_data[ $job_object->step_working ]['dbdumpfile'] ) ) {
+			$job_object->steps_data[ $job_object->step_working ]['dbdumpfile'] = $job_object->generate_db_dump_filename( $job_object->job['dbdumpfile'], 'sql' ) . $job_object->job['dbdumpfilecompression'];
+		}
 
         try {
             //Connect to Database

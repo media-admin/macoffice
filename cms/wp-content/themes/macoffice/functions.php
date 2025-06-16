@@ -153,6 +153,10 @@ class Footer_Walker extends Walker_Nav_Menu {
 
 
 
+/* --- Removes novalidate in WordPress
+remove_theme_support('html5', 'comment-form');
+--- */
+
 
 
 /* === DSGVO === */
@@ -280,20 +284,17 @@ add_action('manage_posts_custom_column', 'macoffice_preview_thumb_column', 10, 2
 
 
 
+/* --- Excludes Archiv Category from pagination --- */
+remove_filter('pre_term_description', 'wp_filter_kses');
 
+function exclude_category($query) {
+	if ( $query->is_singular() ) {
+		$query->set( 'cat', '-239' );
+	}
+	return $query;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+add_filter( 'pre_get_posts', 'exclude_category' );
 
 
 
@@ -351,8 +352,6 @@ add_action( 'after_setup_theme', 'macoffice_add_woocommerce_support' );
 
 
 
-
-
 /* Remove Product gallery Features (zoom, swipe, lightbox) */
 remove_theme_support( 'wc-product-gallery-zoom' );
 remove_theme_support( 'wc-product-gallery-lightbox' );
@@ -363,15 +362,129 @@ remove_theme_support( 'wc-product-gallery-slider' );
 add_theme_support( 'wc-product-gallery-lightbox' );
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* function hap_hide_the_archive_title( $title ) {
+// Skip if the site isn't LTR, this is visual, not functional.
+// Should try to work out an elegant solution that works for both directions.
+if ( is_rtl() ) {
+		return $title;
+}
+// Split the title into parts so we can wrap them with spans.
+$title_parts = explode( ': ', $title, 2 );
+// Glue it back together again.
+if ( ! empty( $title_parts[1] ) ) {
+		$title = wp_kses(
+				$title_parts[1],
+				array(
+						'span' => array(
+								'class' => array(),
+						),
+				)
+		);
+		$title = '<span class="screen-reader-text">' . esc_html( $title_parts[0] ) . ': </span>' . $title;
+}
+return $title;
+}
+add_filter( 'get_the_archive_title', 'hap_hide_the_archive_title' ); */
+
+
+
+
 /* Editing the Shop's Title */
-function wc_custom_shop_archive_title( $title ) {
+/* function wc_custom_shop_archive_title( $title ) {
 	if ( is_shop() && isset( $title['title'] ) ) {
 			$title['title'] = 'Produkte';
 	}
 	return $title;
 }
 
-add_filter( 'document_title_parts', 'wc_custom_shop_archive_title' );
+add_filter( 'document_title_parts', 'wc_custom_shop_archive_title' ); */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Adding Sort Option "Is On Stock" */
+
+/**
+ * Order product collections by stock status, instock products first.
+ */
+/* class iWC_Orderby_Stock_Status
+{
+
+		public function __construct()
+		{
+				// Check if WooCommerce is active
+				if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+						add_filter('posts_clauses', array($this, 'order_by_stock_status'), 2000, 2);
+				}
+		}
+
+		public function order_by_stock_status($posts_clauses, $wp_query)
+		{
+				global $wpdb;
+				// only change query on WooCommerce loops
+/* 				if (false === is_admin() && $wp_query->is_post_type_archive('product')) {
+				if (is_woocommerce() && (is_shop() || is_product_category() || is_product_tag() || is_product_taxonomy())) {
+
+						$posts_clauses['join'] .= " INNER JOIN $wpdb->postmeta istockstatus ON ($wpdb->posts.ID = istockstatus.post_id) ";
+						$posts_clauses['orderby'] = " istockstatus.meta_value ASC, " . $posts_clauses['orderby'];
+						$posts_clauses['where'] = " AND istockstatus.meta_key = '_stock_status' AND istockstatus.meta_value <> '' " . $posts_clauses['where'];
+				}
+				return $posts_clauses;
+		}
+}
+
+new iWC_Orderby_Stock_Status; */
+
+
+
+
+
+/* function order_by_stock_status($posts_clauses) {
+		global $wpdb;
+		// only change query on WooCommerce loops
+		if (is_woocommerce() && (is_shop() || is_product_category() || is_product_tag() || is_product_taxonomy())) {
+				$posts_clauses['join'] .= " INNER JOIN $wpdb->postmeta istockstatus ON ($wpdb->posts.ID = istockstatus.post_id) ";
+				$posts_clauses['orderby'] = " istockstatus.meta_value ASC, " . $posts_clauses['orderby'];
+				$posts_clauses['where'] = " AND istockstatus.meta_key = '_stock_status' AND istockstatus.meta_value <> '' " . $posts_clauses['where'];
+		}
+		return $posts_clauses;
+}
+
+add_filter( 'posts_clauses', 'order_by_stock_status', 999 ); */
+
+
+
+
+
+
+
 
 
 
@@ -399,6 +512,47 @@ function macoffice_custom_taxonomy_in_body_class( $classes ){
 
 add_filter( 'body_class', 'macoffice_custom_taxonomy_in_body_class' );
 */
+
+
+
+/* Redirect Search Result Page */
+
+/* add_filter( 'aws_excerpt_search_result', 'my_aws_excerpt_search_result', 10, 2 );
+
+function my_aws_excerpt_search_result( $query ) {
+		if ( $query->is_search && ! is_admin() ) {
+				$query->set( 'post_type', 'product' );
+				$query->is_post_type_archive = true;
+		}
+} */
+
+
+
+
+/* add_filter('template_include', 'wpes_support_15956511', 99);
+function wpes_support_15956511($template) {
+		if (function_exists('WPES') && is_search()) {
+				$template_name = 'search-product' . WPES()->current_setting_id . '.php';
+				$new_template = locate_template(array($template_name));
+				if ('' != $new_template) {
+						return $new_template;
+				}
+		}
+		return $template;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -510,6 +664,593 @@ add_action( 'manage_product_posts_custom_column', 'macoffice_post_columns_data',
 
 
 
+/* === WOOCOMMERCE === */
+
+// Edit WooCommerce dropdown menu item of shop page//
+// Options: menu_order, popularity, rating, date, price, price-desc
+
+function my_woocommerce_catalog_orderby( $orderby ) {
+		unset($orderby["relevance"]);
+		unset($orderby["menu_order"]);
+		unset($orderby["popularity"]);
+		unset($orderby["rating"]);
+		unset($orderby["date"]);
+		unset($orderby["price"]);
+		unset($orderby["price-desc"]);
+		return $orderby;
+}
+add_filter( "woocommerce_catalog_orderby", "my_woocommerce_catalog_orderby", 20 );
+
+
+// remove_filter( 'aws_relevance_scores', 'my_aws_relevance_scores' );
+
+add_filter( 'aws_search_results_products_ids', 'custom_woocommerce_catalog_orderby' );
+
+
+
+/**
+ * Add custom sorting options (asc/desc)
+ * https://woocommerce.com/document/custom-sorting-options-ascdesc/
+ */
+
+add_filter( 'woocommerce_get_catalog_ordering_args', 'custom_woocommerce_get_catalog_ordering_args' );
+
+function custom_woocommerce_get_catalog_ordering_args( $sort_args ) {
+	$orderby_value = isset( $_GET['orderby'] ) ? wc_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+	if ( 'default_sorting' == $orderby_value ) {
+		$sort_args['orderby'] = array(
+			'ID' => 'asc'
+		);
+		$sort_args['order'] = '';
+	}
+
+
+
+	if ( 'stock_list_asc' == $orderby_value ) {
+		$sort_args['orderby'] = array(
+			'meta_value_num' => 'asc',
+			'price' => 'asc',
+			'title' => 'asc'
+		);
+		$sort_args['order'] = '';
+		$sort_args['meta_key'] = '_stock';
+	}
+
+
+	if ( 'stock_list_desc' == $orderby_value ) {
+		$sort_args['orderby'] = array(
+			'meta_value_num' => 'desc',
+			'price' => 'asc',
+			'title' => 'asc'
+		);
+		$sort_args['order'] = '';
+		$sort_args['meta_key'] = '_stock';
+	}
+
+
+	if ( 'price_list_asc' == $orderby_value ) {
+		$sort_args['orderby'] = array(
+			'meta_value_num' => 'asc',
+			'title' => 'asc'
+		);
+		$sort_args['order'] = '';
+		$sort_args['meta_key'] = '_price';
+	}
+
+
+	if ( 'price_list_desc' == $orderby_value ) {
+		$sort_args['orderby'] = array(
+			'meta_value_num' => 'desc',
+			'title' => 'asc'
+		);
+		$sort_args['order'] = '';
+		$sort_args['meta_key'] = '_price';
+	}
+
+
+	if ( 'name_list_asc' == $orderby_value ) {
+		$sort_args['orderby'] = array(
+			'title' => 'asc'
+		);
+		$sort_args['order'] = '';
+	}
+
+
+	if ( 'name_list_desc' == $orderby_value ) {
+		$sort_args['orderby'] = array(
+			'title' => 'desc'
+		);
+		$sort_args['order'] = '';
+	}
+
+
+
+	return $sort_args;
+
+/*
+	$orderby_value = isset( $_GET['orderby'] ) ? wc_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+		if ( 'stock_list_desc' == $orderby_value ) {
+			$sort_args['orderby'] = array(
+				'_stock' => 'DESC',
+				'title' => 'ASC'
+			);
+			// $sort_args['meta_key'] = 'stock';
+		}
+
+		return $sort_args;
+
+
+		$orderby_value = isset( $_GET['orderby'] ) ? wc_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+		if ( 'price_list_asc' == $orderby_value ) {
+			$sort_args['orderby'] = array(
+				'_price' => 'asc',
+				'title' => 'ASC'
+			);
+		}
+
+		return $sort_args;
+
+
+		$orderby_value = isset( $_GET['orderby'] ) ? wc_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+		if ( 'price_list_desc' == $orderby_value ) {
+			$sort_args['orderby'] = 'price-desc';
+		}
+
+		return $sort_args;
+
+
+		$orderby_value = isset( $_GET['orderby'] ) ? wc_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+			if ( 'name_list_asc' == $orderby_value ) {
+				$sort_args['orderby'] = 'name';
+				$sort_args['order'] = 'ASC';
+			}
+
+			return $sort_args;
+
+
+			$orderby_value = isset( $_GET['orderby'] ) ? wc_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+				if ( 'name_list_desc' == $orderby_value ) {
+					$sort_args['orderby'] = 'name';
+					$sort_args['order'] = 'DESC';
+				}
+
+				return $sort_args;
+*/
+}
+
+// remove_filter( 'aws_relevance_scores', 'my_aws_relevance_scores' );
+
+remove_filter( 'catalog_orderby_options', 'custom_woocommerce_catalog_orderby' );
+remove_filter( 'show_default_orderby', 'custom_woocommerce_catalog_orderby' );
+
+add_filter( 'woocommerce_default_catalog_orderby_options', 'custom_woocommerce_catalog_orderby' );
+add_filter( 'woocommerce_catalog_orderby', 'custom_woocommerce_catalog_orderby' );
+
+function custom_woocommerce_catalog_orderby( $sortby ) {
+
+/* 	unset( $catalog_orderby_options['relevance'] ); */
+
+	$sortby['default_sorting'] = 'Standardsortierung';
+	$sortby['stock_list_asc'] = 'Nach Verfügbarkeit (aufsteigend)';
+	$sortby['stock_list_desc'] = 'Nach Verfügbarkeit (absteigend)';
+	$sortby['price_list_asc'] = 'Nach Preis (aufsteigend)';
+	$sortby['price_list_desc'] = 'Nach Preis (absteigend)';
+	$sortby['name_list_asc'] = 'Nach Name (aufsteigend)';
+	$sortby['name_list_desc'] = 'Nach Name (absteigend)';
+	return $sortby;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* add_filter( 'posts_search_orderby', 'my_posts_search_orderby', 10, 2 );
+function my_posts_search_orderby( $orderby, $query ) {
+		if ( $query->is_main_query() && is_search() ) {
+				global $wpdb;
+				$orderby = "{$wpdb->posts}.post_type";
+		}
+
+		return $orderby;
+}
+
+
+add_filter( 'the_posts', 'my_the_posts', 10, 2 );
+function my_the_posts( $posts, $query ) {
+		if ( $query->is_main_query() && is_search() ) {
+				usort( $posts, function ( $a, $b ) {
+						return strcmp( $a->post_type, $b->post_type ); // A-Z (ASCending)
+//          return strcmp( $b->post_type, $a->post_type ); // Z-A (DESCending)
+				} );
+		}
+
+		return $posts;
+} */
+
+
+
+/* function my_woocommerce_catalog_orderby( $orderby ) {
+		unset($orderby["relevance"]);
+		unset($orderby["menu_order"]);
+		unset($orderby["popularity"]);
+		unset($orderby["rating"]);
+		unset($orderby["date"]);
+		unset($orderby["price"]);
+		unset($orderby["price-desc"]);
+		return $orderby;
+}
+add_filter( "woocommerce_catalog_orderby", "my_woocommerce_catalog_orderby", 20 ); */
+
+
+
+
+
+
+/* function alphabetical_shop_ordering( $sort_args ) {
+	$orderby_value = isset( $_GET['orderby'] ) ? woocommerce_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+	if ( 'ascending' == $orderby_value ) {
+		$sort_args['orderby'] = 'title';
+		$sort_args['order'] = 'asc';
+		$sort_args['meta_key'] = '';
+	}
+	if ( 'descending' == $orderby_value ) {
+		$sort_args['orderby'] = 'title';
+		$sort_args['order'] = 'desc';
+		$sort_args['meta_key'] = '';
+	}
+	return $sort_args;
+}
+
+add_filter( 'woocommerce_get_catalog_ordering_args', 'alphabetical_shop_ordering' );
+
+function custom_wc_catalog_orderby( $sortby ) {
+	$sortby['ascending'] = 'Sort by (A-Z)';
+	$sortby['descending'] = 'Sort by (Z-A)';
+	return $sortby;
+}
+add_filter( 'woocommerce_default_catalog_orderby_options', 'custom_wc_catalog_orderby' );
+add_filter( 'woocommerce_catalog_orderby', 'custom_wc_catalog_orderby' ); */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ------------------------------------------------------------------- DELETE ME ------------------------------------------------------------------- */
+
+
+/**
+ * Add custom sorting options (asc/desc)
+ * https://stackoverflow.com/questions/43179878/woocommerce-custom-sort-multiple-condition
+ */
+
+/*
+function vi_custom_woocommerce_catalog_orderby( $sortby ) {
+		 $sortby['alphabetical'] = 'Sort by name: custom';
+		 $sortby['availability_up'] = 'Verfügbarkeit rauf';
+		 return $sortby;
+ }
+ add_filter( 'woocommerce_default_catalog_orderby_options', 'vi_custom_woocommerce_catalog_orderby' );
+ add_filter( 'woocommerce_catalog_orderby', 'vi_custom_woocommerce_catalog_orderby' );
+
+ // Add Alphabetical sorting option to shop page / WC Product Settings
+ function vi_alphabetical_woocommerce_shop_ordering( $sort_args2 ) {
+	 $orderby_value = isset( $_GET['orderby'] ) ? woocommerce_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+
+		 if ( 'alphabetical' == $orderby_value ) {
+				 // $sort_args['orderby'] = 'meta_value_num';
+				 // $sort_args['order'] = 'asc';
+				 // $sort_args['meta_key'] = '_price';
+
+				 $sort_args2['orderby'] = array(
+						'meta_value_num' => 'asc',
+						'price' => 'asc',
+						//'title' => 'ASC'
+					);
+
+					$sort_args2['meta_key'] = array(
+						//'_stock',
+						'price'
+					);
+					/*
+					'orderby' => array(
+					'city_clause' => 'ASC',
+					'state_clause' => 'DESC',
+					)
+
+
+					// $sort_args['meta_key'] = '_stock';
+
+		 }
+
+
+		 if ( 'availability_up' == $orderby_value ) {
+					// $sort_args['orderby'] = 'meta_value_num';
+					// $sort_args['order'] = 'asc';
+					// $sort_args['meta_key'] = '_price';
+
+					$sort_args2['orderby'] = array(
+						 'meta_value_num' => 'asc',
+						 //'price' => 'asc',
+						 'title' => 'ASC'
+					 );
+
+					 $sort_args2['meta_key'] = array(
+						 'stock',
+						 //'_price'
+					 );
+					 /*
+					 'orderby' => array(
+					 'city_clause' => 'ASC',
+					 'state_clause' => 'DESC',
+					 )
+
+
+					 // $sort_args['meta_key'] = '_stock';
+
+			}
+
+		 return $sort_args;
+ }
+ add_filter( 'woocommerce_get_catalog_ordering_args', 'vi_alphabetical_woocommerce_shop_ordering' ); */
+
+
+
+
+
+
+
+/**
+	* Add custom sorting options (asc/desc)
+	* https://stackoverflow.com/questions/43179878/woocommerce-custom-sort-multiple-condition
+
+
+
+	function vi_custom_woocommerce_catalog_orderby( $sortby ) {
+			$sortby['alphabetical'] = 'Name rauf';
+			return $sortby;
+	}
+	add_filter( 'woocommerce_default_catalog_orderby_options', 'vi_custom_woocommerce_catalog_orderby' );
+	add_filter( 'woocommerce_catalog_orderby', 'vi_custom_woocommerce_catalog_orderby' );
+
+	//Add Alphabetical sorting option to shop page / WC Product Settings
+	function vi_alphabetical_woocommerce_shop_ordering( $sorting_args ) {
+		$orderby_value = isset( $_GET['orderby'] ) ? woocommerce_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+
+			if ( 'alphabetical' == $orderby_value ) {
+					$sorting_args['orderby'] = 'meta_value_num';
+					$sorting_args['order'] = 'asc';
+					$sorting_args['meta_key'] = '';
+			}
+
+			return $sorting_args;
+	}
+	add_filter( 'woocommerce_get_catalog_ordering_args', 'vi_alphabetical_woocommerce_shop_ordering' );
+
+*/
+
+
+
+
+ /**
+
+ function vi_custom_woocommerce_catalog_orderby( $sortby ) {
+			$sortby['name_up'] = 'Name rauf';
+			$sortby['availability_up'] = 'Verfügbarkeit rauf';
+			return $sortby;
+	}
+	add_filter( 'woocommerce_default_catalog_orderby_options', 'vi_custom_woocommerce_catalog_orderby' );
+	add_filter( 'woocommerce_catalog_orderby', 'vi_custom_woocommerce_catalog_orderby' );
+
+	// Add Alphabetical sorting option to shop page / WC Product Settings
+	function vi_alphabetical_woocommerce_shop_ordering( $sorting_args ) {
+		$orderby_value = isset( $_GET['orderby'] ) ? woocommerce_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+
+			if ( 'alphabetical' == $orderby_value ) {
+					// $sort_args['orderby'] = 'meta_value_num';
+					// $sort_args['order'] = 'asc';
+					// $sort_args['meta_key'] = '_price';
+
+					$sorting_args['orderby'] = array(
+						 'meta_value_num' => 'asc',
+						 'price' => 'asc',
+						 'title' => 'ASC'
+					 );
+
+					 $sorting_args['meta_key'] = array(
+						 '_stock',
+						 'price'
+					 );
+					 /*
+					 'orderby' => array(
+					 'city_clause' => 'ASC',
+					 'state_clause' => 'DESC',
+					 )
+
+
+					 // $sort_args['meta_key'] = '_stock';
+
+			}
+
+
+			if ( 'availability_up' == $orderby_value ) {
+					 // $sort_args['orderby'] = 'meta_value_num';
+					 // $sort_args['order'] = 'asc';
+					 // $sort_args['meta_key'] = '_price';
+
+					 $sort_args2['orderby'] = array(
+							'meta_value_num' => 'asc',
+							//'price' => 'asc',
+							'title' => 'ASC'
+						);
+
+						$sort_args2['meta_key'] = array(
+							'stock',
+							//'_price'
+						);
+						/*
+						'orderby' => array(
+						'city_clause' => 'ASC',
+						'state_clause' => 'DESC',
+						)
+
+
+						// $sort_args['meta_key'] = '_stock';
+
+			 }
+
+			return $sort_args;
+	}
+	add_filter( 'woocommerce_get_catalog_ordering_args', 'vi_alphabetical_woocommerce_shop_ordering' );
+
+
+
+
+	*/
+
+
+
+
+
+
+
+
+
+
+/* NOPE
+add_filter( 'woocommerce_get_catalog_ordering_args', 'enable_catalog_ordering_by_price_asc' );
+ function enable_catalog_ordering_by_price_asc( $args ) {
+		 if ( isset( $_GET['orderby'] ) ) {
+				 if ( 'price_asc' == $_GET['orderby'] ) {
+						 return array(
+								 'orderby'  => 'price',
+								 'order'    => 'ASC',
+						 );
+				 }
+				 // Make a clone of "menu_order" (the default option)
+				 elseif ( 'natural_order' == $_GET['orderby'] ) {
+						 return array( 'orderby'  => 'menu_order title', 'order' => 'ASC' );
+				 }
+		 }
+		 return $args;
+ }
+
+ add_filter( 'woocommerce_catalog_orderby', 'add_catalog_orderby_price_asc' );
+ function add_catalog_orderby_price_asc( $orderby_options ) {
+		 // Insert "Sort by modified date" and the clone of "menu_order" adding after others sorting options
+		 return array(
+				 'price_asc' => __("Sort by price ASC", "woocommerce"),
+				 'natural_order' => __("Sort by natural shop order", "woocommerce"), // <== To be renamed at your convenience
+		 ) + $orderby_options ;
+
+		 return $orderby_options ;
+ }
+
+
+ add_filter( 'woocommerce_default_catalog_orderby', 'default_catalog_orderby_price_asc' );
+ function default_catalog_orderby_modified_date( $default_orderby ) {
+		 return 'price_asc';
+ }
+
+ add_action( 'woocommerce_product_query', 'product_query_by_price_asc' );
+ function product_query_by_modified_date( $q ) {
+		 if ( ! isset( $_GET['orderby'] ) && ! is_admin() ) {
+				 $q->set( 'orderby', 'price' );
+				 $q->set( 'order', 'DESC' );
+		 }
+ } */
+
+
+
+
+/* ------------------------------------------------------------------- DELETE ME ------------------------------------------------------------------- */
+
+
+
+
+
+
+
+
+
+
+
+
+/* === Search Result Page === */
+
+add_filter( 'aws_search_results_products_ids', 'my_aws_search_results_products_ids' );
+
+function my_aws_search_results_products_ids( $products ) {
+		usort($products, function ($a, $b) {
+				$status_a = get_post_meta( $a, '_stock_status', true );
+				$status_b = get_post_meta( $b, '_stock_status', true );
+				if ( ! $status_a || ! $status_b ) {
+						return 0;
+				}
+				if ( 'instock' === $status_a ) {
+						return -1;
+				}
+				if ( 'instock' === $status_b ) {
+						return 1;
+				}
+				return 0;
+		});
+		return $products;
+}
+
+
+
+
+
+/* Customized Sorting on Search Result Page */
+
+add_filter('aws_products_order_by', 'my_aws_products_order_by');
+
+function my_aws_products_order_by( $order_by ) {
+		if ( isset( $_GET['orderby'] ) ) {
+				switch( sanitize_text_field( $_GET['orderby'] ) ) {
+						case 'price_list_asc':
+								$order_by = 'price';
+								break;
+						case 'price_list_desc':
+								$order_by = 'price-desc';
+								break;
+						case 'name_list_asc':
+								$order_by = 'title';
+								break;
+						case 'name_list_desc':
+								$order_by = 'title-asc';
+								break;
+						case 'stock_list_asc':
+								$order_by = 'stock_quantity-asc';
+								break;
+						case 'stock_list_desc':
+								$order_by = 'stock_quantity-desc';
+								break;
+				}
+		}
+		return $order_by;
+}
+
+
 
 
 
@@ -577,7 +1318,8 @@ function macoffice_shop_display_ids() {
 	global $product;
 
 	if ( $product->get_sku() ) {
-		echo '<div class="product-meta product-sku">Art.-Nr.: MO-ID-' . $product->get_id() . '</div>';
+/* 		echo '<div class="product-meta product-sku">Art.-Nr.: MO-' . $product->get_sku() . '</div>'; */
+		echo '<div class="product-meta product-sku">Art.-Nr.: ' . $product->get_sku() . '</div>';
 	}
 }
 
@@ -595,8 +1337,14 @@ function macoffice_shop_display_availability_text() {
 	$stock = $product->get_stock_quantity();
 	error_log( $stock );
 
-	if ( $stock > 0 ) {
+	if ( $stock == "0" ) {
 		$availability = 'lagernd';
+	} elseif ( $stock == "1" ) {
+		$availability = 'kurzfristig verfügbar';
+	} elseif ( $stock == "2" ) {
+		$availability = 'bald/demnächst verfügbar';
+	} elseif ( $stock == "3" ) {
+		$availability = 'auf Anfrage';
 	} else {
 		$availability = 'auf Anfrage';
 	}
@@ -605,6 +1353,25 @@ function macoffice_shop_display_availability_text() {
 }
 
 add_action( 'woocommerce_after_shop_loop_item', 'macoffice_shop_display_availability_text', 15 );
+
+
+
+/* Display the Shop Modified Date */
+add_action( 'woocommerce_after_shop_loop', 'after_shop_loop_item_action_callback', 15 );
+function after_shop_loop_item_action_callback() {
+		global $product;
+
+		echo '<div class="shop-date-modified">Stand vom ' . $product->get_date_modified()->date('d.m.Y, H:i') . '</div>';
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -697,7 +1464,8 @@ function macoffice_single_product_show_id(){
 	$sku = $product->get_id();
 	if ($sku != null) {
 		echo '<span class="single-product-sku">';
-		echo '<span class="single-product-label">Art.-Nr.:</span> MO-ID-' . $product->get_id();
+/* 		echo '<span class="single-product-label">Art.-Nr.:</span> MO-' . $product->get_sku(); */
+		echo '<span class="single-product-label">Art.-Nr.:</span> ' . $product->get_sku();
 		echo '</span>';
 	}
 }
@@ -770,12 +1538,18 @@ function macoffice_custom_get_availability_text( $availability, WC_Product $prod
 	error_log( $stock );
 
 	// if ( $product->is_in_stock() ) {
-	if ( $stock > 0 ) {
-		// $availability = 'Nur noch ' . $stock . ' St&uuml;ck auf Lager';
+	if ( $stock == "0" ) {
 		$availability = 'lagernd';
+	} elseif ( $stock == "1" ) {
+		$availability = 'kurzfristig verfügbar';
+	} elseif ( $stock == "2" ) {
+		$availability = 'bald/demnächst verfügbar';
+	} elseif ( $stock == "3" ) {
+		$availability = 'auf Anfrage';
 	} else {
-			$availability = 'auf Anfrage';
+		$availability = 'auf Anfrage';
 	}
+
 
 	return $availability;
 }
@@ -898,6 +1672,7 @@ add_filter( 'woocommerce_get_availability_text', 'macoffice_custom_get_availabil
 	add_action( 'wp_footer', 'macoffice_quantity_plus_minus' );
 
 	*/
+
 
 
 
@@ -1058,7 +1833,17 @@ add_action( 'woocommerce_after_single_product_summary', 'macoffice_output_long_d
 
 
 
-/* Adding related Products  */
+/* Display the Product Modified Date */
+add_action( 'woocommerce_after_single_product_summary', 'after_single_product_loop_item_action_callback', 15 );
+function after_single_product_loop_item_action_callback() {
+		global $product;
+
+		echo '<br><span class="product-date-modified">Stand vom ' . $product->get_date_modified()->date('d.m.Y, H:i') . '</span>';
+}
+
+
+
+/* Adding Related Products  */
 add_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products', 50 );
 
 
@@ -1074,7 +1859,6 @@ function change_rp_text($translated, $text, $domain)
  	}
  	return $translated;
 	}
-
 
 
 

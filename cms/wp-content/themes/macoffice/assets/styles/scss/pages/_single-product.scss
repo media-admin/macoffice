@@ -13,12 +13,13 @@
 	}
 
 
-	& .content-area {
-		padding-top: 8.0rem;
+	& .site-content {
+		padding-top: 9.0rem;
 		padding-bottom: 2.5rem;
 
 		@include atMedium {
 			padding-top: 15.0rem;
+			padding-top: 2.0rem;
 			padding-bottom: 2.0rem;
 			padding-right: 1.8rem;
 			padding-left: 1.8rem;
@@ -26,6 +27,7 @@
 
 		@include atLarge {
 			padding-top: 17.0rem;
+			padding-top: 2.0rem;
 			padding-bottom: 2.0rem;
 		}
 	}
@@ -44,8 +46,19 @@
 		position: relative;
 		width: calc(100% - 1.6rem);
 		border-bottom: 1px solid $color-secondary-light;
+		margin-top: 2.0rem;
 		margin-bottom: 2.0rem;
 		padding-bottom: 1.5rem;
+	}
+
+
+	&.woocommerce .woocommerce-ordering,
+	&.woocommerce-page .woocommerce-ordering {
+			float: none;
+
+			@include atMedium {
+				float: right;
+			}
 	}
 
 
@@ -53,7 +66,17 @@
 		position: relative;
 		display: flex;
 		flex: 2 !important;
+		flex-direction: column;
 		margin-bottom: 5rem;
+
+		@include atMedium {
+			flex-direction: row;
+		}
+	}
+
+
+	&.woocommerce span.onsale {
+		z-index: 0 !important;
 	}
 
 
@@ -80,11 +103,43 @@
 		height: auto;
 		max-height: 450px;
 		object-fit: scale-down;
+
+		@include atMedium {
+			padding-right: 2.5rem;
+		}
 	}
 
 
 	&.woocommerce div.product div.images.woocommerce-product-gallery {
-		width: calc(50% - 1.8rem);
+		display: block;
+		width: calc(100% - 3.6rem);
+
+		@include atMedium {
+			display: initial;
+			width: calc(50% - 1.8rem);
+		}
+	}
+
+
+
+	& .product-container {
+
+
+		@include atMedium {
+/* 			display: initial; */
+			width: calc(50% - 1.8rem);
+		}
+	}
+
+
+	& .product_title .entry-title {
+		font-size: 2.4rem;
+		line-height: 2.8rem;
+
+		@include atMedium {
+			font-size: 3.4rem;
+			line-height: 3.8rem
+		}
 	}
 
 
@@ -145,17 +200,46 @@
 
 
 	& .tinvwl_add_to_wishlist_button,
-	&.tinvwl_add_to_wishlist_button  {
+	&.tinvwl_add_to_wishlist_button {
 		font-family: 'Inter', system-ui, sans-serif !important;
+		font-size: 1.0rem;
+		font-weight: 500;
 		color: $color-white;
 		background-color: $color-secondary;
-		font-weight: 500;
 		border-radius: 28px;
 		border: none;
 		margin: 0.25rem 0;
 		margin-bottom: 2.0rem;
 		padding: 0.75rem 2.0rem 0.75rem 1.0rem;
 		cursor: pointer;
+
+		@include atMedium {
+			font-size: 1.6rem;
+		}
+	}
+
+
+	& .tinv-wishlist .tinvwl_add_to_wishlist_button.tinvwl-icon-heart:before,
+	& .woocommerce ul.products li.product a.tinvwl-button.tinvwl_add_to_wishlist_button.tinvwl-icon-heart:before,
+	& .woocommerce-page ul.products li.product a.tinvwl-button.tinvwl-icon-heart.tinvwl_add_to_wishlist_button:before,
+	& a.wishlist_products_counter.top_wishlist-heart:before,
+	& span.wishlist_products_counter.top_wishlist-heart:before,
+	& a.sidr-class-wishlist_products_counter.sidr-class-top_wishlist-heart:before,
+	& .tinvwl_cart_to_wishlist_button.tinvwl-icon-heart:before, .tinvwl_all_cart_to_wishlist_button.tinvwl-icon-heart:before {
+		top: 0.25rem !important;
+
+	@include atMedium {
+			top: -0.25rem !important;
+		}
+	}
+
+
+	& ul.products li.product .tinvwl_add_to_wishlist_button {
+		padding-top: 0.25rem;
+
+	@include atMedium {
+			padding-top: 1rem;
+		}
 	}
 
 
@@ -185,7 +269,7 @@
 		border-top: 1px solid rgba(112, 112, 112, 0.2);
 		margin-top: 5.0rem;
 		padding-top: 5.0rem;
-		border-bottom: 1px solid rgba(112, 112, 112, 0.2);
+/* 		border-bottom: 1px solid rgba(112, 112, 112, 0.2); */
 	}
 
 	& .related.products h2 {
@@ -200,7 +284,6 @@
 	}
 
 
-
 	&.woocommerce ul.products li.product a img {
 		min-height: 250px;
 		max-height: 250px;
@@ -210,6 +293,37 @@
 		margin: 0 0 1em;
 		box-shadow: none;
 		object-fit: scale-down;
+	}
+
+
+	& .pswp__top-bar {
+		top: 45px;
+		border-top: 1px solid $color-secondary;
+		background-color: $color-secondary-dark;
+	}
+
+
+	& .pswp--svg .pswp__button--arrow--left:before,
+	& .pswp--svg .pswp__button--arrow--right:before {
+		background-image: url('https://at.macoffice.localdev/cms/wp-content/themes/macoffice/assets/images/icons/default-skin.svg') !important;
+		background-repeat: no-repeat;
+	}
+
+
+	& .pswp__ui--fit .pswp__caption {
+		display: none;
+	}
+
+
+
+	& .product-date-modified {
+		position: relative;
+		display: block;
+		width: 100%;
+		font-size: 1.2rem;
+		line-height: 1.8rem;
+		color: $color-secondary;
+		margin-bottom: 2rem;
 	}
 
 }

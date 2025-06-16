@@ -20,6 +20,7 @@ use wpdb;
  * </ul>
  *
  * @example $rows = new MyComplexQuery($wpdb)->getResults();
+ * @internal
  */
 abstract class ComplexQuery
 {

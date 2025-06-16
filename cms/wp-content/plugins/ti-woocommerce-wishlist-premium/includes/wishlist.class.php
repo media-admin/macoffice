@@ -108,6 +108,7 @@ class TInvWL_Wishlist {
 	 * @return boolean|array
 	 */
 	function add_user_default( $user_id = 0 ) {
+		$user_id = absint( $user_id );
 		if ( empty( $user_id ) ) {
 			$user_id = $this->user;
 		}
@@ -250,7 +251,8 @@ class TInvWL_Wishlist {
 		if ( empty( $sharekey ) ) {
 			$sharekey = $this->get_sharekey();
 		}
-		if ( empty( $sharekey ) ) {
+		//validate sharekey
+		if ( empty( $sharekey ) || ! is_string( $sharekey ) || ! preg_match( '/[a-f0-9]{6}/i', $sharekey ) ) {
 			return array();
 		}
 
@@ -294,12 +296,12 @@ class TInvWL_Wishlist {
 	 *
 	 * @param integer $id id database wishlist.
 	 *
-	 * @return array
+	 * @return array|bool
 	 */
 	function get_by_id( $id ) {
 		$id = absint( $id );
 		if ( empty( $id ) ) {
-			return null;
+			return false;
 		}
 
 		$wishlists = $this->get( array( 'ID' => $id ) );
@@ -325,8 +327,8 @@ class TInvWL_Wishlist {
 	 * @return array
 	 */
 	function get_by_share_key( $share_key ) {
-		if ( ! preg_match( '/[a-f0-9]{6}/i', $share_key ) ) {
-			return null;
+		if ( empty( $share_key ) || ! is_string( $share_key ) || ! preg_match( '/[a-f0-9]{6}/i', $share_key ) ) {
+			return array();
 		}
 		$wishlists = $this->get( array( 'share_key' => $share_key ) );
 		$wishlist  = array_shift( $wishlists );
@@ -355,12 +357,13 @@ class TInvWL_Wishlist {
 		global $wpdb;
 
 		$default = array(
-			'count'    => 10,
-			'field'    => null,
-			'offset'   => 0,
-			'order'    => 'ASC',
-			'order_by' => 'title',
-			'sql'      => '',
+			'count'     => 10,
+			'field'     => null,
+			'field_raw' => null,
+			'offset'    => 0,
+			'order'     => 'ASC',
+			'order_by'  => 'title',
+			'sql'       => '',
 		);
 
 		foreach ( $default as $_k => $_v ) {
@@ -368,6 +371,15 @@ class TInvWL_Wishlist {
 				$default[ $_k ] = $data[ $_k ];
 				unset( $data[ $_k ] );
 			}
+		}
+
+		//proper sanitizing
+		$default['offset'] = absint( $default['offset'] );
+		$default['count']  = absint( $default['count'] );
+		//the order value is passed directly to the db so it needs to be protected against sql_injections
+		$valid_order_values = array( 'ASC', 'DESC' );
+		if ( ! in_array( strtoupper( $default['order'] ), $valid_order_values, true ) ) {
+			$default['order'] = 'ASC';
 		}
 
 		if ( is_array( $default['field'] ) ) {
@@ -378,6 +390,10 @@ class TInvWL_Wishlist {
 		} else {
 			$default['field'] = '*';
 		}
+		if ( is_array( $default['field_raw'] ) ) {
+			$default['field'] = implode( ',', $default['field_raw'] );
+		}
+
 		$sql = "SELECT {$default[ 'field' ]} FROM `{$this->table}`";
 
 		$where = '1';
@@ -459,6 +475,10 @@ class TInvWL_Wishlist {
 	 *
 	 */
 	function update( $id, $data, $type = 'list', $status = 'public' ) {
+		global $wpdb;
+
+		$id = absint( $id );
+
 		if ( ! is_array( $data ) ) {
 			$data = array(
 				'title'  => $data,
@@ -482,7 +502,7 @@ class TInvWL_Wishlist {
 		}
 		global $wpdb;
 
-		return false !== $wpdb->update( $this->table, $data, array( 'ID' => $id ) ); // WPCS: db call ok; no-cache ok; unprepared SQL ok.
+		return false !== $wpdb->update( $this->table, $data, array( 'ID' => $id ) );
 	}
 
 	/**
@@ -500,7 +520,7 @@ class TInvWL_Wishlist {
 			return false;
 		}
 		global $wpdb;
-		$result = $wpdb->delete( $this->table, array( 'ID' => $id ) ); // WPCS: db call ok; no-cache ok; unprepared SQL ok.
+		$result = $wpdb->delete( $this->table, array( 'ID' => $id ) );
 		if ( false !== $result ) {
 			do_action( 'tinvwl_wishlist_removed', $id );
 			$wlp = new TInvWL_Product();

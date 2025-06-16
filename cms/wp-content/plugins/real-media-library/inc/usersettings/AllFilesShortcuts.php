@@ -14,6 +14,7 @@ use WP_Query;
  * Add an option so the user can hide shortcuts in "All files" view.
  *
  * @since 4.0.8
+ * @internal
  */
 class AllFilesShortcuts implements IUserSettings
 {

@@ -86,7 +86,7 @@ class Png2Jpg_Controller extends Controller {
 			$this,
 			'maybe_update_transparent_status_on_upload',
 		) );
-		$this->register_action( 'wp_smush_before_smush_file', array(
+		$this->register_action( 'wp_smush_before_smush_attempt', array(
 			$this,
 			'maybe_update_transparent_status_before_optimization',
 		) );
@@ -108,7 +108,6 @@ class Png2Jpg_Controller extends Controller {
 		$upload_dir      = new Upload_Dir();
 		$upload_rel_path = ltrim( $upload_dir->get_upload_rel_path(), '/' );
 
-		$this->logger->info( "Added rewrite rule [$upload_rel_path/(.*\.(?:png))$] so fallback PNGs can be served" );
 		add_rewrite_rule( "$upload_rel_path/(.*\.(?:png))$", 'index.php?smush_load_fallback_png=$matches[1]', 'top' );
 		$this->maybe_flush_rewrite_rules();
 	}

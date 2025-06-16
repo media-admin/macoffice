@@ -1,0 +1,306 @@
+/* === SERVICE PRICES === */
+
+.service-prices {
+
+	@include atMedium {
+
+	}
+
+
+	&__container {
+
+		@include atMedium {
+		}
+	}
+
+
+	&__container h3 {
+
+
+		@include atMedium {
+		}
+	}
+
+
+	&__container button {
+		font-size: 1.4rem;
+		line-height: 2.0rem;
+		font-weight: 400;
+		border: 2px solid $color-secondary;
+		border-radius: 28px;
+		background-color: transparent;
+		margin-bottom: initial;
+		padding: 1.0rem 2.25rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__container .service-prices__device-listing {
+		display: flex;
+		flex-direction: column;
+		gap: 4rem;
+		margin: 1rem 0 4rem 0;
+
+		@include atMedium {
+			flex-direction: row;
+			margin: 1rem 0 1.5rem 0;
+		}
+	}
+
+
+	&__container .service-prices__device-model-listing {
+		display: flex;
+		flex-direction: column;
+		gap: 4rem;
+		margin: 1rem 0 4rem 0;
+
+		@include atMedium {
+			flex-direction: row;
+			gap: 1rem 2rem;
+			flex-wrap: wrap;
+
+		}
+	}
+
+
+/* 	&__container .service-prices__device-model-section {
+		display: flex;
+		flex-direction: column;
+
+		@include atMedium {
+			flex-direction: row;
+		}
+	} */
+
+
+	&__device-type-listing {
+		display: flex;
+		flex-direction: column;
+
+		@include atMedium {
+			flex-direction: row;
+		}
+	}
+
+
+	&__container .service-prices__device-listing-item {
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__device-type-listing-item {
+		font-size: 1.4rem;
+		line-height: 2.4rem;
+		color: $color-secondary;
+
+		@include atMedium {
+
+		}
+	}
+
+
+
+	&__device-type-listing-link {
+		position: relative;
+		display: flex;
+		width: 100%;
+		height: 100%;
+
+		@include atMedium {
+
+		}
+	}
+
+
+
+	&__container .service-prices__device-listing-link button {
+		font-size: 1.4rem;
+		line-height: 2.0rem;
+		font-weight: 400;
+		border: 2px solid $color-secondary;
+		border-radius: 28px;
+		background-color: transparent;
+		margin-bottom: initial;
+		padding: 1.0rem 2.25rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__container .service-prices__device-listing-link button:hover,
+	&__container .service-prices__device-listing-link button:active,
+	&__container .service-prices__device-listing-link .selectedbutton,
+	&__container .service-prices__device-listing-link .selecteddev,
+	&__container .service-prices__device-listing-link .selectedrepairbutton {
+		color: $color-primary !important;
+		border: 2px solid $color-primary !important;
+		background-color: transparent !important;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__device-type-listing-item:nth-child(1) button:before {
+		content: "";
+		display: inline-block;
+		background: url('../../images/service-categories/img_service-category-iPhone.webp') no-repeat;
+
+		width: 2.8rem;
+		height: 2.8rem;
+
+		min-width: 2.8rem;
+		width: 100%;
+		min-height: 3.8rem;
+		height: auto;
+		background-size: contain;
+		background-position: center;
+		margin-right: 1rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__device-type-listing-item:nth-child(2) button:before {
+		content: "";
+		display: inline-block;
+		background: url('../../images/service-categories/img_service-category-iPad.webp') no-repeat;
+		min-width: 2.8rem;
+		width: 100%;
+		min-height: 3.8rem;
+		height: auto;
+		background-size: contain;
+		background-position: center;
+		margin-right: 1rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__device-type-listing-item:nth-child(3) button:before {
+		content: "";
+		display: inline-block;
+		background: url('../../images/service-categories/img_service-category-Apple_Watch.webp') no-repeat;
+		min-width: 2.8rem;
+		width: 100%;
+		min-height: 3.8rem;
+		height: auto;
+		background-size: contain;
+		background-position: center;
+		margin-right: 1rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__device-type-listing-item:nth-child(4) button:before {
+		content: "";
+		display: inline-block;
+		background: url('../../images/service-categories/img_service-category-AirPods.webp') no-repeat;
+		min-width: 2.8rem;
+		width: 100%;
+		min-height: 3.8rem;
+		height: auto;
+		background-size: contain;
+		background-position: center;
+		margin-right: 1rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__device-type-listing-item:nth-child(5) button:before {
+		content: "";
+		display: inline-block;
+		background: url('../../images/service-categories/img_service-category-iMac.webp') no-repeat;
+		min-width: 2.8rem;
+		width: 100%;
+		min-height: 3.8rem;
+		height: auto;
+		background-size: contain;
+		background-position: center;
+		margin-right: 1rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+
+
+
+
+
+
+	&__device-type-listing {
+		display: flex;
+		flex-direction: column;
+
+		@include atMedium {
+			flex-direction: row;
+		}
+	}
+
+
+
+	&__repair-bonus-section {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		color: $color-secondary;
+		background-color: $color-secondary-light;
+		border-radius: 24px;
+		margin: 2rem 0;
+		padding: 1rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__repair-bonus-card {
+		border-left: 1rem solid $color-green;
+		margin: 1rem 0;
+		margin-left: 2rem;
+		padding: 1rem 2rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__repair-bonus-card p {
+
+		font-size: 1.8rem;
+		line-height: 2.4rem;
+		font-weight: 700;
+
+		margin: 1rem 0;
+
+		@include atMedium {
+
+		}
+	}
+
+}

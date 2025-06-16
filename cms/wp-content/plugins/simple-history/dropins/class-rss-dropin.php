@@ -6,6 +6,7 @@ use Simple_History\Helpers;
 use Simple_History\Simple_History;
 use Simple_History\Log_Query;
 use Simple_History\Log_Levels;
+use Simple_History\Compat;
 
 /**
  * Dropin Name: Global RSS Feed
@@ -13,9 +14,13 @@ use Simple_History\Log_Levels;
  * Author: Pär Thernström
  */
 class RSS_Dropin extends Dropin {
+	/**
+	 * @inheritdoc
+	 */
 	public function loaded() {
 		if ( ! function_exists( 'get_editable_roles' ) ) {
-			require_once( ABSPATH . '/wp-admin/includes/user.php' );
+			/** @phpstan-ignore requireOnce.fileNotFound */
+			require_once ABSPATH . '/wp-admin/includes/user.php';
 		}
 
 		// Check the status of the RSS feed.
@@ -71,7 +76,7 @@ class RSS_Dropin extends Dropin {
 			$settings_section_rss_id,
 			[ $rss_section_title, 'rss_feed' ],
 			array( $this, 'settings_section_output' ),
-			Simple_History::SETTINGS_MENU_SLUG // same slug as for options menu page
+			Simple_History::SETTINGS_MENU_SLUG // same slug as for options menu page.
 		);
 
 		// Enable/Disable RSS feed.
@@ -106,7 +111,7 @@ class RSS_Dropin extends Dropin {
 
 		// Create new RSS secret.
 		$create_secret_nonce_name = 'simple_history_rss_secret_regenerate_nonce';
-		$create_nonce_ok = isset( $_GET[ $create_secret_nonce_name ] ) && wp_verify_nonce( $_GET[ $create_secret_nonce_name ], 'simple_history_rss_update_secret' );
+		$create_nonce_ok = isset( $_GET[ $create_secret_nonce_name ] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET[ $create_secret_nonce_name ] ) ), 'simple_history_rss_update_secret' );
 
 		if ( $create_nonce_ok ) {
 			$this->update_rss_secret();
@@ -136,7 +141,7 @@ class RSS_Dropin extends Dropin {
 	public function is_rss_enabled() {
 		$is_enabled = false;
 
-		// User has never used the plugin we disable RSS feed
+		// User has never used the plugin we disable RSS feed.
 		if ( $this->get_rss_secret() === false && get_option( 'simple_history_enable_rss_feed' ) === false ) {
 			// We disable RSS by default, we use 0/1 to prevent fake disabled with bools from functions returning false for unset.
 			update_option( 'simple_history_enable_rss_feed', '0' );
@@ -159,7 +164,7 @@ class RSS_Dropin extends Dropin {
 		/**
 		 * Filters the text for the RSS enable checkbox.
 		 *
-		 * @var string $rss_section_title
+		 * @var string $enable_rss_text
 		 */
 		$enable_rss_text = apply_filters(
 			'simple_history/feeds/enable_feeds_checkbox_text',
@@ -196,7 +201,7 @@ class RSS_Dropin extends Dropin {
 	 */
 	public function output_rss() {
 		$rss_secret_option = get_option( 'simple_history_rss_secret' );
-		$rss_secret_get = $_GET['rss_secret'] ?? '';
+		$rss_secret_get = sanitize_text_field( wp_unslash( $_GET['rss_secret'] ?? '' ) );
 
 		if ( empty( $rss_secret_option ) || empty( $rss_secret_get ) ) {
 			die();
@@ -241,18 +246,20 @@ class RSS_Dropin extends Dropin {
 			?>
 			<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 				<channel>
-					<title><?php echo esc_xml( $title ); ?></title>
-					<description><?php echo esc_xml( $description ); ?></description> 
+					<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<title><?php echo Compat::esc_xml( $title ); ?></title>
+					<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<description><?php echo Compat::esc_xml( $description ); ?></description> 
 					<link><?php echo esc_url( get_bloginfo( 'url' ) ); ?></link>
 					<atom:link href="<?php echo esc_url( $self_link ); ?>" rel="self" type="application/atom+xml" />
 					<?php
 
-					// Override capability check: if you have a valid rss_secret_key you can read it all
+					// Override capability check: if you have a valid rss_secret_key you can read it all.
 					$action_tag = 'simple_history/loggers_user_can_read/can_read_single_logger';
 					add_filter( $action_tag, '__return_true', 10, 0 );
 
 					// Modify header time output so it does not show relative date or time ago-format
-					// Because we don't know when a user reads the RSS feed, time ago format may be very inaccurate
+					// Because we don't know when a user reads the RSS feed, time ago format may be very inaccurate.
 					add_filter( 'simple_history/header_just_now_max_time', '__return_zero' );
 					add_filter( 'simple_history/header_time_ago_max_time', '__return_zero' );
 
@@ -262,7 +269,7 @@ class RSS_Dropin extends Dropin {
 					/**
 					 * Filters the arguments passed to `SimpleHistoryLogQuery()` when fetching the RSS feed
 					 *
-					 * @example Change number of posts to retreieve in RSS feed.
+					 * @example Change number of posts to retrieve in RSS feed.
 					 *
 					 * // This example changes the number of posts in the RSS feed to 50 from the default 10.
 					 *
@@ -275,7 +282,7 @@ class RSS_Dropin extends Dropin {
 					 *     }
 					 * );
 					 *
-					 * @example Change number of posts to retreieve in RSS feed.
+					 * @example Change number of posts to retrieve in RSS feed.
 					 *
 					 * // This example changes the number of posts in the RSS feed to 20 from the default 10.
 					 *
@@ -289,7 +296,7 @@ class RSS_Dropin extends Dropin {
 					 * );
 					 *
 					 * @param array $args SimpleHistoryLogQuery arguments.
-					 * @return array.
+					 * @return array
 					 */
 					$args = apply_filters( 'simple_history/rss_feed_args', $args );
 
@@ -297,14 +304,14 @@ class RSS_Dropin extends Dropin {
 					$queryResults = $logQuery->query( $args );
 
 					// Remove capability override after query is done
-					// remove_action( $action_tag, '__return_true', 10 );
+					// remove_action( $action_tag, '__return_true', 10 );.
 					foreach ( $queryResults['log_rows'] as $row ) {
 						$header_output = $this->simple_history->get_log_row_header_output( $row );
 						$text_output = $this->simple_history->get_log_row_plain_text_output( $row );
 						$details_output = $this->simple_history->get_log_row_details_output( $row );
 
 						// http://cyber.law.harvard.edu/rss/rss.html#ltguidgtSubelementOfLtitemgt
-						// $item_guid = home_url() . "?SimpleHistoryGuid=" . $row->id;
+						// $item_guid = home_url() . "?SimpleHistoryGuid=" . $row->id;.
 						$item_guid = esc_url( add_query_arg( 'SimpleHistoryGuid', $row->id, home_url() ) );
 						$item_link = esc_url( add_query_arg( 'SimpleHistoryGuid', $row->id, home_url() ) );
 
@@ -374,14 +381,17 @@ class RSS_Dropin extends Dropin {
 						);
 						?>
 						<item>
-							<title><?php echo esc_xml( $item_title ); ?></title>
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<title><?php echo Compat::esc_xml( $item_title ); ?></title>
 							<description><![CDATA[
 								<p><?php echo wp_kses( $header_output, $wp_kses_attrs ); ?></p>
 								<p><?php echo wp_kses( $text_output, $wp_kses_attrs ); ?></p>
 								<div><?php echo wp_kses( $details_output, $wp_kses_attrs ); ?></div>
 								<p><?php echo wp_kses( $level_output, $wp_kses_attrs ); ?></p>
 								<?php
+								// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 								$occasions = $row->subsequentOccasions - 1;
+
 								if ( $occasions ) {
 									echo '<p>';
 									esc_html(
@@ -396,11 +406,13 @@ class RSS_Dropin extends Dropin {
 								?>
 							]]></description>
 							<?php
-							// author must be email to validate, but the field is optional, so we skip it
+							// author must be email to validate, but the field is optional, so we skip it.
 							/* <author><?php echo $row->initiator ?></author> */
 							?>
-							<pubDate><?php echo esc_xml( gmdate( 'D, d M Y H:i:s', strtotime( $row->date ) ) ); ?> GMT</pubDate>
-							<guid isPermaLink="false"><![CDATA[<?php echo esc_xml( $item_guid ); ?>]]></guid>
+							<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<pubDate><?php echo Compat::esc_xml( gmdate( 'D, d M Y H:i:s', strtotime( $row->date ) ) ); ?> GMT</pubDate>
+							<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<guid isPermaLink="false"><![CDATA[<?php echo Compat::esc_xml( $item_guid ); ?>]]></guid>
 							<link><![CDATA[<?php echo esc_url( $item_link ); ?>]]></link>
 						</item>
 						<?php
@@ -411,19 +423,25 @@ class RSS_Dropin extends Dropin {
 			</rss>
 			<?php
 		} else {
-			// RSS secret was not ok
+			// RSS secret was not ok.
 			echo PHP_EOL;
 			?>
 			<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 				<channel>
-					<title><?php echo esc_xml( $title ); ?></title>
-					<description><?php echo esc_xml( $description ); ?></description>
+					<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<title><?php echo Compat::esc_xml( $title ); ?></title>
+					<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<description><?php echo Compat::esc_xml( $description ); ?></description>
 					<link><?php echo esc_url( home_url() ); ?></link>
 					<atom:link href="<?php echo esc_url( $self_link ); ?>" rel="self" type="application/atom+xml" />
 					<item>
-						<title><?php echo esc_xml( __( 'Wrong RSS secret', 'simple-history' ) ); ?></title>
-						<description><?php echo esc_xml( __( 'Your RSS secret for Simple History RSS feed is wrong. Please see WordPress settings for current link to the RSS feed.', 'simple-history' ) ); ?></description>
-						<pubDate><?php echo esc_xml( gmdate( 'D, d M Y H:i:s', time() ) ); ?> GMT</pubDate>
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<title><?php echo Compat::esc_xml( __( 'Wrong RSS secret', 'simple-history' ) ); ?></title>
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<description><?php echo Compat::esc_xml( __( 'Your RSS secret for Simple History RSS feed is wrong. Please see WordPress settings for current link to the RSS feed.', 'simple-history' ) ); ?></description>
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<pubDate><?php echo Compat::esc_xml( gmdate( 'D, d M Y H:i:s', time() ) ); ?> GMT</pubDate>
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<guid><?php echo esc_url( add_query_arg( 'SimpleHistoryGuid', 'wrong-secret', home_url() ) ); ?></guid>
 					</item>
 				</channel>
@@ -467,7 +485,7 @@ class RSS_Dropin extends Dropin {
 			sprintf(
 				/* translators: %s is a link to the documentation */
 				__( 'Query parameters can be used to control what to include in the feed. <a href="%1$s" class="sh-ExternalLink" target="_blank">View documentation</a>.', 'simple-history' ),
-				'https://simple-history.com/docs/feeds/?utm_source=wpadmin'
+				'https://simple-history.com/docs/feeds/?utm_source=wordpress_admin&utm_medium=Simple_History&utm_campaign=documentation&utm_content=rss-feed-params'
 			),
 			[
 				'a' => [
@@ -482,7 +500,7 @@ class RSS_Dropin extends Dropin {
 		/**
 		 * Fires after the RSS address has been output.
 		 *
-		 * @param RSS_Dropin $this
+		 * @param RSS_Dropin $instance
 		 */
 		do_action( 'simple_history/feeds/after_address', $this );
 	}
@@ -548,16 +566,18 @@ class RSS_Dropin extends Dropin {
 		$paged = isset( $args['paged'] ) ? (int) $args['paged'] : 1;
 		$date_from = isset( $args['date_from'] ) ? sanitize_text_field( $args['date_from'] ) : '';
 		$date_to = isset( $args['date_to'] ) ? sanitize_text_field( $args['date_to'] ) : '';
-		$loggers = isset( $args['loggers'] ) ? sanitize_text_field( $args['loggers'] ) : array();
-		$messages = isset( $args['messages'] ) ? sanitize_text_field( $args['messages'] ) : array();
+		$loggers = isset( $args['loggers'] ) ? sanitize_text_field( $args['loggers'] ) : [];
+		$messages = isset( $args['messages'] ) ? sanitize_text_field( $args['messages'] ) : [];
+		$loglevels = isset( $args['loglevels'] ) ? sanitize_text_field( $args['loglevels'] ) : '';
 
-		$args['posts_per_page'] = $posts_per_page;
-		$args['paged'] = $paged;
-		$args['date_from'] = $date_from;
-		$args['date_to'] = $date_to;
-		$args['loggers'] = $loggers;
-		$args['messages'] = $messages;
-
-		return $args;
+		return [
+			'posts_per_page' => $posts_per_page,
+			'paged' => $paged,
+			'date_from' => $date_from,
+			'date_to' => $date_to,
+			'loggers' => $loggers,
+			'messages' => $messages,
+			'loglevels' => $loglevels,
+		];
 	}
 }

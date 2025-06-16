@@ -10,6 +10,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealUtils\Core;
 // @codeCoverageIgnoreEnd
 /**
  * Cross-selling handler.
+ * @internal
  */
 class CrossSellingHandler
 {

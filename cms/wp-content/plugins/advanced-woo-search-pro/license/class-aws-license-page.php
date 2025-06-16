@@ -65,7 +65,7 @@ if ( ! class_exists( 'AWS_License_Page' ) ) :
          * Add options page
          */
         public function add_admin_page() {
-            add_submenu_page( 'aws-options', esc_html__('Updates','advanced-woo-search'), esc_html__('Updates','advanced-woo-search'), 'manage_options', 'aws-options-updates', array( $this,'updates_page' ) );
+            add_submenu_page( 'aws-options', esc_html__('Updates','advanced-woo-search'), esc_html__('Updates','advanced-woo-search'), AWS_Admin_Helpers::user_admin_capability(), 'aws-options-updates', array( $this,'updates_page' ) );
         }
 
         /*
@@ -161,7 +161,7 @@ if ( ! class_exists( 'AWS_License_Page' ) ) :
          */
         private function info_block() {
 
-            $plugin_info = AWS_PRO()->license->updater->get_plugin_info();
+            $plugin_info = AWS_PRO()->license->updater->get_plugin_remote_info_option();
             $license_key = $this->license_key ? $this->license_key : '';
 
             if ( ! $plugin_info ) {

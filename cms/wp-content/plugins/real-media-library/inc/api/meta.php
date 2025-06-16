@@ -43,6 +43,7 @@ if (!\function_exists('get_media_folder_meta')) {
      * @param string $key The meta key to retrieve. By default, returns data for all keys.
      * @param boolean $single Whether to return a single value. Default false.
      * @return mixed[]|mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
+     * @internal
      */
     function get_media_folder_meta($folder_id, $key = '', $single = \false)
     {
@@ -63,6 +64,7 @@ if (!\function_exists('add_media_folder_meta')) {
      * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
      * @param boolean $unique Whether the same key should not be added.
      * @return int|false
+     * @internal
      */
     function add_media_folder_meta($folder_id, $meta_key, $meta_value, $unique = \false)
     {
@@ -85,6 +87,7 @@ if (!\function_exists('update_media_folder_meta')) {
      * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
      * @param mixed $prev_value Previous value to check before removing.
      * @return int|boolean
+     * @internal
      */
     function update_media_folder_meta($folder_id, $meta_key, $meta_value, $prev_value = '')
     {
@@ -105,6 +108,7 @@ if (!\function_exists('delete_media_folder_meta')) {
      * @param string $meta_key Metadata name.
      * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
      * @return boolean True on success, false on failure.
+     * @internal
      */
     function delete_media_folder_meta($folder_id, $meta_key, $meta_value = '')
     {
@@ -119,6 +123,7 @@ if (!\function_exists('delete_media_folder_meta_by_key')) {
      *
      * @param string $folder_meta_key Key to search for when deleting.
      * @return boolean Whether the post meta key was deleted from the database.
+     * @internal
      */
     function delete_media_folder_meta_by_key($folder_meta_key)
     {
@@ -133,6 +138,7 @@ if (!\function_exists('truncate_media_folder_meta')) {
      *
      * @param int $folder_id Folder ID
      * @return int
+     * @internal
      */
     function truncate_media_folder_meta($folder_id)
     {
@@ -163,6 +169,7 @@ if (!\function_exists('add_rml_user_settings_box')) {
      * @param int $priority Priority for actions and filters
      * @param string $contentGroup The tab group for the meta settings, see example for adding a new group
      * @return boolean
+     * @internal
      */
     function add_rml_user_settings_box($name, $obj, $deprecated = \false, $priority = 10, $contentGroup = '')
     {
@@ -193,6 +200,7 @@ if (!\function_exists('add_rml_meta_box')) {
      * @param int $priority Priority for actions and filters
      * @param string $contentGroup The tab group for the meta settings, see example for adding a new group
      * @return boolean
+     * @internal
      */
     function add_rml_meta_box($name, $obj, $hasScripts = \false, $priority = 10, $contentGroup = '')
     {

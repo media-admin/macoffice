@@ -13,6 +13,7 @@ use WP_Error;
 // @codeCoverageIgnoreEnd
 /**
  * Use this trait together in `PluginUpdate`.
+ * @internal
  */
 trait PluginUpdateLicensePool
 {
@@ -22,7 +23,13 @@ trait PluginUpdateLicensePool
      * @var License[]
      */
     private $licenses;
-    private $suppressGetLicensesWpDie = \false;
+    /**
+     * License instances cached, can be also partial within a multisite (not all subsites).
+     *
+     * @var License[]
+     */
+    private $licenseCache = [];
+    public $suppressGetLicensesWpDie = \false;
     /**
      * License activation client.
      *
@@ -171,7 +178,7 @@ trait PluginUpdateLicensePool
     {
         if (\is_multisite()) {
             $transientName = \sprintf('%s-licensedBlogIds_v2_%s', RPM_WP_CLIENT_OPT_PREFIX, $this->getInitiator()->getPluginSlug());
-            $expireOption = new ExpireOption($transientName, \true, 1 * DAY_IN_SECONDS);
+            $expireOption = new ExpireOption($transientName, \true, 1 * DAY_IN_SECONDS, \true);
             if ($invalidate === 'never') {
                 return $expireOption->get(['_' => []], \false);
             }
@@ -236,14 +243,16 @@ trait PluginUpdateLicensePool
                 if ($licensedBlogIds !== \false && isset($licensedBlogIds[$host])) {
                     $hostBlogId = $licensedBlogIds[$host][0];
                 }
-                $hostLicenses[$host] = new License($this, $host, $hostBlogId);
+                $cacheKey = $host . ':' . $hostBlogId;
+                $hostLicenses[$host] = $this->licenseCache[$cacheKey] ?? new License($this, $host, $hostBlogId);
+                $this->licenseCache[$cacheKey] = $hostLicenses[$host];
             }
             // Create licenses per blog ID and point to hostname-license
             if ($inBlogIds === null) {
                 $this->licenses = [];
                 $isDevEnv = \defined('DEVOWL_WP_DEV') && \constant('DEVOWL_WP_DEV');
                 if ($isDevEnv && \is_admin() && $pagenow === 'index.php' && !$this->suppressGetLicensesWpDie) {
-                    \wp_die(\sprintf('You are calling <code>%s</code> at page load which leads to performance issues on multisite. Backtrace:<br><br><pre>%s</pre>', __METHOD__, \json_encode(\debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 10), \JSON_PRETTY_PRINT)));
+                    \wp_die(\sprintf('You are calling <code>%s</code> at page load which leads to performance issues on multisite. This text is only visible to development environments and never to end users of the plugin! Backtrace:<br><br><pre>%s</pre>', __METHOD__, \json_encode(\debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 10), \JSON_PRETTY_PRINT)));
                 }
             }
             foreach ($blogIds as $blogId) {

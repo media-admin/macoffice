@@ -37,6 +37,20 @@ class TInvWL_ViewSection extends TInvWL_View {
 	private $helper;
 
 	/**
+	 * Current section ID.
+	 *
+	 * @var string
+	 */
+	private $section_id;
+
+	/**
+	 * Current group ID within the section.
+	 *
+	 * @var string
+	 */
+	private $group_id;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $plugin_name Plugin name.
@@ -517,7 +531,7 @@ class TInvWL_ViewSection extends TInvWL_View {
 		$flags['default'] = $default;
 
 		if ( ! is_array( $value ) ) {
-			$value = trim( $value );
+			$value = is_string( $value ) ? trim( $value ) : $value;
 		}
 		$value = filter_var( $value, $filter, $flags );
 		if ( is_array( $options ) ) {
@@ -580,9 +594,6 @@ class TInvWL_ViewSection extends TInvWL_View {
 					$result[ $id ] = $result_field;
 				}
 			}
-		}
-		if ( empty( $result ) ) {
-			return null;
 		}
 
 		return $result;

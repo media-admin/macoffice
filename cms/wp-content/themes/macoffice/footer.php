@@ -31,34 +31,72 @@
 										</picture>
 									</a>
 								</div>
-								<div class="site-footer__apple-haendler">
-									<picture>
-										<source srcset="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-haendler_footer-logo-light_smartphone.svg" media="(prefers-color-scheme: dark)">
-										<img class="site-footer__apple-haendler-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-haendler_footer-logo-light_smartphone.svg" alt="Logo Autorisierter Händler">
-									</picture>
+
+								<div class="site-footer__apple-certificates">
+
+
+									<div class="site-footer__apple-authorisierter-haendler">
+										<a class="site-footer__logo-link wrapper" href="/produkte">
+											<picture>
+												<source srcset="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-certificates-2-lines--white.svg" media="(prefers-color-scheme: dark)">
+												<img class="site-footer__apple-haendler-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-certificates-2-lines--white.svg" alt="Logo Autorisierter Händler">
+											</picture>
+										</a>
+									</div>
+
+
+
+									<!-- <div class="site-footer__apple-authorisierter-haendler">
+										<a class="site-footer__logo-link wrapper" href="/produkte">
+											<picture>
+												<source srcset="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-haendler_footer-logo.svg" media="(prefers-color-scheme: dark)">
+												<img class="site-footer__apple-haendler-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-haendler_footer-logo.svg" alt="Logo Autorisierter Händler">
+											</picture>
+										</a>
+									</div>
+
+									<div class="site-footer__apple-authorisierter-service-provider">
+										<a class="site-footer__logo-link wrapper" href="/leistungen">
+											<picture>
+												<source srcset="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-service-provider_footer-logo.svg" media="(prefers-color-scheme: dark)">
+												<img class="site-footer__apple-haendler-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-service-provider_footer-logo.svg" alt="Logo Autorisierter Service Provider">
+											</picture>
+										</a>
+									</div> -->
+
+
 								</div>
+
 							</div>
 
 							<div class="site-footer__contact">
 								<div class="site-footer__contact-address">
-									<img  class="site-footer__contact-address-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_address-footer_desktop.svg"/>
-									<p class="site-footer__contact-address-title">Adresse</p>
-									<p class="site-footer__contact-address-data">Fischauer Gasse 150<br/>2700 Wiener Neustadt<br/>Österreich</p>
+									<a class="site-header-top__contact-information-phone-number" href="/ueber-uns">
+										<img  class="site-footer__contact-address-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_address-footer_desktop.svg"/>
+										<p class="site-footer__contact-address-title">Adresse</p>
+										<p class="site-footer__contact-address-data">Fischauer Gasse 150<br/>2700 Wiener Neustadt<br/>Österreich</p>
+									</a>
 								</div>
 
 								<div class="site-footer__contact-information">
 									<div class="site-footer__contact-information-phone">
 										<img class="site-footer__contact-information-phone-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_phone-footer_desktop.svg"/>
-										<a class="site-footer__contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
+										<a class="site-footer__contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85270</a>
 									</div>
 									<div class="site-footer__contact-information-mail">
-										<picture>
-										<img class="site-footer__contact-information-mail-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_mail-footer_desktop.svg"/>
-										<a class="site-footer__contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
+										<a class="site-footer__contact-information-mail-address" href="mailto:info@macoffice.at">
+											<picture>
+											<img class="site-footer__contact-information-mail-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_mail-footer_desktop.svg"/>
+											info@macoffice.at
+										</a>
 									</div>
 									<div class="site-footer__contact-information-hotline">
-										<img class="site-footer__contact-information-hotline-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_call-footer_desktop.svg"/>
-										<a class="site-footer__contact-information-hotline-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
+										<a class="site-footer__contact-information-hotline-link" href="mailto:notfall@macoffice.at">
+											<img class="site-footer__contact-information-hotline-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_call-footer_desktop.svg"/>
+											<!-- <a class="site-footer__contact-information-hotline-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a> -->
+											Notfall
+										</a>
+
 									</div>
 								</div>
 								<div class="site-footer__contact-opening">
@@ -68,7 +106,8 @@
 								</div>
 								<ul class="site-footer__social-media-area">
 									<li><a href="https://www.facebook.com/macsworkeasier" target="_blank"><img class="site-footer__social-media-icon site-footer__social-media-icon--facebook" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_facebook-footer_smartphone.svg" alt="Facebook Logo"></a></li>
-									<!-- <li><a href="#" target="_blank"><img class="site-footer__social-media-icon site-footer__social-media-icon--instragram" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_instagram-footer_smartphone.svg" alt="Instagram Logo"></a></li> -->
+									<li><a href="https://www.instagram.com/_macoffice/" target="_blank"><img class="site-footer__social-media-icon site-footer__social-media-icon--instagram" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_instagram-footer_smartphone.svg" alt="Instagram Logo"></a></li>
+									<li><a href="https://wa.me/436801115350" target="_blank"><img class="site-footer__social-media-icon site-footer__social-media-icon--whatsapp-business" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_whatsapp-business-footer_smartphone.svg" alt="WhatsApp Business Logo"></a></li>
 								</ul>
 							</div>
 
@@ -112,7 +151,8 @@
 
 					</div>
 
-					<p class="site-footer__copyright">©&nbsp;2023 mac)office - macs work easier. <span>Ihr autorisierter Apple-Händler in Wiener Neustadt.</span></p>
+					<div class="site-footer__copyright">©&nbsp;<?php echo date("Y"); ?> mac)office - macs work easier. <div class="wrap-here-mobile">
+						<span>Ihr autorisierter Apple Händler und Service Provider in Wiener Neustadt.</span></div></div>
 
 				</div>
 
@@ -163,7 +203,7 @@
 
 				// When the user clicks anywhere outside of the modal, close it
 				window.onclick = function(event) {
-					if (event.target == modal) {
+					if (event.target == modal_smartphone) {
 						modal_smartphone.style.display = "none";
 					}
 				}
@@ -174,95 +214,163 @@
 			<!-- Search Modal Desktop -->
 			<script async>
 				// Get the modal
-				var modal = document.getElementById("search_modal_desktop");
+				var modal_desktop = document.getElementById("search_modal_desktop");
 
 				// Get the button that opens the modal
-				var btn = document.getElementById("search_button_desktop");
+				var btn_desktop = document.getElementById("search_button_desktop");
 
 				// Get the <span> element that closes the modal
-				var span = document.getElementsByClassName("modal-close-btn")[0];
+				var span_desktop = document.getElementById("modal-close-btn--desktop");
 
 				// When the user clicks on the button, open the modal
-				btn.onclick = function() {
-					modal.style.display = "block";
+				btn_desktop.onclick = function() {
+					modal_desktop.style.display = "block";
 				}
 
 				// When the user clicks on <span> (x), close the modal
-				span.onclick = function() {
-					modal.style.display = "none";
+				span_desktop.onclick = function() {
+					modal_desktop.style.display = "none";
 				}
 
 				// When the user clicks anywhere outside of the modal, close it
 				window.onclick = function(event) {
-					if (event.target == modal) {
-						modal.style.display = "none";
+					if (event.target == modal_desktop) {
+						modal_desktop.style.display = "none";
 					}
 				}
 			</script>
 
 
-
-
-
-			<!-- Dark Mode Toggle #1
+			<!-- Error Found Modal -->
 			<script async>
-					function switchMode() {
-						var element = document.body;
-						element.classList.toggle("dark-mode");
-					}
-			</script>
--->
+				// Get the modal
+				var modal_error_found = document.getElementById("error-found__modal-desktop");
 
-			<!-- Dark Mode Toggle #2
-			<script defer>
+				// Get the button that opens the modal
+				var btn_error_found = document.getElementById("error-found__button-desktop");
 
-				jQuery(document).ready(function(){
-					let theme = localStorage.getItem("theme");
+				// Get the <span> element that closes the modal
+				var span_error_found = document.getElementById("error-found__modal-close-btn");
 
-					if(theme === null) {
-							const prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)');
-							if (prefersDarkTheme.matches) {
-									localStorage.setItem("theme", "dark");
-									theme = "dark";
-							} else {
-									localStorage.setItem("theme", "light");
-									theme = "light";
-							}
-					}
-
-
-					if (theme === "dark") {
-							document.body.classList.remove("theme-light");
-							document.body.classList.add("theme-dark");
-					} else if (theme === "light") {
-							document.body.classList.remove("theme-dark");
-							document.body.classList.add("theme-light");
-					}
-				});
-
-
-				function toggleTheme() {
-					const body = document.body;
-					if (body.classList.contains("theme-dark")) {
-							body.classList.remove("theme-dark");
-							body.classList.add("theme-light");
-							localStorage.setItem("theme", "light");
-							mobileVibrate([50]);
-					} else {
-							body.classList.remove("theme-light");
-							body.classList.add("theme-dark");
-							localStorage.setItem("theme", "dark");
-							mobileVibrate([50]);
-					}
+				// When the user clicks on the button, open the modal
+				btn_error_found.onclick = function() {
+					modal_error_found.style.display = "block";
 				}
 
+				// When the user clicks on <span> (x), close the modal
+				span_error_found.onclick = function() {
+					modal_error_found.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+					if (event.target == modal_error_found) {
+						modal_error_found.style.display = "none";
+					}
+				}
 			</script>
-			-->
+
+
+
+
+
+
+			<!-- E-Mail info@macoffice.at Desktop-->
+			<script async>
+				// Get the modal
+				var modal_email_info = document.getElementById("email-info__modal");
+
+				// Get the button that opens the modal
+				var btn_email_info = document.getElementById("email-info__button");
+
+				// Get the <span> element that closes the modal
+				var span_email_info = document.getElementById("email-info__modal-close-btn");
+
+				// When the user clicks on the button, open the modal
+				btn_email_info.onclick = function() {
+					modal_email_info.style.display = "block";
+				}
+
+				// When the user clicks on <span> (x), close the modal
+				span_email_info.onclick = function() {
+					modal_email_info.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+					if (event.target == modal_email_info) {
+						modal_email_info.style.display = "none";
+					}
+				}
+			</script>
+
+
+			<!-- E-Mail info@macoffice.at Smartphone-->
+			<script async>
+				// Get the modal
+				var modal_email_info = document.getElementById("email-info__modal--smartphone");
+
+				// Get the button that opens the modal
+				var btn_email_info = document.getElementById("email-info__button--smartphone");
+
+				// Get the <span> element that closes the modal
+				var span_email_info = document.getElementById("email-info__modal-close-btn--smartphone");
+
+				// When the user clicks on the button, open the modal
+				btn_email_info.onclick = function() {
+					modal_email_info.style.display = "block";
+				}
+
+				// When the user clicks on <span> (x), close the modal
+				span_email_info.onclick = function() {
+					modal_email_info.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+					if (event.target == modal_email_info) {
+						modal_email_info.style.display = "none";
+					}
+				}
+			</script>
+
+
+
+			<!-- Error E-Mail notfall@macoffice.at -->
+			<script async>
+				// Get the modal
+				var modal_email_emergency = document.getElementById("email-emergency__modal-desktop");
+
+				// Get the button that opens the modal
+				var btn_email_emergency = document.getElementById("email-emergency__button-desktop");
+
+				// Get the <span> element that closes the modal
+				var span_email_emergency = document.getElementById("email-emergency__modal-close-btn");
+
+				// When the user clicks on the button, open the modal
+				btn_email_emergency.onclick = function() {
+					modal_email_emergency.style.display = "block";
+				}
+
+				// When the user clicks on <span> (x), close the modal
+				span_email_emergency.onclick = function() {
+					modal_email_emergency.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+					if (event.target == modal_email_emergency) {
+						modal_email_emergency.style.display = "none";
+					}
+				}
+			</script>
 
 
 
 			<!-- Dark Mode Toggle #3 -->
-			<script>
+			<script type="text/javascript">
+
+
 
 				function getUserPreference() {
 					return localStorage.getItem('theme') || 'system';
@@ -306,13 +414,22 @@
 				}
 
 				const themeDisplay = document.getElementById('mode');
-				const themeToggler = document.getElementById('theme-toggle');
+				const themeTogglerSmartphone = document.getElementById('theme-toggle-smartphone');
+				const themeTogglerDesktop = document.getElementById('theme-toggle-desktop');
 
 				let userPreference = getUserPreference();
 				setAppliedMode(getAppliedMode(userPreference));
 				themeDisplay.innerText = userPreference;
 
-				themeToggler.onclick = () => {
+				themeTogglerSmartphone.onclick = () => {
+					const newUserPref = rotatePreferences(userPreference);
+					userPreference = newUserPref;
+					saveUserPreference(newUserPref);
+					themeDisplay.innerText = newUserPref;
+					setAppliedMode(getAppliedMode(newUserPref));
+				}
+
+				themeTogglerDesktop.onclick = () => {
 					const newUserPref = rotatePreferences(userPreference);
 					userPreference = newUserPref;
 					saveUserPreference(newUserPref);
@@ -324,63 +441,15 @@
 
 
 
-			<!-- Dark Mode Toggle #4
-			<script>
-			/*
-					Copyright (c) 2020 - present, DITDOT Ltd.
-					https://www.ditdot.hr/en
-			*/
-
-			function load() {
-				const button = document.querySelector(".btn");
-
-				// MediaQueryList object
-				const useDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-				// Toggles the "dark-mode" class based on if the media query matches
-				function toggleDarkMode(state) {
-					// Older browser don't support the second parameter in the
-					// classList.toggle method so you'd need to handle this manually
-					// if you need to support older browsers.
-					document.documentElement.classList.toggle("dark-mode", state);
-				}
-
-				// Initial setting
-				toggleDarkMode(useDark.matches);
-
-				// Listen for changes in the OS settings
-				useDark.addListener((evt) => toggleDarkMode(evt.matches));
-
-				// Toggles the "dark-mode" class on click
-				button.addEventListener("click", () => {
-					document.documentElement.classList.toggle("dark-mode");
-				});
-			}
-
-			window.addEventListener("DOMContentLoaded", load);
-
-			</script>
-			-->
 
 
 
-			<!-- Refreshing Store Hours Status
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js" type="text/javascript"></script>
 
-			<script type="text/javascript">
-				jQuery(document).ready(function() {
-				jQuery('.refresh').load('https://macoffice.dev/cms/refresh.php');
 
-				var auto_refresh = setInterval(
-					function () {
-						jQuery('.refresh').load('https://macoffice.dev/cms/refresh.php').fadeIn("slow");
-					}, 5000); // refresh every 5000 milliseconds
-						$.ajaxSetup({ cache: true });
-					});
-			 </script>
-			 -->
 
-			<!-- Light Mode/Dark Mode Switcher -->
+
+
+
 
 
 			<!-- Accordion Functionality -->

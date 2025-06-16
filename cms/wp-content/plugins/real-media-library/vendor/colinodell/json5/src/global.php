@@ -18,6 +18,7 @@ if (!\function_exists('MatthiasWeb\\RealMediaLibrary\\Vendor\\json5_decode')) {
      * @throws \ColinODell\Json5\SyntaxError if the JSON encoded string could not be parsed.
      *
      * @return mixed
+     * @internal
      */
     function json5_decode(string $source, ?bool $associative = \false, int $depth = 512, int $options = 0)
     {
@@ -29,6 +30,7 @@ if (!\defined('JSON_THROW_ON_ERROR')) {
     \define('JSON_THROW_ON_ERROR', 1 << 22);
 }
 if (!\class_exists('JsonException')) {
+    /** @internal */
     class JsonException extends \Exception
     {
     }

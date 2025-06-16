@@ -13,6 +13,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\ServiceNoStore;
 // @codeCoverageIgnoreEnd
 /**
  * Core for real-product-manager-wp-client. It is only initialized once and holds all available initiators.
+ * @internal
  */
 class Core
 {

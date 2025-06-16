@@ -6,6 +6,7 @@ use Vendidero\Germanized\Blocks\BlockTypesController;
 use Vendidero\Germanized\Blocks\Cart;
 use Vendidero\Germanized\Blocks\Checkout;
 use Vendidero\Germanized\Blocks\Integrations\ProductElements;
+use Vendidero\Germanized\Blocks\MiniCart;
 use Vendidero\Germanized\Blocks\PaymentGateways\DirectDebit;
 use Vendidero\Germanized\Blocks\PaymentGateways\Invoice;
 use Vendidero\Germanized\Blocks\Products;
@@ -41,43 +42,33 @@ class Bootstrap {
 	 * Init the package - load the blocks library and define constants.
 	 */
 	protected function init() {
-		if ( ! Package::load_blocks() ) {
-			return false;
+		if ( ! did_action( 'woocommerce_shiptastic_init' ) ) {
+			add_action( 'woocommerce_shiptastic_init', array( Shiptastic::class, 'init' ), 0 );
+		} else {
+			Shiptastic::init();
 		}
 
-		$this->register_dependencies();
-		$this->register_payment_methods();
+		if ( Package::load_blocks() ) {
+			$this->register_dependencies();
+			$this->register_payment_methods();
 
-		add_filter(
-			'woocommerce_gzd_dhl_get_i18n_path',
-			function() {
-				return Package::get_language_path();
+			if ( did_action( 'woocommerce_blocks_loaded' ) ) {
+				$this->load_blocks();
+			} else {
+				add_action(
+					'woocommerce_blocks_loaded',
+					function () {
+						$this->load_blocks();
+					}
+				);
 			}
-		);
-
-		add_filter(
-			'woocommerce_gzd_dhl_get_i18n_textdomain',
-			function() {
-				return 'woocommerce-germanized';
-			}
-		);
-
-		if ( did_action( 'woocommerce_blocks_loaded' ) ) {
-			$this->load_blocks();
-		} else {
-			add_action(
-				'woocommerce_blocks_loaded',
-				function() {
-					$this->load_blocks();
-				}
-			);
 		}
 	}
 
 	protected function load_blocks() {
 		add_filter(
 			'__experimental_woocommerce_blocks_add_data_attributes_to_namespace',
-			function( $namespaces ) {
+			function ( $namespaces ) {
 				return array_merge( $namespaces, array( 'woocommerce-germanized', 'woocommerce-germanized-blocks' ) );
 			}
 		);
@@ -86,6 +77,7 @@ class Bootstrap {
 		$this->container->get( Assets::class );
 		$this->container->get( Products::class );
 		$this->container->get( Checkout::class );
+		$this->container->get( MiniCart::class );
 		$this->container->get( Cart::class );
 	}
 
@@ -123,6 +115,13 @@ class Bootstrap {
 		);
 
 		$this->container->register(
+			MiniCart::class,
+			function ( $container ) {
+				return new MiniCart();
+			}
+		);
+
+		$this->container->register(
 			ProductElements::class,
 			function ( $container ) {
 				return new ProductElements();
@@ -143,7 +142,7 @@ class Bootstrap {
 	protected function register_payment_methods() {
 		$this->container->register(
 			Invoice::class,
-			function( $container ) {
+			function ( $container ) {
 				$asset_api = $container->get( Assets::class );
 				return new Invoice( $asset_api );
 			}
@@ -151,7 +150,7 @@ class Bootstrap {
 
 		$this->container->register(
 			DirectDebit::class,
-			function( $container ) {
+			function ( $container ) {
 				$asset_api = $container->get( Assets::class );
 				return new DirectDebit( $asset_api );
 			}

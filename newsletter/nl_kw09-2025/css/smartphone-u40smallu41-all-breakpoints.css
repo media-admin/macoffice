@@ -1,0 +1,1246 @@
+/* screen - desktop */
+
+.desktop {
+  align-items: flex-start;
+  background-color: #b0aaaa;
+  display: flex;
+  height: 1582px;
+  min-width: 1440px;
+  padding: 28px 400px;
+}
+
+.desktop .outer-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 1470px;
+  position: relative;
+  width: 640px;
+}
+
+.desktop .frame-31 {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 1511px;
+  margin-bottom: -41.00px;
+}
+
+.desktop .content-container {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+  height: 1470px;
+  justify-content: center;
+}
+
+.desktop .content {
+  align-self: stretch;
+  background-color: var(--cultured-pearl);
+}
+
+.desktop .flex-col {
+  flex-direction: column;
+  min-height: 1460px;
+  position: relative;
+  top: 10px;
+}
+
+.desktop .header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 63px;
+  width: 640px;
+}
+
+.desktop .flex-row {
+  gap: 25px;
+  margin-left: 2.0px;
+  min-width: 600px;
+}
+
+.desktop .logos {
+  height: 54px;
+  position: relative;
+  width: 362px;
+}
+
+.desktop .newsletter-kw-09-2025 {
+  color: var(--cod-gray);
+  font-family: var(--font-family-inter);
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 2.0px;
+  min-height: 24px;
+  text-align: right;
+  width: 213px;
+}
+
+.desktop .header-line-red {
+  height: 3px;
+  width: 640px;
+}
+
+.desktop .hero-img-desktop {
+  background-image: url(../img/hero-img--desktop.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 327px;
+  margin-top: 23px;
+  width: 598px;
+}
+
+.desktop .sehr-geehrte-damen-und-herren {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 10.0px;
+  margin-top: 22px;
+  min-height: 23px;
+  width: 600px;
+}
+
+.desktop .das-neu-vorgestellte {
+  letter-spacing: 0;
+  line-height: 20px;
+  margin-top: 6px;
+  min-height: 274px;
+  width: 590px;
+}
+
+.desktop .span-1 {
+  text-decoration: underline;
+}
+
+.desktop .header-1 {
+  height: 22px;
+  margin-left: 2.0px;
+  margin-top: 22px;
+  position: relative;
+  width: 594px;
+}
+
+.desktop .frame-4 {
+  display: flex;
+  gap: 12px;
+  width: 594px;
+}
+
+.desktop .neuheiten-die-faszi {
+  height: 22px;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-right: -8.00px;
+  margin-top: -1.00px;
+  position: relative;
+  width: 602px;
+}
+
+.desktop .line-2 {
+  height: 1px;
+  left: 545px;
+  object-fit: cover;
+  position: absolute;
+  top: 10px;
+  width: 45px;
+}
+
+.desktop .card_-container {
+  align-items: flex-start;
+  display: flex;
+  margin-right: 5.0px;
+  margin-top: 34px;
+  min-width: 593px;
+}
+
+.desktop .card_iphone-16e {
+  align-items: flex-start;
+  cursor: pointer;
+  display: flex;
+  height: 272px;
+  justify-content: center;
+  min-width: 180px;
+}
+
+.desktop .overlap-group {
+  border-radius: 16px;
+  height: 274px;
+  margin-top: -1px;
+  position: relative;
+  width: 182px;
+}
+
+.desktop .card-bg {
+  background-color: var(--cultured-pearl);
+  border: 1px solid;
+  border-color: var(--alto);
+  border-radius: 16px;
+  box-shadow: 0px 0px 14px 3px #00000030;
+  height: 274px;
+  left: 0;
+  opacity: 0.85;
+  position: absolute;
+  top: 0;
+  width: 182px;
+}
+
+.desktop .img_iphone-16e {
+  background-image: url(../img/img-iphone-16e.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 180px;
+  left: 1px;
+  position: absolute;
+  top: 93px;
+  width: 180px;
+}
+
+.desktop .neuestes-i-phone-groartiger-preis {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 18px;
+  width: 160px;
+}
+
+.desktop .i-phone-16e {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 34px;
+  width: 160px;
+}
+
+.desktop .alles-was-du-brauch {
+  left: 11px;
+  letter-spacing: 0.36px;
+  line-height: 13px;
+  position: absolute;
+  top: 55px;
+  width: 160px;
+}
+
+.desktop .red-line-dotted {
+  height: 2px;
+  left: 13px;
+  object-fit: cover;
+  position: absolute;
+  top: 92px;
+  width: 11px;
+}
+
+.desktop .card_apple-care-plus {
+  align-items: flex-start;
+  cursor: pointer;
+  display: flex;
+  height: 272px;
+  justify-content: center;
+  margin-left: 29px;
+  min-width: 180px;
+}
+
+.desktop .img_apple-care-plus {
+  background-image: url(../img/img-apple-care-plus.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 180px;
+  left: 1px;
+  position: absolute;
+  top: 89px;
+  width: 180px;
+}
+
+.desktop .bleib-entspannt-mit-apple-care {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 18px;
+  width: 155px;
+}
+
+.desktop .apple-care {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 34px;
+  width: 160px;
+}
+
+.desktop .apple-care-deckt-una {
+  left: 11px;
+  letter-spacing: 0.45px;
+  line-height: 13px;
+  position: absolute;
+  top: 55px;
+  width: 160px;
+}
+
+.desktop .card_reparatur-bonus {
+  align-items: flex-start;
+  cursor: pointer;
+  display: flex;
+  height: 272px;
+  justify-content: center;
+  margin-left: 24px;
+  min-width: 180px;
+}
+
+.desktop .img_reparaturbonus {
+  background-image: url(../img/img-reparaturbonus.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 180px;
+  left: 1px;
+  position: absolute;
+  top: 89px;
+  width: 180px;
+}
+
+.desktop .einzulsen-fr-privatpersonen {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 18px;
+  width: 153px;
+}
+
+.desktop .reparatur-bonus {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 34px;
+}
+
+.desktop .direkt-nutzen-und-geld-sparen {
+  left: 11px;
+  letter-spacing: 0.45px;
+  line-height: 13px;
+  position: absolute;
+  top: 55px;
+  white-space: nowrap;
+}
+
+.desktop .red-line-dotted-1 {
+  height: 2px;
+  left: 13px;
+  object-fit: cover;
+  position: absolute;
+  top: 76px;
+  width: 11px;
+}
+
+.desktop .herzliche-gre-das-macoffice-team {
+  letter-spacing: 0;
+  line-height: 20px;
+  margin-right: 1.0px;
+  margin-top: 39px;
+  min-height: 47px;
+  width: 589px;
+}
+
+.desktop .footer-line {
+  height: 1px;
+  margin-top: 25px;
+  object-fit: cover;
+  width: 500px;
+}
+
+.desktop .diesen-newsletter-er {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-right: 1.0px;
+  margin-top: 25px;
+  min-height: 76px;
+  text-align: center;
+  width: 543px;
+}
+
+.desktop .footer-container {
+  align-items: center;
+  background-color: var(--eerie-black);
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 149px;
+  justify-content: flex-end;
+  margin-top: 10px;
+  padding: 7px 48px 14px;
+  position: relative;
+}
+
+.desktop .frame-24 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 123px;
+  width: 100%;
+}
+
+.desktop .impressum-macoffice {
+  height: 66px;
+  letter-spacing: 0;
+  line-height: 14.6px;
+  margin-top: -1.00px;
+  position: relative;
+  text-align: center;
+  width: 543px;
+}
+
+.desktop .x2025-macoffice-macs-work-easier {
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  width: fit-content;
+}
+
+.desktop .der-autorisierte-app {
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.desktop .content-1 {
+  position: relative;
+  width: 640px;
+}
+
+.desktop .flex {
+  align-items: center;
+  display: flex;
+}
+
+.desktop .frame {
+  align-items: center;
+  position: relative;
+}
+/* screen - smartphone-u40smallu41-all-breakpoints */
+
+.smartphone-u40smallu41-all-breakpoints {
+  align-items: center;
+  background-color: var(--cultured-pearl);
+  display: flex;
+  flex-direction: column;
+  height: 1551px;
+  overflow: hidden;
+  width: 375px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .overlap-group-1 {
+  height: 625px;
+  margin-top: 8px;
+  position: relative;
+  width: 375px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .group-4 {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  left: 8px;
+  min-height: 625px;
+  position: absolute;
+  top: 0;
+  width: 359px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .frame-30 {
+  align-items: center;
+  display: flex;
+  gap: 11.02px;
+  height: 33px;
+  justify-content: center;
+  margin-right: 4px;
+  position: relative;
+  width: 350px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .newsletter-kw-09-2025-1 {
+  color: var(--cod-gray);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-xxs);
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: right;
+  width: 128.26px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .hero-img-desktop-1 {
+  background-image: url(../img/hero-img--desktop.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 255px;
+  margin-right: 4px;
+  margin-top: 20px;
+  width: 355px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .sehr-geehrte-damen-und-herren-1 {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-right: 4.5px;
+  margin-top: 14px;
+  min-height: 18px;
+  width: 350px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .das-neu-vorgestellte-1 {
+  letter-spacing: 0;
+  line-height: 15.6px;
+  margin-right: 4px;
+  margin-top: 7px;
+  min-height: 278px;
+  width: 350px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .span-3 {
+  text-decoration: underline;
+}
+
+.smartphone-u40smallu41-all-breakpoints .header-line-red-1 {
+  height: 2px;
+  left: 0;
+  position: absolute;
+  top: 39px;
+  width: 375px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .frame-3 {
+  height: 39px;
+  margin-left: 1.0px;
+  margin-top: 25px;
+  position: relative;
+  width: 350px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .card-container {
+  align-content: space-between;
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  height: 522px;
+  justify-content: center;
+  margin-top: 11px;
+  position: relative;
+  width: 351px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .frame {
+  align-items: flex-start;
+  display: flex;
+  gap: 8.36px;
+  justify-content: center;
+  padding: 8.36px;
+  position: relative;
+  width: 167.14px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .frame-9 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8.36px;
+  position: relative;
+}
+
+.smartphone-u40smallu41-all-breakpoints .card {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 0.84px solid;
+  border-color: var(--alto-2);
+  border-radius: 13.37px;
+  box-shadow: 0px 3.34px 11.7px #00000030;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5.01px;
+  padding: 15.88px 0.84px;
+  position: relative;
+  width: 150.43px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .frame-7 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 5.01px;
+  padding: 0px 8.36px 2.51px;
+  position: relative;
+}
+
+.smartphone-u40smallu41-all-breakpoints .frame-11 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 0.84px;
+  position: relative;
+}
+
+.smartphone-u40smallu41-all-breakpoints .neuestes-i-phone-groartiger-preis-1 {
+  height: 14px;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -0.84px;
+  position: relative;
+  width: 132px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .i-phone-16e-1 {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -3.34px;
+  position: relative;
+  width: 132px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .alles-was-du-brauch-1 {
+  letter-spacing: 0.28px;
+  line-height: 11px;
+  position: relative;
+  width: 132px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .red-line-dotted-2 {
+  height: 2px;
+  margin-bottom: -1.00px;
+  margin-left: -1.00px;
+  object-fit: cover;
+  position: relative;
+  width: 11px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .img_iphone-16e-1 {
+  background-image: url(../img/img-iphone-16e.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 150px;
+  margin-right: -1.24px;
+  position: relative;
+  width: 150px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .frame-9-1 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8.36px;
+  justify-content: center;
+  padding: 8.36px;
+  position: relative;
+}
+
+.smartphone-u40smallu41-all-breakpoints .bleib-entspannt-mit-apple-care-1 {
+  height: 14px;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -0.84px;
+  position: relative;
+  width: 132px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .apple-care-1 {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -3.34px;
+  position: relative;
+  width: 132px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .apple-care-deckt-una-1 {
+  letter-spacing: 0.28px;
+  line-height: 11px;
+  position: relative;
+  width: 132px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .img_apple-care-plus-1 {
+  background-image: url(../img/img-apple-care-plus.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 150px;
+  margin-right: -1.24px;
+  position: relative;
+  width: 150px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .einzulsen-fr-privatpersonen-1 {
+  height: 14px;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -0.84px;
+  position: relative;
+  width: 132px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .reparatur-bonus-1 {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -3.34px;
+  position: relative;
+  width: 132px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .direkt-nutzen-und-geld-sparen-1 {
+  letter-spacing: 0.28px;
+  line-height: 11px;
+  position: relative;
+  width: 132px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .img_reparaturbonus-1 {
+  background-image: url(../img/img-reparaturbonus.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 149px;
+  margin-right: -0.24px;
+  position: relative;
+  width: 149px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .herzliche-gre-das-macoffice-team-1 {
+  letter-spacing: 0;
+  line-height: 15.6px;
+  margin-left: 1.0px;
+  margin-top: 27px;
+  min-height: 39px;
+  width: 350px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .footer-line-1 {
+  height: 1px;
+  margin-top: 18px;
+  width: 250px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .diesen-newsletter-er-1 {
+  letter-spacing: 0;
+  line-height: 16px;
+  margin-left: 1.0px;
+  margin-top: 23px;
+  min-height: 53px;
+  text-align: center;
+  width: 350px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .footer-container-1 {
+  align-items: center;
+  background-color: var(--eerie-black);
+  display: inline-flex;
+  flex-direction: column;
+  gap: 11.72px;
+  margin-top: 20px;
+  padding: 22.66px 12.5px;
+  position: relative;
+}
+
+.smartphone-u40smallu41-all-breakpoints .impressum-macoffice-1 {
+  color: var(--cultured-pearl);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-xxxxs);
+  font-weight: 400;
+  height: 51.56px;
+  letter-spacing: 0;
+  line-height: 11.4px;
+  margin-top: -0.78px;
+  position: relative;
+  text-align: center;
+  width: 350px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .span0 {
+  font-weight: 700;
+}
+
+.smartphone-u40smallu41-all-breakpoints .x2025-macoffice-macs-work-easier-1 {
+  color: var(--cultured-pearl);
+  font-family: var(--font-family-inter);
+  font-size: 9.4px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  width: 321.09px;
+}
+
+.smartphone-u40smallu41-all-breakpoints .der-autorisierte-app-1 {
+  color: var(--cultured-pearl);
+  font-family: var(--font-family-inter);
+  font-size: 7.8px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  width: 285px;
+}
+/* screen - tablet */
+
+.tablet {
+  align-items: flex-start;
+  background-color: #b0aaaa;
+  display: flex;
+  gap: 10px;
+  height: 1508px;
+  justify-content: center;
+  min-width: 778px;
+  padding: 27px 69px;
+  position: relative;
+}
+
+.tablet .outer-container-1 {
+  align-items: center;
+  background-color: var(--cultured-pearl);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  width: 640px;
+}
+
+.tablet .frame-31-1 {
+  align-items: flex-start;
+  display: inline-flex;
+  gap: 10px;
+  height: 1284px;
+  justify-content: center;
+  position: relative;
+}
+
+.tablet .content-container-1 {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+  height: 1481px;
+  justify-content: center;
+  margin-bottom: -197.00px;
+  position: relative;
+  width: 640px;
+}
+
+.tablet .content-1 {
+  align-self: stretch;
+  position: relative;
+  width: 640px;
+}
+
+.tablet .overlap-group3 {
+  align-items: center;
+  background-color: var(--cultured-pearl);
+  display: flex;
+  flex-direction: column;
+  min-height: 1444px;
+  padding: 10px 0;
+}
+
+.tablet .header-2 {
+  flex-direction: column;
+  gap: 6px;
+  min-height: 63px;
+  width: 640px;
+}
+
+.tablet .flex-row-1 {
+  align-items: center;
+  display: flex;
+  gap: 25px;
+  margin-left: 2.0px;
+  min-width: 600px;
+}
+
+.tablet .logos-1 {
+  height: 54px;
+  position: relative;
+  width: 362px;
+}
+
+.tablet .newsletter-kw-09-2025-2 {
+  color: var(--cod-gray);
+  font-family: var(--font-family-inter);
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 2.0px;
+  min-height: 24px;
+  text-align: right;
+  width: 213px;
+}
+
+.tablet .header-line-red-2 {
+  height: 3px;
+  width: 640px;
+}
+
+.tablet .hero-img-desktop-2 {
+  background-image: url(../img/hero-img--desktop.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 327px;
+  margin-top: 24px;
+  width: 598px;
+}
+
+.tablet .sehr-geehrte-damen-und-herren-2 {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 14px;
+  min-height: 23px;
+  width: 590px;
+}
+
+.tablet .das-neu-vorgestellte-2 {
+  letter-spacing: 0;
+  line-height: 20px;
+  margin-top: 2px;
+  min-height: 267px;
+  width: 590px;
+}
+
+.tablet .span-5 {
+  text-decoration: underline;
+}
+
+.tablet .header-3 {
+  gap: 12px;
+  margin-left: 2.0px;
+  margin-top: 25px;
+  position: relative;
+  width: 594px;
+}
+
+.tablet .neuheiten-die-faszi-1 {
+  height: 22px;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -1.00px;
+  position: relative;
+  width: 554px;
+}
+
+.tablet .heading-line {
+  height: 1px;
+  left: 545px;
+  object-fit: cover;
+  position: absolute;
+  top: 10px;
+  width: 45px;
+}
+
+.tablet .card_-container-1 {
+  align-items: flex-start;
+  display: flex;
+  margin-right: 5.0px;
+  margin-top: 30px;
+  min-width: 593px;
+}
+
+.tablet .card_i-phone-16e {
+  align-items: flex-end;
+  cursor: pointer;
+  display: flex;
+  height: 272px;
+  justify-content: center;
+  min-width: 180px;
+}
+
+.tablet .overlap-group-3 {
+  height: 280px;
+  margin-bottom: -7px;
+}
+
+.tablet .card-bg-1 {
+  background-color: var(--cultured-pearl);
+  border: 1px solid;
+  border-color: var(--alto);
+  border-radius: 16px;
+  box-shadow: 0px 0px 14px 3px #00000030;
+  height: 274px;
+  left: 0;
+  opacity: 0.85;
+  position: absolute;
+  top: 0;
+  width: 182px;
+}
+
+.tablet .img_iphone-16e-2 {
+  background-image: url(../img/img-iphone-16e.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 180px;
+  left: 1px;
+  position: absolute;
+  top: 100px;
+  width: 180px;
+}
+
+.tablet .neuestes-i-phone-groartiger-preis-2 {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 18px;
+  width: 160px;
+}
+
+.tablet .i-phone-16e-2 {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 34px;
+  width: 160px;
+}
+
+.tablet .alles-was-du-brauch-2 {
+  left: 11px;
+  letter-spacing: 0.45px;
+  line-height: normal;
+  position: absolute;
+  top: 57px;
+  width: 160px;
+}
+
+.tablet .red-line-dotted-3 {
+  top: 91px;
+}
+
+.tablet .card_apple-care-plus-1 {
+  align-items: flex-start;
+  cursor: pointer;
+  display: flex;
+  height: 272px;
+  justify-content: center;
+  margin-left: 29px;
+  min-width: 180px;
+}
+
+.tablet .overlap-group-2 {
+  border-radius: 16px;
+  height: 274px;
+  margin-top: -1px;
+}
+
+.tablet .img_apple-care-plus-2 {
+  background-image: url(../img/img-apple-care-plus.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 180px;
+  left: 1px;
+  position: absolute;
+  top: 92px;
+  width: 180px;
+}
+
+.tablet .bleib-entspannt-mit-apple-care-2 {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 18px;
+  width: 158px;
+}
+
+.tablet .apple-care-2 {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 34px;
+  width: 160px;
+}
+
+.tablet .apple-care-deckt-una-2 {
+  left: 11px;
+  letter-spacing: 0.45px;
+  line-height: normal;
+  position: absolute;
+  top: 57px;
+  width: 160px;
+}
+
+.tablet .card_reparatur-bonus-1 {
+  align-items: flex-start;
+  cursor: pointer;
+  display: flex;
+  height: 272px;
+  justify-content: center;
+  margin-left: 24px;
+  min-width: 180px;
+}
+
+.tablet .img_reparaturbonus-2 {
+  background-image: url(../img/img-reparaturbonus.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 180px;
+  left: 1px;
+  position: absolute;
+  top: 89px;
+  width: 180px;
+}
+
+.tablet .einzulsen-fr-privatpersonen-2 {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 18px;
+  width: 149px;
+}
+
+.tablet .reparatur-bonus-2 {
+  left: 11px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 34px;
+  width: 160px;
+}
+
+.tablet .direkt-nutzen-und-geld-sparen-2 {
+  left: 11px;
+  letter-spacing: 0.45px;
+  line-height: normal;
+  position: absolute;
+  top: 57px;
+}
+
+.tablet .red-line-dotted-4 {
+  top: 78px;
+}
+
+.tablet .herzliche-gre-das-macoffice-team-2 {
+  letter-spacing: 0;
+  line-height: 20px;
+  margin-top: 49px;
+  min-height: 47px;
+  width: 590px;
+}
+
+.tablet .footer-line-2 {
+  height: 1px;
+  margin-top: 26px;
+  object-fit: cover;
+  width: 500px;
+}
+
+.tablet .diesen-newsletter-er-2 {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-right: 1.0px;
+  margin-top: 23px;
+  min-height: 74px;
+  text-align: center;
+  width: 543px;
+}
+
+.tablet .footer-container-2 {
+  align-items: center;
+  background-color: var(--eerie-black);
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 149px;
+  justify-content: flex-end;
+  padding: 12px 48px 14px;
+  position: relative;
+}
+
+.tablet .frame-24-1 {
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 15px;
+  position: relative;
+  width: 100%;
+}
+
+.tablet .impressum-macoffice-2 {
+  height: 66px;
+  letter-spacing: 0;
+  line-height: 14.6px;
+  margin-top: -1.00px;
+  position: relative;
+  text-align: center;
+  width: 543px;
+}
+
+.tablet .x2025-macoffice-macs-work-easier-2 {
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  width: fit-content;
+}
+
+.tablet .der-autorisierte-app-2 {
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  width: 388px;
+}
+
+.tablet .header {
+  align-items: center;
+  display: flex;
+}
+
+.tablet .overlap-group {
+  position: relative;
+  width: 182px;
+}
+
+.tablet .red-line-dotted {
+  height: 2px;
+  left: 13px;
+  object-fit: cover;
+  position: absolute;
+  width: 11px;
+}
+@media screen and (max-width: 777px) {
+  .screen.desktop { 
+    display: none;
+   }
+  .screen.tablet { 
+    display: none;
+   }
+}
+@media screen and (min-width: 778px) and (max-width: 1439px) {
+  .screen.desktop { 
+    display: none;
+   }
+  .screen.smartphone-u40smallu41-all-breakpoints { 
+    display: none;
+   }
+}
+@media screen and (min-width: 1440px) {
+  .screen.smartphone-u40smallu41-all-breakpoints { 
+    display: none;
+   }
+  .screen.tablet { 
+    display: none;
+   }
+}

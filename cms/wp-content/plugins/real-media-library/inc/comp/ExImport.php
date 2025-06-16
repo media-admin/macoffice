@@ -14,6 +14,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\ExpireOption;
 // @codeCoverageIgnoreEnd
 /**
  * Import and export functionality.
+ * @internal
  */
 class ExImport implements IOverrideExImport
 {

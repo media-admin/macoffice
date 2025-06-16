@@ -29,6 +29,36 @@
 }
 
 
+.anchor--scroll-60 {
+	visibility: hidden;
+	height: 0px !important;
+	position: absolute;
+	margin: 600px;
+	transition: all ease-in-out 0.3;
+}
+
+
+
+
+/* --- Word Wrapping / Hyphens --- */
+.wrap-here::after {
+	content: '\A';
+	white-space: pre;
+}
+
+
+.wrap-here-mobile::after {
+	content: '\A';
+	white-space: pre;
+	display: none;
+
+	@include atMedium {
+		content: '';
+		white-space: none;
+	}
+}
+
+
 
 /* --- WordPress Helper Classes --- */
 

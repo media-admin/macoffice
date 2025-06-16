@@ -33,8 +33,9 @@ if ( ! class_exists( 'AWS_Admin_Meta_Boxes' ) ) :
                         $html .='<div class="list">';
                             $html .='1. ' . sprintf(esc_html__( "Enable a %s option ( may not work with some themes )", 'advanced-woo-search' ), '<a href="#seamless">' . __( 'Seamless integration', 'advanced-woo-search' ) . '</a>' ) . '<br>';
                             $html .='2. ' . sprintf( esc_html__( 'Using shortcode %s', 'advanced-woo-search' ), '<code>[aws_search_form id="YOUR_FORM_ID"]</code>' ) . '<br>';
-                            $html .='3. ' . sprintf( esc_html__( "Add search form as a widget. Go to %s and drag&drop 'AWS Widget' to one of your widget areas", 'advanced-woo-search' ), '<a href="' . admin_url( 'widgets.php' ) . '" target="_blank">' . __( 'Widgets Screen', 'advanced-woo-search' ) . '</a>' ) . '<br>';
-                            $html .='4. ' . sprintf( esc_html__( 'Add PHP code to the necessary files of your theme: %s', 'advanced-woo-search' ), "<code>&lt;?php aws_get_search_form( true, array( 'id' => YOUR_FORM_ID ) ); ?&gt;</code>" ) . '<br>';
+                            $html .='3. ' . esc_html__( 'Using a page builder - locate the built-in search form widget and add it to the desired location on the page.', 'advanced-woo-search' ). '<br>';
+                            $html .='4. ' . sprintf( esc_html__( "Add search form as a widget. Go to %s and drag&drop 'AWS Widget' to one of your widget areas", 'advanced-woo-search' ), '<a href="' . admin_url( 'widgets.php' ) . '" target="_blank">' . __( 'Widgets Screen', 'advanced-woo-search' ) . '</a>' ) . '<br>';
+                            $html .='5. ' . sprintf( esc_html__( 'Add PHP code to the necessary files of your theme: %s', 'advanced-woo-search' ), "<code>&lt;?php aws_get_search_form( true, array( 'id' => YOUR_FORM_ID ) ); ?&gt;</code>" ) . '<br>';
                             $html .= sprintf( esc_html__( 'Replace %s with ID of search form that you want to display', 'advanced-woo-search' ), "<code>YOUR_FORM_ID</code>" ) . '<br>';
                         $html .='</div>';
                     $html .='</div>';
@@ -146,6 +147,7 @@ if ( ! class_exists( 'AWS_Admin_Meta_Boxes' ) ) :
         static public function get_instances_table() {
             
             $plugin_options = AWS_Admin_Options::get_settings();
+            $main_instances = get_option( 'aws_main_instance' );
 
             $html = '';
 
@@ -166,12 +168,15 @@ if ( ! class_exists( 'AWS_Admin_Meta_Boxes' ) ) :
             $html .='<tbody>';
     
             foreach ( $plugin_options as $instance => $instance_options ) {
+
+                $is_main = $main_instances == $instance ? ' is-featured' : '';
     
                 $instance_page = admin_url( 'admin.php?page=aws-options&aws_id=' . $instance );
     
                 $html .='<tr>';
     
                 $html .='<td class="aws-name">';
+                $html .='<a class="featured aws-tip' . $is_main . '" data-id="' . esc_attr( $instance ) . '" data-tip="' . esc_html__( 'Make main - this search form will be default for seamless integration, shortcodes, widgets, etc.', 'advanced-woo-search' ) . '" href="#">' . esc_html__( 'Featured', 'advanced-woo-search' ) . '</a>';
                 $html .='<a href="' . $instance_page . '">' . $instance_options['search_instance'] . '</a>';
                 $html .='</td>';
     
@@ -180,9 +185,9 @@ if ( ! class_exists( 'AWS_Admin_Meta_Boxes' ) ) :
                 $html .='</td>';
     
                 $html .='<td class="aws-actions">';
-                $html .='<a class="button alignright tips delete" title="Delete" data-id="' . esc_attr( $instance ) . '" href="#">' . esc_html__( 'Delete', 'advanced-woo-search' ) . '</a>';
-                $html .='<a class="button alignright tips copy" title="Copy" data-id="' . esc_attr( $instance ) . '" href="#">' . esc_html__( 'Copy', 'advanced-woo-search' ) . '</a>';
-                $html .='<a class="button alignright tips edit" title="Edit" href="' . $instance_page . '">' . esc_html__( 'Edit', 'advanced-woo-search' ) . '</a>';
+                $html .='<a class="button alignright delete aws-tip" data-id="' . esc_attr( $instance ) . '" data-tip="' . esc_html__( 'Delete', 'advanced-woo-search' ) . '" href="#">' . esc_html__( 'Delete', 'advanced-woo-search' ) . '</a>';
+                $html .='<a class="button alignright copy aws-tip" data-id="' . esc_attr( $instance ) . '" data-tip="' . esc_html__( 'Make a copy', 'advanced-woo-search' ) . '" href="#">' . esc_html__( 'Copy', 'advanced-woo-search' ) . '</a>';
+                $html .='<a class="button alignright edit aws-tip" data-tip="' . esc_html__( 'Go to search form settings', 'advanced-woo-search' ) . '" href="' . $instance_page . '">' . esc_html__( 'Edit', 'advanced-woo-search' ) . '</a>';
                 $html .='</td>';
     
                 $html .='</tr>';
@@ -196,7 +201,7 @@ if ( ! class_exists( 'AWS_Admin_Meta_Boxes' ) ) :
     
     
             $html .='<div class="aws-insert-instance">';
-                $html .='<button class="button aws-insert-instance">' . esc_html__( 'Add New Form', 'advanced-woo-search' ) . '</button>';
+                $html .='<button class="button aws-insert-instance-btn">' . esc_html__( 'Add New Form', 'advanced-woo-search' ) . '</button>';
             $html .='</div>';
 
             return $html;

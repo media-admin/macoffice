@@ -2,7 +2,7 @@
 /**
  * The Template for displaying notification email for change actions by follow wishlist plain this plugin.
  *
- * @version             1.0.0
+ * @version             2.8.2
  * @package           TInvWishlist\Admin\Template
  */
 
@@ -34,7 +34,7 @@ foreach ( $events_name as $key => $name ) {
 		$availability_text = empty( $availability['availability'] ) ? esc_html( __( 'In stock', 'ti-woocommerce-wishlist-premium' ) ) : esc_html( $availability['availability'] );
 
 		echo apply_filters( 'tinvwl_email_wishlist_item_status', $availability_text, $availability['availability'], $product, $plain_text ) . "\n"; // WPCS: xss ok.
-		echo apply_filters( 'tinvwl_email_wishlist_item_quantity', $product->wl_quantity, $product, $plain_text ) . "\n"; // WPCS: xss ok.
+		echo apply_filters( 'tinvwl_email_wishlist_item_quantity', $product->get_meta( 'wl_quantity', true ), $product, $plain_text ) . "\n"; // WPCS: xss ok.
 		echo "----------\n\n";
 	}
 }

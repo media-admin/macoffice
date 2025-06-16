@@ -24,6 +24,13 @@ class TInvWL_Public_Search {
 	private $_name;
 
 	/**
+	 * Total number of pages for pagination.
+	 *
+	 * @var int
+	 */
+	private $pages;
+
+	/**
 	 * This class
 	 *
 	 * @var \TInvWL_Public_Search

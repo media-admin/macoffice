@@ -12,6 +12,8 @@
  * @var string   $status_msg  CDN status messages.
  */
 
+use Smush\Core\CDN\CDN_Helper;
+
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
@@ -20,7 +22,8 @@ if ( ! defined( 'WPINC' ) ) {
 
 <p>
 	<?php
-	esc_html_e( 'Take a load off your server by delivering your images from our blazingly-fast CDN. The Smush CDN is a multi-location network ensuring faster delivery of site content, as users will be served optimized and cached versions of files from the server closest to them.', 'wp-smushit' );
+	$cdn_message = __( 'Take a load off your server by delivering your images from our blazingly-fast CDN. The Smush CDN is a multi-location network ensuring faster delivery of site content, as users will be served optimized and cached versions of files from the server closest to them.', 'wp-smushit' );
+	echo esc_html( $this->whitelabel->whitelabel_string( $cdn_message ) );
 	?>
 </p>
 
@@ -29,18 +32,11 @@ if ( ! defined( 'WPINC' ) ) {
 		<div class="sui-notice-message">
 			<i class="sui-notice-icon sui-icon-<?php echo 'enabled' === $status ? 'check-tick' : 'info'; ?> sui-md" aria-hidden="true"></i>
 			<p><?php echo wp_kses_post( $status_msg ); ?></p>
-			<?php if ( 'error' === $class && 'overcap' === $status ) : ?>
-				<p>
-					<a href="https://wpmudev.com/hub/account/" target="_blank" class="sui-button">
-						<?php esc_html_e( 'Upgrade Plan', 'wp-smushit' ); ?>
-					</a>
-				</p>
-			<?php endif; ?>
 		</div>
 	</div>
 </div>
 
-<div class="sui-box-settings-row">
+<div class="sui-box-settings-row" id="cdn-supported-media-types-settings-row">
 	<div class="sui-box-settings-col-1">
 		<span class="sui-settings-label">
 			<?php esc_html_e( 'Supported Media Types', 'wp-smushit' ); ?>
@@ -86,9 +82,52 @@ foreach ( $cdn_group as $name ) {
 
 	do_action( 'wp_smush_render_setting_row', $name, $settings[ $name ] );
 }
+
+$excluded_keywords = CDN_Helper::get_instance()->get_excluded_keywords();
 ?>
 
-<div class="sui-box-settings-row">
+<div class="sui-box-settings-row" id="cdn-excluded-keywords-settings-row">
+	<div class="sui-box-settings-col-1">
+		<span class="sui-settings-label">
+			<?php esc_html_e( 'Image Exclusions', 'wp-smushit' ); ?>
+		</span>
+		<span class="sui-description">
+			<?php esc_html_e( 'Prevent specific images from being served via CDN.', 'wp-smushit' ); ?>
+		</span>
+	</div>
+	<div class="sui-box-settings-col-2">
+		<div class="sui-form-field">
+			<strong><?php esc_html_e( 'Keywords', 'wp-smushit' ); ?></strong>
+			<div class="sui-description">
+				<?php esc_html_e( 'Specify keywords from the image code - classes, IDs, filenames, source URLs or any string of characters - to exclude from CDN (case-sensitive).', 'wp-smushit' ); ?>
+			</div>
+			<?php
+			$strings = '';
+			if ( ! empty( $excluded_keywords ) ) {
+				$strings = join( PHP_EOL, $excluded_keywords );
+			}
+
+			$line_height     = 20;
+			$padding         = 18;
+			$textarea_height = max( 100, count( $excluded_keywords ) * $line_height + $padding );
+			$textarea_height = min( 200, $textarea_height );
+			?>
+			<textarea class="sui-form-control" name="excluded-keywords" placeholder="<?php esc_attr_e( 'Add keywords, one per line', 'wp-smushit' ); ?>" style="height:<?php echo esc_attr( $textarea_height ); ?>px"><?php echo esc_attr( $strings ); ?></textarea>
+			<div class="sui-description">
+				<?php
+				printf(
+					/* translators: %1$s - opening strong tag, %2$s - closing strong tag */
+					esc_html__( 'Add one keyword per line. E.g. %1$s#image-id%2$s or %1$s.image-class%2$s or %1$slogo_image%2$s or %1$sgo_imag%2$s or %1$sx.com/%2$s or %1$s@url-keyword%2$s', 'wp-smushit' ),
+					'<strong>',
+					'</strong>'
+				);
+				?>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="sui-box-settings-row" id="cdn-deactivate-settings-row">
 	<div class="sui-box-settings-col-1">
 		<span class="sui-settings-label">
 			<?php esc_html_e( 'Deactivate', 'wp-smushit' ); ?>

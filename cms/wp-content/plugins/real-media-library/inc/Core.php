@@ -41,6 +41,7 @@ require_once 'base/others/class-alias.php';
 /**
  * Singleton core class which handles the main system for plugin. It includes
  * registering of the autoload, all hooks (actions & filters) (see BaseCore class).
+ * @internal
  */
 class Core extends BaseCore implements IOverrideCore
 {
@@ -61,10 +62,6 @@ class Core extends BaseCore implements IOverrideCore
     protected function __construct()
     {
         parent::__construct();
-        // Load no-namespace API functions
-        foreach (['attachment', 'folders', 'meta'] as $apiInclude) {
-            require_once RML_PATH . '/inc/api/' . $apiInclude . '.php';
-        }
         // Enable `no-store` for our relevant WP REST API endpoints
         ServiceNoStore::hook('/' . UtilsService::getNamespace($this));
         ServiceNoStore::hook('/' . Service::LEGACY_NAMESPACE);

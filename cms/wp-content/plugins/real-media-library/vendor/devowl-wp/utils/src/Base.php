@@ -8,6 +8,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils;
  * Base trait for all available classes in your plugin. The trait itself should not
  * be directly used, use the UtilsProvider trait instead in your plugin! But you can
  * still use the methods defined there.
+ * @internal
  */
 trait Base
 {

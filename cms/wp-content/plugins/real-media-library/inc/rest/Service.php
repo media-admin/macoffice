@@ -15,6 +15,7 @@ use WP_REST_Response;
 // @codeCoverageIgnoreEnd
 /**
  * Create a REST Service.
+ * @internal
  */
 class Service implements IOverrideService
 {
@@ -51,7 +52,6 @@ class Service implements IOverrideService
      * @return WP_REST_Response|WP_Error
      *
      * @api {get} /realmedialibrary/v1/tree Get the full categories tree
-     * @apiParam {string} [currentUrl] The current url to detect the active item
      * @apiName GetTree
      * @apiGroup Tree
      * @apiVersion 1.0.0
@@ -59,7 +59,6 @@ class Service implements IOverrideService
      */
     public function routeTree($request)
     {
-        $currentUrl = $request->get_param('currentUrl');
         // Receive structure
         $structure = Structure::getInstance();
         return new WP_REST_Response(['tree' => $structure->getPlainTree(), 'slugs' => $structure->getView()->namesSlugArray(), 'cntAll' => $structure->getCntAttachments(), 'cntRoot' => $structure->getCntRoot()]);
@@ -140,7 +139,7 @@ class Service implements IOverrideService
      * @return string
      * @see https://superpwa.com/codex/superpwa_sw_never_cache_urls/
      */
-    function superpwa_exclude_from_cache($superpwa_sw_never_cache_urls)
+    public function superpwa_exclude_from_cache($superpwa_sw_never_cache_urls)
     {
         return $superpwa_sw_never_cache_urls . ',/\\/realmedialibrary\\/v1';
     }

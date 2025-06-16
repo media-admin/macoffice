@@ -7,10 +7,7 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
-
+defined( 'ABSPATH' ) || exit;
 
 /**
  * REST API plugin class
@@ -22,19 +19,19 @@ class TInvWL_Includes_API_Wishlist {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'wc/v3';
+	protected string $namespace = 'wc/v3';
 
 	/**
 	 * Route base.
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'wishlist';
+	protected string $rest_base = 'wishlist';
 
 	/**
 	 * Register the routes for wishlist.
 	 */
-	public function register_routes() {
+	public function register_routes(): void {
 
 		// Create a wishlist.
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/create', array(
@@ -164,27 +161,24 @@ class TInvWL_Includes_API_Wishlist {
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 *
-	 * @return mixed|WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function wishlist_get_by_share_key( $request ) {
-		try {
-			$share_key = $request['share_key'];
+	public function wishlist_get_by_share_key( WP_REST_Request $request ) {
+		$share_key = $request->get_param( 'share_key' );
 
-			if ( ! empty( $share_key ) && preg_match( '/^[A-Fa-f0-9]{6}$/', $share_key ) ) {
-				$wishlist = tinv_wishlist_get( $share_key );
-				if ( ! $wishlist ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_invalid_share_key', __( 'Invalid wishlist share key.', 'ti-woocommerce-wishlist-premium' ), 400 );
-				}
-
-				$response = $this->prepare_wishlist_data( $wishlist, 'get_by_share_key', $request );
-
-				return rest_ensure_response( $response );
-
-
-			}
-		} catch ( WC_REST_Exception $e ) {
-			return new WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ) );
+		if ( empty( $share_key ) || ! preg_match( '/^[A-Fa-f0-9]{6}$/', $share_key ) ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_invalid_share_key', __( 'Invalid wishlist share key.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
 		}
+
+		$wishlist = tinv_wishlist_get( $share_key );
+
+		if ( ! $wishlist ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_invalid_share_key', __( 'Invalid wishlist share key.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
+		}
+
+		$response = $this->prepare_wishlist_data( $wishlist, 'get_by_share_key', $request->get_params() );
+
+		return rest_ensure_response( $response );
 	}
 
 	/**
@@ -192,36 +186,35 @@ class TInvWL_Includes_API_Wishlist {
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 *
-	 * @return mixed|WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function wishlist_get_by_user( $request ) {
-		try {
-			$user_id = isset( $request['user_id'] ) ? absint( $request['user_id'] ) : 0;
+	public function wishlist_get_by_user( WP_REST_Request $request ) {
+		$user_id = absint( $request->get_param( 'user_id' ) );
 
-			if ( ! empty( $user_id ) ) {
-
-				if ( ! $this->user_id_exists( $user_id ) ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_wishlist_user_not_exists', __( 'WordPress user does not exists.', 'ti-woocommerce-wishlist-premium' ), 400 );
-				}
-
-
-				$wl        = new TInvWL_Wishlist();
-				$wishlists = $wl->get_by_user( $user_id );
-
-				if ( ! $wishlists ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_wishlist_not_found', __( 'No wishlists found for this user.', 'ti-woocommerce-wishlist-premium' ), 400 );
-				}
-
-				$response = array();
-				foreach ( $wishlists as $wishlist ) {
-					$response[] = $this->prepare_wishlist_data( $wishlist, 'get_by_user', $request );
-				}
-
-				return rest_ensure_response( $response );
-			}
-		} catch ( WC_REST_Exception $e ) {
-			return new WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ) );
+		if ( $user_id && ! $this->user_id_exists( $user_id ) ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_wishlist_user_not_exists', __( 'No wishlists found for this user.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
 		}
+
+		$wl = new TInvWL_Wishlist();
+
+		if ( 0 === $user_id ) {
+
+			$wishlists[] = $wl->add_sharekey_default();
+
+		} else {
+
+			$wishlists = $wl->get_by_user( $user_id );
+
+			if ( ! $wishlists ) {
+				return new WP_Error( 'ti_woocommerce_wishlist_api_wishlist_not_found', __( 'No wishlists found for this user.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
+			}
+		}
+
+		$response = array_map( function ( $wishlist ) use ( $request ) {
+			return $this->prepare_wishlist_data( $wishlist, 'get_by_user', $request->get_params() );
+		}, $wishlists );
+
+		return rest_ensure_response( $response );
 	}
 
 	/**
@@ -229,53 +222,35 @@ class TInvWL_Includes_API_Wishlist {
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 *
-	 * @return mixed|WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response
 	 */
 	public function wishlist_update( $request ) {
-		try {
-			$share_key = $request['share_key'];
+		$result = $this->get_wishlist_by_share_key( $request );
 
-			if ( ! empty( $share_key ) && preg_match( '/^[A-Fa-f0-9]{6}$/', $share_key ) ) {
-
-				$wl = new TInvWL_Wishlist();
-
-				$wishlist = $wl->get_by_share_key( $share_key );
-
-				if ( ! $wishlist ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_invalid_share_key', __( 'Invalid wishlist share key.', 'ti-woocommerce-wishlist-premium' ), 400 );
-				}
-
-				$data = array();
-				if ( ! empty( $request['title'] ) ) {
-					$data['title'] = $request['title'];
-				}
-
-				if ( ! empty( $request['user_id'] ) ) {
-					$data['author'] = $request['user_id'];
-				}
-
-				if ( ! empty( $request['status'] ) ) {
-					$data['status'] = $request['status'];
-				}
-
-				if ( $data && ( current_user_can( 'tinvwl_general_settings' || $wishlist['author'] === get_current_user_id() ) ) ) {
-					$update = $wl->update( $wishlist['ID'], $data );
-
-					if ( $update ) {
-						$response = $wl->get_by_share_key( $share_key );
-
-						return rest_ensure_response( $this->prepare_wishlist_data( $response, 'update', $request ) );
-					}
-
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_wishlist_update_error', __( 'Update wishlist data failed.', 'ti-woocommerce-wishlist-premium' ), 400 );
-
-				} else {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_wishlist_forbidden', __( 'Update wishlist data failed.', 'ti-woocommerce-wishlist-premium' ), 403 );
-				}
-			}
-		} catch ( WC_REST_Exception $e ) {
-			return new WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ) );
+		if ( is_wp_error( $result ) ) {
+			return $result;
 		}
+
+		$wishlist  = $result['wishlist'];
+		$share_key = $result['share_key'];
+		$wl        = $result['wl'];
+
+		$data = array_filter( [
+			'title'  => sanitize_text_field( $request->get_param( 'title' ) ),
+			'author' => absint( $request->get_param( 'user_id' ) ),
+		] );
+
+		if ( empty( $data ) || ! ( current_user_can( 'tinvwl_general_settings' ) || $wishlist['author'] === get_current_user_id() ) ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_wishlist_forbidden', __( 'Update wishlist data failed.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 403 ] );
+		}
+
+		if ( ! $wl->update( $wishlist['ID'], $data ) ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_wishlist_update_error', __( 'Update wishlist data failed.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
+		}
+
+		$response = $wl->get_by_share_key( $share_key );
+
+		return rest_ensure_response( $this->prepare_wishlist_data( $response, 'update', $request->get_params() ) );
 	}
 
 	/**
@@ -322,51 +297,45 @@ class TInvWL_Includes_API_Wishlist {
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 *
-	 * @return mixed|WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function wishlist_get_products( $request ) {
-		try {
-			$share_key = $request['share_key'];
+	public function wishlist_get_products( WP_REST_Request $request ) {
+		$wishlist = $this->get_wishlist_by_share_key( $request );
 
-			if ( ! empty( $share_key ) && preg_match( '/^[A-Fa-f0-9]{6}$/', $share_key ) ) {
-
-				$wl = new TInvWL_Wishlist();
-
-				$wishlist = $wl->get_by_share_key( $share_key );
-
-				if ( ! $wishlist ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_invalid_share_key', __( 'Invalid wishlist share key.', 'ti-woocommerce-wishlist-premium' ), 400 );
-				}
-
-				$wlp = new TInvWL_Product();
-
-				$args                = array();
-				$args['wishlist_id'] = $wishlist['ID'];
-				$args['external']    = false;
-
-				if ( $request['count'] ) {
-					$args['count'] = $request['count'];
-				}
-				if ( $request['offset'] ) {
-					$args['offset'] = $request['offset'];
-				}
-				if ( $request['order'] ) {
-					$args['order'] = $request['order'];
-				}
-
-				$products = $wlp->get( $args );
-
-				$response = array();
-
-				foreach ( $products as $product ) {
-					$response[] = $this->prepare_product_data( $product, 'get_products', $request );
-				}
-
-				return rest_ensure_response( apply_filters( 'tinvwl_api_wishlist_get_products_response', $response ) );
-			}
-		} catch ( WC_REST_Exception $e ) {
-			return new WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ) );
+		if ( is_wp_error( $wishlist ) ) {
+			return $wishlist;
 		}
+
+		$wlp  = new TInvWL_Product();
+		$args = [
+			'wishlist_id' => $wishlist['wishlist']['ID'],
+			'external'    => false
+		];
+
+		//proper sanitizing
+		if ( null !== ( $count = $request->get_param( 'count' ) ) ) {
+			$args['count'] = absint( $count );
+		}
+		if ( null !== ( $offset = $request->get_param( 'offset' ) ) ) {
+			$args['offset'] = absint( $offset );
+		}
+		//the order value is passed directly to the db so it needs to be protected against sql_injections
+		if ( null !== ( $order = $request->get_param( 'order' ) ) ) {
+			$order              = strtoupper( $order );
+			$valid_order_values = array( 'ASC', 'DESC' );
+			if ( in_array( $order, $valid_order_values, true ) ) {
+				$args['order'] = $order;
+			}
+		}
+
+
+		$products = $wlp->get( $args );
+
+		$response = array_map( function ( $product ) use ( $request ) {
+			return $this->prepare_product_data( $product, 'get_products', $request->get_params() );
+		}, $products );
+
+		return rest_ensure_response( apply_filters( 'tinvwl_api_wishlist_get_products_response', $response ) );
 	}
 
 	/**
@@ -374,63 +343,41 @@ class TInvWL_Includes_API_Wishlist {
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 *
-	 * @return mixed|WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function wishlist_add_product( $request ) {
-		try {
-			$share_key = $request['share_key'];
+	public function wishlist_add_product( WP_REST_Request $request ) {
+		$wishlist = $this->get_wishlist_by_share_key( $request );
 
-			if ( ! empty( $share_key ) && preg_match( '/^[A-Fa-f0-9]{6}$/', $share_key ) ) {
-
-				$wl = new TInvWL_Wishlist();
-
-				$wishlist = $wl->get_by_share_key( $share_key );
-
-				if ( ! $wishlist ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_invalid_share_key', __( 'Invalid wishlist share key.', 'ti-woocommerce-wishlist-premium' ), 400 );
-				}
-
-				if ( ! ( current_user_can( 'tinvwl_general_settings' ) || $wishlist['author'] === get_current_user_id() ) ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_wishlist_forbidden', __( 'Add product to wishlist failed.', 'ti-woocommerce-wishlist-premium' ), 403 );
-				}
-
-				$wlp = new TInvWL_Product();
-
-				$args                = array();
-				$args['wishlist_id'] = $wishlist['ID'];
-				$args['author']      = $wishlist['author'];
-
-				if ( $request['product_id'] ) {
-					$args['product_id'] = $request['product_id'];
-				}
-				if ( $request['variation_id'] ) {
-					$args['variation_id'] = $request['variation_id'];
-				}
-				$meta = array();
-				if ( $request['meta'] ) {
-					$meta = $request['meta'];
-				}
-				if ( $request['quantity'] ) {
-					$args['quantity'] = $request['quantity'];
-				}
-
-				$product = $wlp->add_product( $args, $meta );
-
-				if ( ! $product ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_wishlist_products_not_found', __( 'Add product to wishlist failed.', 'ti-woocommerce-wishlist-premium' ), 400 );
-				}
-
-				$response = array();
-				$products = $wlp->get( array( 'ID' => $product ) );
-				foreach ( $products as $product ) {
-					$response[] = $this->prepare_product_data( $product, 'add_product', $request );
-				}
-
-				return rest_ensure_response( $response );
-			}
-		} catch ( WC_REST_Exception $e ) {
-			return new WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ) );
+		if ( is_wp_error( $wishlist ) ) {
+			return $wishlist;
 		}
+
+		if ( ! current_user_can( 'tinvwl_general_settings' ) && $wishlist['author'] !== get_current_user_id() ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_wishlist_forbidden', __( 'Add product to wishlist failed.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 403 ] );
+		}
+
+		$wlp  = new TInvWL_Product();
+		$args = [
+			'wishlist_id'  => $wishlist['wishlist']['ID'],
+			'author'       => $wishlist['wishlist']['author'],
+			'product_id'   => absint( $request->get_param( 'product_id' ) ),
+			'variation_id' => absint( $request->get_param( 'variation_id' ) ),
+			'quantity'     => floatval( $request->get_param( 'quantity' ) ),
+		];
+		$meta = $request->get_param( 'meta' ) ?? [];
+
+		$product = $wlp->add_product( $args, $meta );
+
+		if ( ! $product ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_wishlist_products_not_found', __( 'Add product to wishlist failed.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
+		}
+
+		$products = $wlp->get( [ 'ID' => $product ] );
+		$response = array_map( function ( $product ) use ( $request ) {
+			return $this->prepare_product_data( $product, 'add_product', $request->get_params() );
+		}, $products );
+
+		return rest_ensure_response( $response );
 	}
 
 	/**
@@ -438,38 +385,57 @@ class TInvWL_Includes_API_Wishlist {
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 *
-	 * @return mixed|WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function wishlist_remove_product( $request ) {
-		try {
-			$item_id = isset( $request['item_id'] ) ? absint( $request['item_id'] ) : 0;
+	public function wishlist_remove_product( WP_REST_Request $request ) {
+		$item_id = absint( $request->get_param( 'item_id' ) );
 
-			if ( ! empty( $item_id ) ) {
-				$wlp      = new TInvWL_Product();
-				$wishlist = $wlp->get_wishlist_by_product_id( $item_id );
-
-				if ( ! $wishlist ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_wishlist_product_not_found', __( 'Product not found.', 'ti-woocommerce-wishlist-premium' ), 400 );
-				}
-
-				if ( ! ( current_user_can( 'tinvwl_general_settings' ) || $wishlist['author'] === get_current_user_id() ) ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_wishlist_forbidden', __( 'Remove product from wishlist failed.', 'ti-woocommerce-wishlist-premium' ), 403 );
-				}
-
-				$args       = array();
-				$args['ID'] = $item_id;
-
-				$result = $wlp->remove( $args );
-
-				if ( ! $result ) {
-					throw new WC_REST_Exception( 'ti_woocommerce_wishlist_api_wishlist_product_not_found', __( 'Product not found.', 'ti-woocommerce-wishlist-premium' ), 400 );
-				}
-
-				return rest_ensure_response( __( 'Product removed from a wishlist.', 'ti-woocommerce-wishlist-premium' ) );
-			}
-		} catch ( WC_REST_Exception $e ) {
-			return new WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ) );
+		if ( empty( $item_id ) ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_invalid_item_id', __( 'Invalid item ID.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
 		}
+
+		$wlp      = new TInvWL_Product();
+		$wishlist = $wlp->get_wishlist_by_product_id( $item_id );
+
+		if ( ! $wishlist ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_wishlist_product_not_found', __( 'Product not found.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
+		}
+
+		if ( ! current_user_can( 'tinvwl_general_settings' ) && $wishlist['author'] !== get_current_user_id() ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_wishlist_forbidden', __( 'Remove product from wishlist failed.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 403 ] );
+		}
+
+		$result = $wlp->remove( [ 'ID' => $item_id ] );
+
+		if ( ! $result ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_wishlist_product_not_found', __( 'Product not found.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
+		}
+
+		return rest_ensure_response( __( 'Product removed from a wishlist.', 'ti-woocommerce-wishlist-premium' ) );
+	}
+
+	/**
+	 * Get wishlist by share key.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 *
+	 * @return array|WP_Error
+	 */
+	private function get_wishlist_by_share_key( WP_REST_Request $request ) {
+		$share_key = $request->get_param( 'share_key' );
+
+		if ( empty( $share_key ) || ! preg_match( '/^[A-Fa-f0-9]{6}$/', $share_key ) ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_invalid_share_key', __( 'Invalid wishlist share key.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
+		}
+
+		$wl       = new TInvWL_Wishlist();
+		$wishlist = $wl->get_by_share_key( $share_key );
+
+		if ( ! $wishlist ) {
+			return new WP_Error( 'ti_woocommerce_wishlist_api_invalid_share_key', __( 'Invalid wishlist share key.', 'ti-woocommerce-wishlist-premium' ), [ 'status' => 400 ] );
+		}
+
+		return [ 'wishlist' => $wishlist, 'share_key' => $share_key, 'wl' => $wl ];
 	}
 
 	/**
@@ -481,16 +447,15 @@ class TInvWL_Includes_API_Wishlist {
 	 *
 	 * @return array
 	 */
-	public function prepare_wishlist_data( $wishlist, $event, $request ) {
-		$response               = array();
-		$response['id']         = $wishlist['ID'];
-		$response['user_id']    = $wishlist['author'];
-		$response['date_added'] = $wishlist['date'];
-		$response['title']      = $wishlist['title'];
-		$response['share_key']  = $wishlist['share_key'];
-		$response['status']     = $wishlist['status'];
-
-		return apply_filters( 'tinvwl_api_wishlist_data_response', $response, $wishlist, $event, $request );
+	public function prepare_wishlist_data( array $wishlist, string $event, array $request ): array {
+		return apply_filters( 'tinvwl_api_wishlist_data_response', [
+			'id'         => $wishlist['ID'],
+			'user_id'    => $wishlist['author'],
+			'date_added' => $wishlist['date'],
+			'title'      => $wishlist['title'],
+			'share_key'  => $wishlist['share_key'],
+			'status'     => $wishlist['status'],
+		], $wishlist, $event, $request );
 	}
 
 	/**
@@ -502,40 +467,37 @@ class TInvWL_Includes_API_Wishlist {
 	 *
 	 * @return array
 	 */
-	public function prepare_product_data( $product ) {
-		$response                 = array();
-		$response['item_id']      = $product['ID'];
-		$response['product_id']   = $product['product_id'];
-		$response['variation_id'] = $product['variation_id'];
-		$response['meta']         = $product['meta'];
-		$response['date_added']   = $product['date'];
-		$response['price']        = $product['price'];
-		$response['in_stock']     = $product['in_stock'];
-		$response['quantity']     = $product['quantity'];
-
-		return apply_filters( 'tinvwl_api_product_data_response', $response, $product, $event, $request );
+	public function prepare_product_data( array $product, string $event, array $request ): array {
+		return apply_filters( 'tinvwl_api_product_data_response', [
+			'item_id'      => $product['ID'],
+			'product_id'   => $product['product_id'],
+			'variation_id' => $product['variation_id'],
+			'meta'         => $product['meta'],
+			'date_added'   => $product['date'],
+			'price'        => $product['price'],
+			'in_stock'     => $product['in_stock'],
+			'quantity'     => $product['quantity'],
+		], $product, $event, $request );
 	}
 
 	/**
 	 *  Check if WordPress user exists.
 	 *
-	 * @param $user_id
+	 * @param int $user_id
 	 *
 	 * @return bool
 	 */
-	public function user_id_exists( $user_id ) {
+	public function user_id_exists( int $user_id ): bool {
 		global $wpdb;
-
+		$user_id = absint( $user_id );
 		// Check cache:
 		if ( wp_cache_get( $user_id, 'users' ) ) {
 			return true;
 		}
 
 		// Check database:
-		if ( $wpdb->get_var( $wpdb->prepare( "SELECT EXISTS (SELECT 1 FROM $wpdb->users WHERE ID = %d)", $user_id ) ) ) {
-			return true;
-		}
+		$user_exists = $wpdb->get_var( $wpdb->prepare( "SELECT EXISTS (SELECT 1 FROM $wpdb->users WHERE ID = %d)", $user_id ) );
 
-		return false;
+		return (bool) $user_exists;
 	}
 }

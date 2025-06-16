@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\UtilsP
 // @codeCoverageIgnoreEnd
 /**
  * Handle Real Product Manager API calls.
+ * @internal
  */
 class Feedback
 {

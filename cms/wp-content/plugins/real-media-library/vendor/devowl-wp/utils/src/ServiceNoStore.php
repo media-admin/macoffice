@@ -13,6 +13,7 @@ use WP_REST_Server;
  * Add `no-store` cache control directive to WP REST API requests.
  *
  * @see https://core.trac.wordpress.org/ticket/51831
+ * @internal
  */
 class ServiceNoStore
 {

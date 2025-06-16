@@ -6,6 +6,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils;
  * This trait is used via Base trait and allows to consume
  * the prefix filled but the UtilsProvider in your plugin. That allows
  * you to dynamically get plugin data within your composer package.
+ * @internal
  */
 trait PluginReceiver
 {

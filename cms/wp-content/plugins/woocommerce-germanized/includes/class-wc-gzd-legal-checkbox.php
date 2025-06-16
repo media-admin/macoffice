@@ -7,30 +7,31 @@ class WC_GZD_Legal_Checkbox {
 	private $id = '';
 
 	private $settings = array(
-		'admin_name'           => '',
-		'admin_desc'           => '',
-		'html_id'              => '',
-		'html_name'            => '',
-		'html_classes'         => array(),
-		'html_wrapper_classes' => array(),
-		'html_style'           => '',
-		'hide_input'           => 'no',
-		'is_mandatory'         => 'no',
-		'is_shown'             => 'yes',
-		'is_enabled'           => 'yes',
-		'is_core'              => 'no',
-		'refresh_fragments'    => 'no',
-		'value'                => '1',
-		'label'                => '',
-		'label_args'           => array(),
-		'template_name'        => 'checkboxes/default.php',
-		'template_args'        => array(),
-		'error_message'        => '',
-		'priority'             => 10,
-		'locations'            => array(),
-		'supporting_locations' => array(),
-		'show_for_categories'  => array(),
-		'show_for_countries'   => array(),
+		'admin_name'               => '',
+		'admin_desc'               => '',
+		'html_id'                  => '',
+		'html_name'                => '',
+		'html_classes'             => array(),
+		'html_wrapper_classes'     => array(),
+		'html_style'               => '',
+		'hide_input'               => 'no',
+		'is_mandatory'             => 'no',
+		'is_shown'                 => 'yes',
+		'is_enabled'               => 'yes',
+		'is_core'                  => 'no',
+		'refresh_fragments'        => 'no',
+		'value'                    => '1',
+		'label'                    => '',
+		'label_args'               => array(),
+		'template_name'            => 'checkboxes/default.php',
+		'template_args'            => array(),
+		'error_message'            => '',
+		'priority'                 => 10,
+		'locations'                => array(),
+		'supporting_locations'     => array(),
+		'show_for_categories'      => array(),
+		'show_for_countries'       => array(),
+		'show_for_payment_methods' => array(),
 	);
 
 	public function __construct( $id, $args = array() ) {
@@ -86,13 +87,13 @@ class WC_GZD_Legal_Checkbox {
 	 * Returns an option of the current checkbox from the database.
 	 *
 	 * @param $key
-	 * @param string $default
+	 * @param string $default_value
 	 *
 	 * @return array|string
 	 */
-	public function get_option( $key, $default = '' ) {
+	public function get_option( $key, $default_value = '' ) {
 		$options = WC_GZD_Legal_Checkbox_Manager::instance()->get_options();
-		$value   = $default;
+		$value   = $default_value;
 
 		if ( isset( $options[ $this->get_id() ] ) && isset( $options[ $this->get_id() ][ $key ] ) ) {
 			$value = $options[ $this->get_id() ][ $key ];
@@ -449,7 +450,7 @@ class WC_GZD_Legal_Checkbox {
 	 * @return array
 	 */
 	public function get_supporting_locations() {
-		return $this->settings['supporting_locations'];
+		return apply_filters( 'woocommerce_gzd_legal_checkbox_get_supporting_locations', $this->settings['supporting_locations'], $this );
 	}
 
 	public function set_supporting_locations( $locations ) {
@@ -462,7 +463,7 @@ class WC_GZD_Legal_Checkbox {
 	 * @return array
 	 */
 	public function get_show_for_categories() {
-		return $this->settings['show_for_categories'];
+		return apply_filters( 'woocommerce_gzd_legal_checkbox_show_for_categories', $this->settings['show_for_categories'], $this );
 	}
 
 	public function set_show_for_categories( $category_ids ) {
@@ -473,6 +474,23 @@ class WC_GZD_Legal_Checkbox {
 
 	public function show_for_category( $category_id ) {
 		return in_array( absint( $category_id ), $this->get_show_for_categories(), true );
+	}
+
+	/**
+	 * Payment methods to show the checkbox for.
+	 *
+	 * @return array
+	 */
+	public function get_show_for_payment_methods() {
+		return $this->settings['show_for_payment_methods'];
+	}
+
+	public function set_show_for_payment_methods( $payment_methods ) {
+		$this->settings['show_for_payment_methods'] = array_filter( (array) $payment_methods );
+	}
+
+	public function show_for_payment_method( $payment_method ) {
+		return apply_filters( 'woocommerce_gzd_legal_checkbox_show_for_payment_method', in_array( trim( $payment_method ), $this->get_show_for_payment_methods(), true ), $payment_method, $this );
 	}
 
 	/**
@@ -733,6 +751,10 @@ class WC_GZD_Legal_Checkbox {
 	 * Render the checkbox. Output a wrapper to make the checkbox refreshable even though it is not being printed.
 	 */
 	public function render() {
+		if ( ! $this->is_enabled() ) {
+			return;
+		}
+
 		echo '<div class="wc-gzd-checkbox-placeholder wc-gzd-checkbox-placeholder-' . esc_attr( $this->get_html_id() ) . '" data-checkbox="' . esc_attr( $this->get_id() ) . '">';
 
 		if ( $this->is_printable() ) {
@@ -822,7 +844,6 @@ class WC_GZD_Legal_Checkbox {
 		$options = apply_filters(
 			'woocommerce_gzd_legal_checkbox_fields_before_titles',
 			array(
-
 				array(
 					'title'   => __( 'Status', 'woocommerce-germanized' ),
 					'type'    => 'gzd_toggle',
@@ -830,7 +851,6 @@ class WC_GZD_Legal_Checkbox {
 					'desc'    => __( 'Enable checkbox', 'woocommerce-germanized' ),
 					'default' => wc_bool_to_string( $this->get_is_enabled() ),
 				),
-
 				array(
 					'title'    => __( 'Name', 'woocommerce-germanized' ),
 					'type'     => 'text',
@@ -839,7 +859,6 @@ class WC_GZD_Legal_Checkbox {
 					'desc'     => __( 'Choose a name to identify your checkbox. Upon creating a new checkbox, this value is being used to generate the Id.', 'woocommerce-germanized' ),
 					'default'  => $this->get_admin_name(),
 				),
-
 				array(
 					'title'             => __( 'Id', 'woocommerce-germanized' ),
 					'type'              => 'text',
@@ -849,7 +868,6 @@ class WC_GZD_Legal_Checkbox {
 					'default'           => $this->get_id(),
 					'custom_attributes' => array( 'disabled' => 'disabled' ),
 				),
-
 				array(
 					'title'    => __( 'Description', 'woocommerce-germanized' ),
 					'type'     => 'text',
@@ -858,7 +876,6 @@ class WC_GZD_Legal_Checkbox {
 					'desc_tip' => true,
 					'default'  => $this->get_admin_desc(),
 				),
-
 				array(
 					'title'    => __( 'Label', 'woocommerce-germanized' ),
 					'type'     => 'textarea',
@@ -868,7 +885,6 @@ class WC_GZD_Legal_Checkbox {
 					'desc'     => ! empty( $placeholders ) ? sprintf( __( 'You may use one of the following placeholders within the text: %s', 'woocommerce-germanized' ), '<code>' . $placeholders . '</code>' ) : '',
 					'default'  => $this->get_label( true ),
 				),
-
 				array(
 					'title'    => __( 'Error Message', 'woocommerce-germanized' ),
 					'type'     => 'textarea',
@@ -878,7 +894,6 @@ class WC_GZD_Legal_Checkbox {
 					'desc'     => ! empty( $placeholders ) ? sprintf( __( 'You may use one of the following placeholders within the text: %s', 'woocommerce-germanized' ), '<code>' . $placeholders . '</code>' ) : '',
 					'default'  => $this->get_error_message( true ),
 				),
-
 				array(
 					'title'   => __( 'Hide input', 'woocommerce-germanized' ),
 					'type'    => 'gzd_toggle',
@@ -886,7 +901,6 @@ class WC_GZD_Legal_Checkbox {
 					'desc'    => __( 'Do only show a label and hide the actual checkbox.', 'woocommerce-germanized' ),
 					'default' => wc_bool_to_string( $this->get_hide_input() ),
 				),
-
 				array(
 					'title'   => __( 'Mandatory', 'woocommerce-germanized' ),
 					'type'    => 'gzd_toggle',
@@ -894,7 +908,6 @@ class WC_GZD_Legal_Checkbox {
 					'desc'    => __( 'Mark the checkbox as mandatory.', 'woocommerce-germanized' ),
 					'default' => wc_bool_to_string( $this->get_is_mandatory() ),
 				),
-
 				array(
 					'title'   => __( 'Locations', 'woocommerce-germanized' ),
 					'type'    => 'multiselect',
@@ -904,10 +917,24 @@ class WC_GZD_Legal_Checkbox {
 					'default' => $this->get_locations(),
 					'options' => $supporting_locations,
 				),
-
 			),
 			$this
 		);
+
+		if ( ! WC_germanized()->is_pro() ) {
+			$options = array_merge(
+				$options,
+				array(
+					array(
+						'title' => '',
+						'id'    => 'woocommerce_gzd_checkbox_pro_options',
+						'img'   => WC_Germanized()->plugin_url() . '/assets/images/pro/settings-inline-checkbox.png?v=' . WC_germanized()->version,
+						'href'  => 'https://vendidero.de/woocommerce-germanized#upgrade',
+						'type'  => 'image',
+					),
+				)
+			);
+		}
 
 		$id = $this->get_id();
 
@@ -958,10 +985,10 @@ class WC_GZD_Legal_Checkbox {
 		return $old_value;
 	}
 
-	public function pre_get_option( $value, $name, $default = null ) {
+	public function pre_get_option( $value, $name, $default_value = null ) {
 		$name = str_replace( $this->get_form_field_id_prefix(), '', $name );
 
-		return $this->get_option( $name, $default );
+		return $this->get_option( $name, $default_value );
 	}
 
 	/**
@@ -1010,5 +1037,3 @@ class WC_GZD_Legal_Checkbox {
 		}
 	}
 }
-
-

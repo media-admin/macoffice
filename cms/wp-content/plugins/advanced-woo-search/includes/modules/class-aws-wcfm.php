@@ -24,6 +24,8 @@ if ( ! class_exists( 'AWS_WCFM' ) ) :
          */
         protected static $_instance = null;
 
+        private $data = array();
+
         /**
          * Main AWS_WCFM Instance
          *
@@ -50,6 +52,12 @@ if ( ! class_exists( 'AWS_WCFM' ) ) :
             add_filter( 'aws_terms_search_query', array( $this, 'wcfm_terms_search_query' ), 1, 2 );
             add_filter( 'aws_search_tax_results', array( $this, 'wcfm_search_tax_results' ), 1 );
             add_action( 'wp_head', array( $this, 'wp_head' ), 1 );
+
+            // Stores list
+            add_filter( 'aws_searchbox_markup', array( $this, 'aws_searchbox_markup' ), 1 );
+            add_action( 'wcfmmp_store_lists_before_sidabar', array( $this, 'wcfmmp_store_lists_before_sidabar' ), 1 );
+            add_action( 'wcfmmp_store_lists_after_sidebar', array( $this, 'wcfmmp_store_lists_after_sidebar' ), 999 );
+
         }
 
         /*
@@ -57,7 +65,9 @@ if ( ! class_exists( 'AWS_WCFM' ) ) :
          */
         function wcfm_excerpt_search_result( $excerpt, $post_id, $product ) {
 
-            if ( function_exists( 'wcfm_get_vendor_id_by_post' ) ) {
+            $show_vendor_info = apply_filters( 'show_wcfm_badge', true, $product );
+
+            if ( $show_vendor_info && function_exists( 'wcfm_get_vendor_id_by_post' ) ) {
 
                 $vendor_id = wcfm_get_vendor_id_by_post( $post_id );
 
@@ -253,6 +263,23 @@ if ( ! class_exists( 'AWS_WCFM' ) ) :
             </script>
 
         <?php }
+
+        /*
+         * Search form inside stores list page
+         */
+        public function aws_searchbox_markup( $markup ) {
+            if ( isset( $this->data['is_stores_sidebar'] ) && $this->data['is_stores_sidebar'] ) {
+                $markup = str_replace( '<form', '<div', $markup );
+                $markup = str_replace( '</form>', '</div>', $markup );
+            }
+            return $markup;
+        }
+        public function wcfmmp_store_lists_before_sidabar() {
+            $this->data['is_stores_sidebar'] = true;
+        }
+        public function wcfmmp_store_lists_after_sidebar() {
+            $this->data['is_stores_sidebar'] = false;
+        }
 
         /*
          * Get current store object

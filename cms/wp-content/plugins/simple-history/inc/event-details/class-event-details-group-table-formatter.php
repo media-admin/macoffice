@@ -2,7 +2,16 @@
 
 namespace Simple_History\Event_Details;
 
+/**
+ * Formatter for a group of items.
+ */
 class Event_Details_Group_Table_Formatter extends Event_Details_Group_Formatter {
+	/**
+	 * @inheritdoc
+	 *
+	 * @param Event_Details_Group $group Group to format.
+	 * @return string
+	 */
 	public function to_html( $group ) {
 		$output = '<table class="SimpleHistoryLogitem__keyValueTable">';
 		$output .= '<tbody>';
@@ -18,6 +27,12 @@ class Event_Details_Group_Table_Formatter extends Event_Details_Group_Formatter 
 		return $output;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param Event_Details_Group $group Group to format.
+	 * @return array<mixed>
+	 */
 	public function to_json( $group ) {
 		$items_output = [];
 

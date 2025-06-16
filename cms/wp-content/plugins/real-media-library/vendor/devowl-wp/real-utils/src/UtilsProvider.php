@@ -9,6 +9,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Base;
 // @codeCoverageIgnoreEnd
 /**
  * Let our package act as own "plugin".
+ * @internal
  */
 trait UtilsProvider
 {

@@ -86,6 +86,16 @@ class TInvWL_Public_Email_NotificationStock extends WC_Email {
 	public $_version;
 
 	/**
+	 * The template name used for the email.
+	 *
+	 * @var string
+	 */
+	public $template_name;
+
+	public $settings_class;
+
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $plugin_name Plugin name.

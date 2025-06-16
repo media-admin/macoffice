@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealUtils\AbstractInitiator;
 // @codeCoverageIgnoreEnd
 /**
  * Handle welcome page for a specific plugin.
+ * @internal
  */
 class WelcomePage
 {
@@ -116,26 +117,7 @@ class WelcomePage
     	</div>
 
 		%featuresHtml
-        
-        <div class="feature-section has-1-columns column-links real-utils-newsletter-box">
-            <h2>' . \__('Newsletter', REAL_UTILS_TD) . '</h2>
-            <p class="about-description">' . \__('Receive the latest news about devowl.io WordPress plugins directly in your inbox', REAL_UTILS_TD) . '</p>
-            <p>
-                <input type="text" name="newsletter-email" value="%currentEmail" placeholder="' . \__('Enter your email...', REAL_UTILS_TD) . '" class="large-text" />
-                <div>
-                    <label>
-                        <input type="checkbox" name="newsletter-privacy" />
-                        ' . \sprintf(
-            // translators:
-            \__('I want to receive WordPress news from devowl.io via email and agree to the <a %s>privacy policy</a>.', REAL_UTILS_TD),
-            'href="' . \esc_attr(\__('https://devowl.io/privacy-policy/', REAL_UTILS_TD)) . '" target="_blank"'
-        ) . '</span>
-                    </label>
-                </div>
-            </p>
-            <a href="#" class="button button-primary button-hero">' . \__('Subscribe', REAL_UTILS_TD) . '</a>
-            <div class="hidden error-msg"></div>
-        </div>
+
         %ourPluginsHeader
     </div>
 </div>';
@@ -159,7 +141,7 @@ class WelcomePage
         $outputHeader = '';
         $_REQUEST['type'] = 'author';
         $_REQUEST['s'] = 'devowl';
-        $_GET['tab'] = 'search';
+        $_REQUEST['tab'] = 'search';
         $wp_list_table = \_get_list_table('WP_Plugin_Install_List_Table');
         $wp_list_table->order = 'DESC';
         $wp_list_table->orderby = 'last_updated';
@@ -188,24 +170,31 @@ class WelcomePage
      */
     public function prepare_items($res, $action, $args)
     {
-        $pluginDir = \constant('WP_PLUGIN_DIR') . '/';
-        foreach ($res->plugins as $key => $plugin) {
-            if (\strpos($plugin['description'], self::EXCLUDE_DESCRIPTION_CONTAINS)) {
-                unset($res->plugins[$key]);
-                continue;
+        if (\property_exists($res, 'plugins')) {
+            $pluginDir = \constant('WP_PLUGIN_DIR') . '/';
+            foreach ($res->plugins as $key => $plugin) {
+                if (\strpos($plugin['description'], self::EXCLUDE_DESCRIPTION_CONTAINS)) {
+                    unset($res->plugins[$key]);
+                    continue;
+                }
+                // Remove already installed plugins
+                if (\defined('DEVOWL_WP_DEV') && \constant('DEVOWL_WP_DEV')) {
+                    // In dev mode, we want to see all plugins
+                    continue;
+                }
+                $slug = $plugin['slug'];
+                $fix = isset(self::PLUGIN_SLUG_FIXER[$slug]) ? self::PLUGIN_SLUG_FIXER[$slug] : null;
+                $exists = \is_dir($pluginDir . $slug) || $fix !== null && \is_dir($pluginDir . $fix);
+                if ($exists) {
+                    unset($res->plugins[$key]);
+                }
             }
-            // Remove already installed plugins
-            $slug = $plugin['slug'];
-            $fix = isset(self::PLUGIN_SLUG_FIXER[$slug]) ? self::PLUGIN_SLUG_FIXER[$slug] : null;
-            $exists = \is_dir($pluginDir . $slug) || $fix !== null && \is_dir($pluginDir . $fix);
-            if ($exists) {
-                unset($res->plugins[$key]);
-            }
+            \uasort($res->plugins, function ($a, $b) {
+                return \strnatcmp(\strtolower($b['last_updated']), \strtolower($a['last_updated']));
+            });
+            return $res;
         }
-        \uasort($res->plugins, function ($a, $b) {
-            return \strnatcmp(\strtolower($b['last_updated']), \strtolower($a['last_updated']));
-        });
-        return $res;
+        return null;
     }
     /**
      * Get key features and transform them to key features HTML including rows' `div`.

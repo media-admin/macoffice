@@ -1,6 +1,6 @@
 <?php
 
-use Vendidero\Germanized\DHL\Admin\Importer;
+use Vendidero\Shiptastic\DHL\Admin\Importer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -59,16 +59,6 @@ class WC_GZD_Admin {
 		add_action( 'admin_init', array( $this, 'check_internetmarke_import' ) );
 
 		add_filter( 'woocommerce_addons_section_data', array( $this, 'set_addon' ), 10, 2 );
-		add_action(
-			'woocommerce_admin_order_data_after_shipping_address',
-			array(
-				$this,
-				'show_checkbox_status',
-			),
-			10,
-			1
-		);
-
 		add_filter( 'woocommerce_order_actions', array( $this, 'order_actions' ), 10, 1 );
 		add_action( 'woocommerce_order_action_order_confirmation', array( $this, 'resend_order_confirmation' ), 10, 1 );
 		add_action(
@@ -109,9 +99,7 @@ class WC_GZD_Admin {
 
 		add_action( 'woocommerce_oss_enabled_oss_procedure', array( $this, 'oss_enable_hide_tax_percentage' ), 10 );
 
-		add_filter( 'woocommerce_gzd_shipment_admin_provider_list', array( $this, 'maybe_register_shipping_providers' ), 10 );
-
-		$this->wizward = require 'class-wc-gzd-admin-setup-wizard.php';
+		$this->wizard = require 'class-wc-gzd-admin-setup-wizard.php';
 	}
 
 	public function tool_actions() {
@@ -126,6 +114,9 @@ class WC_GZD_Admin {
 			'disable_food_options',
 			'install_oss',
 			'install_ts',
+			'update_database',
+			'migrate_to_shiptastic',
+			'remove_shiptastic_migration_notices',
 		);
 
 		if ( current_user_can( 'manage_woocommerce' ) ) {
@@ -151,6 +142,27 @@ class WC_GZD_Admin {
 					}
 				}
 			}
+		}
+	}
+
+	protected function check_remove_shiptastic_migration_notices() {
+		if ( current_user_can( 'manage_options' ) ) {
+			delete_option( 'woocommerce_gzd_shiptastic_migration_has_errors' );
+			delete_option( 'woocommerce_gzd_shiptastic_migration_errors' );
+
+			update_option( 'woocommerce_gzd_shiptastic_ignore_migration_errors', 'yes', false );
+		}
+	}
+
+	protected function check_migrate_to_shiptastic() {
+		if ( current_user_can( 'manage_options' ) ) {
+			$force = false;
+
+			if ( isset( $_GET['force'] ) && 'yes' === wc_clean( wp_unslash( $_GET['force'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$force = true;
+			}
+
+			WC_GZD_Install::migrate_shipments_to_shiptastic( $force );
 		}
 	}
 
@@ -191,38 +203,11 @@ class WC_GZD_Admin {
 	}
 
 	protected function check_disable_food_options() {
-		if ( 'yes' === get_option( 'woocommerce_gzd_disable_food_options' ) ) {
+		if ( ! WC_GZD_Food_Helper::enable_food_options() ) {
 			update_option( 'woocommerce_gzd_disable_food_options', 'no' );
 		} else {
 			update_option( 'woocommerce_gzd_disable_food_options', 'yes' );
 		}
-	}
-
-	/**
-	 * @param \Vendidero\Germanized\Shipments\Interfaces\ShippingProvider $providers
-	 */
-	public function maybe_register_shipping_providers( $providers ) {
-		if ( ! WC_germanized()->is_pro() ) {
-			if ( $this->is_dpd_available() ) {
-				$dpd               = new WC_GZD_Admin_Provider_DPD();
-				$providers['_dpd'] = $dpd;
-			}
-
-			if ( $this->is_gls_available() ) {
-				$gls               = new WC_GZD_Admin_Provider_GLS();
-				$providers['_gls'] = $gls;
-			}
-		}
-
-		return $providers;
-	}
-
-	public function is_gls_available() {
-		return in_array( \Vendidero\Germanized\Shipments\Package::get_base_country(), array( 'DE', 'AT', 'CH', 'BE', 'LU', 'FR', 'IE', 'ES' ), true );
-	}
-
-	public function is_dpd_available() {
-		return in_array( \Vendidero\Germanized\Shipments\Package::get_base_country(), array( 'DE', 'AT' ), true );
 	}
 
 	public function oss_enable_hide_tax_percentage() {
@@ -230,7 +215,7 @@ class WC_GZD_Admin {
 	}
 
 	public function check_dhl_import() {
-		if ( ! class_exists( '\Vendidero\Germanized\DHL\Admin\Importer\DHL' ) ) {
+		if ( ! class_exists( '\Vendidero\Shiptastic\DHL\Admin\Importer\DHL' ) ) {
 			return;
 		}
 
@@ -247,13 +232,24 @@ class WC_GZD_Admin {
 				$this->import_dhl_settings();
 			}
 
-			if ( $shipping_provider = Vendidero\Germanized\Shipments\ShippingProvider\Helper::instance()->get_shipping_provider( 'dhl' ) ) {
-				$shipping_provider->activate();
+			/**
+			 * Shipper country may be set to something different as the Woo base country
+			 */
+			if ( ! Vendidero\Shiptastic\ShippingProvider\Helper::instance()->get_shipping_provider( 'dhl' ) ) {
+				update_option( 'woocommerce_shiptastic_shipper_address_country', get_option( 'woocommerce_default_country', 'DE:BE' ) );
+
+				if ( 'DE' === \Vendidero\Shiptastic\Package::get_base_country() ) {
+					Vendidero\Shiptastic\DHL\Package::init();
+				}
 			}
 
-			deactivate_plugins( 'dhl-for-woocommerce/pr-dhl-woocommerce.php' );
+			if ( $shipping_provider = Vendidero\Shiptastic\ShippingProvider\Helper::instance()->get_shipping_provider( 'dhl' ) ) {
+				$shipping_provider->activate();
 
-			wp_safe_redirect( esc_url_raw( add_query_arg( array( 'has-imported' => 'yes' ), wc_gzd_get_shipping_provider( 'dhl' )->get_edit_link() ) ) );
+				deactivate_plugins( 'dhl-for-woocommerce/pr-dhl-woocommerce.php' );
+				wp_safe_redirect( esc_url_raw( add_query_arg( array( 'has-imported' => 'yes' ), wc_stc_get_shipping_provider( 'dhl' )->get_edit_link() ) ) );
+				exit();
+			}
 		}
 	}
 
@@ -265,7 +261,7 @@ class WC_GZD_Admin {
 	}
 
 	public function check_internetmarke_import() {
-		if ( ! class_exists( '\Vendidero\Germanized\DHL\Admin\Importer\Internetmarke' ) ) {
+		if ( ! class_exists( '\Vendidero\Shiptastic\DHL\Admin\Importer\Internetmarke' ) ) {
 			return;
 		}
 
@@ -280,7 +276,7 @@ class WC_GZD_Admin {
 
 			$this->import_internetmarke_settings();
 
-			wp_safe_redirect( esc_url_raw( wc_gzd_get_shipping_provider( 'deutsche_post' )->get_edit_link() ) );
+			wp_safe_redirect( esc_url_raw( wc_stc_get_shipping_provider( 'deutsche_post' )->get_edit_link() ) );
 		}
 	}
 
@@ -352,7 +348,7 @@ class WC_GZD_Admin {
 	public function image_field( $value ) {
 		?>
 		<tr valign="top">
-			<th class="forminp forminp-image" colspan="2" id="<?php echo esc_attr( $value['id'] ); ?>">
+			<th scope="row" class="titledesc titledesc-image" colspan="2" id="<?php echo esc_attr( $value['id'] ); ?>">
 				<a href="<?php echo esc_url( $value['href'] ); ?>" target="_blank"><img src="<?php echo esc_url( $value['img'] ); ?>"/></a>
 			</th>
 		</tr>
@@ -370,10 +366,10 @@ class WC_GZD_Admin {
 
 		?>
 		<tr valign="top">
-			<th class="forminp forminp-html" id="<?php echo esc_attr( $value['id'] ); ?>">
+			<th scope="row" class="titledesc titledesc-html" id="<?php echo esc_attr( $value['id'] ); ?>">
 				<label><?php echo esc_attr( $value['title'] ); ?><?php echo( isset( $value['desc_tip'] ) && ! empty( $value['desc_tip'] ) ? wc_help_tip( $value['desc_tip'] ) : '' ); ?></label>
 			</th>
-			<td class="forminp">
+			<td class="forminp forminp-html">
 				<?php echo wp_kses_post( $value['html'] ); ?>
 				<input
 					type="hidden"
@@ -395,8 +391,8 @@ class WC_GZD_Admin {
 	public function hidden_field( $value ) {
 		$option_value = WC_Admin_Settings::get_option( $value['id'], $value['default'] );
 		?>
-		<tr valign="top" style="display: none">
-			<th class="forminp forminp-image">
+		<tr valign="top" style="display: none" aria-hidden="true">
+			<th scope="row" class="titledesc titledesc-hidden">
 				<input type="hidden" id="<?php echo esc_attr( $value['id'] ); ?>" value="<?php echo esc_attr( $option_value ); ?>" name="<?php echo esc_attr( $value['id'] ); ?>"/>
 			</th>
 		</tr>
@@ -422,7 +418,7 @@ class WC_GZD_Admin {
 					'title'             => __( 'Germanized for WooCommerce', 'woocommerce-germanized' ),
 					'path'              => array( WC_germanized()->plugin_path() . '/templates' ),
 					'template_path'     => WC_germanized()->template_path(),
-					'outdated_help_url' => 'https://vendidero.de/dokument/veraltete-germanized-templates-aktualisieren',
+					'outdated_help_url' => 'https://vendidero.de/doc/woocommerce-germanized/veraltete-germanized-templates-aktualisieren',
 					'files'             => array(),
 					'has_outdated'      => false,
 				),
@@ -436,7 +432,7 @@ class WC_GZD_Admin {
 					'title'             => '',
 					'path'              => '',
 					'template_path'     => '',
-					'outdated_help_url' => 'https://vendidero.de/dokument/veraltete-germanized-templates-aktualisieren',
+					'outdated_help_url' => 'https://vendidero.de/doc/woocommerce-germanized/veraltete-germanized-templates-aktualisieren',
 					'files'             => array(),
 					'has_outdated'      => false,
 				)
@@ -529,26 +525,7 @@ class WC_GZD_Admin {
 			<?php
 		}
 		?>
-		<a href="#" class="woocommerce-gzd-input-toggle-trigger">
-			<span id="<?php echo esc_attr( $value['id'] ); ?>-toggle" class="woocommerce-gzd-input-toggle woocommerce-input-toggle woocommerce-input-toggle--<?php echo esc_attr( 'yes' === $option_value ? 'enabled' : 'disabled' ); ?>"><?php echo ( ( 'yes' === $option_value ) ? esc_html__( 'Yes', 'woocommerce-germanized' ) : esc_html__( 'No', 'woocommerce-germanized' ) ); ?></span>
-		</a>
-		<input
-		name="<?php echo esc_attr( $value['id'] ); ?>"
-		id="<?php echo esc_attr( $value['id'] ); ?>"
-		type="checkbox"
-		style="display: none; <?php echo esc_attr( $value['css'] ); ?>"
-		value="1"
-		class="<?php echo esc_attr( $value['class'] ); ?>"
-		<?php checked( $option_value, 'yes' ); ?>
-		<?php
-		if ( ! empty( $value['custom_attributes'] ) && is_array( $value['custom_attributes'] ) ) {
-			foreach ( $value['custom_attributes'] as $attribute => $attribute_value ) {
-				echo esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '" ';
-			}
-		}
-		?>
-		/><?php echo esc_html( $value['suffix'] ); ?><?php echo wp_kses_post( $field_description_data['description'] ); ?>
-
+		<?php $this->render_toggle( $value ); ?>
 		</fieldset>
 		<?php
 		if ( ! isset( $value['checkboxgroup'] ) || 'end' === $value['checkboxgroup'] ) {
@@ -557,6 +534,48 @@ class WC_GZD_Admin {
 			</tr>
 			<?php
 		}
+	}
+
+	public function render_toggle( $args ) {
+		$args          = wp_parse_args(
+			$args,
+			array(
+				'id'                => '',
+				'css'               => '',
+				'value'             => '',
+				'class'             => '',
+				'name'              => '',
+				'suffix'            => '',
+				'desc_tip'          => false,
+				'desc'              => '',
+				'custom_attributes' => array(),
+			)
+		);
+		$args['value'] = wc_bool_to_string( $args['value'] );
+		$args['name']  = empty( $args['name'] ) ? $args['id'] : $args['name'];
+		// Description handling.
+		$field_description_data = WC_Admin_Settings::get_field_description( $args );
+		?>
+		<a href="#" class="woocommerce-gzd-input-toggle-trigger">
+			<span id="<?php echo esc_attr( $args['id'] ); ?>-toggle" class="woocommerce-gzd-input-toggle woocommerce-input-toggle woocommerce-input-toggle--<?php echo esc_attr( 'yes' === $args['value'] ? 'enabled' : 'disabled' ); ?>"><?php echo ( ( 'yes' === $args['value'] ) ? esc_html__( 'Yes', 'woocommerce-germanized' ) : esc_html__( 'No', 'woocommerce-germanized' ) ); ?></span>
+		</a>
+		<input
+		name="<?php echo esc_attr( $args['name'] ); ?>"
+		id="<?php echo esc_attr( $args['id'] ); ?>"
+		type="checkbox"
+		style="display: none; <?php echo esc_attr( $args['css'] ); ?>"
+		value="1"
+		class="<?php echo esc_attr( $args['class'] ); ?>"
+		<?php checked( $args['value'], 'yes' ); ?>
+		<?php
+		if ( ! empty( $args['custom_attributes'] ) && is_array( $args['custom_attributes'] ) ) {
+			foreach ( $args['custom_attributes'] as $attribute => $attribute_value ) {
+				echo esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '" ';
+			}
+		}
+		?>
+		/><?php echo esc_html( $args['suffix'] ); ?><?php echo wp_kses_post( $field_description_data['description'] ); ?>
+		<?php
 	}
 
 	public function term_field( $value ) {
@@ -745,23 +764,6 @@ class WC_GZD_Admin {
 		return $tabs;
 	}
 
-	/**
-	 * @param WC_Order $order
-	 */
-	public function show_checkbox_status( $order ) {
-		if ( $order->get_meta( '_parcel_delivery_opted_in' ) ) {
-			?>
-			<p class="parcel-delivery-checkbox-status"><strong><?php esc_html_e( 'Parcel Delivery Data Transfer?', 'woocommerce-germanized' ); ?></strong><span><?php echo( wc_gzd_order_supports_parcel_delivery_reminder( $order->get_id() ) ? '<span class="dashicons dashicons-yes wc-gzd-dashicon">' . esc_html__( 'Allowed', 'woocommerce-germanized' ) . '</span>' : '<span class="dashicons dashicons-no-alt wc-gzd-dashicon">' . esc_html__( 'Not Allowed', 'woocommerce-germanized' ) . '</span>' ); ?></span></p>
-			<?php
-		}
-
-		if ( $order->get_meta( '_photovoltaic_systems_opted_in' ) ) {
-			?>
-			<p class="photovoltaic-systems-checkbox-status"><strong><?php esc_html_e( 'Photovoltaic Systems VAT exemption?', 'woocommerce-germanized' ); ?></strong><span><?php echo( wc_gzd_order_applies_for_photovoltaic_system_vat_exemption( $order->get_id() ) ? '<span class="dashicons dashicons-yes wc-gzd-dashicon">' . esc_html__( 'Allowed', 'woocommerce-germanized' ) . '</span>' : '<span class="dashicons dashicons-no-alt wc-gzd-dashicon">' . esc_html__( 'Not Allowed', 'woocommerce-germanized' ) . '</span>' ); ?></span></p>
-			<?php
-		}
-	}
-
 	public function set_addon( $products, $section_id ) {
 		if ( 'featured' !== $section_id ) {
 			return $products;
@@ -801,19 +803,9 @@ class WC_GZD_Admin {
 			WC_GERMANIZED_VERSION
 		);
 
+		wp_register_script( 'wc-gzd-admin', $gzd->get_assets_build_url( 'static/admin.js' ), array( 'jquery', 'woocommerce_admin' ), WC_GERMANIZED_VERSION ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 		wp_register_script( 'wc-gzd-admin-product', $gzd->get_assets_build_url( 'static/admin-product.js' ), array( 'wc-admin-product-meta-boxes', 'media-models' ), WC_GERMANIZED_VERSION ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
-
 		wp_register_script( 'wc-gzd-admin-product-variations', $gzd->get_assets_build_url( 'static/admin-product-variations.js' ), array( 'wc-gzd-admin-product', 'wc-admin-variation-meta-boxes' ), WC_GERMANIZED_VERSION ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
-
-		wp_localize_script(
-			'wc-gzd-admin-product-variations',
-			'wc_gzd_admin_product_variations_params',
-			array(
-				'i18n_set_delivery_time' => __( 'Insert delivery time name, slug or id.', 'woocommerce-germanized' ),
-				'i18n_set_product_unit'  => __( 'Insert product units amount.', 'woocommerce-germanized' ),
-			)
-		);
-
 		wp_register_script( // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 			'wc-gzd-admin-legal-checkboxes',
 			$gzd->get_assets_build_url( 'static/admin-legal-checkboxes.js' ),
@@ -827,15 +819,36 @@ class WC_GZD_Admin {
 			),
 			WC_GERMANIZED_VERSION
 		);
-
 		wp_register_script( // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 			'wc-gzd-admin-settings',
 			$gzd->get_assets_build_url( 'static/admin-settings.js' ),
-			array(
-				'jquery',
-				'woocommerce_admin',
-			),
+			array( 'wc-gzd-admin' ),
 			WC_GERMANIZED_VERSION
+		);
+
+		wp_localize_script(
+			'wc-gzd-admin-product',
+			'wc_gzd_admin_product_params',
+			array(
+				'i18n_remove_attachment' => __( 'Remove', 'woocommerce-germanized' ),
+			)
+		);
+
+		wp_localize_script(
+			'wc-gzd-admin-product-variations',
+			'wc_gzd_admin_product_variations_params',
+			array(
+				'i18n_set_delivery_time' => __( 'Insert delivery time name, slug or id.', 'woocommerce-germanized' ),
+				'i18n_set_product_unit'  => __( 'Insert product units amount.', 'woocommerce-germanized' ),
+			)
+		);
+
+		wp_localize_script(
+			'wc-gzd-admin',
+			'wc_gzd_admin_params',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+			)
 		);
 
 		wp_localize_script(
@@ -852,6 +865,18 @@ class WC_GZD_Admin {
 		if ( in_array( $screen->id, array( 'product', 'edit-product' ), true ) ) {
 			wp_enqueue_script( 'wc-gzd-admin-product' );
 			wp_enqueue_script( 'wc-gzd-admin-product-variations' );
+		}
+
+		/**
+		 * Enqueue enhanced select within product brands screen
+		 */
+		if ( 'edit-product_brand' === $screen->id ) {
+			wp_enqueue_script( 'woocommerce_admin' );
+			wp_enqueue_script( 'wc-enhanced-select' );
+		}
+
+		if ( function_exists( 'wc_get_screen_ids' ) && in_array( $screen->id, wc_get_screen_ids(), true ) ) {
+			wp_enqueue_script( 'wc-gzd-admin' );
 		}
 
 		/**
@@ -1142,6 +1167,10 @@ class WC_GZD_Admin {
 		}
 	}
 
+	protected function check_update_database() {
+		WC_GZD_Install::update();
+	}
+
 	public function disable_small_business_options() {
 		// Update woocommerce options to show tax
 		update_option( 'woocommerce_calc_taxes', 'yes' );
@@ -1254,13 +1283,12 @@ class WC_GZD_Admin {
 		}
 
 		return array_filter( $settings );
-
 	}
 
 	public function insert_setting_after( $settings, $id, $insert = array(), $type = '' ) {
 		$key = $this->get_setting_key_by_id( $settings, $id, $type );
 		if ( is_numeric( $key ) ) {
-			$key ++;
+			++$key;
 			$settings = array_merge( array_merge( array_slice( $settings, 0, $key, true ), $insert ), array_slice( $settings, $key, count( $settings ) - 1, true ) );
 		} else {
 			$settings += $insert;
@@ -1268,7 +1296,6 @@ class WC_GZD_Admin {
 
 		return $settings;
 	}
-
 }
 
 WC_GZD_Admin::instance();

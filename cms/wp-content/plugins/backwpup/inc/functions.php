@@ -127,7 +127,7 @@ function backwpup_clean_json_from_request($json)
  *
  * @since 3.5.0
  *
- * @return mixed an instance of WP_Filesystem_* depending on the method set
+ * @return WP_Filesystem_Base an instance of WP_Filesystem_* depending on the method set
  */
 function backwpup_wpfilesystem()
 {
@@ -233,4 +233,28 @@ function backwpup_esc_url_default_secure($url, $protocols = null)
     }
 
     return $escaped_url;
+}
+
+/**
+ * Compatibility code for cal_days_in_month.
+ *
+ * @param int $month Month.
+ * @param int $year Year.
+ *
+ * @return int
+ */
+function backwpup_cal_days_in_month( $month, $year ) {
+	$month = (int) $month;
+	$year  = (int) $year;
+
+	// Array of the number of days in each month for a non-leap year.
+	$days_in_months = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+	// Check if the month is February and if the year is a leap year.
+	if ( 2 === $month && ( ( 0 === ( $year % 4 ) && 0 !== ( $year % 100 ) ) || ( 0 === $year % 400 ) ) ) {
+		return 29; // February in a leap year has 29 days.
+	}
+
+	// Return the number of days for the given month.
+	return $days_in_months[ $month - 1 ];
 }

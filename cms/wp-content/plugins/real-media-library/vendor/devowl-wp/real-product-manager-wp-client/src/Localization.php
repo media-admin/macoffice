@@ -9,6 +9,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\PackageLocalization;
 // @codeCoverageIgnoreEnd
 /**
  * Package localization for `real-product-manager-wp-client` package.
+ * @internal
  */
 class Localization extends PackageLocalization
 {

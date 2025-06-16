@@ -20,25 +20,28 @@ class TInvWL_Admin_Settings_Notification extends TInvWL_Admin_BaseSection {
 	/**
 	 * Priority for admin menu
 	 *
-	 * @var integer
+	 * @var int
 	 */
-	public $priority = 60;
+	public int $priority = 60;
+
+	public $email_settings;
 
 	/**
 	 * This class
 	 *
-	 * @var \TInvWL_Admin_Settings_General
+	 * @var TInvWL_Admin_Settings_Notification
 	 */
-	protected static $_instance = null;
+	protected static ?self $_instance = null;
 
 	/**
 	 * Get this class object
 	 *
 	 * @param string $plugin_name Plugin name.
+	 * @param string $plugin_version Plugin version.
 	 *
-	 * @return \TInvWL_Admin_Settings_General
+	 * @return TInvWL_Admin_Settings_Notification
 	 */
-	public static function instance( $plugin_name = TINVWL_PREFIX, $plugin_version = TINVWL_VERSION ) {
+	public static function instance( string $plugin_name = TINVWL_PREFIX, string $plugin_version = TINVWL_VERSION ): self {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self( $plugin_name, $plugin_version );
 		}
@@ -63,7 +66,7 @@ class TInvWL_Admin_Settings_Notification extends TInvWL_Admin_BaseSection {
 	 *
 	 * @return array
 	 */
-	function menu() {
+	public function menu(): array {
 		return array(
 			'title'      => __( 'Emails Settings', 'ti-woocommerce-wishlist-premium' ),
 			'page_title' => __( 'Emails Settings', 'ti-woocommerce-wishlist-premium' ),
@@ -566,9 +569,9 @@ class TInvWL_Admin_Settings_Notification extends TInvWL_Admin_BaseSection {
 	 *
 	 * @param array $data Post section data.
 	 */
-	function constructor_save( $data ) {
+	public function constructor_save( array $data ): void {
 		if ( empty( $data ) || ! is_array( $data ) ) {
-			return false;
+			return;
 		}
 		if ( filter_input( INPUT_POST, 'save_buttons-setting_reset' ) ) {
 			foreach ( array_keys( $data ) as $key ) {

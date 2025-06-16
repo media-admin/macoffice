@@ -12,6 +12,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Service;
 // @codeCoverageIgnoreEnd
 /**
  * Plugin update view handling. E. g. add links to the plugins row in plugins list.
+ * @internal
  */
 class PluginUpdateView
 {

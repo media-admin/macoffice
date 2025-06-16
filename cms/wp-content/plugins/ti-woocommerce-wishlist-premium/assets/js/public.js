@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 // Add to wishlist
 (function ($) {
   tinvwl_add_to_wishlist.new_lists = {};
@@ -242,7 +242,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
             type_elm = $(this).attr('type'),
             value_elm = $(this).val(),
             count = 10,
-            ti_merge_value = function ti_merge_value(o1, o2) {
+            _ti_merge_value = function ti_merge_value(o1, o2) {
               if ('object' === _typeof(o2)) {
                 if ('undefined' === typeof o1) {
                   o1 = {};
@@ -254,9 +254,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
                       j = j;
                     }
                     j = parseInt(j) + 1;
-                    o1[j] = ti_merge_value(o1[i], o2[i]);
+                    o1[j] = _ti_merge_value(o1[i], o2[i]);
                   } else {
-                    o1[i] = ti_merge_value(o1[i], o2[i]);
+                    o1[i] = _ti_merge_value(o1[i], o2[i]);
                   }
                 }
                 return o1;
@@ -288,10 +288,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
               if (!value_elm.length && 'object' !== _typeof(value_elm)) {
                 value_elm = true;
               }
-              data.form[name_elm] = ti_merge_value(data.form[name_elm], value_elm);
+              data.form[name_elm] = _ti_merge_value(data.form[name_elm], value_elm);
             }
           } else {
-            data.form[name_elm] = ti_merge_value(data.form[name_elm], value_elm);
+            data.form[name_elm] = _ti_merge_value(data.form[name_elm], value_elm);
           }
           if ('hidden' === type_elm) {
             hiddenFields.push(name_elm);
@@ -646,9 +646,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       }).done(function (response) {
         el.removeClass('inited-wishlist-action');
         $('div.tinv-wishlist.woocommerce.tinv-wishlist-clear').unblock();
-        if (response.redirect) {
-          window.location.href = response.redirect;
-        }
         if (response.msg) {
           var $msg = $(response.msg).eq(0);
           if (!$('body > .tinv-wishlist').length) {
@@ -670,9 +667,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
             }, tinvwl_add_to_wishlist.popup_timer);
           }
         }
-        if (response.redirect) {
-          return;
-        }
         $(document.body).trigger('wc_fragment_refresh');
         $('div.tinv-wishlist.woocommerce.tinv-wishlist-clear').replaceWith(response.content);
         jQuery.fn.tinvwl_get_wishlist_data();
@@ -680,6 +674,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           set_hash(JSON.stringify(response.wishlists_data));
         }
         $('body').trigger('tinvwl_wishlist_ajax_response', [this, response]);
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
       });
     });
 
@@ -960,20 +957,36 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         }
       }
       e.preventDefault();
-      var form = $(this).closest('form'),
-        formdata = {
-          action: 'tinwl_estimate'
-        };
+      var form = $(this).closest('form');
+
+      // Check if the form is valid
+      if (!form[0].checkValidity()) {
+        // If the form is invalid, submit it to trigger the browser's validation UI
+        $('<input type="submit">').hide().appendTo(form).click().remove();
+        return;
+      }
+      var formdata = {
+        action: 'tinwl_estimate'
+      };
       form.find('input, select, button, textarea').each(function () {
-        switch ($(this).attr('type')) {
+        var $this = $(this);
+        var value = $this.val();
+        switch ($this.attr('type')) {
           case 'radio':
           case 'checkbox':
-            if ($(this).is(':checked')) {
-              formdata[$(this).attr('name')] = $(this).val().trim();
+            if ($this.is(':checked')) {
+              formdata[$this.attr('name')] = 'string' === typeof value ? value.trim() : value;
             }
             break;
           default:
-            formdata[$(this).attr('name')] = $(this).val().trim();
+            // Check if it's a multiple select
+            if ($this.is('select[multiple]') && Array.isArray(value)) {
+              formdata[$this.attr('name')] = value.map(function (val) {
+                return val.trim(); // Trim each selected option
+              });
+            } else {
+              formdata[$this.attr('name')] = 'string' === typeof value ? value.trim() : value;
+            }
         }
       });
       form.find('input[type=text]').val('');
@@ -1038,9 +1051,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       }).done(function (response) {
         el.removeClass('inited-wishlist-action');
         $('div.tinv-wishlist.woocommerce.tinv-wishlist-clear').unblock();
-        if (response.redirect) {
-          window.location.href = response.redirect;
-        }
         if (response.msg) {
           var $msg = $(response.msg).eq(0);
           if (!$('body > .tinv-wishlist').length) {
@@ -1062,9 +1072,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
             }, tinvwl_add_to_wishlist.popup_timer);
           }
         }
-        if (response.redirect) {
-          return;
-        }
         $(document.body).trigger('wc_fragment_refresh');
         $('div.tinv-wishlist.woocommerce.tinv-wishlist-clear').replaceWith(response.content);
         jQuery.fn.tinvwl_get_wishlist_data();
@@ -1072,6 +1079,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           set_hash(JSON.stringify(response.wishlists_data));
         }
         $('body').trigger('tinvwl_wishlist_ajax_response', [this, response]);
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
       });
     });
 
@@ -1374,9 +1384,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       }).done(function (response) {
         el.removeClass('inited-wishlist-action');
         $('div.tinv-wishlist.woocommerce.tinv-wishlist-clear').unblock();
-        if (response.redirect) {
-          window.location.href = response.redirect;
-        }
         if (response.msg) {
           var $msg = $(response.msg).eq(0);
           if (!$('body > .tinv-wishlist').length) {
@@ -1398,9 +1405,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
             }, tinvwl_add_to_wishlist.popup_timer);
           }
         }
-        if (response.redirect) {
-          return;
-        }
         if ('add_to_cart_selected' === action) {
           $(document.body).trigger('wc_fragment_refresh');
         }
@@ -1410,6 +1414,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           set_hash(JSON.stringify(response.wishlists_data));
         }
         $('body').trigger('tinvwl_wishlist_ajax_response', [this, response]);
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
       });
     });
 
@@ -1629,7 +1636,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         return;
       }
       if ($supports_html5_storage) {
-        if (Cookies.get('tinvwl_update_data') !== undefined) {
+        if ('undefined' !== typeof Cookies && Cookies.get('tinvwl_update_data') !== undefined) {
           Cookies.set('tinvwl_update_data', 0, {
             expires: -1
           });
@@ -1639,11 +1646,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           var data = JSON.parse(localStorage.getItem(hash_key));
           if ('object' === _typeof(data) && null !== data && (data.hasOwnProperty('products') || data.hasOwnProperty('counter'))) {
             if (!data.hasOwnProperty('lang') && !tinvwl_add_to_wishlist.wpml || tinvwl_add_to_wishlist.wpml && data.lang === tinvwl_add_to_wishlist.wpml) {
-              if (Cookies.get('tinvwl_wishlists_data_counter') === undefined) {
+              if ('undefined' !== typeof Cookies && Cookies.get('tinvwl_wishlists_data_counter') === undefined) {
                 mark_products(data);
                 return;
               }
-              if (Cookies.get('tinvwl_wishlists_data_counter') == data.counter && (!data.hasOwnProperty('stats_count') || Cookies.get('tinvwl_wishlists_data_stats') == data.stats_count)) {
+              if ('undefined' !== typeof Cookies && Cookies.get('tinvwl_wishlists_data_counter') == data.counter && (!data.hasOwnProperty('stats_count') || Cookies.get('tinvwl_wishlists_data_stats') == data.stats_count)) {
                 mark_products(data);
                 return;
               }

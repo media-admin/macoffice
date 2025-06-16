@@ -98,6 +98,14 @@ class WC_GZD_Product_Grouped extends WC_GZD_Product {
 							continue;
 						}
 
+						/**
+						 * Prevent infinite loops with nested grouped products which
+						 * contain the current product as child.
+						 */
+						if ( is_a( $child, 'WC_GZD_Product_Grouped' ) && in_array( $this->get_wc_product()->get_id(), $child->get_children(), true ) ) {
+							continue;
+						}
+
 						if ( $child->has_unit() ) {
 							$unit = $child->get_unit();
 
@@ -294,6 +302,6 @@ class WC_GZD_Product_Grouped extends WC_GZD_Product {
 		}
 
 		/** This filter is documented in includes/abstract/abstract-wc-gzd-product.php */
-		return apply_filters( 'woocommerce_gzd_unit_price_html', $price, $this );
+		return apply_filters( 'woocommerce_gzd_unit_price_html', $price, $this, $tax_display );
 	}
 }

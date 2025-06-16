@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Activator as UtilsActi
 /**
  * The activator class handles the plugin relevant activation hooks: Uninstall, activation,
  * deactivation and installation. The "installation" means installing needed database tables.
+ * @internal
  */
 class Activator
 {

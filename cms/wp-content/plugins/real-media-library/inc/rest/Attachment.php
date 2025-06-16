@@ -15,6 +15,7 @@ use MatthiasWeb\RealMediaLibrary\attachment\Structure;
 // @codeCoverageIgnoreEnd
 /**
  * Enables the /attachments REST.
+ * @internal
  */
 class Attachment
 {
@@ -93,7 +94,7 @@ class Attachment
         $attachmentId = $request->get_param('id');
         $nextId = $request->get_param('nextId');
         $lastIdInView = $request->get_param('lastId');
-        if (!empty($folderId) && !empty($nextId)) {
+        if (!empty($folderId)) {
             $update = \wp_attachment_order_update($folderId, $attachmentId, $nextId, $lastIdInView);
             if (\is_array($update)) {
                 return new WP_Error('rest_rml_folder_content_order_failed', \implode(' ', $update), ['status' => 500]);

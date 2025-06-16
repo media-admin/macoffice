@@ -10,6 +10,7 @@ use MatthiasWeb\RealMediaLibrary\order\Sortable;
 /**
  * This class creates a folder object. (Type 0)
  * See parent classes / interfaces for better documentation.
+ * @internal
  */
 class Folder extends Sortable
 {

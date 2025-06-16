@@ -4,7 +4,7 @@
  *
  * @name LiteSpeed Cache
  *
- * @version 3.5.2
+ * @version 5.4
  *
  * @slug litespeed-cache
  *
@@ -47,7 +47,7 @@ if (defined('LSWCP_PLUGIN_URL')) {
 	// Force ESI nonce.
 	if (!function_exists('tinvwl_litespeed_conf_esi_nonce')) {
 		add_action('wp_enqueue_scripts', 'tinvwl_litespeed_conf_esi_nonce', 9);
-
+		add_action( 'litespeed_load_thirdparty', 'tinvwl_litespeed_conf_esi_nonce' );
 		function tinvwl_litespeed_conf_esi_nonce()
 		{
 			do_action('litespeed_nonce', 'wp_rest');

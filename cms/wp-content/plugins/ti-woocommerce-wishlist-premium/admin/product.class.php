@@ -19,16 +19,18 @@ class TInvWL_Admin_Product extends TInvWL_Admin_BaseSection {
 	/**
 	 * Priority for admin menu
 	 *
-	 * @var integer
+	 * @var int
 	 */
-	public $priority = 10;
+	public int $priority = 10;
+
+	public $email_settings;
 
 	/**
 	 * Menu array
 	 *
 	 * @return array
 	 */
-	function menu() {
+	public function menu(): array {
 		return array(
 			'title'      => __( 'Product Analytics', 'ti-woocommerce-wishlist-premium' ),
 			'method'     => array( $this, '_print_' ),
@@ -44,7 +46,7 @@ class TInvWL_Admin_Product extends TInvWL_Admin_BaseSection {
 	 * @param integer $id Id parameter.
 	 * @param string $cat Category parameter.
 	 */
-	function _print_general( $id = 0, $cat = '' ) {
+	public function _print_general( int $id = 0, string $cat = '' ): void {
 		$data = array(
 			'_header' => __( 'Product Analytics', 'ti-woocommerce-wishlist-premium' ),
 			'table'   => new TInvWL_Admin_Product_Table( $this->_name, $this->_version ),
@@ -127,7 +129,10 @@ class TInvWL_Admin_Product extends TInvWL_Admin_BaseSection {
 		}
 
 		$wlp     = new TInvWL_Product( array() );
-		$product = $wlp->product_data( $data['product_id'], (integer) @$data['variation_id'] ); // @codingStandardsIgnoreLine Generic.PHP.NoSilencedErrors.Discouraged
+		$product = $wlp->product_data(
+			$data['product_id'],
+			(integer) ($data['variation_id'] ?? 0) // Default to 0 if 'variation_id' key doesn't exist
+		);
 		if ( empty( $product ) ) {
 			TInvWL_View::set_error( __( 'Product ID not found!', 'ti-woocommerce-wishlist-premium' ), 146 );
 			TInvWL_View::set_redirect( $back_link );
@@ -354,7 +359,7 @@ class TInvWL_Admin_Product extends TInvWL_Admin_BaseSection {
 			wp_send_json( array() );
 		}
 		ob_start();
-		$data             = array_filter( filter_input_array( INPUT_POST, array(
+		$data                  = array_filter( filter_input_array( INPUT_POST, array(
 			'product_id'   => FILTER_VALIDATE_INT,
 			'variation_id' => FILTER_VALIDATE_INT,
 			'user_id'      => FILTER_VALIDATE_INT,
@@ -362,7 +367,7 @@ class TInvWL_Admin_Product extends TInvWL_Admin_BaseSection {
 			'coupon-code'  => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		) ) );
 		$data['_tinvwl_nonce'] = $nonce;
-		$content          = filter_input_array( INPUT_POST, array(
+		$content               = filter_input_array( INPUT_POST, array(
 			'content-content'       => FILTER_DEFAULT,
 			'content-content_plain' => FILTER_DEFAULT,
 		) );
@@ -386,13 +391,13 @@ class TInvWL_Admin_Product extends TInvWL_Admin_BaseSection {
 	 */
 	function preview_email() {
 		$data = filter_input_array( INPUT_GET, array(
-			'page'         => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-			'product_id'   => FILTER_VALIDATE_INT,
-			'variation_id' => FILTER_VALIDATE_INT,
-			'user_id'      => FILTER_VALIDATE_INT,
-			'data_type'    => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-			'_tinvwl_nonce'     => FILTER_DEFAULT,
-			'coupon-code'  => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'page'          => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'product_id'    => FILTER_VALIDATE_INT,
+			'variation_id'  => FILTER_VALIDATE_INT,
+			'user_id'       => FILTER_VALIDATE_INT,
+			'data_type'     => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'_tinvwl_nonce' => FILTER_DEFAULT,
+			'coupon-code'   => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		) );
 		if ( ( isset( $data['page'] ) && $this->_name . '-previewpromoemail' !== $data['page'] ) || ! ( isset( $data['_tinvwl_nonce'] ) && wp_verify_nonce( $data['_tinvwl_nonce'], sprintf( '%s-%s', $this->_name, 'promotional' ) ) ) ) {
 			return false;

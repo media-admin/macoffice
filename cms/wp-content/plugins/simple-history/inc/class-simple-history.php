@@ -4,7 +4,6 @@ namespace Simple_History;
 
 use Simple_History\Loggers;
 use Simple_History\Loggers\Logger;
-use Simple_History\Loggers\Simple_Logger;
 use Simple_History\Dropins;
 use Simple_History\Dropins\Dropin;
 use Simple_History\Event_Details\Event_Details_Container;
@@ -14,11 +13,15 @@ use Simple_History\Services\Service;
 use Simple_History\Event_Details\Event_Details_Simple_Container;
 use Simple_History\Event_Details\Event_Details_Container_Interface;
 use Simple_History\Event_Details\Event_Details_Group;
+use Simple_History\Services\Setup_Settings_Page;
 
 /**
  * Main class for Simple History.
  *
  * This is used to init the plugin.
+ *
+ * @method bool registerSettingsTab(array $arr_tab_settings) Register a new tab in the settings.
+ * @method string get_avatar(...$args) Get avatar image. Moved to Helpers class.
  */
 class Simple_History {
 	public const NAME = 'Simple History';
@@ -26,23 +29,27 @@ class Simple_History {
 	/**
 	 * For singleton.
 	 *
+	 * @var Simple_History
 	 * @see get_instance()
 	 */
 	private static ?\Simple_History\Simple_History $instance = null;
 
-	/** Array with external logger classnames to load. */
+	/** @var Array with external logger classnames to load. */
 	private array $external_loggers = [];
 
-	/** Array with external dropins to load. */
+	/** @var Array with external dropins to load. */
 	private array $external_dropins = [];
+
+	/** @var Array with external services to load. */
+	private array $external_services = [];
 
 	/** @var array Array with all instantiated loggers. */
 	private array $instantiated_loggers = [];
 
-	/** Array with all instantiated dropins. */
+	/** @var Array with all instantiated dropins. */
 	private array $instantiated_dropins = [];
 
-	/** Array with instantiated setup class. */
+	/** @var Array with instantiated setup class. */
 	private array $instantiated_services = [];
 
 	/** @var array<int,mixed>  Registered settings tabs. */
@@ -60,7 +67,23 @@ class Simple_History {
 	/** @var string $plugin_basename */
 	public $plugin_basename = SIMPLE_HISTORY_BASENAME;
 
-	/** Slug for the settings menu */
+	/** Slug for the admin menu main page. */
+	public const MENU_PAGE_SLUG = 'simple_history_admin_menu_page';
+
+	/** Slug for the view events subpage_default page */
+	public const VIEW_EVENTS_PAGE_SLUG = 'simple_history_view_events_page';
+
+	/**
+	 * Settings page menu slug used in WordPress admin.
+	 *
+	 * This constant defines the unique identifier (slug) used for the Simple History
+	 * settings page in the WordPress admin menu.
+	 *
+	 * @var string
+	 */
+	public const SETTINGS_MENU_PAGE_SLUG = 'simple_history_settings_page';
+
+	/** Slug for the settings menu. Is this the slug for options groups? */
 	public const SETTINGS_MENU_SLUG = 'simple_history_settings_menu_slug';
 
 	/** Slug for the settings menu */
@@ -69,6 +92,9 @@ class Simple_History {
 	/** ID for the general settings section */
 	public const SETTINGS_SECTION_GENERAL_ID = 'simple_history_settings_section_general';
 
+	/**
+	 * Init Simple History.
+	 */
 	public function __construct() {
 		$this->init();
 	}
@@ -113,41 +139,126 @@ class Simple_History {
 	 * @return array<string> Array with classnames.
 	 */
 	private function get_services() {
-		return [
-			Services\Language_Loader::class,
-			Services\Setup_Database::class,
-			Services\Scripts_And_Templates::class,
-			Services\Admin_Pages::class,
-			Services\Setup_Settings_Page::class,
-			Services\Loggers_Loader::class,
-			Services\Dropins_Loader::class,
-			Services\Setup_Log_Filters::class,
-			Services\Setup_Pause_Resume_Actions::class,
-			Services\Setup_Purge_DB_Cron::class,
-			Services\API::class,
-			Services\Dashboard_Widget::class,
-			Services\Network_Menu_Items::class,
-			Services\Plugin_List_Link::class,
-			Services\AddOns_Licences::class,
-			Services\Licences_Settings_Page::class,
-		];
+		$services = [];
+		$services_dir = SIMPLE_HISTORY_PATH . 'inc/services';
+		$service_files = glob( $services_dir . '/*.php' );
+
+		foreach ( $service_files as $file ) {
+			// Skip service main class that other classes depend on.
+			if ( basename( $file ) === 'class-service.php' ) {
+				continue;
+			}
+
+			// Skip non-class files.
+			if ( strpos( basename( $file ), 'class-' ) !== 0 ) {
+				continue;
+			}
+
+			// Convert filename to class name.
+			// e.g. class-admin-pages.php -> Admin_Pages.
+			$class_name = str_replace( 'class-', '', basename( $file, '.php' ) );
+			$class_name = str_replace( '-', '_', $class_name );
+			$class_name = ucwords( $class_name, '_' );
+
+			// Add full namespace.
+			$class_name = "Simple_History\\Services\\{$class_name}";
+
+			$services[] = $class_name;
+		}
+
+		/**
+		 * Filter the array with class names of core services.
+		 *
+		 * @since 4.0
+		 *
+		 * @param array $services Array with class names.
+		 */
+		$services = apply_filters( 'simple_history/core_services', $services );
+
+		return $services;
 	}
 
 	/**
 	 * Load services that are required for Simple History to work.
 	 */
 	private function load_services() {
-		foreach ( $this->get_services() as $service_classname ) {
+		$services_to_load = $this->get_services();
+
+		/**
+		 * Fires after the list of services to load are populated.
+		 * Can be used to register custom services.
+		 *
+		 * @since 4.0
+		 *
+		 * @param Simple_History $instance Simple History instance.
+		 */
+		do_action( 'simple_history/add_custom_service', $this );
+
+		$services_to_load = array_merge( $services_to_load, $this->get_external_services() );
+
+		/**
+		 * Filter the array with service classnames to instantiate.
+		 *
+		 * @since 4.0
+		 *
+		 * @param array $services_to_load Array with service class names.
+		 */
+		$services_to_load = apply_filters( 'simple_history/services_to_load', $services_to_load );
+
+		foreach ( $services_to_load as $service_classname ) {
 			$this->load_service( $service_classname );
 		}
+
+		/**
+		 * Fires after all services are loaded.
+		 *
+		 * @since 4.0
+		 *
+		 * @param Simple_History $instance Simple History instance.
+		 */
+		do_action( 'simple_history/services/loaded', $this );
 	}
 
 	/**
 	 * Load a service class.
+	 *
+	 * @param string $service_classname Class name of service to load.
 	 */
 	private function load_service( $service_classname ) {
+		if ( ! class_exists( $service_classname ) ) {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf(
+					esc_html(
+						// translators: 1: service class name.
+						__( 'A service was not found. Classname was "%1$s".', 'simple-history' )
+					),
+					esc_html( $service_classname ),
+				),
+				'4.0'
+			);
+			return;
+		}
+
+		// Verify that service extends base Service class.
+		if ( ! is_subclass_of( $service_classname, Service::class ) ) {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf(
+					esc_html(
+						// translators: 1: service class name.
+						__( 'A service must extend the Service base class. Classname was "%1$s".', 'simple-history' )
+					),
+					esc_html( $service_classname ),
+				),
+				'4.0'
+			);
+			return;
+		}
+
 		$service = new $service_classname( $this );
 		$service->loaded();
+
 		$this->instantiated_services[] = $service;
 	}
 
@@ -187,7 +298,7 @@ class Simple_History {
 	 * @return void
 	 */
 	public function on_admin_head() {
-		if ( $this->is_on_our_own_pages() ) {
+		if ( Helpers::is_on_our_own_pages() ) {
 			/**
 			 * Similar to action WordPress action `admin_head`,
 			 * but only fired from pages with Simple History.
@@ -204,7 +315,7 @@ class Simple_History {
 	 * @return void
 	 */
 	public function on_admin_footer() {
-		if ( $this->is_on_our_own_pages() ) {
+		if ( Helpers::is_on_our_own_pages() ) {
 			/**
 			 * Similar to action WordPress action `admin_footer`,
 			 * but only fired from pages with Simple History.
@@ -251,37 +362,11 @@ class Simple_History {
 	 * Default capability is "edit_pages".
 	 *
 	 * @since 2.1.5
+	 * @deprecated 4.8 Use Helpers::get_view_history_capability().
 	 * @return string capability
 	 */
 	public function get_view_history_capability() {
-		$view_history_capability = 'edit_pages';
-
-		/**
-		 * Deprecated, use filter `simple_history/view_history_capability` instead.
-		 */
-		$view_history_capability = apply_filters( 'simple_history_view_history_capability', $view_history_capability );
-
-		/**
-		 * Filter the capability required to view main simple history page, with the activity feed.
-		 * Default capability is "edit_pages".
-		 *
-		 * @example Change the capability required to view the log to "manage options", so only allow admins are allowed to view the history log page.
-		 *
-		 * ```php
-		 *  add_filter(
-		 *      'simple_history/view_history_capability',
-		 *      function ( $capability ) {
-		 *          $capability = 'manage_options';
-		 *          return $capability;
-		 *      }
-		 *  );
-		 * ```
-		 *
-		 * @param string $view_history_capability
-		 */
-		$view_history_capability = apply_filters( 'simple_history/view_history_capability', $view_history_capability );
-
-		return $view_history_capability;
+		return Helpers::get_view_history_capability();
 	}
 
 	/**
@@ -290,67 +375,24 @@ class Simple_History {
 	 * but can be modified using filter.
 	 *
 	 * @since 2.1.5
+	 * @deprecated 4.8 Use Helpers::get_view_settings_capability().
 	 * @return string capability
 	 */
 	public function get_view_settings_capability() {
-		$view_settings_capability = 'manage_options';
-
-		/**
-		 * Old filter name, use `simple_history/view_settings_capability` instead.
-		 */
-		$view_settings_capability = apply_filters( 'simple_history_view_settings_capability', $view_settings_capability );
-
-		/**
-		 * Filters the capability required to view the settings page.
-		 *
-		 * @example Change capability required to view the
-		 *
-		 * ```php
-		 *  add_filter(
-		 *      'simple_history/view_settings_capability',
-		 *      function ( $capability ) {
-		 *
-		 *          $capability = 'manage_options';
-		 *          return $capability;
-		 *      }
-		 *  );
-		 * ```
-		 *
-		 * @param string $view_settings_capability
-		 */
-		$view_settings_capability = apply_filters( 'simple_history/view_settings_capability', $view_settings_capability );
-
-		return $view_settings_capability;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::get_view_settings_capability()' );
+		return Helpers::get_view_settings_capability();
 	}
 
 	/**
 	 * Check if the current user can clear the log.
 	 *
 	 * @since 2.19
+	 * @deprecated 4.8 Use Helpers::user_can_clear_log().
 	 * @return bool
 	 */
 	public function user_can_clear_log() {
-		/**
-		 * Allows controlling who can manually clear the log.
-		 * When this is true then the "Clear"-button in shown in the settings.
-		 * When this is false then no button is shown.
-		 *
-		 * @example
-		 * ```php
-		 *  // Remove the "Clear log"-button, so a user with admin access can not clear the log
-		 *  // and wipe their mischievous behavior from the log.
-		 *  add_filter(
-		 *      'simple_history/user_can_clear_log',
-		 *      function ( $user_can_clear_log ) {
-		 *          $user_can_clear_log = false;
-		 *          return $user_can_clear_log;
-		 *      }
-		 *  );
-		 * ```
-		 *
-		 * @param bool $allow Whether the current user is allowed to clear the log.
-		*/
-		return apply_filters( 'simple_history/user_can_clear_log', true );
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::user_can_clear_log()' );
+		return Helpers::user_can_clear_log();
 	}
 
 	/**
@@ -360,6 +402,7 @@ class Simple_History {
 	 * See example-logger.php for an example on how to use this.
 	 *
 	 * @since 2.1
+	 * @param string $loggerClassName Class name of logger to register.
 	 */
 	public function register_logger( $loggerClassName ) {
 		$this->external_loggers[] = $loggerClassName;
@@ -372,7 +415,7 @@ class Simple_History {
 	 * @param string $plugin_slug Slug of plugin, eg "simple-history-plus-woocommerce".
 	 * @param string $version Current version of plugin, eg "1.0.0".
 	 * @param string $plugin_name Name of plugin, eg "Simple History Plus WooCommerce".
-	 * @param int $product_id ID of product that this plugin is for.
+	 * @param int    $product_id ID of product that this plugin is for.
 	 * @return bool True if plugin was registered, false if not.
 	 */
 	public function register_plugin_with_license( $plugin_id, $plugin_slug, $version, $plugin_name, $product_id ) {
@@ -391,7 +434,7 @@ class Simple_History {
 	/**
 	 * Get an instantiated service by its class name.
 	 *
-	 * @param string $service_classname Class name of service to get.
+	 * @param string $service_classname Full class name of service to get. Example: AddOns_Licences::class.
 	 * @return Service|null Found service or null if no service found.
 	 */
 	public function get_service( $service_classname ) {
@@ -411,6 +454,7 @@ class Simple_History {
 	 * See example-dropin.php for an example on how to use this.
 	 *
 	 * @since 2.1
+	 * @param string $dropinClassName Class name of dropin to register.
 	 */
 	public function register_dropin( $dropinClassName ) {
 		$this->external_dropins[] = $dropinClassName;
@@ -458,6 +502,7 @@ class Simple_History {
 			Loggers\Theme_Logger::class,
 			Loggers\User_Logger::class,
 			Loggers\Simple_History_Logger::class,
+			Loggers\Custom_Entry_Logger::class,
 		);
 
 		/**
@@ -478,23 +523,33 @@ class Simple_History {
 	 * @return array
 	 */
 	public function get_core_dropins() {
-		$dropins = array(
-			Dropins\Debug_Dropin::class,
-			Dropins\Donate_Dropin::class,
-			Dropins\Export_Dropin::class,
-			Dropins\Filter_Dropin::class,
-			Dropins\IP_Info_Dropin::class,
-			Dropins\New_Rows_Notifier_Dropin::class,
-			Dropins\Plugin_Patches_Dropin::class,
-			Dropins\RSS_Dropin::class,
-			Dropins\Settings_Debug_Tab_Dropin::class,
-			Dropins\Sidebar_Stats_Dropin::class,
-			Dropins\Sidebar_Dropin::class,
-			Dropins\Sidebar_Settings_Dropin::class,
-			Dropins\WP_CLI_Dropin::class,
-			Dropins\Event_Details_Dev_Dropin::class,
-			Dropins\Quick_Stats::class,
-		);
+		$dropins = [];
+		$dropins_dir = SIMPLE_HISTORY_PATH . 'dropins';
+		$dropin_files = glob( $dropins_dir . '/*.php' );
+
+		foreach ( $dropin_files as $file ) {
+			// Skip dropin main class that other classes depend on.
+			if ( basename( $file ) === 'class-dropin.php' ) {
+				continue;
+			}
+
+			// Skip non-class files.
+			if ( strpos( basename( $file ), 'class-' ) !== 0 ) {
+				continue;
+			}
+
+			// Convert filename to class name.
+			// e.g. class-quick-stats.php -> Quick_Stats.
+			$class_name = str_replace( 'class-', '', basename( $file, '.php' ) );
+			$class_name = str_replace( '-', '_', $class_name );
+			$class_name = str_replace( 'dropin', 'Dropin', $class_name );
+			$class_name = ucwords( $class_name, '_' );
+
+			// Add full namespace.
+			$class_name = "Simple_History\\Dropins\\{$class_name}";
+
+			$dropins[] = $class_name;
+		}
 
 		/**
 		 * Filter the array with class names of core dropins.
@@ -518,24 +573,15 @@ class Simple_History {
 	}
 
 	/**
-	 * Gets the pager size,
+	 * Gets the pager size for the history page,
 	 * i.e. the number of items to show on each page in the history
 	 *
+	 * @deprecated 4.8 Use Helpers::get_pager_size().
 	 * @return int
 	 */
 	public function get_pager_size() {
-		$pager_size = get_option( 'simple_history_pager_size', 20 );
-
-		/**
-		 * Filter the pager size setting
-		 *
-		 * @since 2.0
-		 *
-		 * @param int $pager_size
-		 */
-		$pager_size = apply_filters( 'simple_history/pager_size', $pager_size );
-
-		return $pager_size;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::get_pager_size()' );
+		return Helpers::get_pager_size();
 	}
 
 	/**
@@ -543,88 +589,42 @@ class Simple_History {
 	 * i.e. the number of items to show on each page in the history
 	 *
 	 * @since 2.12
+	 * @deprecated 4.8 Use Helpers::get_pager_size_dashboard().
 	 * @return int
 	 */
 	public function get_pager_size_dashboard() {
-		$pager_size = get_option( 'simple_history_pager_size_dashboard', 5 );
-
-		/**
-		 * Filter the pager size setting for the dashboard.
-		 *
-		 * @since 2.0
-		 *
-		 * @param int $pager_size
-		 */
-		$pager_size = apply_filters( 'simple_history/dashboard_pager_size', $pager_size );
-
-		/**
-		 * Filter the pager size setting
-		 *
-		 * @since 2.12
-		 *
-		 * @param int $pager_size
-		 */
-		$pager_size = apply_filters( 'simple_history/pager_size_dashboard', $pager_size );
-
-		return $pager_size;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::get_pager_size_dashboard()' );
+		return Helpers::get_pager_size_dashboard();
 	}
 
 	/**
 	 * Check if the current page is any of the pages that belong
 	 * to Simple History.
 	 *
-	 * @param string $hook The current page hook.
+	 * @deprecated 4.8 Use Helpers::is_on_our_own_pages().
 	 * @return bool
 	 */
-	public function is_on_our_own_pages( $hook = '' ) {
-		$current_screen = Helpers::get_current_screen();
-
-		$basePrefix = apply_filters( 'simple_history/admin_location', 'index' );
-		$basePrefix = $basePrefix === 'index' ? 'dashboard' : $basePrefix;
-
-		if ( $current_screen && $current_screen->base == 'settings_page_' . self::SETTINGS_MENU_SLUG ) {
-			return true;
-		} elseif ( $current_screen && $current_screen->base === $basePrefix . '_page_simple_history_page' ) {
-			return true;
-		} elseif (
-			$hook == 'settings_page_' . self::SETTINGS_MENU_SLUG ||
-			( $this->setting_show_on_dashboard() && $hook == 'index.php' ) ||
-			( $this->setting_show_as_page() && $hook == $basePrefix . '_page_simple_history_page' )
-		) {
-			return true;
-		} elseif ( $current_screen && $current_screen->base == 'dashboard' && $this->setting_show_on_dashboard() ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	// TODO: Is this used anywhere?
-	public function filter_option_page_capability( $capability ) {
-		return $capability;
+	public function is_on_our_own_pages() {
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::is_on_our_own_pages()' );
+		return Helpers::is_on_our_own_pages();
 	}
 
 	/**
-	 * Check if the database has data/rows
+	 * Check if the database has any data, i.e. at least 1 row.
 	 *
 	 * @since 2.1.6
+	 * @deprecated 4.8 Use Helpers::does_database_have_data().
 	 * @return bool True if database is not empty, false if database is empty = contains no data
 	 */
 	public function does_database_have_data() {
-		global $wpdb;
-
-		$table_name = $this->get_events_table_name();
-
-		$sql_data_exists = "SELECT id AS id_exists FROM {$table_name} LIMIT 1";
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		$data_exists = (bool) $wpdb->get_var( $sql_data_exists, 0 );
-
-		return $data_exists;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::does_database_have_data()' );
+		return Helpers::db_has_data();
 	}
 
 	/**
 	 * Register a settings tab.
 	 *
+	 * @deprecated 5.7.0 Use Menu_Page class instead. See Message_Control_Module or Failed_Login_Attempts_Settings_Module for examples.
 	 * @param array $arr_tab_settings {
 	 *     An array of default site sign-up variables.
 	 *
@@ -637,23 +637,51 @@ class Simple_History {
 	 * }
 	 */
 	public function register_settings_tab( $arr_tab_settings ) {
-		$arr_tab_settings = wp_parse_args(
-			$arr_tab_settings,
-			[
-				'slug' => null,
-				'parent_slug' => null,
-				'name' => null,
-				'icon' => null,
-				'function' => null,
-				'order' => 10,
-			]
+		_deprecated_function(
+			__METHOD__,
+			'5.7.0',
+			'Menu_Page class. See Message_Control_Module or Failed_Login_Attempts_Settings_Module for examples.'
 		);
 
-		$this->arr_settings_tabs[] = $arr_tab_settings;
+		// This is called early from add-ons, while the new menu manager expects
+		// registration to be called on menu_manager hook.
+		// Also we want to call it after Simple History core has done its init stuff.
+		add_action(
+			'admin_menu',
+			function () use ( $arr_tab_settings ) {
+				// Create new Menu_Page instance using method chaining pattern.
+				$menu_page = ( new Menu_Page() )
+				->set_page_title( $arr_tab_settings['name'] )
+				->set_menu_title( $arr_tab_settings['name'] )
+				->set_menu_slug( $arr_tab_settings['slug'] )
+				->set_callback( $arr_tab_settings['function'] )
+				->set_order( $arr_tab_settings['order'] ?? 10 );
+
+				// Set icon if provided.
+				if ( ! empty( $arr_tab_settings['icon'] ) ) {
+					$menu_page->set_icon( $arr_tab_settings['icon'] );
+				}
+
+				// Set parent.
+				$parent_slug = $arr_tab_settings['parent_slug'] ?? null;
+
+				if ( $parent_slug === null || $parent_slug === 'settings' ) {
+					// In premium and extended settings parent was always "settings".
+					$parent_slug = Setup_Settings_Page::SETTINGS_GENERAL_SUBTAB_SLUG;
+				}
+
+				$menu_page->set_parent( $parent_slug );
+
+				$menu_page->add();
+			},
+			20
+		);
 	}
 
 	/**
 	 * Get the registered settings tabs.
+	 *
+	 * @deprecated 5.7.0 Use Menu_Page class instead. See Message_Control_Module or Failed_Login_Attempts_Settings_Module for examples.
 	 *
 	 * The tabs are ordered by the order key, where higher number means earlier output,
 	 * i.e. the tab is outputted more to the left in the settings page.
@@ -667,7 +695,7 @@ class Simple_History {
 		// Sort by order, where higher number means earlier output.
 		usort(
 			$this->arr_settings_tabs,
-			function( $a, $b ) {
+			function ( $a, $b ) {
 				$a_order = $a['order'] ?? 0;
 				$b_order = $b['order'] ?? 0;
 				return $b_order <=> $a_order;
@@ -677,7 +705,7 @@ class Simple_History {
 		// Filter out tabs that are not of the type we want.
 		$settings_tabs_of_selected_type = array_filter(
 			$this->arr_settings_tabs,
-			function( $tab ) use ( $type ) {
+			function ( $tab ) use ( $type ) {
 				if ( $type === 'top' ) {
 					return empty( $tab['parent_slug'] );
 				} elseif ( $type === 'sub' ) {
@@ -696,7 +724,7 @@ class Simple_History {
 	/**
 	 * Set settings tabs.
 	 *
-	 * @param array $arr_settings_tabs
+	 * @param array $arr_settings_tabs Array with settings tabs.
 	 * @return void
 	 */
 	public function set_settings_tabs( $arr_settings_tabs ) {
@@ -704,141 +732,50 @@ class Simple_History {
 	}
 
 	/**
-	 * Detect clear log query arg and clear log if it is set and valid.
-	 */
-	public function clear_log_from_url_request() {
-		// Clear the log if clear button was clicked in settings
-		// and redirect user to show message.
-		if (
-			isset( $_GET['simple_history_clear_log_nonce'] ) &&
-			wp_verify_nonce( $_GET['simple_history_clear_log_nonce'], 'simple_history_clear_log' )
-		) {
-			if ( $this->user_can_clear_log() ) {
-				$num_rows_deleted = $this->clear_log();
-
-				/**
-				 * Fires after the log has been cleared using
-				 * the "Clear log now" button on the settings page.
-				 *
-				 * @param int $num_rows_deleted Number of rows deleted.
-				 */
-				do_action( 'simple_history/settings/log_cleared', $num_rows_deleted );
-			}
-
-			$msg = __( 'Cleared database', 'simple-history' );
-
-			add_settings_error(
-				'simple_history_settings_clear_log',
-				'simple_history_settings_clear_log',
-				$msg,
-				'updated'
-			);
-
-			set_transient( 'settings_errors', get_settings_errors(), 30 );
-
-			$goback = esc_url_raw( add_query_arg( 'settings-updated', 'true', wp_get_referer() ) );
-			wp_redirect( $goback );
-			exit();
-		}
-	}
-
-	/**
 	 * Get setting if plugin should be visible on dashboard.
 	 * Defaults to true
 	 *
+	 * @deprecated 4.8 Use Helpers::setting_show_on_dashboard().
 	 * @return bool
 	 */
 	public function setting_show_on_dashboard() {
-		$show_on_dashboard = get_option( 'simple_history_show_on_dashboard', 1 );
-		$show_on_dashboard = apply_filters( 'simple_history_show_on_dashboard', $show_on_dashboard );
-		return (bool) $show_on_dashboard;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::setting_show_on_dashboard()' );
+		return Helpers::setting_show_on_dashboard();
 	}
 
 	/**
 	 * Should simple history be shown as a page
 	 * Defaults to true
 	 *
+	 * @deprecated 4.8 Use Helpers::setting_show_as_page().
 	 * @return bool
 	 */
 	public function setting_show_as_page() {
-		$setting = get_option( 'simple_history_show_as_page', 1 );
-		$setting = apply_filters( 'simple_history_show_as_page', $setting );
-
-		return (bool) $setting;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::setting_show_as_page()' );
+		return Helpers::setting_show_as_page();
 	}
 
 	/**
-	 * How old log entried are allowed to be.
+	 * How old log entries are allowed to be.
 	 * 0 = don't delete old entries.
 	 *
+	 * @deprecated 4.8 Use Helpers::get_clear_history_interval().
 	 * @return int Number of days.
 	 */
 	public function get_clear_history_interval() {
-		$days = 60;
-
-		/**
-		 * Deprecated filter name, use `simple_history/db_purge_days_interval` instead.
-		 * @deprecated
-		 */
-		$days = (int) apply_filters( 'simple_history_db_purge_days_interval', $days );
-
-		/**
-		 * Filter to modify number of days of history to keep.
-		 * Default is 60 days.
-		 *
-		 * @example Keep only the most recent 7 days in the log.
-		 *
-		 * ```php
-		 * add_filter( "simple_history/db_purge_days_interval", function( $days ) {
-		 *      $days = 7;
-		 *      return $days;
-		 *  } );
-		 * ```
-		 *
-		 * @example Expand the log to keep 90 days in the log.
-		 *
-		 * ```php
-		 * add_filter( "simple_history/db_purge_days_interval", function( $days ) {
-		 *      $days = 90;
-		 *      return $days;
-		 *  } );
-		 * ```
-		 *
-		 * @param int $days Number of days of history to keep
-		 */
-		$days = apply_filters( 'simple_history/db_purge_days_interval', $days );
-
-		return $days;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::get_clear_history_interval()' );
+		return Helpers::get_clear_history_interval();
 	}
 
 	/**
 	 * Removes all items from the log.
 	 *
+	 * @deprecated 4.8 Use Helpers::clear_log().
 	 * @return int Number of rows removed.
 	 */
 	public function clear_log() {
-		global $wpdb;
-
-		$simple_history_table = $this->get_events_table_name();
-		$simple_history_contexts_table = $this->get_contexts_table_name();
-
-		// Get number of rows before delete.
-		$sql_num_rows = "SELECT count(id) AS num_rows FROM {$simple_history_table}";
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		$num_rows = $wpdb->get_var( $sql_num_rows, 0 );
-
-		// Use truncate instead of delete because it's much faster (I think, writing this much later).
-		$sql = "TRUNCATE {$simple_history_table}";
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		$wpdb->query( $sql );
-
-		$sql = "TRUNCATE {$simple_history_contexts_table}";
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		$wpdb->query( $sql );
-
-		Helpers::get_cache_incrementor( true );
-
-		return $num_rows;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::clear_log()' );
+		return Helpers::clear_log();
 	}
 
 	/**
@@ -846,7 +783,7 @@ class Simple_History {
 	 * Uses the get_log_row_plain_text_output of the logger that logged the row
 	 * with fallback to SimpleLogger if logger is not available.
 	 *
-	 * @param object $row
+	 * @param object $row Log row object.
 	 * @return string
 	 */
 	public function get_log_row_plain_text_output( $row ) {
@@ -897,14 +834,14 @@ class Simple_History {
 	 * Loggers are discouraged to override this in the loggers,
 	 * because the output should be the same for all items in the GUI.
 	 *
-	 * @param object $row
+	 * @param object $row Log row object.
 	 * @return string
 	 */
 	public function get_log_row_header_output( $row ) {
 		$row_logger = $row->logger;
 		$row->context = isset( $row->context ) && is_array( $row->context ) ? $row->context : array();
 
-		// Fallback to SimpleLogger if no logger exists for row
+		// Fallback to SimpleLogger if no logger exists for row.
 		if ( ! isset( $this->instantiated_loggers[ $row_logger ] ) ) {
 			$row_logger = 'SimpleLogger';
 		}
@@ -917,14 +854,15 @@ class Simple_History {
 	/**
 	 *
 	 *
-	 * @param object $row
+	 * @param object $row Log row object.
 	 * @return string
 	 */
-	private function get_log_row_sender_image_output( $row ) {
+	public function get_log_row_sender_image_output( $row ) {
+		/** @var Loggers\Logger $row_logger */
 		$row_logger = $row->logger;
 		$row->context = isset( $row->context ) && is_array( $row->context ) ? $row->context : array();
 
-		// Fallback to SimpleLogger if no logger exists for row
+		// Fallback to SimpleLogger if no logger exists for row.
 		if ( ! isset( $this->instantiated_loggers[ $row_logger ] ) ) {
 			$row_logger = 'SimpleLogger';
 		}
@@ -937,20 +875,22 @@ class Simple_History {
 	/**
 	 * Return details output for a log row.
 	 *
-	 * @param object $row
+	 * @param object $row Log row object.
 	 * @return string|Event_Details_Container_Interface|Event_Details_Group
 	 */
 	public function get_log_row_details_output( $row ) {
 		$row_logger = $row->logger;
 		$row->context = isset( $row->context ) && is_array( $row->context ) ? $row->context : array();
 
-		// Fallback to SimpleLogger if no logger exists for row
+		// Get logger for row.
+		// Fallback to SimpleLogger if no logger exists for row.
 		$logger = $this->get_instantiated_logger_by_slug( $row_logger );
+
 		if ( $logger === false ) {
 			$logger = $this->get_instantiated_logger_by_slug( 'Simple_Logger' );
 		}
 
-		// Bail if no logger found.
+		// Bail if no logger found. Can happen when user has disabled all loggers via filter.
 		if ( $logger === false ) {
 			return new Event_Details_Simple_Container();
 		}
@@ -979,30 +919,36 @@ class Simple_History {
 	 * Returns the HTML output for a log row, to be used in the GUI/Activity Feed.
 	 * This includes HTML for the header, the sender image, and the details.
 	 *
-	 * @param object $oneLogRow LogQuery array with data from LogQuery
+	 * @param object $one_log_row LogQuery array with data from LogQuery.
+	 * @param array  $args Array with arguments.
 	 * @return string
 	 */
-	public function get_log_row_html_output( $oneLogRow, $args ) {
+	public function get_log_row_html_output( $one_log_row, $args ) {
 		$defaults = array(
-			'type' => 'overview', // or "single" to include more stuff (used in for example modal details window)
+			'type' => 'overview', // or "single" to include more stuff (used in for example modal details window).
 		);
 
 		$args = wp_parse_args( $args, $defaults );
 
-		$header_html = $this->get_log_row_header_output( $oneLogRow );
-		$plain_text_html = $this->get_log_row_plain_text_output( $oneLogRow );
-		$sender_image_html = $this->get_log_row_sender_image_output( $oneLogRow );
+		$context = $one_log_row->context ?? [];
+		$message_key = $context['_message_key'] ?? null;
+
+		$header_html = $this->get_log_row_header_output( $one_log_row );
+		$plain_text_html = $this->get_log_row_plain_text_output( $one_log_row );
+		$sender_image_html = $this->get_log_row_sender_image_output( $one_log_row );
 
 		// Details = for example thumbnail of media.
-		$details_html = trim( $this->get_log_row_details_output( $oneLogRow ) );
+		$details_html = trim( $this->get_log_row_details_output( $one_log_row ) );
 		if ( $details_html !== '' ) {
 			$details_html = sprintf( '<div class="SimpleHistoryLogitem__details">%1$s</div>', $details_html );
 		}
 
-		// subsequentOccasions = including the current one
-		$occasions_count = $oneLogRow->subsequentOccasions - 1;
+		// subsequentOccasions = including the current one.
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		$occasions_count = $one_log_row->subsequentOccasions - 1;
 		$occasions_html = '';
 
+		// Add markup for occasions.
 		if ( $occasions_count > 0 ) {
 			$occasions_html = '<div class="SimpleHistoryLogitem__occasions">';
 
@@ -1026,34 +972,77 @@ class Simple_History {
 			);
 			$occasions_html .= '</span>';
 
+			// Div with information about add-ons that can limit the number of login attempts stored.
+			// Only show for SimpleUserLogger and login failed events and if the add-on is not active.
+			$logger = $one_log_row->logger;
+
+			$is_simple_history_extended_settings_active = Helpers::is_extended_settings_add_on_active();
+			$is_simple_history_premium_active = Helpers::is_premium_add_on_active();
+
+			if ( $logger === 'SimpleUserLogger' && in_array( $message_key, [ 'user_login_failed', 'user_unknown_login_failed' ], true ) ) {
+
+				$ƒailed_login_attempts_settings_page_url = Helpers::get_settings_page_tab_url( 'failed-login-attempts' );
+
+				if ( $is_simple_history_extended_settings_active ) {
+					// Show link to extended settings settings page if extended settings plugin is active.
+					$occasions_html .= '<div class="SimpleHistoryLogitem__occasionsAddOns">';
+					$occasions_html .= '<p class="SimpleHistoryLogitem__occasionsAddOnsText">';
+					$occasions_html .= '<a href="' . esc_url( $ƒailed_login_attempts_settings_page_url ) . '">';
+					$occasions_html .= __( 'Configure failed login attempts', 'simple-history' );
+					$occasions_html .= '</a>';
+					$occasions_html .= '</p>';
+					$occasions_html .= '</div>';
+				} elseif ( $is_simple_history_premium_active ) {
+					// Show link to premium settings page if extended settings plugin is active.
+					$occasions_html .= '<div class="SimpleHistoryLogitem__occasionsAddOns">';
+					$occasions_html .= '<p class="SimpleHistoryLogitem__occasionsAddOnsText">';
+					$occasions_html .= '<a href="' . esc_url( $ƒailed_login_attempts_settings_page_url ) . '">';
+					$occasions_html .= __( 'Configure failed login attempts', 'simple-history' );
+					$occasions_html .= '</a>';
+					$occasions_html .= '</p>';
+					$occasions_html .= '</div>';
+				} else {
+					// Show link to add-on if extended settings plugin is not active.
+					$occasions_html .= '<div class="SimpleHistoryLogitem__occasionsAddOns">';
+					$occasions_html .= '<p class="SimpleHistoryLogitem__occasionsAddOnsText">';
+					$occasions_html .= '<a href="https://simple-history.com/add-ons/extended-settings/?utm_source=wordpress_admin&utm_medium=Simple_History&utm_campaign=premium_upsell&utm_content=login-attempts-limit" class="sh-ExternalLink" target="_blank">';
+					$occasions_html .= __( 'Limit logged login attempts', 'simple-history' );
+					$occasions_html .= '</a>';
+					$occasions_html .= '</p>';
+					$occasions_html .= '</div>';
+				}
+			}
+
 			$occasions_html .= '</div>';
 		}
 
 		// Add data attributes to log row, so plugins can do stuff.
 		$data_attrs = '';
-		$data_attrs .= sprintf( ' data-row-id="%1$d" ', $oneLogRow->id );
+		$data_attrs .= sprintf( ' data-row-id="%1$d" ', $one_log_row->id );
 		$data_attrs .= sprintf( ' data-occasions-count="%1$d" ', $occasions_count );
-		$data_attrs .= sprintf( ' data-occasions-id="%1$s" ', esc_attr( $oneLogRow->occasionsID ) );
+
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		$data_attrs .= sprintf( ' data-occasions-id="%1$s" ', esc_attr( $one_log_row->occasionsID ) );
 
 		// Add data attributes for remote address and other ip number headers.
-		if ( isset( $oneLogRow->context['_server_remote_addr'] ) ) {
-			$data_attrs .= sprintf( ' data-ip-address="%1$s" ', esc_attr( $oneLogRow->context['_server_remote_addr'] ) );
+		if ( isset( $one_log_row->context['_server_remote_addr'] ) ) {
+			$data_attrs .= sprintf( ' data-ip-address="%1$s" ', esc_attr( $one_log_row->context['_server_remote_addr'] ) );
 		}
 
-		$arr_found_additional_ip_headers = Helpers::get_event_ip_number_headers( $oneLogRow );
+		$arr_found_additional_ip_headers = Helpers::get_event_ip_number_headers( $one_log_row );
 
 		if ( $arr_found_additional_ip_headers !== [] ) {
 			$data_attrs .= ' data-ip-address-multiple="1" ';
 		}
 
 		// Add data attributes info for common things like logger, level, data, initiation.
-		$data_attrs .= sprintf( ' data-logger="%1$s" ', esc_attr( $oneLogRow->logger ) );
-		$data_attrs .= sprintf( ' data-level="%1$s" ', esc_attr( $oneLogRow->level ) );
-		$data_attrs .= sprintf( ' data-date="%1$s" ', esc_attr( $oneLogRow->date ) );
-		$data_attrs .= sprintf( ' data-initiator="%1$s" ', esc_attr( $oneLogRow->initiator ) );
+		$data_attrs .= sprintf( ' data-logger="%1$s" ', esc_attr( $one_log_row->logger ) );
+		$data_attrs .= sprintf( ' data-level="%1$s" ', esc_attr( $one_log_row->level ) );
+		$data_attrs .= sprintf( ' data-date="%1$s" ', esc_attr( $one_log_row->date ) );
+		$data_attrs .= sprintf( ' data-initiator="%1$s" ', esc_attr( $one_log_row->initiator ) );
 
-		if ( isset( $oneLogRow->context['_user_id'] ) ) {
-			$data_attrs .= sprintf( ' data-initiator-user-id="%1$d" ', $oneLogRow->context['_user_id'] );
+		if ( isset( $one_log_row->context['_user_id'] ) ) {
+			$data_attrs .= sprintf( ' data-initiator-user-id="%1$d" ', $one_log_row->context['_user_id'] );
 		}
 
 		// If type is single then include more details.
@@ -1063,7 +1052,7 @@ class Simple_History {
 			$more_details_html = apply_filters(
 				'simple_history/log_html_output_details_single/html_before_context_table',
 				$more_details_html,
-				$oneLogRow
+				$one_log_row
 			);
 
 			$more_details_html .= sprintf(
@@ -1082,10 +1071,10 @@ class Simple_History {
 				'Value'
 			);
 
-			$logRowKeysToShow = array_fill_keys( array_keys( (array) $oneLogRow ), true );
+			$logRowKeysToShow = array_fill_keys( array_keys( (array) $one_log_row ), true );
 
 			/**
-			 * Filter what keys to show from oneLogRow
+			 * Filter what keys to show from one_log_row
 			 *
 			 * Array is in format
 			 *
@@ -1104,7 +1093,7 @@ class Simple_History {
 			 * ```php
 			 *  add_filter(
 			 *      'simple_history/log_html_output_details_table/row_keys_to_show',
-			 *      function ( $logRowKeysToShow, $oneLogRow ) {
+			 *      function ( $logRowKeysToShow, $one_log_row ) {
 			 *
 			 *          $logRowKeysToShow['id'] = false;
 			 *          $logRowKeysToShow['logger'] = false;
@@ -1121,32 +1110,29 @@ class Simple_History {
 			 * @since 2.0.29
 			 *
 			 * @param array $logRowKeysToShow with keys to show. key to show = key. value = boolean to show or not.
-			 * @param object $oneLogRow log row to show details from
+			 * @param object $one_log_row log row to show details from
 			 */
 			$logRowKeysToShow = apply_filters(
 				'simple_history/log_html_output_details_table/row_keys_to_show',
 				$logRowKeysToShow,
-				$oneLogRow
+				$one_log_row
 			);
 
-			// Hide some keys by default
+			// Hide some keys by default.
 			unset(
 				$logRowKeysToShow['occasionsID'],
 				$logRowKeysToShow['subsequentOccasions'],
-				$logRowKeysToShow['rep'],
-				$logRowKeysToShow['repeated'],
-				$logRowKeysToShow['occasionsIDType'],
 				$logRowKeysToShow['context'],
 				$logRowKeysToShow['type']
 			);
 
-			foreach ( $oneLogRow as $rowKey => $rowVal ) {
-				// Only columns from oneLogRow that exist in logRowKeysToShow will be outputted
+			foreach ( $one_log_row as $rowKey => $rowVal ) {
+				// Only columns from one_log_row that exist in logRowKeysToShow will be outputted.
 				if ( ! array_key_exists( $rowKey, $logRowKeysToShow ) || ! $logRowKeysToShow[ $rowKey ] ) {
 					continue;
 				}
 
-				// skip arrays and objects and such
+				// skip arrays and objects and such.
 				if ( is_array( $rowVal ) || is_object( $rowVal ) ) {
 					continue;
 				}
@@ -1161,7 +1147,7 @@ class Simple_History {
 				);
 			}
 
-			$logRowContextKeysToShow = array_fill_keys( array_keys( (array) $oneLogRow->context ), true );
+			$logRowContextKeysToShow = array_fill_keys( array_keys( (array) $one_log_row->context ), true );
 
 			/**
 			 * Filter what keys to show from the row context.
@@ -1186,7 +1172,7 @@ class Simple_History {
 			 * ```php
 			 *  add_filter(
 			 *      'simple_history/log_html_output_details_table/context_keys_to_show',
-			 *      function ( $logRowContextKeysToShow, $oneLogRow ) {
+			 *      function ( $logRowContextKeysToShow, $one_log_row ) {
 			 *
 			 *          $logRowContextKeysToShow['plugin_slug'] = false;
 			 *          $logRowContextKeysToShow['plugin_name'] = false;
@@ -1204,16 +1190,16 @@ class Simple_History {
 			 * @since 2.0.29
 			 *
 			 * @param array $logRowContextKeysToShow with keys to show. key to show = key. value = boolean to show or not.
-			 * @param object $oneLogRow log row to show details from
+			 * @param object $one_log_row log row to show details from
 			 */
 			$logRowContextKeysToShow = apply_filters(
 				'simple_history/log_html_output_details_table/context_keys_to_show',
 				$logRowContextKeysToShow,
-				$oneLogRow
+				$one_log_row
 			);
 
-			foreach ( $oneLogRow->context as $contextKey => $contextVal ) {
-				// Only columns from context that exist in logRowContextKeysToShow will be outputted
+			foreach ( $context as $contextKey => $contextVal ) {
+				// Only columns from context that exist in logRowContextKeysToShow will be outputted.
 				if (
 					! array_key_exists( $contextKey, $logRowContextKeysToShow ) ||
 					! $logRowContextKeysToShow[ $contextKey ]
@@ -1236,7 +1222,7 @@ class Simple_History {
 			$more_details_html = apply_filters(
 				'simple_history/log_html_output_details_single/html_after_context_table',
 				$more_details_html,
-				$oneLogRow
+				$one_log_row
 			);
 
 			$more_details_html = sprintf(
@@ -1245,26 +1231,26 @@ class Simple_History {
 			);
 		} // End if().
 
-		// Classes to add to log item li element
+		// Classes to add to log item li element.
 		$classes = array(
 			'SimpleHistoryLogitem',
-			"SimpleHistoryLogitem--loglevel-{$oneLogRow->level}",
-			"SimpleHistoryLogitem--logger-{$oneLogRow->logger}",
+			"SimpleHistoryLogitem--loglevel-{$one_log_row->level}",
+			"SimpleHistoryLogitem--logger-{$one_log_row->logger}",
 		);
 
-		if ( isset( $oneLogRow->initiator ) && ! empty( $oneLogRow->initiator ) ) {
-			$classes[] = 'SimpleHistoryLogitem--initiator-' . $oneLogRow->initiator;
+		if ( isset( $one_log_row->initiator ) && ! empty( $one_log_row->initiator ) ) {
+			$classes[] = 'SimpleHistoryLogitem--initiator-' . $one_log_row->initiator;
 		}
 
 		if ( $arr_found_additional_ip_headers !== [] ) {
 			$classes[] = 'SimpleHistoryLogitem--IPAddress-multiple';
 		}
 
-		// Always append the log level tag
+		// Always append the log level tag.
 		$log_level_tag_html = sprintf(
 			' <span class="SimpleHistoryLogitem--logleveltag SimpleHistoryLogitem--logleveltag-%1$s">%2$s</span>',
-			$oneLogRow->level,
-			Log_Levels::get_log_level_translated( $oneLogRow->level )
+			$one_log_row->level,
+			Log_Levels::get_log_level_translated( $one_log_row->level )
 		);
 
 		$plain_text_html .= $log_level_tag_html;
@@ -1278,7 +1264,7 @@ class Simple_History {
 		 */
 		$classes = apply_filters( 'simple_history/logrowhtmloutput/classes', $classes );
 
-		// Generate the HTML output for a row
+		// Generate the HTML output for a row.
 		$output = sprintf(
 			'
                 <li %8$s class="%10$s">
@@ -1298,9 +1284,9 @@ class Simple_History {
 			$plain_text_html, // 2
 			$sender_image_html, // 3
 			$occasions_html, // 4
-			$oneLogRow->level, // 5
+			$one_log_row->level, // 5
 			$details_html, // 6
-			$oneLogRow->logger, // 7
+			$one_log_row->logger, // 7
 			$data_attrs, // 8 data attributes
 			$more_details_html, // 9
 			esc_attr( join( ' ', $classes ) ) // 10
@@ -1309,10 +1295,10 @@ class Simple_History {
 		// Get the main message row.
 		// Should be as plain as possible, like plain text
 		// but with links to for example users and posts
-		// SimpleLoggerFormatter::getRowTextOutput($oneLogRow);
+		// SimpleLoggerFormatter::getRowTextOutput($one_log_row);
 		// Get detailed HTML-based output
 		// May include images, lists, any cool stuff needed to view
-		// SimpleLoggerFormatter::getRowHTMLOutput($oneLogRow);
+		// SimpleLoggerFormatter::getRowHTMLOutput($one_log_row);.
 		return trim( $output );
 	}
 
@@ -1328,7 +1314,7 @@ class Simple_History {
 	/**
 	 * Set instantiated loggers.
 	 *
-	 * @param array $instantiated_loggers
+	 * @param array $instantiated_loggers Array with instantiated loggers.
 	 * @return void
 	 */
 	public function set_instantiated_loggers( $instantiated_loggers ) {
@@ -1347,7 +1333,7 @@ class Simple_History {
 	/**
 	 * Set instantiated dropins.
 	 *
-	 * @param array $instantiated_dropins
+	 * @param array $instantiated_dropins Array with instantiated dropins.
 	 */
 	public function set_instantiated_dropins( $instantiated_dropins ) {
 		$this->instantiated_dropins = $instantiated_dropins;
@@ -1356,7 +1342,7 @@ class Simple_History {
 	/**
 	 * Get instantiated dropin by slug.
 	 * Returns the logger instance if found, or bool false if not found.
-	 * @param string $slug
+	 * @param string $slug Slug of dropin to get.
 	 * @return bool|Dropin
 	 */
 	public function get_instantiated_dropin_by_slug( $slug = '' ) {
@@ -1374,7 +1360,7 @@ class Simple_History {
 	}
 
 	/**
-	 * @param string $slug
+	 * @param string $slug Slug of logger to get.
 	 * @return bool|Logger logger instance if found, bool false if logger not found
 	 */
 	public function get_instantiated_logger_by_slug( $slug = '' ) {
@@ -1395,12 +1381,12 @@ class Simple_History {
 	 * Check which loggers a user has the right to read and return an array
 	 * with all loggers they are allowed to read.
 	 *
-	 * @param int    $user_id Id of user to get loggers for. Defaults to current user id.
-	 * @param string $format format to return loggers in. Default is array. Can also be "sql"
-	 * @return array|string Array or SQL string with loggers that user can read.
+	 * @param int|null $user_id Id of user to get loggers for. Defaults to current user id.
+	 * @param string   $format format to return loggers in. Default is array. Can also be "sql".
+	 * @return array<\Simple_History\Loggers\Simple_Logger>|string Array or SQL string with loggers that user can read.
 	 */
 	public function get_loggers_that_user_can_read( $user_id = null, $format = 'array' ) {
-		$arr_loggers_user_can_view = array();
+		$arr_loggers_user_can_view = [];
 
 		if ( is_null( $user_id ) ) {
 			$user_id = get_current_user_id();
@@ -1469,18 +1455,18 @@ class Simple_History {
 			$user_id
 		);
 
-		// just return array with slugs in parenthesis suitable for sql-where
+		// just return array with slugs in parenthesis suitable for sql-where.
 		if ( 'sql' == $format ) {
 			$str_return = '(';
 
 			if ( count( $arr_loggers_user_can_view ) ) {
 				foreach ( $arr_loggers_user_can_view as $one_logger ) {
-					$str_return .= sprintf( '"%1$s", ', esc_sql( $one_logger['instance']->get_slug() ) );
+					$str_return .= sprintf( '\'%1$s\', ', esc_sql( $one_logger['instance']->get_slug() ) );
 				}
 
 				$str_return = rtrim( $str_return, ' ,' );
 			} else {
-				// user was not allowed to read any loggers, return in (NULL) to return nothing
+				// user was not allowed to read any loggers, return in (NULL) to return nothing.
 				$str_return .= 'NULL';
 			}
 
@@ -1492,108 +1478,40 @@ class Simple_History {
 		return $arr_loggers_user_can_view;
 	}
 
-	// Number of rows the last n days.
+	/**
+	 * Get number of events the last n days.
+	 *
+	 * @deprecated 4.8 Use Helpers::get_num_events_last_n_days().
+	 * @param int $period_days Number of days to get events for.
+	 * @return int
+	 */
 	public function get_num_events_last_n_days( $period_days = 28 ) {
-		$transient_key = 'sh_' . md5( __METHOD__ . $period_days . '_2' );
-
-		$count = get_transient( $transient_key );
-
-		if ( false === $count ) {
-			global $wpdb;
-
-			$sqlStringLoggersUserCanRead = $this->get_loggers_that_user_can_read( null, 'sql' );
-
-			$sql = sprintf(
-				'
-                    SELECT count(*)
-                    FROM %1$s
-                    WHERE UNIX_TIMESTAMP(date) >= %2$d
-                    AND logger IN %3$s
-                ',
-				$this->get_events_table_name(),
-				strtotime( "-$period_days days" ),
-				$sqlStringLoggersUserCanRead
-			);
-
-			$count = $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-
-			set_transient( $transient_key, $count, HOUR_IN_SECONDS );
-		}
-
-		return $count;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::get_num_events_last_n_days()' );
+		return Helpers::get_num_events_last_n_days( $period_days );
 	}
 
 	/**
 	 * Get number of events per day the last n days.
+	 *
+	 * @deprecated 4.8 Use Helpers::get_num_events_per_day_last_n_days().
 	 * @param int $period_days Number of days to get events for.
 	 * @return array Array with date as key and number of events as value.
 	 */
 	public function get_num_events_per_day_last_n_days( $period_days = 28 ) {
-		$transient_key = 'sh_' . md5( __METHOD__ . $period_days . '_2' );
-		$dates = get_transient( $transient_key );
-
-		if ( false === $dates ) {
-			global $wpdb;
-
-			$sqlStringLoggersUserCanRead = $this->get_loggers_that_user_can_read( null, 'sql' );
-
-			$sql = sprintf(
-				'
-                    SELECT
-                        date_format(date, "%%Y-%%m-%%d") AS yearDate,
-                        count(date) AS count
-                    FROM
-                        %1$s
-                    WHERE
-                        UNIX_TIMESTAMP(date) >= %2$d
-                        AND logger IN (%3$d)
-                    GROUP BY yearDate
-                    ORDER BY yearDate ASC
-                ',
-				$this->get_events_table_name(),
-				strtotime( "-$period_days days" ),
-				$sqlStringLoggersUserCanRead
-			);
-
-			$dates = $wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-
-			set_transient( $transient_key, $dates, HOUR_IN_SECONDS );
-		}
-
-		return $dates;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::get_num_events_per_day_last_n_days()' );
+		return Helpers::get_num_events_per_day_last_n_days( $period_days );
 	}
 
 	/**
 	 * Get number of unique events the last n days.
 	 *
-	 * @param int $days
+	 * @deprecated 4.8 Use Helpers::get_num_unique_events_last_n_days().
+	 * @param int $days Number of days to get events for.
 	 * @return int Number of days.
 	 */
 	public function get_unique_events_for_days( $days = 7 ) {
-		global $wpdb;
-		$days = (int) $days;
-		$table_name = $this->get_events_table_name();
-		$cache_key = 'sh_' . md5( __METHOD__ . $days );
-		$numEvents = get_transient( $cache_key );
-
-		if ( false == $numEvents ) {
-			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$sql = $wpdb->prepare(
-				"
-                SELECT count( DISTINCT occasionsID )
-                FROM $table_name
-                WHERE date >= DATE_ADD(CURDATE(), INTERVAL -%d DAY)
-            	",
-				$days
-			);
-			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-			$numEvents = $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-
-			set_transient( $cache_key, $numEvents, HOUR_IN_SECONDS );
-		}
-
-		return $numEvents;
+		_deprecated_function( __METHOD__, '4.8', 'Helpers::get_unique_events_for_days()' );
+		return Helpers::get_unique_events_for_days( $days );
 	}
 
 	/**
@@ -1617,8 +1535,8 @@ class Simple_History {
 	/**
 	 * Call new method when calling old/deprecated method names.
 	 *
-	 * @param string $name
-	 * @param array $arguments
+	 * @param string $name Method name.
+	 * @param array  $arguments Arguments to method.
 	 * @return mixed
 	 */
 	public function __call( $name, $arguments ) {
@@ -1650,15 +1568,37 @@ class Simple_History {
 		}
 
 		return call_user_func_array( array( $this, $method_name_to_call ), $arguments );
-
 	}
 
 	/**
-	 * Get the URL to the admin page where user views the history feed.
+	 * Get the menu manager class from the menu_service class instance.
 	 *
-	 * @return string URL to admin page, for example http://wordpress-stable.test/wordpress/wp-admin/index.php?page=simple_history_page.
+	 * @return Menu_Manager Menu manager instance or null if menu service is not available.
 	 */
-	public function get_view_history_page_admin_url() {
-		return admin_url( apply_filters( 'simple_history/admin_location', 'index' ) . '.php?page=simple_history_page' );
+	public function get_menu_manager() {
+		/** @var Services\Menu_Service $menu_service */
+		$menu_service = $this->get_service( Services\Menu_Service::class );
+
+		return $menu_service->get_menu_manager();
+	}
+
+	/**
+	 * Register an external service so Simple History knows about it.
+	 * Does not load the service, so file with service class must be loaded already.
+	 *
+	 * @since 4.0
+	 * @param string $serviceClassName Class name of service to register.
+	 */
+	public function register_service( $serviceClassName ) {
+		$this->external_services[] = $serviceClassName;
+	}
+
+	/**
+	 * Get array with classnames of all external services.
+	 *
+	 * @return array
+	 */
+	public function get_external_services() {
+		return $this->external_services;
 	}
 }

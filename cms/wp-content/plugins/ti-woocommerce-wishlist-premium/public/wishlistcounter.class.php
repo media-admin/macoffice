@@ -6,10 +6,8 @@
  * @package           TInvWishlist\Public
  */
 
-// If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
+// Abort direct access.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Drop down widget
@@ -21,16 +19,12 @@ class TInvWL_Public_WishlistCounter {
 	 *
 	 * @var string
 	 */
-	static $_name;
-	/**
-	 * Name for GET attribute action
-	 *
-	 * @var string
-	 */
+	private static $_name;
+
 	/**
 	 * Counter
 	 *
-	 * @var floatval
+	 * @var float
 	 */
 	private $counter;
 	/**
@@ -45,6 +39,7 @@ class TInvWL_Public_WishlistCounter {
 	 * @var array
 	 */
 	private $guest_wishlist;
+
 	static $_get_atribute = 'tinv-miniwishlist-action';
 	/**
 	 * This class
@@ -60,7 +55,7 @@ class TInvWL_Public_WishlistCounter {
 	 *
 	 * @return \TInvWL_Public_WishlistCounter
 	 */
-	public static function instance( $plugin_name = TINVWL_PREFIX ) {
+	public static function instance( string $plugin_name = TINVWL_PREFIX ): \TInvWL_Public_WishlistCounter {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self( $plugin_name );
 		}
@@ -73,7 +68,7 @@ class TInvWL_Public_WishlistCounter {
 	 *
 	 * @param string $plugin_name Plugin name.
 	 */
-	function __construct( $plugin_name ) {
+	public function __construct( string $plugin_name ) {
 		self::$_name = $plugin_name;
 		$this->define_hooks();
 	}
@@ -81,7 +76,7 @@ class TInvWL_Public_WishlistCounter {
 	/**
 	 * Define hooks
 	 */
-	function define_hooks() {
+	private function define_hooks(): void {
 		add_filter( 'tinvwl_after_mini_wishlist', array( __CLASS__, 'button_view_wishlist' ) );
 		if ( ! tinv_get_option( 'general', 'multi' ) ) {
 			add_filter( 'tinvwl_after_mini_wishlist', array( __CLASS__, 'button_all_to_cart' ) );
@@ -93,7 +88,7 @@ class TInvWL_Public_WishlistCounter {
 	}
 
 	/**
-	 * Add to menu wishlist link
+	 * Adds a wishlist link to the menu.
 	 *
 	 * @param array $items An array of menu item post objects.
 	 * @param object $menu The menu object.
@@ -116,7 +111,7 @@ class TInvWL_Public_WishlistCounter {
 
 		foreach ( $menu_ids as $menu_id ) {
 
-			if ( $menu_id == $menu->term_id && apply_filters( 'tinvwl_add_to_menu', true, $menu_id ) ) {
+			if ( apply_filters( 'wpml_object_id', absint( $menu_id ), 'nav_menu', true ) == $menu->term_id && apply_filters( 'tinvwl_add_to_menu', true, $menu_id ) ) {
 
 				$menu_order = tinv_get_option( 'topline', 'menu_order' ) ? tinv_get_option( 'topline', 'menu_order' ) : 100;
 
@@ -135,7 +130,7 @@ class TInvWL_Public_WishlistCounter {
 				$icon = '<span class="wishlist_products_counter ' . $icon_class . ' ' . $icon_style . ( empty( $text ) ? ' no-txt' : '' ) . ( 0 < $this->get_counter() ? ' wishlist-counter-with-products' : '' ) . '" >';
 
 				if ( $icon_class && 'custom' === $icon_type && ! empty( $icon_upload ) ) {
-					$icon .= sprintf( '<img src="%s" />', esc_url( $icon_upload ) );
+					$icon .= sprintf( '<img src="%s"  alt="%s"/>', esc_url( $icon_upload ), esc_attr( $text ) );
 				}
 
 				$icon .= '</span>';
@@ -236,7 +231,7 @@ class TInvWL_Public_WishlistCounter {
 	}
 
 	/**
-	 * Output shortcode
+	 * Outputs the HTML.
 	 *
 	 * @param array $atts Shortcode attributes.
 	 */
@@ -298,7 +293,7 @@ class TInvWL_Public_WishlistCounter {
 
 
 	/**
-	 * Get count product in all wishlist
+	 * Gets the count of the product in all wishlists.
 	 *
 	 * @return float
 	 */
@@ -309,13 +304,15 @@ class TInvWL_Public_WishlistCounter {
 		if ( is_user_logged_in() ) {
 			$_wishlists = $this->get_user_wishlists();
 			$wlp        = new TInvWL_Product();
-			$counts     = $wlp->get( array(
-				'external'    => false,
-				'wishlist_id' => array_keys( $_wishlists ),
-				'sql'         => sprintf( 'SELECT %s(`quantity`) AS `quantity` FROM {table} t1 INNER JOIN ' . $wpdb->prefix . 'posts t2 on t1.product_id = t2.ID AND t2.post_status IN ("publish","private") WHERE {where}', ( tinv_get_option( 'general', 'quantity_func' ) ? 'SUM' : 'COUNT' ) ),
-			) );
-			$counts     = array_shift( $counts );
-			$count      = floatval( $counts['quantity'] );
+			if ( $_wishlists ) {
+				$counts = $wlp->get( array(
+					'external'    => false,
+					'wishlist_id' => array_keys( $_wishlists ),
+					'sql'         => sprintf( 'SELECT %s(`quantity`) AS `quantity` FROM {table} t1 INNER JOIN ' . $wpdb->prefix . 'posts t2 on t1.product_id = t2.ID AND t2.post_status IN ("publish","private") WHERE {where}', ( tinv_get_option( 'general', 'quantity_func' ) ? 'SUM' : 'COUNT' ) ),
+				) );
+				$counts = array_shift( $counts );
+				$count  = floatval( $counts['quantity'] );
+			}
 		} else {
 			$wishlist = $this->get_guest_wishlist();
 			if ( ! empty( $wishlist ) ) {

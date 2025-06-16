@@ -11,6 +11,7 @@ use Exception;
 /**
  * This class creates a collection object. (Type 1)
  * See parent classes / interfaces for better documentation.
+ * @internal
  */
 class Collection extends Sortable
 {

@@ -134,4 +134,267 @@ class BackWPup_WP_CLI extends WP_CLI_Command
 
         WP_CLI::log('Last Message: ' . str_replace('&hellip;', '...', strip_tags((string) $job_object->lastmsg)));
     }
+
+	/**
+	 * Decrypt an BackWPup archive.
+	 *
+     * # EXAMPLES
+	 *
+	 *   backwpup decrypt archiv.zip
+	 *   backwpup decrypt achriv.tar.gz --key="ABCDEFGHIJKLMNOPQRSTUVWXYZ123456"
+	 *   backwpup decrypt archiv.zip --key="./id_rsa_backwpup.pri"
+	 *
+	 * @param $args
+	 * @param $assocArgs
+	 */
+	public function decrypt( $args, $assocArgs ) {
+		$key = '';
+		if ( isset( $assocArgs['key'] ) ) {
+			if ( is_file( $assocArgs['key'] ) ) {
+				$key = file_get_contents( $assocArgs['key'], false );
+			} else {
+				$key = $assocArgs['key'];
+			}
+		} else {
+			$decryptionType = get_site_option( 'backwpup_cfg_encryption' );
+			if ( $decryptionType === 'symmetric' ) {
+				$key = get_site_option( 'backwpup_cfg_encryptionkey' );
+			}
+		}
+
+		if ( ! $key ) {
+			WP_CLI::error( __( 'No Key provided or stored in settings for decryption!', 'backwpup' ) );
+		}
+
+		if ( $args[0] && is_file( $args[0] ) ) {
+			$archiveFile = $args[0];
+		} else {
+			WP_CLI::error( __( 'Archive file that should be decrypted can\'t be found!', 'backwpup' ) );
+		}
+
+		/** @var \Inpsyde\Restore\Api\Module\Decryption\Decrypter $decrypter */
+		$decrypter = Inpsyde\BackWPup\Infrastructure\Restore\restore_container( 'decrypter' );
+		if ( ! $decrypter->isEncrypted( $archiveFile ) ) {
+			WP_CLI::error( __( 'Archive not needs decryption.', 'backwpup' ) );
+		}
+
+		try {
+			$decrypter->decrypt( $key, $archiveFile );
+		} catch ( \Exception $e ) {
+			WP_CLI::error( sprintf( __( 'Cannot decrypt: %s', 'backwpup' ), $e->getMessage() ) );
+		}
+
+		WP_CLI::success( __( 'Archive has been successfully decrypted.', 'backwpup' ) );
+	}
+
+	/**
+	 * Encrypt an BackWPup archive.
+	 *
+     * # EXAMPLES
+	 *
+	 *   backwpup encrypt achriv.tar.gz
+	 *   backwpup encrypt achriv.tar.gz -key="ABCDEFGHIJKLMNOPQRSTUVWXYZ123456"
+	 *   backwpup encrypt archiv.zip -keyfile="./id_rsa_backwpup.pub"
+	 *
+	 * @param $args
+	 * @param $assocArgs
+	 */
+	public function encrypt( $args, $assocArgs ) {
+		$aesIv     = \phpseclib3\Crypt\Random::string( 16 );
+		$rsaPubKey = '';
+		$type      = Inpsyde\BackWPup\Infrastructure\Security\EncryptionStream::TYPE_SYMMETRIC;
+		if ( isset( $assocArgs['key'] ) ) {
+			if ( is_file( $assocArgs['key'] ) ) {
+				$key       = \phpseclib3\Crypt\Random::string( 32 );
+				$rsaPubKey = file_get_contents( $assocArgs['key'], false );
+				$type      = Inpsyde\BackWPup\Infrastructure\Security\EncryptionStream::TYPE_ASYMMETRIC;
+			} else {
+				$key = pack( 'H*', $assocArgs['key'] );
+			}
+		} else {
+			$encryptionType = get_site_option( 'backwpup_cfg_encryption' );
+			if ( $encryptionType !== 'symmetric' ) {
+				$key       = \phpseclib3\Crypt\Random::string( 32 );
+				$rsaPubKey = get_site_option( 'backwpup_cfg_publickey' );
+				$type      = Inpsyde\BackWPup\Infrastructure\Security\EncryptionStream::TYPE_ASYMMETRIC;
+			} else {
+				$key = pack( 'H*', get_site_option( 'backwpup_cfg_encryptionkey' ) );
+			}
+		}
+
+		if ( ! $key ) {
+			WP_CLI::error( __( 'No Key provided or stored in settings for encryption!', 'backwpup' ) );
+		}
+
+		if ( $args[0] && is_file( $args[0] ) ) {
+			$archiveFile = $args[0];
+		} else {
+			WP_CLI::error( __( 'Archive file that should be encrypted can\'t be found!', 'backwpup' ) );
+		}
+
+		if ( $type === Inpsyde\BackWPup\Infrastructure\Security\EncryptionStream::TYPE_SYMMETRIC ) {
+			WP_CLI::log( __( 'Symmetric encryption will be used for the archive.', 'backwpup' ) );
+		} else {
+			WP_CLI::log( __( 'Asymmetric encryption will be used for the archive.', 'backwpup' ) );
+		}
+
+		try {
+			$fileIn = GuzzleHttp\Psr7\Utils::streamFor( GuzzleHttp\Psr7\Utils::tryFopen( $archiveFile, 'r' ) );
+		} catch ( \RuntimeException $e ) {
+			WP_CLI::error( __( 'Cannot open the archive for reading. Aborting encryption.', 'backwpup' ) );
+		}
+
+		try {
+			$fileOut = GuzzleHttp\Psr7\Utils::tryFopen( $archiveFile . '.encrypted', 'a+' );
+		} catch ( \RuntimeException $e ) {
+			WP_CLI::error( __( 'Cannot write the encrypted archive. Aborting encryption.', 'backwpup' ) );
+		}
+
+		$encryptor = new Inpsyde\BackWPup\Infrastructure\Security\EncryptionStream(
+			$aesIv,
+			$key,
+			GuzzleHttp\Psr7\Utils::streamFor( $fileOut ),
+			$rsaPubKey
+		);
+
+		if ( ! $encryptor ) {
+			WP_CLI::error( __( 'Could not initialize encryptor.', 'backwpup' ) );
+		}
+
+		$blockSize = 128 * 1024;
+		while ( ! $fileIn->eof() ) {
+			$data = $fileIn->read( $blockSize );
+			$encryptor->write( $data );
+		}
+		$fileIn->close();
+		$encryptor->close();
+
+		if ( ! unlink( $archiveFile ) ) {
+			WP_CLI::error( __( 'Unable to delete unencrypted archive.', 'backwpup' ) );
+		}
+		if ( ! rename( $archiveFile . '.encrypted', $archiveFile ) ) {
+			WP_CLI::error( __( 'Unable to rename encrypted archive.', 'backwpup' ) );
+		}
+		WP_CLI::success( __( 'Archive has been successfully encrypted.', 'backwpup' ) );
+	}
+
+	/**
+	 * Activate Legacy Jobs; Filter by all or selected job IDs
+	 *
+	 * @subcommand activate-legacy-job
+	 *
+	 * @param array $args        Positional arguments passed to the command.
+	 * @param array $assoc_args  Associative arguments passed to the command (e.g --type, --jobIds).
+	 * @return void
+	 */
+	public function activate_legacy_job( array $args, array $assoc_args ): void {
+		// Check if mandatory flag exist.
+		if ( ! isset( $assoc_args['type'] ) ) {
+			WP_CLI::error( __( 'The --type flag is mandatory and must be specified.', 'backwpup' ) );
+		}
+
+		// Check if provided type is valid (must be either wpcron or link).
+		if ( ! in_array( $assoc_args['type'], [ 'wpcron', 'link' ], true ) ) {
+			WP_CLI::error( __( 'Invalid value for --type flag.', 'backwpup' ) );
+		}
+
+		$job_ids = isset( $assoc_args['jobIds'] ) ? explode( ',', $assoc_args['jobIds'] ) : [];
+
+		// Check that all job ids are numeric.
+		if ( ! empty( $job_ids ) && count( $job_ids ) !== count( array_filter( $job_ids, 'is_numeric' ) ) ) {
+			WP_CLI::error( __( 'Invalid value for --jobIds flag provided.', 'backwpup' ) );
+		}
+
+		// Convert string ids to proper integers.
+		$job_ids = array_map( 'intval', $job_ids );
+
+		// Sanitize type value.
+		$type = sanitize_text_field( wp_unslash( $assoc_args['type'] ) );
+
+		WP_CLI::log( __( 'Activating legacy jobs.', 'backwpup' ) );
+
+		// Get all jobs.
+		$jobs = get_site_option( 'backwpup_jobs', [] );
+
+		[ $filtered_jobs, $total_filtered_jobs ] = $this->filter_jobs_to_be_activated( $jobs, $job_ids, $type );
+
+		// Bail out early if number of jobs to be updated is still 0.
+		if ( 0 === $total_filtered_jobs ) {
+			WP_CLI::warning( 'No job was updated.', 'backwpup' );
+			return;
+		}
+
+		// Update jobs.
+		update_site_option( 'backwpup_jobs', $filtered_jobs );
+		WP_CLI::success(
+			sprintf(
+				// translators: %1$d = Number of jobs, %2$s = Success message.
+				_n( '%1$d job %2$s', '%1$d jobs %2$s', $total_filtered_jobs, 'backwpup' ),
+				$total_filtered_jobs,
+				esc_html__( 'successfully activated', 'backwpup' )
+			)
+			);
+	}
+
+	/**
+	 * Filters jobs to be activated based on job IDs and activation type.
+	 *
+	 * @param array  $jobs     Array of jobs to filter.
+	 * @param array  $job_ids  Array of job IDs to activate. If empty, all legacy jobs will be activated.
+	 * @param string $type     The activation type ('wpcron' or 'link').
+	 *
+	 * @return array An array containing the filtered jobs and the count of updated jobs.
+	 */
+	private function filter_jobs_to_be_activated( array $jobs, array $job_ids, string $type ) {
+		$jobs_updated = 0;
+
+		// Go over jobs and update only those with empty activeType and legacy set to 1.
+		$jobs = array_map(
+			function ( $job ) use ( $job_ids, $type, &$jobs_updated ) {
+				// Filter out jobs that already have activetype set and not empty either legacy or not.
+				if ( isset( $job['activetype'] ) && '' !== $job['activetype'] ) {
+					return $job;
+				}
+
+				// Filter out non-legacy jobs.
+				if ( ! isset( $job['legacy'] ) || ! $job['legacy'] ) {
+						return $job;
+				}
+
+				// Activate legacy jobs with specified job ids.
+				if ( ! empty( $job_ids ) && in_array( $job['jobid'], $job_ids, true ) ) {
+					$job['activetype'] = $type;
+
+					// Schedule next run for type of wpcron.
+					if ( 'wpcron' === $type ) {
+						wp_schedule_single_event( BackWPup_Cron::cron_next( $job['cron'] ), 'backwpup_cron', [ 'arg' => $job['jobid'] ] );
+					}
+
+					$jobs_updated++;
+					return $job;
+				}
+
+				// Activate all legacy jobs.
+				if ( empty( $job_ids ) ) {
+					$job['activetype'] = $type;
+
+					// Schedule next run for type of wpcron.
+					if ( 'wpcron' === $type ) {
+						wp_schedule_single_event( BackWPup_Cron::cron_next( $job['cron'] ), 'backwpup_cron', [ 'arg' => $job['jobid'] ] );
+					}
+
+					$jobs_updated++;
+					return $job;
+				}
+
+				return $job;
+			},
+		$jobs
+		);
+
+		return [
+			$jobs,
+			$jobs_updated,
+		];
+	}
 }

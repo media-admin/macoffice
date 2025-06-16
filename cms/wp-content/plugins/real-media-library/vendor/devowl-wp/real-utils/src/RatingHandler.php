@@ -8,6 +8,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealUtils;
 // @codeCoverageIgnoreEnd
 /**
  * Allow to handle rating popups depending on usage time.
+ * @internal
  */
 class RatingHandler
 {

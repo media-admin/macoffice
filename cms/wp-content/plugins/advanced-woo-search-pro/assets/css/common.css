@@ -9,7 +9,6 @@
     display: -ms-flexbox !important;
     display: -webkit-flex !important;
     display: flex !important;
-
     align-items: stretch;
     position: relative;
     float: none !important;
@@ -356,6 +355,7 @@
     line-height: 30px;
     display: block;
     height: 100%;
+    min-height: inherit;
     margin: 0 !important;
     font-size: 12px;
     position: relative;
@@ -432,6 +432,12 @@
 .aws-search-result .aws_result_inner {
     /*margin-right: 170px;*/
     /*border-right: 1px solid #ccc;*/
+}
+
+.aws-search-result .aws_result_inner .aws_top_text {
+    width: 100%;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ccc;
 }
 
 .aws-search-result .aws_result_filter {
@@ -523,11 +529,13 @@
 
 .aws-search-result .aws_result_cat .aws_result_head,
 .aws-search-result .aws_result_tag .aws_result_head,
-.aws-search-result .aws_result_tax .aws_result_head {
+.aws-search-result .aws_result_tax .aws_result_head,
+.aws-search-result .aws_result_top_custom_item .aws_result_head {
     margin-bottom: 2px;
 }
 
-.aws-search-result .aws_result_tax .aws_result_head {
+.aws-search-result .aws_result_tax .aws_result_head,
+.aws-search-result .aws_result_top_custom_item .aws_result_head {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -536,10 +544,18 @@
     align-items: flex-start;
     justify-content: flex-start;
 }
-.aws-search-result .aws_result_tax .aws_result_head img {
+.aws-search-result .aws_result_tax .aws_result_head img,
+.aws-search-result .aws_result_top_custom_item .aws_result_head img {
     width: 16px;
     height: auto;
     margin: -1px 5px 0 0;
+}
+
+/* Search suggestions */
+.aws-search-result .aws_result_top_custom_item_s_suggest {
+}
+.aws-search-result .aws_result_top_custom_item_s_suggest .aws_result_head img {
+    margin: 0 5px 0 0;
 }
 
 /* Users search */
@@ -598,7 +614,8 @@
     color: #a44;
 }
 
-.aws-search-result .aws_result_sku {
+.aws-search-result .aws_result_sku,
+.aws-search-result .aws_result_gtin{
     display: block;
     font-weight: normal;
     margin-top: 3px;
@@ -828,6 +845,7 @@
 .aws-search-result .aws_add_to_cart .aws_quantity_change {
     display: inline-block;
     position: relative;
+    box-sizing: border-box;
     z-index: 2;
     float: right;
     height: 28px;
@@ -860,7 +878,7 @@
     margin-top: -10px;
     width: 20px;
     height: 20px;
-    background: url(../img/loader-2.gif) no-repeat 50% 50%;
+    background: url(../img/loader-2.svg) no-repeat 50% 50%;
 }
 
 .aws-search-result .aws_add_to_cart .aws_cart_button.loading:after {
@@ -933,14 +951,14 @@
     box-shadow: none;
 }
 
-.aws-search-result.aws_no_result .aws_results .aws_result_item {
+.aws-search-result.aws_no_result .aws_results .aws_result_item:not(.aws_result_top_custom_item) {
     line-height: 1.5;
     padding: 10px 15px;
     cursor: default;
     border-bottom: 0;
 }
 
-.aws-search-result.aws_no_result .aws_results .aws_result_item:hover {
+.aws-search-result.aws_no_result .aws_results .aws_result_item:not(.aws_result_top_custom_item):hover {
     background: inherit;
     color: inherit;
 }
@@ -962,6 +980,28 @@
     width: 100% !important;
 }
 
+.aws-search-result .aws_terms_suggestions {
+    line-height: 1.7;
+}
+
+.aws-search-result .aws_term_suggestion {
+    color: #222;
+    vertical-align: middle;
+
+}
+
+.aws-search-result a.aws_term_suggestion {
+    color: #222;
+    background: #ededed;
+    border: 0;
+    border-radius: 3px;
+    font-size: 14px;
+    padding: 2px 5px;
+    text-decoration: none;
+}
+.aws-search-result a.aws_term_suggestion:hover {
+    background-color: #dad8da;
+}
 
 /* Search tabs */
 .aws_tabs {
@@ -1025,9 +1065,9 @@
     /*border-bottom: 0;*/
 /*}*/
 
-.aws-search-result.aws_no_result .aws_results.style-grid .aws_result_item {
+.aws-search-result.aws_no_result .aws_results.style-grid .aws_result_item:not(.aws_result_top_custom_item) {
     width: 100%;
-    padding: 0 15px;
+    padding: 10px 15px;
 }
 
 
@@ -1111,9 +1151,9 @@
     /*border-bottom: 0;*/
 /*}*/
 
-.aws-search-result.aws_no_result .aws_results.style-big-grid .aws_result_item {
+.aws-search-result.aws_no_result .aws_results.style-big-grid .aws_result_item:not(.aws_result_top_custom_item) {
     width: 100%;
-    padding: 0 15px;
+    padding: 10px 15px;
 }
 
 .aws-search-result .aws_results.style-big-grid .aws_result_image {
@@ -1156,7 +1196,8 @@
 }
 
 .aws-search-result .aws_results.style-big-grid .aws_result_tax .aws_result_head img,
-.aws-search-result .aws_results.style-big-grid .aws_result_user .aws_result_head img {
+.aws-search-result .aws_results.style-big-grid .aws_result_user .aws_result_head img,
+.aws-search-result .aws_results.style-big-grid .aws_result_top_custom_item:not(.aws_result_top_custom_item_s_suggest) .aws_result_head img{
     display: block;
     width: 60px;
     height: auto;

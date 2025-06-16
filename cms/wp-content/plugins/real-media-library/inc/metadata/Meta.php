@@ -14,6 +14,7 @@ use MatthiasWeb\RealMediaLibrary\Core;
  * Create general functionality for the custom folder fields.
  *
  * For an example see the function-doc of this::content_general and this::save_general
+ * @internal
  */
 class Meta implements IMetadata
 {

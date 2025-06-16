@@ -171,7 +171,7 @@ if ( ! class_exists( 'AWS_Admin_Helpers' ) ) :
         static public function check_for_incorrect_filtering_rules( $filters ) {
 
             $incorrect_rules_string = '';
-            $check_rules = array( 'product', 'current_user', 'current_user_role' );
+            $check_rules = array( 'product', 'current_user', 'current_user_role', 'current_user_device', 'current_page', 'current_page_template', 'current_page_type', 'current_page_archives' );
 
             if ( $filters && ! empty( $filters ) ) {
                 foreach ( $filters as $cond_group ) {
@@ -200,6 +200,21 @@ if ( ! class_exists( 'AWS_Admin_Helpers' ) ) :
             }
 
             return $incorrect_rules_string;
+
+        }
+
+        /*
+         * Check for incorrect filtering rules and return them
+         * @return string
+         */
+        static public function user_admin_capability() {
+
+            /**
+             * What capability current user must have to view settings page
+             * @since 2.99
+             * @param string $capability Minimal capability required to view plugin settings page
+             */
+            return apply_filters( 'aws_admin_capability', 'manage_options' );
 
         }
 

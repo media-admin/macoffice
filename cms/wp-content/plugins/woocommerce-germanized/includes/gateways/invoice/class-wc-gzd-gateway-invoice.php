@@ -22,6 +22,8 @@ class WC_GZD_Gateway_Invoice extends WC_Payment_Gateway {
 
 	protected $customers_completed;
 
+	protected $instructions;
+
 	/**
 	 * Constructor for the gateway.
 	 */
@@ -197,25 +199,33 @@ class WC_GZD_Gateway_Invoice extends WC_Payment_Gateway {
 			return false;
 		}
 
+		$is_available = true;
+
 		if ( is_checkout() ) {
 			if ( 'yes' === $this->get_option( 'customers_only' ) && ! is_user_logged_in() ) {
-				return false;
+				$is_available = false;
 			}
 
 			if ( 'yes' === $this->get_option( 'customers_completed' ) ) {
-				if ( is_user_logged_in() ) {
-					return WC()->customer->get_is_paying_customer() === true;
+				if ( is_user_logged_in() && WC()->customer ) {
+					$is_available = true === WC()->customer->get_is_paying_customer();
 				} else {
-					return false;
+					$is_available = false;
 				}
 			}
 		}
 
-		return true;
+		return apply_filters( 'woocommerce_gzd_invoice_gateway_is_available', $is_available, $this );
 	}
 
 	public function process_subscription_payment( $order_total, $order_id ) {
 		$this->process_payment( $order_id );
+
+		if ( apply_filters( 'woocommerce_gzd_force_activate_subscription_for_invoice_payments', false, $order_id ) ) {
+			if ( class_exists( 'WC_Subscriptions_Manager' ) && is_callable( array( 'WC_Subscriptions_Manager', 'activate_subscriptions_for_order' ) ) ) {
+				WC_Subscriptions_Manager::activate_subscriptions_for_order( $order_id );
+			}
+		}
 	}
 
 	/**

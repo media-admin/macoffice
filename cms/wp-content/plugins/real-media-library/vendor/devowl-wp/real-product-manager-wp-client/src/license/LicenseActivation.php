@@ -13,6 +13,7 @@ use WP_Error;
 // @codeCoverageIgnoreEnd
 /**
  * Handle license activation.
+ * @internal
  */
 class LicenseActivation
 {
@@ -88,9 +89,9 @@ class LicenseActivation
                 \update_option(License::OPTION_NAME_UUID_PREFIX . $slug, $uuid);
                 \update_option(License::OPTION_NAME_HOST_NAME . $slug, \base64_encode(Utils::getCurrentHostname()));
                 // base64 encoded to avoid search & replace of migration tools
-                \update_option(License::OPTION_NAME_TELEMETRY_PREFIX . $slug, $telemetry);
+                \update_option(License::OPTION_NAME_TELEMETRY_PREFIX . $slug, \intval($telemetry));
                 \update_option(License::OPTION_NAME_INSTALLATION_TYPE_PREFIX . $slug, $installationType);
-                \update_option(License::OPTION_NAME_NO_USAGE_PREFIX . $slug, \false);
+                \update_option(License::OPTION_NAME_NO_USAGE_PREFIX . $slug, 0);
                 \delete_option(License::OPTION_NAME_HINT_PREFIX . $slug);
                 // The notice for license activation should never be shown again
                 $initiator = $this->getLicense()->getInitiator();
@@ -196,8 +197,7 @@ class LicenseActivation
         }
         $transientValue = $expireOption->get();
         $result = \false;
-        if (!$transientValue) {
-            $expireOption->set('1');
+        if (!$transientValue && $expireOption->set('1')) {
             $result = \true;
             if (\did_action($minimumWpHook)) {
                 \call_user_func($actionOrExpire);

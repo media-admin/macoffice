@@ -28,7 +28,7 @@ class blcYouTubeChecker extends blcChecker {
 		//Throttle API requests to avoid getting blocked due to quota violation.
 		$delta = microtime_float() - $this->last_api_request;
 		if ( $delta < $this->api_grace_period ) {
-			usleep( ( $this->api_grace_period - $delta ) * 1000000 );
+			usleep( intval( $this->api_grace_period - $delta ) * 1000000 );
 		}
 
 		$result = array(
@@ -40,8 +40,16 @@ class blcYouTubeChecker extends blcChecker {
 			'result_hash'    => '',
 		);
 
+		$url = wp_http_validate_url( $url );
+		if ( empty( $url ) ) {
+			$result['status_text'] = 'Invalid URL';
+			$result['status_code'] = BLC_LINK_STATUS_UNKNOWN;
+			
+			return $result;
+		}
+
 		$components = @parse_url( $url );
-		if ( isset( $components['query'] ) ) {
+		if ( ! empty( $components['query'] ) && isset( $components['query'] ) ) {
 			parse_str( $components['query'], $query );
 		} else {
 			$query = array();

@@ -15,6 +15,7 @@ use WP_REST_Response;
 // @codeCoverageIgnoreEnd
 /**
  * Create feedback REST service.
+ * @internal
  */
 class Feedback
 {

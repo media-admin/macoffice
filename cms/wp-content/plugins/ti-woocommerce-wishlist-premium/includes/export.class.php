@@ -6,13 +6,12 @@
  * @package           TInvWishlist
  */
 
-// If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Export/Import plugin settings class
+ * Class TInvWL_Export
+ *
+ * This class handles the exporting and importing of plugin settings.
  */
 class TInvWL_Export {
 
@@ -21,14 +20,14 @@ class TInvWL_Export {
 	 *
 	 * @var string
 	 */
-	public $_name;
+	private string $_name;
 
 	/**
 	 * Plugin version.
 	 *
 	 * @var string
 	 */
-	public $_version;
+	private string $_version;
 
 	/**
 	 * Constructor.
@@ -36,7 +35,7 @@ class TInvWL_Export {
 	 * @param string $plugin_name Plugin name.
 	 * @param string $version Plugin version.
 	 */
-	function __construct( $plugin_name, $version ) {
+	public function __construct( string $plugin_name, string $version ) {
 		$this->_name    = $plugin_name;
 		$this->_version = $version;
 		$this->define_hooks();
@@ -46,19 +45,19 @@ class TInvWL_Export {
 	/**
 	 * Define hooks.
 	 */
-	function define_hooks() {
-		add_action( 'admin_action_tinvwl_export_settings', array( $this, 'export_settings' ) );
-		add_action( 'admin_action_tinvwl_import_settings', array( $this, 'import_settings' ) );
+	private function define_hooks(): void {
+		add_action( 'admin_action_tinvwl_export_settings', [ $this, 'export_settings' ] );
+		add_action( 'admin_action_tinvwl_import_settings', [ $this, 'import_settings' ] );
 
 		if ( isset( $_REQUEST['error'] ) && isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'tinvwl-export-import-settings' ) {
-			add_action( 'admin_notices', array( $this, 'show_error' ) );
+			add_action( 'admin_notices', [ $this, 'show_error' ] );
 		}
 	}
 
 	/**
 	 * Show error on the current page.
 	 */
-	public function show_error() {
+	public function show_error(): void {
 		printf(
 			'<div class="notice notice-error"><p><strong>%s</strong></p></div>',
 			sanitize_text_field( $_REQUEST['error'] )
@@ -68,17 +67,15 @@ class TInvWL_Export {
 	/**
 	 * Get sanitized blog name.
 	 *
-	 * @return string|string[]|void
+	 * @return string
 	 */
-	private function blog_name() {
-
+	private function blog_name(): string {
 		$name = get_bloginfo( 'name' );
 
-		// WordPress can have a blank site title, which will cause initial client creation to fail
 		if ( empty( $name ) ) {
 			$name = wp_parse_url( home_url(), PHP_URL_HOST );
-
-			if ( $port = wp_parse_url( home_url(), PHP_URL_PORT ) ) {
+			$port = wp_parse_url( home_url(), PHP_URL_PORT );
+			if ( $port ) {
 				$name .= ':' . $port;
 			}
 		}
@@ -96,7 +93,7 @@ class TInvWL_Export {
 	 *
 	 * @return array|bool
 	 */
-	public function get_settings() {
+	public function get_settings(): array {
 		$dir = TINVWL_PATH . 'admin/settings/';
 		if ( ! file_exists( $dir ) || ! is_dir( $dir ) ) {
 			return false;
@@ -116,11 +113,8 @@ class TInvWL_Export {
 				}
 			}
 		}
-		foreach ( array_keys( $ids, 'save_buttons', true ) as $key ) {
-			unset( $ids[ $key ] );
-		}
-		$ids = array_values( $ids );
 
+		$ids      = array_values( array_diff( $ids, [ 'save_buttons' ] ) );
 		$settings = array();
 
 		foreach ( $ids as $id ) {
@@ -137,37 +131,29 @@ class TInvWL_Export {
 	 *
 	 * @return array
 	 */
-	function json_mime_type( $mimes ) {
+	public function json_mime_type( array $mimes ): array {
 		$mimes['json'] = 'application/json';
 
 		return $mimes;
 	}
 
 	/**
-	 * handle import settings upload and updating database.
+	 * Handle import settings upload and updating database.
 	 */
 	public function import_settings() {
 
-		$nonce_value = isset( $_REQUEST['tinvwl_import_nonce'] ) ? $_REQUEST['tinvwl_import_nonce'] : '';
+		$nonce_value = $_REQUEST['tinvwl_import_nonce'] ?? '';
 
 		if ( ! wp_verify_nonce( $nonce_value, 'tinvwl_import' ) || ! in_array( 'administrator', (array) wp_get_current_user()->roles ) ) {
-			exit(
-			wp_redirect(
-				admin_url(
-					'admin.php?page=tinvwl-export-import-settings&error=' .
-					rawurlencode( __( 'There was an error importing your settings, please try again.', 'ti-woocommerce-wishlist-premium' ) )
-				)
-			)
-			);
+			$this->exitWithRedirect( __( 'There was an error importing your settings, please try again.', 'ti-woocommerce-wishlist-premium' ) );
 		}
 
+		$settings_json = '';
+		if ( isset( $_FILES['settings-file'] ) && $_FILES['settings-file']['error'] === 0 ) {
 		if ( ! function_exists( 'wp_handle_upload' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
 
-		if ( isset( $_FILES['settings-file'] ) && $_FILES['settings-file']['error'] !== 4 ) {
-
-			if ( $_FILES['settings-file']['error'] === 0 ) {
 				$uploadedfile     = $_FILES['settings-file'];
 				$upload_overrides = array(
 					'test_form' => false,
@@ -182,103 +168,19 @@ class TInvWL_Export {
 
 					$settings_json = file_get_contents( $movefile['file'] );
 					unlink( $movefile['file'] );
-
-					if ( empty( $settings_json ) ) {
-						exit(
-						wp_redirect(
-							admin_url(
-								'admin.php?page=tinvwl-export-import-settings&error=' .
-								rawurlencode( __( 'The settings file is empty.', 'ti-woocommerce-wishlist-premium' ) )
-							)
-						)
-						);
-					}
-
-					$settings = json_decode( $settings_json, true );
-
-					if ( empty( $settings ) ) {
-						exit(
-						wp_redirect(
-							admin_url(
-								'admin.php?page=tinvwl-export-import-settings&error=' .
-								rawurlencode( __( 'The settings file is not valid.', 'ti-woocommerce-wishlist-premium' ) )
-							)
-						)
-						);
-					}
-				} else {
-					exit(
-					wp_redirect(
-						admin_url(
-							'admin.php?page=tinvwl-export-import-settings&error=' .
-							rawurlencode( $movefile['error'] )
-						)
-					)
-					);
-				}
 			} else {
-				switch ( $_FILES['settings-file']['error'] ) {
-					case 1:
-					case 2:
-						exit(
-						wp_redirect(
-							admin_url(
-								'admin.php?page=tinvwl-export-import-settings&error=' .
-								rawurlencode( __( 'The file you are uploading is too big.', 'ti-woocommerce-wishlist-premium' ) )
-							)
-						)
-						);
-						break;
-					case 3:
-						exit(
-						wp_redirect(
-							admin_url(
-								'admin.php?page=tinvwl-export-import-settings&error=' .
-								rawurlencode( __( 'There was an error uploading the file.', 'ti-woocommerce-wishlist-premium' ) )
-							)
-						)
-						);
-						break;
-					case 6:
-					case 7:
-					case 8:
-						exit(
-						wp_redirect(
-							admin_url(
-								'admin.php?page=tinvwl-export-import-settings&error=' .
-								rawurlencode( __( 'There was an error importing your settings, please try again.', 'ti-woocommerce-wishlist-premium' ) )
-							)
-						)
-						);
-						break;
+				$this->exitWithRedirect( $movefile['error'] );
 				}
-			}
-		} else {
+		} elseif ( ! empty( trim( stripslashes( $_POST['settings-json'] ) ) ) ) {
 			$settings_json = trim( stripslashes( $_POST['settings-json'] ) );
-
-			if ( empty( $settings_json ) ) {
-				exit(
-				wp_redirect(
-					admin_url(
-						'admin.php?page=tinvwl-export-import-settings&error=' .
-						rawurlencode( __( 'Please upload the TI WooCommerce Wishlist setting file or copy the content.', 'ti-woocommerce-wishlist-premium' ) )
-					)
-				)
-				);
+		} else {
+			$this->exitWithRedirect( __( 'Please upload the TI WooCommerce Wishlist setting file or copy the content.', 'ti-woocommerce-wishlist-premium' ) );
 			}
 
 			$settings = json_decode( $settings_json, true );
 
 			if ( empty( $settings ) ) {
-				exit(
-				wp_redirect(
-					admin_url(
-						'admin.php?page=tinvwl-export-import-settings&error=' .
-						rawurlencode( __( 'The settings json is not valid.', 'ti-woocommerce-wishlist-premium' ) )
-					)
-				)
-				);
-			}
+			$this->exitWithRedirect( __( 'The settings JSON is not valid.', 'ti-woocommerce-wishlist-premium' ) );
 		}
 
 		foreach ( $settings as $key => $value ) {
@@ -288,22 +190,25 @@ class TInvWL_Export {
 		exit( wp_redirect( admin_url( 'admin.php?page=tinvwl' ) ) );
 	}
 
+	private function exitWithRedirect( $errorMessage ) {
+				exit(
+				wp_redirect(
+					admin_url(
+						'admin.php?page=tinvwl-export-import-settings&error=' .
+				rawurlencode( $errorMessage )
+					)
+				)
+				);
+			}
+
 	/**
 	 * Handle settings export in a JSON file.
 	 */
 	public function export_settings() {
-
-		$nonce_value = isset( $_REQUEST['tinvwl_import_nonce'] ) ? $_REQUEST['tinvwl_import_nonce'] : '';
+		$nonce_value = $_REQUEST['tinvwl_import_nonce'] ?? '';
 
 		if ( ! wp_verify_nonce( $nonce_value, 'tinvwl_import' ) || ! in_array( 'administrator', (array) wp_get_current_user()->roles ) ) {
-			exit(
-			wp_redirect(
-				admin_url(
-					'admin.php?page=tinvwl-export-import-settings&error=' .
-					rawurlencode( __( 'There was an error exporting your settings, please try again.', 'ti-woocommerce-wishlist-premium' ) )
-				)
-			)
-			);
+			$this->exitWithRedirect( __( 'There was an error exporting your settings, please try again.', 'ti-woocommerce-wishlist-premium' ) );
 		}
 
 		header( 'Content-Type: application/json' );

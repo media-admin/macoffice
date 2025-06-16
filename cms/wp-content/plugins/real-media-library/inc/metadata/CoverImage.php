@@ -13,6 +13,7 @@ use WP_REST_Request;
 // @codeCoverageIgnoreEnd
 /**
  * Implements a cover image for root folder, collections, galleries and normal folders.
+ * @internal
  */
 class CoverImage implements IMetadata
 {

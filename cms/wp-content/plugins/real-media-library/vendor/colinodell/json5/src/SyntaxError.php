@@ -13,6 +13,7 @@
  */
 namespace MatthiasWeb\RealMediaLibrary\Vendor\ColinODell\Json5;
 
+/** @internal */
 final class SyntaxError extends \JsonException
 {
     /** @var int */

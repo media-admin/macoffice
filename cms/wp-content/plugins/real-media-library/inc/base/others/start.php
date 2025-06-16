@@ -29,6 +29,10 @@ if (\version_compare($wp_version, \RML_MIN_WP, '>=')) {
         } elseif (\file_exists($composer_autoload_path)) {
             require_once $composer_autoload_path;
         }
+        // Load no-namespace API functions
+        foreach (['attachment', 'folders', 'meta'] as $apiInclude) {
+            require_once \RML_INC . 'api/' . $apiInclude . '.php';
+        }
         new Autoloader('RML');
         Core::getInstance();
     } else {

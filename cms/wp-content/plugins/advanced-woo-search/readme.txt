@@ -1,95 +1,185 @@
-=== Advanced Woo Search ===
+=== Advanced Woo Search - Product Search for WooCommerce ===
 Contributors: Mihail Barinov
 Donate link: https://www.paypal.com/donate/?hosted_button_id=FDRDNZE6XAKE8
-Tags: widget, plugin, woocommerce, search, product search, woocommerce search, ajax search, live search, custom search, ajax, shortcode, better search, relevance search, relevant search, search by sku, search plugin, shop, store, wordpress search, wp ajax search, wp search, wp search plugin, sidebar, ecommerce, merketing, products, category search, instant-search, search highlight, woocommerce advanced search, woocommerce live search, WooCommerce Plugin, woocommerce product search
+Tags: woocommerce, search, product search, woocommerce search, live search
 Requires at least: 4.0
-Tested up to: 6.4
-Stable tag: 2.90
+Tested up to: 6.8
+Requires PHP: 7.0
+Stable tag: 3.36
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Advanced WooCommerce search plugin. Search inside any product field. Support for both AJAX search and search results page.
+Advanced WooCommerce product search plugin. Search inside any product field. Support for both AJAX search and search results page.
 
 == Description ==
 
 Advanced Woo Search - powerful search plugin for WooCommerce. Supports **AJAX** search and **search results page** display.
 
-[Plugin home page](https://advanced-woo-search.com/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo) | [Features List](https://advanced-woo-search.com/features/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo) | [Docs](https://advanced-woo-search.com/guide/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
+With this plugin you can **search for WooCommerce products via any product field**: *title*, *content*, *description*, *SKU*, *ID*, *categories* or *tags*.
 
-## Main Features
+Search not only for WooCommerce products. Use plugin to **search for product categories and tags**. Display them right inside the search results list.
 
-* **Products search** - Search across all your WooCommerce products
-* **Search in** - Search in product **title**, **content**, **excerpt**, **categories**, **tags**, **ID** and **sku**. Or just in some of them
-* **Settings page** - User-friendly settings page with lot of options
-* **Shortcode** and **widget** - Use shortcode and widget to place search box anywhere you want
-* **Product image** - Each search result contains product image
-* **Product price** - Each search result contains product price
-* **Terms search** - Search for product categories and tags
-* **Smart ordering** - Search results ordered by the priority of source where they were found
-* **Fast** - Nothing extra. Just what you need for proper work
-* **Stop Words** support to exclude certain words from search.
-* Supports **variable products**
-* **Search results page** support. Plugin search results will be integrated to your current page layout.
-* Automatically synchronize all product data. No need to re-index all content manually after every change.
-* **Plurals** support
-* **Synonyms** support
-* Diacritical marks support
-* Google Analytics support
-* Seamless integration option for easy replacing your current search form
-* **WPML**, **Polylang**, **WooCommerce Multilingual**, **qTranslate**, **GTranslate**, etc. support
-* **WPML multi-currency** support
-* Page builder plugins support: Gutenberg, Elementor, Beaver Builder, WPBakery, Divi Builder
-* Custom Product Tabs for WooCommerce plugin support
-* Search Exclude plugin support
+Use a powerful plugin search engine with features like **relevance score for search results**, **search words stemming**, **misspelling fix**, **stop words**, **synonyms words** and many more.
 
-## Premium Features
+Customize search results via adding or removing any products data. Change results view with custom styles.
 
-Additional features available only in the PRO plugin version.
-	
-* Search **results layouts**
-* Search **form layouts**
-* **Filters**. Switch between tabs to show different search results
-* **Unlimited** amount of search form instances
-* Search for custom taxonomies and attributes **archive pages**
-* Support for **variable products**: show child products, parent product or both in search results.
-* Product **attributes** search ( including custom attributes)
-* Product **custom taxonomies** search
-* Product **custom fields** search
-* **Users** search
-* **Advanced settings page** with lot of options
-* **Exclude/include** specific products by its ids, taxonomies or attributes from search results
-* Ability to specify **source of image** for search results: featured image, gallery, product content, product short description or set default image if there is no other images
-* **Visibility/stock status option** - choose what catalog visibility and stock status must be for product to displayed in search results
-* Show product **categories** and **tags** in search results
-* AND or OR search logic
-* **Add to cart** button in search results
-* Support for [WooCommerce Brands plugin](https://woocommerce.com/products/brands/)
-* Support for **Advanced Custom Fields** plugin
-* Support for **WCFM - WooCommerce Multivendor Marketplace** plugin
-* Support for **Dokan – WooCommerce Multivendor Marketplace** plugin
-* Support for **MultiVendorX – Multivendor Marketplace** plugin
-* And the [huge list of other integrations](https://advanced-woo-search.com/guide-category/integrations/)
+[Plugin Home Page](https://advanced-woo-search.com/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo) | [Features List](https://advanced-woo-search.com/features/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo) | [Documentation](https://advanced-woo-search.com/guide/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo) | [Get PRO](https://advanced-woo-search.com/pricing/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
 
-[Features list](https://advanced-woo-search.com/features/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
+## &#9889; Main Features
 
-### More Plugins From Us
+Plugin comes packed with a large number of build-in features. Here are only the most major ones.
+
+&#9989; **Products Search**: Search across all your WooCommerce products.
+&#9989; **Taxonomies Terms Search**: Search for product categories and tags.
+&#9989; **Search Sources**: Search in product **title**, **content**, **excerpt**, **categories**, **tags**, **ID** and **sku**. Or just in some of them.
+&#9989; **Smart Ordering**: Search results ordered by the relevance priority of the source where they were found.
+&#9989; **Variable Products Support**: Search and display **variable products**.
+&#9989; **Plurals Support**: Search and find products no matter in plural or singular form words are written.
+&#9989; **Synonyms Support**: Add a list of synonyms words. All those words will be equal during the search.
+&#9989; **Stop Words**: Option to exclude certain words from search.
+&#9989; **Misspelling Correction**: Automatic misspelling correction ( fuzzy search ).
+&#9989; **Search Results Page**: Full support for search results page. All results will be integrated to your current page layout.
+&#9989; **Live Ajax Search**: Fast live search results that display as you type.
+&#9989; **Fast**: Nothing extra. Just what you need for proper work.
+&#9989; **Widgets**: Use search form widget to place search box anywhere you want.
+&#9989; **Shortcodes**: Use built-in shortcodes to display search form, taxonomies terms results, search suggestions, similar search terms.
+&#9989; **Product Image Display**: Each search result contains a product image.
+&#9989; **Product Price Display**: Each search result contains product price.
+&#9989; **Product Description Display**: Display product descriptions right inside search results.
+&#9989; **Product SKU Display**: Display SKU for products inside search results.
+&#9989; **Settings Page**: User-friendly settings page with a lot of options.
+&#9989; **Auto Sync**: Automatically synchronize all product data. No need to re-index all content manually after every change.
+&#9989; **Mobile Support**: Full mobile support and special mobile layouts.
+&#9989; **Themes Support**: For with almost all existing WordPress themes.
+&#9989; **Diacritical Marks**: Support for diacritical marks.
+&#9989; **Search Terms Highlighting**: Highlight search words inside the search results.
+&#9989; **Results Number**: Set the maximal number of possible search results.
+&#9989; **Google Analytics**: Support for Google Analytics - track all user searches from your GA dashboard.
+&#9989; **Seamless Integration**: Option to easily replace your current search forms with plugin ones in just one click.
+&#9989; **Multilingual**: Support for *WPML*, *Polylang*, *WooCommerce Multilingual*, *qTranslate*, *GTranslate*, etc.
+&#9989; **Page Builders Support**: Support for *Gutenberg*, *Elementor*, *Beaver Builder*, *WPBakery*, *Breakdance Builder*, *Bricks Builder*, *Oxygen Builder*, *Divi Builder*, *Avada Builder*, *Flatsome UX Builder*.
+&#9989; **Integrations**: Large number of built-in integrations.
+
+## &#127775; Premium Features
+
+Additional features that are available only in the PRO plugin version. [Get the PRO Plugin Version](https://advanced-woo-search.com/pricing/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo).
+
+&#9989; **Search By Product Attributes**: Search for WooCommerce products by their **attributes values**. Include **custom attributes search**. Example: search by color, size.
+&#9989; **Search By Product Taxonomies**: Search for WooCommerce products by their **taxonomies terms**. Example: search by brand.
+&#9989; **Search By Product Custom Fields**: Search for WooCommerce products by **custom fields values**. Includes and fields created via ACF plugin.
+&#9989; **Search By GTIN, UPC, EAN, ISBN**: Search for WooCommerce products by product unique numbers.
+&#9989; **Products Variations Support**: Search and display product variations.
+&#9989; **Taxonomies Search**: Search and display **taxonomies archive pages**.
+&#9989; **Attributes Search**: Search and display **attributes archive pages**
+&#9989; **Users Search**: Search for any store user and display its data inside search results.
+&#9989; **Search Logic**: Switch between AND or OR search logic. AND logic means that only products that contain all search words will be shown.
+&#9989; **Search Suggestions**: Show automatic search recommendations depending on the current search query.
+&#9989; **Add To Cart Button**: Add 'Add To Cart' button for product search results.
+&#9989; **Results Layouts**: Different search results layouts to choose from.
+&#9989; **Search Form Layouts**: Set of different search form layouts.
+&#9989; **Filters**: Set rules to exclude or include certain products, archive pages or users' search results based on different parameters.
+&#9989; **Search Form Tabs**: Switch between tabs to show different search results with unique sets of options.
+&#9989; **Search Instances**: Create an unlimited number of fully separated search forms with a unique set of options.
+&#9989; **Image Source**:  Ability to specify **source of image** for search results: featured image, gallery, product content, product short description or set default image if there are no other images.
+&#9989; **Visibility Option** - Choose what catalog visibility must be for a product to be displayed in search results.
+&#9989; **Stock Status Option** - Choose what stock status  must be for a product to be displayed in search results.
+&#9989; **Show Product Categories**: Display categories for each product in search results.
+&#9989; **Show Product Tags**: Display tags for each product in search results.
+&#9989; **Show Product Attributes**: Display attributes for each product in search results.
+&#9989; **ACF Support**: Support for *Advanced Custom Fields* plugin. Search for products via custom fields values.
+&#9989; **WCFM Support**: Support for *WCFM - WooCommerce Multivendor Marketplace* plugin.
+&#9989; **Dokan Support**: Support for *Dokan – WooCommerce Multivendor Marketplace* plugin.
+&#9989; **MultiVendorX Support**: Support for *MultiVendorX – Multivendor Marketplace* plugin.
+&#9989; **More Integrations**: And the [huge list of other integrations](https://advanced-woo-search.com/guide-category/integrations/).
+
+## &#9881;&#65039; Search In Any Product Field
+
+Search for WooCommerce product via any possible products fields: **title**, **content**, **short description**, **categories**, **tags**, **ID**, **SKU**, **attributes** ( pro ), **custom attrbites** ( pro ), **custom taxonomies** ( pro ), **custom fields** ( pro ), **unique product number** ( GTIN, UPC, EAN, ISBN ) ( pro ).
+
+## &#128269; Powerful Search Engine
+
+Search engine with powerful features. 
+
+* Order search results according to **relevance score**. That score is calculated based on the position of search words ( title, content, etc ), number of repeats, full or partial match and so on. Such mechanics guarantee that only best matches will be displayed at the top of the results list.
+* Product words **stemming** that guarantee finding correct search results even if search terms were typed in different forms ( running", "runs", "ran" ).
+* **Index table**. Plugin created a special index table that contains stemmed data of all WooCommerce products. This table helps to perform a very fast search with very accurate results. All data of indexed tables is synced automatically. Also you have full control on what data to index.
+* **Misspelling fix** feature that autocorrect search words with typos ( laptot -> laptop ).
+* Option to add **stop words**. Those words will be fully excluded from the search even if the user types them.
+* Option to add **synonyms words**. Words in each synonym group will be equal during the search. ( box, housing, unit, package -> equal to product with word 'unit' inside ).
+* Change **search logic**. Switch to AND search logic to show only products with all search terms inside ( 'black hoodie' query will show only products with both those words and not all 'hoodies' products ). ( pro )
+* Option to switch to **exact search**. Search only for full word matching instead of displaying results even if they match only part of the word. ( pro )
+* Add **search suggestions** - this is search recommendations that will appear depending on the current search query. By clicking on such a suggestion the user will trigger a new search for that query. ( 'hoodie' search query will generate suggestion like 'yoga hoodie', 'fullzip hoodie', etc. ) 
+* Search results **cache**. All search results are cached, so it adds even more boost for search speed.
+
+## &#128396;&#65039; Search Results View
+
+Customize the look and feel of plugin search results.
+
+* **Display any product** data inside the search results list. Hide or display product *image*, *title*, *description*, *price*, *categories*, *tags*, *sku*, *rating*, *stock status*, *sale badge*, *featured badge*, *attributes* etc.
+* Use **custom css styles** to create unique designs for your search results.
+* Special option to add **Add To Cart** button for search results. ( pro )
+* Select from one of predefined **search results layouts**. ( pro )
+* Special **filters for search results** based on different parameters. ( pro )
+
+## &#127991;&#65039; Search For Products And Taxonomies
+
+Search for WooCommerce products and product taxonomies.
+
+* Search and display any WooCommerce product of any type - **simple product**, **variable product**, **product variations** ( pro ).
+* Search and display **product categories**. By clicking on such search results the user will be redirected to categories archive page.
+* Search and display **product tags**. By clicking on such search results the user will be redirected to the tags archive page.
+* Search and display **product taxonomies**. This includes any product related taxonomies like Brands, Manufacturer, etc. ( pro )
+* Search and display **product attributes**. Display attributes results like Color, Size, Fabric. Clicking on such results will show the archive page with all products with this attribute value. ( pro )
+* Search and display **shop users**. It is possible to search for any website users and link to its page ( archive page, vendor store page, etc ). ( pro )
+
+## &#129302; Integrations
+
+Plugin comes packed with a large number of build-in integrations. Each integration brings a new layer of search features related to each specific plugin. Below covered only the most popular plugins that are integrated with Advanced Woo Search.
+
+* [ACF](https://advanced-woo-search.com/guide/acf-support/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Search for products and products taxonomies via Advanced Custom Field ( ACF ) fields values. Create search results filters based on these fields. Display any field values inside search results.
+* [Google Analytics](https://advanced-woo-search.com/guide/google-analytics/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Send search events right inside your GA property and analyze every user search query.
+* [WPML](https://advanced-woo-search.com/guide/wpml/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Show search results in current active site language. Translate plugin static strings with the help of WPML string translation.
+* [Polylang](https://advanced-woo-search.com/guide/polylang/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Show results in current site languages and allows users to search via that language terms.
+* [Elementor](https://advanced-woo-search.com/guide/elementor/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Add search form via Elementor page builder, customize search results page, add taxonomies search results into search results page.
+* [Gutenberg](https://advanced-woo-search.com/guide/gutenberg/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Use build-in Gutenberg block to show plugin search form on any place of your site.
+* [Divi Builder](https://advanced-woo-search.com/guide/divi-builder/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Compose build-in widget to add plugin search form at needed place of your site. Fully customize search results page.
+* [Bricks Builder](https://advanced-woo-search.com/guide/bricks-builder/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Use built-in element for Bricks Builder to display plugin search form. Fully customize search results page.
+* [Flatsome](https://advanced-woo-search.com/guide/flatsome-theme-flatsome-ux-builder/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Integration for Flatsome theme and  Flatsome UX Builder. Display search form via built-in search module or just use special options to replace all search forms in one click.
+* [BeRocket Filters](https://advanced-woo-search.com/guide/berocket-ajax-product-filters/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Support for all BeRocket AJAX Product Filters plugin filters types. Work smoothly on WooCommerce search results page with plugin search results.
+* [FacetWP](https://advanced-woo-search.com/guide/facetwp/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Display your FacetWP filters on search results pages to create advanced products filters - all FacetWP filters types will work smoothly with Advanced Woo Search plugin search results.
+* [WOOF](https://advanced-woo-search.com/guide/woof-products-filter-for-woocommerce/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Support for filters created via WOOF – Products Filter for WooCommerce plugin.
+* [Dokan](https://advanced-woo-search.com/guide/dokan-woocommerce-multivendor-marketplace/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Support for variety of features: search for Dokan vendors, search vendors products and display vendor badge near, search for product by vendor store name, search inside vendor store, search results filters based on different Dokan specific parameters.
+* [WCFM](https://advanced-woo-search.com/guide/wcfm-multivendor-marketplace/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Includes multiple features: find WCFM vendors, browse their products with vendor labels shown, locate items by store name, search directly within a vendor’s store, and apply filters based on unique WCFM-related criteria.
+* [WCFM](https://advanced-woo-search.com/guide/wcfm-multivendor-marketplace/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Includes multiple features: find WCFM vendors, browse their products with vendor labels shown, locate items by store name, search directly within a vendor’s store, and apply filters based on unique WCFM-related criteria.
+* [MultiVendorX](https://advanced-woo-search.com/guide/multivendorx/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Includes multiple features: find MultiVendorX vendors, browse products from specific vendors with visible vendor badges, locate products by store name, search within individual vendor stores, refine results using MultiVendorX-related filters.
+* [B2BKing](https://advanced-woo-search.com/guide/b2bking/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Show/hide products/categories based on B2BKing restrictions rules. Show or hide prices for product search results.
+* [Ultimate Member](https://advanced-woo-search.com/guide/ultimate-member/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Show/hide search results based on Ultimate Member restriction rules. Search for shop users and display them inside search results with additional profile data.
+* [Max Mega Menu](https://advanced-woo-search.com/guide/max-mega-menu/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo): Add search form inside Max Mega Menu menus. 
+
+This is only a part of available integrations. [View full list of integrations](https://advanced-woo-search.com/guide-category/integrations/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo). 
+
+## &#128187; More Plugins From Us
 
 Here are some additional plugins that were made with love.
 
 * [Advanced Woo Labels](https://wordpress.org/plugins/advanced-woo-labels/) - advanced labels for WooCommerce products
 * [Share This Image](https://wordpress.org/plugins/share-this-image/) - image sharing plugin
 
-### More useful links
+## &#128279; More Useful Links
 
-* Plugin [homepage](https://advanced-woo-search.com/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo).
-* Plugin [documentation](https://advanced-woo-search.com/guide/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo).
-* Follow Advanced Woo Search on [Twitter](https://twitter.com/WooSearch)
+* [Homepage](https://advanced-woo-search.com/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
+* [Documentation](https://advanced-woo-search.com/guide/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
+* [Features List](https://advanced-woo-search.com/features/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
+* [Contact Form](https://advanced-woo-search.com/contact/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
+* [Pricing](https://advanced-woo-search.com/pricing/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
+* [Twitter Account](https://twitter.com/WooSearch)
 
 == Installation ==
 
-1. Upload advanced-woo-search to the /wp-content/plugins/ directory
+1. Upload advanced-woo-search to the /wp-content/plugins/ directory or install it from the WP admin area -> Plugins -> Add Plugin page.
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Place the plugin shortcode [aws_search_form] into your template or post-page or just use build-in widget
+3. Go to the plugin settings page and click the 'Reindex table' button. Wait till it is fully finished.
+4. Place plugin search form to the needed place of your site. You can use several possible ways for this: via 'Seamless Integration' option, via shortcode, via page builder build-in search form module, via build-in widget.
 
 == Frequently Asked Questions ==
 
@@ -97,15 +187,7 @@ Please visit our [Advanced Woo Search guide](https://advanced-woo-search.com/gui
 
 = What is Advanced Woo Search? =
 
-Advanced Woo Search as is advanced search plugin for WooCommerce shops. Its packed with many usefull features like:
-
-* Search by product title, content, short description, SKU, tags, categories, ID, custom fields, attributes, taxonomies.
-* Support for variable product and its variations.
-* Multilingual plugins support.
-* Search and display product tags, categories, custom taxonomies.
-* and many more...
-
-Please visit [features page](https://advanced-woo-search.com/features/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo) for full list of available features.
+Advanced Woo Search is a WooCommerce search plugin. It allows searching for WooCommerce products and product taxonomies. Plugin is packed with many powerful search features like searching in any product field, smart search based on relevance score, fuzzy search, search results customizations and much more.
 
 = What are the requirements to use Advanced Woo Search? =
 
@@ -134,6 +216,10 @@ Or insert this function inside php file ( often it used to insert form inside pa
 
 Also please read the guide article about search form placement: [Adding Search Form.](https://advanced-woo-search.com/guide/search-form/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
 
+= Can I replace existing search forms with plugin ones? =
+
+Yes. The simplest way of doing this is by using **Seamless Integration** option. Just go to the plugin **settings page** -> **General** page and turn on **Seamless Integration** option. Now all your current default search bars must be replaced with plugin ones. This is working for almost all WordPress themes.
+
 = What is the steps to make this plugin works on my site? =
 
 In order to start using the plugin search form you need to take following steps:
@@ -143,6 +229,15 @@ In order to start using the plugin search form you need to take following steps:
 * **Set plugin settings**. Leave it to default values or customize some of them.
 * **Add search form**. There are several ways you can add a search form to your site. Use the **Seamless integration** option, shortcode, widget or custom php function. Read more in the guide article: [Adding Search Form](https://advanced-woo-search.com/guide/search-form/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo).
 * **Finish!** Now all is set and you can check your search form on the pages where you add it.
+
+= What is the plugin index table and why is it needed? =
+
+In order to work, the plugin first requires to index all your WooCommerce products data. All content words are normalized and stored inside a plugin index table. For now all plugin search queries will be performed through this index table.
+
+This is a one-time action. After first indexation all other product changes will be synchronized automatically.
+Indexing helps to speed-up search and to bring more accurate search results.
+
+Read more about indexing in the guide article: [Indexing](https://advanced-woo-search.com/guide/reindex-table/).
 
 = Will this plugin work with my theme? =
 
@@ -156,9 +251,19 @@ Please read some guide integrations articles: [Integrations](https://advanced-wo
 
 Note that if some of the plugin is not presented in the list it doesn't mean that it will not work with Advanced Woo Search. Many plugins will just work without any extra effort. But if you find any problem with your plugin and Advanced Woo Search please [contact support team](https://advanced-woo-search.com/contact/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo).
 
+= How can I customize search results page? =
+
+Advanced Woo Search plugin itself doesn't create any special search results page, instead it is using your current theme search results page to inherit its results. So the plugin search results page will look the same as your default search results page.
+
+How to customize search results pages depending on your current theme and plugin. If you are using page builders like [Elementor](https://advanced-woo-search.com/guide/elementor/#how-to-customize-search-results-page-via-elementor), [Gutenberg](https://advanced-woo-search.com/guide/gutenberg/), [Divi Builder](https://advanced-woo-search.com/guide/divi-builder/#customizing-search-results-page-via-divi-builder), [Breakdance Builder](https://advanced-woo-search.com/guide/breakdance-builder/#how-to-customize-search-results-page), [Bricks Builder](https://advanced-woo-search.com/guide/bricks-builder/#how-to-customize-search-results-page) and many more - you can simply customize WooCommerce products search results page via them. In other cases it all depends on your current theme and what options for search page customizations it has.
+
 = Is this plugin compatible with latest version of Woocommerce? =
 
 Yep. This plugin is always compatible with the latest version of Woocommerce?
+
+= How can I ask a question or suggest a new feature? =
+
+Please ask your question via the [support forum](https://wordpress.org/support/plugin/advanced-woo-search/) or plugin [contact page](https://advanced-woo-search.com/contact/).
 
 == Screenshots ==
 
@@ -170,1014 +275,215 @@ Yep. This plugin is always compatible with the latest version of Woocommerce?
 
 == Changelog ==
 
-= 2.90 ( 2023-10-16 ) =
-* Update - Tested with WC 8.2
-* Fix - Pricing filter for default WooCommerce widgets
+[View full changelog](https://advanced-woo-search.com/guide/free-version/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
 
-= 2.89 ( 2023-09-29 ) =
-* Add - Support for Sinatra theme. Enable seamless integration for search form in the header
-* Update - Add taxonomies class names inside search results blocks
+= 3.36 ( 2025-06-10 ) =
+* Update - Tested with WC 9.9
+* Fix - Update products data extraction. Fix markup issues
 
-= 2.88 ( 2023-09-18 ) =
-* Add - Support for Kapee theme
-* Update - Tested with WC 8.1
-* Fix - Fix label search form styles for mobile devices
-* Dev - Fix php notice with dynamically created child_theme property
-* Dev - Add aws_relevance_parameters filter
+= 3.35 ( 2025-05-29 ) =
+* Fix - Bug with products title highlighting inside search results page
 
-= 2.87 ( 2023-09-04 ) =
-* Add - Support for WooCommerce Products Visibility plugin
-* Update - Support for BeRocket WooCommerce AJAX Products Filter plugin. Fix filters when nice URLs is enabled
-* Update - Support for HUSKY plugin. Fix filtering issue for custom taxonomies
-* Fix - Display On backorder product stock status when needed
-* Dev - Update aws_results_html js hook. Add new property - translate
-* Dev - Add aws_search_tax_result_item filter
+= 3.34 ( 2025-05-26 ) =
+* Add - New option to highlight search terms inside results page
+* Update - Settings page text
+* Fix - Bug with search words highlight
 
-= 2.86 ( 2023-08-21 ) =
-* Update - Tested with WC 8.0
-* Update - Integration with WCFM plugin. Speed up SQL queries inside the vendor shop page
-* Fix - Attributes filters for search results
-* Fix - Search terms tracking for GA4. Update tracking code
-* Dev - Update aws_reindex_product action. Allow to use array of IDs as parameter
+= 3.33 ( 2025-05-12 ) =
+* Add - Integration for Customify theme
 
-= 2.85 ( 2023-08-07 ) =
-* Update - Special characters scrapping. Replace comma char with space
-* Fix - Bug with search form inside WCFM plugin vendor shop page
+= 3.32 ( 2025-04-28 ) =
+* Dev - Add awsNoResults js event
 
-= 2.84 ( 2023-07-24 ) =
-* Add - Support for ShopEngine plugin
-* Update - Support for GeneratePress theme
-* Update - Tested with WC 7.9
-* Dev - Add aws_pre_normalize_string filter
+= 3.31 ( 2025-04-14 ) =
+* Add - New widget for block editor to show current taxonomy terms results
+* Add - New widget for Elementor to show current taxonomy terms results
+* Add - New integration for Elementor WC Categories widget to show current terms results
+* Add - aws_taxonomy_terms_results shortcode to display taxonomies archive pages results
+* Update - Tested with WC 9.8
+* Fix - Bug with running index multiply times for one product
+* Fix - Integration issue with Divi BodyCommerce plugin mini cart widget
+* Dev - Add aws_tax_search_array and aws_tax_search_relevance_array hooks
 
+= 3.30 ( 2025-03-31 ) =
+* Update - Admin loading icons
+* Update - Relevance score calculation for taxonomies search results
+* Update - PRO admin section
+* Dev - Update aws_relevance_scores filter. Add more array values
+* Dev - Add aws_disable_multilangs_hooks hook
 
-= 2.83 ( 2023-07-10 ) =
-* Add - Support for WooCommerce Product Bundles plugin
-* Add - Support for Bricks Builder theme
-* Fix - Bug with block editor search module
-* Fix - Bug when searching for products with multiplication sign
+= 3.29 ( 2025-03-17 ) =
+* Update - Integration for Elementor search form widget
+* Fix - aws_search_terms parameters escaping
+* Dev - Add aws_index_scraped_data filter
 
-= 2.82 ( 2023-06-26 ) =
-* Add - Support for Blocksy theme
-* Update - Tested with WC 7.8
+= 3.28 ( 2025-03-03 ) =
+* Update - Tested with WC 9.7
+* Fix - Bug with additional slashed for text options
 
-= 2.81 ( 2023-06-12 ) =
-* Fix - FacetWP plugin issue with pagination
+= 3.27 ( 2025-02-17 ) =
+* Fix - Highlight synonyms words for search results
 
-= 2.80 ( 2023-05-29 ) =
-* Add - Support for WP Bottom Menu plugin
+= 3.26 ( 2025-02-03 ) =
+* Update - Enable gutenberg search block for navigation section
+* Update - Tested with WC 9.6
 
-= 2.79 ( 2023-05-15 ) =
-* Add - Support for WooCommerce custom orders tables
-* Update - Tested with WC 7.7
-* Update - Taxonomies pages search. Fix terms normalization
-* Fix - FacetWP plugin integration issue with pagination
-* Fix - Relevance score calculation for one letter words
+= 3.25 ( 2025-01-20 ) =
+* Dev - Add filter for search form shortcode parameters
 
-= 2.78 ( 2023-04-28 ) =
-* Update - Support for WCFM plugin. Fix search inside vendor shop page
-* Update - Support for Elementor popups
-* Update - Support for Divi theme
-* Update - Support for Google Analytics
-* Fix - Escaping of html entities for admin options
-* Fix - Bug with WPML plugin that indexed child products
+= 3.24 ( 2024-12-30 ) =
+* Update - Tested with WC 9.5
+* Update - Settings page pro block description
 
-= 2.77 ( 2023-04-17 ) =
-* Update - Tested with WC 7.6
-* Update - FacetWP plugin integration
+= 3.23 ( 2024-12-16 ) =
+* Add - New shortcodes for similar terms, search terms
+* Fix - Integration with Yoast Premium plugin. Allow additional parameters for permalinks
+* Dev - Update forceNewSearch method to use additional parameters
 
-= 2.76 ( 2023-04-03 ) =
-* Add - New option to execute or not shortcodes inside the product content
+= 3.22 ( 2024-11-29 ) =
+* Update - Settings page descriptions
 
-= 2.75 ( 2023-03-20 ) =
-* Add - Support for Product Filters for WooCommerce plugin
-* Update - Tested with WC 7.5
-* Fix - Bug with Divi theme integration
+= 3.21 ( 2024-11-26 ) =
+* Update - Tested with WC 9.4
+* Update - Improve search speed and update index table structure
+* Update - Structure of cache table
+* Dev - Update conditions for table check
 
-= 2.74 ( 2023-03-06 ) =
-* Add - WP-CLI support
-* Dev - Add aws_force_reindex_product action
+= 3.20 ( 2024-11-11 ) =
+* Update - Integration with YITH WooCommerce Ajax Product Filter plugin
+* Update - Taxonomies search when using Begins search logic
+* Fix - Bug with diacritical characters replacement
 
-= 2.73 ( 2023-02-20 ) =
-* Update - Tested with WC 7.4
-* Update - FacetWP plugin integration
-* Update - WPBakery plugin support
+= 3.19 ( 2024-10-28 ) =
+* Update - Add different search rules for taxonomies search
+* Update - Styles for search form. Fix min height for input
+* Dev - Add aws_search_custom_top_results filter
 
-= 2.72 ( 2023-02-06 ) =
-* Add - MultiVendorX – WooCommerce Multivendor Marketplace plugin support
-* Update - Change relevance score for products title
-* Fix - WPML plugin bug when saving settings values
+= 3.18 ( 2024-10-14 ) =
+* Add - Support for Jet Blocks plugin search widget
+* Update - Support for Italian language
+* Update - Admin page notices about integrations
+* Dev - Update the structure of plugin tables
 
-= 2.71 ( 2023-01-23 ) =
-* Update - Tested with WC 7.3
-* Fix - Integration issue with Advanced Woo Labels plugin
-* Fix - Elementor search form widget
-* Fix - Index scheduled products
+= 3.17 ( 2024-10-01 ) =
+* Add - Support for Shopical theme
+* Add - Support for WooCommerce Product Table by Barn2 plugin
+* Fix - Index duplicated products when using WPML plugin
+* Fix - Bug with quick edit feature when using WPML plugin
+* Dev - New check for currently active plugins
 
-= 2.70 ( 2023-01-09 ) =
-* Update - Tested with WC 7.2
+= 3.16 ( 2024-09-16 ) =
+* Add - Greek to latin characters replace
+* Add - Plurals support for different languages
+* Add - Support for Breakdance plugin
+* Update - Tested with WC 9.3
+* Update - On page stock status and sale filters
+* Fix - Show clear button on first search when ajax is disabled
 
-= 2.69 ( 2022-12-12 ) =
-* Fix - OrderBy value for search results page query
+= 3.15 ( 2024-09-02 ) =
+* Update - Tested with WC 9.2
+* Update - Add new parameters for orderby
+* Update - Settings page text
+* Fix - Filter by attributes for the search page. Fix filtering by slugs with integers inside
+* Dev - Add additional check for product IDs inside search page
 
-= 2.68 ( 2022-11-28 ) =
-* Update - Support for Perfect Brands for WooCommerce plugin
-* Update - Stop words list
+= 3.14 ( 2024-08-12 ) =
+* Update - Integration with Oxygen theme
+* Fix - Filtering for search results page when using slugs with numbers inside URL for terms
+* Fix - Add new parameters for orderby function
+* Fix - Automatically index products that were restored from the trash
+* Dev - Fix functions naming
 
-= 2.67 ( 2022-11-14 ) =
-* Update - Tested with WC 7.1
-* Update - Flatsome theme support
-* Fix - Search results page filtering by product attributes
-* Dev - Add aws_sync_index_table filter
+= 3.13 ( 2024-08-05 ) =
+* Add - Integration with EAN for WooCommerce by WPFactory plugin
+* Fix - Bug with search results filtering via third party plugins
+* Fix - Bug when filtering product variations on search results page
+* Dev - New function to get current page id
 
-= 2.66 ( 2022-10-31 ) =
-* Add - Support for XStore theme
+= 3.12 ( 2024-07-19 ) =
+* Fix - Bug with search results page taxonomies filters
+
+= 3.11 ( 2024-07-15 ) =
+* Add - Support for Filter Everything plugin
+* Update - Tested with WC 9.1
 * Update - Integration with WooCommerce Product Filter by WooBeWoo plugin
-* Update - Hooks for index table products sync
-
-= 2.65 ( 2022-10-17 ) =
-* Add - Support for Pustaka theme
-* Update - Tested with WC 7.0
-* Fix - SQL query for language selection
-
-= 2.64 ( 2022-10-03 ) =
-* Update - Minify assets
-
-= 2.63 ( 2022-09-19 ) =
-* Add - Archive pages number option
-* Update - Tested with WC 6.9
-* Fix - SQL query for language selection
-
-= 2.62 ( 2022-09-05 ) =
-* Dev - Add aws_create_cache_table action
-
-= 2.61 ( 2022-08-22 ) =
-* Update - Tested with WC 6.8
-* Update - Custom Product Tabs for WooCommerce plugin integration
-
-= 2.60 ( 2022-08-08 ) =
-* Update - Css for media styles
-* Update - Admin dashboard notices style
-* Update - Admin page text
-
-= 2.59 ( 2022-07-25 ) =
-* Add - Support for Vandana theme
-* Update - Tested with WC 6.7
-* Update - Admin dashboard plugin notices
-* Fix - WPML plugin integration bug with taxonomies search
-* Fix - Integration bug for WooCommerce Product Filter by WooBeWoo plugin
-* Dev - Add aws_ajax_request_params js hook
-
-= 2.58 ( 2022-07-11 ) =
-* Fix - Bug with synonyms words indexation
-
-= 2.57 ( 2022-06-27 ) =
-* Update - Integration for BeTheme
-* Update - Tested with WC 6.6
-
-= 2.56 ( 2022-06-13 ) =
-* Fix - Bug with search form shortcodes error when id value is not specified
-
-= 2.55 ( 2022-05-30 ) =
-* Add - Support for Savoy theme
-* Update - Admin page integration notices
-* Update - Search form shortcode parameters
-* Fix - Issue with search results caching for certain user roles
-
-= 2.54 ( 2022-05-16 ) =
-* Add - Support for Gecko theme
-* Update - Tested with WC 6.5
-* Update - Admin page integration notices
-* Update - Support for Be theme
-* Fix - Translations for stock statuses inside search results
-* Fix - Error notice for Elementor plugin search module
-* Fix - Php error notice about default options values
-* Fix - Length of products search results descriptions
-* Dev - Fix error with empty search query for results page
-
-= 2.53 ( 2022-04-25 ) =
-* Update - Tested with WC 6.4
-* Update - Support for Avada theme and Avada Builder
-* Dev - Add aws_relevance_scores filter
-
-= 2.52 ( 2022-04-11 ) =
-* Update - Search results styles
-* Update - Product description scrapper for search results
-* Fix - Remove markup for search form input title
-
-= 2.51 ( 2022-03-28 ) =
-* Update - Hooks for index table products sync
-* Fix - Search results page filters for default WooCommerce filter widgets
-* Fix - Astra theme integration. Bug with search form close button
-
-= 2.50 ( 2022-03-22 ) =
-* Update - Tested with WC 6.3
-* Update - Integration with Astra theme
-* Dev - Add aws_search_data_parameters filter
-
-= 2.49 ( 2022-03-07 ) =
-* Update - Admin notices
-* Fix - WCFM - WooCommerce Multivendor Marketplace plugin integration. Change store link
-* Fix - Terms scrapping for index table
-* Dev - Add aws_search_pre_filter_single_product filter
-* Dev - Make get_products method public
-
-= 2.48 ( 2022-02-21 ) =
-* Add - New admin notices about integrations
-* Update - Tested with WC 6.2
-* Update - Integration for Woodmart theme
-* Update - Support for WCFM - WooCommerce Multivendor Marketplace plugin
-* Dev - Add aws_seamless_search_form_filter filter
-
-= 2.47 ( 2022-02-07 ) =
-* Update - Do not close AJAX results block when clicking on results item
-* Update - Markup for AJAX search results
-* Update - Styles for admin page welcome message
-* Update - Support for WooCommerce Product Filter by WooBeWoo
-* Fix - Bug with admin page scripts loader
-
-= 2.46 ( 2022-01-26 ) =
-* Update - Divi builder support. Index content from long description fields
-* Fix - Bug with Divi visual builder that trigger error on save
-
-= 2.45 ( 2022-01-24 ) =
-* Update - Tested with WC 6.1
-* Update - Divi theme support. Autofocus on search field in the header
-* Update - Admin page 'Get started' notice
-* Fix - Remove error notice on first search if cache table not exist
-* Dev - Add aws_results_force_position js filter
-* Dev - Remove unused parameter for wp_insert_post hook
-
-= 2.44 ( 2022-01-10 ) =
-* Fix - FacetWP plugin compatibility issue
-
-= 2.43 ( 2021-12-20 ) =
-* Add - Support for Orchid Store theme
-* Update - Tested with WC 6.0
-* Update - Integration for Product Visibility by User Role for WooCommerce plugin
-* Update - Admin page notices display
-* Update - Support for Basel theme
-
-= 2.42 ( 2021-12-07 ) =
-* Add - Support for Basel theme
-* Add - Support for Rey theme
-* Update - FacetWP plugin integration
-* Update - Number of search results per page option
-* Fix - Bug with search page query detection
-
-= 2.41 ( 2021-11-22 ) =
-* Add - Support for WooCommerce Protected Categories plugin
-* Fix - JS seamless integration issue
-
-= 2.40 ( 2021-11-10 ) =
-* Fix - Bug with condition function
-
-= 2.39 ( 2021-11-09 ) =
-* Add - Support for Falang translation plugin
-* Add - Support for WR Nitro theme
-* Add - Support for Deals for WooCommerce plugin
-* Update - Tested with WC 5.9
-* Update - Seamless integration js script
-* Update - Botiga theme support. Fix styles and back to top button
-* Update - Support for OceanWP theme
-* Fix - PHP 8.0 notice for Divi builder search module
-* Fix - Prevent unexpected output when running search function
-* Fix - URL for plugin assets. Remove additional slash
-* Fix - Issue with SKU search for singular terms
-
-= 2.38 ( 2021-10-25 ) =
-* Add - Support for WooCommerce Product Filter by WooBeWoo plugin
-* Add - Quantity change buttons for products search results. Visible on mobile devices
-* Update - Tested with WC 5.8
-* Fix - WOOCS - WooCommerce Currency Switcher plugin support for AJAX pricing update<
-
-= 2.37 ( 2021-10-11 ) =
-* Add - Support for B2BKing plugin
-* Update - Hide out-of-stock items by default if corresponding WC option is enabled
-* Update - Tested with WC 5.7
-
-= 2.36 ( 2021-09-21 ) =
-* Update - Woodmart theme support. Update search results page pagination links
-* Update - Avada theme support. Set number of products per search results page
-* Fix - Taxonomies search by description. Not strip special characters from the search query
-* Fix - Error with not valid scripts loaded for new widgets block editor
-* Fix - Ultimate Member plugin support
-* Fix - Avada theme support for search results page
-
-= 2.35 ( 2021-08-31 ) =
-* Add - Seamless integration for Modern Store theme
-* Update - WholeSale plugin support. Change products filter script to improve execution time
-* Update - FacetWP plugin integration. Fix problem with search results page
-* Update - Plugin settings page. Change performance options
-* Update - Tested with WC 5.6
-* Fix - Admin area descriptions spelling
-
-= 2.34 ( 2021-08-16 ) =
-* Add - New options for products search results page
-* Update - Support for WPML plugin. Use default product language if no translation and fallback to default language option is enabled
-* Fix - Error with special characters inside regular expressions
-* Fix - Error during database creation that was caused by wrong COLLATION value
-* Fix - Search results page output for Avada theme
-
-= 2.33 ( 2021-08-02 ) =
-* Fix - Parse errors during index process
-* Fix - Possible parse errors during AJAX search
-* Fix - Astra theme seamless integration search form markup
-
-= 2.32 ( 2021-07-19 ) =
-* Add - Support for Products Visibility by User Roles plugin
-* Add - Support for WPBakery plugin. Added search form element for page builder
-* Update - Settings page styles for tables
-* Update - Tested with WC 5.5
-* Fix - Bug with not working pagination for search results page that was created with Load Dynamic Content for Elementor plugin
-* Fix - WooCommerce Product Filter by WooBeWoo plugin integration. Fix issue with filtering by attributes
-* Fix - Search form styles for Divi theme
-* Dev - Use new block_categories_all filter for blocks
-* Dev - Add awsLoaded js event
-
-= 2.31 ( 2021-07-05 ) =
-* Update - Plugin settings page
-* Dev - Add aws_create_index_table_sql filter
-
-= 2.30 ( 2021-06-21 ) =
-* Add - Support for Advanced Woo Labels plugin
-* Update - WCFM plugin fix for vendors shop search. Fix searching for vendor taxonomies
-* Update - Fix styles for YITH Wishlist plugin
-* Update - Tested with WC 5.4
-
-= 2.29 ( 2021-06-07 ) =
-* Add - Woostify theme support
-* Dev - Fix search page filters
-
-= 2.28 ( 2021-05-24 ) =
-* Update - Tested with WC 5.3
-* Update - Index table improvement. Add a new index
-* Fix - Bug with search results for translated terms archive pages
-
-= 2.27 ( 2021-05-10 ) =
-* Fix - WOOF - WooCommerce Products Filter plugin integration
-* Dev - Fix posts_per_page filter for search results page
-* Dev - Update files loading
-
-= 2.26 ( 2021-04-27 ) =
-* Update - Tested with WC 5.2
-* Update - Wholesale Pricing plugin support
-* Update - BeRocket WooCommerce AJAX Products Filter support. Fix bug with slugs in URL for attributes filters
-* Update - Disable automatic re-index after WP All Import plugin finish importing
-* Update - Notice for plugin settings page
-* Update - Search form markup for label tag
-* Fix - Ajax request issue with sending parameters
-* Fix - CoCart plugin issue with empty cart when performing AJAX search
-* Fix - Bug with the empty search results page
-
-= 2.25 ( 2021-04-12 ) =
-* Add - Royal theme integration
-* Update - Aurum theme integration
-* Update - Ultimate Member plugin support
-* Dev - Add deleted_post hook for index table sync
-* Dev - Add aws_js_seamless_searchbox_markup filter
-
-= 2.24 ( 2021-03-25 ) =
-* Fix - Parent theme name detection
-* Dev - Update helper functions
-
-= 2.23 ( 2021-03-22 ) =
-* Add - Performance options
-* Add - Support for TI WooCommerce Wishlist plugin
-* Add - Support for Fury theme
-* Add - Support for Salient theme
-* Add - Support for Bazar theme
-* Add - Support for Claue theme
-* Add - Integration for Urna theme
-* Update - BeRocket AJAX filters plugin support. Fix issue when used slugs for terms instead of IDs inside URL
-* Update - BeRocket AJAX filter support. Include parent terms filters
-* Update - Gutenberg block markup
-* Update - Admin page styles
-* Fix - If no search sources is set - do not show the products search results
-* Dev - Add aws_admin_page_options_current filter
-
-= 2.22 ( 2021-02-19 ) =
-* Add - Support for WOOF - WooCommerce Products Filter plugin
-* Fix - Search form widget layout
-* Dev - Add aws_search_page_query filter
-
-= 2.21 ( 2021-02-15 ) =
-* Add - Plugin search form module for Gutenberg
-* Add - Label element for search form
-* Add - Integration for BoxShop theme
-* Add - Aurum theme integration. Add search form to mobile menu
-* Update - Search form widget. Remove title markup if title value is empty
-* Update - Porto theme integration
-
-= 2.20 ( 2021-02-02 ) =
-* Add - Beaver Builder plugin support
-* Update - Integration for Electro theme
-* Update - Porto theme integration
-* Fix - Hide 'Show all results' button if search results page is disabled
-* Fix - Scrolling for search results inside pop-ups via 'Popups for Divi' plugin
-
-= 2.19 ( 2021-01-18 ) =
-* Add - Support for WooCommerce Product Filter by WooBeWoo plugin
-* Add - Integration for Martfury theme
-* Add - Integration for ATUM Inventory Management for WooCommerce plugin ( Product level addon ). Hide not sellable products
-* Update - Dynamic strings translation. Load translation from .po file for default strings if no dynamic translation specified
-* Update - WCFM - Multivendor Marketplace plugin integration. Add vendors shop name and logo inside search results list
-* Fix - GA tracking code
-* Fix - Do not index and search for password protected products
-* Fix - Hide product with visibility = catalog from the AJAX search results
-* Dev - Update taxonomies search results response. Add parent term value.
-* Dev - Add aws_search_page_custom_data filter
-
-= 2.18 ( 2021-01-04 ) =
-* Add - Support for Walker WordPress theme
-* Update - Elementor plugin support. Add integration with Elementskit plugin header search
-* Update - Search results styles. Fit search results box to search form width
-* Update - Admin menu item  position
-* Update - Add Premium tab inside plugin settings page
-* Dev - Update aws_show_mobile_layout filter. Change it to aws_show_modal_layout and give option to use modal layout on desktop
-
-= 2.17 ( 2020-12-14 ) =
-* Dev - Specify global $product variable for search results items
-* Dev - Add aws_show_mobile_layout js filter
-
-= 2.16 ( 2020-11-30 ) =
-* Add - Welcome message
-* Add - Support for Elessi Theme
-* Update - Search results box scrollbar styles
-* Dev - Add aws_results_append_to js filter
-* Dev - Update constants declaration
-
-= 2.15 ( 2020-11-16 ) =
-* Update - Support for WCFM - WooCommerce Multivendor Marketplace plugin: add seamless integration for the vendors shop page, limit search results to vendor products only
-* Update - Settings page styles
-* Dev - Add aws_admin_page_options filter
-
-= 2.14 ( 2020-11-02 ) =
-* Update - Elementor search page support
-* Update - Divi Builder search page support
-* Update - Astra theme integration
-* Update - Storefront theme integration for footer search form
-
-= 2.13 ( 2020-10-19 ) =
-* Add - FacetWP plugin integration. [Read more](https://advanced-woo-search.com/guide/facetwp/)
-* Add - Support for 'Product Visibility by User Role for WooCommerce' plugin. [Read more](https://advanced-woo-search.com/guide/product-visibility-by-user-role-for-woocommerce/)
-* Add - Support for Avada theme default shop filters
-* Update - Search results page query
-* Update - Divi builder search form styles
-* Dev - Add aws_products_order_by filter
-* Dev - Add aws_index_complete
-* Dev - Add aws_create_index_table
-
-= 2.12 ( 2020-10-05 ) =
-* Fix - Results display for Divi builder search page template
-* Fix - Plugin search module for Divi builder
-* Fix - 'BeRocket Advanced AJAX Product Filters for WooCommerce' plugin integration
-* Fix - Bug with 'Product Sort and Display for WooCommerce' plugin
-
-= 2.11 ( 2020-09-21 ) =
-* Add - Venedor theme support
-* Update - Option to add description for archive pages inside search results
-* Update - Support for OceanWP theme
-* Update - Diacritic chars list
-* Fix - Overwrite WooCommerce global products count if it is set to zero
-* Fix - Bug with get_image_id function
-* Fix - Settings page typos
-
-= 2.10 ( 2020-09-07 ) =
-* Update - Storefront theme integration
-* Fix - Search results page output
-* Dev - Add aws_results_layout js filter
-
-= 2.09 ( 2020-08-23 ) =
-* Update - Support for latest WooCommerce version
-* Update - AJAX request fix
-
-= 2.08 ( 2020-08-17 ) =
-* Update - Strip some new special characters form search query
-
-= 2.07 =
-* Add - Seamless integration for Woodmart theme
-* Update - Admin ajax requests
-* Fix - Synonyms search for taxonomies archives
-
-= 2.06 =
-* Fix - Search results layout positions
-* Fix - Search results page query
-* Update - Wholesale plugin support. Add categories excluding
-* Dev - Add aws_search_query_string filter
-* Dev - Add aws_image_size filter
-
-= 2.05 =
-* Add - Support for Perfect Brands for WooCommerce plugin
-* Update - Show ajax block in top if no space at bottom
-* Update - Taxonomies search
-* Dev - Add aws_results_html js filter
-
-= 2.04 =
-* Add - Add BeRocket WooCommerce AJAX Products Filter plugin support
-* Add - Add WCFM - WooCommerce Multivendor Marketplace plugin support for users search
-* Dev - Add aws_products_search_page_filtered filter
-* Dev - Add aws_search_page_filters filter
-
-= 2.03 =
-* Add - Seamless integration for Elementor plugin search module
-* Add - Widget for  Elementor plugin
-* Add - Module for Divi Builder plugin
-* Update - Styles for settings page
-
-= 2.02 =
-* Add - German language translation
-* Update - Show re-index table notice only for relevant users
-
-= 2.01 =
-* Add - Support for Ultimate Member plugin
-* Add - Support for WP all import plugin
-* Add - Allow some html tags for "Nothing found" message
-* Update - Remove Divi builder plugin dynamic text shortcodes from the product content
-* Add - Jupiter theme seamless integration
-* Fix - Bug with not sync product stock status with plugin index table on status change
-* Fix - Quantity ordering for search results page
-* Dev - aws_before_strip_shortcodes filter
-* Dev - aws_search_page_results filter
-* Dev - aws-focus class name when focus on search form
-
-= 2.00 =
-* Update - Search page ordering. Add order by quantity
-* Update - Remove sql query from output
-* Dev - Add aws_products_order filter
-
-= 1.99 =
-* Update - OceanWp theme integration
-* Fix - Bug with product short description search
-* Fix - SKU string translation
-* Dev - Add aws_reindex_product action to re-index single product by its ID
-
-= 1.98 =
-* Update - Add SQL query inside responce
-* Update - Seamless integration JS method
-* Update - Divi theme integration
-
-= 1.97 =
-* Update - Fully compatible with WooCommerce 4.0
-* Update - Increase memory and time limit for index process
-* Update - Ocean WP theme integration update
-* Dev - Add new parameter for aws_extracted_terms filter
-* Dev - Update taxonomies search class
-
-= 1.96 =
-* Add - Mobile full screen search option
-* Fix - Search form markup
-
-= 1.95 =
-* Fix - Ajax request cache problem
-* Fix - Polylang plugin fix search results page URL
-
-= 1.94 =
-* Update - Ajax function
-* Update - Twenty Twenty theme integration
-* Update - Default settings values. Enable search page support by default
-* Fix - WP AutoTerms plugin conflict
-* Fix - Elementor plugin search page template
-* Fix - Visibility get function for old WooCommerce versions
-
-= 1.93 =
-* Add - Synonyms support for taxonomies search
-* Add - aws_tax_search_data filter
-* Fix - Taxonomies search
-* Fix - Remove potential link from product pricing
-
-= 1.92 =
-* Update - Flatsome theme support
-* Update - Taxonomies search query
-* Fix - Bug with exclude filter for taxonomies search
-* Add - aws_search_tax_exclude filter
-
-= 1.91 =
-* Add - aws_terms_search_query filter
-* Add - aws_search_terms_description filter
-* Add - Support for Elementor pop-up templates
-* Fix - taxonomies search with special characters bug
-* Fix - bug with search results page cache
-* Update - aws_searchbox_markup filter new parameter
-
-= 1.90 =
-* Update - Search query fix
-
-= 1.89 =
-* Add - Highlight option
-* Fix - Index method bug
-
-= 1.88 =
-* Add - WooCommerce Product Table plugin support
-* Add - aws_highlight_tag filter
-* Update - Search query speed-up. Removed unused lines
-* Update - Avada theme integration
-* Update - Settings page text
-
-= 1.87 =
-* Fix - Bug with search results sorting
-* Update - Hide disabled variations from search
-
-= 1.86 =
-* Update - Speed-up index process
-* Update - Speed-up search
-* Update - Generatepress theme integration
-* Update - Ocean WP theme integration
-* Update - Get shortcodes content during the index
-* Add - awsShowingResults js event
-* Fix - Search page bug with multiple searches per load
-
-= 1.85 =
-* Add - Seamless integration with Divi builder
-* Add - Seamless integration for Shopkeeper theme
-* Add - aws_js_seamless_selectors filter
-* Update - When fail index process will start from latest added product, not from the start
-* Update - Search results box layout fixes
-* Update - qTranslate plugin fix
-* Fix - Synonyms support for phrases
-
-= 1.84 =
-* Update - Add indexes for table
-* Update - Cache query sql
-
-= 1.83 =
-* Add - Support for Maya shop theme
-* Add - Support for Generatepress theme
-* Update - Plurals support
-
-= 1.82 =
-* Fix - Bug with WooCommerce attributes filter widget. Now its display proper number of attributes on search page
-* Fix - Filter by attributes on search results page. Now search results works proper with multiple attributes filters
-* Fix - WooCommerce price filter widget bug
-* Fix - Search page queries
-* Add - aws_index_apply_filters filter
-* Update - aws_indexed_data filter filter
-* Update - Improve synonyms support
-
-= 1.81 =
-* Add - Support for Google Analytics site search feature
-* Update - Plugin settings page
-* Fix - Bug with search results page products count
-
-= 1.80 =
-* Add - Rtl text support
-* Add - Uninstall file to clear all plugin data during uninstall
-* Fix - Divi theme integrations
-
-= 1.79 =
-* Add - Synonyms support
-* Add - Search by product ID
-* Fix - Divi theme integration bug with double search form
-* Fix - Bug with cache for search results
-* Fix - Support for WooCommerce hooks
-* Fix - Support for search exclude plugin
-
-= 1.78 =
-* Update - Better plurals search support
-* Add - Divi theme seamless integration
-* Add - Wholesale plugin support
-
-= 1.77 =
-* Fix - Order by price bug on search results page
-* Update - plugin text domain
-* Add - ru translation ( thanks to @hdelta045 )
-* Update - styles for search form
-* Update - styles for search form on mobile devices
-* Update - search results image size
-* Add - seamless integration for Astra theme
-* Update - settings page text
-
-= 1.76 =
-* Update - Markup of search form
-* Dev - Add new parameters for ajax call
-
-= 1.75 =
-* Fix - Brands filter for search results page
-* Fix - Polylang plugin search results page URL
-* Update - filters parameters
-
-= 1.74 =
-* Fix - Issue with not working search page when using Elementor page builder
-* Fix - Issue with not working search page when using Divi page builder
-* Update - Order by statement for products
-
-= 1.73 =
-* Add - Relevance search for terms
-* Dev – Add aws_search_terms_number filter
-
-= 1.72 =
-* Fix - Tax search exact matching bug
-* Fix - Empty tax in search results bug
-* Update - Settings page text
-
-= 1.71 =
-* Fix - Index table sync for WPML translations
-
-= 1.70 =
-* Dev - Update security checks
-* Dev - Update nonce check
-
-= 1.69 =
-* Dev - Update security checks
-* Dev - Add aws_front_data_parameters filter
-
-= 1.68 =
-* Update - Styles for plugin settings page
-* Dev - Add aws_search_results_tax_archives filter
-* Dev - Clear code for all unused stuff
-
-= 1.67 =
-* Dev - Add aws_search_query_array filter
-* Dev - Send page url with ajax request
-
-= 1.66 =
-* Update search page support
-
-= 1.65 =
-* Fix YITH WooCommerce Ajax Product Filter plugin support
-
-= 1.64 =
-* Fix issue with Polylang plugin support
-* Fix filters for search results page
-* Add aws_title_search_result filter
-* Add aws_excerpt_search_result filter
-
-= 1.63 =
-* Update porto theme support
-* Add aws_search_tax_results filter
-* Add support for old WooCommerce versions ( 2.x )
-
-= 1.62 =
-* Fix Google Analytics events
-* Fix jQuery errors
-* Add Enfold theme support
-* Add Porto theme support
-* Add aws_indexed_data filter
-
-= 1.61 =
-* Fix stopwords
-* Fix markup for finded words in products content
-
-= 1.60 =
-* Update cron job action
-* Update Protected Categories plugin integration
-* Update B2B Market plugin integration
-* Add WC Marketplace plugin integration
-* Add new option to disable auto sync for index page
-* Add aws_filter_yikes_woo_products_tabs_sync filter
-* Add aws_search_data_params filter
-* Add aws_search_pre_filter_products filter
-
-= 1.59 =
-* Add aws_search_start action
-* Update caching naming
-* Update cron job action. Now its must works fine with large amount of products
-* Fix singular form of terms
-* Add aws_search_current_lang filter
-* Add B2B Market plugin support
-* Add Datafeedr WooCommerce Importer plugin support
-* Add option to hide price for out-of-stock products
-
-= 1.58 =
-* Add option for preventing submit of empty search form
-* Add support for Protected Categories plugin
-* Add aws_exclude_products filter
-* Add aws_terms_exclude_product_cat filter
-* Add aws_terms_exclude_product_tag filter
-
-= 1.57 =
-* Update search query string
-* Fix style for search icon
-* Fix search field style
-* Fix clear button style
-
-= 1.56 =
-* Update stopwords list
-* Add search box layout options
-
-= 1.55 =
-* Update search behavior on text paste
-
-= 1.54 =
-* Update plugin index table
-* Update WooCommerce version support
-
-= 1.53 =
-* Fix bug with search results page ordering
-* Add svg loading icon
-* Mark featured products in search results
-* Add aws_search_results_products_ids filter
-
-= 1.52 =
-* Fix terms translation for multilingual plugins
-* Update special chars filter
-* Add diacritic chars filter
-
-= 1.51 =
-* Update seamless integration filter hook
-* Fix WPML language select
-
-= 1.50 =
-* Fix bug with cyrillic letters search
-
-= 1.49 =
-* Add option to set text for 'show more' button
-* add aws_search_terms filter
-
-= 1.48 =
-* Add option to display 'Clear search results' buttom on desktop devices 
-
-= 1.47 =
-* Add seamless integration option
-* Fix styling
-
-= 1.46 =
-* Add support for WPML plugin multi currency
-* Fix css styles
-
-= 1.45 =
-* Fix bug with re-index process ( too much requests error )
-* Add timeout for keyup event
-* Fix bug with special characters search
-
-= 1.44 =
-* Make SKU string in search results translatable
-* Strip some new special chars from products content
-* Add 'aws_extracted_string' and 'aws_extracted_terms' filters
-* Fix bug with empty excerpt
-
-= 1.43 =
-* Add 'aws_search_results_all' filter
-* Update WPML string translation
-* Fix bug with term_source column in index table
-
-= 1.42 =
-* Add option to display ‘View All Results’ button in the bottom of search results list
-* Fix bug with stop words option
-* Fix bug with links in 'noresults' fiels
-* Add 'aws_search_results_products', 'aws_search_results_categories', 'aws_search_results_tags' filters
-
-= 1.41 =
-* Add new column form index table - term_id. With id help it is possible to sunc any changes in product term
-* Add shortcode to settings page
-* Update search page integration
-
-= 1.40 =
-* Fix bug with not working stop-words for taxonomies
-* Fix bug with hided search form if its parent node has fixed layout
-* Add second argument for the_title and the_content filters
-* Update view of settings page
-
-= 1.39 =
-* Add option to disable ajax search results
-
-= 1.38 =
-* Add 'Clear form' buttom for search form on mobile devices
-* Fix bug with not srtiped shortcodes on product description
-* Fix bug with aws_reindex_table action
-
-= 1.37 =
-* Add 'aws_indexed_content', 'aws_indexed_title', 'aws_indexed_excerpt' filters
-
-= 1.36 =
-* Update re-index function
-* Add support for custom tabs content made with Custom Product Tabs for WooCommerce plugin
-* Add support for Search Exclude plugin
-
-= 1.35 =
-* Fix issue with position of search results box
-* Add 'aws_page_results' filter
-* Add support for 'order by' box in search results page
-* Fix issue fix re-index timeout
-
-= 1.34 =
-* Add arrows navigation for search results
-* Fix bug with php 7+ vesion
-
-= 1.33 =
-* Fix re-index bug
-* Fix bug with search page
-
-= 1.32 =
-* Fix shortcodes stripping from product content
-* Fix qTranslate plugin issue with product name 
-* Fix reindex issue
-
-= 1.31 =
-* Add WooCommerce version check
-
-= 1.30 =
-* Add qTranslate plugin support
-
-= 1.29 =
-* Fix bug with search results page
-
-= 1.28 =
-* Add caching table to store cached search result instead of store them in wp_options table
-* Fix deprecated action 'woocommerce_variable_product_sync'
-
-= 1.27 =
-* Add option to show stock status in search results
-* Add 'aws_special_chars' filter
-
-= 1.26 =
-* Add Polylang plugin support
-
-= 1.25 =
-* Add markdown support for 'Nothing found' field
-* Fix WPML bug
-
-= 1.24 =
-* Add plurals support
-* Fix Polylang plugin conflict
-* Fix SKU search bug
-* Add function for cron job
-
-= 1.23 =
-* Add 'Stop-words list' option
-
-= 1.22 =
-* Fix reindex bug
-* Hide empty taxonomies from search results
-* Add support for old WooCommerce versions
-
-= 1.21 =
-* Fix search page switching to degault language
-
-= 1.20 =
-* Add WPML, WooCommerce Multilingual support
-
-= 1.19 =
-* Fix bugs
-
-= 1.18 =
-* Fix bugs
-
-= 1.17 =
-* Fix layout bugs
-* Fix bugs with older versions of WooCommerce
-* Add Google Analytics support
-
-= 1.16 =
-* Option for 'Out of stock' products
-* Fix bugs
-
-= 1.15 =
-* Exclude 'Out of stock' products from search
-* Fix bugs
-
-= 1.14 =
-* Fix number of search results on search page
-* Exclude draft products from search
-* Fix bugs
-
-= 1.13 =
-* Add support for variable products
-* Fix bugs
-
-= 1.12 =
-* Fix small bugs in search results output
-
-= 1.11 =
-* Fix issue with indexing large amount of products
-* Fix bag with search page query
-
-= 1.10 =
-* Update search results page
-* Fix some layout issues
-
-= 1.09 =
-* Make indexing of the products content much more fuster
-* Fix several bugs
-
-= 1.08 =
-* Update check for active WooCommerce plugin
-* Add hungarian translation ( big thanks to hunited! )
-
-= 1.07 =
-* Exclude hidden products from search
-* Update translatable strings
-
-= 1.06 =
-* Cache search results to increase search speed
-
-= 1.05 =
-* Improve search speed
-
-= 1.04 =
-* Fix issue with SKU search
-* Add option to display product SKU in search results
-
-= 1.03 =
-* Add search in product terms ( categories, tags )
-* Fix issue with not saving settings
-
-= 1.02 =
-* Add single page search for 'product' custom post type
-* Fix problem with dublicate products in the search results
-
-= 1.01 =
-* Fix problem with result block layout
-
-= 1.00 =
-* First Release
+* Update - Integration with Product Filters for WooCommerce plugin
+* Update - Integration with YITH WooCommerce Ajax Product Filter plugin
+* Update - Integration with BeRocket WooCommerce AJAX Products Filter plugin
+* Update - Filter for search results page. Inherit tax_query parameters
+* Update - Integration with Avada theme. Move js scripts to footer
+* Update - Integration with The7 theme. Fix submit button for search forms
+* Update - Admin notice about reindex on first plugin activation
+* Fix - Bug with calling search function inside wp admin orders page
+
+= 3.10 ( 2024-07-01 ) =
+* Add - New option to show fixed terms list inside search results
+* Add - Support for Hitek theme
+* Update - Change default value for Form Styling option
+* Update - Tested with WC 9.0
+* Update - Integration with Bricks theme
+* Fix - Return content and short description for post object inside search page
+* Dev - Add aws_search_fixed_terms_suggestions_num filter
+* Dev - Add js event aws_search_force to force search with specific terms
+* Dev - Add old/new pairs for similar terms output
+* Dev - Add generate_combinations helper function
+* Dev - Add aws_search_page_posts_objects_ids filter hook
+* Dev - Add aws_search_notices filter
+
+= 3.09 ( 2024-06-17 ) =
+* Add - Support for The7 theme
+* Update - Integration with Shoptimizer theme
+* Fix - Disable misspelling fix for numeric search terms
+* Dev - Add new parameter for aws_search_results_products_ids filter
+* Dev - Add aws_search_no_results filter
+* Dev - Add aws_search_custom_results_data and aws_search_top_text filters
+
+= 3.08 ( 2024-06-05 ) =
+* Add - Integration for YITH WooCommerce Ajax Product Filter plugin
+* Update - Speed up search results page
+* Update - Integration with WOOF plugin
+* Update - Tested with WC 8.9
+* Update - Reduce the size of search results output
+* Fix - FaceWP plugin integration fix
+* Fix - Misspelling function now respect search terms sources
+* Dev - Replace aws_products_search_page_filtered and aws_products_order hooks
+* Dev - Add show_wcfm_badge filter
+* Dev - Update aws_searchpage_enabled function
+
+= 3.07 ( 2024-05-20 ) =
+* Add - Header for plugin admin page
+
+= 3.06 ( 2024-05-06 ) =
+* Add - Required plugins dependencies
+* Update - Formula to calculate relevance score
+* Update - Support for Zephyr theme
+* Dev - New class for terms suggestions
+
+= 3.05 ( 2024-04-22 ) =
+* Add - Feature to fix misspellings inside search queries
+* Add - Support for Open Shop theme
+* Add - Support for Advance Product Search by themehunk
+* Update - Tested with WC 8.8
+* Fix - Search results sorting inside results page when using custom filters
+
+= 3.04 ( 2024-04-08 ) =
+* Add - Support for WooCommerce Product Search plugin
+* Update - Values for search page filters
+
+= 3.03 ( 2024-03-25 ) =
+* Update - Tested with WC 8.7
+* Update - Add loading icon for clear cache button inside settings page
+* Update - New values for orderby for better integration with themes
+* Fix - Bug with adding new products during index process
+
+= 3.02 ( 2024-03-12 ) =
+* Update - Integration for WPML plugin. Fix indexation for product taxonomies
+* Dev - Add aws_index_before_scrapping and aws_index_after_scrapping hooks
+
+= 3.01 ( 2024-02-26 ) =
+* Update - Tested with WC 8.6
+* Update - Indexation for synonyms phrases
+* Fix - Bug with search results page integration with Elementor
+
+= 3.00 ( 2024-02-12 ) =
+* Add - New option to limit maximal number of search words

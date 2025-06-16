@@ -36,6 +36,23 @@ class TInvWL_Public_TInvWL {
 	 * @var array
 	 */
 	public static $rules_raw;
+	private $addto;
+	private $view;
+	private $ajax;
+	private $cart;
+	private $topwishlist;
+	private $cartsave;
+	private $manage;
+	private $manage_ajax;
+	private $create;
+	private $notifications;
+	private $estimate;
+	private $public;
+	private $popular;
+	private $search;
+	private $email;
+
+
 	/**
 	 * This class
 	 *
@@ -88,8 +105,6 @@ class TInvWL_Public_TInvWL {
 				) );
 			}
 		}
-
-		add_action( 'tinvwl_flush_rewrite_rules', array( __CLASS__, 'apply_rewrite_rules' ) );
 
 		add_filter( 'rewrite_rules_array', array( $this, 'add_rewrite_rules_raw' ), 9999999 );
 

@@ -53,9 +53,10 @@ if ( ! class_exists( 'AWS_Dokan' ) ) :
             if ( get_option( 'aws_pro_seamless' ) && get_option( 'aws_pro_seamless' ) === 'true' && apply_filters( 'aws_dokan_shop_seamless', true ) ) {
                 add_filter( 'aws_js_seamless_selectors', array( $this, 'js_seamless_selectors' ) );
                 add_filter( 'aws_js_seamless_searchbox_markup', array( $this, 'aws_js_seamless_searchbox_markup' ), 1 );
-                add_action( 'wp_head', array( $this, 'aws_js_seamless_searchboxstyles' ), 1 );
-                add_filter( 'aws_search_query_array', array( $this, 'aws_search_query_array' ), 1 );
             }
+
+            add_action( 'wp_head', array( $this, 'aws_js_seamless_searchboxstyles' ), 1 );
+            add_filter( 'aws_search_query_array', array( $this, 'aws_search_query_array' ), 1 );
 
             add_filter( 'aws_products_order_by', array( $this, 'aws_products_order_by' ), 1 );
 
@@ -270,7 +271,7 @@ if ( ! class_exists( 'AWS_Dokan' ) ) :
             <script>
                 document.addEventListener("awsLoaded", function() {
                     function aws_ajax_request_params( data, options ) {
-                        let isShopForm = jQuery('#dokan-content .aws-search-form').hasClass('aws-form-active') || jQuery('#dokan-content .aws-search-form').hasClass('aws-processing');
+                        let isShopForm = jQuery('#dokan-content .aws-search-form').hasClass('aws-form-active') || jQuery('#dokan-content .aws-search-form').hasClass('aws-processing') || jQuery('#dokan-secondary .aws-search-form').hasClass('aws-form-active') || jQuery('#dokan-secondary .aws-search-form').hasClass('aws-processing');
                         if ( isShopForm ) {
                             data.aws_tax = 'store:<?php echo $store_id; ?>';
                         }
@@ -378,11 +379,13 @@ if ( ! class_exists( 'AWS_Dokan' ) ) :
          * Add product vendor data inside index table
          */
         public function aws_indexed_content( $content, $id, $product ) {
-            $vendor = function_exists('dokan_get_vendor_by_product') ? dokan_get_vendor_by_product( $product ) : false;
-            if ( $vendor ) {
-                $store_info = $vendor->get_shop_info();
-                if ( isset( $store_info['store_name'] ) && $store_info['store_name'] ) {
-                    $content .= ' ' . $store_info['store_name'];
+            if ( apply_filters( 'aws_dokan_index_store_name', true ) ) {
+                $vendor = function_exists('dokan_get_vendor_by_product') ? dokan_get_vendor_by_product( $product ) : false;
+                if ( $vendor ) {
+                    $store_info = $vendor->get_shop_info();
+                    if ( isset( $store_info['store_name'] ) && $store_info['store_name'] ) {
+                        $content .= ' ' . $store_info['store_name'];
+                    }
                 }
             }
             return $content;
@@ -995,11 +998,11 @@ if ( ! class_exists( 'AWS_Dokan' ) ) :
          */
         private function get_dokan_store_id() {
 
-            $store_products = function_exists('dokan_get_option') ? dokan_get_option( 'store_products', 'dokan_appearance' ) : false;
-
-            if ( ! empty( $store_products['hide_product_filter'] ) ) {
-                return false;
-            }
+//            $store_products = function_exists('dokan_get_option') ? dokan_get_option( 'store_products', 'dokan_appearance' ) : false;
+//
+//            if ( ! empty( $store_products['hide_product_filter'] ) ) {
+//                return false;
+//            }
 
             $store_user = function_exists('dokan') ? dokan()->vendor->get( get_query_var( 'author' ) ) : false;
             $store_id  = $store_user ? $store_user->get_id() : false;

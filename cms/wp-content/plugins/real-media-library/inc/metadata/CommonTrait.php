@@ -10,6 +10,7 @@ namespace MatthiasWeb\RealMediaLibrary\metadata;
  * Trait common folder meta and user settings helper methods.
  *
  * @since 4.0.8
+ * @internal
  */
 trait CommonTrait
 {

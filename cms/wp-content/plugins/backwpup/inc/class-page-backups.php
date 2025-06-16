@@ -1,6 +1,6 @@
 <?php
 
-use function Inpsyde\BackWPup\Pro\Restore\Functions\restore_container;
+use function Inpsyde\BackWPup\Infrastructure\Restore\restore_container;
 use Inpsyde\Restore\ViewLoader;
 
 final class BackWPup_Page_Backups extends WP_List_Table
@@ -347,11 +347,12 @@ final class BackWPup_Page_Backups extends WP_List_Table
 
     public function column_time($item)
     {
-        return sprintf(
-            __('%1$s at %2$s', 'backwpup'),
-            date_i18n(get_option('date_format'), $item['time'], true),
-            date_i18n(get_option('time_format'), $item['time'], true)
-        );
+		return sprintf(
+			// translators: %1$s = date, %2$s = time.
+			__( '%1$s at %2$s', 'backwpup' ),
+			wp_date( get_option( 'date_format' ), $item['time'] ),
+			wp_date( get_option( 'time_format' ), $item['time'] )
+		);
     }
 
     public static function load()
@@ -515,19 +516,19 @@ final class BackWPup_Page_Backups extends WP_List_Table
 
         wp_register_script(
             'backwpup_functions',
-            "{$shared_scripts_path}/functions{$suffix}.js",
-            ['underscore', 'jquery'],
-            filemtime("{$shared_scripts_dir}/functions{$suffix}.js"),
-            true
+			"{$shared_scripts_path}/functions{$suffix}.js",
+			[ 'underscore', 'jquery' ],
+			BackWPup::get_plugin_data( 'Version' ),
+			true
         );
         wp_register_script(
             'backwpup_states',
             "{$shared_scripts_path}/states{$suffix}.js",
             [
                 'backwpup_functions',
-            ],
-            filemtime("{$shared_scripts_dir}/states{$suffix}.js"),
-            true
+			],
+			BackWPup::get_plugin_data( 'Version' ),
+			true
         );
 
         $dependencies = [
@@ -543,9 +544,9 @@ final class BackWPup_Page_Backups extends WP_List_Table
         wp_enqueue_script(
             'backwpup-backup-downloader',
             "{$plugin_scripts_url}/backup-downloader{$suffix}.js",
-            $dependencies,
-            filemtime("{$plugin_scripts_dir}/backup-downloader{$suffix}.js"),
-            true
+			$dependencies,
+			BackWPup::get_plugin_data( 'Version' ),
+			true
         );
 
         if (\BackWPup::is_pro()) {
@@ -553,47 +554,12 @@ final class BackWPup_Page_Backups extends WP_List_Table
         }
     }
 
-    public static function page()
-    {
-        ?>
-		<div class="wrap" id="backwpup-page">
-			<h1><?php echo esc_html(sprintf(
-            __('%s &rsaquo; Manage Backup Archives', 'backwpup'),
-            BackWPup::get_plugin_data('name')
-        )); ?></h1>
-			<?php BackWPup_Admin::display_messages(); ?>
-			<form id="posts-filter" action="" method="get">
-				<input type="hidden" name="page" value="backwpupbackups"/>
-				<?php self::$listtable->display(); ?>
-				<div id="ajax-response"></div>
-			</form>
-		</div>
-
-		<div id="tb_download_file" style="display: none;">
-			<div id="tb_container">
-				<p id="download-file-waiting">
-					<?php esc_html_e('Please wait &hellip;', 'backwpup'); ?>
-				</p>
-				<p id="download-file-success" style="display: none;">
-					<?php esc_html_e(
-            'Your download has been generated. It should begin downloading momentarily.',
-            'backwpup'
-        ); ?>
-				</p>
-				<div class="progressbar" style="display: none;">
-					<div id="progresssteps" class="bwpu-progress" style="width:0%;">0%</div>
-				</div>
-				<?php
-                if (\BackWPup::is_pro()) {
-                    $view = new ViewLoader(
-                        restore_container('translation')
-                    );
-                    $view->decrypt_key_input();
-                } ?>
-			</div>
-		</div>
-		<?php
-    }
+	/**
+	 * Display the page content.
+	 */
+	public static function page() {
+		include untrailingslashit( BackWPup::get_plugin_data( 'plugindir' ) ) . '/pages/backups.php';
+	}
 
     private static function admin_print_pro_scripts($suffix, $plugin_url, $plugin_dir)
     {
@@ -608,9 +574,9 @@ final class BackWPup_Page_Backups extends WP_List_Table
                 'jquery',
                 'backwpup_states',
                 'backwpup_functions',
-            ],
-            filemtime("{$restore_scripts_dir}/decrypter{$suffix}.js"),
-            true
+			],
+			BackWPup::get_plugin_data( 'Version' ),
+			true
         );
     }
 

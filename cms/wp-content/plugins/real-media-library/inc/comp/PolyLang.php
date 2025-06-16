@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\base\UtilsProvider;
 // @codeCoverageIgnoreEnd
 /**
  * This class handles the compatibility for Poly Lang plugin.
+ * @internal
  */
 class PolyLang
 {

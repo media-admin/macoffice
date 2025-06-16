@@ -73,7 +73,9 @@ class SftpAdapter extends AbstractFtpAdapter
 		if(is_resource($this->stream)){
 			fclose($this->stream);
 		}
-		@unlink($this->stream_filename);
+		if(!is_null($this->stream_filename) && file_exists($this->stream_filename) && is_writable($this->stream_filename)){
+			unlink($this->stream_filename);
+		}
 	}
 
     /**
@@ -393,7 +395,7 @@ class SftpAdapter extends AbstractFtpAdapter
      */
     protected function normalizeListingObject($path, array $object)
     {
-        $permissions = $this->normalizePermissions($object['permissions']);
+        $permissions = isset($object['permissions']) ? $this->normalizePermissions($object['permissions']) : '0777';
         $type = isset($object['type']) && ($object['type'] === 2) ?  'dir' : 'file';
 
         $timestamp = $object['mtime'];
@@ -574,7 +576,7 @@ class SftpAdapter extends AbstractFtpAdapter
 
         $result = Util::map($info, $this->statMap);
         $result['type'] = $info['type'] === NET_SFTP_TYPE_DIRECTORY ? 'dir' : 'file';
-        $result['visibility'] = $info['permissions'] & $this->permPublic ? 'public' : 'private';
+        $result['visibility'] = isset($info['permissions']) && $info['permissions'] & $this->permPublic ? 'public' : 'private';
 
         return $result;
     }

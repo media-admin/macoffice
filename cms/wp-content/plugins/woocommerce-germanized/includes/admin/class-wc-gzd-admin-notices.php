@@ -67,6 +67,7 @@ if ( ! class_exists( 'WC_GZD_Admin_Notices' ) ) :
 			include_once 'notes/class-wc-gzd-admin-note-oss-install.php';
 			include_once 'notes/class-wc-gzd-admin-note-ts-install.php';
 			include_once 'notes/class-wc-gzd-admin-note-blocks.php';
+			include_once 'notes/class-wc-gzd-admin-note-shiptastic-migration.php';
 		}
 
 		/**
@@ -127,7 +128,7 @@ if ( ! class_exists( 'WC_GZD_Admin_Notices' ) ) :
 
 		protected function get_pro_incompatible_message( $plain = false ) {
 			if ( $plain ) {
-				return sprintf( __( '<strong>Be aware!</strong> This update is not compatible with your current Germanized Pro version. Please check for updates (%s) before updating Germanized to prevent compatibility issues.', 'woocommerce-germanized' ), 'https://vendidero.de/dokument/germanized-pro-aktualisieren' );
+				return sprintf( __( '<strong>Be aware!</strong> This update is not compatible with your current Germanized Pro version. Please check for updates (%s) before updating Germanized to prevent compatibility issues.', 'woocommerce-germanized' ), 'https://vendidero.de/doc/woocommerce-germanized/germanized-pro-aktualisieren' );
 			} else {
 				ob_start();
 				include __DIR__ . '/views/html-notice-update-pro-incompatible.php';
@@ -174,6 +175,7 @@ if ( ! class_exists( 'WC_GZD_Admin_Notices' ) ) :
 					'WC_GZD_Admin_Note_Shipping_Excl_Tax',
 					'WC_GZD_Admin_Note_Legal_News',
 					'WC_GZD_Admin_Note_Blocks',
+					'WC_GZD_Admin_Note_Shiptastic_Migration',
 				);
 
 				if ( class_exists( 'WC_GZD_Secret_Box_Helper' ) ) {

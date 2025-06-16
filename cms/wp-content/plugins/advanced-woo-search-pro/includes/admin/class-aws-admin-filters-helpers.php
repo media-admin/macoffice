@@ -515,6 +515,197 @@ if ( ! class_exists( 'AWS_Admin_Filters_Helpers' ) ) :
         }
 
         /*
+         * Get all available pages
+         * @return array
+         */
+        static public function get_pages() {
+
+            $pages = get_pages( array( 'parent' => 0, 'hierarchical' => 0 ) );
+            $options = array();
+
+            if ( $pages && ! empty( $pages ) ) {
+
+                foreach( $pages as $page ) {
+
+                    $title = $page->post_title ? $page->post_title :  __( "(no title)", "advanced-woo-search" );
+
+                    $options[$page->ID] = $title;
+
+                    $child_pages = get_pages( array( 'child_of' => $page->ID ) );
+
+                    if ( $child_pages && ! empty( $child_pages ) ) {
+
+                        foreach( $child_pages as $child_page ) {
+
+                            $page_prefix = '';
+                            $parents_number = sizeof( $child_page->ancestors );
+
+                            if ( $parents_number && is_int( $parents_number ) ) {
+                                $page_prefix = str_repeat( "-", $parents_number );
+                            }
+
+                            $title = $child_page->post_title ? $child_page->post_title :  __( "(no title)", "advanced-woo-search" );
+                            $title = $page_prefix . $title;
+
+                            $options[$child_page->ID] = $title;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return $options;
+
+        }
+
+        /*
+         * Get all available page templates
+         * @return array
+         */
+        static public function get_page_templates() {
+
+            $page_templates = get_page_templates();
+            $options = array();
+
+            $options['default'] = __( 'Default template', 'advanced-woo-search' );
+
+            if ( $page_templates && ! empty( $page_templates ) ) {
+                foreach( $page_templates as $page_template_name => $page_template_file ) {
+                    $options[] = array(
+                        'name'  => $page_template_name,
+                        'value' => $page_template_file
+                    );
+                }
+            }
+
+            return $options;
+
+        }
+
+        /*
+         * Get available pages types
+         * @return array
+         */
+        static public function get_page_type() {
+
+            $options = array();
+
+            $types = array(
+                'product' => __( 'Product single page', 'advanced-woo-search' ),
+                'front' => __( 'Front page', 'advanced-woo-search' ),
+                'shop' => __( 'Shop page', 'advanced-woo-search' ),
+                'cart' => __( 'Cart page', 'advanced-woo-search' ),
+                'checkout' => __( 'Checkout page', 'advanced-woo-search' ),
+                'account' => __( 'Account page', 'advanced-woo-search' ),
+                'search' => __( 'Search results page', 'advanced-woo-search' ),
+                'category_page' => __( 'Category archive page', 'advanced-woo-search' ),
+                'tag_page' => __( 'Tag archive page', 'advanced-woo-search' ),
+                'attribute_page' => __( 'Attributes archive page', 'advanced-woo-search' ),
+                'tax_page' => __( 'Any taxonomy archive page', 'advanced-woo-search' ),
+            );
+
+            foreach( $types as $type_slug => $type_name ) {
+                $options[$type_slug] = $type_name;
+            }
+
+            return $options;
+
+        }
+
+        /*
+         * Get available archive pages
+         * @return array
+         */
+        static public function get_page_archives() {
+
+            $options = array();
+            $taxonomy_objects = get_object_taxonomies( 'product', 'objects' );
+
+            $types = array(
+                'product_cat' => __( 'Category', 'advanced-woo-search' ),
+                'product_tag' => __( 'Tag', 'advanced-woo-search' ),
+                'attributes' => __( 'Attributes', 'advanced-woo-search' ),
+            );
+
+            foreach( $types as $type_slug => $type_name ) {
+
+                $options[] = array(
+                    'name'  => $type_name,
+                    'value' => $type_slug
+                );
+
+            }
+
+            foreach( $taxonomy_objects as $taxonomy_object ) {
+                if ( in_array( $taxonomy_object->name, array( 'product_cat', 'product_tag', 'product_type', 'product_visibility', 'product_shipping_class' ) ) ) {
+                    continue;
+                }
+
+                if ( strpos( $taxonomy_object->name, 'pa_' ) === 0 ) {
+                    continue;
+                }
+
+                $options[] = array(
+                    'name'  => $taxonomy_object->label,
+                    'value' => $taxonomy_object->name
+                );
+
+            }
+
+            return $options;
+
+        }
+
+        /*
+         * Get available archive pages terms
+         * @return array
+         */
+        static public function get_page_archive_terms( $name = false ) {
+
+            if ( ! $name ) {
+                return false;
+            }
+
+            $options = array();
+
+            switch( $name ) {
+
+                case 'attributes':
+
+                    if ( function_exists( 'wc_get_attribute_taxonomies' ) ) {
+                        $attributes = wc_get_attribute_taxonomies();
+
+                        if ( $attributes && ! empty( $attributes ) ) {
+                            foreach( $attributes as $attribute ) {
+                                if ( $attribute->attribute_public ) {
+
+                                    $options[] = array(
+                                        'name'  => $attribute->attribute_label,
+                                        'value' => wc_attribute_taxonomy_name( $attribute->attribute_name )
+                                    );
+
+                                }
+                            }
+                        }
+
+                    }
+
+                    break;
+
+                default:
+
+                    $options = AWS_Admin_Filters_Helpers::get_tax_terms( $name );
+
+            }
+
+            return $options;
+
+        }
+
+        /*
          * Get user cart
          * @return array
          */
@@ -613,10 +804,12 @@ if ( ! class_exists( 'AWS_Admin_Filters_Helpers' ) ) :
             $label = $name;
 
             $sections = array(
-                'product'      => __( "Product", "advanced-woo-search" ),
-                'current_user' => __( "Current user", "advanced-woo-search" ),
-                'term'         => __( "Terms pages", "advanced-woo-search" ),
-                'user'         => __( "Users pages", "advanced-woo-search" ),
+                'product'        => __( "Product", "advanced-woo-search" ),
+                'current_user'   => __( "Current user", "advanced-woo-search" ),
+                'current_page'   => __( "Current page", "advanced-woo-search" ),
+                'current_search' => __( "Current search", "advanced-woo-search" ),
+                'term'           => __( "Terms pages", "advanced-woo-search" ),
+                'user'           => __( "Users pages", "advanced-woo-search" ),
             );
 
             if ( isset( $sections[$name] ) ) {
@@ -663,6 +856,25 @@ if ( ! class_exists( 'AWS_Admin_Filters_Helpers' ) ) :
                 array(
                     "name" => __( "less or equal to", "advanced-woo-search" ),
                     "id"   => "less",
+                ),
+            );
+
+            $operators['equals_contains'] = array(
+                array(
+                    "name" => __( "equal to", "advanced-woo-search" ),
+                    "id"   => "equal",
+                ),
+                array(
+                    "name" => __( "not equal to", "advanced-woo-search" ),
+                    "id"   => "not_equal",
+                ),
+                array(
+                    "name" => __( "contains", "advanced-woo-search" ),
+                    "id"   => "contains",
+                ),
+                array(
+                    "name" => __( "not contains", "advanced-woo-search" ),
+                    "id"   => "not_contains",
                 ),
             );
 

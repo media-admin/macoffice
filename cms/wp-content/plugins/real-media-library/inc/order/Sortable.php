@@ -12,11 +12,12 @@ use MatthiasWeb\RealMediaLibrary\overrides\interfce\order\IOverrideSortable;
 /**
  * Handles the sortable content in the folder. The methods of this class contains
  * always the keyword "content".
+ * @internal
  */
 abstract class Sortable extends Creatable implements IOverrideSortable
 {
     use OrderSortable;
-    static $cachedContentOrders = null;
+    private static $cachedContentOrders = null;
     // Documented in Creatable
     public function __construct($id, $parent = -1, $name = '', $slug = '', $absolute = '', $order = -1, $cnt = 0, $row = [])
     {

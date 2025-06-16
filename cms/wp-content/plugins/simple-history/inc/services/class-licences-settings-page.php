@@ -5,7 +5,15 @@ namespace Simple_History\Services;
 use Simple_History\Helpers;
 use Simple_History\Services\AddOns_Licences;
 use Simple_History\AddOn_Plugin;
+use Simple_History\Menu_Manager;
+use Simple_History\Menu_Page;
+use Simple_History\Services\Setup_Settings_Page as ServicesSetup_Settings_Page;
+use Simple_History\Simple_History;
+use Simple_History\Services\Setup_Settings_Page;
 
+/**
+ * Settings page for licences.
+ */
 class Licences_Settings_Page extends Service {
 	/** @var AddOns_Licences $licences_service */
 	private $licences_service;
@@ -16,6 +24,7 @@ class Licences_Settings_Page extends Service {
 	private const OPTION_NAME_LICENSE_KEY = 'shp_license_key';
 	private const OPTION_LICENSE_MESSAGE = 'example_plugin_license_message';
 
+	/** @inheritdoc */
 	public function loaded() {
 		$licences_service = $this->simple_history->get_service( AddOns_Licences::class );
 
@@ -28,23 +37,22 @@ class Licences_Settings_Page extends Service {
 
 		// Add settings tab.
 		// Run on prio 20 so it runs after add ons have done their loaded actions.
-		// For now only if any add-ons are installed.
-		// TODO: Always show this in the future, when add-ons system are tested.
 		add_action(
-			'plugins_loaded',
-			[ $this, 'on_plugins_loaded' ],
+			'init',
+			[ $this, 'on_init_add_settings' ],
 			20
 		);
+
+		// Add menu page.
+		add_action( 'admin_menu', [ $this, 'add_settings_menu_tab' ], 15 );
 	}
 
-	public function on_plugins_loaded() {
-		if ( $this->licences_service->has_add_ons() ) {
-			$this->add_settings_tab();
-			// add_action( 'admin_menu', array( $this, 'add_settings_tab' ) );
-			add_action( 'admin_menu', array( $this, 'register_and_add_settings' ) );
-		}
+	/**
+	 * Add settings tab after plugins has loaded.
+	 */
+	public function on_init_add_settings() {
+		add_action( 'admin_menu', array( $this, 'register_and_add_settings' ) );
 	}
-
 
 	/**
 	 * Get user entered license key.
@@ -69,18 +77,28 @@ class Licences_Settings_Page extends Service {
 	 * Add license settings tab,
 	 * as a subtab to main settings tab.
 	 */
-	public function add_settings_tab() {
-		$this->simple_history->register_settings_tab(
-			[
-				'parent_slug' => 'settings',
-				'slug' => 'general_settings_subtab_licenses',
-				'name' => __( 'Licences', 'simple-history' ),
-				'order' => 20,
-				'function' => [ $this, 'settings_output_licenses' ],
-			]
-		);
+	public function add_settings_menu_tab() {
+		// Add settings page using new Menu Manager and Menu Page classes.
+		$menu_manager = $this->simple_history->get_menu_manager();
+
+		// Bail if parent settings page does not exists (due to Stealth Mode or similar).
+		if ( ! $menu_manager->page_exists( Setup_Settings_Page::SETTINGS_GENERAL_SUBTAB_SLUG ) ) {
+			return;
+		}
+
+		( new Menu_Page() )
+			->set_page_title( __( 'Licences', 'simple-history' ) )
+			->set_menu_title( __( 'Licences', 'simple-history' ) )
+			->set_menu_slug( 'general_settings_subtab_licenses' )
+			->set_callback( [ $this, 'settings_output_licenses' ] )
+			->set_order( 50 ) // After general settings and premium settings.
+			->set_parent( Setup_Settings_Page::SETTINGS_GENERAL_SUBTAB_SLUG )
+			->add();
 	}
 
+	/**
+	 * Register settings and add settings fields.
+	 */
 	public function register_and_add_settings() {
 		// Register setting options.
 		register_setting(
@@ -118,6 +136,9 @@ class Licences_Settings_Page extends Service {
 		);
 	}
 
+	/**
+	 * Output for the settings section.
+	 */
 	public function settings_section_output() {
 		?>
 		<div class="sh-SettingsSectionIntroduction">
@@ -125,7 +146,7 @@ class Licences_Settings_Page extends Service {
 
 			<p>
 				<?php
-				$link_url = 'https://simple-history.com/add-ons';
+				$link_url = 'https://simple-history.com/add-ons?utm_source=wordpress_admin&utm_medium=Simple_History&utm_campaign=premium_upsell&utm_content=licences-settings';
 				$link_text = 'simple-history.com/add-ons';
 
 				echo wp_kses(
@@ -154,6 +175,13 @@ class Licences_Settings_Page extends Service {
 
 	/**
 	 * Output fields to enter licence key for each plus plugin.
+	 *
+	 * The user only enter the license key on the main site?
+	 * Is it because it's one the main site that the license key is used to update the plugin?
+	 * If license was entered on each subsite, which key would the main site actually use to update the plugin?
+	 *
+	 * Problem: A user has only the WooCommerce plugin and the Simple History WooCommerce logger addon installed on a subsite,
+	 * how do they enter the key?
 	 */
 	public function license_keys_field_output() {
 		if ( is_main_site() ) {
@@ -175,12 +203,12 @@ class Licences_Settings_Page extends Service {
 	 */
 	private function output_licence_key_fields_for_plugin( $plus_plugin ) {
 		$license_key = $plus_plugin->get_license_key();
-		$form_post_url = Helpers::get_settings_page_sub_tab_url( 'general_settings_subtab_licenses' );
+		$form_post_url = Menu_Manager::get_admin_url_by_slug( 'general_settings_subtab_licenses' );
 
 		// Check for posted form for this plugin.
 		$form_success_message = null;
 		$form_error_message = null;
-		$nonce_valid = wp_verify_nonce( $_POST['_wpnonce'] ?? '', 'sh-plugin-keys' ) !== false;
+		$nonce_valid = wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ?? '' ) ), 'sh-plugin-keys' ) !== false;
 
 		if ( $nonce_valid && isset( $_POST['plugin_slug'] ) && $_POST['plugin_slug'] === $plus_plugin->slug ) {
 			$action_activate = boolval( $_POST['activate'] ?? false );
@@ -312,6 +340,9 @@ class Licences_Settings_Page extends Service {
 		<?php
 	}
 
+	/**
+	 * Output for the tab.
+	 */
 	public function activated_sites_settings_output() {
 		$link_my_orders_start = '<a href="https://app.lemonsqueezy.com/my-orders/" class="sh-ExternalLink" target="_blank">';
 		$link_my_orders_end = '</a>';

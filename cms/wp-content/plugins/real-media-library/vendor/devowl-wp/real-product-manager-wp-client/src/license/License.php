@@ -14,6 +14,7 @@ use WP_Error;
 // @codeCoverageIgnoreEnd
 /**
  * Handle license information for a given plugin and associated blog id.
+ * @internal
  */
 class License
 {
@@ -40,9 +41,9 @@ class License
      * Skip the license deactivation for some exceptions. For example, AWS Lightsail does
      * not automatically redirect the `ec2-192-18[...]` domain to the WordPress domain URL.
      *
-     * @see https://regex101.com/r/OxkZVE/2
+     * @see https://regex101.com/r/OxkZVE/4
      */
-    const VALIDATE_NEW_HOSTNAME_SKIP_BY_REGEXP = '/^(?:\\w+-\\d+-\\d+-\\d+-\\d+\\.[^\\.]+\\.(?:[\\w-]+[-.])?amazonaws\\.com|.*temp\\.domains)$/m';
+    const VALIDATE_NEW_HOSTNAME_SKIP_BY_REGEXP = '/^(?:\\w+-\\d+-\\d+-\\d+-\\d+\\.[^\\.]+\\.(?:[\\w-]+[-.])?amazonaws\\.com|.*temp\\.domains|\\w+-\\w+\\.[^\\.]+\\.azurewebsites\\.net|[\\w-]+\\.[\\w-]+\\.elb\\.amazonaws\\.com)$/m';
     private $initialized = \false;
     /**
      * Plugin slug.
@@ -240,7 +241,8 @@ class License
         $code = $this->getActivation()->getCode();
         $isLicensed = !empty($code);
         $dynamic = \defined('RPM_WP_CLIENT_SKIP_DYNAMIC_HOST_CHECK') && \constant('RPM_WP_CLIENT_SKIP_DYNAMIC_HOST_CHECK');
-        if (!Utils::isRedirected() && $isLicensed && !empty($currentHostname) && \filter_var(\preg_replace('/:[0-9]+/', '', $currentHostname), \FILTER_VALIDATE_IP) === \false && \parse_url($currentHostname) !== \false && !$dynamic && !\in_array($currentHostname, self::VALIDATE_NEW_HOSTNAME_SKIP, \true) && !\preg_match(self::VALIDATE_NEW_HOSTNAME_SKIP_BY_REGEXP, $currentHostname)) {
+        $isWpCli = \defined('WP_CLI') && \constant('WP_CLI');
+        if (!$isWpCli && !Utils::isRedirected() && $isLicensed && !empty($currentHostname) && \filter_var(\preg_replace('/:[0-9]+/', '', $currentHostname), \FILTER_VALIDATE_IP) === \false && \parse_url($currentHostname) !== \false && !$dynamic && !\in_array($currentHostname, self::VALIDATE_NEW_HOSTNAME_SKIP, \true) && !\preg_match(self::VALIDATE_NEW_HOSTNAME_SKIP_BY_REGEXP, $currentHostname)) {
             // Backwards-compatibility, save option of current host
             if (empty($persistedHostname)) {
                 \update_option(self::OPTION_NAME_HOST_NAME . $this->getSlug(), \base64_encode($currentHostname));
@@ -442,7 +444,7 @@ class License
         $this->switch();
         $host = Utils::getCurrentHostName();
         $this->restore();
-        return ['blog' => $this->getBlogId(), 'host' => $host, 'programmatically' => $this->getProgrammaticActivation(), 'blogName' => $this->getBlogName(), 'installationType' => $this->getActivation()->getInstallationType(), 'telemetryDataSharingOptIn' => $this->getActivation()->isTelemetryDataSharingOptIn(), 'code' => $this->getActivation()->getCode(), 'hint' => $this->getActivation()->getHint(), 'remote' => \is_wp_error($remote) ? null : $remote, 'noUsage' => $this->isNoUsage()];
+        return ['uuid' => $this->getUuid(), 'blog' => $this->getBlogId(), 'host' => $host, 'programmatically' => $this->getProgrammaticActivation(), 'blogName' => $this->getBlogName(), 'installationType' => $this->getActivation()->getInstallationType(), 'telemetryDataSharingOptIn' => $this->getActivation()->isTelemetryDataSharingOptIn(), 'code' => $this->getActivation()->getCode(), 'hint' => $this->getActivation()->getHint(), 'remote' => \is_wp_error($remote) ? null : $remote, 'noUsage' => $this->isNoUsage()];
     }
     /**
      * See filter `DevOwl/RealProductManager/License/Programmatic/$slug`.

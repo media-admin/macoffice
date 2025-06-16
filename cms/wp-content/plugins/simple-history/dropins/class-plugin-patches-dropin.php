@@ -11,11 +11,13 @@ use Simple_History\Helpers;
  * Author: Pär Thernström
  */
 class Plugin_Patches_Dropin extends Dropin {
+	/** @inheritdoc */
 	public function loaded() {
 		add_filter(
 			'simple_history/post_logger/skip_posttypes',
 			array( $this, 'woocommerce_skip_scheduled_actions_posttype' )
 		);
+
 		add_filter(
 			'simple_history/post_logger/skip_posttypes',
 			array( $this, 'woocommerce_skip_hpos_posttype' )
@@ -47,6 +49,8 @@ class Plugin_Patches_Dropin extends Dropin {
 	 * a large amount of actions for this posttype.
 	 *
 	 * @since 2.3
+	 * @param array $skip_posttypes Array with post types to skip.
+	 * @return array
 	 */
 	public function woocommerce_skip_scheduled_actions_posttype( $skip_posttypes ) {
 		$skip_posttypes[] = 'scheduled-action';
@@ -62,6 +66,8 @@ class Plugin_Patches_Dropin extends Dropin {
 	 * 'Updated post ""'.
 	 *
 	 * @since 4.6.0
+	 * @param array $skip_posttypes Array with post types to skip.
+	 * @return array
 	 */
 	public function woocommerce_skip_hpos_posttype( $skip_posttypes ) {
 		$skip_posttypes[] = 'shop_order_placehold';

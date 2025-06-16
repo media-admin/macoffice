@@ -14,6 +14,7 @@ use WP_REST_Response;
 // @codeCoverageIgnoreEnd
 /**
  * Create announcement REST service.
+ * @internal
  */
 class Announcement
 {

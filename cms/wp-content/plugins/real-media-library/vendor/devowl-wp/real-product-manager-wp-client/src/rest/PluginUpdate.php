@@ -14,6 +14,7 @@ use WP_REST_Response;
 // @codeCoverageIgnoreEnd
 /**
  * Create plugin update REST service.
+ * @internal
  */
 class PluginUpdate
 {

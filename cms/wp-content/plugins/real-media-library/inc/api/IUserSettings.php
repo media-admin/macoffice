@@ -16,6 +16,7 @@ use MatthiasWeb\RealMediaLibrary\Assets;
  *
  * @see https://developer.wordpress.org/reference/functions/add_user_meta/
  * @since 3.2
+ * @internal
  */
 interface IUserSettings
 {

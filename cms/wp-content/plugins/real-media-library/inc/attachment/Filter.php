@@ -14,6 +14,7 @@ use WP_Query;
 // @codeCoverageIgnoreEnd
 /**
  * This class handles all hooks for the general filters.
+ * @internal
  */
 class Filter
 {

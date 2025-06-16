@@ -22,7 +22,9 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
                 '@<style[^>]*?>.*?</style>@siU',
                 '@<![\s\S]*?--[ \t\n\r]*>@'
             );
-            $str = preg_replace( $search, '', $str );
+            $str = preg_replace( $search, ' ', $str );
+
+            $str = preg_replace('/\s+/', ' ', $str);
 
             $str = esc_attr( $str );
             $str = stripslashes( $str );
@@ -43,11 +45,7 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
          */
         static public function is_table_not_exist() {
 
-            global $wpdb;
-
-            $table_name = $wpdb->prefix . AWS_INDEX_TABLE_NAME;
-
-            return ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) != $table_name );
+            return AWS()->option_vars->is_index_table_not_exists();
 
         }
 
@@ -62,7 +60,7 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
 
             $indexed_products = 0;
 
-            if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) === $table_name ) {
+            if ( ! AWS()->option_vars->is_index_table_not_exists() ) {
 
                 $sql = "SELECT COUNT(*) FROM {$table_name} GROUP BY ID;";
 
@@ -85,7 +83,7 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
 
             $return = false;
 
-            if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) === $table_name ) {
+            if ( ! AWS()->option_vars->is_index_table_not_exists() ) {
 
                 $columns = $wpdb->get_row("
                     SELECT * FROM {$table_name} LIMIT 0, 1
@@ -114,7 +112,7 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
 
             $return = false;
 
-            if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) === $table_name ) {
+            if ( ! AWS()->option_vars->is_index_table_not_exists() ) {
 
                 $columns = $wpdb->get_row("
                     SELECT * FROM {$table_name} LIMIT 0, 1
@@ -129,6 +127,127 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
             }
 
             return $return;
+
+        }
+
+        /*
+         * Extract terms from content
+         *
+         * @return Array of extracted and normalized terms
+         */
+        static public function extract_terms( $str, $source = '' ) {
+
+            $str = AWS_Helpers::normalize_string( $str );
+
+            $str = str_replace( array(
+                "Ă‹â€ˇ",
+                "Ă‚Â°",
+                "Ă‹â€ş",
+                "Ă‹ĹĄ",
+                "Ă‚Â¸",
+                "Ă‚Â§",
+                "=",
+                "Ă‚Â¨",
+                "â€™",
+                "â€",
+                "â€ť",
+                "â€ś",
+                "â€ž",
+                "Â´",
+                "â€”",
+                "â€“",
+                "Ă—",
+                '&#8217;',
+                "&nbsp;",
+                chr( 194 ) . chr( 160 )
+            ), " ", $str );
+
+            $str = str_replace( 'Ăź', 'ss', $str );
+
+            $str = preg_replace( '/^[a-z]$/i', "", $str );
+
+            $str = preg_replace( '/\s+/', ' ', $str );
+
+            /**
+             * Filters extracted string
+             *
+             * @since 1.44
+             *
+             * @param string $str String of product content
+             * @param @since 1.97 string $source Terms source
+             */
+            $str = apply_filters( 'aws_extracted_string', $str, $source );
+
+            $str_array = explode( ' ', $str );
+            $str_array = AWS_Helpers::filter_stopwords( $str_array );
+            $str_array = array_count_values( $str_array );
+
+            /**
+             * Filters extracted terms before adding to index table
+             *
+             * @since 1.44
+             *
+             * @param string $str_array Array of terms
+             * @param @since 1.97 string $source Terms source
+             */
+            $str_array = apply_filters( 'aws_extracted_terms', $str_array, $source );
+
+            $str_new_array = array();
+
+            // Remove e, es, ies from the end of the string
+            if ( ! empty( $str_array ) && $str_array ) {
+                foreach( $str_array as $str_item_term => $str_item_num ) {
+                    if ( $str_item_term  ) {
+
+                        if ( ! isset( $str_new_array[$str_item_term] ) && preg_match("/es$/", $str_item_term ) ) {
+                            $str_new_array[$str_item_term] = $str_item_num;
+                        }
+
+                        $new_array_key = AWS_Helpers::singularize( $str_item_term );
+
+                        if ( $new_array_key && strlen( $str_item_term ) > 3 && strlen( $new_array_key ) > 2 ) {
+                            if ( ! isset( $str_new_array[$new_array_key] ) ) {
+                                $str_new_array[$new_array_key] = $str_item_num;
+                            }
+                            if ( $source === 'sku' ) {
+                                $str_new_array[$str_item_term] = $str_item_num;
+                            }
+                        } else {
+                            if ( ! isset( $str_new_array[$str_item_term] ) ) {
+                                $str_new_array[$str_item_term] = $str_item_num;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            // Add synonyms
+            $str_old_array = $str_new_array;
+
+            $str_new_array = AWS_Helpers::get_synonyms( $str_new_array );
+
+            if ( count( $str_old_array ) !== count( $str_new_array ) ) {
+
+                $synonyms_phrases = array();
+
+                foreach ( $str_new_array as $str_new_arr_i => $str_new_arr_num ) {
+                    $str_new_arr_i = trim( $str_new_arr_i );
+                    if ( strpos( $str_new_arr_i, ' ' ) !== false ) {
+                        $synonyms_phrases_i_arr = explode( ' ', $str_new_arr_i );
+                        foreach ( $synonyms_phrases_i_arr as $synonyms_phrases_i_arr_name ) {
+                            $synonyms_phrases[$synonyms_phrases_i_arr_name] = 1;
+                        }
+                    }
+                }
+
+                if ( ! empty( $synonyms_phrases ) ) {
+                    $str_new_array = array_merge( $str_new_array, $synonyms_phrases );
+                }
+
+            }
+            
+            return $str_new_array;
 
         }
         
@@ -453,14 +572,14 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
             // Line feeds, carriage returns, tabs
             $string = preg_replace( '/[\x00-\x1F\x80-\x9F]/u', '', $string );
 
-            // Diacritical marks
-            $string = strtr( $string, AWS_Helpers::get_diacritic_chars() );
-
             if ( function_exists( 'mb_strtolower' ) ) {
                 $string = mb_strtolower( $string );
             } else {
                 $string = strtolower( $string );
             }
+
+            // Diacritical marks
+            $string = strtr( $string, AWS_Helpers::get_diacritic_chars() );
 
             /**
              * Filters normalized string
@@ -510,8 +629,10 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
          */
         static public function singularize( $search_term ) {
 
+            $lang = apply_filters( 'aws_current_scrapping_lang', 'en' );
+
             $search_term_len = strlen( $search_term );
-            $search_term_norm = AWS_Plurals::singularize( $search_term );
+            $search_term_norm = AWS_Plurals::singularize( $search_term, $lang );
 
             if ( $search_term_norm && $search_term_len > 3 && strlen( $search_term_norm ) > 2 ) {
                 $search_term = $search_term_norm;
@@ -715,6 +836,31 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
         }
 
         /*
+         * Get current page
+         *
+         * @return int Page ID
+         */
+        static public function get_current_page_id() {
+
+            global $wp_query;
+
+            if ( is_shop() ) {
+                $value = wc_get_page_id( 'shop' );
+            } elseif ( is_cart() ) {
+                $value = wc_get_page_id( 'cart' );
+            } elseif ( is_checkout() ) {
+                $value = wc_get_page_id( 'checkout' );
+            } elseif ( is_account_page() ) {
+                $value = wc_get_page_id( 'myaccount' );
+            } else {
+                $value = $wp_query->get_queried_object_id();
+            }
+
+            return $value;
+
+        }
+
+        /*
          * Get current active site language
          *
          * @return string Language code
@@ -773,6 +919,29 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
                 }
 
             }
+
+            return $search_url;
+
+        }
+
+        /*
+         * Generate link for search results page term search
+         *
+         * @return string Search URL
+         */
+        static public function get_search_term_url( $s, $atts = array() ) {
+
+            $search_url = AWS_Helpers::get_search_url();
+            $current_lang = AWS_Helpers::get_lang();
+
+            $params = shortcode_atts( array(
+                's' => urlencode( sanitize_text_field( $s ) ),
+                'post_type' => 'product',
+                'type_aws' => 'true',
+                'lang' => $current_lang,
+            ), $atts );
+
+            $search_url = add_query_arg( $params, $search_url );
 
             return $search_url;
 
@@ -882,6 +1051,35 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
          */
         static public function kses_textarea_allowed_tags() {
             return array( 'a', 'br', 'em', 'strong', 'b', 'code', 'blockquote', 'p', 'i' );
+        }
+
+        /**
+         * Check if terms really exists and get their term_id value
+         * @param array $terms Taxonomy terms array
+         * @param string $taxonomy Taxonomy name
+         * @return array $new_terms_arr
+         */
+        static public function check_terms( $terms, $taxonomy ) {
+
+            $new_terms_arr = array();
+            foreach ( $terms as $term_name ) {
+
+                $term_check = term_exists( $term_name, $taxonomy );
+                if ( $term_check && isset( $term_check['term_id'] ) ) {
+                    $new_terms_arr[] = $term_check['term_id'];
+                }
+
+                if ( ! $term_check && strpos( $taxonomy, 'pa_' ) !== 0 ) {
+                    $term_check = term_exists( $term_name, 'pa_' . $taxonomy );
+                    if ( $term_check && isset( $term_check['term_id'] ) ) {
+                        $new_terms_arr[] = $term_check['term_id'];
+                    }
+                }
+
+            }
+
+            return $new_terms_arr;
+
         }
 
         /**
@@ -1005,7 +1203,9 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
                 'content' => 100,
                 'id'      => 300,
                 'sku'     => 300,
-                'other'   => 35
+                'other'   => 35,
+                'tax_name'  => 350,
+                'tax_desc'  => 100,
             );
 
             /**
@@ -1020,6 +1220,201 @@ if ( ! class_exists( 'AWS_Helpers' ) ) :
 
             return $relevance_array;
 
+        }
+
+        /*
+         * Check for incorrect filtering rules and return them
+         * @return string
+         */
+        static public function user_admin_capability() {
+
+            /**
+             * What capability current user must have to view settings page
+             * @since 2.99
+             * @param string $capability Minimal capability required to view plugin settings page
+             */
+            return apply_filters( 'aws_admin_capability', 'manage_options' );
+
+        }
+
+        /**
+         * Check if we should override default search query
+         * @param string $query
+         * @return bool
+         */
+        static public function aws_searchpage_enabled( $query ) {
+            $enabled = true;
+
+            $post_type_product = ( $query->get( 'post_type' ) && ( ( is_string( $query->get( 'post_type' ) ) && ( $query->get( 'post_type' ) === 'product' ) ) || ( is_array( $query->get( 'post_type' ) ) && in_array( 'product', $query->get( 'post_type' ) ) ) ) ) ? true :
+                ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'product' ) ? true : false );
+
+            if ( ( isset( $query->query_vars['s'] ) && ! isset( $_GET['type_aws'] ) ) ||
+                ! isset( $query->query_vars['s'] ) ||
+                ! $query->is_search() ||
+                ! $post_type_product
+            ) {
+                $enabled = false;
+            }
+
+            return apply_filters( 'aws_searchpage_enabled', $enabled, $query );
+        }
+
+        /**
+         * Get array of custom data for search results output
+         * @param array $results Search results
+         * @param array $s_data Search related data
+         * @return array
+         */
+        static public function get_custom_results_data( $results, $s_data ) {
+
+            $results_data = array();
+            $notices = array();
+            $custom_top_results = array();
+
+            $results_data['top_text'] = apply_filters( 'aws_search_top_text', '', $results, $s_data );
+
+            $results_data['notices'] = apply_filters( 'aws_search_notices', $notices, $results, $s_data );
+
+            $results_data['top_results'] = apply_filters( 'aws_search_custom_top_results', $custom_top_results, $results, $s_data );
+
+            $results_data = apply_filters( 'aws_search_custom_results_data', $results_data, $results, $s_data );
+
+            return (array) $results_data;
+
+        }
+
+        /**
+         * Generate all possible combinations or array items
+         * @param array $array_groups
+         * @return array
+         */
+        static public function generate_combinations( $array_groups ) {
+
+            $groups = array( array() );
+            foreach ( $array_groups as $array ) {
+                $tmp = array();
+                foreach ($groups as $resultItem) {
+                    foreach ($array as $item) {
+                        $tmp[] = array_merge( $resultItem, array( $item ) );
+                    }
+                }
+                $groups = $tmp;
+            }
+
+            return $groups;
+
+        }
+
+        /**
+         * Get variations of suggested fixed terms that was misspelled
+         * @param array $data Search related data
+         * @param int $max_terms_to_suggest Max number of suggested terms variations
+         * @return array
+         */
+        static public function get_fixed_terms_suggestions( $data, $max_terms_to_suggest = 3 ) {
+
+            /**
+             * Filter number of suggested fixed terms
+             * @since 3.10
+             * @param int $max_terms_to_suggest Max number of fixed terms suggestions
+             * @param array $data Array of search parameters
+             */
+            $max_terms_to_suggest = apply_filters( 'aws_search_fixed_terms_suggestions_num', $max_terms_to_suggest, $data );
+
+            $terms_suggestions = array();
+
+            if ( isset( $data['similar_terms'] ) && isset( $data['similar_terms']['pairs'] ) ) {
+
+                $terms_pairs = $data['similar_terms']['pairs'];
+                $s = $data['s'];
+
+                $similar_groupds = array();
+                foreach ( $terms_pairs as $pair ) {
+                    $tmp = array();
+                    if ( ! empty( $pair['new'] ) ) {
+                        foreach ( $pair['new'] as $new_term ) {
+                            $tmp[] = array(
+                                'old' => $pair['old'],
+                                'new' => $new_term,
+                            );
+                        }
+                    }
+                    $similar_groupds[] = $tmp;
+                }
+
+                $terms_groups = AWS_Helpers::generate_combinations( $similar_groupds );
+
+                if ( ! empty( $terms_groups ) ) {
+                    $count = 0;
+                    foreach ( $terms_groups as $terms_group ) {
+                        if ( ++$count > $max_terms_to_suggest ) {
+                            break;
+                        }
+                        $new_s = $s;
+                        foreach ( $terms_group as $terms ) {
+                            $new_s = str_replace( $terms['old'], $terms['new'], $new_s );
+                        }
+                        $terms_suggestions[] = $new_s;
+                    }
+                }
+
+            }
+
+            return $terms_suggestions;
+
+        }
+
+        /**
+         * Highlight text words
+         * @param string $text Text string
+         * @param array $data Search related data
+         * @param string $highlight_tag Html tag for highlight
+         * @return string
+         */
+        static public function highlight_words( $text, $data = array(), $highlight_tag = 'strong' ) {
+
+            $pattern = array();
+            $search_terms = array();
+
+            if ( ! empty( $data ) && ! empty( $data['search_terms'] ) ) {
+                $search_terms = array_fill_keys( $data['search_terms'], 1);
+                $search_terms = AWS_Helpers::get_synonyms( $search_terms );
+                $search_terms = array_keys( $search_terms );
+            }
+
+            foreach( $search_terms as $search_in ) {
+
+                $search_in = preg_quote( $search_in, '/' );
+
+                if ( strlen( $search_in ) > 1 ) {
+                    $pattern[] = '(' . $search_in . ')+';
+                } else {
+                    $pattern[] = '\b[' . $search_in . ']{1}\b';
+                }
+
+            }
+
+            if ( ! empty( $pattern ) ) {
+
+                usort( $pattern, array( 'AWS_Helpers', 'sort_by_length' ) );
+                $pattern = implode( '|', $pattern );
+                $pattern = sprintf( '/%s/i', $pattern );
+
+                $highlight_tag_pattern = '<' . $highlight_tag . '>$0</' . $highlight_tag . '>';
+
+                $text = preg_replace($pattern, $highlight_tag_pattern, $text );
+
+            }
+
+            return $text;
+
+        }
+
+        /*
+         * Sort array by its values length
+         */
+        static public function sort_by_length( $a, $b ) {
+            return strlen( $b ) - strlen( $a );
         }
 
     }

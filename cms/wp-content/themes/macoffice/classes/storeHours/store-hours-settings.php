@@ -31,12 +31,12 @@ $times = array(
 // Do not include the year if the exception repeats annually
 $exceptions = array(
 	'1/1'  => array(),
-	'1/30/2021'  => array(),
 	'1/2'  => array(),
 	'1/3'  => array(),
 	'1/4'  => array(),
 	'1/5'  => array(),
 	'1/6' => array(),
+	'1/30/2021'  => array(),
 	'4/5/2021' => array(),
 	'5/1' => array(),
 	'5/13/2021' => array(),

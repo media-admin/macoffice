@@ -291,6 +291,36 @@
 									</div>
 								</div>`;
 			document.querySelector( '#smush-box-bulk .wp-smush-bulk-wrapper' ).outerHTML += upsellHtml;
+		},
+		redirectToPage( page ) {
+			page = `page=smush-${page}`;
+			if ( window.location.href.includes( page ) ) {
+				window.location.reload();
+			} else {
+				window.location.search = page;
+			}
+		},
+		showModal( modalId, options = {} ) {
+			if ( ! window.SUI ) {
+				return;
+			}
+
+			options = Object.assign( {
+				focusAfterClosed: 'wpbody-content',
+				focusWhenOpen: undefined,
+				hasOverlayMask: false,
+				isCloseOnEsc: false,
+				isAnimated: true,
+			}, options );
+
+			window.SUI.openModal(
+				modalId,
+				options.focusAfterClosed,
+				options.focusWhenOpen,
+				options.hasOverlayMask,
+				options.isCloseOnEsc,
+				options.isAnimated
+			);
 		}
 	};
 

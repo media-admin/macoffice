@@ -1,1 +1,332 @@
-!function(){var e,t;window.germanized=window.germanized||{},e=jQuery,(t=window.germanized).settings={params:{},init:function(){var t=this;this.params=wc_gzd_admin_settings_params;try{e(document.body).on("wc-enhanced-select-init wc-gzd-enhanced-select-init",this.onEnhancedSelectInit).trigger("wc-gzd-enhanced-select-init")}catch(e){window.console.log(e)}e(document).on("change","input[name=woocommerce_gzd_dispute_resolution_type]",this.onChangeDisputeResolutionType).on("click","a.woocommerce-gzd-input-toggle-trigger",this.onInputToogleClick).on("change",".wc-gzd-setting-tabs input.woocommerce-gzd-tab-status-checkbox",this.onChangeTabStatus).on("change",".wc-gzd-setting-tab-enabled :input",this.preventWarning).on("click","a.wc-gzd-install-extension-btn",this.onInstallExtension).on("change gzd_show_or_hide_fields",".wc-gzd-admin-settings :input",this.onChangeInput),e(".wc-gzd-admin-settings :input").trigger("gzd_show_or_hide_fields"),e("input[name=woocommerce_gzd_dispute_resolution_type]:checked").trigger("change"),this.initMailSortable(),e(document.body).on("init_tooltips",(function(){t.initTipTips()})),t.initTipTip()},preventWarning:function(){window.onbeforeunload=""},initTipTip:function(){e(".wc-gzd-setting-tab-actions a.button").tipTip({fadeIn:50,fadeOut:50,delay:200})},onInstallExtension:function(){var n=t.settings,a=e(this),i={action:"woocommerce_gzd_install_extension",security:n.params.install_extension_nonce,extension:a.data("extension")};return a.addClass("wc-gzd-is-loading"),a.append('<span class="spinner is-active"></span>'),e.ajax({url:n.params.ajax_url,data:i,dataType:"json",type:"POST",success:function(t){if(a.find(".spinner").remove(),a.removeClass("wc-gzd-is-loading"),t.success)a.is("[href]")&&"#"!==a.attr("href")&&(window.location.href=a.attr("href"));else if(t.hasOwnProperty("message")){var n=e("#wpbody-content").find(".wrap");e(".wc-gzd-setting-tabs").length>0&&(n=e(".wc-gzd-setting-tabs")),n.before('<div class="error inline" id="message"><p>'+t.message+"</p></div>"),e("html, body").animate({scrollTop:e("#message").offset().top-32},1e3)}}}),!1},onChangeTabStatus:function(){var n=e(this),a=t.settings,i=n.data("tab"),o=n.parents("td").find(".woocommerce-gzd-input-toggle"),s=o.parents("a"),c=n.is(":checked")?"yes":"no",r={action:"woocommerce_gzd_toggle_tab_enabled",security:a.params.tab_toggle_nonce,enable:c,tab:i};return o.addClass("woocommerce-input-toggle--loading"),e.ajax({url:a.params.ajax_url,data:r,dataType:"json",type:"POST",success:function(t){!0===t.data?(o.removeClass("woocommerce-input-toggle--enabled, woocommerce-input-toggle--disabled"),o.addClass("woocommerce-input-toggle--enabled"),o.removeClass("woocommerce-input-toggle--loading"),t.hasOwnProperty("message")&&t.message.length>0&&(e(".wc-gzd-setting-tabs").before('<div class="error inline" id="message"><p>'+t.message+"</p></div>"),e("html, body").animate({scrollTop:e("#message").offset().top-32},1e3))):!1===t.data?(o.removeClass("woocommerce-input-toggle--enabled, woocommerce-input-toggle--disabled"),o.addClass("woocommerce-input-toggle--disabled"),o.removeClass("woocommerce-input-toggle--loading")):"needs_setup"===t.data&&(window.location.href=s.attr("href"))}}),!1},onChangeInput:function(){var n,a,i,o,s,c,r,d,l,g=t.settings,m=e(this),h=m.attr("id")?m.attr("id"):m.attr("name"),p=e(".wc-gzd-admin-settings :input[data-show_if_"+e.escapeSelector(h)+"]");e.each(p,(function(){for(var t in n=e(this),a=n.parents("tr"),i=n.data(),o=!0,i)if(i.hasOwnProperty(t)&&"show_if_"===t.substring(0,8)&&(s=t.replace("show_if_",""),c=g.getInputByIdOrName(s),r=n.data(t)?n.data(t).split(","):[],c.length>0&&(d=c.val(),l=!1,c.is(":radio")?"no"!==(d=c.parents("fieldset").find(":checked").length>0?c.parents("fieldset").find(":checked").val():"no")&&(l=!0):c.is(":checkbox")?"yes"==(d=c.is(":checked")?"yes":"no")&&(l=!0):l=void 0!==d&&"0"!==d&&""!==d,r&&r.length>0?-1===e.inArray(d,r)&&(o=!1):l||(o=!1)),!o))break;a.removeClass("wc-gzd-setting-visible wc-gzd-setting-invisible"),o?a.addClass("wc-gzd-setting-visible"):a.addClass("wc-gzd-setting-invisible")}))},getInputByIdOrName:function(n){var a=t.settings;return n=a.getCleanDataId(n),e(".wc-gzd-admin-settings :input").filter((function(){var t=e(this).attr("id")?e(this).attr("id"):e(this).attr("name");return!!t&&a.getCleanDataId(t)===n}))},getCleanDataId:function(e){return e.toLowerCase().replace(/-/g,"")},onEnhancedSelectInit:function(){var n=t.settings;e(":input.wc-gzd-enhanced-tags").filter(":not(.enhanced)").each((function(){var t={minimumResultsForSearch:10,allowClear:!!e(this).data("allow_clear"),placeholder:e(this).data("placeholder"),tags:!0};e(this).selectWoo(t).addClass("enhanced")})),e(":input.gzd-select-term").filter(":not(.enhanced)").each((function(){!function(t,n){e(t).selectWoo(n).addClass("enhanced"),e(t).prop("multiple")&&e(t).on("change",(function(){var n=e(t).children();n.sort((function(e,t){var n=e.text.toLowerCase(),a=t.text.toLowerCase();return n>a?1:n<a?-1:0})),e(t).html(n)}))}(this,{allowClear:!!e(this).data("allow_clear"),placeholder:e(this).data("placeholder"),minimumInputLength:e(this).data("minimum_input_length")?e(this).data("minimum_input_length"):"3",escapeMarkup:function(e){return e},ajax:{url:n.params.ajax_url,dataType:"json",delay:250,data:function(t){return{term:t.term,action:e(this).data("action")||"woocommerce_json_search_taxonomy_terms",security:n.params.search_term_nonce,exclude:e(this).data("exclude"),taxonomy:e(this).data("taxonomy"),limit:e(this).data("limit")}},processResults:function(t){var n=[];return t&&!t.error&&e.each(t,(function(e,t){n.push({id:t.term_id,text:t.name})})),{results:n}},cache:!0}})}))},onParcelDeliveryShowSpecial:function(){"shipping_methods"===e(this).val()?e("select#woocommerce_gzd_checkboxes_parcel_delivery_show_shipping_methods").parents("tr").show():e("select#woocommerce_gzd_checkboxes_parcel_delivery_show_shipping_methods").parents("tr").hide()},onChangeDisputeResolutionType:function(){var t=e(this).val();e("#woocommerce_gzd_alternative_complaints_text_"+t),e("[id^=woocommerce_gzd_alternative_complaints_text_]").parents("tr").hide(),e("#woocommerce_gzd_alternative_complaints_text_"+t).parents("tr").show()},onInputToogleClick:function(){var t=e(this).find("span.woocommerce-gzd-input-toggle"),n=t.parents("fieldset").find("input[type=checkbox]"),a=t.hasClass("woocommerce-input-toggle--enabled");return t.removeClass("woocommerce-input-toggle--enabled"),t.removeClass("woocommerce-input-toggle--disabled"),a?(n.prop("checked",!1),t.addClass("woocommerce-input-toggle--disabled")):(n.prop("checked",!0),t.addClass("woocommerce-input-toggle--enabled")),n.trigger("change"),!1},initMailSortable:function(){if(e("#woocommerce_gzd_mail_attach_imprint").length>0){var t=e("#woocommerce_gzd_mail_attach_imprint").parents("table");e(t).find("tbody").sortable({items:"tr",cursor:"move",axis:"y",handle:"td, th",scrollSensitivity:40,helper:function(e,t){return t.children().each((function(){jQuery(this).width(jQuery(this).width())})),t.css("left","0"),t},start:function(e,t){t.item.css("background-color","#f6f6f6")},stop:function(n,a){a.item.removeAttr("style");var i=[];e(t).find("tr select").each((function(){i.push(e(this).attr("id").replace("woocommerce_gzd_mail_attach_",""))})),e("#woocommerce_gzd_mail_attach_order").val(i.join())}})}}},e(document).ready((function(){t.settings.init()})),((window.germanized=window.germanized||{}).static=window.germanized.static||{})["admin-settings"]={}}();
+/******/ (function() { // webpackBootstrap
+var __webpack_exports__ = {};
+/*global woocommerce_admin_meta_boxes, woocommerce_admin, accounting, woocommerce_admin_meta_boxes_order */
+window.germanized = window.germanized || {};
+(function ($, germanized) {
+  /**
+   * Order Data Panel
+   */
+  germanized.settings = {
+    params: {},
+    init: function () {
+      var self = this;
+      this.params = wc_gzd_admin_settings_params;
+      try {
+        $(document.body).on('wc-enhanced-select-init wc-gzd-enhanced-select-init', this.onEnhancedSelectInit).trigger('wc-gzd-enhanced-select-init');
+      } catch (err) {
+        // If select2 failed (conflict?) log the error but don't stop other scripts breaking.
+        window.console.log(err);
+      }
+      $(document).on('change', 'input[name=woocommerce_gzd_dispute_resolution_type]', this.onChangeDisputeResolutionType).on('change', '.wc-gzd-setting-tabs input.woocommerce-gzd-tab-status-checkbox', this.onChangeTabStatus).on('change', '.wc-gzd-setting-tab-enabled :input', this.preventWarning).on('click', 'a.wc-gzd-install-extension-btn', this.onInstallExtension).on('change gzd_show_or_hide_fields', '.wc-gzd-admin-settings :input', this.onChangeInput);
+      $('.wc-gzd-admin-settings :input').trigger('gzd_show_or_hide_fields');
+      $('input[name=woocommerce_gzd_dispute_resolution_type]:checked').trigger('change');
+      this.initMailSortable();
+      $(document.body).on('init_tooltips', function () {
+        self.initTipTips();
+      });
+      self.initTipTip();
+    },
+    /**
+     * Prevents the unsaved settings warning for the main germanized tab
+     * as these toggles use AJAX requests to save the settings.
+     */
+    preventWarning: function () {
+      window.onbeforeunload = '';
+    },
+    initTipTip: function () {
+      $('.wc-gzd-setting-tab-actions a.button').tipTip({
+        'fadeIn': 50,
+        'fadeOut': 50,
+        'delay': 200
+      });
+    },
+    onInstallExtension: function () {
+      var self = germanized.settings,
+        $this = $(this);
+      var data = {
+        action: 'woocommerce_gzd_install_extension',
+        security: self.params.install_extension_nonce,
+        extension: $this.data('extension')
+      };
+      $this.addClass('wc-gzd-is-loading');
+      $this.append('<span class="spinner is-active"></span>');
+      $.ajax({
+        url: self.params.ajax_url,
+        data: data,
+        dataType: 'json',
+        type: 'POST',
+        success: function (response) {
+          $this.find('.spinner').remove();
+          $this.removeClass('wc-gzd-is-loading');
+          if (response.success) {
+            if ($this.is("[href]") && '#' !== $this.attr('href')) {
+              window.location.href = $this.attr('href');
+            }
+          } else if (response.hasOwnProperty('message')) {
+            var $wrapper = $('#wpbody-content').find('.wrap');
+            if ($('.wc-gzd-setting-tabs').length > 0) {
+              $wrapper = $('.wc-gzd-setting-tabs');
+            }
+            $wrapper.before('<div class="error inline" id="message"><p>' + response.message + '</p></div>');
+            $('html, body').animate({
+              scrollTop: $('#message').offset().top - 32
+            }, 1000);
+          }
+        }
+      });
+      return false;
+    },
+    onChangeTabStatus: function () {
+      var $checkbox = $(this),
+        self = germanized.settings,
+        tab_id = $checkbox.data('tab'),
+        $toggle = $checkbox.parents('td').find('.woocommerce-gzd-input-toggle'),
+        $link = $toggle.parents('a'),
+        isEnabled = $checkbox.is(':checked') ? 'yes' : 'no';
+      var data = {
+        action: 'woocommerce_gzd_toggle_tab_enabled',
+        security: self.params.tab_toggle_nonce,
+        enable: isEnabled,
+        tab: tab_id
+      };
+      $toggle.addClass('woocommerce-input-toggle--loading');
+      $.ajax({
+        url: self.params.ajax_url,
+        data: data,
+        dataType: 'json',
+        type: 'POST',
+        success: function (response) {
+          if (true === response.data) {
+            $toggle.removeClass('woocommerce-input-toggle--enabled, woocommerce-input-toggle--disabled');
+            $toggle.addClass('woocommerce-input-toggle--enabled');
+            $toggle.removeClass('woocommerce-input-toggle--loading');
+            if (response.hasOwnProperty('message') && response.message.length > 0) {
+              $('.wc-gzd-setting-tabs').before('<div class="error inline" id="message"><p>' + response.message + '</p></div>');
+              $('html, body').animate({
+                scrollTop: $('#message').offset().top - 32
+              }, 1000);
+            }
+          } else if (false === response.data) {
+            $toggle.removeClass('woocommerce-input-toggle--enabled, woocommerce-input-toggle--disabled');
+            $toggle.addClass('woocommerce-input-toggle--disabled');
+            $toggle.removeClass('woocommerce-input-toggle--loading');
+          } else if ('needs_setup' === response.data) {
+            window.location.href = $link.attr('href');
+          }
+        }
+      });
+      return false;
+    },
+    onChangeInput: function () {
+      var self = germanized.settings,
+        $mainInput = $(this),
+        mainId = $mainInput.attr('id') ? $mainInput.attr('id') : $mainInput.attr('name'),
+        $dependentFields = $('.wc-gzd-admin-settings :input[data-show_if_' + $.escapeSelector(mainId) + ']');
+      var $input, $field, data, meetsConditions, cleanName, $dependentField, valueExpected, val, isChecked;
+      $.each($dependentFields, function () {
+        $input = $(this);
+        $field = $input.parents('tr');
+        data = $input.data();
+        meetsConditions = true;
+        for (var dataName in data) {
+          if (data.hasOwnProperty(dataName)) {
+            /**
+             * Check all the conditions for a dependent field.
+             */
+            if (dataName.substring(0, 8) === 'show_if_') {
+              cleanName = dataName.replace('show_if_', '');
+              $dependentField = self.getInputByIdOrName(cleanName);
+              valueExpected = $input.data(dataName) ? $input.data(dataName).split(',') : [];
+              if ($dependentField.length > 0) {
+                val = $dependentField.val();
+                isChecked = false;
+                if ($dependentField.is(':radio')) {
+                  val = $dependentField.parents('fieldset').find(':checked').length > 0 ? $dependentField.parents('fieldset').find(':checked').val() : 'no';
+                  if ('no' !== val) {
+                    isChecked = true;
+                  }
+                } else if ($dependentField.is(':checkbox')) {
+                  val = $dependentField.is(':checked') ? 'yes' : 'no';
+                  if ('yes' === val) {
+                    isChecked = true;
+                  }
+                } else {
+                  isChecked = undefined !== val && '0' !== val && '' !== val;
+                }
+                if (valueExpected && valueExpected.length > 0) {
+                  if ($.inArray(val, valueExpected) === -1) {
+                    meetsConditions = false;
+                  }
+                } else if (!isChecked) {
+                  meetsConditions = false;
+                }
+              }
+              if (!meetsConditions) {
+                break;
+              }
+            }
+          }
+        }
+        $field.removeClass('wc-gzd-setting-visible wc-gzd-setting-invisible');
+        if (meetsConditions) {
+          $field.addClass('wc-gzd-setting-visible');
+        } else {
+          $field.addClass('wc-gzd-setting-invisible');
+        }
+      });
+    },
+    /**
+     * Finds the input field by ID or name (some inputs, e.g. radio buttons may not have an id).
+     *
+     * @param cleanName
+     * @returns {*|jQuery}
+     */
+    getInputByIdOrName: function (cleanName) {
+      var self = germanized.settings;
+      cleanName = self.getCleanDataId(cleanName);
+      var $field = $('.wc-gzd-admin-settings :input').filter(function () {
+        var id = $(this).attr('id') ? $(this).attr('id') : $(this).attr('name');
+        if (!id) {
+          return false;
+        }
+        return self.getCleanDataId(id) === cleanName;
+      });
+      return $field;
+    },
+    /**
+     * Make sure to remove any hyphens as data-attributes are stored
+     * camel case without hyphens in the DOM.
+     */
+    getCleanDataId: function (id) {
+      return id.toLowerCase().replace(/-/g, '');
+    },
+    onEnhancedSelectInit: function () {
+      var self = germanized.settings;
+
+      // Tag select
+      $(':input.wc-gzd-enhanced-tags').filter(':not(.enhanced)').each(function () {
+        var select2_args = {
+          minimumResultsForSearch: 10,
+          allowClear: $(this).data('allow_clear') ? true : false,
+          placeholder: $(this).data('placeholder'),
+          tags: true
+        };
+        $(this).selectWoo(select2_args).addClass('enhanced');
+      });
+      function display_result(self, select2_args) {
+        $(self).selectWoo(select2_args).addClass('enhanced');
+        if ($(self).prop('multiple')) {
+          $(self).on('change', function () {
+            var $children = $(self).children();
+            $children.sort(function (a, b) {
+              var atext = a.text.toLowerCase();
+              var btext = b.text.toLowerCase();
+              if (atext > btext) {
+                return 1;
+              }
+              if (atext < btext) {
+                return -1;
+              }
+              return 0;
+            });
+            $(self).html($children);
+          });
+        }
+      }
+      $(':input.gzd-select-term').filter(':not(.enhanced)').each(function () {
+        var select2_args = {
+          allowClear: $(this).data('allow_clear') ? true : false,
+          placeholder: $(this).data('placeholder'),
+          minimumInputLength: $(this).data('minimum_input_length') ? $(this).data('minimum_input_length') : '3',
+          escapeMarkup: function (m) {
+            return m;
+          },
+          ajax: {
+            url: self.params.ajax_url,
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+              return {
+                term: params.term,
+                action: $(this).data('action') || 'woocommerce_json_search_taxonomy_terms',
+                security: self.params.search_term_nonce,
+                exclude: $(this).data('exclude'),
+                taxonomy: $(this).data('taxonomy'),
+                limit: $(this).data('limit')
+              };
+            },
+            processResults: function (data) {
+              var terms = [];
+              if (data && !data.error) {
+                $.each(data, function (index, term) {
+                  terms.push({
+                    id: term.term_id,
+                    text: term.name
+                  });
+                });
+              }
+              return {
+                results: terms
+              };
+            },
+            cache: true
+          }
+        };
+        display_result(this, select2_args);
+
+        //$( this ).selectWoo( select2_args ).addClass( 'enhanced' );
+      });
+    },
+
+    onParcelDeliveryShowSpecial: function () {
+      var val = $(this).val();
+      if ('shipping_methods' === val) {
+        $('select#woocommerce_gzd_checkboxes_parcel_delivery_show_shipping_methods').parents('tr').show();
+      } else {
+        $('select#woocommerce_gzd_checkboxes_parcel_delivery_show_shipping_methods').parents('tr').hide();
+      }
+    },
+    onChangeDisputeResolutionType: function () {
+      var val = $(this).val();
+      var text = $('#woocommerce_gzd_alternative_complaints_text_' + val);
+      $('[id^=woocommerce_gzd_alternative_complaints_text_]').parents('tr').hide();
+      $('#woocommerce_gzd_alternative_complaints_text_' + val).parents('tr').show();
+    },
+    initMailSortable: function () {
+      if ($('#woocommerce_gzd_mail_attach_imprint').length > 0) {
+        var table = $('#woocommerce_gzd_mail_attach_imprint').parents('table');
+        $(table).find('tbody').sortable({
+          items: 'tr',
+          cursor: 'move',
+          axis: 'y',
+          handle: 'td, th',
+          scrollSensitivity: 40,
+          helper: function (e, ui) {
+            ui.children().each(function () {
+              jQuery(this).width(jQuery(this).width());
+            });
+            ui.css('left', '0');
+            return ui;
+          },
+          start: function (event, ui) {
+            ui.item.css('background-color', '#f6f6f6');
+          },
+          stop: function (event, ui) {
+            ui.item.removeAttr('style');
+            var pages = [];
+            $(table).find('tr select').each(function () {
+              pages.push($(this).attr('id').replace('woocommerce_gzd_mail_attach_', ''));
+            });
+            $('#woocommerce_gzd_mail_attach_order').val(pages.join());
+          }
+        });
+      }
+    }
+  };
+  $(document).ready(function () {
+    germanized.settings.init();
+  });
+})(jQuery, window.germanized);
+((window.germanized = window.germanized || {})["static"] = window.germanized["static"] || {})["admin-settings"] = __webpack_exports__;
+/******/ })()
+;

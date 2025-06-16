@@ -39,6 +39,7 @@ namespace MatthiasWeb\RealMediaLibrary\api;
  * @see wp_rml_objects
  * @see is_rml_folder
  * @see IFolderActions
+ * @internal
  */
 interface IFolder extends \MatthiasWeb\RealMediaLibrary\api\IFolderActions, \MatthiasWeb\RealMediaLibrary\api\IFolderContent
 {

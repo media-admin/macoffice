@@ -25,7 +25,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 <?php do_action( 'wp_smush_render_setting_row', 'detection', $detection ); ?>
 
-<div class="sui-box-settings-row">
+<div class="sui-box-settings-row" id="general-translations-settings-row">
 	<div class="sui-box-settings-col-1">
 		<span class="sui-settings-label "><?php esc_html_e( 'Translations', 'wp-smushit' ); ?></span>
 		<span class="sui-description">
@@ -46,12 +46,14 @@ if ( ! defined( 'WPINC' ) ) {
 			<input type="text" id="language-input" class="sui-form-control" disabled="disabled" placeholder="<?php echo esc_attr( $site_language ); ?>">
 			<span class="sui-description">
 				<?php
-				printf(
-				/* translators: %1$s: opening a tag, %2$s: closing a tag */
-					esc_html__( 'Not using your language, or have improvements? Help us improve translations by providing your own improvements %1$shere%2$s.', 'wp-smushit' ),
-					'<a href="' . esc_html( $translation_link ) . '" target="_blank">',
-					'</a>'
-				);
+				if ( ! apply_filters( 'wpmudev_branding_hide_doc_link', false ) ) {
+					printf(
+					/* translators: %1$s: opening a tag, %2$s: closing a tag */
+						esc_html__( 'Not using your language, or have improvements? Help us improve translations by providing your own improvements %1$shere%2$s.', 'wp-smushit' ),
+						'<a href="' . esc_html( $translation_link ) . '" target="_blank">',
+						'</a>'
+					);
+				}
 				?>
 			</span>
 		</div>

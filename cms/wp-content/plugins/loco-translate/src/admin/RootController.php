@@ -18,12 +18,12 @@ class Loco_admin_RootController extends Loco_admin_list_BaseController {
      * Render main entry home screen
      */
     public function render(){
-        
+
         // translators: home screen title where %s is the version number
         $this->set('title', sprintf( __('Loco Translate %s','loco-translate'), loco_plugin_version() ) );
 
         // Show currently active theme on home page
-        $theme = Loco_package_Theme::create(null);
+        $theme = Loco_package_Theme::create( get_stylesheet() );
         $this->set('theme', $this->bundleParam($theme) );
         
         // Show plugins that have currently loaded translations

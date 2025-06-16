@@ -74,6 +74,7 @@ return array(
     'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\Localization' => $vendorDir . '/devowl-wp/utils/src/Localization.php',
     'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\PackageLocalization' => $vendorDir . '/devowl-wp/utils/src/PackageLocalization.php',
     'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\PluginReceiver' => $vendorDir . '/devowl-wp/utils/src/PluginReceiver.php',
+    'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\RateLimitNotice' => $vendorDir . '/devowl-wp/utils/src/RateLimitNotice.php',
     'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\Service' => $vendorDir . '/devowl-wp/utils/src/Service.php',
     'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\ServiceNoStore' => $vendorDir . '/devowl-wp/utils/src/ServiceNoStore.php',
     'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\Utils' => $vendorDir . '/devowl-wp/utils/src/Utils.php',

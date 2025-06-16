@@ -16,6 +16,7 @@ use WP_REST_Response;
 // @codeCoverageIgnoreEnd
 /**
  * Resolve filenames by a set of attachment ids.
+ * @internal
  */
 class HierarchicalFilenameResolver
 {
@@ -77,15 +78,18 @@ class HierarchicalFilenameResolver
         return $file;
     }
 }
+// phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound
 /**
  * This class handles the compatibility for this plugin:
  * https://wordpress.org/plugins/export-media-library/
  *
  * @see https://github.com/massedge/wordpress-plugin-export-media-library/issues/9
  * @since 4.5.0
+ * @internal
  */
 class ExportMediaLibrary
 {
+    // phpcs:enable Generic.Files.OneObjectStructurePerFile.MultipleFound
     use UtilsProvider;
     const AJAX_ACTION = 'massedge-wp-plugin-eml-ape-rml-download';
     /**

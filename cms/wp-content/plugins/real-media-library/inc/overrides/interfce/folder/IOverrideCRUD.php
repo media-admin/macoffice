@@ -6,6 +6,7 @@ namespace MatthiasWeb\RealMediaLibrary\overrides\interfce\folder;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 interface IOverrideCRUD
 {
     // Documented in wp_rml_create_p()

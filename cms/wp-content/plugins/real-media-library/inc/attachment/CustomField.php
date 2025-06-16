@@ -10,6 +10,7 @@ use WP_Post;
 // @codeCoverageIgnoreEnd
 /**
  * This class handles all hooks for the custom field in a attachments dialog.
+ * @internal
  */
 class CustomField
 {

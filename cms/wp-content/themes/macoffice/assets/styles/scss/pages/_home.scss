@@ -5,6 +5,24 @@
   .services__container {
     z-index: 1;
   }
+
+
+  & .services__pretitle,
+  & .services__title {
+    line-height: 2.8rem;
+    margin-left: 2.0rem;
+  }
+
+
+  & .services__pretitle {
+    padding-top: 1.0rem;
+  }
+
+
+  & .services__title {
+    padding-bottom: 0.5rem;
+  }
+
 }
 
 

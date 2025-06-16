@@ -45,22 +45,22 @@ class Controller extends Admin_Notice {
 	 * @since 2.2
 	 *
 	 */
-	public function can_boot() {
+	public function can_boot(): bool {
 		/**
 		 * Until multisites are officially supported, BLC v2 menus are disabled in subsites.
 		 * Local menus are loaded instead. Local admin notification does not need to appear on subsites at this point.
 		 */
 		if ( Utilities::is_subsite() || ! Settings::instance()->get( 'use_legacy_blc_version' ) ) {
-			return;
+			return false;
 		}
 
-		$version_highlights = Settings::instance()->get( 'version_highlights' );
+		$version_highlights       = Settings::instance()->get( 'version_highlights' );
 		$version_highlights_shown = ! empty( $version_highlights['2_2_0'] );
 
 		return Utilities::is_admin_screen( $this->admin_pages ) && ! $version_highlights_shown;
 	}
 
-	public function admin_dash_page_classes( $classes ) {
+	public function admin_dash_page_classes( ?string $classes = '' ): string {
 		return $classes . ' blc-show-features-notice';
 	}
 
@@ -69,21 +69,21 @@ class Controller extends Admin_Notice {
 		static $scripts_version = null;
 
 		if ( is_null( $scripts_version ) ) {
-			$script_data     = include WPMUDEV_BLC_DIR . 'assets/js/local-notice/main.asset.php';
-			$scripts_version = $script_data['version'] ?? WPMUDEV_BLC_SCIPTS_VERSION;
+			$script_data     = include WPMUDEV_BLC_DIR . 'assets/dist/local-features.asset.php';
+			$scripts_version = ! empty( $script_data['version'] ) ? WPMUDEV_BLC_SCIPTS_VERSION . '-' . $script_data['version'] : WPMUDEV_BLC_SCIPTS_VERSION;
 		}
 
 		return $scripts_version;
 	}
 
-	public function set_admin_styles() {
+	public function set_admin_styles(): array {
 		return array(
-			'blc_sui'          => array(
+			'blc_sui'             => array(
 				'src' => $this->styles_dir . 'shared-ui-' . BLC_SHARED_UI_VERSION_NUMBER . '.min.css',
 				'ver' => WPMUDEV_BLC_SCIPTS_VERSION,
 			),
 			'blc_features_notice' => array(
-				'src' => $this->styles_dir . 'features-notice.min.css',
+				'src' => $this->scripts_dir . 'style-local-features.css',
 				'ver' => WPMUDEV_BLC_SCIPTS_VERSION,
 			),
 		);

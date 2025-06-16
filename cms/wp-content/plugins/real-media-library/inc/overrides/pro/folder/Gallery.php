@@ -11,6 +11,7 @@ use Exception;
 /**
  * This class creates a gallery data folder object. (Type 2)
  * See parent classes / interfaces for better documentation.
+ * @internal
  */
 class Gallery extends Sortable
 {

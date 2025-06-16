@@ -5,10 +5,11 @@
  * Description: <code><strong>YITH WooCommerce Catalog Mode</strong></code> allows hiding product prices, cart and checkout from your store and turning it into a performing product catalogue. You will be able to adjust your catalogue settings as you prefer based on your requirements. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
  * Author: YITH
  * Text Domain: yith-woocommerce-catalog-mode
- * Version: 2.27.0
+ * Version: 2.46.0
  * Author URI: https://yithemes.com/
- * WC requires at least: 8.0.0
- * WC tested up to: 8.2.x
+ * WC requires at least: 9.7.0
+ * WC tested up to: 9.9.x
+ * Requires Plugins: woocommerce
  *
  * @package YITH WooCommerce Catalog Mode
  */
@@ -59,7 +60,7 @@ function ywctm_install_free_admin_notice() {
 	<?php
 }
 
-! defined( 'YWCTM_VERSION' ) && define( 'YWCTM_VERSION', '2.27.0' );
+! defined( 'YWCTM_VERSION' ) && define( 'YWCTM_VERSION', '2.46.0' );
 ! defined( 'YWCTM_FREE_INIT' ) && define( 'YWCTM_FREE_INIT', plugin_basename( __FILE__ ) );
 ! defined( 'YWCTM_SLUG' ) && define( 'YWCTM_SLUG', 'yith-woocommerce-catalog-mode' );
 ! defined( 'YWCTM_FILE' ) && define( 'YWCTM_FILE', __FILE__ );
@@ -69,11 +70,10 @@ function ywctm_install_free_admin_notice() {
 ! defined( 'YWCTM_ASSETS_PATH' ) && define( 'YWCTM_ASSETS_PATH', YWCTM_DIR . 'assets/' );
 ! defined( 'YWCTM_TEMPLATE_PATH' ) && define( 'YWCTM_TEMPLATE_PATH', YWCTM_DIR . 'templates/' );
 
-/* Plugin Framework Version Check */
-if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YWCTM_DIR . 'plugin-fw/init.php' ) ) {
-	require_once YWCTM_DIR . 'plugin-fw/init.php';
+// Plugin Framework Loader.
+if ( file_exists( plugin_dir_path( __FILE__ ) . 'plugin-fw/init.php' ) ) {
+    require_once plugin_dir_path( __FILE__ ) . 'plugin-fw/init.php';
 }
-yit_maybe_plugin_fw_loader( YWCTM_DIR );
 
 /**
  * Run plugin
@@ -84,8 +84,7 @@ yit_maybe_plugin_fw_loader( YWCTM_DIR );
 function ywctm_init() {
 
 	/* Load YWCTM text domain */
-	load_plugin_textdomain( 'yith-woocommerce-catalog-mode', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
+    yith_plugin_fw_load_plugin_textdomain( 'yith-woocommerce-catalog-mode', basename( dirname( __FILE__ ) ) . '/languages' );
 	$GLOBALS['YITH_WC_Catalog_Mode'] = YITH_WCTM();
 }
 

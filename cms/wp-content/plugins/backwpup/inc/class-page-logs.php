@@ -42,6 +42,21 @@ class BackWPup_Page_Logs extends WP_List_Table
         $this->log_folder = untrailingslashit($this->log_folder);
     }
 
+	/**
+	 * Retrieves the table classes for the job page.
+	 *
+	 * This method constructs an array of CSS classes to be applied to the table
+	 * on the job page. The 'fixed' class is intentionally omitted from the default
+	 * classes.
+	 *
+	 * @return array An array of CSS classes for the table.
+	 */
+	protected function get_table_classes() {
+		// Remove 'fixed' from the default classes.
+		$classes = [ 'widefat', 'striped', $this->_args['plural'] ];
+		return $classes;
+	}
+
     /**
      * User can.
      *
@@ -180,11 +195,11 @@ class BackWPup_Page_Logs extends WP_List_Table
      * @param $item
      *
      * @return string
-     */
-    public function column_time($item)
-    {
-        return sprintf(__('%1$s at %2$s', 'backwpup'), date_i18n(get_option('date_format'), $item['logtime'], true), date_i18n(get_option('time_format'), $item['logtime'], true));
-    }
+	 */
+	public function column_time( $item ) {
+		// translators: %1$s: date, %2$s: time.
+		return sprintf( __( '%1$s at %2$s', 'backwpup' ), wp_date( get_option( 'date_format' ), $item['logtime'] ), wp_date( get_option( 'time_format' ), $item['logtime'] ) );
+	}
 
     /**
      * The type Column.

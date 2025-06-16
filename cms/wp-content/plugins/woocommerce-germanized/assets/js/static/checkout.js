@@ -60,11 +60,12 @@ window.germanized = window.germanized || {};
                 }
 
                 if ( ! self.params.custom_heading_container ) {
-                    var $theFirst = $form.find( '.shop_table:visible, #payment:visible' ).first();
+                    var $visible = $form.find( '.shop_table:visible, #payment:visible' );
+                    var $theFirst = $visible.first();
 
                     if ( $heading.length > 0 )  {
-                        // Move heading after payment block
-                        if ( $theFirst.length > 0 && 'payment' === $theFirst.attr( 'id' ) ) {
+                        // Move heading after payment block in case both shop table + payment wrap are visible
+                        if ( $theFirst.length > 0 && 2 === $visible.length && 'payment' === $theFirst.attr( 'id' ) ) {
                             $heading.addClass( 'wc-gzd-heading-moved' );
                             $theFirst.after( $heading );
                         }
@@ -148,7 +149,7 @@ window.germanized = window.germanized || {};
             $( 'body' ).trigger( 'update_checkout' );
         },
 
-        onUpdateCheckout: function() {
+        onUpdateCheckout: function( e, data ) {
             var self      = germanized.checkout;
 
             if ( self.params.adjust_heading ) {
@@ -170,7 +171,39 @@ window.germanized = window.germanized || {};
                     // Woo 3.4
                     $( '.place-order:not(.wc-gzd-place-order)' ).find( '#woocommerce-process-checkout-nonce' ).appendTo( '.wc-gzd-place-order' );
                 }
+
                 $( '.place-order:not(.wc-gzd-place-order)' ).remove();
+
+                /**
+                 * As a fallback in case the .woocommerce-checkout-payment fragment has not been replaced
+                 * but the wc-gzd-place-order has been replaced (and thus misses a nonce), find the nonce in the fragment and add it.
+                 */
+                if ( ! $( '.wc-gzd-place-order' ).find( '#woocommerce-process-checkout-nonce, #_wpnonce' ).length ) {
+                    if ( data.fragments.hasOwnProperty( '.woocommerce-checkout-payment' ) ) {
+                        $payment_wrap = $( data.fragments['.woocommerce-checkout-payment'] );
+
+                        var $nonce = $payment_wrap.find( '#woocommerce-process-checkout-nonce, #_wpnonce' );
+
+                        if ( $nonce.length > 0 ) {
+                            $( '.wc-gzd-place-order' ).append( $nonce );
+                        }
+                    }
+                }
+
+                /**
+                 * Do only look for visible place-order items as some plugins/themes
+                 * may add additional wrappers for mobile/desktop.
+                 */
+                $( '.wc-gzd-place-order:visible' ).each( function() {
+                    var $all_nonces = $( this ).find('#woocommerce-process-checkout-nonce, #_wpnonce' );
+
+                    /**
+                     * Keep the latest nonce only
+                     */
+                    if ( $all_nonces.length > 1 ) {
+                        $all_nonces.not( ':not(:first-child):not(:last-child)' ).remove();
+                    }
+                } );
             }
 
             self.maybeSetTermsCheckbox();

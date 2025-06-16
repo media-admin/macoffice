@@ -9,7 +9,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: n/a\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.12.0\n"
 
 #: cross/CrossRealCategoryLibrary.php:50
 msgid "Do you manage many categories?"
@@ -85,26 +85,23 @@ msgstr ""
 msgid "Your uploads can say more than a thousand words. Unfortunately, search engines do not understand the content of images, for example. Organize your uploads directly in meaningful folder names and achieve a better ranking in search engines!"
 msgstr ""
 
-#: Service.php:162
-#: Service.php:281
+#: Service.php:140
 msgid "No such plugin slug available."
 msgstr ""
 
-#: Service.php:217
+#: Service.php:192
 msgid "The abstract implementation for your slug could not be found."
 msgstr ""
 
-#: Service.php:274
-msgid "You must agree to our privacy policy to continue."
-msgstr ""
-
 #. translators:
-#: view/Options.php:50
+#: view/Options.php:48
+#, php-format
 msgid "Products of %s"
 msgstr ""
 
 #. translators:
-#: view/Options.php:72
+#: view/Options.php:70
+#, php-format
 msgid "Show advertising for not yet installed %s products in the WordPress backend"
 msgstr ""
 
@@ -113,58 +110,33 @@ msgid "Learn more about this plugin"
 msgstr ""
 
 #: WelcomePage.php:66
-#: WelcomePage.php:164
+#: WelcomePage.php:160
 msgid "Support"
 msgstr ""
 
 #: WelcomePage.php:71
-#: WelcomePage.php:167
+#: WelcomePage.php:163
 msgid "Rate plugin"
 msgstr ""
 
-#: WelcomePage.php:156
+#: WelcomePage.php:152
 msgid "Version"
 msgstr ""
 
-#: WelcomePage.php:161
+#: WelcomePage.php:157
 msgid "Info"
 msgstr ""
 
-#: WelcomePage.php:175
+#: WelcomePage.php:171
 msgid "Key feature"
 msgid_plural "Key features"
 msgstr[0] ""
 msgstr[1] ""
 
-#: WelcomePage.php:183
-msgid "Newsletter"
-msgstr ""
-
-#: WelcomePage.php:186
-msgid "Receive the latest news about devowl.io WordPress plugins directly in your inbox"
-msgstr ""
-
-#: WelcomePage.php:190
-msgid "Enter your email..."
-msgstr ""
-
-#. translators:
-#: WelcomePage.php:198
-msgid "I want to receive WordPress news from devowl.io via email and agree to the <a %s>privacy policy</a>."
-msgstr ""
-
-#: WelcomePage.php:202
-msgid "https://devowl.io/privacy-policy/"
-msgstr ""
-
-#: WelcomePage.php:209
-msgid "Subscribe"
-msgstr ""
-
-#: WelcomePage.php:283
+#: WelcomePage.php:247
 msgid "Additional plugins by devowl.io"
 msgstr ""
 
-#: WelcomePage.php:353
+#: WelcomePage.php:328
 msgid "Available in"
 msgstr ""

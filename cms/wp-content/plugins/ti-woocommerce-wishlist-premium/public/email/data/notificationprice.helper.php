@@ -32,6 +32,55 @@ class TInvWL_Public_Email_Data_Notificationprice {
 	public $_version;
 
 	/**
+	 * The email ID.
+	 *
+	 * @var string
+	 */
+	public $id;
+
+	/**
+	 * The email title.
+	 *
+	 * @var string
+	 */
+	public $title;
+
+	/**
+	 * The email description.
+	 *
+	 * @var string
+	 */
+	public $description;
+
+	/**
+	 * The email heading.
+	 *
+	 * @var string
+	 */
+	public $heading;
+
+	/**
+	 * The email subject.
+	 *
+	 * @var string
+	 */
+	public $subject;
+
+	/**
+	 * The template name used for the email.
+	 *
+	 * @var string
+	 */
+	public $template_name;
+
+	/**
+	 * Email settings fields.
+	 *
+	 * @var array
+	 */
+	public $form_fields;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $plugin_name Plugin name.

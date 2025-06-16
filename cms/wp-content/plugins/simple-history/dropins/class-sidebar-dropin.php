@@ -9,39 +9,35 @@ namespace Simple_History\Dropins;
  * Author: Pär Thernström
  */
 class Sidebar_Dropin extends Dropin {
+	/** @inheritdoc */
 	public function loaded() {
 		add_action( 'simple_history/enqueue_admin_scripts', array( $this, 'enqueue_admin_scripts' ) );
 		add_action( 'simple_history/history_page/after_gui', array( $this, 'output_sidebar_html' ) );
 		add_action( 'simple_history/dropin/sidebar/sidebar_html', array( $this, 'default_sidebar_contents' ) );
 	}
 
+	/**
+	 * Output default sidebar contents
+	 */
 	public function default_sidebar_contents() {
-		// Box about donation
-		$headline = _x( 'Donate to support development', 'Sidebar box', 'simple-history' );
+		// Box about donation.
+		$headline = _x( 'Support our work', 'Sidebar box', 'simple-history' );
 
-		$bodyDonate = sprintf(
-			// translators: 1 is a link to the donate page.
-			_x( 'If you like and use Simple History you should <a href="%1$s">donate to keep this plugin free</a>.', 'Sidebar box', 'simple-history' ),
-			'https://eskapism.se/sida/donate/'
-		);
-
-		$bodyGithubSponsors = sprintf(
-			// translators: 1 is a link to the GitHub sponsors page.
-			_x( 'You can also <a href="%1$s">sponsor me at Github</a>.', 'Sidebar box', 'simple-history' ),
-			'https://github.com/sponsors/bonny/'
-		);
+		$donate_first_para = _x( "We're continually working to improve Simple History, adding new features to make it even more useful for you. If you'd like to support our efforts, consider making a contribution. 🙌", 'Sidebar box', 'simple-history' );
+		$donate_second_para = _x( 'Donate to support development', 'Sidebar box', 'simple-history' );
+		$donate_link = 'https://simple-history.com/sponsor/';
 
 		$boxDonate = '
 			<div class="postbox">
-				<h3 class="hndle">' . $headline . '</h3>
+				<h3 class="hndle">' . esc_html( $headline ) . '</h3>
 				<div class="inside">
-					<p>' . $bodyDonate . '</p>
-					<p>' . $bodyGithubSponsors . '</p>
+					<p>' . esc_html( $donate_first_para ) . '</p>
+					<p><a target="_blank" class="sh-ExternalLink" href="' . esc_url( $donate_link ) . '">' . esc_html( $donate_second_para ) . '</a></p>
 				</div>
 			</div>
 		';
 
-		// Box about review
+		// Box about review.
 		$headline = _x( 'Review this plugin if you like it', 'Sidebar box', 'simple-history' );
 
 		$body1 = sprintf(
@@ -62,7 +58,7 @@ class Sidebar_Dropin extends Dropin {
 			</div>
 		';
 
-		// Box about support
+		// Box about support.
 		$boxSupport = sprintf(
 			'
 			<div class="postbox">
@@ -72,7 +68,7 @@ class Sidebar_Dropin extends Dropin {
 				</div>
 			</div>
 			',
-			_x( 'Support', 'Sidebar box', 'simple-history' ), // 1
+			_x( 'Need help?', 'Sidebar box', 'simple-history' ), // 1
 			sprintf(
 				// translators: 1 is a link to the support forum.
 				_x( '<a href="%1$s">Visit the support forum</a> if you need help or have questions.', 'Sidebar box', 'simple-history' ),
@@ -98,6 +94,9 @@ class Sidebar_Dropin extends Dropin {
 		echo implode( '', $arrBoxes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
+	/**
+	 * Enqueue CSS.
+	 */
 	public function enqueue_admin_scripts() {
 		$file_url = plugin_dir_url( __FILE__ );
 
@@ -117,12 +116,10 @@ class Sidebar_Dropin extends Dropin {
 	 *  </div>
 	 */
 	public function output_sidebar_html() {
-
 		?>
 		<div class="SimpleHistory__pageSidebar">
 
 			<div class="metabox-holder">
-
 				<?php
 				/**
 				 * Allows to output HTML in sidebar

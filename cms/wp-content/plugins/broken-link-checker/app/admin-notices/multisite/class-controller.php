@@ -65,10 +65,21 @@ class Controller extends Admin_Notice {
 	public function set_admin_styles() {
 		return array(
 			'blc_multisite_notice' => [
-				'src' => $this->styles_dir . 'multisite-notice.min.css',
-				'ver' => WPMUDEV_BLC_SCIPTS_VERSION,
+				'src' => $this->scripts_dir . 'style-ms-notice.css',
+				'ver' => $this->scripts_version(),
 			],
 		);
+	}
+
+	protected function scripts_version() {
+		static $scripts_version = null;
+
+		if ( is_null( $scripts_version ) ) {
+			$script_data     = include WPMUDEV_BLC_DIR . 'assets/dist/ms-notice.asset.php';
+			$scripts_version = $script_data['version'] ?? WPMUDEV_BLC_SCIPTS_VERSION;
+		}
+
+		return $scripts_version;
 	}
 
 	/**
@@ -95,6 +106,16 @@ class Controller extends Admin_Notice {
 	}
 
 	public function dismiss_multisite_notification() {
+		if ( ! current_user_can( 'edit_others_posts' ) ) {
+			die(
+			json_encode(
+				array(
+					'error' => __( "You're not allowed to do that!", 'broken-link-checker' ),
+				)
+			)
+			);
+		}
+		
 		check_ajax_referer( 'wpmudev-blc-multisite-notification-dismiss-nonce', 'security' );
 
 		Settings::instance()->init();

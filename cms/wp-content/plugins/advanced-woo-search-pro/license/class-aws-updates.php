@@ -36,22 +36,17 @@ if ( ! class_exists( 'AWS_Updater' ) ) :
         public $slug;
 
         /**
-         * Name for transient info value
+         * Name for transient metadata option
          * @var string
          */
-        public $transient_name_info;
+        public $remote_data_option;
 
         /**
-         * Name for transient license value
+         * Name for transient metadata option for last checked time
          * @var string
          */
-        public $transient_name_license;
+        public $remote_data_check_option;
 
-        /**
-         * Name for transient metadata value
-         * @var string
-         */
-        public $transient_name_remote_data;
 
         /**
          * Initialize a new instance of the WordPress Auto-Update class
@@ -64,9 +59,9 @@ if ( ! class_exists( 'AWS_Updater' ) ) :
             $this->update_path                = $conf['update_path'];
             $this->plugin_slug                = $conf['plugin_slug'];
             $this->slug                       = $conf['slug'];
-            $this->transient_name_info        = $conf['transient_name'];
-            $this->transient_name_license     = $conf['transient_license_name'];
-            $this->transient_name_remote_data = $conf['transient_remote_data'];
+
+            $this->remote_data_option         = $conf['remote_data'];
+            $this->remote_data_check_option   = $conf['remote_data_check'];
 
             add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ) );
 
@@ -75,6 +70,7 @@ if ( ! class_exists( 'AWS_Updater' ) ) :
             add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
 
         }
+
 
         /**
          * Add our self-hosted autoupdate plugin to the filter transient
@@ -89,19 +85,17 @@ if ( ! class_exists( 'AWS_Updater' ) ) :
             }
 
             // Get the remote version
-            $remote_version = $this->getRemote_version();
+            $remote_version = $this->get_plugin_remote_version();
 
             // If a newer version is available, add the update
-            if ( version_compare( $this->current_version, $remote_version, '<' ) ) {
+            if ( $remote_version && version_compare( $this->current_version, $remote_version, '<' ) ) {
 
                 // Get the remote information
-                $information = $this->getRemote_information();
+                $information = $this->get_plugin_remote_info_option();
 
                 if ( ! $information ) {
                     return $transient;
                 }
-
-                delete_transient( $this->transient_name_info );
 
                 $obj = new stdClass();
                 $obj->slug = $this->slug;
@@ -132,7 +126,7 @@ if ( ! class_exists( 'AWS_Updater' ) ) :
 
             if ( property_exists( $arg, 'slug' ) && $arg->slug && $arg->slug === $this->slug ) {
 
-                $information = $this->get_plugin_info();
+                $information = $this->get_plugin_remote_info_option();
 
                 return $information;
 
@@ -147,45 +141,52 @@ if ( ! class_exists( 'AWS_Updater' ) ) :
          */
         public function get_plugin_info() {
 
-            $information = get_transient( $this->transient_name_info );
-
-            if ( false === $information ) {
-
-                $information = $this->getRemote_information();
-
-                set_transient( $this->transient_name_info, $information, 60 * 60 * 6 );
-
-            }
+            $information = get_option( $this->remote_data_option );
 
             return $information;
 
         }
 
-        /**
-         * Return the remote version
-         * @return string $remote_version
+        /*
+         * Get plugin remote version
          */
-        public function getRemote_version() {
+        public function get_plugin_remote_version() {
 
-            $license = get_transient( $this->transient_name_license );
-            if ( $license ) {
-                return $license;
-            }
+            $information = $this->get_plugin_remote_info_option();
 
-            $request = wp_remote_post( $this->update_path, array( 'timeout' => 30, 'sslverify' => $this->verify_ssl(), 'body' => array(
-                'action' => 'version',
-                'slug' => $this->slug,
-                'installed_version' => $this->current_version,
-                'license' => AWS_PRO()->license->get_license_key(),
-            ) ) );
-
-            if ( ! is_wp_error($request) || wp_remote_retrieve_response_code( $request ) === 200 ) {
-                $response = is_array($request) && isset($request['body']) && $request['body'] ? $request['body'] : false;
-                set_transient( $this->transient_name_license, $response, 60 * 60 * 6 );
-                return $response;
+            if ( $information && $information->version ) {
+                return $information->version;
             }
 
             return false;
+
+        }
+
+        /*
+         * Return plugin info from remote server. Check option expiration time
+         */
+        public function get_plugin_remote_info_option() {
+
+            $now = time();
+            $expiration = 60 * 60 * 12;
+
+            $ts = (int) get_option( $this->remote_data_check_option );
+            $information = get_option( $this->remote_data_option );
+
+            if ( ! $information || $ts + $expiration < $now ) {
+
+                $information = $this->getRemote_information();
+
+                if ( $information ) {
+                    update_option( $this->remote_data_option, $information );
+                }
+
+                update_option( $this->remote_data_check_option, $now  );
+
+            }
+
+            return $information;
+
 
         }
 
@@ -195,23 +196,27 @@ if ( ! class_exists( 'AWS_Updater' ) ) :
          */
         public function getRemote_information() {
 
-            $information = get_transient( $this->transient_name_remote_data );
-            if ( $information ) {
-                return $information;
-            }
-
             $request = wp_remote_post( $this->update_path, array( 'timeout' => 30, 'sslverify' => $this->verify_ssl(), 'body' => array(
                 'action' => 'get_metadata',
                 'slug' => $this->slug,
                 'installed_version' => $this->current_version,
                 'license' => AWS_PRO()->license->get_license_key(),
+                'ismu' => is_multisite()
             ) ) );
 
-            if ( ! is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) === 200 ) {
+
+            if ( ! is_wp_error( $request ) && wp_remote_retrieve_response_code( $request ) === 200 ) {
+
                 $response = is_array($request) && isset($request['body']) && $request['body'] ? @unserialize( $request['body'] ) : false;
-                $response = apply_filters( 'aws_remote_information', $response );
-                set_transient( $this->transient_name_remote_data, $response, 60 * 60 * 12 );
-                return $response;
+
+                if ( $response ) {
+
+                    $response = apply_filters( 'aws_remote_information', $response );
+
+                    return $response;
+
+                }
+
             }
 
             return false;
@@ -229,7 +234,8 @@ if ( ! class_exists( 'AWS_Updater' ) ) :
                 'action' => 'license',
                 'slug' => $this->slug,
                 'license' => $license_key,
-                'installed_version' => $this->current_version
+                'installed_version' => $this->current_version,
+                'ismu' => is_multisite()
             ) ) );
 
             $response_text = 'Invalid';
@@ -256,7 +262,8 @@ if ( ! class_exists( 'AWS_Updater' ) ) :
                 'action' => 'license_remove',
                 'slug' => $this->slug,
                 'license' => $license_key,
-                'installed_version' => $this->current_version
+                'installed_version' => $this->current_version,
+                'ismu' => is_multisite()
             ) ) );
 
             if ( ! is_wp_error( $request ) && wp_remote_retrieve_response_code( $request ) === 200 ) {

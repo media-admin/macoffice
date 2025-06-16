@@ -10,6 +10,7 @@ use WP_Error;
 // @codeCoverageIgnoreEnd
 /**
  * Handle Real Product Manager API calls (Utilities).
+ * @internal
  */
 class ClientUtils
 {

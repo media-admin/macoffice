@@ -12,14 +12,13 @@
 
 /* === LIGHT MODE / DARK MODE SWITCHER === */
 
-
-
 :root[data-applied-mode="dark"] {
 	color-scheme: dark;
 
-
 	body {
 		color-scheme: dark;
+		background-color: $color-white !important;
+
 
  	/* --- General Styles --- */
  	filter: invert(100%);
@@ -62,8 +61,15 @@
 
 
  	& .site-main {
-	 	background-color: $color-tertiary !important;
+	 	/* background-color: $color-tertiary !important; */
+		/* background-color: $color-tertiary-invert !important; */
  	}
+
+
+ & .single-product .content-area {
+		background-color: $color-tertiary !important;
+	}
+
 
  	& .btn--gray:hover {
 	 	background-color: $color-primary !important;
@@ -71,83 +77,136 @@
  	}
 
 
- 	/* --- Top Site Header --- */
+	/* --- Top Site Header --- */
  	& .site-header-top {
-	 	filter: invert(100%);
-
-
+	 filter: invert(100%);
  	}
 
- 	& .site-header-top__contact-information {
-	 	filter: invert(100%);
- 	}
+	& .site-header-top__contact-information {
+		filter: invert(100%);
+	}
 
- 	& .site-header-top p {
-	 	filter: invert(90%);
- 	}
+	& .site-header-top a {
+  	filter: invert(90%);
+	}
 
- 	& .site-header-top a {
-	 	filter: invert(90%);
- 	}
+	& .site-header-top p {
+		filter: invert(100%);
+	}
 
- 	& .site-header-top__contact-information-opening-sign {
-	 	filter: invert(100%);
- 	}
+	& .site-header-top__contact-information-opening-link {
+		;
+	}
 
- 	& .site-header-top__contact-information-opening-icon {
- 	}
-
- 	& .site-header-top__contact-information-address-icon {
- 	}
-
- 	& .site-header-top__contact-information-phone-icon {
- 	}
-
- 	& .site-header-top__contact-information-mail-icon {
- 	}
-
- 	& .site-header-top__contact-information-hotline-icon {
- 	}
+	& .site-header-top__contact-information-opening-link .site-header-top__contact-information-opening-hours {
+		filter: invert(0%);
+	}
 
 
- 	/* --- Site Header --- */
- 	& .site-header {
-	 	border-bottom: 3px solid #5edad7 !important;
- 	}
+	& .site-header-top__contact-information-opening-link .site-header-top__contact-information-opening-sign {
+  	filter: invert(0%);
+	}
 
- 	& .site-header__navi-contact-information {
-	 	filter: invert(100%);
-	 	color: $color-white !important;
-	 	background-color: $color-black !important;
- 	}
+	& .site-header-top__contact-information-opening > .site-header-top__contact-information-opening-link > img.site-header-top__contact-information-opening-icon,
+	& .site-header-top__contact-information-address > .site-header-top__contact-information-address-link > img.site-header-top__contact-information-address-icon {
+		filter: invert(0%) !important;
+	}
 
- 	& .site-header .navbar-item--submenu-button:after {
-	 	filter: invert(100%);
- 	}
+	& .site-header-top__contact-information-phone-icon {
+		filter: invert(0%);
+	}
 
- 	& .site-header .navbar-item__submenu .navbar-item a:hover {
-	 	filter: invert(100%);
- 	}
+	& .site-header-top__contact-information-mail-icon {
+		filter: invert(0%);
+	}
 
- 	& #site-header__logo-img-light {
-	 	display: none;
- 	}
+	& .site-header-top__contact-information-hotline-icon {
+		filter: invert(0%);
+	}
 
- 	& #site-header__logo-img-dark {
-	 	display: inherit;
- 	}
+	& .site-header-top__contact-information-remote-support-icon {
+		filter: invert(0%);
+	}
 
- 	& #site-header__apple-haendler-light {
-	 	display: none;
- 	}
+
+
+ /* --- Site Header --- */
+ & .site-header {
+	border-bottom: 3px solid #5edad7 !important;
+ }
+
+
+	.navbar-item a:hover,
+	.navbar-item a:active,
+	.navbar-item a.current_page_item {
+		border-bottom-color: #5edad7;
+	}
+
+
+	& .site-header__navi-contact-information {
+		filter: invert(100%);
+		color: $color-white !important;
+		background-color: $color-black !important;
+	}
+
+	& .site-header .navbar-item--submenu-button:after {
+		filter: invert(100%);
+	}
+
+	& .site-header .navbar-item__submenu .navbar-item a:hover {
+		filter: invert(100%);
+	}
+
+	& #site-header__logo-img-light {
+		display: none;
+	}
+
+	& #site-header__logo-img-dark {
+		display: inherit;
+	}
+
+	& #site-header__apple-haendler-light {
+		display: none;
+	}
 
  	& #site-header__apple-haendler-dark {
-	 	display: inherit;
+	 display: inherit;
  	}
+
+	& #site-header__apple-autorisierter-haendler-img {
+		filter: invert(0%);
+	}
+
+	& #site-header__apple-autorisierter-service-provider-img {
+		filter: invert(0%);
+	}
+
+
+
 
  	& .wishlist_products_counter_number {
 	 	filter: invert(100%);
  	}
+
+
+
+/* 	& .site-header__navi-contact-information-remote-support > img.site-header__navi-contact-information-remote-support-icon {
+		 filter: invert(100%) !important;
+	 } */
+
+
+
+
+	 & .site-header__navi-contact-information a {
+	    color: $color-white;
+		 }
+
+
+
+
+		&  .navbar__navigation-list {
+		border-top-color: $color-primary-invert;
+		}
 
 
  	/* --- Site Main --- */
@@ -190,13 +249,49 @@
 
 
 
+
+
+	/* --- Component Service Prices --- */
+
+
+	.service-prices__container .service-prices__device-listing-link button {
+		color: $color-secondary;
+	}
+
+
+	.service-prices__container .service-prices__device-listing-link button:hover,
+	.service-prices__container .service-prices__device-listing-link button:active,
+	.selectedbutton,
+	.selecteddev,
+	.selectedrepairbutton {
+		filter: invert(100%);
+		color: $color-primary !important;
+		border-color: $color-primary !important;
+	}
+
+
+	.service-prices__repair-bonus-card {
+		border-left-color: $color-green-invert;
+
+		@include atMedium {
+
+		}
+	}
+
+
+
+
+
+
+
+
  	/* --- Page Merkzettel --- */
  	& .tinv-wishlist .tinv-header {
 	 	display: none;
  	}
 
  	& .woocommerce-info {
-	 	border-top-color: $color-primary;
+	 	border-top-color: $color-primary-invert !important;
  	}
 
  	& .woocommerce-info:before {
@@ -205,8 +300,44 @@
  	}
 
  	& .merkzettel .woocommerce-info {
- 		border-top-color: $color-primary-invert;
+ 		border-top-color: $color-primary-invert !important;
  	}
+
+
+	&.merkzettel .tinvwl-estimate-wrap a.button,
+	&.merkzettel button.tinvwl-button,
+	&.merkzettel.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles)) #respond input#submit,
+	&.merkzettel.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles)) a.button,
+	&.merkzettel.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles)) button.button,
+	&.merkzettel.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles)) input.button,
+	&.merkzettel:where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce #respond input#submit,
+	&.merkzettel:where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce a.button,
+	&.merkzettel:where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce button.button,
+	&.merkzettel:where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce input.button {
+		color: $color-tertiary-invert !important;
+		background-color: $color-primary-invert !important;
+		border-radius: 25px;
+		padding: 0.75rem 2rem;
+	}
+
+
+
+
+	/* --- Merkzettel Modal --- */
+
+	&.merkzettel .tinv-wishlist .estimate-dialogbox form button {
+		color: $color-secondary-invert !important;
+		background-color: $color-tertiary-invert !important;
+		text-decoration: none !important;
+	}
+
+
+	&.merkzettel .tinv-wishlist .estimate-dialogbox form button:hover {
+		color: $color-tertiary-invert !important;
+		background-color: $color-primary-invert !important;
+		text-decoration: none !important;
+	}
+
 
 
 
@@ -244,6 +375,60 @@
 
 
 
+
+	/* --- Single Product --- */
+
+	& .product .woocommerce-Price-amount {
+		filter: invert(100%);
+	}
+
+	& .tinvwl_add_to_wishlist_button:hover {
+		filter: invert(100%);
+	}
+
+
+	/* Forms */
+
+	& .contact-form-section__form-heading {
+		border-bottom-color: $color-primary-invert;
+	}
+
+
+	& .contact-form-section__form input {
+		color: $color-black;
+	}
+
+
+	& .contact-form-section__form-item-error-description {
+		color: $color-black;
+	}
+
+
+	& .contact-form-section input[type=checkbox]:checked:after {
+		border-color: $color-primary-invert !important;
+	}
+
+
+	& .wpcf7-not-valid-tip {
+		background-color: $color-primary-invert;
+	}
+
+
+
+
+
+
+	/* --- Error found Button  --- */
+	& .error-found__button {
+		filter: invert(100%);
+	}
+
+
+
+
+
+
+
  	/* --- Site Footer --- */
  	& .site-footer {
 	 	filter: invert(100%);
@@ -251,21 +436,22 @@
  	}
 
  	& .site-footer__logo-link {
-	 	filter: invert(100%);
- 	}
-
- 	& .site-footer__logo-img {
-	 	-webkit-filter: invert(0%);
-	 	-moz-filter: invert(0%);
-	 	-ms-filter: invert(0%);
-	 	-o-filter: invert(0%);
 	 	filter: invert(0%);
  	}
 
-
- 	& .site-footer__apple-haendler {
+ 	& .site-footer__logo-img {
+	 	-webkit-filter: invert(0%) !important;
+	 	-moz-filter: invert(100%);
+	 	-ms-filter: invert(0%);
+	 	-o-filter: invert(0%);
 	 	filter: invert(100%);
  	}
+
+
+ 	& .site-footer__apple-certificates {
+	 	filter: invert(100%);
+ 	}
+
 
  	& .site-footer__contact-address-icon {
 	 	filter: invert(0%);
@@ -299,6 +485,15 @@
  	& .site-footer__vcard-img {
 			filter: invert(0%);
 		}
+
+
+	& .site-footer__link-teamviewer:hover {
+		color: $color-tertiary-invert !important;
+		background-color: $color-primary-invert !important;
+		text-decoration: none !important;
+	}
+
+
 
 
  	/* --- Back To Top Button --- */

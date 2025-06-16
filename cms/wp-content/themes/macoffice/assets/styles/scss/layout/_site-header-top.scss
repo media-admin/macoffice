@@ -30,11 +30,39 @@
     position: relative;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+/*     justify-content: flex-start; */
+    justify-content: space-around;
     align-items: center;
+    font-size: 1.0rem;
+  }
+
+  @include atLarge {
+      position: relative;
+      width: 100%;
+      display: flex;
+  /*     justify-content: flex-start; */
+      justify-content: space-around;
+      align-items: center;
+      font-size: 1.4rem;
+    }
+
+}
+
+
+.site-header-top__contact-information a,
+.site-header-top__contact-information p {
+
+  @include atMedium {
+    font-size: 1.0rem;
+  }
+
+  @include atLarge {
     font-size: 1.4rem;
   }
+
 }
+
+
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
   .site-header-top__contact-information {
@@ -50,15 +78,46 @@
 
 
 .site-header-top__contact-information-opening {
+  position: relative;
+  top: 2px;
+
+  /*
   display: inline-flex;
   padding-right: 1.0rem;
   margin-right: auto;
   margin-left: auto;
+
+  margin-right: 0;
+  margin-left: 0;
+  */
+}
+
+
+.site-header-top__contact-information-opening-link {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding-right: 1.0rem;
+  margin-right: auto;
+  margin-left: auto;
+
+  margin-right: 0;
+  margin-left: 0;
 }
 
 
 .site-header-top__contact-information-opening-icon {
+/*   display: inline; */
   padding-right: 0.5rem;
+
+  @include atMedium {
+    width: 8%;
+    height: auto;
+  }
+
+  @include atLarge {
+    width: initial;
+    height: auto;
+  }
 }
 
 
@@ -69,6 +128,7 @@
 
 
 .site-header-top__contact-information-opening-sign {
+  display: none;
   width: 15px;
   height: 15px;
   line-height: 1.6rem;
@@ -120,15 +180,41 @@
   padding-right: 1.0rem;
   margin-right: auto;
   margin-left: auto;
+
+  margin-right: 0;
+  margin-left: 0;
+}
+
+
+.site-header-top a.site-header-top__contact-information-address-link {
+
+  @include atMedium {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    margin-bottom: initial;
+  }
 }
 
 
 .site-header-top__contact-information-address-icon {
+  display: inline;
   padding-right: 0.5rem;
+
+    @include atMedium {
+      width: 8%;
+      height: auto;
+    }
+
+    @include atLarge {
+      width: initial;
+      height: auto;
+    }
 }
 
 
 .site-header-top__contact-information-address-data {
+  display: inline;
   color: $color-white;
   margin-bottom: initial;
 }
@@ -139,15 +225,43 @@
   padding-right: 1.0rem;
   margin-right: auto;
   margin-left: auto;
+
+  margin-right: 0;
+  margin-left: 0;
+}
+
+
+.site-header-top a.site-header-top__contact-information-phone-link {
+
+  @include atMedium {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    margin-bottom: initial;
+  }
 }
 
 
 .site-header-top__contact-information-phone-icon {
+  display: inline;
   padding-right: 0.5rem;
+
+  @include atMedium {
+    width: 15%;
+    height: auto;
+  }
+
+  @include atLarge {
+    width: initial;
+    height: auto;
+  }
 }
 
 
 .site-header-top__contact-information-phone-number {
+  display: inline;
+  color: $color-white;
+  margin-bottom: initial;
 }
 
 
@@ -156,15 +270,45 @@
   padding-right: 1.0rem;
   margin-right: auto;
   margin-left: auto;
+
+  margin-right: 0;
+  margin-left: 0;
+}
+
+
+.site-header-top a.site-header-top__contact-information-mail-link {
+
+  @include atMedium {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    background-color: none !important;
+    margin-bottom: initial;
+  }
 }
 
 
 .site-header-top__contact-information-mail-icon {
+  display: inline;
   padding-right: 0.5rem;
+
+  @include atMedium {
+    width: 15%;
+    height: auto;
+  }
+
+  @include atLarge {
+    width: initial;
+    height: auto;
+  }
 }
 
 
 .site-header-top__contact-information-mail-address {
+  display: inline;
+  color: $color-white;
+  background-color: transparent !important;
+  margin-bottom: initial;
 }
 
 
@@ -174,15 +318,105 @@
   padding-right: 1.0rem;
   margin-right: auto;
   margin-left: auto;
+
+  margin-right: 0;
+  margin-left: 0;
+
+  margin-bottom: initial !important;
 }
 
+
+.site-header-top a.site-header-top__contact-information-hotline-link {
+
+  @include atMedium {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    margin-bottom: initial !important;
+  }
+}
+
+
+.site-header-top a.site-header-top__contact-information-hotline-link p {
+
+  @include atMedium {
+    margin-bottom: initial !important;
+  }
+}
 
 .site-header-top__contact-information-hotline-icon {
-  padding-right:0.5rem;
+  display: inline;
+  padding-right: 0.5rem;
+
+  @include atMedium {
+    width: 30%;
+    height: auto;
+  }
+
+  @include atLarge {
+    max-width: 30px;
+    width: initial;
+    height: auto;
+  }
 }
+
+
+
+
+
+
 
 
 .site-header-top__contact-information-hotline-number {
+  display: inline;
+  color: $color-white;
+  margin-bottom: initial;
+}
+
+
+.site-header-top__contact-information-remote-support {
+  display: inline-flex;
+  align-items: center;
+  padding-right: 1.0rem;
+  margin-right: auto;
+  margin-left: auto;
+
+  margin-right: 0;
+  margin-left: 0;
+}
+
+
+.site-header-top__contact-information-remote-support-link {
+
+  @include atMedium {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    margin-bottom: initial;
+  }
+}
+
+
+.site-header-top__contact-information-remote-support-icon {
+  display: inline;
+  padding-right: 0.5rem;
+
+  @include atMedium {
+    width: 20%;
+    height: auto;
+  }
+
+  @include atLarge {
+    width: initial;
+    height: auto;
+  }
+}
+
+
+.site-header-top__contact-information-remote-support-url {
+  display: inline;
+  color: $color-white;
+  margin-bottom: initial;
 }
 
 
@@ -194,94 +428,52 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-.site-header-top {
-  display: none;
-
-  @include atMedium {
-    position: relative;
-    display: initial;
-    overflow: hidden;
-    z-index: 100 !important;
+/* === iPad Air === */
+@media only screen and (device-width: 820px) and (device-height: 1180px) and (orientation : portrait) {
+  .site-header-top__contact-information a,
+  .site-header-top__contact-information p {
+    font-size: 0.8rem;
   }
 
-  &__contact-information {
-    position: relative;
-    display: flex;
-    height: 60px;
-    margin-right: 0;
-    margin-left: auto;
-    justify-content: space-around;
-    align-items: center;
-    background-color: $color-tertiary;
-    border-bottom: 3px solid $color-primary;
-    padding-left: 150px;
+  .site-header-top__contact-information-opening-icon {
+    width: 8%;
+    height: auto;
+    padding-right: 0.5rem;
   }
 
-  &__contact-information > div {
-    margin-left: 2rem;
+  .site-header-top__contact-information-address-icon {
+    display: inline;
+    padding-right: 0.5rem;
+    width: 8%;
+    height: auto;
   }
 
-  &__contact-information-name {
-    font-weight: 700;
-    color: $color-secondary;
+  .site-header-top__contact-information-phone-icon {
+    display: inline;
+    padding-right: 0.5rem;
+    width: 15%;
+    height: auto;
   }
 
-  &__contact-information-address {
+  .site-header-top__contact-information-mail-icon {
+    display: inline;
+    padding-right: 0.5rem;
+    width: 15%;
+    height: auto;
   }
 
-  &__contact-information-address-icon {
-    margin-right: 0.5rem;
-    margin-bottom: -4px;
+  .site-header-top__contact-information-hotline-icon {
+    display: inline;
+    padding-right: 0.5rem;
+    width: 30%;
+    height: auto;
   }
 
-  &__contact-information-address-info {
+  .site-header-top__contact-information-remote-support-icon {
+    display: inline;
+    padding-right: 0.5rem;
+    width: 20%;
+    height: auto;
   }
 
-  &__contact-information-phone {
-  }
-
-  &__contact-information-phone-icon {
-    margin-right: 0.5rem;
-    margin-bottom: -2px;
-  }
-
-  &__contact-information-phone-number {
-  }
-
-  &__contact-information-mail {
-    padding-right: 1.5rem;
-  }
-
-  &__contact-information-mail-icon {
-    margin-right: 0.5rem;
-    margin-bottom: -2px;
-  }
-
-  &__contact-information-mail-address {
-  }
-
-  & a {
-    color: $color-secondary;
-    @include style-text-link-default;
-  }
-} */
+}

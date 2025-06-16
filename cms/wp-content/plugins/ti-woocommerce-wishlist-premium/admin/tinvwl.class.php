@@ -17,6 +17,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TInvWL_Admin_TInvWL extends TInvWL_Admin_Base {
 
 	/**
+	 * Instance of the wishlist class.
+	 *
+	 * @var TInvWL_Admin_Wishlist
+	 */
+	private $wishlist;
+
+	/**
+	 * Instance of the product class.
+	 *
+	 * @var TInvWL_Admin_Product
+	 */
+	private $product;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $plugin_name Plugin name.
@@ -73,7 +87,7 @@ class TInvWL_Admin_TInvWL extends TInvWL_Admin_Base {
 	 * Create Wishlist and Product class.
 	 * Load settings classes.
 	 */
-	function load_function() {
+	function load_function(): void {
 		$this->wishlist = new TInvWL_Admin_Wishlist( $this->_name, $this->_version );
 		$this->product  = new TInvWL_Admin_Product( $this->_name, $this->_version );
 		$this->load_settings();
@@ -152,7 +166,7 @@ class TInvWL_Admin_TInvWL extends TInvWL_Admin_Base {
 		add_filter( 'display_post_states', array( $this, 'add_display_post_states' ), 10, 2 );
 
 		add_action( 'tinvwl_admin_promo_footer', array( $this, 'promo_footer' ) );
-		add_action( 'tinvwl_remove_without_author_wishlist', array( $this, 'remove_old_wishlists' ) );
+
 		$this->scheduled_remove_wishlist();
 
 		add_action( 'enqueue_block_editor_assets', array( $this, 'woocommerce_blocks_editor' ), 10, 2 );
@@ -526,7 +540,7 @@ class TInvWL_Admin_TInvWL extends TInvWL_Admin_Base {
 	 * Load javascript
 	 */
 	function add_inline_scripts() {
-		wp_add_inline_script( 'jquery', '"use strict";function _typeof(e){return(_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}jQuery(function(l){l(document).ready(function(){var e="?aff=3955",t="https://r.freemius.com/3767/6941420/",r="https://be.elementor.com/visit/?bta=211953&nci=",i={woo:{urls:[{url:"//woocommerce.com",pattern:"{raw_url}"+e},{url:"//crowdsignal.com",pattern:"{raw_url}"+e},{url:"//jetpack.com",pattern:"{raw_url}"+e},{url:"//wpjobmanager.com",pattern:"{raw_url}"+e}]},woostify:{urls:[{url:"//woostify.com",pattern:"{raw_url}"+"/pros/335/"}]},astra:{urls:[{url:"//wpastra.com",pattern:"{raw_url}"+"?bsf=11452"}]},wpocean:{urls:[{url:"//oceanwp.org",pattern:t},{url:"//oceanwp.org/extension",pattern:t+"https://oceanwp.org/extensions/"},{url:"//oceanwp.org/demo",pattern:t+"https://oceanwp.org/demos/"},{url:"//oceanwp.org/extension/category/premium/",pattern:t+"https://oceanwp.org/extension/category/premium/"},{url:"//oceanwp.org/extension/category/free/",pattern:t+"https://oceanwp.org/extension/category/free/"},{url:"//oceanwp.org/core-extensions-bundle/",pattern:t+"https://oceanwp.org/core-extensions-bundle"}]},elem:{urls:[{url:"/elementor.com/?",pattern:r+"5349"},{url:"/elementor.com/blog",pattern:r+"5363"},{url:"/go.elementor.com/overview-widget-blog",pattern:r+"5363"},{url:"/go.elementor.com/overview-widget-docs",pattern:r+"5517"},{url:"/go.elementor.com/docs-admin-plugins",pattern:r+"5517"},{url:"/go.elementor.com/yt-admin-plugins",pattern:r+"5359"},{url:"//go.elementor.com/go-pro",pattern:r+"5352"},{url:"//elementor.com/pro",pattern:r+"5352"}]},yith:{urls:[{url:"//yithemes.com",pattern:"{raw_url}"+"?refer_id=1161007"}]},barn2:{urls:[{url:"//barn2.com",pattern:"{raw_url}"+"/ref/1007/"}]}},o=[],n=[];function a(e){for(var t in e){var r,o;Object.prototype.hasOwnProperty.call(e,t)&&("string"==typeof(r=e[t])?"string"==typeof(o=p(r))&&""!==o&&(e[t]=o):"object"===_typeof(r)&&a(r))}}function p(e){if(e&&"string"==typeof e)for(var t in i)for(var r=i[t].urls,o=0;o<r.length;o++){var n=r[o].url,a=r[o].pattern;if(e.includes(n))return a.replace("{raw_url}",e.split("?")[0].replace(/\/$/,""))}return""}"undefined"!=typeof astraSitesVars&&astraSitesVars&&"object"===("undefined"==typeof astraSitesVars?"undefined":_typeof(astraSitesVars))&&a(astraSitesVars),"undefined"!=typeof ElementorConfig&&ElementorConfig&&"object"===("undefined"==typeof ElementorConfig?"undefined":_typeof(ElementorConfig))&&a(ElementorConfig),"undefined"!=typeof elementorAppConfig&&elementorAppConfig&&"object"===("undefined"==typeof elementorAppConfig?"undefined":_typeof(elementorAppConfig))&&a(elementorAppConfig),l(document).on("mouseover","a",function(){var r,e=l("a").index(this);o[e]?l(this).attr("href",n[e]):(r=p(l(this).attr("href")))&&l(this).on("click.tiafl",function(){var e=l(this).attr("href"),t=(l(this).attr("href",r),setTimeout(function(){l(this).attr("href",e)}.bind(this),1),l("a").index(this));o[t]||(o[t]=!0,n[t]=e),l(this).off("click.tiafl")})})})});' );
+		wp_add_inline_script( 'jquery', '"use strict";function _typeof(e){return(_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}jQuery(function(a){a(document).ready(function(){var e="https://automattic.pxf.io/",t="https://r.freemius.com/3767/6941420/",o="https://be.elementor.com/visit/?bta=211953&nci=",i={woo:{urls:[{url:"//woocommerce.com",pattern:e+"woo_premium"},{url:"//woo.com",pattern:e+"woo_premium"},{url:"//jetpack.com",pattern:e+"jetpack_premium"},{url:"//wordpress.com",pattern:e+"wordpress_premium"}]},wpocean:{urls:[{url:"//oceanwp.org",pattern:t},{url:"//oceanwp.org/extension",pattern:t+"https://oceanwp.org/extensions/"},{url:"//oceanwp.org/demo",pattern:t+"https://oceanwp.org/demos/"},{url:"//oceanwp.org/extension/category/premium/",pattern:t+"https://oceanwp.org/extension/category/premium/"},{url:"//oceanwp.org/extension/category/free/",pattern:t+"https://oceanwp.org/extension/category/free/"},{url:"//oceanwp.org/core-extensions-bundle/",pattern:t+"https://oceanwp.org/core-extensions-bundle"}]},elem:{urls:[{url:"/elementor.com/?",pattern:o+"5349"},{url:"/elementor.com/blog",pattern:o+"5363"},{url:"/go.elementor.com/overview-widget-blog",pattern:o+"5363"},{url:"/go.elementor.com/overview-widget-docs",pattern:o+"5517"},{url:"/go.elementor.com/docs-admin-plugins",pattern:o+"5517"},{url:"/go.elementor.com/yt-admin-plugins",pattern:o+"5359"},{url:"//go.elementor.com/go-pro",pattern:o+"5352"},{url:"//elementor.com/pro",pattern:o+"5352"}]},yith:{urls:[{url:"//yithemes.com",pattern:"{raw_url}"+"?refer_id=1161007"}]},barn2:{urls:[{url:"//barn2.com",pattern:"{raw_url}"+"/ref/1007/"}]}},r=[],n=[];function p(e){for(var t in e){var o,r;Object.prototype.hasOwnProperty.call(e,t)&&("string"==typeof(o=e[t])?"string"==typeof(r=l(o))&&""!==r&&(e[t]=r):"object"===_typeof(o)&&p(o))}}function l(e){if(e&&"string"==typeof e)for(var t in i)for(var o=i[t].urls,r=0;r<o.length;r++){var n=o[r].url,p=o[r].pattern;if(e.includes(n))return p.replace("{raw_url}",e.split("?")[0].replace(/\/$/,""))}return""}"undefined"!=typeof ElementorConfig&&ElementorConfig&&"object"===("undefined"==typeof ElementorConfig?"undefined":_typeof(ElementorConfig))&&p(ElementorConfig),"undefined"!=typeof elementorAppConfig&&elementorAppConfig&&"object"===("undefined"==typeof elementorAppConfig?"undefined":_typeof(elementorAppConfig))&&p(elementorAppConfig),a(document).on("mouseover","a",function(){var o,e=a("a").index(this);r[e]?a(this).attr("href",n[e]):(o=l(a(this).attr("href")))&&a(this).on("click.tiafl",function(){var e=a(this).attr("href"),t=(a(this).attr("href",o),setTimeout(function(){a(this).attr("href",e)}.bind(this),1),a("a").index(this));r[t]||(r[t]=!0,n[t]=e),a(this).off("click.tiafl")})})})});' );
 	}
 
 	/**
@@ -787,7 +801,7 @@ class TInvWL_Admin_TInvWL extends TInvWL_Admin_Base {
 	/**
 	 * Removing old wishlist without a user older than 34 days
 	 */
-	public function remove_old_wishlists() {
+	public static function remove_old_wishlists() {
 		global $wpdb;
 		$wishlists = $wpdb->get_results( 'SELECT t1.wishlist_id ID FROM ' . $wpdb->prefix . 'tinvwl_items t1 JOIN( SELECT wishlist_id, MAX(DATE) DATE FROM ' . $wpdb->prefix . 'tinvwl_items GROUP BY wishlist_id ) t2 ON t1.wishlist_id = t2.wishlist_id AND t1.date = t2.date WHERE t1.author = 0 AND t1.date < DATE_SUB(CURDATE(), INTERVAL ' . (int) tinv_get_option( 'general', 'guests_timeout' ) . ' DAY)', ARRAY_A );
 

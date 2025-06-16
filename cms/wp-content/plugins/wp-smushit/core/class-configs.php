@@ -9,9 +9,11 @@
 namespace Smush\Core;
 
 use Exception;
+use Smush\Core\CDN\CDN_Controller;
 use WP_Error;
 use WP_REST_Request;
 use WP_Smush;
+use Smush\Core\Next_Gen\Next_Gen_Manager;
 
 /**
  * Class Configs
@@ -27,7 +29,7 @@ class Configs {
 	 *
 	 * @var array
 	 */
-	private $pro_features = array( 'png_to_jpg', 's3', 'nextgen', 'cdn', 'webp', 'webp_mod' );
+	private $pro_features = array( 'png_to_jpg', 's3', 'nextgen', 'cdn', 'webp', 'webp_mod', 'avif_mod' );
 
 	/**
 	 * @var Settings
@@ -110,6 +112,7 @@ class Configs {
 						'original'          => true,
 						'backup'            => true,
 						'png_to_jpg'        => true,
+						'background_email'  => false,
 						'nextgen'           => false,
 						's3'                => false,
 						'gutenberg'         => false,
@@ -124,6 +127,7 @@ class Configs {
 						'background_images' => true,
 						'rest_api_support'  => false,
 						'webp_mod'          => false,
+						'avif_mod'          => false,
 					),
 				),
 			),
@@ -319,18 +323,26 @@ class Configs {
 					}
 				}
 
-				// Update the flag file when local webp changes.
-				if ( isset( $new_settings['webp_mod'] ) && $new_settings['webp_mod'] !== $stored_settings['webp_mod'] ) {
-					WP_Smush::get_instance()->core()->mod->webp->toggle_webp( $new_settings['webp_mod'] );
-					// Hide the wizard form if Local Webp is configured.
-					if ( WP_Smush::get_instance()->core()->mod->webp->is_configured() ) {
-						update_site_option( 'wp-smush-webp_hide_wizard', 1 );
+				if ( isset( $new_settings['webp_mod'] ) || isset( $new_settings['avif_mod'] ) ) {
+					$direct_conversion_enabled = ! empty( $new_settings['webp_direct_conversion'] );
+					$settings_handler->set( 'webp_direct_conversion', $direct_conversion_enabled );
+
+					$webp_activated   = ! empty( $new_settings['webp_mod'] );
+					$avif_activated   = ! empty( $new_settings['avif_mod'] );
+					$next_gen_manager = Next_Gen_Manager::get_instance();
+
+					if ( $webp_activated || $avif_activated ) {
+						$activated_format = $webp_activated ? 'webp' : 'avif';
+						$next_gen_manager->activate_format( $activated_format );
+					} else {
+						$next_gen_manager->get_format_configuration( 'webp' )->toggle_module( false );
+						$next_gen_manager->get_format_configuration( 'avif' )->toggle_module( false );
 					}
 				}
 
 				// Update the CDN status for CDN changes.
 				if ( isset( $new_settings['cdn'] ) && $new_settings['cdn'] !== $stored_settings['cdn'] ) {
-					WP_Smush::get_instance()->core()->mod->cdn->toggle_cdn( $new_settings['cdn'] );
+					CDN_Controller::get_instance()->toggle_cdn( $new_settings['cdn'] );
 				}
 
 				// Keep the stored settings that aren't present in the incoming one.
@@ -466,6 +478,10 @@ class Configs {
 			if ( isset( $config['settings']['lossy'] ) ) {
 				$sanitized['settings']['lossy'] = $this->settings->sanitize_lossy_level( $config['settings']['lossy'] );
 			}
+
+			if ( isset( $config['settings'][ Settings::NEXT_GEN_CDN_KEY ] ) ) {
+				$sanitized['settings'][ Settings::NEXT_GEN_CDN_KEY ] = $this->settings->sanitize_cdn_next_gen_conversion_mode( $config['settings'][ Settings::NEXT_GEN_CDN_KEY ] );
+			}
 		}
 
 		if ( isset( $config['resize_sizes'] ) ) {
@@ -481,35 +497,35 @@ class Configs {
 
 		if ( ! empty( $config['lazy_load'] ) ) {
 			$args = array(
-				'format'          => array(
+				'format'            => array(
 					'filter' => FILTER_VALIDATE_BOOLEAN,
 					'flags'  => FILTER_REQUIRE_ARRAY + FILTER_NULL_ON_FAILURE,
 				),
-				'output'          => array(
+				'output'            => array(
 					'filter' => FILTER_VALIDATE_BOOLEAN,
 					'flags'  => FILTER_REQUIRE_ARRAY,
 				),
-				'animation'       => array(
+				'animation'         => array(
 					'filter'  => FILTER_CALLBACK,
 					'options' => 'sanitize_text_field',
 					'flags'   => FILTER_REQUIRE_ARRAY,
 				),
-				'include'         => array(
+				'include'           => array(
 					'filter' => FILTER_VALIDATE_BOOLEAN,
 					'flags'  => FILTER_REQUIRE_ARRAY,
 				),
-				'exclude-pages'   => array(
+				'exclude-pages'     => array(
 					'filter' => FILTER_SANITIZE_URL,
 					'flags'  => FILTER_REQUIRE_ARRAY,
 				),
-				'exclude-classes' => array(
+				'exclude-classes'   => array(
 					'filter'  => FILTER_CALLBACK,
 					'options' => 'sanitize_text_field',
 					'flags'   => FILTER_REQUIRE_ARRAY,
 				),
-				'footer'          => FILTER_VALIDATE_BOOLEAN,
-				'native'          => FILTER_VALIDATE_BOOLEAN,
-				'noscript'        => FILTER_VALIDATE_BOOLEAN,
+				'footer'            => FILTER_VALIDATE_BOOLEAN,
+				'native'            => FILTER_VALIDATE_BOOLEAN,
+				'noscript_fallback' => FILTER_VALIDATE_BOOLEAN,
 			);
 
 			$sanitized['lazy_load'] = filter_var_array( $config['lazy_load'], $args, false );
@@ -537,7 +553,7 @@ class Configs {
 			'bulk_smush'   => Settings::get_instance()->get_bulk_fields(),
 			'lazy_load'    => Settings::get_instance()->get_lazy_load_fields(),
 			'cdn'          => Settings::get_instance()->get_cdn_fields(),
-			'webp_mod'     => array(),
+			'next_gen'     => Settings::get_instance()->get_next_gen_fields(),
 			'integrations' => Settings::get_instance()->get_integrations_fields(),
 			'settings'     => Settings::get_instance()->get_settings_fields(),
 		);
@@ -546,11 +562,14 @@ class Configs {
 
 		if ( ! empty( $config['settings'] ) ) {
 			foreach ( $settings_data as $name => $fields ) {
+				if ( 'next_gen' === $name ) {
+					$display_array['next_gen'] = $this->get_next_gen_settings_display_value( $config );
+					continue;
+				}
 
 				// Display the setting inactive when the module is off.
 				if (
-					'webp_mod' === $name ||
-					( in_array( $name, array( 'cdn', 'lazy_load' ), true ) && empty( $config['settings'][ $name ] ) )
+					in_array( $name, array( 'cdn', 'lazy_load' ), true ) && empty( $config['settings'][ $name ] )
 				) {
 					$display_array[ $name ] = $this->format_boolean_setting_value( $name, $config['settings'][ $name ] );
 					continue;
@@ -583,15 +602,48 @@ class Configs {
 		// Format the values to what's expected in front. A string within an array.
 		array_walk(
 			$display_array,
-			function( &$value ) {
+			function ( &$value ) {
 				if ( ! is_string( $value ) ) {
 					$value = implode( PHP_EOL, $value );
 				}
 				$value = array( $value );
 			}
 		);
-
 		return $display_array;
+	}
+
+	private function get_next_gen_settings_display_value( $config ) {
+		$is_pro       = WP_Smush::is_pro();
+		$webp_enabled = $is_pro && ! empty( $config['settings']['webp_mod'] );
+		$avif_enabled = $is_pro && ! empty( $config['settings']['avif_mod'] );
+
+		if ( ! $webp_enabled && ! $avif_enabled ) {
+			return __( 'Inactive', 'wp-smushit' );
+		}
+
+		$next_gen_format           = $avif_enabled ? __( 'AVIF', 'wp-smushit' ) : __( 'WebP', 'wp-smushit' );
+		$direct_conversion_enabled = $avif_enabled || ! empty( $config['settings']['webp_direct_conversion'] );
+		$transform_mode            = $direct_conversion_enabled ? __( 'Direct Conversion', 'wp-smushit' ) : __( 'Server Configuration', 'wp-smushit' );
+
+		$formatted_rows = array(
+			$this->format_config_description( __( 'Next-Gen Formats', 'wp-smushit' ), $next_gen_format ),
+			$this->format_config_description( __( 'Transform Mode', 'wp-smushit' ), $transform_mode ),
+		);
+
+		if ( $direct_conversion_enabled ) {
+			$legacy_browser_support = $avif_enabled && ! empty( $config['settings']['avif_fallback'] )
+									|| ( $webp_enabled && ! empty( $config['settings']['webp_fallback'] ) );
+			$formatted_rows[]       = $this->format_config_description(
+				__( 'Legacy Browser Support', 'wp-smushit' ),
+				$legacy_browser_support ? __( 'Active', 'wp-smushit' ) : __( 'Inactive', 'wp-smushit' )
+			);
+		}
+
+		return $formatted_rows;
+	}
+
+	private function format_config_description( $field_name, $field_description ) {
+		return "{$field_name} - {$field_description}";
 	}
 
 	/**
@@ -625,6 +677,11 @@ class Configs {
 
 				if ( 'lossy' === $name ) {
 					$formatted_rows[] = $label . ' - ' . $this->settings->get_lossy_level_label( $config['settings'][ $name ] );
+					continue;
+				}
+
+				if ( Settings::NEXT_GEN_CDN_KEY === $name ) {
+					$formatted_rows[] = $label . ' - ' . $this->settings->get_cdn_next_gen_conversion_label( $config['settings'][ $name ] );
 					continue;
 				}
 
@@ -667,13 +724,13 @@ class Configs {
 
 		// List of the available lazy load settings for this version and their labels.
 		$settings_labels = array(
-			'format'    => __( 'Media Types', 'wp-smushit' ),
-			'output'    => __( 'Output Locations', 'wp-smushit' ),
-			'include'   => __( 'Included Post Types', 'wp-smushit' ),
-			'animation' => __( 'Display And Animation', 'wp-smushit' ),
-			'footer'    => __( 'Load Scripts In Footer', 'wp-smushit' ),
-			'native'    => __( 'Native Lazy Load Enabled', 'wp-smushit' ),
-			'noscript'  => __( 'Disable Noscript', 'wp-smushit' ),
+			'format'            => __( 'Media Types', 'wp-smushit' ),
+			'output'            => __( 'Output Locations', 'wp-smushit' ),
+			'include'           => __( 'Included Post Types', 'wp-smushit' ),
+			'animation'         => __( 'Display And Animation', 'wp-smushit' ),
+			'footer'            => __( 'Load Scripts In Footer', 'wp-smushit' ),
+			'native'            => __( 'Native Lazy Load Enabled', 'wp-smushit' ),
+			'noscript_fallback' => __( 'Noscript Tag', 'wp-smushit' ),
 		);
 
 		foreach ( $config['lazy_load'] as $key => $value ) {
@@ -691,7 +748,7 @@ class Configs {
 					$formatted_value .= __( '. Fade in duration: ', 'wp-smushit' ) . $value['fadein']['duration'];
 					$formatted_value .= __( '. Fade in delay: ', 'wp-smushit' ) . $value['fadein']['delay'];
 				}
-			} elseif ( in_array( $key, array( 'footer', 'native', 'noscript' ), true ) ) {
+			} elseif ( in_array( $key, array( 'footer', 'native', 'noscript_fallback' ), true ) ) {
 				// Enabled/disabled settings.
 				$formatted_value .= ! empty( $value ) ? __( 'Yes', 'wp-smushit' ) : __( 'No', 'wp-smushit' );
 

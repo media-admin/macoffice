@@ -18,18 +18,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TInvWL_Public_Email_Subscribe extends WC_Email {
 
 	/**
-	 * Plugin name
+	 * Plugin name.
 	 *
 	 * @var string
 	 */
-	public $_name;
+	protected $_name;
 
 	/**
-	 * Plugin version
+	 * Plugin version.
 	 *
 	 * @var string
 	 */
-	public $_version;
+	protected $_version;
+
+	public $template_html;
+	public $template_plain;
+	private $wishlist;
+	private $products;
+	private $user_login;
+	private $events;
+	private $template_name;
 
 	/**
 	 * Constructor
@@ -61,8 +69,8 @@ class TInvWL_Public_Email_Subscribe extends WC_Email {
 	 * @param string $emailtemplate Email template name.
 	 */
 	function set_template( $emailtemplate = '' ) {
-		$this->template_html  = $this->loadtemplates($this->template_name, $emailtemplate, false);
-		$this->template_plain = $this->loadtemplates($this->template_name, $emailtemplate, true);
+		$this->template_html  = $this->loadtemplates( $this->template_name, $emailtemplate, false );
+		$this->template_plain = $this->loadtemplates( $this->template_name, $emailtemplate, true );
 	}
 
 	/**
@@ -74,7 +82,7 @@ class TInvWL_Public_Email_Subscribe extends WC_Email {
 	 *
 	 * @return string
 	 */
-	function loadtemplates($template, $emailtemplate, $plain = false) {
+	function loadtemplates( $template, $emailtemplate, $plain = false ) {
 		$curtemplate   = tinv_template();
 		$template_name = 'emails' . DIRECTORY_SEPARATOR . ( $plain ? 'plain' . DIRECTORY_SEPARATOR : '' ) . $template . $emailtemplate . '.php';
 		if ( ! empty( $curtemplate ) ) {
@@ -221,7 +229,10 @@ class TInvWL_Public_Email_Subscribe extends WC_Email {
 				}
 				$product = wc_get_product( $variation_id ? $variation_id : $product_id );
 				if ( $product ) {
-					$product->wl_quantity = $quantity;
+					// Set wl_quantity as product meta data.
+					$product->update_meta_data( 'wl_quantity', $quantity );
+					// Save the product to ensure meta data is stored.
+					$product->save();
 				}
 			}
 		}

@@ -39,7 +39,7 @@ add_filter( 'woocommerce_gzd_defect_description', array( $GLOBALS['wp_embed'], '
  *
  * @return WC_GZD_Dependencies
  */
-function wc_gzd_get_dependencies( $instance = null ) {
+function wc_gzd_get_dependencies( $instance = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 	wc_deprecated_function( 'WC_GZD_Dependencies', '4.0.0' );
 
 	/** This filter is documented in woocommerce-germanized.php */
@@ -47,7 +47,6 @@ function wc_gzd_get_dependencies( $instance = null ) {
 }
 
 function wc_gzd_post_has_woocommerce_block( $post_content ) {
-
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return false;
 	}
@@ -288,11 +287,37 @@ function wc_gzd_get_age_verification_min_ages_select() {
  * @return string
  */
 function wc_gzd_format_tax_rate_percentage( $rate, $percent = false ) {
-	return str_replace( '.', ',', wc_format_decimal( str_replace( '%', '', $rate ), true, true ) ) . ( $percent ? ' %' : '' );
+	$decimal_separator = wc_get_price_decimal_separator();
+	$formatted_number  = wc_format_decimal( str_replace( '%', '', $rate ), true, true );
+
+	if ( '.' !== $decimal_separator ) {
+		$formatted_number = str_replace( '.', $decimal_separator, $formatted_number );
+	}
+
+	return apply_filters( 'woocommerce_gzd_formatted_tax_rate_percentage', $formatted_number . ( $percent ? ' %' : '' ), $rate, $percent );
 }
 
 function wc_gzd_format_alcohol_content( $alcohol_content ) {
 	return apply_filters( 'woocommerce_gzd_formatted_alcohol_content', sprintf( '%1$s %% vol', wc_gzd_format_food_attribute_value( $alcohol_content, array( 'attribute_type' => 'alcohol_content' ) ) ) );
+}
+
+/**
+ * @param WP_Term|integer|string $term
+ *
+ * @return WC_GZD_Manufacturer|null
+ */
+function wc_gzd_get_manufacturer( $term ) {
+	if ( is_numeric( $term ) ) {
+		$term = WC_germanized()->manufacturers->get_manufacturer_term( $term, 'id' );
+	} elseif ( is_string( $term ) ) {
+		$term = WC_germanized()->manufacturers->get_manufacturer_term( $term );
+	}
+
+	if ( ! is_a( $term, 'WP_Term' ) || 'product_manufacturer' !== $term->taxonomy ) {
+		return null;
+	}
+
+	return new WC_GZD_Manufacturer( $term );
 }
 
 function wc_gzd_format_food_attribute_value( $decimal, $args = array() ) {
@@ -751,14 +776,12 @@ function wc_gzd_get_customer_title( $value ) {
 
 	if ( '[deleted]' === $value ) {
 		$title = $value;
-	} else {
-		if ( array_key_exists( $option, $titles ) ) {
+	} elseif ( array_key_exists( $option, $titles ) ) {
 			$title = $titles[ $option ];
-		} elseif ( ! is_numeric( $title ) ) {
-			$title = $option;
-		} else {
-			$title = __( 'Ms.', 'woocommerce-germanized' );
-		}
+	} elseif ( ! is_numeric( $title ) ) {
+		$title = $option;
+	} else {
+		$title = __( 'Ms.', 'woocommerce-germanized' );
 	}
 
 	/**
@@ -1304,7 +1327,7 @@ function wc_gzd_format_unit_price( $price, $unit, $unit_base, $product_units = '
 }
 
 function wc_gzd_get_additional_costs_tax_calculation_mode() {
-	$value = get_option( 'woocommerce_gzd_tax_mode_additional_costs', 'split_tax' );
+	$value = get_option( 'woocommerce_gzd_tax_mode_additional_costs', 'main_service' );
 
 	if ( ! in_array( $value, array( 'none', 'split_tax', 'main_service' ), true ) ) {
 		$value = 'none';
@@ -1429,6 +1452,16 @@ function wc_gzd_update_page_content( $page_id, $content, $append = true ) {
 	}
 }
 
+function wc_gzd_post_content_has_shortcode( $tag = '' ) {
+	if ( function_exists( 'wc_post_content_has_shortcode' ) ) {
+		return wc_post_content_has_shortcode( $tag );
+	} else {
+		global $post;
+
+		return is_singular() && is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, $tag );
+	}
+}
+
 function wc_gzd_content_has_shortcode( $content, $shortcode ) {
 	global $shortcode_tags;
 
@@ -1450,7 +1483,7 @@ function wc_gzd_content_has_shortcode( $content, $shortcode ) {
 	return $has_shortcode;
 }
 
-function wc_gzd_print_item_defect_descriptions( $descriptions, $echo = false ) {
+function wc_gzd_print_item_defect_descriptions( $descriptions, $do_echo = false ) {
 	$strings = array();
 
 	foreach ( $descriptions as $name => $description ) {
@@ -1472,7 +1505,7 @@ function wc_gzd_print_item_defect_descriptions( $descriptions, $echo = false ) {
 
 	$string = implode( apply_filters( 'woocommerce_gzd_item_defect_descriptions_separator', '; ' ), $strings );
 
-	if ( $echo ) {
+	if ( $do_echo ) {
 		echo wp_kses_post( $string );
 	}
 
@@ -1509,7 +1542,7 @@ function wc_gzd_get_post_plain_content( $content_post, $shortcodes_allowed = arr
 				$pattern = get_shortcode_regex( array( $shortcode_tag ) );
 				$content = preg_replace_callback(
 					"/$pattern/s",
-					function( $matches ) {
+					function ( $matches ) {
 						if ( ! empty( $matches[5] ) ) {
 							return $matches[5];
 						}
@@ -1560,8 +1593,6 @@ function wc_gzd_get_post_plain_content( $content_post, $shortcodes_allowed = arr
 	return apply_filters( 'woocommerce_gzd_post_plain_content', $content, $content_post );
 }
 
-add_filter( 'woocommerce_gzd_dhl_enable_logging', 'wc_gzd_is_extended_debug_mode_enabled', 5 );
-add_filter( 'woocommerce_gzd_shipments_enable_logging', 'wc_gzd_is_extended_debug_mode_enabled', 5 );
 add_filter( 'oss_woocommerce_enable_extended_logging', 'wc_gzd_is_extended_debug_mode_enabled', 5 );
 
 function wc_gzd_is_extended_debug_mode_enabled() {
@@ -1732,7 +1763,7 @@ function wc_gzd_base_country_supports_photovoltaic_system_vat_exempt() {
 	$base_country    = wc_gzd_get_base_country();
 	$supports_exempt = false;
 
-	if ( 'DE' === $base_country ) {
+	if ( in_array( $base_country, array( 'DE' ), true ) ) {
 		$supports_exempt = true;
 	} elseif ( \Vendidero\EUTaxHelper\Helper::is_eu_vat_country( $base_country ) && \Vendidero\EUTaxHelper\Helper::oss_procedure_is_enabled() ) {
 		$supports_exempt = true;
@@ -1742,7 +1773,9 @@ function wc_gzd_base_country_supports_photovoltaic_system_vat_exempt() {
 }
 
 function wc_gzd_current_theme_is_fse_theme() {
-	if ( function_exists( 'wc_current_theme_is_fse_theme' ) ) {
+	if ( function_exists( 'wp_is_block_theme' ) ) {
+		return wp_is_block_theme();
+	} elseif ( function_exists( 'wc_current_theme_is_fse_theme' ) ) {
 		return wc_current_theme_is_fse_theme();
 	} else {
 		return false;
@@ -1761,25 +1794,15 @@ function wc_gzd_has_checkout_block() {
 	return false;
 }
 
-function wc_gzd_customer_applies_for_photovoltaic_system_vat_exemption( $args = array() ) {
-	$location                               = \Vendidero\EUTaxHelper\Helper::get_taxable_location();
-	$applies_for_photovoltaic_vat_exemption = false;
-
-	$args = wp_parse_args(
-		$args,
-		array(
-			'country'  => '',
-			'postcode' => '',
-			'company'  => '',
-		)
-	);
+function wc_gzd_get_photovoltaic_system_customer_location( $args = array() ) {
+	$location = \Vendidero\EUTaxHelper\Helper::get_taxable_location();
 
 	if ( empty( $args ) ) {
 		if ( is_checkout() ) {
 			$args = array(
 				'country'  => WC_GZD_Checkout::instance()->get_checkout_value( 'shipping_country' ) ? WC_GZD_Checkout::instance()->get_checkout_value( 'shipping_country' ) : WC_GZD_Checkout::instance()->get_checkout_value( 'billing_country' ),
 				'postcode' => WC_GZD_Checkout::instance()->get_checkout_value( 'shipping_postcode' ) ? WC_GZD_Checkout::instance()->get_checkout_value( 'shipping_postcode' ) : WC_GZD_Checkout::instance()->get_checkout_value( 'billing_postcode' ),
-				'company'  => WC_GZD_Checkout::instance()->get_checkout_value( 'shipping_company' ) ? WC_GZD_Checkout::instance()->get_checkout_value( 'shipping_company' ) : WC_GZD_Checkout::instance()->get_checkout_value( 'billing_company' ),
+				'company'  => WC_GZD_Checkout::instance()->get_checkout_value( 'billing_company' ) ? WC_GZD_Checkout::instance()->get_checkout_value( 'billing_company' ) : WC_GZD_Checkout::instance()->get_checkout_value( 'shipping_company' ),
 			);
 		} else {
 			$args = array(
@@ -1788,20 +1811,111 @@ function wc_gzd_customer_applies_for_photovoltaic_system_vat_exemption( $args = 
 				'company'  => '',
 			);
 		}
+	} else {
+		$args = wp_parse_args(
+			$args,
+			array(
+				'country'  => '',
+				'postcode' => '',
+				'company'  => '',
+			)
+		);
 	}
 
-	if ( empty( $args['company'] ) || apply_filters( 'woocommerce_gzd_allow_b2b_photovoltaic_system_vat_exemption', false ) ) {
+	return $args;
+}
+
+function wc_gzd_customer_applies_for_photovoltaic_system_vat_exemption( $args = array() ) {
+	$args                                   = wc_gzd_get_photovoltaic_system_customer_location( $args );
+	$applies_for_photovoltaic_vat_exemption = false;
+	$is_vat_exempt                          = WC()->customer && WC()->customer->is_vat_exempt();
+
+	if ( ! $is_vat_exempt && ( empty( $args['company'] ) || apply_filters( 'woocommerce_gzd_allow_b2b_photovoltaic_system_vat_exemption', false ) ) ) {
 		/**
 		 * Allow VAT exemption for:
-		 * - shipments to DE (from DE or from another EU country which takes part in OSS procedure).
-		 * - shipments inner EU if base country is DE and not taking part in OSS procedure
+		 * - shipments to a country supporting photovoltaic exempts (from the base country or from another EU country which takes part in OSS procedure).
+		 * - shipments inner EU if base country supports photovoltaic exempts and not taking part in OSS procedure
 		 */
-		if ( wc_gzd_base_country_supports_photovoltaic_system_vat_exempt() && 'DE' === $args['country'] && ! \Vendidero\EUTaxHelper\Helper::is_eu_vat_postcode_exemption( $args['country'], $args['postcode'] ) ) {
+		if ( wc_gzd_base_country_supports_photovoltaic_system_vat_exempt() && wc_gzd_shipping_country_supports_photovoltaic_system_vat_exempt( $args['country'] ) && ! \Vendidero\EUTaxHelper\Helper::is_eu_vat_postcode_exemption( $args['country'], $args['postcode'] ) ) {
 			$applies_for_photovoltaic_vat_exemption = true;
-		} elseif ( 'DE' === wc_gzd_get_base_country() && 'DE' !== $args['country'] && ! \Vendidero\EUTaxHelper\Helper::oss_procedure_is_enabled() && \Vendidero\EUTaxHelper\Helper::is_eu_vat_country( $args['country'], $args['postcode'] ) ) {
+		} elseif ( ! \Vendidero\EUTaxHelper\Helper::oss_procedure_is_enabled() && wc_gzd_base_country_supports_photovoltaic_system_vat_exempt() && \Vendidero\EUTaxHelper\Helper::is_eu_vat_country( $args['country'], $args['postcode'] ) && wc_gzd_get_base_country() !== $args['country'] ) {
 			$applies_for_photovoltaic_vat_exemption = true;
 		}
 	}
 
 	return apply_filters( 'woocommerce_gzd_customer_applies_for_photovoltaic_system_vat_exemption', $applies_for_photovoltaic_vat_exemption, $args );
+}
+
+/**
+ * @param $country
+ *
+ * @return boolean
+ */
+function wc_gzd_shipping_country_supports_photovoltaic_system_vat_exempt( $country ) {
+	return apply_filters( 'woocommerce_gzd_shipping_country_supports_photovoltaic_system_vat_exempt', in_array( $country, array( 'DE' ), true ) );
+}
+
+function wc_gzd_remove_all_hooks( $hook, $priority = 10 ) {
+	global $wp_filter;
+
+	/**
+	 * Remove the anonymous filter by its specific priority. In case the current
+	 * priority matches the target priority (e.g. remove self) do not use the WP core's
+	 * remove_all_filters as it contains a bug when called within the current priority.
+	 *
+	 * @see https://core.trac.wordpress.org/ticket/61263
+	 */
+	if ( isset( $wp_filter[ $hook ] ) && isset( $wp_filter[ $hook ]->callbacks[ $priority ] ) ) {
+		$current_priority = $wp_filter[ $hook ]->current_priority();
+
+		if ( $priority === $current_priority ) {
+			array_pop( $wp_filter[ $hook ]->callbacks[ $priority ] );
+		} else {
+			remove_all_filters( $hook, $priority );
+		}
+	}
+}
+
+function wc_gzd_kses_post_svg( $html ) {
+	$kses_post = wp_kses_allowed_html( 'post' );
+
+	$svg_args = array(
+		'svg'   => array(
+			'class'           => true,
+			'aria-hidden'     => true,
+			'aria-labelledby' => true,
+			'role'            => true,
+			'xmlns'           => true,
+			'width'           => true,
+			'height'          => true,
+			'viewbox'         => true,
+			'text'            => true,
+			'title'           => true,
+		),
+		'line'  => array(
+			'class'        => true,
+			'x1'           => true,
+			'y1'           => true,
+			'x2'           => true,
+			'y2'           => true,
+			'stroke-width' => true,
+			'stroke'       => true,
+		),
+		'g'     => array( 'fill' => true ),
+		'text'  => array(
+			'x'     => true,
+			'y'     => true,
+			'class' => true,
+		),
+		'title' => array( 'title' => true ),
+		'path'  => array(
+			'd'     => true,
+			'fill'  => true,
+			'class' => true,
+		),
+	);
+
+	$kses_post = array_merge( $kses_post, $svg_args );
+
+	return wp_kses( $html, $kses_post );
 }

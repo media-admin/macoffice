@@ -15,6 +15,7 @@ use MatthiasWeb\RealMediaLibrary\view\View;
  * This class handles all hooks and functions for the structure.
  * If something will print out, this is a facade-wrapper function
  * for the class View (stored in private $view).
+ * @internal
  */
 class Structure implements IStructure
 {

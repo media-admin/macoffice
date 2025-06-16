@@ -11,9 +11,9 @@ namespace Smush\App\Pages;
 use Smush\App\Abstract_Summary_Page;
 use Smush\App\Interface_Page;
 use Smush\Core\Array_Utils;
-use Smush\Core\Resize\Resize_Optimization;
+use Smush\Core\CDN\CDN_Helper;
 use Smush\Core\Settings;
-use Smush\Core\Stats\Global_Stats;
+use Smush\Core\Media_Library\Background_Media_Library_Scanner;
 use WP_Smush;
 
 if ( ! defined( 'WPINC' ) ) {
@@ -28,7 +28,24 @@ class Dashboard extends Abstract_Summary_Page implements Interface_Page {
 	/**
 	 * Function triggered when the page is loaded before render any content.
 	 */
-	public function on_load() {}
+	public function on_load() {
+		add_filter( 'wp_smush_localize_script_messages', array( $this, 'add_dashboard_script_messages' ) );
+	}
+
+	public function add_dashboard_script_messages( $messages ) {
+		$tutorial_link            = self::should_render( 'tutorials' ) ? $this->get_url( 'smush-tutorials' ) : '';
+		$tutorial_removed_message = empty( $tutorial_link ) ?
+			esc_html__( 'The widget has been removed.', 'wp-smushit' ) :
+			sprintf( /* translators: %1$s - opening a tag, %2$s - closing a tag */
+				esc_html__( 'The widget has been removed. Smush tutorials can still be found in the %1$sTutorials tab%2$s any time.', 'wp-smushit' ),
+				'<a href=' . esc_url( $tutorial_link ) . '>',
+				'</a>'
+			);
+
+		$messages['tutorialsRemoved'] = $tutorial_removed_message;
+
+		return $messages;
+	}
 
 	/**
 	 * Enqueue scripts.
@@ -137,12 +154,12 @@ class Dashboard extends Abstract_Summary_Page implements Interface_Page {
 			);
 		}
 
-		if ( self::should_render( 'webp' ) ) {
+		if ( self::should_render( 'next-gen' ) ) {
 			$this->add_meta_box(
-				'dashboard/webp',
-				__( 'Local WebP', 'wp-smushit' ),
-				array( $this, 'local_webp_meta_box' ),
-				array( $this, 'local_webp_meta_box_header' ),
+				'dashboard/next-gen',
+				__( 'Next-Gen Formats', 'wp-smushit' ),
+				array( $this, 'local_next_gen_meta_box' ),
+				array( $this, 'local_next_gen_meta_box_header' ),
 				null,
 				'box-dashboard-right'
 			);
@@ -164,31 +181,18 @@ class Dashboard extends Abstract_Summary_Page implements Interface_Page {
 			$this->upgrade_url
 		);
 
-		$upsell_url_webp = add_query_arg(
-			array(
-				'utm_source'   => 'smush',
-				'utm_medium'   => 'plugin',
-				'utm_campaign' => 'summary_local_webp',
-			),
-			$this->upgrade_url
-		);
-
 		$core         = WP_Smush::get_instance()->core();
 		$array_utils  = new Array_Utils();
 		$global_stats = $core->get_global_stats();
-
-		$args = array(
+		$args         = array(
 			'human_bytes'       => $array_utils->get_array_value( $global_stats, 'human_bytes' ),
-			'cdn_status'        => WP_Smush::get_instance()->core()->mod->cdn->status(),
+			'cdn_status'        => CDN_Helper::get_instance()->get_cdn_status_string(),
 			'is_cdn'            => $this->settings->get( 'cdn' ),
 			'is_lazy_load'      => $this->settings->get( 'lazy_load' ),
-			'is_local_webp'     => $this->settings->get( 'webp_mod' ),
 			'resize_count'      => $array_utils->get_array_value( $global_stats, 'count_resize' ),
 			'total_optimized'   => $array_utils->get_array_value( $global_stats, 'count_images' ),
 			'stats_percent'     => $array_utils->get_array_value( $global_stats, 'savings_percent' ),
 			'upsell_url_cdn'    => $upsell_url_cdn,
-			'upsell_url_webp'   => $upsell_url_webp,
-			'webp_configured'   => true === WP_Smush::get_instance()->core()->mod->webp->is_configured(),
 			'percent_grade'     => $array_utils->get_array_value( $global_stats, 'percent_grade' ),
 			'percent_metric'    => $array_utils->get_array_value( $global_stats, 'percent_metric' ),
 			'percent_optimized' => $array_utils->get_array_value( $global_stats, 'percent_optimized' ),
@@ -218,6 +222,7 @@ class Dashboard extends Abstract_Summary_Page implements Interface_Page {
 		$bg_optimization               = WP_Smush::get_instance()->core()->mod->bg_optimization;
 		$background_processing_enabled = $bg_optimization->should_use_background();
 		$background_in_processing      = $background_processing_enabled && $bg_optimization->is_in_processing();
+		$background_scan_status        = Background_Media_Library_Scanner::get_instance()->get_background_process()->get_status();
 
 		$args = array(
 			'total_count'                     => (int) $array_utils->get_array_value( $global_stats, 'count_total' ),
@@ -226,6 +231,8 @@ class Dashboard extends Abstract_Summary_Page implements Interface_Page {
 			'background_processing_enabled'   => $background_processing_enabled,
 			'background_in_processing'        => $background_in_processing,
 			'background_in_processing_notice' => $bg_optimization->get_in_process_notice(),
+			'bulk_background_process_dead'    => $background_processing_enabled && $bg_optimization->is_dead(),
+			'scan_background_process_dead'    => $background_scan_status->is_dead(),
 		);
 
 		$this->view( 'dashboard/bulk/meta-box', $args );
@@ -265,39 +272,21 @@ class Dashboard extends Abstract_Summary_Page implements Interface_Page {
 	}
 
 	/**
-	 * Local WebP meta box.
+	 * Next-Gen Formats meta box.
 	 *
 	 * @since 3.8.6
 	 */
-	public function local_webp_meta_box() {
-		$upsell_url = add_query_arg(
-			array(
-				'utm_source'   => 'smush',
-				'utm_medium'   => 'plugin',
-				'utm_campaign' => 'smush-dashboard-local-webp-upsell',
-			),
-			$this->upgrade_url
-		);
-
-		$webp = WP_Smush::get_instance()->core()->mod->webp;
-
-		$args = array(
-			'is_configured'  => $webp->get_is_configured_with_error_message(),
-			'is_webp_active' => $this->settings->get( 'webp_mod' ),
-			'upsell_url'     => $upsell_url,
-		);
-
-		$this->view( 'dashboard/webp/meta-box', $args );
+	public function local_next_gen_meta_box() {
+		$this->view( 'dashboard/next-gen/meta-box' );
 	}
 
 	/**
-	 * Local WebP meta box footer.
+	 * Next-Gen Formats meta box footer.
 	 *
 	 * @since 3.8.6
 	 */
-	public function local_webp_meta_box_header() {
-		$title = __( 'Local WebP', 'wp-smushit' );
-		$this->view( 'dashboard/webp/meta-box-header', compact( 'title' ) );
+	public function local_next_gen_meta_box_header() {
+		$this->view( 'dashboard/next-gen/meta-box-header' );
 	}
 
 	/**
@@ -386,8 +375,7 @@ class Dashboard extends Abstract_Summary_Page implements Interface_Page {
 		);
 
 		$args = array(
-			'cdn_status' => WP_Smush::get_instance()->core()->mod->cdn->status(),
-			'is_webp'    => $this->settings->get( 'webp' ),
+			'cdn_status' => CDN_Helper::get_instance()->get_cdn_status_string(),
 			'upsell_url' => $upsell_url,
 		);
 

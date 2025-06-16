@@ -14,6 +14,7 @@ use MatthiasWeb\RealMediaLibrary\Util;
 // @codeCoverageIgnoreEnd
 /**
  * This class handles the compatibility for WPML.
+ * @internal
  */
 class WPML implements IOverrideWPML
 {

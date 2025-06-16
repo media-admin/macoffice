@@ -10,6 +10,7 @@ use MatthiasWeb\RealMediaLibrary\Util;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 trait Creatable
 {
     // Documented in IFolderActions

@@ -13,6 +13,8 @@
 namespace Smush\Core;
 
 use Smush\App\Abstract_Page;
+use Smush\Core\CDN\CDN_Controller;
+use Smush\Core\Smush\Smusher;
 use WP_Smush;
 
 if ( ! defined( 'WPINC' ) ) {
@@ -32,21 +34,12 @@ class Installer {
 	 * @since 3.1.0
 	 */
 	public static function smush_deactivated() {
-		if ( ! class_exists( '\\Smush\\Core\\Modules\\CDN' ) ) {
-			require_once __DIR__ . '/modules/class-cdn.php';
+		if ( ! class_exists( '\\Smush\\Core\\Modules\\CDN_Controller' ) ) {
+			require_once __DIR__ . '/cdn/class-cdn-controller.php';
 		}
 
-		Modules\CDN::unschedule_cron();
+		Cron_Controller::get_instance()->unschedule_cron();
 		Settings::get_instance()->delete_setting( 'wp-smush-cdn_status' );
-
-		if ( is_multisite() && is_network_admin() ) {
-			/**
-			 * Updating the option instead of removing it.
-			 *
-			 * @see https://incsub.atlassian.net/browse/SMUSH-350
-			 */
-			update_site_option( 'wp-smush-networkwide', 1 );
-		}
 
 		delete_site_option( 'wp_smush_api_auth' );
 	}
@@ -64,11 +57,15 @@ class Installer {
 		$version = get_site_option( 'wp-smush-version' );
 		self::maybe_mark_as_pre_3_12_6_site( $version );
 
+		// Cache activated date time.
+		$event_name = ! empty( $version ) ? 'plugin_activated' : 'plugin_installed';
+		self::cache_event_time( $event_name );
+
 		if ( ! class_exists( '\\Smush\\Core\\Settings' ) ) {
 			require_once __DIR__ . '/class-settings.php';
 		}
 
-		Settings::get_instance()->init();
+		Settings::get_instance()->initial_default_site_settings();
 		$settings = Settings::get_instance()->get();
 
 		// If the version is not saved or if the version is not same as the current version,.
@@ -118,6 +115,9 @@ class Installer {
 				define( 'WP_SMUSH_UPGRADING', true );
 			}
 
+			// Cache last updated time.
+			self::cache_event_time( 'plugin_upgraded' );
+
 			if ( version_compare( $version, '3.7.0', '<' ) ) {
 				self::upgrade_3_7_0();
 			}
@@ -130,13 +130,6 @@ class Installer {
 			if ( version_compare( $version, '3.8.3', '<' ) ) {
 				// Delete this unused setting, leftover from old smush.
 				delete_option( 'wp-smush-transparent_png' );
-			}
-
-			if ( version_compare( $version, '3.9.0', '<' ) ) {
-				// Hide the Local WebP wizard if Local WebP is enabled.
-				if ( Settings::get_instance()->get( 'webp_mod' ) ) {
-					add_site_option( 'wp-smush-webp_hide_wizard', true );
-				}
 			}
 
 			if ( version_compare( $version, '3.9.5', '<' ) ) {
@@ -155,12 +148,16 @@ class Installer {
 				self::upgrade_3_10_3();
 			}
 
-			if ( version_compare( $version, '3.14.0', '<' ) ) {
-				self::upgrade_3_14_0();
+			if ( version_compare( $version, '3.16.0', '<' ) ) {
+				self::regenerate_preset_configs();
+			}
+
+			if ( version_compare( $version, '3.18.0', '<' ) ) {
+				self::regenerate_preset_configs_for_3_18_0();
 			}
 
 			$hide_new_feature_highlight_modal = apply_filters( 'wpmudev_branding_hide_doc_link', false );
-			if ( ! $hide_new_feature_highlight_modal && version_compare( $version, '3.14.0', '<' ) ) {
+			if ( ! $hide_new_feature_highlight_modal && version_compare( $version, '3.18.0', '<' ) ) {
 				// Add the flag to display the new feature background process modal.
 				add_site_option( 'wp-smush-show_upgrade_modal', true );
 			}
@@ -170,6 +167,8 @@ class Installer {
 
 			// Store the latest plugin version in db.
 			update_site_option( 'wp-smush-version', WP_SMUSH_VERSION );
+
+			self::reset_smusher_error_counts();
 		}
 	}
 
@@ -267,9 +266,8 @@ class Installer {
 	/**
 	 * Upgrade to 3.10.0
 	 *
-	 * @since 3.10.0
-	 *
 	 * @return void
+	 * @since 3.10.0
 	 */
 	private static function upgrade_3_10_0() {
 		// Remove unused options.
@@ -296,9 +294,8 @@ class Installer {
 	/**
 	 * Upgrade 3.10.3
 	 *
-	 * @since 3.10.3
-	 *
 	 * @return void
+	 * @since 3.10.3
 	 */
 	private static function upgrade_3_10_3() {
 		delete_site_option( 'wp-smush-hide_smush_welcome' );
@@ -312,7 +309,7 @@ class Installer {
 	}
 
 	private static function maybe_mark_as_pre_3_12_6_site( $version ) {
-		if ( ! $version || version_compare( $version, '3.12.0', '<' ) || false !== get_site_option( 'wp_smush_pre_3_12_6_site') ) {
+		if ( ! $version || version_compare( $version, '3.12.0', '<' ) || false !== get_site_option( 'wp_smush_pre_3_12_6_site' ) ) {
 			return;
 		}
 		if ( version_compare( $version, '3.12.5', '>' ) ) {
@@ -321,8 +318,7 @@ class Installer {
 		update_site_option( 'wp_smush_pre_3_12_6_site', $version );
 	}
 
-
-	private static function upgrade_3_14_0() {
+	private static function regenerate_preset_configs() {
 		// Update Smush mode for display on Configs page.
 		$stored_configs = get_site_option( 'wp-smush-preset_configs', array() );
 		if ( empty( $stored_configs ) || ! is_array( $stored_configs ) ) {
@@ -330,13 +326,52 @@ class Installer {
 		}
 
 		$configs_handler = new Configs();
+		$new_settings    = array(
+			'background_email' => false,
+		);
 		foreach ( $stored_configs as $key => $preset_config ) {
 			if ( empty( $preset_config['config']['configs']['settings'] ) ) {
 				continue;
 			}
-			$preset_config['config'] = $configs_handler->sanitize_and_format_configs( $preset_config['config']['configs'] );
-			$stored_configs[ $key ]  = $preset_config;
+
+			$preset_config ['config']['configs']['settings'] = array_merge( $new_settings, $preset_config['config']['configs']['settings'] );
+			$preset_config ['config']                        = $configs_handler->sanitize_and_format_configs( $preset_config['config']['configs'] );
+			$stored_configs[ $key ]                          = $preset_config;
 		}
 		update_site_option( 'wp-smush-preset_configs', $stored_configs );
+	}
+
+	private static function regenerate_preset_configs_for_3_18_0() {
+		// Regenerate preset configs to update Next-Gen Formats.
+		$stored_configs = get_site_option( 'wp-smush-preset_configs', array() );
+		if ( empty( $stored_configs ) || ! is_array( $stored_configs ) ) {
+			return;
+		}
+
+		$configs_handler = new Configs();
+		foreach ( $stored_configs as $key => $preset_config ) {
+			if ( empty( $preset_config['config']['configs'] ) ) {
+				continue;
+			}
+
+			$preset_config ['config'] = $configs_handler->sanitize_and_format_configs( $preset_config['config']['configs'] );
+			$stored_configs[ $key ]   = $preset_config;
+		}
+
+		update_site_option( 'wp-smush-preset_configs', $stored_configs );
+	}
+
+	private static function cache_event_time( $event ) {
+		$option_key            = 'wp_smush_event_times';
+		$event_times           = get_site_option( $option_key, array() );
+		$event_times[ $event ] = time();
+		update_site_option( $option_key, $event_times );
+	}
+
+	/**
+	 * @return void
+	 */
+	private static function reset_smusher_error_counts() {
+		( new Smusher() )->reset_error_counts();
 	}
 }

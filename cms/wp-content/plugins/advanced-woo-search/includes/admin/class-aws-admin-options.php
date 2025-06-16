@@ -46,7 +46,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                     }
 
                     if ( $values['type'] === 'textarea' && isset( $values['allow_tags'] ) ) {
-                        $default_settings[$values['id']] = (string) addslashes( wp_kses( stripslashes( html_entity_decode( $values['value'] ) ), AWS_Helpers::get_kses( $values['allow_tags'] ) ) );
+                        $default_settings[$values['id']] = (string) wp_kses( stripslashes( html_entity_decode( $values['value'] ) ), AWS_Helpers::get_kses( $values['allow_tags'] ) );
                         continue;
                     }
 
@@ -105,7 +105,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 $new_value = isset( $_POST[ $values['id'] ] ) ? $_POST[ $values['id'] ] : '';
 
                 if ( $values['type'] === 'textarea' && isset( $values['allow_tags'] ) ) {
-                    $update_settings[ $values['id'] ] = (string) addslashes( wp_kses( stripslashes( html_entity_decode( $new_value ) ), AWS_Helpers::get_kses( $values['allow_tags'] ) ) );
+                    $update_settings[ $values['id'] ] = (string) wp_kses( stripslashes( html_entity_decode( $new_value ) ), AWS_Helpers::get_kses( $values['allow_tags'] ) );
                     continue;
                 }
 
@@ -208,7 +208,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
 
             $options['general'][] = array(
                 "name"       => __( "Search in", "advanced-woo-search" ),
-                "desc"       => __( "Click on status icon to enable or disable search source.", "advanced-woo-search" ),
+                "desc"       => __( "Click on the status icon to enable or disable the search source for products search.", "advanced-woo-search" ),
                 "table_head" => __( 'Search Source', 'advanced-woo-search' ),
                 "id"         => "search_in",
                 "value"      => array(
@@ -269,6 +269,20 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
             );
 
             $options['general'][] = array(
+                "name"  => __( "Misspelling fix", "advanced-woo-search" ),
+                "desc"  => sprintf( __( "Fix typos inside search words %s.", "advanced-woo-search" ), '( lapto<b>t</b> -> lapto<b>p</b> )' ) . '<br>' . __( "Applied if the current search query returns no results.", "advanced-woo-search" ),
+                "id"    => "fuzzy",
+                "value" => 'true',
+                "type"  => "radio",
+                'choices' => array(
+                    'true'  => __( 'On. Automatically search for fixed terms.', 'advanced-woo-search' ),
+                    'true_text'  => __( "On. Additionally show text \"Showing results for ...\" with a list of fixed terms at the top of search results.", 'advanced-woo-search' ),
+                    'false'  => __( 'Off. Totally disable misspelling fix.', 'advanced-woo-search' ),
+                    'false_text'  => __( "Off. Instead show text \"Did you mean ...\" with a clickable list of fixed terms at the top of search results.", 'advanced-woo-search' ),
+                )
+            );
+
+            $options['general'][] = array(
                 "name"  => __( "Use Google Analytics", "advanced-woo-search" ),
                 "desc"  => __( "Use google analytics to track searches. You need google analytics to be installed on your site.", "advanced-woo-search" ) .
                     '<br>' . sprintf( __( "Data will be visible inside Google Analytics 'Site Search' report. Need to activate 'Site Search' feature inside GA. %s", "advanced-woo-search" ), '<a href="https://advanced-woo-search.com/guide/google-analytics/" target="_blank">' . __( 'More info', 'advanced-woo-search' ) . '</a>' ) .
@@ -304,6 +318,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 "desc"  => __( "Maximal total number of search results. Larger values can lead to slower search speed.", "advanced-woo-search" ),
                 "id"    => "search_page_res_num",
                 "value" => 100,
+                "min" => 0,
                 "type"  => "number"
             );
 
@@ -312,6 +327,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 "desc"  => __( "Number of search results per page. Empty or 0 - use theme default value.", "advanced-woo-search" ),
                 "id"    => "search_page_res_per_page",
                 "value" => '',
+                "min" => 0,
                 "type"  => "number"
             );
 
@@ -324,6 +340,18 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 'choices' => array(
                     'default' => __( 'Default', 'advanced-woo-search' ),
                     'posts_pre_query' => __( 'posts_pre_query', 'advanced-woo-search' ),
+                )
+            );
+
+            $options['general'][] = array(
+                "name"  => __( "Highlight words", "advanced-woo-search" ),
+                "desc"  => __( "Highlight search words inside the search results page.", "advanced-woo-search" ),
+                "id"    => "search_page_highlight",
+                "value" => 'false',
+                "type"  => "radio",
+                'choices' => array(
+                    'true'  => __( 'On', 'advanced-woo-search' ),
+                    'false'  => __( 'Off', 'advanced-woo-search' ),
                 )
             );
 
@@ -350,6 +378,15 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 "id"    => "search_timeout",
                 "value" => 300,
                 'min'   => 100,
+                "type"  => "number"
+            );
+
+            $options['performance'][] = array(
+                "name"  => __( "Search words number", "advanced-woo-search" ),
+                "desc"  => __( "The maximum number of words allowed for the search. All extra words will be removed from the search query.", "advanced-woo-search" ),
+                "id"    => "search_words_num",
+                "value" => 6,
+                'min'   => 1,
                 "type"  => "number"
             );
 
@@ -489,6 +526,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 "desc"  => __( "Minimum number of characters required to run ajax search.", "advanced-woo-search" ),
                 "id"    => "min_chars",
                 "value" => 1,
+                "min" => 1,
                 "type"  => "number"
             );
 
@@ -556,7 +594,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 "name"  => __( "Form Styling", "advanced-woo-search" ),
                 "desc"  => __( "Choose search form layout", "advanced-woo-search" ) . '<br>' . __( "Filter button will be visible only if you have more than one active filter for current search form instance.", "advanced-woo-search" ),
                 "id"    => "buttons_order",
-                "value" => '1',
+                "value" => '2',
                 "type"  => "radio-image",
                 'choices' => array(
                     '1' => 'btn-layout1.png',
@@ -595,6 +633,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 "desc"  => __( "Maximal allowed number of words for product description.", "advanced-woo-search" ),
                 "id"    => "excerpt_length",
                 "value" => 20,
+                "min" => 0,
                 "type"  => "number"
             );
 
@@ -603,6 +642,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 "desc"  => __( "Maximum number of displayed products search results.", "advanced-woo-search" ),
                 "id"    => "results_num",
                 "value" => 10,
+                "min" => 0,
                 "type"  => "number"
             );
 
@@ -611,6 +651,7 @@ if ( ! class_exists( 'AWS_Admin_Options' ) ) :
                 "desc"  => __( "Maximum number of displayed archive pages search results.", "advanced-woo-search" ),
                 "id"    => "pages_results_num",
                 "value" => 10,
+                "min" => 0,
                 "type"  => "number"
             );
 

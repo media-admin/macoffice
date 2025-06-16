@@ -29,7 +29,8 @@
 }
 
 @mixin atMedium {
-  @media (min-width: 769px) {
+/*   @media (min-width: 769px) { */
+  @media (min-width: 885px) {
     @content;
   }
 }

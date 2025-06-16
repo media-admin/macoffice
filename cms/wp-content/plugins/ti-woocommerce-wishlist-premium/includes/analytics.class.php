@@ -30,6 +30,8 @@ class TInvWL_Analytics {
 	 */
 	private $_name;
 
+	private $wishlist;
+
 	/**
 	 * Constructor
 	 *
@@ -94,8 +96,6 @@ class TInvWL_Analytics {
 		if ( ! $product_data || 'trash' === $product_data->post->post_status ) {
 			return null;
 		}
-
-		$product_data->variation_id = absint( $product_data->variation_id );
 
 		return $product_data;
 	}
@@ -385,6 +385,8 @@ class TInvWL_Analytics {
 	 * @global wpdb $wpdb
 	 */
 	function get( $data = array() ) {
+		global $wpdb;
+
 		$default = array(
 			'count'    => 10,
 			'field'    => null,
@@ -404,6 +406,11 @@ class TInvWL_Analytics {
 
 		$default['offset'] = absint( $default['offset'] );
 		$default['count']  = absint( $default['count'] );
+		//the order value is passed directly to the db so it needs to be protected against sql_injections
+		$valid_order_values = array( 'ASC', 'DESC' );
+		if ( ! in_array( strtoupper( $default['order'] ), $valid_order_values, true ) ) {
+			$default['order'] = 'ASC';
+		}
 		if ( is_array( $default['field'] ) ) {
 			$default['field'] = '`' . implode( '`,`', $default['field'] ) . '`';
 		} elseif ( is_string( $default['field'] ) ) {
@@ -419,10 +426,13 @@ class TInvWL_Analytics {
 			foreach ( $data as $f => $v ) {
 				$s = is_array( $v ) ? ' IN ' : '=';
 				if ( is_array( $v ) ) {
-					$v = "'" . implode( "','", $v ) . "'";
+					foreach ( $v as $_f => $_v ) {
+						$v[ $_f ] = $wpdb->prepare( '%s', $_v );
+					}
+					$v = implode( ',', $v );
 					$v = "($v)";
 				} else {
-					$v = "'$v'";
+					$v = $wpdb->prepare( '%s', $v );
 				}
 				$data[ $f ] = sprintf( '`%s`%s%s', $f, $s, $v );
 			}

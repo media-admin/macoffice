@@ -10,6 +10,7 @@ use Exception;
 // @codeCoverageIgnoreEnd
 /**
  * Handle the metadata and attached file for shortcuts.
+ * @internal
  */
 class Shortcut
 {

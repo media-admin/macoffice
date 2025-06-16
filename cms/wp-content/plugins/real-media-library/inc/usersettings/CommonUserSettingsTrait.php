@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\metadata\CommonTrait;
  * Trait common user settings helper methods.
  *
  * @since 4.0.8
+ * @internal
  */
 trait CommonUserSettingsTrait
 {

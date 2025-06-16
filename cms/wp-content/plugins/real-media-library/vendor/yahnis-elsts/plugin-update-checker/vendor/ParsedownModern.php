@@ -14,6 +14,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor;
 # with this source code.
 #
 #
+/** @internal */
 class Parsedown
 {
     # ~

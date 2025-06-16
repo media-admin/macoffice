@@ -2,9 +2,10 @@
 
 Contributors: yithemes
 Tags: woocommerce catalog mode plugin, woocommerce catalog only, woocommerce, products, themes, yit, yith, yithemes, e-commerce, shop, catalog mode, catalogue mode, remove add to cart, ask for price, ask price, asking for price, asking price, button remove, call, call for price, call me, call us, contact, email, hide add to cart, hide price
-Requires at least: 6.0
-Tested up to: 6.3
-Stable tag: 2.27.0
+Requires at least: 6.6
+Tested up to: 6.8
+Stable tag: 2.46.0
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +20,7 @@ YITH WooCommerce Catalog Mode is the easy and quick solution to turn your online
 
 A catalogue gives you the opportunity to leave your products online and to let your customers contact you anyway for whatever question they might have or to ask a custom quote. This increases customers’ loyalty and you do not lose visibility online.
 
-With **50,000+ active installations**, YITH WooCommerce Catalog mode is the **most popular free plugin** to convert a shop to an online catalog and the easiest solution: you can do that with just two clicks!
+With **60,000+ active installations**, YITH WooCommerce Catalog mode is the **most popular free plugin** to convert a shop to an online catalog and the easiest solution: you can do that with just two clicks!
 
 In our last update, we also improved the panel and the code to provide a better experience to all users that trust in our products.
 
@@ -29,6 +30,8 @@ In our last update, we also improved the panel and the code to provide a better 
 * Hide “Add to Cart” button on all product pages
 * Hide “Add to Cart” button on other pages (shop, categories, tags)
 * Hide WooCommerce “Cart” and “Checkout” pages and any reference to them.
+
+[Free version live demo >](https://plugins.yithemes.com/yith-woocommerce-catalog-mode-free/)
 
 = Official documentation of YITH WooCommerce Catalog Mode =
 
@@ -121,6 +124,10 @@ During this transition step, .po and .mo files will be used as always, but in or
 yith-woocommerce-catalog-mode-<WORDPRESS LOCALE>.po
 yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
+= How can I report security bugs? =
+
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/yith-woocommerce-catalog-mode)
+
 == Screenshots ==
 
 1. This is the settings page of YITH WooCommerce Catalog Mode, you can find it in YITH menu item. You can hide WooCommerce "Add to Cart" buttons and WooCommerce Cart and Checkout pages.
@@ -130,6 +137,99 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 3. This image shows WooCommerce product detail page as it appears when WooCommerce "Add to Cart" button is hidden and WooCommerce Cart and Checkout page are deactivated.
 
 == Changelog ==
+= Version 2.46.0 - Released: 13 May 2025 =
+
+* New: support for WooCommerce 9.9
+* Update: YITH plugin framework
+
+= Version 2.45.0 - Released: 14 April 2025 =
+
+* New: support for WordPress 6.8
+* Update: YITH plugin framework
+
+= Version 2.44.0 - Released: 24 March 2025 =
+
+* New: support for WooCommerce 9.8
+* Update: YITH plugin framework
+
+= Version 2.43.0 - Released: 24 February 2025 =
+
+* New: support for WooCommerce 9.7
+* Update: YITH plugin framework
+
+= Version 2.42.1 - Released: 11 December 2024 =
+
+* Update: YITH plugin framework
+
+= Version 2.41.0 - Released: 10 December 2024 =
+
+* New: support for WooCommerce 9.5
+* Update: YITH plugin framework
+
+= Version 2.40.0 - Released: 13 November 2024 =
+
+* New: support for WordPress 6.7
+* New: support for WooCommerce 9.4
+* Update: YITH plugin framework
+
+= Version 2.39.0 - Released: 17 September 2024 =
+
+* New: support for WooCommerce 9.3
+* Update: YITH plugin framework
+
+= Version 2.38.0 - Released: 14 August 2024 =
+
+* New: support for WooCommerce 9.2
+* Update: YITH plugin framework
+
+= Version 2.37.0 - Released: 22 July 2024 =
+
+* New: support for WordPress 6.6
+* New: support for WooCommerce 9.1
+* Update: YITH plugin framework
+
+= Version 2.36.0 - Released: 25 June 2024 =
+
+* New: support for WooCommerce 9.0
+* Update: YITH plugin framework
+
+= Version 2.35.0 - Released: 21 May 2024 =
+
+* New: support for WooCommerce 8.9
+* Update: YITH plugin framework
+
+= Version 2.34.0 - Released: 15 April 2024 =
+
+* New: support for WooCommerce 8.8
+* Update: YITH plugin framework
+
+= Version 2.33.0 - Released: 26 March 2024 =
+
+* New: support for WordPress 6.5
+* New: support for WooCommerce 8.7
+* Update: YITH plugin framework
+
+= Version 2.32.0 - Released: 5 March 2024 =
+
+* New: support for WooCommerce 8.6
+* New: panel UI
+* Update: YITH plugin framework
+
+= Version 2.30.0 - Released: 11 January 2024 =
+
+* New: support for WooCommerce 8.5
+* Update: YITH plugin framework
+
+= Version 2.29.0 - Released: 14 December 2023 =
+
+* New: support for WooCommerce 8.4
+* Update: YITH plugin framework
+
+= Version 2.28.0 - Released: 14 November 2023 =
+
+* New: support for WordPress 6.4
+* New: support for WooCommerce 8.3
+* Update: YITH plugin framework
 
 = Version 2.27.0 - Released: 09 October 2023 =
 
@@ -577,7 +677,7 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 == Upgrade Notice ==
 
-Last Stable Tag 2.27.0
+Last Stable Tag 2.39.0
 
 == Suggestions ==
 

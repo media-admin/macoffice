@@ -16,6 +16,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\ServiceNoStore;
 // @codeCoverageIgnoreEnd
 /**
  * Core for real-utils. It is only initialized once and holds all available initiators.
+ * @internal
  */
 class Core
 {

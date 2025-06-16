@@ -21,14 +21,24 @@ use MatthiasWeb\RealMediaLibrary\Vendor\Composer\Semver\VersionParser;
  * To require its presence, you can require `composer-runtime-api ^2.0`
  *
  * @final
+ * @internal
  */
 class InstalledVersions
 {
+    /**
+     * @var string|null if set (by reflection by Composer), this should be set to the path where this class is being copied to
+     * @internal
+     */
+    private static $selfDir = null;
     /**
      * @var mixed[]|null
      * @psalm-var array{root: array{name: string, pretty_version: string, version: string, reference: string|null, type: string, install_path: string, aliases: string[], dev: bool}, versions: array<string, array{pretty_version?: string, version?: string, reference?: string|null, type?: string, install_path?: string, aliases?: string[], dev_requirement: bool, replaced?: string[], provided?: string[]}>}|array{}|null
      */
     private static $installed;
+    /**
+     * @var bool
+     */
+    private static $installedIsLocalDir;
     /**
      * @var bool|null
      */
@@ -53,7 +63,7 @@ class InstalledVersions
         if (1 === \count($packages)) {
             return $packages[0];
         }
-        return \array_keys(\array_flip(\call_user_func_array('array_merge', $packages)));
+        return \array_keys(\array_flip(\call_user_func_array('MatthiasWeb\\RealMediaLibrary\\Vendor\\array_merge', $packages)));
     }
     /**
      * Returns a list of all package names with a specific type e.g. 'library'
@@ -269,6 +279,21 @@ class InstalledVersions
     {
         self::$installed = $data;
         self::$installedByVendor = array();
+        // when using reload, we disable the duplicate protection to ensure that self::$installed data is
+        // always returned, but we cannot know whether it comes from the installed.php in __DIR__ or not,
+        // so we have to assume it does not, and that may result in duplicate data being returned when listing
+        // all installed packages for example
+        self::$installedIsLocalDir = \false;
+    }
+    /**
+     * @return string
+     */
+    private static function getSelfDir()
+    {
+        if (self::$selfDir === null) {
+            self::$selfDir = \strtr(__DIR__, '\\', '/');
+        }
+        return self::$selfDir;
     }
     /**
      * @return array[]
@@ -280,17 +305,25 @@ class InstalledVersions
             self::$canGetVendors = \method_exists('MatthiasWeb\\RealMediaLibrary\\Vendor\\Composer\\Autoload\\ClassLoader', 'getRegisteredLoaders');
         }
         $installed = array();
+        $copiedLocalDir = \false;
         if (self::$canGetVendors) {
+            $selfDir = self::getSelfDir();
             foreach (ClassLoader::getRegisteredLoaders() as $vendorDir => $loader) {
+                $vendorDir = \strtr($vendorDir, '\\', '/');
                 if (isset(self::$installedByVendor[$vendorDir])) {
                     $installed[] = self::$installedByVendor[$vendorDir];
                 } elseif (\is_file($vendorDir . '/composer/installed.php')) {
                     /** @var array{root: array{name: string, pretty_version: string, version: string, reference: string|null, type: string, install_path: string, aliases: string[], dev: bool}, versions: array<string, array{pretty_version?: string, version?: string, reference?: string|null, type?: string, install_path?: string, aliases?: string[], dev_requirement: bool, replaced?: string[], provided?: string[]}>} $required */
                     $required = (require $vendorDir . '/composer/installed.php');
-                    $installed[] = self::$installedByVendor[$vendorDir] = $required;
-                    if (null === self::$installed && \strtr($vendorDir . '/composer', '\\', '/') === \strtr(__DIR__, '\\', '/')) {
-                        self::$installed = $installed[\count($installed) - 1];
+                    self::$installedByVendor[$vendorDir] = $required;
+                    $installed[] = $required;
+                    if (self::$installed === null && $vendorDir . '/composer' === $selfDir) {
+                        self::$installed = $required;
+                        self::$installedIsLocalDir = \true;
                     }
+                }
+                if (self::$installedIsLocalDir && $vendorDir . '/composer' === $selfDir) {
+                    $copiedLocalDir = \true;
                 }
             }
         }
@@ -305,7 +338,7 @@ class InstalledVersions
                 self::$installed = array();
             }
         }
-        if (self::$installed !== array()) {
+        if (self::$installed !== array() && !$copiedLocalDir) {
             $installed[] = self::$installed;
         }
         return $installed;

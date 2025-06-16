@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 echo '= ' . $email_heading . " =\n\n"; // WPCS: xss ok.
 echo sprintf( __( 'You have received an Estimate Request from %1$s ( %2$s ). The Request is as follows:', 'ti-woocommerce-wishlist-premium' ), esc_html( $wishlist['author_display_name'] ), esc_html( $wishlist['author_user_email'] ) ) . "\n\n"; // WPCS: xss ok.
-echo sprintf( __( '%1$s ( %2$s )', 'ti-woocommerce-wishlist-premium' ), $wishlist_data['title'], $wishlist['url'] ) . "\n\n"; // WPCS: xss ok.
+echo sprintf( __( '%1$s ( %2$s )', 'ti-woocommerce-wishlist-premium' ), $wishlist['title'], $wishlist['url'] ) . "\n\n"; // WPCS: xss ok.
 if ( ! empty( $additional_note ) ) {
 	echo __( 'Additional info:', 'ti-woocommerce-wishlist-premium' ) . "\n\n"; // WPCS: xss ok.
 	echo "----------\n\n";

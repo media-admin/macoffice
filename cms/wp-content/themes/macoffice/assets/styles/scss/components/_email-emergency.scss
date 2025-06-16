@@ -1,0 +1,60 @@
+/* === ERROR FOUND === */
+
+.email-emergency {
+
+	&__section {
+		text-align: center;
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+
+		@include atMedium {
+
+		}
+
+
+		& .modal-content {
+			text-align: left;
+		}
+
+	}
+
+
+	&__button {
+/* 	font-size: 1.0rem;
+		color: $color-secondary;
+		margin-top: 2rem; */
+		display: flex;
+
+		margin-bottom: initial !important;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__button:hover,
+	&__button:focus {
+		cursor: pointer;
+		/*
+		color: $color-tertiary !important;
+		background-color: $color-secondary !important;
+ 		margin-top: 2rem;
+		*/
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__modal {
+		background-color: $color-white;
+		text-align: left;
+
+		@include atMedium {
+
+		}
+	}
+
+}

@@ -10,6 +10,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealUtils\UtilsProvider;
 // @codeCoverageIgnoreEnd
 /**
  * Add real-utils specific options to frontend.
+ * @internal
  */
 class Options
 {

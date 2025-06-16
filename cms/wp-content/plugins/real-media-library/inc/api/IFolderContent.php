@@ -13,6 +13,7 @@ use MatthiasWeb\RealMediaLibrary\exception\OnlyInProVersionException;
  * Also the root ("Unorganized") is a folder and implements this interface.
  *
  * @since 3.3.1
+ * @internal
  */
 interface IFolderContent
 {
@@ -20,7 +21,7 @@ interface IFolderContent
      * (Pro only) See API function for more information.
      *
      * @param int $attachmentId
-     * @param int $nextId
+     * @param int|false $nextId
      * @param int|boolean $lastIdInView
      * @throws \Exception
      * @return true

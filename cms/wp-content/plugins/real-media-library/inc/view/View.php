@@ -10,6 +10,7 @@ use MatthiasWeb\RealMediaLibrary\base\UtilsProvider;
 // @codeCoverageIgnoreEnd
 /**
  * Handles the view for dropdowns and custom UI's for folders.
+ * @internal
  */
 class View
 {

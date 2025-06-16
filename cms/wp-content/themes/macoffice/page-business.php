@@ -13,6 +13,8 @@ get_header("business"); ?>
 			the_content();
 		?>
 
+		<?php echo do_shortcode('[shortcode_error_found]');  ?>
+
 	</div>
 </main>
 

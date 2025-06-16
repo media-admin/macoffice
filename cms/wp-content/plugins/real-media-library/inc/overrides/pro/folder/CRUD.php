@@ -6,6 +6,7 @@ namespace MatthiasWeb\RealMediaLibrary\lite\folder;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 trait CRUD
 {
     // Documented in wp_rml_create_p()

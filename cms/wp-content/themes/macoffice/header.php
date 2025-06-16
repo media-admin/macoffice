@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="outer-html" lang='de'>
+<html class="outer-html" lang="de" data-theme="light">
 	<head>
 
 		<!-- Meta Data -->
@@ -11,7 +11,6 @@
 		<meta name="keywords" content="macoffice mac)office Apple Autorisierter H&auml;ndler Reseller Service Provider Wr. Wiener Neustadt 2700 Österreich Niederösterreich Hardware Software Dienstleistung Beratung Kauf iPad iPhone 14 MacBook Pro Air iMac M1 M2 Mac mini Watch Ultra Series 8 TV AirTag Pencil macOS iOS iPadOS watchOS tvOS Macintosh Magic Mouse Keyboard Adobe Creative Cloud RAM Speicher Displaytausch Batterietausch Akku Reparatur Reparaturbonus">
 
 		<!-- === FAVICONS === -->
-
 		<!-- Default -->
 		<link rel="icon" href="<?php bloginfo( 'template_directory' ); ?>/assets/images/favicon/favicon.svg" type="image/x-icon">
 		<link rel="shortcut icon" href="<?php bloginfo( 'template_directory' ); ?>/assets/images/favicon/favicon.ico" type="image/x-icon">
@@ -74,10 +73,6 @@
 		<?php // require 'classes/servicePrices/config.php';  ?>
 		<?php // require 'classes/servicePrices/meta.php'; ?>
 
-		<!-- <script>
-			const colorScheme = localStorage.getItem("color-scheme") || "light-mode";
-		</script> -->
-
 		<?php wp_enqueue_script('jquery'); ?>
 		<?php wp_head(); ?>
 
@@ -88,30 +83,53 @@
 		<header class="site-header-top">
 			<div class="site-header-top__contact-information">
 				<div class="site-header-top__contact-information-opening">
-					<img class="site-header-top__contact-information-opening-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
-					<p class="site-header-top__contact-information-opening-hours">Mo - Fr 10 - 18 Uhr <span class="additional-info"> | </span> Sa 10 - 13 Uhr
-						<div class="site-header-top__contact-information-opening-sign">
-							<div class="refresh-opening-state">
-								<?php include ('classes/storeHours/open-closed-sign.php'); ?>
+					<a class="site-header-top__contact-information-opening-link" href="/ueber-uns">
+						<img class="site-header-top__contact-information-opening-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_opening-hours-header-light_desktop.svg"/>
+						<p class="site-header-top__contact-information-opening-hours">Mo - Fr 10 - 18 Uhr <span class="additional-info"> | </span> Sa 10 - 13 Uhr
+							<div class="site-header-top__contact-information-opening-sign">
+								<div class="refresh-opening-state">
+									<?php // include ('classes/storeHours/open-closed-sign.php'); ?> <!-- Dot for open/closed -->
+								</div>
 							</div>
-						</div>
-					</p>
+						</p>
+						</a>
 				</div>
 				<div class="site-header-top__contact-information-address">
-					<img class="site-header-top__contact-information-address-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_address-header-light_desktop.svg"/>
-					<p class="site-header-top__contact-information-address-data">Fischauer Gasse 150, 2700 Wiener Neustadt</p>
+					<a class="site-header-top__contact-information-address-link" href="/ueber-uns">
+						<img class="site-header-top__contact-information-address-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_address-header-light_desktop.svg"/>
+						<!-- <p class="site-header-top__contact-information-address-data">Fischauer Gasse 150, 2700 Wiener Neustadt</p> -->
+						<p class="site-header-top__contact-information-address-data">Fischauer Gasse 150, 2700 Wiener Neustadt</p>
+					</a>
 				</div>
 				<div class="site-header-top__contact-information-phone">
-					<img class="site-header-top__contact-information-phone-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_phone-header-light_desktop.svg"/>
-					<a class="site-header-top__contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
+					<a class="site-header-top__contact-information-phone-link" href="tel:+43262285270">
+						<img class="site-header-top__contact-information-phone-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_phone-header-light_desktop.svg"/>
+						<p class="site-header-top__contact-information-phone-number">+43 2622 85270</p>
+					</a>
 				</div>
-				<div class="site-header-top__contact-information-mail">
-					<img class="site-header-top__contact-information-mail-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_mail-header-light_desktop.svg"/>
-					<a class="site-header-top__contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
+				<div class="site-header-top__contact-information-mail site-header-top__contact-information-mail-link">
+					<div class="site-header-top__contact-information-mail-address">
+						<div id="email-info__button-desktop" class="email-info__button">
+							<img class="site-header-top__contact-information-mail-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_mail-header-light_desktop.svg"/>
+							info[at]macoffice.at
+						</div>
+						<?php echo do_shortcode('[shortcode_email_info]'); ?>
+					</div>
 				</div>
-				<div class="site-header-top__contact-information-hotline">
-					<img class="site-header-top__contact-information-hotline-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_call-header-light_desktop.svg"/>
-					<a class="site-header-top__contact-information-hotline-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
+				<div class="site-header-top__contact-information-hotline site-header-top__contact-information-hotline-link">
+						<div class="site-header-top__contact-information-hotline-number">
+							<div id="email-emergency__button-desktop" class="email-emergency__button">
+								<img class="site-header-top__contact-information-hotline-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_call-header-light_desktop.svg"/>
+								Notfall
+							</div>
+						<?php echo do_shortcode('[shortcode_email_emergency]');  ?>
+					</div>
+				</div>
+				<div class="site-header-top__contact-information-remote-support">
+					<a class="site-header-top__contact-information-remote-support-link" href="/fernwartung" target="_self">
+						<img class="site-header-top__contact-information-remote-support-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_remote-support-header-light_desktop.svg"/>
+						<p class="site-header-top__contact-information-remote-support-url">Fernwartung</p>
+					</a>
 				</div>
 			</div>
 		</header>
@@ -124,9 +142,31 @@
 						<img id="site-header__logo-img-dark" class="site-header__logo-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/macoffice_header-logo-dark_desktop.svg" alt="Logo mac)office - Ihr autorisierter Apple-Händler in Wiener Neustadt">
 					</a>
 				</div>
-				<div class="site-header__apple-haendler">
-					<img id="site-header__apple-haendler-light" class="site-header__apple-haendler-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-haendler_header-logo-light_desktop.svg" alt="Logo Autorisierter Händler">
-					<img id="site-header__apple-haendler-dark" class="site-header__apple-haendler-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-haendler_header-logo-dark_desktop.svg" alt="Logo Autorisierter Händler">
+
+				<div class="site-header__apple-certificates">
+
+					<div class="site-header__apple-autorisierter-haendler">
+						<a class="site-header__apple-autorisierter-haendler-link" href="/produkte">
+							<img id="site-header__apple-autorisierter-haendler-img" class="site-header__apple-autorisierter-haendler-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-haendler_header-logo-light_desktop.svg" alt="Logo Autorisierter Händler">
+						</a>
+					</div>
+
+					<div class="site-header__apple-certificates-combo">
+						<img id="site-header__apple-certificates-combo-img" class="site-header__apple-certificates-combo-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-certificates-1-line--black.svg" alt="Logo Autorisierter Händler">
+					</div>
+
+					<!-- <div class="site-header__apple-autorisierter-haendler">
+						<a class="site-header__apple-autorisierter-haendler-link" href="/produkte">
+							<img id="site-header__apple-autorisierter-haendler-img" class="site-header__apple-autorisierter-haendler-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-haendler_header-logo-light_desktop.svg" alt="Logo Autorisierter Händler">
+						</a>
+					</div>
+
+					<div class="site-header__apple-autorisierter-service-provider">
+						<a class="site-header__apple-autorisierter-service-provider-link" href="/leistungen">
+							<img id="site-header__apple-autorisierter-service-provider-img" class="site-header__apple-autorisierter-service-provider-img" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/logos/apple-service-provider_header-logo--dark.svg" alt="Logo Autorisierter Service Provider">
+						</a>
+					</div> -->
+
 				</div>
 			</div>
 
@@ -161,18 +201,34 @@
 			</nav>
 
 			<!-- Smartphone only START -->
+
+
+
+
 			<div class="site-header__navi-contact-information">
 				<div class="site-header__navi-contact-information-phone">
 					<img class="site-header__navi-contact-information-phone-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_phone-header-dark_desktop.svg"/>
 					<a class="site-header__navi-contact-information-phone-number" href="tel:+43 2622 85 270">+43 2622 85 270</a>
 				</div>
-				<div class="site-header__navi-contact-information-mail">
+<!-- 				<div class="site-header__navi-contact-information-mail site-header__navi-contact-information-mail-address">
 					<img class="site-header__navi-contact-information-mail-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_mail-header-dark_desktop.svg"/>
 					<a class="site-header__navi-contact-information-mail-address" href="mailto:info@macoffice.at">info@macoffice.at</a>
+				</div> -->
+
+
+				<div class="site-header__navi-contact-information-mail site-header__navi-contact-information-mail-address">
+					<img class="site-header__navi-contact-information-mail-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_mail-header-dark_desktop.svg"/>
+					<p class="site-header__navi-contact-information-mail-address"><?php echo do_shortcode('[shortcode_email_info]'); ?></p>
 				</div>
-				<div class="site-header__navi-contact-information-call">
+
+				<!-- <div class="site-header__navi-contact-information-call">
 					<img class="site-header__navi-contact-information-call-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_call-header-dark_desktop.svg"/>
-					<a class="site-header__navi-contact-information-call-number" href="tel:0900 888 345">0900 888 345 <span class="additional-info">[ EUR 1,81/min ]</span></a>
+					<a class="site-header__navi-contact-information-call-number" href="mailto:notfall@macoffice.at">Notfallservice</a>
+				</div> -->
+
+				<div class="site-header__navi-contact-information-remote-support">
+					<img class="site-header__navi-contact-information-remote-support-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_remote-support-header-dark_desktop.svg"/>
+					<a class="site-header__navi-contact-information-remote-support-link" href="/fernwartung">Fernwartung</a>
 				</div>
 
 				<div class="site-header__additional-area--smartphone">
@@ -190,10 +246,12 @@
 					</div>
 
 					<div class="site-header__mode-switcher site-header__mode-switcher--smartphone">
-						<button class="site-header__mode-switcher-link " onclick="switchMode()">
-							<img class="site-header__mode-switcher-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg"/>
+						<span id="mode">system</span>
+						<button id="theme-toggle-smartphone" class="site-header__mode-switcher-link btn wrapper">
+							<img class="site-header__mode-switcher-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
 						</button>
 					</div>
+
 				</div>
 			</div>
 			<!-- Smartphone only END -->
@@ -210,19 +268,15 @@
 					<div id="search_modal_desktop" class="modal">
 						<div class="modal-background"></div>
 						<div class="modal-content">
-							<span class="modal-close-btn">&times;</span>
+							<span id="modal-close-btn--desktop" class="modal-close-btn--desktop">&times;</span>
 							<?php if ( function_exists( 'aws_get_search_form' ) ) { aws_get_search_form( true, array( 'id' => 1 ) ); } ?>
 						</div>
 					</div>
 				</div>
 
 				<div class="site-header__mode-switcher">
-					<!-- <button class="site-header__mode-switcher-link wrapper" onclick="switchMode()"> -->
-					<!-- <button id="theme-toggle" class="site-header__mode-switcher-link wrapper" aria-label="Aktiviere Dark Mode/Light Mode" onclick="toggleTheme()"> -->
-					<!-- <span id="mode">system</span>
-							 <button id="theme-toggle" class="site-header__mode-switcher-link wrapper" > -->
-								 <span id="mode">system</span>
-					<button id="theme-toggle" class="site-header__mode-switcher-link btn wrapper">
+					<span id="mode">system</span>
+					<button id="theme-toggle-desktop" class="site-header__mode-switcher-link btn wrapper" data-theme-toggle>
 						<img class="site-header__mode-switcher-link-icon" src="<?php bloginfo( 'template_directory' ); ?>/assets/images/icons/icon_light-mode_desktop.svg" alt="Icon Suchen">
 					</button>
 				</div>

@@ -30,6 +30,13 @@ class WC_GZD_Product {
 
 	protected $warranty_attachment = false;
 
+	protected $safety_attachments = array();
+
+	/**
+	 * @var null|WP_Term
+	 */
+	protected $manufacturer = null;
+
 	protected $allergenic = null;
 
 	protected $nutrients = null;
@@ -109,7 +116,20 @@ class WC_GZD_Product {
 	}
 
 	public function get_gtin( $context = 'view' ) {
-		return $this->get_prop( 'ts_gtin', $context );
+		$gtin = $this->get_prop( 'ts_gtin', $context );
+
+		/**
+		 * Prefer using the newly introduced GTIN option from the Woo Core.
+		 */
+		if ( 'view' === $context && is_callable( array( $this->child, 'get_global_unique_id' ) ) ) {
+			$wc_core_gtin = $this->child->get_global_unique_id();
+
+			if ( ! empty( $wc_gtin ) ) {
+				$gtin = $wc_core_gtin;
+			}
+		}
+
+		return $gtin;
 	}
 
 	public function get_mpn( $context = 'view' ) {
@@ -198,6 +218,16 @@ class WC_GZD_Product {
 		}
 
 		return apply_filters( 'woocommerce_gzd_product_formatted_nutri_score', $nutri_score, $this );
+	}
+
+	public function get_power_supply_html() {
+		$html = '';
+
+		if ( $this->is_wireless_electronic_device() ) {
+			$html = wc_get_template_html( 'global/power-supply.php', array( 'product' => $this->get_wc_product() ) );
+		}
+
+		return apply_filters( 'woocommerce_gzd_product_power_supply_html', $html, $this );
 	}
 
 	public function get_drained_weight( $context = 'view' ) {
@@ -301,6 +331,183 @@ class WC_GZD_Product {
 		}
 
 		return $this->deposit_type;
+	}
+
+	/**
+	 * @param $context
+	 *
+	 * @return false|WC_GZD_Manufacturer
+	 */
+	public function get_manufacturer( $context = 'view' ) {
+		if ( is_null( $this->manufacturer ) ) {
+			$this->manufacturer = false;
+			$slug               = $this->get_manufacturer_slug( $context );
+
+			if ( ! empty( $slug ) ) {
+				$this->manufacturer = wc_gzd_get_manufacturer( $slug );
+			}
+		}
+
+		return apply_filters( 'woocommerce_gzd_product_manufacturer', $this->manufacturer, $this );
+	}
+
+	public function get_manufacturer_slug( $context = 'view' ) {
+		$manufacturer_slug = $this->get_prop( 'manufacturer_slug', $context );
+
+		if ( 'view' === $context && empty( $manufacturer_slug ) && taxonomy_exists( 'product_brand' ) ) {
+			$product_id              = is_a( $this, 'WC_GZD_Product_Variation' ) ? $this->child->get_parent_id() : $this->get_id();
+			$brands                  = wp_get_post_terms( $product_id, 'product_brand', array( 'parent' => 0 ) );
+			$main_brand              = false;
+			$brand_manufacturer_slug = false;
+
+			if ( is_wp_error( $brands ) ) {
+				return $manufacturer_slug;
+			}
+
+			if ( empty( $brands ) ) {
+				$brands = wp_get_post_terms( $product_id, 'product_brand' );
+			}
+
+			if ( ! empty( $brands ) ) {
+				$main_brand = $brands[0];
+
+				if ( 0 === $main_brand->parent ) {
+					$child_brands = wp_get_post_terms( $product_id, 'product_brand', array( 'parent' => $main_brand->term_id ) );
+
+					foreach ( $child_brands as $child_brand ) {
+						if ( get_term_meta( $child_brand->term_id, 'manufacturer', true ) ) {
+							$main_brand = $child_brand;
+							break;
+						}
+					}
+				}
+			}
+
+			$main_brand = apply_filters( 'woocommerce_gzd_product_get_main_brand_for_manufacturer', $main_brand, $this );
+
+			if ( is_a( $main_brand, 'WP_Term' ) ) {
+				if ( ! $brand_manufacturer_slug && ( $m_slug = get_term_meta( $main_brand->term_id, 'manufacturer', true ) ) ) {
+					$manufacturer_slug = $m_slug;
+				}
+			}
+		}
+
+		return $manufacturer_slug;
+	}
+
+	public function has_product_safety_information() {
+		return apply_filters( 'woocommerce_gzd_product_has_safety_information', ( $this->get_safety_attachment_ids() || $this->get_manufacturer() || $this->get_safety_instructions() ), $this );
+	}
+
+	public function set_manufacturer_slug( $slug ) {
+		$this->manufacturer = null;
+
+		$this->set_prop( 'manufacturer_slug', $slug );
+	}
+
+	public function get_safety_attachment_ids( $context = 'view' ) {
+		return array_filter( (array) $this->get_prop( 'safety_attachment_ids', $context ) );
+	}
+
+	public function set_safety_attachment_ids( $ids ) {
+		$this->set_prop( 'safety_attachment_ids', array_unique( array_map( 'intval', $ids ) ) );
+		$this->safety_attachments = array();
+	}
+
+	public function get_safety_attachment( $id, $context = 'view' ) {
+		if ( $post = get_post( $id ) ) {
+			$this->safety_attachments[ $id ] = $post;
+
+			return $this->safety_attachments[ $id ];
+		}
+
+		return false;
+	}
+
+	public function get_safety_attachment_file( $id, $context = 'view' ) {
+		if ( $attachment = $this->get_safety_attachment( $id, $context ) ) {
+			return get_attached_file( $attachment->ID );
+		}
+
+		return false;
+	}
+
+	public function get_safety_attachment_url( $id, $context = 'view' ) {
+		if ( $attachment = $this->get_safety_attachment( $id, $context ) ) {
+			return wp_get_attachment_url( $attachment->ID );
+		}
+
+		return false;
+	}
+
+	public function get_safety_attachment_filename( $id, $context = 'view' ) {
+		if ( $file = $this->get_safety_attachment_file( $id, $context ) ) {
+			return basename( $file );
+		}
+
+		return false;
+	}
+
+	public function get_safety_attachment_title( $id, $context = 'view' ) {
+		if ( $this->get_safety_attachment( $id, $context ) ) {
+			if ( $caption = wp_get_attachment_caption( $id ) ) {
+				return $caption;
+			} else {
+				return get_the_title( $id );
+			}
+		}
+
+		return false;
+	}
+
+	public function get_manufacturer_html( $context = 'view' ) {
+		if ( $manufacturer = $this->get_manufacturer( $context ) ) {
+			$html = $manufacturer->get_html();
+		} else {
+			$html = '';
+		}
+
+		/**
+		 * Filter to adjust product manufacturer html output.
+		 *
+		 * @param string $html The product manufacturer html.
+		 * @param WC_GZD_Product $product The product object.
+		 *
+		 * @since 3.18.0
+		 */
+		return apply_filters( 'woocommerce_gzd_product_manufacturer_html', $html, $this );
+	}
+
+	public function get_product_safety_attachments_html( $context = 'view' ) {
+		$html = '';
+
+		if ( $this->hide_shopmarks_due_to_missing_price() ) {
+			return '';
+		}
+
+		if ( $this->get_safety_attachment_ids( $context ) ) {
+			foreach ( $this->get_safety_attachment_ids() as $attachment_id ) {
+				if ( $attachment = $this->get_safety_attachment( $attachment_id ) ) {
+					$html .= '<li class="wc-gzd-product-safety-attachment"><a href="' . esc_url( $this->get_safety_attachment_url( $attachment_id ) ) . '" target="_blank">' . esc_html( $this->get_safety_attachment_title( $attachment_id ) ) . '</a></li>';
+				}
+			}
+
+			if ( ! empty( $html ) ) {
+				$html = '<ul class="wc-gzd-product-safety-attachments-list">' . $html . '</ul>';
+			}
+		} else {
+			$html = '';
+		}
+
+		/**
+		 * Filter to adjust product safety attachments html output.
+		 *
+		 * @param string $html The product safety attachments html.
+		 * @param WC_GZD_Product $product The product object.
+		 *
+		 * @since 3.18.0
+		 */
+		return apply_filters( 'woocommerce_gzd_product_safety_attachments_html', $html, $this );
 	}
 
 	public function get_deposit_type( $context = 'view' ) {
@@ -522,6 +729,21 @@ class WC_GZD_Product {
 		return $this->get_prop( 'defect_description', $context );
 	}
 
+	public function get_safety_instructions( $context = 'view' ) {
+		return $this->get_prop( 'safety_instructions', $context );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_formatted_safety_instructions( $context = 'view' ) {
+		if ( $instructions = $this->get_safety_instructions( $context ) ) {
+			return wpautop( do_shortcode( wp_kses_post( htmlspecialchars_decode( $instructions ) ) ) );
+		}
+
+		return '';
+	}
+
 	public function get_cart_description( $context = 'view' ) {
 		return $this->get_mini_desc();
 	}
@@ -646,6 +868,38 @@ class WC_GZD_Product {
 		return wc_string_to_bool( $this->get_prop( 'defective_copy', $context ) );
 	}
 
+	public function get_wireless_electronic_device( $context = 'view' ) {
+		return wc_string_to_bool( $this->get_prop( 'wireless_electronic_device', $context ) );
+	}
+
+	public function get_device_contains_power_supply( $context = 'view' ) {
+		return wc_string_to_bool( $this->get_prop( 'device_contains_power_supply', $context ) );
+	}
+
+	public function get_device_charging_supports_usb_pd( $context = 'view' ) {
+		return wc_string_to_bool( $this->get_prop( 'device_charging_supports_usb_pd', $context ) );
+	}
+
+	public function get_device_charging_watt_min( $context = 'view' ) {
+		return $this->get_prop( 'device_charging_watt_min', $context );
+	}
+
+	public function get_device_charging_watt_max( $context = 'view' ) {
+		return $this->get_prop( 'device_charging_watt_max', $context );
+	}
+
+	public function is_wireless_electronic_device( $context = 'view' ) {
+		return $this->get_wireless_electronic_device( $context ) === true;
+	}
+
+	public function device_charging_supports_usb_pd( $context = 'view' ) {
+		return $this->get_device_charging_supports_usb_pd( $context ) === true;
+	}
+
+	public function device_contains_power_supply( $context = 'view' ) {
+		return $this->get_device_contains_power_supply( $context ) === true;
+	}
+
 	public function is_defective_copy( $context = 'view' ) {
 		return $this->get_defective_copy( $context ) === true;
 	}
@@ -764,6 +1018,10 @@ class WC_GZD_Product {
 		$this->set_prop( 'food_description', $description );
 	}
 
+	public function set_safety_instructions( $instructions ) {
+		$this->set_prop( 'safety_instructions', $instructions );
+	}
+
 	public function set_unit_price( $price ) {
 		$this->set_prop( 'unit_price', wc_format_decimal( $price ) );
 	}
@@ -802,6 +1060,26 @@ class WC_GZD_Product {
 
 	public function set_defective_copy( $is_defective_copy ) {
 		$this->set_prop( 'defective_copy', wc_bool_to_string( $is_defective_copy ) );
+	}
+
+	public function set_wireless_electronic_device( $is_wireless_electronic_device ) {
+		$this->set_prop( 'wireless_electronic_device', wc_bool_to_string( $is_wireless_electronic_device ) );
+	}
+
+	public function set_device_charging_supports_usb_pd( $device_charging_supports_usb_pd ) {
+		$this->set_prop( 'device_charging_supports_usb_pd', wc_bool_to_string( $device_charging_supports_usb_pd ) );
+	}
+
+	public function set_device_contains_power_supply( $device_contains_power_supply ) {
+		$this->set_prop( 'device_contains_power_supply', wc_bool_to_string( $device_contains_power_supply ) );
+	}
+
+	public function set_device_charging_watt_min( $device_charging_watt_min ) {
+		$this->set_prop( 'device_charging_watt_min', absint( $device_charging_watt_min ) );
+	}
+
+	public function set_device_charging_watt_max( $device_charging_watt_max ) {
+		$this->set_prop( 'device_charging_watt_max', absint( $device_charging_watt_max ) );
 	}
 
 	public function set_used_good( $is_used_good ) {
@@ -1145,24 +1423,24 @@ class WC_GZD_Product {
 			return $price_html;
 		}
 
-		preg_match( '/<del.*>(.*?)<\\/del>/si', $price_html, $match_regular );
-		preg_match( '/<ins.*>(.*?)<\\/ins>/si', $price_html, $match_sale );
-		preg_match( '/<small .*>(.*?)<\\/small>/si', $price_html, $match_suffix );
+		$regular_regex = '/<del([^>]*)>(.*?)<\/del>/is';
+		$sale_regex    = '/<ins([^>]*)>(.*?)<\/ins>/is';
+
+		preg_match( $regular_regex, $price_html, $match_regular );
+		preg_match( $sale_regex, $price_html, $match_sale );
 
 		if ( empty( $match_sale ) || empty( $match_regular ) ) {
 			return $price_html;
 		}
 
-		$new_price_regular = $match_regular[0];
-		$new_price_sale    = $match_sale[0];
-		$new_price_suffix  = ( empty( $match_suffix ) ? '' : ' ' . $match_suffix[0] );
-
 		if ( ! empty( $sale_label ) && isset( $match_regular[1] ) ) {
-			$new_price_regular = '<span class="wc-gzd-sale-price-label">' . $sale_label . '</span> ' . $match_regular[0];
+			// Replace the first occurrence only, e.g. in case unit price is attached to the price html
+			$price_html = preg_replace( $regular_regex, '<span class="wc-gzd-sale-price-label">' . $sale_label . '</span> $0', $price_html, 1 );
 		}
 
 		if ( ! empty( $sale_regular_label ) && isset( $match_sale[1] ) ) {
-			$new_price_sale = '<span class="wc-gzd-sale-price-label wc-gzd-sale-price-regular-label">' . $sale_regular_label . '</span> ' . $match_sale[0];
+			// Replace the first occurrence only, e.g. in case unit price is attached to the price html
+			$price_html = preg_replace( $sale_regex, '<span class="wc-gzd-sale-price-label wc-gzd-sale-price-regular-label">' . $sale_regular_label . '</span> $0', $price_html, 1 );
 		}
 
 		/**
@@ -1173,9 +1451,8 @@ class WC_GZD_Product {
 		 * @param WC_GZD_Product $product The product object.
 		 *
 		 * @since 1.8.5
-		 *
 		 */
-		return apply_filters( 'woocommerce_gzd_product_sale_price_with_labels_html', $new_price_regular . ' ' . $new_price_sale . $new_price_suffix, $org_price_html, $this );
+		return apply_filters( 'woocommerce_gzd_product_sale_price_with_labels_html', $price_html, $org_price_html, $this );
 	}
 
 	public function get_price_html_from_to( $from, $to, $show_labels = true ) {
@@ -1240,7 +1517,7 @@ class WC_GZD_Product {
 			if ( ! empty( $tax_rates ) ) {
 				$tax_rates = array_values( $tax_rates );
 
-				// If is variable or is virtual vat exception dont show exact tax rate
+				// If is variable or is virtual vat exception don't show exact tax rate
 				if ( $this->is_virtual_vat_exception() || $this->child->is_type( 'variable' ) || $this->child->is_type( 'grouped' ) || get_option( 'woocommerce_gzd_hide_tax_rate_shop' ) === 'yes' ) {
 					$tax_notice = ( 'incl' === $tax_display_mode && ! $is_vat_exempt ? __( 'incl. VAT', 'woocommerce-germanized' ) : __( 'excl. VAT', 'woocommerce-germanized' ) );
 				} else {
@@ -1614,7 +1891,6 @@ class WC_GZD_Product {
 		 * @param WC_GZD_Product $product The product object.
 		 *
 		 * @since 1.0.0
-		 *
 		 */
 		if ( apply_filters( 'woocommerce_gzd_hide_product_units_text', false, $this ) ) {
 
@@ -2001,15 +2277,18 @@ class WC_GZD_Product {
 		}
 
 		if ( ! empty( $html ) ) {
-			$delivery_time_str = get_option( 'woocommerce_gzd_delivery_time_text' );
+			$delivery_time_str   = get_option( 'woocommerce_gzd_delivery_time_text' );
+			$delivery_time_class = apply_filters( 'woocommerce_gzd_product_delivery_time_classname', 'delivery-time-' . strtolower( sanitize_html_class( preg_replace( '#[ -]+#', '-', trim( $html ) ) ) ), $this );
 
 			$replacements = array(
-				'{delivery_time}' => $html,
+				'{delivery_time}' => '<span class="delivery-time-data">' . $html . '</span>',
 			);
 
 			if ( strstr( $delivery_time_str, '{stock_status}' ) ) {
 				$replacements['{stock_status}'] = str_replace( array( '<p ', '</p>' ), array( '<span ', '</span>' ), wc_get_stock_html( $this->child ) );
 			}
+
+			$delivery_time_html = '<span class="delivery-time-inner ' . esc_attr( $delivery_time_class ) . '">' . wc_gzd_replace_label_shortcodes( $delivery_time_str, $replacements ) . '</span>';
 
 			/**
 			 * Filter to adjust product delivery time HTML.
@@ -2024,7 +2303,7 @@ class WC_GZD_Product {
 			 */
 			$html = apply_filters(
 				'woocommerce_germanized_delivery_time_html',
-				wc_gzd_replace_label_shortcodes( $delivery_time_str, $replacements ),
+				$delivery_time_html,
 				$delivery_time_str,
 				$html,
 				$this
@@ -2123,8 +2402,7 @@ class WC_GZD_Product {
 
 	public function save() {
 		/**
-		 * Update delivery time term slugs if they have been explicitly set during the
-		 * save request.
+		 * Update delivery time term slugs if they have been explicitly set during the save request.
 		 */
 		$slugs = $this->get_delivery_time_slugs( 'save' );
 		$id    = false;
@@ -2155,7 +2433,40 @@ class WC_GZD_Product {
 		} elseif ( taxonomy_exists( 'product_deposit_type' ) ) {
 			wp_delete_object_term_relationships( $this->get_wc_product()->get_id(), 'product_deposit_type' );
 		}
+
+		/**
+		 * Update manufacturer term relationships, maybe create manufacture if he does not yet exist.
+		 */
+		if ( $manufacturer_slug = $this->get_manufacturer_slug( 'edit' ) ) {
+			wp_set_post_terms( $this->get_wc_product()->get_id(), array( sanitize_title( $manufacturer_slug ) ), 'product_manufacturer', false );
+		} elseif ( taxonomy_exists( 'product_manufacturer' ) ) {
+			wp_delete_object_term_relationships( $this->get_wc_product()->get_id(), 'product_manufacturer' );
+		}
+
+		/**
+		 * Update unit term relationships
+		 */
+		if ( $unit = $this->get_unit_term( 'edit' ) ) {
+			wp_set_post_terms( $this->get_wc_product()->get_id(), array( $unit->slug ), 'product_unit', false );
+		} elseif ( taxonomy_exists( 'product_unit' ) ) {
+			wp_delete_object_term_relationships( $this->get_wc_product()->get_id(), 'product_unit' );
+		}
+
+		$labels = array_filter( array( $this->get_sale_price_label_term( 'edit' ), $this->get_sale_price_regular_label_term( 'edit' ) ) );
+
+		/**
+		 * Update price label term relationships
+		 */
+		if ( ! empty( $labels ) ) {
+			$slugs = array();
+
+			foreach ( $labels as $label ) {
+				$slugs[] = $label->slug;
+			}
+
+			wp_set_post_terms( $this->get_wc_product()->get_id(), $slugs, 'product_price_label', false );
+		} elseif ( taxonomy_exists( 'product_price_label' ) ) {
+			wp_delete_object_term_relationships( $this->get_wc_product()->get_id(), 'product_price_label' );
+		}
 	}
 }
-
-

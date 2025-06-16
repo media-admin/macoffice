@@ -12,6 +12,7 @@ use Exception;
 /**
  * This class creates a root object. (Type 4)
  * See parent classes / interfaces for better documentation.
+ * @internal
  */
 class Root extends Sortable
 {

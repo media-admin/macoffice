@@ -64,13 +64,21 @@ if (!class_exists('AWS_FacetWP')) :
 
                 global $wp_query;
                 $posts_per_page = $obj && $obj->query_args && isset( $obj->query_args['posts_per_page'] ) ? $obj->query_args['posts_per_page'] : $wp_query->query_vars['posts_per_page'];
-                $paged = $obj && $obj->query_args && isset( $obj->query_args['paged'] ) ? $obj->query_args['paged'] : $wp_query->query_vars['paged'];
+
+                $paged = false;
                 if ( ! $paged && isset( $_REQUEST['_paged'] ) ) {
                     $paged = intval( $_REQUEST['_paged'] );
                 }
                 if ( ! $paged && $obj && $obj->ajax_params && isset( $obj->ajax_params['paged'] )  ) {
                     $paged = intval( $obj->ajax_params['paged'] );
                 }
+                if ( ! $paged ) {
+                    $paged = $obj && $obj->query_args && isset( $obj->query_args['paged'] ) ? $obj->query_args['paged'] : $wp_query->query_vars['paged'];
+                }
+                if ( ! $paged ) {
+                    $paged = 1;
+                }
+
                 $search_res = AWS_Search_Page::factory()->search( $obj->query, $posts_per_page, $paged );
 
                 $this->data['posts_per_page'] = $posts_per_page;
@@ -83,7 +91,7 @@ if (!class_exists('AWS_FacetWP')) :
                         $products_ids[] = $product['id'];
                     }
                     foreach ( $search_res['all'] as $product ) {
-                        $all_products_ids[] = $product['id'];
+                        $all_products_ids[] = $product;
                     }
                     $post_ids = $all_products_ids;
                     $this->data['all_products_ids'] = $all_products_ids;

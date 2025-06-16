@@ -13,6 +13,7 @@ use MatthiasWeb\RealMediaLibrary\Assets;
  * use the add_media_folder_meta function.
  *
  * To register the metadata class you must use the following API function add_rml_meta_box.
+ * @internal
  */
 interface IMetadata
 {

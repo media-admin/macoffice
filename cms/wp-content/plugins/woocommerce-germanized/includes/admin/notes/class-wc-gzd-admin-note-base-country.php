@@ -11,7 +11,7 @@ class WC_GZD_Admin_Note_Base_Country extends WC_GZD_Admin_Note {
 		$is_disabled = true;
 
 		if ( ! apply_filters( 'woocommerce_gzd_afghanistan_is_valid_base_country', false ) ) {
-			if ( 'AF' === get_option( 'woocommerce_default_country' ) || 'AF' === get_option( 'woocommerce_gzd_shipments_shipper_address_country' ) || 'AF' === get_option( 'woocommerce_gzd_shipments_return_address_country' ) ) {
+			if ( 'AF' === get_option( 'woocommerce_default_country' ) || 'AF' === get_option( 'woocommerce_shiptastic_shipper_address_country' ) || 'AF' === get_option( 'woocommerce_shiptastic_return_address_country' ) ) {
 				$is_disabled = false;
 			}
 		}
@@ -33,7 +33,7 @@ class WC_GZD_Admin_Note_Base_Country extends WC_GZD_Admin_Note {
 
 	public function get_content() {
 		$content  = '<p>' . sprintf( __( 'We found that one of your country options is set to Afghanistan. There is a <a href="%s">known bug</a> in WooCommerce which may lead to this issue. An incorrect country option can have unwanted effects on, among other things, tax calculation and shipping.', 'woocommerce-germanized' ), 'https://github.com/woocommerce/woocommerce/issues/32301' ) . '</p>';
-		$content .= '<p>' . sprintf( __( 'Please check your <a href="%1$s">general settings</a> and your <a href="%2$s">shipment address settings</a>.', 'woocommerce-germanized' ), admin_url( 'admin.php?page=wc-settings&tab=general' ), admin_url( 'admin.php?page=wc-settings&tab=germanized-shipments&section=address' ) ) . '</p>';
+		$content .= '<p>' . sprintf( __( 'Please check your <a href="%1$s">general settings</a> and your <a href="%2$s">shipment address settings</a>.', 'woocommerce-germanized' ), admin_url( 'admin.php?page=wc-settings&tab=general' ), admin_url( 'admin.php?page=wc-settings&tab=shipments-general&section=business_information' ) ) . '</p>';
 
 		return $content;
 	}

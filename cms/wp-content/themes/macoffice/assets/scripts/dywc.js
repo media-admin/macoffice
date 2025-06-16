@@ -1,44 +1,44 @@
 let dywc = {
-	
+
 	config: null,
 	cookie_value: null,
-	
+
 	cookie: {
 
-		reURIAllowed: /[\-\.\+\*]/g, 
+		reURIAllowed: /[\-\.\+\*]/g,
 		reCNameAllowed: /^(?:expires|max\-age|path|domain|secure|samesite|httponly)$/i,
 
 		makeSetterString: function(sKey, sValue, vEnd, sPath, sDomain, bSecure, vSameSite) {
 
 			var sExpires = "";
-		
+
 			if (vEnd) {
-		
+
 				switch (vEnd.constructor) {
-		
+
 					case Number:
-		 
+
 						sExpires = vEnd === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + vEnd;
 						break;
-		
+
 					case String:
-		
+
 						sExpires = "; expires=" + vEnd;
 						break;
-		
+
 					case Date:
-		
+
 						sExpires = "; expires=" + vEnd.toUTCString();
 						break;
-		
+
 				}
-		
+
 			}
-		
+
 			return	encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "") + (!vSameSite || vSameSite.toString().toLowerCase() === "no_restriction" || vSameSite < 0 ? "" : vSameSite.toString().toLowerCase() === "lax" || Math.ceil(vSameSite) === 1 || vSameSite === true ? "; samesite=lax" : "; samesite=strict");
-		
+
 		},
-		
+
 		getItem: function (sKey) {
 
 			if (!sKey) { return null; }
@@ -74,20 +74,20 @@ let dywc = {
 		}
 
 	},
-	
+
 	init: function(config) {
-		
+
 		if (typeof config === 'undefined') config = this.config;
-		
+
 		if (typeof config !== 'object') {
-			
+
 			console.error('DoYouWantCookie muss mit einem Konfigurations Array initiiert werden.');
 			return false;
-			
+
 		}
-		
+
 		this.config = config;
-		
+
 		this.log("Init");
 
 		this.cookie_value = this.cookie.getItem(this.config.cookie_name);
@@ -152,7 +152,7 @@ let dywc = {
 			strCoookieHint += '<div>';
 
 			strCoookieHint += '<div class="cookie_group_wrap">';
-			
+
 			for (var i in this.config.cookie_groups) {
 
 				var cookie_group = this.config.cookie_groups[i];
@@ -184,31 +184,31 @@ let dywc = {
 
 			strCoookieHint += '</div>';
 			strCoookieHint += '<p class="dsg">Die Auswahl kann in der <a href="' + this.config.url_legalnotice + '">Datenschutzerklärung</a> widerrufen werden.</p>';
-			
+
 			if (this.config.url_imprint !== null) {
-			
+
 				strCoookieHint += '<p class="imprint"><a href="' + this.config.url_imprint + '">Impressum</a></p>';
-				
-			}				
-			
+
+			}
+
 			//strCoookieHint += '<div>';
 			//strCoookieHint += 'Cookie Opt-In Script bereitgestellt von <br /><a href="https://daschmi.de" title="Homepage von Daniel Schmitzer - Webentwicklung - Programmierung - Burgenlandkreis - Sachsen Anhalt">https://daschmi.de</a>';
 			//strCoookieHint += '</div>';
-				
+
 			strCoookieHint += '</div>';
 			strCoookieHint += '</div>';
 
 			let elem = document.querySelector('#' + this.config.id_cookielayer);
 			if (elem !== null) elem.parentNode.removeChild(elem);
- 			
+
 			if (this.config.bglayer === true) {
 
 				strCoookieHint += '<div id="' + this.config.id_bglayer + '"></div>';
-				
+
 			}
 
 			document.querySelector('body').innerHTML += strCoookieHint;
-			
+
 		} else {
 
 			let arSet = this.cookie_value.split('-');
@@ -229,23 +229,23 @@ let dywc = {
 				}
 
 			}
-			
+
 		}
-		
+
 		this.update();
-		
+
 	},
-	
+
 	log: function(...msg) {
-		
+
 		if (this.config.debug) console.log(msg);
-		
+
 	},
 
 	reset: function() {
 
 		this.log('reset');
-		
+
 		this.cookie.removeItem(this.config.cookie_name, this.config.cookie_path);
 		this.cookie_value = null;
 
@@ -263,36 +263,36 @@ let dywc = {
 		return false;
 
 	},
-	
+
 	info: function(group_index) {
 
 		this.log('Show Info ', group_index);
-		
+
 		let elem = document.querySelector('#' + this.config.id_cookielayer);
 		let cookie_group = this.config.cookie_groups[group_index];
-		
+
 		if (!elem.classList.contains('show_info')) elem.classList.add('show_info');
-		
+
 		if (typeof cookie_group === "object") {
 
 			[].forEach.call(document.querySelectorAll('#' + this.config.id_cookielayer + ' .info .group'), function(div) { div.style.display = 'none'; });
-			
+
 			document.querySelector('#' + this.config.id_cookielayer + ' .info .group_' + group_index).style.display = 'block';
-			 
+
 		}
 
 		return false;
-		
+
 	},
 
 	hideinfo: function() {
 
 		this.log('hideInfo');
-		
+
 		document.querySelector('#' + this.config.id_cookielayer).classList.remove('show_info');
-		
+
 		return false;
-		
+
 	},
 
 	accept: function(check) {
@@ -324,26 +324,28 @@ let dywc = {
 		this.cookie_value += '-' + (new Date()).getTime();
 
 		this.cookie.setItem(this.config.cookie_name, this.cookie_value, this.config.cookie_expire, this.config.cookie_path);
- 		
+
 		this.update();
 
 		let elemLayer = document.getElementById(this.config.id_cookielayer);
 		let elemBg = document.getElementById(this.config.id_bglayer);
-		
+
 		if (elemLayer !== null) elemLayer.classList.add('hide');
 		if (elemBg !== null) elemLayer.classList.add('hide');
-		 
+
 		window.setTimeout(() => {
- 
-			if (elemLayer !== null) elemLayer.parentNode.removeChild(elemLayer); 
+
+			if (elemLayer !== null) elemLayer.parentNode.removeChild(elemLayer);
 			if (elemBg !== null) elemBg.parentNode.removeChild(elemBg);
-			
+
 		}, 250);
+
+		location.reload(); // Fix that JS Code works on the first time
 
 		return false;
 
 	},
-	
+
 	update: function() {
 
 		let elemInfo = document.getElementById(this.config.id_cookieinfo);
@@ -440,10 +442,10 @@ let dywc = {
 			strCookieInfo += '</p>';
 
 			elemInfo.innerHTML = strCookieInfo;
-			
+
 		}
-		
+
 	}
-	
+
 };
 

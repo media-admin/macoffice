@@ -13,6 +13,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Assets;
  * this one to initiate the ads system. The configuration is done by an
  * abstract schema. That means, all configurations need to be implemented through
  * methods.
+ * @internal
  */
 abstract class AbstractInitiator
 {
@@ -47,7 +48,7 @@ abstract class AbstractInitiator
      *
      * @return array[]
      */
-    abstract function getKeyFeatures();
+    public abstract function getKeyFeatures();
     /**
      * Get the hero button link [0] and text [1] for the welcome page.
      *

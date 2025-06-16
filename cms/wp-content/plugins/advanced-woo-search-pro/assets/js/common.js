@@ -114,6 +114,9 @@ AwsHooks.filters = AwsHooks.filters || {};
             searchRequest: function() {
 
                 if ( ! d.ajaxSearch ) {
+                    if ( searchFor !== '' ) {
+                        methods.showResultsBlock();
+                    }
                     return;
                 }
 
@@ -152,8 +155,6 @@ AwsHooks.filters = AwsHooks.filters || {};
 
             ajaxRequest: function() {
 
-                methods.analytics( searchFor, false );
-
                 var data = {
                     action: 'aws_action',
                     keyword : searchFor,
@@ -176,6 +177,8 @@ AwsHooks.filters = AwsHooks.filters || {};
                         data: data,
                         dataType: 'json',
                         success: function( response ) {
+
+                            methods.analytics( searchFor, false );
 
                             if ( cachedResponse[d.filter] == undefined ) {
                                 cachedResponse[d.filter] = new Array();
@@ -206,8 +209,59 @@ AwsHooks.filters = AwsHooks.filters || {};
 
                 var html = '';
 
+                if ( typeof response.data !== 'undefined' ) {
+                    
+                    if ( typeof response.data.top_text !== 'undefined' && response.data.top_text ) {
+                        html += '<div class="aws_top_text">' + response.data.top_text + '</div>';
+                    }
+
+                    if ( typeof response.data.notices !== 'undefined' ) {
+                        $.each(response.data.notices, function (i, notice) {
+                            html += '<div class="aws_top_text">' + notice + '</div>';
+                        });
+                    }
+
+                }
+
                 html += '<div class="aws_results ' + response.style + '">';
 
+                if ( typeof response.data !== 'undefined' && typeof response.data.top_results !== 'undefined' ) {
+
+                    $.each(response.data.top_results, function (i, topResults) {
+
+                        var topResultsName = i;
+
+                        if ( ( typeof topResults !== 'undefined' ) && topResults.length > 0 ) {
+
+                             $.each(topResults, function (i, topResult) {
+
+                                var linkData = ( typeof topResult.link_data !== 'undefined' ) ? topResult.link_data : '';
+
+                                html += '<div class="aws_result_item aws_result_top_custom_item aws_result_top_custom_item_' + topResultsName + '" data-title="' + topResult.name.replace(/(<[\s\S]*>)/gm, '') + '">';
+
+                                    html += '<a class="aws_result_link_top" ' + linkData + ' href="' + topResult.link + '" ' + target + '>' + topResult.name + '</a>';
+
+                                    html += '<span class="aws_result_content">';
+                                        html += '<span class="aws_result_head">';
+                                            if ( ( typeof topResult.image !== 'undefined' ) && topResult.image ) {
+                                                html += '<img height="16" width="16" src="' + topResult.image + '" class="aws_result_top_custom_item_image">';
+                                            }
+                                            html += topResult.name;
+                                        html += '</span>';
+                                        if ( ( typeof topResult.content !== 'undefined' ) && topResult.content ) {
+                                            html += '<span class="aws_result_excerpt">' + topResult.content + '</span>';
+                                        }
+                                    html += '</span>';
+
+                                html += '</div>';
+
+                            });
+
+                        }
+
+                    });
+
+                }
 
                 if ( typeof response.tax !== 'undefined' ) {
 
@@ -220,7 +274,7 @@ AwsHooks.filters = AwsHooks.filters || {};
 
                                 resultNum++;
 
-                                html += '<div class="aws_result_item aws_result_tax aws_result_tax_' + taxName + '" data-title="' + taxitem.name + '">';
+                                html += '<div class="aws_result_item aws_result_tax aws_result_tax_' + taxName + '" data-title="' + taxitem.name.replace(/(<[\s\S]*>)/gm, '') + '">';
 
                                 html += '<a class="aws_result_link_top" href="' + taxitem.link + '" ' + target + '>' + taxitem.name + '</a>';
 
@@ -256,7 +310,7 @@ AwsHooks.filters = AwsHooks.filters || {};
 
                                 resultNum++;
 
-                                html += '<div class="aws_result_item aws_result_user" data-title="' + useritem.name + '">';
+                                html += '<div class="aws_result_item aws_result_user" data-title="' + useritem.name.replace(/(<[\s\S]*>)/gm, '') + '">';
 
                                 html += '<a class="aws_result_link_top" href="' + useritem.link + '" ' + target + '>' + useritem.name + '</a>';
 
@@ -356,6 +410,10 @@ AwsHooks.filters = AwsHooks.filters || {};
                             html += '<span class="aws_result_sku">' + d.sku + result.sku + '</span>';
                         }
 
+                        if ( result.gtin ) {
+                            html += '<span class="aws_result_gtin">' + result.gtin + '</span>';
+                        }
+
                         if ( result.brands ) {
                             html += '<span class="aws_result_brands">';
 
@@ -437,8 +495,13 @@ AwsHooks.filters = AwsHooks.filters || {};
 
 
                 if ( ! resultNum ) {
+
+                    /* from 3.32 */
+                    methods.createAndDispatchEvent( document, 'awsNoResults', { term: searchFor, instance: instance, form: self, data: d } );
+
                     $( d.resultBlock).addClass('aws_no_result');
-                    html += '<a class="aws_result_item">' + d.notFound + '</a>';
+                    html += '<div class="aws_result_item">' + d.notFound + '</div>';
+
                 } else {
                     $( d.resultBlock).removeClass('aws_no_result');
                 }
@@ -704,6 +767,28 @@ AwsHooks.filters = AwsHooks.filters || {};
 
             },
 
+            forceNewSearch: function ( term, submit ) {
+
+                if ( term && term !== '' ) {
+
+                    $searchField.val(term);
+                    searchFor = term;
+
+                    methods.removeSearchAddon();
+                    $searchSuggest.text( searchFor );
+
+                    window.setTimeout(function(){
+                        methods.searchRequest();
+                        $searchField.focus();
+                        if ( submit || ! d.ajaxSearch ) {
+                            $searchForm.submit();
+                        }
+                    }, 50);
+
+                }
+
+            },
+
             showMobileLayout: function() {
                 self.after('<div class="aws-placement-container"></div>');
                 self.addClass('aws-mobile-fixed').prepend('<div class="aws-mobile-fixed-close"><svg width="17" height="17" viewBox="1.5 1.5 21 21"><path d="M22.182 3.856c.522-.554.306-1.394-.234-1.938-.54-.543-1.433-.523-1.826-.135C19.73 2.17 11.955 10 11.955 10S4.225 2.154 3.79 1.783c-.438-.371-1.277-.4-1.81.135-.533.537-.628 1.513-.25 1.938.377.424 8.166 8.218 8.166 8.218s-7.85 7.864-8.166 8.219c-.317.354-.34 1.335.25 1.805.59.47 1.24.455 1.81 0 .568-.456 8.166-7.951 8.166-7.951l8.167 7.86c.747.72 1.504.563 1.96.09.456-.471.609-1.268.1-1.804-.508-.537-8.167-8.219-8.167-8.219s7.645-7.665 8.167-8.218z"></path></svg></div>');
@@ -732,9 +817,14 @@ AwsHooks.filters = AwsHooks.filters || {};
             },
 
             analytics: function( label, submit ) {
+
+                var ga_cat = methods.analyticsGetCat();
+
+                /* from 2.95 */
+                methods.createAndDispatchEvent( document, 'awsAnalytics', { term: label, filter: ga_cat, instance: instance, form: self, data: d } );
+
                 if ( d.useAnalytics ) {
 
-                    var ga_cat = methods.analyticsGetCat();
                     var sPage = submit ? '' : '/?s=' + encodeURIComponent( 'ajax-search:' + label ) + '&awscat=' + encodeURIComponent( ga_cat );
 
                     try {
@@ -747,17 +837,26 @@ AwsHooks.filters = AwsHooks.filters || {};
                         }
 
                         if ( tagF ) {
+
                             tagF('event', 'AWS search', {
                                 'event_label': label,
                                 'event_category': 'AWS Search Form ' + d.id,
                                 'transport_type' : 'beacon'
                             });
+
+                            tagF('event', 'aws_search', {
+                                'aws_search_term': label,
+                                'aws_form_id': 'AWS Search Form ' + d.id,
+                                'aws_form_filter': ga_cat,
+                            });
+
                             if ( sPage ) {
                                 tagF('event', 'page_view', {
                                     'page_path': sPage,
                                     'page_title' : 'AWS search'
                                 });
                             }
+
                         }
 
                         if ( typeof ga !== 'undefined' && ga !== null ) {
@@ -790,6 +889,7 @@ AwsHooks.filters = AwsHooks.filters || {};
                     }
 
                 }
+
             },
 
             analyticsGetCat: function() {
@@ -1022,6 +1122,11 @@ AwsHooks.filters = AwsHooks.filters || {};
         });
 
 
+        $searchField.on( 'aws_search_force', function (e, term) {
+            methods.forceNewSearch( term, false );
+        });
+
+
         $mainFilter.on( 'click', function (e) {
             methods.showMainFilter.call(this);
         });
@@ -1116,6 +1221,13 @@ AwsHooks.filters = AwsHooks.filters || {};
             if ( link ) {
                 window.location = link;
             }
+        });
+
+        $( d.resultBlock ).on( 'click', '[data-aws-term-submit]', function(e) {
+            e.preventDefault();
+            var term = $(this).data('aws-term-submit');
+            var submit = $(this).data('aws-term-submit-form') ? true : false;
+            methods.forceNewSearch( term, submit );
         });
 
         $searchForm.find('.aws-search-clear').on( 'click', function (e) {
@@ -1234,6 +1346,60 @@ AwsHooks.filters = AwsHooks.filters || {};
                 }
             }
         }
+
+        // Buttons to force certain terms search
+        $('[data-aws-term-submit]').on( 'click', function(e) {
+            e.preventDefault();
+
+            var $btn = $(this);
+            var term = $btn.data('aws-term-submit');
+            var searchForm;
+
+            if ( $btn.closest('.aws-search-result').length > 0  ) {
+                return;
+            }
+
+            if ( term && term !== '' ) {
+
+                if ( $btn.data('aws-selector') !== 'undefined' ) {
+                    var selector = $btn.data('aws-selector');
+                    searchForm = $( $btn.data('aws-selector') );
+                    if ( searchForm.length > 0 && ! searchForm.hasClass('aws-search-form') ) {
+                        searchForm = searchForm.find('.aws-search-form');
+                    }
+                } else if ( $btn.prev('.aws-container').length > 0 ) {
+                    searchForm = $btn.prev('.aws-container').find('.aws-search-form');
+                } else if ( $btn.next('.aws-container').length > 0 ) {
+                    searchForm = $btn.next('.aws-container').find('.aws-search-form');
+                } else if ( $btn.closest('.aws-container').length > 0 ) {
+                    searchForm = $btn.closest('.aws-container').find('.aws-search-form');
+                }
+
+                if ( typeof searchForm === 'undefined' || ! searchForm.length > 0 ) {
+
+                    var parentCount = 0;
+                    var parentElem;
+
+                    do {
+                        parentCount++;
+                        parentElem = typeof parentElem !== 'undefined' ? parentElem.parent() : $btn.parent();
+                        searchForm = parentElem.find('.aws-search-form');
+                    } while ( parentCount < 4 && ! searchForm.length > 0 );
+
+                    if ( ( typeof searchForm === 'undefined' || ! searchForm.length > 0 ) && $('.aws-container:visible:first').length > 0 ) {
+                        searchForm = $('.aws-container:visible:first .aws-search-form');
+                    }
+
+                }
+
+                if ( searchForm && searchForm.length > 0 ) {
+                    var $searchField = searchForm.find('.aws-search-field');
+                    $searchField.trigger( 'aws_search_force', [ term ] );
+                }
+
+            }
+
+        } );
 
     });
 

@@ -47,6 +47,7 @@ button:hover {
 }
 
 
+
 .btn--gray {
   color: $color-white;
   background-color: $color-secondary;
@@ -68,6 +69,11 @@ button:hover {
 .btn--red:hover {
   color: $color-white !important;
   background-color: $color-secondary !important;
+}
+
+
+.btn--red a:hover {
+  color: $color-white !important;
 }
 
 

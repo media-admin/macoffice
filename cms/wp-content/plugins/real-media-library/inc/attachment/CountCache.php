@@ -9,6 +9,7 @@ use MatthiasWeb\RealMediaLibrary\base\UtilsProvider;
 // @codeCoverageIgnoreEnd
 /**
  * This class handles the count cache for the folder structure.
+ * @internal
  */
 class CountCache
 {

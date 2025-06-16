@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\folder\Creatable;
 // @codeCoverageIgnoreEnd
 /**
  * Util functionality for Real Media Library.
+ * @internal
  */
 class Util
 {

@@ -9,6 +9,7 @@ use WP_REST_Response;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 interface IOverrideService
 {
     /**

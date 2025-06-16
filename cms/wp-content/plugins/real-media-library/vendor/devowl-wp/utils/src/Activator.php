@@ -7,6 +7,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils;
 /**
  * The activator class handles the plugin relevant activation hooks: Uninstall, activation,
  * deactivation and installation. The "installation" means installing needed database tables.
+ * @internal
  */
 trait Activator
 {
@@ -46,6 +47,14 @@ trait Activator
      * @return string
      */
     public abstract function getFirstDatabaseTableName();
+    /**
+     * Register custom capabilities with e.g. `wp_roles()` and `->add_cap()`. If you add capabilities, please also remove
+     * them through the `deactivate` method.
+     */
+    public function registerCapabilities()
+    {
+        // Silence is golden.
+    }
     /**
      * Indexes have a maximum size of 767 bytes. Historically, we haven't need to be concerned about that.
      * As of 4.2, however, we moved to utf8mb4, which uses 4 bytes per character. This means that an index which
@@ -119,27 +128,46 @@ trait Activator
      * `dbDelta` does currently not support removing indices from tables so updating e.g. `UNIQUE KEYS` does not work.
      * For this, you need to add a new index name and remove the old one.
      *
+     * The index needs to be configured like this:
+     *
+     * ```
+     * $indexConfigurations = [
+     *   'PRIMARY' = ['myColumn1', 'myColumn2']
+     * ]
+     * ```
+     *
      * @param string $tableName This is not escaped, so use only the result of `$this->getTableName()`!
-     * @param string[] $indexNames
+     * @param array[] $indexConfigurations
      * @see https://whtly.com/2010/04/02/wp-dbdelta-function-cannot-modify-unique-keys/
      */
-    public function removeIndicesFromTable($tableName, $indexNames)
+    public function removeIndicesFromTable($tableName, $indexConfigurations)
     {
         global $wpdb;
         // phpcs:disable WordPress.DB.PreparedSQL
-        $existingIndexes = $wpdb->get_results("SHOW INDEX FROM {$tableName}", ARRAY_A);
+        $existingIndexesNonGrouped = $wpdb->get_results("SHOW INDEX FROM {$tableName}", ARRAY_A);
         // phpcs:enable WordPress.DB.PreparedSQL
-        if ($existingIndexes) {
+        if ($existingIndexesNonGrouped) {
             $removeIndexes = [];
-            foreach ($existingIndexes as $existingIndex) {
-                if (\in_array(\strtolower($existingIndex['Key_name']), $indexNames, \true)) {
-                    $removeIndexes[] = $existingIndex['Key_name'];
+            $existingIndexes = [];
+            foreach ($existingIndexesNonGrouped as $idxRow) {
+                $existingIndexes[$idxRow['Key_name']] = $existingIndexes[$idxRow['Key_name']] ?? [];
+                $existingIndexes[$idxRow['Key_name']][] = $idxRow['Column_name'];
+            }
+            $indexNames = \array_keys($indexConfigurations);
+            foreach ($existingIndexes as $keyName => $columns) {
+                if (\in_array($keyName, $indexNames, \true) && \join(',', $columns) === \join(',', $indexConfigurations[$keyName])) {
+                    $removeIndexes[] = $keyName;
                 }
             }
             $removeIndexes = \array_unique($removeIndexes);
             foreach ($removeIndexes as $rm) {
+                if ($rm === 'PRIMARY') {
+                    $rm = 'PRIMARY KEY';
+                } else {
+                    $rm = "INDEX {$rm}";
+                }
                 // phpcs:disable WordPress.DB.PreparedSQL
-                $wpdb->query("ALTER TABLE {$tableName} DROP INDEX {$rm}");
+                $wpdb->query("ALTER TABLE {$tableName} DROP {$rm}");
                 // phpcs:enable WordPress.DB.PreparedSQL
             }
         }
@@ -159,6 +187,7 @@ trait Activator
         // phpcs:enable WordPress.DB.PreparedSQL
         if ($existingColumns) {
             $removeColumns = [];
+            $columnNames = \array_map('strtolower', $columnNames);
             foreach ($existingColumns as $existingColumn) {
                 if (\in_array(\strtolower($existingColumn['Field']), $columnNames, \true)) {
                     $removeColumns[] = $existingColumn['Field'];
@@ -187,13 +216,6 @@ trait Activator
             require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         }
         // @codeCoverageIgnoreEnd
-        // Check if we've attempted to run this migration in the past 10 minutes. If so, it may still be running.
-        if ($installThisCallable === null) {
-            if ($this->isMigrationLocked()) {
-                return \false;
-            }
-            \update_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_migration', \time());
-        }
         // Avoid errors printed out.
         if ($errorlevel === \false) {
             $show_errors = $wpdb->show_errors(\false);
@@ -212,8 +234,22 @@ trait Activator
         }
         if ($installThisCallable === null) {
             $this->persistPreviousVersion();
-            \update_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_version', $this->getPluginConstant(Constants::PLUGIN_CONST_VERSION));
-            \update_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_migration', 0);
+            $slug = $this->getPluginConstant(Constants::PLUGIN_CONST_SLUG);
+            /**
+             * Modify an array of any data and when this data changes, the database version will be invalidated
+             * and therefore the `dbDelta` will be called again.
+             *
+             * Use case:
+             *
+             * - Freemium: Add a tier to the invalidate key so we can invalidate the database version when the tier changes,
+             *   e.g. when the user switches from Lite to Pro version.
+             *
+             * @hook DevOwl/Utils/DatabaseVersion/InvalidateKey/$slug
+             * @param {array} $invalidateKey
+             * @since 1.19.21
+             */
+            $invalidateKey = \apply_filters('DevOwl/Utils/DatabaseVersion/InvalidateKey/' . $slug, []);
+            \update_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_version', ['version' => $this->getPluginConstant(Constants::PLUGIN_CONST_VERSION), 'invalidateKey' => $invalidateKey]);
         }
         return \true;
     }
@@ -221,10 +257,17 @@ trait Activator
      * Check if the migration is locked. It uses a time span of 10 minutes (like Yoast SEO plugin).
      *
      * @see https://github.com/Yoast/wordpress-seo/blob/a5fd83173bf56bf7841d72bb6d3d33ecc4caa825/src/config/migration-status.php#L34-L46
+     * @param int $set
+     * @return If `$set` is a numeric, it returns a boolean indicating if the update of the migration was successful, otherwise it returns a boolean
+     *         if the migration is locked.
      */
-    public function isMigrationLocked()
+    public function isMigrationLocked($set = null)
     {
-        $latestMigration = \intval(\get_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_migration', 0));
+        $optionName = $this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_migration';
+        if (\is_numeric($set)) {
+            return \update_option($optionName, $set);
+        }
+        $latestMigration = \intval(\get_option($optionName, 0));
         if ($latestMigration > 0) {
             return $latestMigration > \strtotime('-10 minutes');
         } else {
@@ -232,11 +275,25 @@ trait Activator
         }
     }
     /**
-     * Get the current persisted database version.
+     * Get the current persisted database version. It is stored in the database option `PREFIX_db_version`.
+     *
+     * Since version <= 1.19.20 the version is stored in semver format, e.g. `5.0.14`.
+     * Since version > 1.19.20 the version is stored in a serialized array with the following structure:
+     *
+     * ```
+     * [
+     *   'version' => '5.0.14',
+     *   'invalidateKey' => [...] // See filter DevOwl/Utils/DatabaseVersion/InvalidateKey
+     * ]
+     * ```
      */
     public function getDatabaseVersion()
     {
-        return \get_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_version');
+        $optionValue = \get_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_version');
+        if (\is_array($optionValue)) {
+            return $optionValue;
+        }
+        return ['version' => $optionValue, 'invalidateKey' => []];
     }
     /**
      * Get a list of previous installed database versions.
@@ -252,7 +309,7 @@ trait Activator
      */
     public function persistPreviousVersion()
     {
-        $currentVersion = \get_option($this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_version');
+        $currentVersion = $this->getDatabaseVersion()['version'];
         if ($currentVersion !== \false) {
             $previousVersionsOptionName = $this->getPluginConstant(Constants::PLUGIN_CONST_OPT_PREFIX) . '_db_previous_version';
             $previousVersions = $this->getPreviousDatabaseVersions();

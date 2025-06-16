@@ -1,12 +1,11 @@
 <?php
-
-namespace Simple_History;
-
 /**
  * Style example.
  *
  * @package SimpleHistory
  */
+
+namespace Simple_History;
 
 defined( 'ABSPATH' ) || die();
 ?>
@@ -33,7 +32,7 @@ defined( 'ABSPATH' ) || die();
 					<strong class="SimpleHistoryLogitem__inlineDivided">Jessie</strong>
 					<span class="SimpleHistoryLogitem__inlineDivided SimpleHistoryLogitem__headerEmail">admin@example.com</span>
                     <?php // phpcs:ignore Generic.Files.LineLength ?>
-					<span class="SimpleHistoryLogitem__permalink SimpleHistoryLogitem__when SimpleHistoryLogitem__inlineDivided"><a class="" href="http://playground-root.ep/wp-admin/index.php?page=simple_history_page#item/665"><time datetime="2014-08-11T21:08:44+00:00" title="2014-08-11T21:08:44+00:00" class="">1 min ago</time></a></span>
+					<span class="SimpleHistoryLogitem__permalink SimpleHistoryLogitem__when SimpleHistoryLogitem__inlineDivided"><a class="" href="http://playground-root.ep/wp-admin/index.php?page=simple_history_page#simple-history/event/665"><time datetime="2014-08-11T21:08:44+00:00" title="2014-08-11T21:08:44+00:00" class="">1 min ago</time></a></span>
 				</div>
 
 				<div class="SimpleHistoryLogitem__text">
@@ -354,6 +353,7 @@ defined( 'ABSPATH' ) || die();
 		$refl = new \ReflectionClass( 'Simple_History\Log_Levels' );
 		foreach ( $refl->getConstants() as $val ) {
 			$msg = $arr_messages[ $val ] ?? 'This is a message with loglevel';
+			// phpcs:ignore Universal.CodeAnalysis.NoEchoSprintf.Found
 			echo sprintf(
 				$template, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$val, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

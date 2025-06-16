@@ -10,6 +10,7 @@ namespace MatthiasWeb\RealMediaLibrary\comp\complexquery;
  * Reset names so slugs combined to a correct absolute path.
  *
  * This class is not yet used.
+ * @internal
  */
 class ResetNames extends \MatthiasWeb\RealMediaLibrary\comp\complexquery\ComplexQuery
 {

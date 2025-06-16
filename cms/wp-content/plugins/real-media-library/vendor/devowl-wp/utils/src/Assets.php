@@ -10,6 +10,7 @@ use WpOrg\Requests\IdnaEncoder;
 // Avoid direct file request
 /**
  * Base asset management class for frontend scripts and styles.
+ * @internal
  */
 trait Assets
 {
@@ -62,14 +63,7 @@ trait Assets
         $fileDir = $file === null ? null : \dirname($file);
         $chunksLanguageFolder = null;
         if ($file !== null) {
-            //if (defined('WP_LANG_DIR') && !empty(constant('WP_LANG_DIR')) && !(defined('DEVOWL_WP_DEV') && constant('DEVOWL_WP_DEV'))) {
-            //    $chunksLanguageFolder =
-            //        trailingslashit(content_url(str_replace(constant('WP_CONTENT_DIR'), '', constant('WP_LANG_DIR')))) .
-            //        'mo-cache/' .
-            //        $slug;
-            //} else {
-            $chunksLanguageFolder = \plugins_url(\substr(PackageLocalization::getParentLanguageFolder($fileDir . '/' . Constants::LOCALIZATION_PUBLIC_JSON_I18N), \strlen($fileDir)), $file);
-            //}
+            $chunksLanguageFolder = PackageLocalization::getParentLanguageFolder($fileDir . '/' . Constants::LOCALIZATION_PUBLIC_JSON_I18N, \false, 'url');
         }
         return [
             'slug' => $slug,
@@ -109,6 +103,9 @@ trait Assets
         if (($features === null || \in_array(Constants::ASSETS_ADVANCED_ENQUEUE_FEATURE_DEFER, $features, \true)) && $type === 'script') {
             $this->enableDeferredEnqueue($handles);
         }
+        if (($features === null || \in_array(Constants::ASSETS_ADVANCED_ENQUEUE_FEATURE_ASYNC, $features, \true)) && $type === 'script') {
+            $this->enableAsyncEnqueue($handles);
+        }
         if ($features === null || \in_array(Constants::ASSETS_ADVANCED_ENQUEUE_FEATURE_PRELOADING, $features, \true)) {
             $this->enablePreloadEnqueue($handles, $type);
         }
@@ -130,6 +127,24 @@ trait Assets
                 // see https://regex101.com/r/0whi5s/1
                 // phpcs:disable PHPCompatibility.ParameterValues.RemovedPCREModifiers.Removed
                 return \preg_replace(\sprintf('/(%s=[\'"]?)/m', 'src'), 'defer $1', $tag);
+                // phpcs:enable PHPCompatibility.ParameterValues.RemovedPCREModifiers.Removed
+            }
+            return $tag;
+        }, 10, 2);
+    }
+    /**
+     * Enable `async` attribute for given handle(s) (only scripts are supported).
+     *
+     * @param string|string[] $handles
+     */
+    public function enableAsyncEnqueue($handles)
+    {
+        $handles = \is_array($handles) ? $handles : [$handles];
+        \add_filter('script_loader_tag', function ($tag, $handle) use($handles) {
+            if (\in_array($handle, $handles, \true) && \stripos($tag, 'async') === \false) {
+                // see https://regex101.com/r/0whi5s/1
+                // phpcs:disable PHPCompatibility.ParameterValues.RemovedPCREModifiers.Removed
+                return \preg_replace(\sprintf('/(%s=[\'"]?)/m', 'src'), 'async $1', $tag);
                 // phpcs:enable PHPCompatibility.ParameterValues.RemovedPCREModifiers.Removed
             }
             return $tag;
@@ -256,12 +271,30 @@ trait Assets
         return $result;
     }
     /**
+     * When using WordPress < 6.6 we need to enqueue the react/jsx-runtime UMD bundle to make the
+     * `ReactJSXRuntime` external work.
+     *
+     * @see https://make.wordpress.org/core/2024/06/06/jsx-in-wordpress-6-6/
+     * @see https://core.trac.wordpress.org/ticket/61324
+     * @see https://github.com/WordPress/gutenberg/issues/62202#issuecomment-2156796649
+     * @see https://app.clickup.com/t/86959qqq1?comment=90120059024238
+     */
+    public function enqueueReactJsxRuntime()
+    {
+        if (\wp_script_is(Constants::ASSETS_HANDLE_REACT_JSX_RUNTIME, 'registered')) {
+            return;
+        }
+        $useNonMinifiedSources = $this->useNonMinifiedSources();
+        $this->enqueueLibraryScript(Constants::ASSETS_HANDLE_REACT_JSX_RUNTIME, [[$useNonMinifiedSources, 'react-jsx-runtime/react-jsx-runtime.js'], 'react-jsx-runtime/react-jsx-runtime.min.js'], [Constants::ASSETS_HANDLE_REACT]);
+    }
+    /**
      * Enqueue utils and return an array of dependencies.
      */
     public function enqueueUtils()
     {
         $this->enqueueMobx();
-        $scriptDeps = [Constants::ASSETS_HANDLE_REACT, Constants::ASSETS_HANDLE_REACT_DOM, Constants::ASSETS_HANDLE_MOBX, 'wp-i18n', 'jquery', 'wp-polyfill'];
+        $this->enqueueReactJsxRuntime();
+        $scriptDeps = [Constants::ASSETS_HANDLE_REACT, Constants::ASSETS_HANDLE_REACT_DOM, Constants::ASSETS_HANDLE_REACT_JSX_RUNTIME, Constants::ASSETS_HANDLE_MOBX, 'wp-i18n', 'jquery', 'wp-polyfill'];
         $handleUtils = $this->enqueueComposerScript('utils', $scriptDeps);
         \array_push($scriptDeps, $handleUtils);
         return $scriptDeps;
@@ -624,9 +657,9 @@ JS;
                 }
                 // Parse module
                 \preg_match('/^public\\/lib\\/([^\\/]+)/', $src, $matches);
-                if (\is_array($matches) && isset($matches[1]) && ($module = $matches[1]) && \is_array($cachebuster_lib) && \array_key_exists($module, $cachebuster_lib)) {
+                if (\is_array($matches) && isset($matches[1]) && \is_array($cachebuster_lib) && \array_key_exists($matches[1], $cachebuster_lib)) {
                     // Valid cachebuster
-                    return $cachebuster_lib[$module];
+                    return $cachebuster_lib[$matches[1]];
                 }
             }
         } else {
@@ -652,19 +685,29 @@ JS;
      * and this should be avoided in some scenarios like Real Cookie Banners' banner script.
      * Use this instead of `wp_localize_script`.
      *
+     * Settings:
+     *
+     * ```
+     * string[]     makeBase64Encoded       List of keys of the array object which should be converted to base64 at output time (e.g. to avoid ModSecurity issues)
+     * boolean      useCore                 Use `wp_localize_script` internally instead of custom localize script
+     * string[]     lazyParse               A list of pathes of the array which should be lazy parsed. This could be useful to improve performance and parse as needed (e.g. huge arrays).
+     * ```
+     *
      * @param string $handle Name of the script to attach data to.
      * @param string $object_name Name of the variable that will contain the data.
      * @param array  $l10n Array of data to localize.
-     * @param string[] $makeBase64Encoded List of keys of the array object which should be converted to base64 at output time (e.g. to avoid ModSecurity issues)
-     * @param boolean $use_core Use `wp_localize_script` internally instead of custom localize script
+     * @param array  $settings
      * @see https://docs.wp-rocket.me/article/1349-delay-javascript-execution#technical
      * @see https://developer.wordpress.org/reference/functions/wp_localize_script/
      */
-    public function anonymous_localize_script($handle, $object_name, $l10n, $makeBase64Encoded = [], $use_core = \false)
+    public function anonymous_localize_script($handle, $object_name, $l10n, $settings = [])
     {
-        if ($use_core) {
+        $settings = \wp_parse_args($settings, ['makeBase64Encoded' => [], 'useCore' => \false, 'lazyParse' => []]);
+        if ($settings['useCore']) {
             return \wp_localize_script($handle, $object_name, $l10n);
         }
+        $makeBase64Encoded = $settings['makeBase64Encoded'];
+        $lazyParse = $settings['lazyParse'];
         // Mark the script tag with some identifier, so our helper script (added below) can read
         // the JSON content. See also about: https://stackoverflow.com/q/12090883/5506547
         // Do not use a randomized string as it can lead to issues with cached web pages when the
@@ -672,7 +715,7 @@ JS;
         $uuid = \wp_generate_uuid4();
         $uuid = \md5(\sprintf('%s:%s:%s', $handle, $object_name, $this->getPluginConstant(Constants::PLUGIN_CONST_VERSION)));
         $base64Marker = 'base64-encoded:';
-        \add_filter('script_loader_tag', function ($tag, $scriptHandle) use($handle, $uuid, $l10n, $object_name, $makeBase64Encoded, $base64Marker) {
+        \add_filter('script_loader_tag', function ($tag, $scriptHandle) use($handle, $uuid, $l10n, $object_name, $makeBase64Encoded, $base64Marker, $lazyParse) {
             if ($scriptHandle === $handle) {
                 if (\count($makeBase64Encoded) > 0) {
                     \array_walk_recursive($l10n, function (&$val, $key) use($makeBase64Encoded, $base64Marker) {
@@ -681,9 +724,44 @@ JS;
                         }
                     });
                 }
+                $foundLazyParse = [];
+                // Only work with pathes which got converted successfully
+                foreach ($lazyParse as $arrayPath) {
+                    Utils::arrayModifyByKeyPath($l10n, $arrayPath, function ($value) use($arrayPath, &$foundLazyParse) {
+                        $foundLazyParse[] = $arrayPath;
+                        return \json_encode($value);
+                    });
+                }
+                /*
+                                    (() => {
+                   var receiver = %5$s;
+                   var createLazyParseProxy = (obj, key) => new Proxy(obj, {
+                       get: (target, property) => {
+                           let value = Reflect.get(target, property);
+                           if (property === key && typeof value === "string") {
+                               value = JSON.parse(value, receiver);
+                               Reflect.set(target, property, value);
+                           }
+                           return value;
+                       }
+                   });
+                   var o = /* document.write * / JSON.parse(document.getElementById("a%1$s1-js-extra").innerHTML, receiver);
+                   %6$s
+                   window.%3$s = o;
+                   if (!window.%3$s) {
+                       const randomId = Math.random().toString(36).substring(2);
+                       window[randomId] = n;
+                   }
+                                    })();
+                */
                 $tag = \sprintf('<script type="application/json" %4$s id="a%1$s1-js-extra">%2$s</script>
-<script %4$s id="a%1$s2-js-extra">var %3$s = /* document.write */ JSON.parse(document.getElementById("a%1$s1-js-extra").innerHTML, %5$s);</script>', $uuid, \wp_json_encode($l10n), $object_name, \join(' ', [
+<script %4$s id="a%1$s2-js-extra">
+(()=>{var x=%5$s,t=(e,t)=>new Proxy(e,{get:(e,n)=>{let r=Reflect.get(e,n);return n===t&&"string"==typeof r&&(r=JSON.parse(r,x),Reflect.set(e,n,r)),r}}),n=JSON.parse(document.getElementById("a%1$s1-js-extra").innerHTML,x);%6$s;window.%3$s=n;!window.%3$s&&(window[Math.random().toString(36)]=n);
+})();
+</script>', $uuid, \wp_json_encode($l10n), $object_name, \join(' ', [
                     // TODO: shouldn't this be part of @devowl-wp/cache-invalidate?
+                    // Compatibility with most caching plugins which lazy load JavaScript
+                    'data-skip-lazy-load="js-extra"',
                     // Compatibility with WP Fastest Cache and "Eliminate render blocking script"
                     // as WPFC is moving all scripts (even with `type="text/plain"`).
                     'data-skip-moving="true"',
@@ -698,19 +776,37 @@ JS;
                     'data-alt-type="application/ld+json"',
                     // Compatibility with Swift Performance
                     'data-dont-merge',
+                    // Compatibility with WP Meteor
+                    'data-wpmeteor-nooptimize="true"',
+                    // Compatibility with Cloudflare Rocket Loader
+                    'data-cfasync="false"',
                 ]), \sprintf(
-                    // function(k, v) {
-                    //     if (["%1$s"].indexOf(k) > -1 && typeof v === "string" && v.startsWith(%3$d)) {
-                    //         return window.atob(v.substr("%2$s".length));
-                    //     } else {
-                    //         return v;
-                    //     }
-                    // }
+                    /*
+                    function(k, v) {
+                        if (["%1$s"].indexOf(k) > -1 && typeof v === "string" && v.startsWith(%3$d)) {
+                            return window.atob(v.substr("%2$s".length));
+                        } else {
+                            return v;
+                        }
+                    }
+                    */
                     'function (a,b){return-1<["%1$s"].indexOf(a)&&"string"==typeof b&&b.startsWith("%2$s")?window.atob(b.substr(%3$d)):b}',
                     \join('","', $makeBase64Encoded),
                     $base64Marker,
                     \strlen($base64Marker)
-                )) . $tag;
+                ), \join('', \array_map(function ($arrayKeyPath) {
+                    $split = \explode('.', $arrayKeyPath);
+                    $key = \array_pop($split);
+                    $arrayKeyPath = \join('.', $split);
+                    /*
+                    if (window.Proxy) {
+                        o.%1$s = createLazyParseProxy(o.%1$s, "%2$s");
+                    }else{
+                        o.%1$s.%2$s = JSON.parse(o.%1$s.%2$s, receiver);
+                    }
+                    */
+                    return \sprintf('window.Proxy?n.%1$s=t(n.%1$s,"%2$s"):n.%1$s.%2$s=JSON.parse(n.%1$s.%2$s,x);', $arrayKeyPath, $key);
+                }, $foundLazyParse))) . $tag;
             }
             return $tag;
         }, 10, 3);

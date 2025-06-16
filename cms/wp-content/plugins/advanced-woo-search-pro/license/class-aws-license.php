@@ -46,9 +46,8 @@ if ( ! class_exists( 'AWS_License' ) ) :
                 'update_path'            => $update_path,
                 'plugin_slug'            => $plugin_slug,
                 'slug'                   => $slug,
-                'transient_name'         => str_replace( '-', '_', $slug ) . '_info',
-                'transient_license_name' => str_replace( '-', '_', $slug ) . '_license',
-                'transient_remote_data'  => str_replace( '-', '_', $slug ) . '_remote_metadata'
+                'remote_data'            => str_replace( '-', '_', $slug ) . '_remote_data',
+                'remote_data_check'      => str_replace( '-', '_', $slug ) . '_remote_data_check',
             );
 
             $this->includes();
@@ -139,10 +138,12 @@ if ( ! class_exists( 'AWS_License' ) ) :
             }
 
             if ( $action_type === 'refresh-plugin-info' ) {
-                delete_transient( $this->conf['transient_name'] );
-                delete_transient( $this->conf['transient_license_name'] );
-                delete_transient( $this->conf['transient_remote_data'] );
+
+                delete_option( $this->conf['remote_data'] );
+                delete_option( $this->conf['remote_data_check'] );
+
                 $response = array( 'type' => 'plugin info updated', 'text' => '' );
+
             }
 
             wp_send_json_success( $response );
@@ -198,9 +199,8 @@ if ( ! class_exists( 'AWS_License' ) ) :
             if ( function_exists( 'wp_clean_plugins_cache' ) ) {
                 wp_clean_plugins_cache();
             }
-            delete_transient( $this->conf['transient_name'] );
-            delete_transient( $this->conf['transient_license_name'] );
-            delete_transient( $this->conf['transient_remote_data'] );
+            delete_option( $this->conf['remote_data'] );
+            delete_option( $this->conf['remote_data_check'] );
         }
 
     }

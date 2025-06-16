@@ -17,6 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TInvWL_Public_Wishlist_Estimate {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	private $_name;
+
+	/**
 	 * This class
 	 *
 	 * @var \TInvWL_Public_Wishlist_Estimate

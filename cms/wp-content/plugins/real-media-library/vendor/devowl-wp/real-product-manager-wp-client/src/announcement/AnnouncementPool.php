@@ -15,6 +15,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\ExpireOption;
  * Represent a set of announcements synced to the backend (for a given plugin update).
  * A announcement pool is a dependency of the plugin update because they should only be shown,
  * when a valid license is active.
+ * @internal
  */
 class AnnouncementPool
 {
@@ -76,7 +77,7 @@ class AnnouncementPool
     {
         $this->pluginUpdate = $pluginUpdate;
         $this->view = AnnouncementView::instance($this);
-        $this->option = new ExpireOption(self::OPTION_NAME . '_' . $pluginUpdate->getInitiator()->getPluginSlug(), \is_multisite(), self::OPTION_EXPIRE);
+        $this->option = new ExpireOption(self::OPTION_NAME . '_' . $pluginUpdate->getInitiator()->getPluginSlug(), \is_multisite(), self::OPTION_EXPIRE, \true);
         $this->client = ClientAnnouncement::instance($pluginUpdate);
     }
     /**
@@ -143,11 +144,18 @@ class AnnouncementPool
         if (\in_array($id, $viewed, \true)) {
             return;
         }
-        foreach ($this->getPluginUpdate()->getUniqueLicenses() as $license) {
-            if (!empty($license->getActivation()->getCode())) {
+        // Suppress the `wp_die` of `getUniqueLicenses` as we do not have another way yet to get all
+        // the Client UUIDs without fetching all licenses across the complete multisite.
+        // See also: https://app.clickup.com/t/86962zphh?comment=90120076762454&threadedComment=90120076802786
+        $pluginUpdate = $this->getPluginUpdate();
+        $pluginUpdate->suppressGetLicensesWpDie = \true;
+        foreach ($pluginUpdate->getUniqueLicenses() as $license) {
+            $activationCode = $license->getActivation()->getCode();
+            if (!empty($activationCode)) {
                 $this->getClient()->postView($id, $license->getUuid());
             }
         }
+        $pluginUpdate->suppressGetLicensesWpDie = \false;
         // Save status in option
         $viewed[] = $id;
         $option = $this->getOption();

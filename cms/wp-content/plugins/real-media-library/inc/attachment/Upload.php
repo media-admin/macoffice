@@ -12,6 +12,7 @@ use MatthiasWeb\RealMediaLibrary\view\Options;
 // @codeCoverageIgnoreEnd
 /**
  * Handling uploader, so files can be uploaded directly to a folder.
+ * @internal
  */
 class Upload
 {

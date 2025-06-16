@@ -6,6 +6,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils;
 // Avoid direct file request
 /**
  * Base class for the applications Core class.
+ * @internal
  */
 trait Core
 {
@@ -16,19 +17,19 @@ trait Core
     /**
      * The plugins activator class.
      *
-     * @see Activator
+     * @var Activator
      */
     private $activator;
     /**
      * The plugins asset class.
      *
-     * @see Assets
+     * @var Assets
      */
     private $assets;
     /**
      * The utils service class.
      *
-     * @see Service
+     * @var Service
      */
     private $service;
     /**
@@ -55,9 +56,11 @@ trait Core
         // Localize the plugin and package itself
         $this->getPluginClassInstance(Constants::PLUGIN_CLASS_LOCALIZATION)->hooks();
         PackageLocalization::instance($this->getPluginConstant(Constants::PLUGIN_CONST_ROOT_SLUG), \dirname(__DIR__))->hooks();
+        \register_activation_hook($pluginFile, [$this->getActivator(), 'registerCapabilities']);
         \register_activation_hook($pluginFile, [$this->getActivator(), 'install']);
         \register_activation_hook($pluginFile, [$this->getActivator(), 'activate']);
         \register_deactivation_hook($pluginFile, [$this->getActivator(), 'deactivate']);
+        RateLimitNotice::instance($this)->hooks();
     }
     /**
      * The plugin is loaded. Start to register the localization (i18n) files.
@@ -82,14 +85,18 @@ trait Core
      */
     public function updateDbCheck()
     {
-        $installed = $this->getActivator()->getDatabaseVersion();
-        if ($installed !== $this->getPluginConstant(Constants::PLUGIN_CONST_VERSION)) {
-            $slug = $this->getPluginConstant(Constants::PLUGIN_CONST_SLUG);
+        $activator = $this->getActivator();
+        $databaseVersion = $activator->getDatabaseVersion();
+        $installed = $databaseVersion['version'];
+        $invalidateKey = $databaseVersion['invalidateKey'];
+        $slug = $this->getPluginConstant(Constants::PLUGIN_CONST_SLUG);
+        if (($installed !== $this->getPluginConstant(Constants::PLUGIN_CONST_VERSION) || \json_encode($invalidateKey) !== \json_encode(\apply_filters('DevOwl/Utils/DatabaseVersion/InvalidateKey/' . $slug, []))) && !$activator->isMigrationLocked() && $activator->isMigrationLocked(\time())) {
             $textdomain = $this->getPluginConstant(Constants::PLUGIN_CONST_TEXT_DOMAIN);
             $this->debug('(Re)install the database tables', __FUNCTION__);
             // Clear localization cache for JSON MO files
             $this->getPluginClassInstance(Constants::PLUGIN_CLASS_LOCALIZATION)->clearMoCacheDir($slug, $textdomain);
-            if ($this->getActivator()->install()) {
+            $activator->registerCapabilities();
+            if ($activator->install()) {
                 /**
                  * A new version got installed for this plugin. Consider to use the [`versionCompareOlderThan()`](../php/classes/MatthiasWeb-Utils-Core.html#method_versionCompareOlderThan)
                  * method from the Core class.
@@ -106,6 +113,7 @@ trait Core
                  * @param {string} $slug
                  */
                 \do_action('DevOwl/Utils/NewVersionInstallation', $installed, $slug);
+                $activator->isMigrationLocked(0);
             }
         }
     }

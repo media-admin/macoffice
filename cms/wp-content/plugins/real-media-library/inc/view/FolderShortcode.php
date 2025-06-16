@@ -10,6 +10,7 @@ use MatthiasWeb\RealMediaLibrary\folder\Creatable;
 // @codeCoverageIgnoreEnd
 /**
  * Handles the shortcode for [folder-gallery].
+ * @internal
  */
 class FolderShortcode
 {
@@ -19,7 +20,7 @@ class FolderShortcode
     /**
      * C'tor.
      */
-    function __construct()
+    public function __construct()
     {
         if (\is_admin() && \wp_rml_active()) {
             \add_action('admin_head', [$this, 'admin_head']);
@@ -29,7 +30,7 @@ class FolderShortcode
     /**
      * Modify admin_head section.
      */
-    function admin_head()
+    public function admin_head()
     {
         // check user permissions
         if (!\current_user_can('edit_posts') && !\current_user_can('edit_pages')) {
@@ -98,7 +99,7 @@ class FolderShortcode
      * @param array $plugin_array
      * @return array
      */
-    function mce_external_plugins($plugin_array)
+    public function mce_external_plugins($plugin_array)
     {
         $assets = $this->getCore()->getAssets();
         $dir = $assets->getPublicFolder();
@@ -111,7 +112,7 @@ class FolderShortcode
      * @param string[] $buttons
      * @return string[]
      */
-    function mce_buttons($buttons)
+    public function mce_buttons($buttons)
     {
         \array_push($buttons, self::$TAG);
         return $buttons;

@@ -12,6 +12,7 @@ use MatthiasWeb\RealMediaLibrary\base\UtilsProvider;
 /**
  * Abstract base class for folders. It handles the available fields and getters / setters.
  * The class is completely documented in the implemented interface.
+ * @internal
  */
 abstract class BaseFolder implements IFolder
 {

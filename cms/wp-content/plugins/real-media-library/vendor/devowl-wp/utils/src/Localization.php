@@ -10,6 +10,7 @@ use WP_Textdomain_Registry;
 // Avoid direct file request
 /**
  * Base i18n management for backend and frontend.
+ * @internal
  */
 trait Localization
 {
@@ -34,7 +35,7 @@ trait Localization
      */
     public function clearMoCacheDir($slug, $domain)
     {
-        $cacheDir = $this->getMoCacheDir($slug);
+        $cacheDir = self::getMoCacheDir($slug);
         if ($cacheDir !== \false) {
             // @codeCoverageIgnoreStart
             if (!\defined('PHPUNIT_FILE')) {
@@ -92,7 +93,7 @@ trait Localization
             }
             $mofile = $newmofile;
             // Check if folder is writable for this plugin
-            $destinationFolder = $this->getMoCacheDir($slug);
+            $destinationFolder = self::getMoCacheDir($slug);
             if ($destinationFolder === \false) {
                 return $plugin_override;
             }
@@ -154,6 +155,36 @@ trait Localization
             return \true;
         }
         return $plugin_override;
+    }
+    /**
+     * Reuse JSON files from other plugins in the `mo-cache` folder.
+     *
+     * Why? The download of remote files is currently only triggered for PHP textdomains, but not JSON translations.
+     * That means, Real Media Library "requests" the `devowl-wp-real-product-manager-wp-client` textdomain and downloads
+     * it to `mo-cache/real-media-library`, so no translations (in this case `fr_FR`) are downloaded for `real-physical-media`.
+     * But, in WordPress, frontend packages are not loaded "isolated" and per plugin, they get loaded for the last enqueued plugin.
+     *
+     * @see https://app.clickup.com/t/2gfb42y?comment=90040016362143
+     * @param string $file
+     * @param string $handle
+     * @param string $domain
+     */
+    public function load_script_translation_file($file, $handle, $domain)
+    {
+        if ($file && \is_readable($file)) {
+            return $file;
+        }
+        list(, $packageDomain) = $this->getPackageInfo(Constants::LOCALIZATION_FRONTEND);
+        if ($packageDomain === $domain) {
+            $cacheDir = $this->getMoCacheDir();
+            if ($cacheDir !== \false && \strpos($file, $cacheDir) === 0) {
+                $glob = \glob($cacheDir . '/*/' . \basename($file));
+                if (\count($glob) > 0) {
+                    return $glob[0];
+                }
+            }
+        }
+        return $file;
     }
     /**
      * Get the path to the MO file within our plugin, the `wp-content/languages/plugins` or `wp-content/languages/mo-cache` folder.
@@ -233,7 +264,7 @@ trait Localization
             }
             $translations = $remoteMeta['translations'];
             $isPrereleaseVersion = \strpos($this->getPluginConstant(Constants::PLUGIN_CONST_VERSION), '-') !== \false;
-            $cacheDir = $this->getMoCacheDir($slug);
+            $cacheDir = self::getMoCacheDir($slug);
             if ($cacheDir === \false) {
                 return \false;
             }
@@ -346,6 +377,7 @@ trait Localization
     {
         \add_action('admin_notices', [$this, 'admin_notices']);
         \add_filter('override_load_textdomain', [$this, 'override_load_textdomain'], 1, 3);
+        \add_filter('load_script_translation_file', [$this, 'load_script_translation_file'], 11, 3);
     }
     /**
      * Show an admin notice about failed downloads of remote language packs.
@@ -378,6 +410,7 @@ trait Localization
     {
         $downloadErrorTransientName = \sprintf('%s_language_pack_error-%s', $slug, $domain);
         $downloadError = new ExpireOption($downloadErrorTransientName, \true, 60 * 60 * 3);
+        $downloadError->enableAutoload();
         return $downloadError;
     }
     /**
@@ -414,9 +447,12 @@ trait Localization
      *
      * This function is expensive, so we cached it to `$GLOBALS`.
      *
+     * The returned path can be either `wp-content/languages/...` or `wp-includes/languages/...`.
+     *
+     * @see https://github.com/WordPress/WordPress/blob/34dd52dea760b8a0e81860b010d9f5057fa3c38e/wp-includes/load.php#L617-L651
      * @param string $slug
      */
-    public function getMoCacheDir($slug)
+    public static function getMoCacheDir($slug = '')
     {
         global $devowl_mo_cache_dir;
         $devowl_mo_cache_dir = $devowl_mo_cache_dir ?? [];
@@ -425,7 +461,7 @@ trait Localization
             if (empty($path) || !\is_dir($path)) {
                 return \false;
             }
-            $path = \trailingslashit($path) . Constants::LOCALIZATION_MO_CACHE_FOLDER . '/' . $slug;
+            $path = \trailingslashit($path) . Constants::LOCALIZATION_MO_CACHE_FOLDER . (empty($slug) ? '' : '/' . $slug);
             if (\wp_mkdir_p($path) && \wp_is_writable($path)) {
                 $devowl_mo_cache_dir[$slug] = $path;
             } else {

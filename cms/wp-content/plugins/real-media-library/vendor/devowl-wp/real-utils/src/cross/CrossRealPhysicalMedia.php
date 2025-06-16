@@ -10,6 +10,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealUtils\UtilsProvider;
 // @codeCoverageIgnoreEnd
 /**
  * Cross-selling for Real Physical Media.
+ * @internal
  */
 class CrossRealPhysicalMedia extends AbstractCrossSelling
 {

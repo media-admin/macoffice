@@ -34,23 +34,46 @@ class Controller extends Admin_Page {
 	 *
 	 * @since 2.0.0
 	 */
-	use Escape, Dashboard_API;
+	use Escape;
+	use Dashboard_API;
 
 	/**
 	 * States if the site is connected to Hub.
 	 *
 	 * @since 2.0.0
 	 * @var bool $site_connected True if site is connected, else false.
-	 *
 	 */
 	private $site_connected = false;
+
+	/**
+	 * States if the HUB connector login should be used.
+	 *
+	 * @since 2.3.0
+	 * @var bool $use_connector True if site is disconnected Dash plugin not active.
+	 */
+	private $use_connector = false;
+
+	/**
+	 * The value of the `action` query var for Hub Connector.
+	 *
+	 * @since 2.3.0
+	 * @var bool hub_connection.
+	 */
+	private $hub_connector_query_slug = 'page_action';
+
+	/**
+	 * The value of the `action` query var for Hub Connector.
+	 *
+	 * @since 2.3.0
+	 * @var bool hub_connection.
+	 */
+	private $hub_connector_query_value = 'hub_connection';
 
 	/**
 	 * States if using legacy. True if using false legacy false if not.
 	 *
 	 * @since 2.0.0
 	 * @var bool $site_connected True if using false legacy false if not.
-	 *
 	 */
 	private $use_legacy = false;
 
@@ -87,6 +110,7 @@ class Controller extends Admin_Page {
 		$this->capability     = 'manage_options';
 		$this->menu_slug      = 'blc_dash';
 		$this->site_connected = (bool) self::site_connected();
+		$this->use_connector  = (bool) self::load_hub_connector_ui();
 		$this->use_legacy     = (bool) Dash_Model::use_legacy();
 
 		// phpcs:ignore
@@ -107,8 +131,7 @@ class Controller extends Admin_Page {
 					</clipPath>
 				</defs>
 			</svg>'
-			);
-
+		);
 	}
 
 	/**
@@ -119,8 +142,15 @@ class Controller extends Admin_Page {
 	 */
 	public function actions() {
 		parent::actions();
-		add_action( 'rest_api_init', array( $this, 'pass_user_roles_in_api' ), 10 );
 		add_filter( 'rest_prepare_user', array( $this, 'prepare_rest_user_fields' ), 10, 3 );
+		add_action( 'wpmudev_hub_connector_first_sync_completed', array( $this, 'process_connector_first_sync' ) );
+		add_filter( 'wpmudev_hub_connector_localize_text_vars', array( $this, 'hub_connector_localize_text_vars' ), 10, 2 );
+
+		$referer = wp_get_referer();
+
+		if ( ! empty( $_REQUEST['roles'] ) && $referer && Utilities::get_query_var( $referer, 'page' ) === $this->menu_slug ) {
+			add_action( 'rest_api_init', array( $this, 'pass_user_roles_in_api' ), 10 );
+		}
 	}
 
 	/**
@@ -132,12 +162,12 @@ class Controller extends Admin_Page {
 	public function output() {
 		View::instance()->render(
 			array(
-				'slug'           => $this->menu_slug,
-				'unique_id'      => $this->unique_id,
-				'site_connected' => $this->site_connected,
+				'slug'               => $this->menu_slug,
+				'unique_id'          => $this->unique_id,
+				'site_connected'     => $this->site_connected,
+				'load_hub_connector' => $this->load_hub_connector(),
 			)
 		);
-
 	}
 
 	/**
@@ -147,7 +177,12 @@ class Controller extends Admin_Page {
 	 * @return array Register scripts for the admin page.
 	 */
 	public function set_admin_scripts() {
-		$script_data  = include WPMUDEV_BLC_DIR . 'assets/js/dashboard/main.asset.php';
+		if ( $this->load_hub_connector() ) {
+			return array();
+		}
+
+		$script_data  = file_exists( WPMUDEV_BLC_DIR . 'assets/dist/cloud.asset.php' ) ?
+			include WPMUDEV_BLC_DIR . 'assets/dist/cloud.asset.php' : array();
 		$dependencies = $script_data['dependencies'] ?? array(
 			'react',
 			'wp-element',
@@ -160,27 +195,38 @@ class Controller extends Admin_Page {
 		// In case Clipboard is required in order to import '@wpmudev/shared-ui' scripts.
 		// $dependencies[] = 'clipboard';.
 
-		return array(
-			'blc_dashboard' => array(
-				'src'       => $this->scripts_dir . 'dashboard/main.js',
-				'deps'      => $dependencies,
-				'ver'       => $version,
-				'in_footer' => true,
-				'localize'  => array(
-					'blc_dashboard' => $this->localized_values(),
+		return apply_filters(
+			'wpmudev_blc_cloud_page_admin_scripts',
+			array(
+				'blc_dashboard' => array(
+					'src'       => $this->scripts_dir . 'cloud.js',
+					'deps'      => $dependencies,
+					'ver'       => $version,
+					'in_footer' => true,
+					'localize'  => array(
+						'blc_dashboard' => $this->localized_values(),
+					),
+					'translate' => true,
 				),
-				'translate' => true,
-			),
-			// END OF blc_dashboard.
+				// END OF blc_dashboard.
+			)
 		);
 	}
 
-	protected function scripts_version() {
+	/**
+	 *
+	 * The version of assets.
+	 *
+	 * @return string
+	 */
+	protected function scripts_version(): string {
 		static $scripts_version = null;
 
 		if ( is_null( $scripts_version ) ) {
-			$script_data     = include WPMUDEV_BLC_DIR . 'assets/js/dashboard/main.asset.php';
-			$scripts_version = $script_data['version'] ?? WPMUDEV_BLC_SCIPTS_VERSION;
+			// First attempt to fetch from cloud.asset.php file, else use defined version.
+			$script_data     = file_exists( WPMUDEV_BLC_DIR . 'assets/dist/cloud.asset.php' ) ?
+				include WPMUDEV_BLC_DIR . 'assets/dist/cloud.asset.php' : array();
+			$scripts_version = ! empty( $script_data['version'] ) ? WPMUDEV_BLC_SCIPTS_VERSION . '-' . $script_data['version'] : WPMUDEV_BLC_SCIPTS_VERSION;
 		}
 
 		return $scripts_version;
@@ -191,7 +237,7 @@ class Controller extends Admin_Page {
 	 *
 	 * @return array
 	 */
-	protected function localized_values() {
+	protected function localized_values(): array {
 		$user_roles = Dash_Model::list_user_roles();
 		$signup_url = add_query_arg(
 			array(
@@ -200,6 +246,16 @@ class Controller extends Admin_Page {
 				'utm_campaign' => 'blc_plugin_onboarding',
 			),
 			Utilities::signup_url()
+		);
+
+		$hub_pricing_url    = ! empty( Utilities::dev_pricing_url() ) ? esc_url( Utilities::dev_pricing_url() ) : '';
+		$limit_campaign_url = empty( $hub_pricing_url ) ? '' : add_query_arg(
+			array(
+				'utm_source'   => 'blc',
+				'utm_medium'   => 'plugin',
+				'utm_campaign' => 'blc_30_minutes_limit_upgrade_link',
+			),
+			$hub_pricing_url
 		);
 
 		return array(
@@ -215,16 +271,23 @@ class Controller extends Admin_Page {
 				'dash_installed'         => boolval( Utilities::dash_plugin_installed() ),
 				'dash_active'            => boolval( Utilities::dash_plugin_active() ),
 				'site_connected'         => boolval( $this->site_connected ),
+				'show_connector_notice'  => ! empty( \WPMUDEV_BLC\App\Options\Settings\Model::instance()->get( 'show_connector_notice' ) ),
+				'use_connector'          => boolval( $this->use_connector ),
+				'connector_page_url'     => $this->get_hub_connector_url(),
 				'expired_membership'     => boolval( Utilities::membership_expired() ),
+				'free_membership'        => boolval( Utilities::is_free_member() ),
 				'use_legacy'             => esc_html( $this->use_legacy ),
-				//'hub_url'            => esc_url( Utilities::hub_connect_url() ),
-				'hub_home_url'           => ! empty(  Utilities::hub_home_url() ) ? esc_url( Utilities::hub_home_url() ) : '',
-				'hub_scan_url'           => ! empty(  Utilities::hub_scan_url() ) ? esc_url( Utilities::hub_scan_url() ) : '',
+				'hub_home_url'           => ! empty( Utilities::hub_home_url() ) ? esc_url( Utilities::hub_home_url() ) : '',
+				'hub_scan_url'           => ! empty( Utilities::hub_scan_url() ) ? esc_url( Utilities::hub_scan_url() ) : '',
 				'hub_signup_url'         => $signup_url,
 				'hub_account_url'        => ! empty( Utilities::hub_account_url() ) ? esc_url( Utilities::hub_account_url() ) : '',
+				'bub_blc_page_url'       => ! empty( Utilities::hub_blc_page_url() ) ? esc_url( Utilities::hub_blc_page_url() ) : '',
+				'limit_campaign_url'     => $limit_campaign_url,
 				'scan_results'           => $this->escape_array_fixed( Dash_Model::get_scan_results() ),
-				'scan_in_progress'       => Dash_Model::scan_in_progress(),
+				'scan_in_progress'       => $this->show_scan_in_progress(),
 				'site_url'               => esc_url_raw( get_site_url() ),
+				'support_url'            => 'https://wpmudev.com/get-support/',
+				'roadmap_url'            => 'https://wpmudev.com/roadmap/',
 				'trigger_schedule_modal' => $this->trigger_schedule_modal(),
 				'schedule'               => $this->escape_array_fixed( Dash_Model::get_schedule() ),
 				'timezone'               => esc_html( Utilities::get_timezone_string( false ) ),
@@ -239,6 +302,10 @@ class Controller extends Admin_Page {
 				'allowedRolesSlugs'      => wp_list_pluck( $user_roles, 'role_slug' ),
 				'cooldownData'           => $this->escape_array_fixed( Dash_Model::get_cooldown_data() ),
 				'linksProcessStatus'     => Dash_Model::links_process_status(),
+				'showProfile'            => ! self::white_label_active(),
+				'profileData'            => self::get_profile_data(),
+				'hubConnectorConnected'  => boolval( self::hub_connector_connected() ),
+				'offlineAvatar'          => esc_url_raw( WPMUDEV_BLC_URL . '/assets/images/offline-avatar.png' ),
 			), // End blc_dashboard/data.
 			'labels' => array(
 				'page_title'     => esc_html( $this->page_title ),
@@ -247,6 +314,52 @@ class Controller extends Admin_Page {
 				),
 			),
 		);
+	}
+
+	/**
+	 * Indicates if front end should show that scan is in progress.
+	 *
+	 * @return boolean
+	 */
+	private function show_scan_in_progress(): bool {
+		return boolval(
+			Dash_Model::scan_in_progress() ||
+			( ! empty( $_REQUEST[ $this->hub_connector_query_slug ] ) && $this->hub_connector_query_value === $_REQUEST[ $this->hub_connector_query_slug ] )
+		);
+	}
+
+	/**
+	 * Hub connector url
+	 *
+	 * @return string
+	 */
+	private function get_hub_connector_url(): string {
+		return $this->admin_page_url(
+			array(
+				$this->hub_connector_query_slug => $this->hub_connector_query_value,
+				'_wpnonce'                      => wp_create_nonce( 'hub_connector_nonce' ),
+			)
+		);
+	}
+
+	/**
+	 * Decides if HUB Connector should be loaded or not.
+	 *
+	 * @return boolean
+	 */
+	private function load_hub_connector(): bool {
+		static $load_hub_connector = null;
+
+		if ( is_null( $load_hub_connector ) ) {
+			$load_hub_connector = ! self::hub_connector_connected() &&
+			$this->use_connector &&
+			! empty( $_GET[ $this->hub_connector_query_slug ] ) &&
+			$this->hub_connector_query_value === $_GET[ $this->hub_connector_query_slug ] &&
+			! empty( $_REQUEST['_wpnonce'] ) &&
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'hub_connector_nonce' );
+		}
+
+		return $load_hub_connector;
 	}
 
 	/**
@@ -264,17 +377,18 @@ class Controller extends Admin_Page {
 	 * @return array
 	 */
 	public function set_admin_styles() {
+		if ( $this->load_hub_connector() ) {
+			return array();
+		}
+
 		return array(
-			'blc_sui'       => array(
-				'src' => $this->styles_dir . 'shared-ui-' . BLC_SHARED_UI_VERSION_NUMBER . '.min.css',
-				'ver' => $this->scripts_version(),
-			),
 			'blc_dashboard' => array(
-				'src' => $this->styles_dir . 'dashboard.min.css',
+				'src' => $this->scripts_dir . 'style-cloud.css',
 				'ver' => $this->scripts_version(),
 			),
 		);
 	}
+
 
 	/**
 	 * Adds Page specific hooks. Extends $this->actions.
@@ -307,7 +421,7 @@ class Controller extends Admin_Page {
 			'user',
 			'roles',
 			array(
-				'get_callback'    => function ( $object, $field_name, $request ) {
+				'get_callback'    => function ( $obj, $field_name, $request ) {
 					$referer = $request->get_header( 'referer' );
 
 					if ( ! $referer || Utilities::get_query_var( $referer, 'page' ) !== $this->menu_slug ) {
@@ -315,7 +429,7 @@ class Controller extends Admin_Page {
 					}
 
 					// Return up to the first 3 roles.
-					return implode( ', ', array_slice( Utilities::user_role_names( $object['id'] ), 0, 3 ) );
+					return implode( ', ', array_slice( Utilities::user_role_names( $obj['id'] ), 0, 3 ) );
 				},
 				'update_callback' => null,
 				'schema'          => array(
@@ -361,6 +475,55 @@ class Controller extends Admin_Page {
 		$data->data['roles'] = implode( ', ', Utilities::user_role_names( $user->ID ) );
 
 		return $data;
+	}
+
+	/**
+	 * Actions taken after Hub Connector's successful login.
+	 *
+	 * @return void
+	 */
+	public function process_connector_first_sync() {
+		if ( self::hub_connector_logged_in() ) {
+			$settings = \WPMUDEV_BLC\App\Options\Settings\Model::instance();
+			/**
+			 * After Hub Connector log in, if there is no scan we can start one automatically.
+			 */
+			if ( empty( $settings->get( 'scan_results' )['start_time'] ) ) {
+				$scan = \WPMUDEV_BLC\App\Http_Requests\Scan\Controller::instance();
+
+				// 1st Set to Cloud mode (and scan in progress).
+				$settings->set( array( 'use_legacy_blc_version' => false ) );
+				$settings->set( array( 'scan_status' => 'in_progress' ) );
+				$settings->set( array( 'show_connector_notice' => true ) );
+				$settings->save();
+
+				// 2nd Then set up correct schedules.
+				\WPMUDEV_BLC\App\Scheduled_Events\Legacy\Controller::instance()->switch_version_mode( false );
+
+				$scan->start();
+			} else {
+				// Even if we have scan results we can show the notice that BLC is connected to HUB.
+				$settings->set( array( 'show_connector_notice' => true ) );
+				$settings->save();
+			}
+		}
+	}
+
+	/**
+	 * Set appropriate descriptions for Hub Connector's screens.
+	 *
+	 * @param array   $texts Original Hub Connector's texts.
+	 * @param ?string $plugin Plugin id. Not available for BLC atm.
+	 * @return array
+	 */
+	public function hub_connector_localize_text_vars( $texts = array(), $plugin = null ) {
+		// Currently we can't use plugin id for BLC. We can check is the current admin page is of BLC Cloud.
+		if ( Utilities::is_admin_screen( 'toplevel_page_blc_dash' ) ) {
+			$texts['sync_desc1'] = __( 'The Hub connects WPMU DEV to your website, unlocking all the power of the Cloud Broken Link Checker.', 'broken-link-checker' );
+			$texts['sync_desc2'] = __( 'Once your website is connected to the Hub, you will be able to scan for and fix broken links instantly, keeping your website error-free.', 'broken-link-checker' );
+		}
+
+		return $texts;
 	}
 
 }

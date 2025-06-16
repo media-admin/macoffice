@@ -18,6 +18,8 @@ if ( ! class_exists( 'AWS_Admin_Ajax' ) ) :
 
             add_action( 'wp_ajax_aws-renameForm', array( &$this, 'rename_form' ) );
 
+            add_action( 'wp_ajax_aws-makeMainForm', array( &$this, 'make_main_form' ) );
+
             add_action( 'wp_ajax_aws-copyForm', array( &$this, 'copy_form' ) );
 
             add_action( 'wp_ajax_aws-deleteForm', array( &$this, 'delete_form' ) );
@@ -59,6 +61,26 @@ if ( ! class_exists( 'AWS_Admin_Ajax' ) ) :
             $settings[$instance_id]['search_instance'] = $form_name;
 
             update_option( 'aws_pro_settings', $settings );
+
+            wp_send_json_success( '1' );
+
+        }
+
+        /*
+         * Ajax hook for making form main
+         */
+        public function make_main_form() {
+
+            check_ajax_referer( 'aws_pro_admin_ajax_nonce' );
+
+            $instance_id = sanitize_text_field( $_POST['id'] );
+            $enabled = sanitize_text_field( $_POST['enabled'] );
+
+            if ( $enabled === '1' ) {
+                delete_option( 'aws_main_instance' );
+            } else {
+                update_option( 'aws_main_instance', $instance_id, true );
+            }
 
             wp_send_json_success( '1' );
 

@@ -6,81 +6,74 @@
  * @package           TInvWishlist
  */
 
-// If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Update plugin class
+ * Update plugin class.
  */
 class TInvWL_Update {
 
 	/**
-	 * Plugin name
+	 * Plugin name.
 	 *
 	 * @var string
 	 */
-	private $_name;
+	private string $_name;
 
 	/**
-	 * Version
+	 * Current version.
 	 *
 	 * @var string
 	 */
-	public $_version;
+	private string $_version;
 
 	/**
-	 * Previous Version
+	 * Previous version.
 	 *
 	 * @var string
 	 */
-	public $_prev;
+	private string $_prev;
 
 	/**
-	 * Regular expression for sorting version function
+	 * Regular expression for sorting version function.
 	 *
 	 * @var string
 	 */
-	const REGEXP = '/^up_/i';
+	private const REGEXP = '/^up_/i';
 
 	/**
-	 * Get update methods and apply
+	 * TInvWL_Update constructor.
 	 *
-	 * @param string $version Version.
-	 * @param string $previous_version Previous Version.
+	 * Get update methods and apply.
 	 *
-	 * @return boolean
+	 * @param string $version Current version.
+	 * @param string $previous_version Previous version.
 	 */
-	function __construct( $version, $previous_version = 0 ) {
-		$lists          = get_class_methods( $this );
+	public function __construct( string $version, string $previous_version = '0' ) {
 		$this->_name    = TINVWL_PREFIX;
 		$this->_version = $version;
 		$this->_prev    = $previous_version;
-		$lists          = array_filter( $lists, array( $this, 'filter' ) );
-		if ( empty( $lists ) ) {
-			return false;
-		}
-		uasort( $lists, array( $this, 'sort' ) );
-		foreach ( $lists as $method ) {
-			call_user_func( array( $this, $method ), $previous_version );
-		}
+		$methods        = array_filter( get_class_methods( $this ), [ $this, 'filter' ] );
 
-		return true;
+		if ( ! empty( $methods ) ) {
+			uasort( $methods, [ $this, 'sort' ] );
+			foreach ( $methods as $method ) {
+				call_user_func( [ $this, $method ], $previous_version );
+			}
+		}
 	}
 
 	/**
-	 * Filter methods
+	 * Filter methods.
 	 *
 	 * @param string $method Method name from this class.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	public function filter( $method ) {
-		if ( ! preg_match( self::REGEXP, $method ) ) {
-			return false;
-		}
-		if ( version_compare( $this->_prev, $this->prepare( $method ), 'ge' ) ) {
+	public function filter( string $method ): bool {
+		if ( ! preg_match( self::REGEXP, $method ) ||
+		     version_compare( $this->_prev, $this->prepare( $method ), 'ge' ) ) {
 			return false;
 		}
 
@@ -88,38 +81,35 @@ class TInvWL_Update {
 	}
 
 	/**
-	 * Sort methods
+	 * Sort methods.
 	 *
 	 * @param string $method1 Method name first from this class.
 	 * @param string $method2 Method name second from this class.
 	 *
-	 * @return type
+	 * @return int
 	 */
-	public function sort( $method1, $method2 ) {
+	public function sort( string $method1, string $method2 ): int {
 		return version_compare( $this->prepare( $method1 ), $this->prepare( $method2 ) );
 	}
 
 	/**
-	 * Conver method name to version
+	 * Convert method name to version.
 	 *
 	 * @param string $method Method name from this class.
 	 *
 	 * @return string
 	 */
-	public function prepare( $method ) {
-		$method = preg_replace( self::REGEXP, '', $method );
-		$method = str_replace( '_', '.', $method );
-
-		return $method;
+	public function prepare( string $method ): string {
+		return str_replace( '_', '.', preg_replace( self::REGEXP, '', $method ) );
 	}
 
 	/**
-	 * Example of the method updating
+	 * Example of the method updating.
 	 *
-	 * @param string $previous_version Previous Version.
+	 * @param string $previous_version Previous version.
 	 */
-	function up_0_0_0( $previous_version = 0 ) {
-
+	public function up_0_0_0( string $previous_version = '0' ): void {
+		// Empty method used for demonstration.
 	}
 
 	/**
@@ -137,11 +127,11 @@ class TInvWL_Update {
 	}
 
 	/**
-	 * Set runed wizard
+	 * Set runed wizard.
 	 *
-	 * @param string $previous_version Previous version value.
+	 * @param string $previous_version Previous version.
 	 */
-	function up_p_1_1_2_9_1( $previous_version = 0 ) {
+	function up_p_1_1_2_9_1( string $previous_version = '0' ): void {
 		update_option( 'tinvwl_wizard', true );
 	}
 

@@ -39,7 +39,7 @@ class AddOn_Plugin {
 	 * Will be used to check that the entered licence key is for this product.
 	 * For example History PLUS has id 105282.
 	 *
-	 * @var int;
+	 * @var int
 	 */
 	public $product_id;
 
@@ -63,10 +63,11 @@ class AddOn_Plugin {
 	];
 
 	/**
-	 * @param string $id Id of plugin, eg basenamed path + index file: "simple-history-plus-woocommerce/index.php".
-	 * @param string $slug Slug of plugin, eg "simple-history-plus-woocommerce".
-	 * @param string $version Current version of plugin, eg "1.0.0".
-	 * @param string $name Name of plugin, eg "Simple History Plus for WooCommerce".
+	 * @param string   $id Id of plugin, eg basenamed path + index file: "simple-history-plus-woocommerce/index.php".
+	 * @param string   $slug Slug of plugin, eg "simple-history-plus-woocommerce".
+	 * @param string   $version Current version of plugin, eg "1.0.0".
+	 * @param string   $name Name of plugin, eg "Simple History Plus for WooCommerce".
+	 * @param int|null $product_id ID of product that this plugin is for.
 	 */
 	public function __construct( $id, $slug, $version, $name = '', $product_id = null ) {
 		$this->id = $id;

@@ -1,9 +1,22 @@
+$desktop:  768px;
+$handheld: 568px;
+
 p.wc-gzd-additional-info:empty {
   display: none;
 }
 
 .wc-gzd-additional-info-placeholder {
   display: none;
+}
+
+.product-type-variable {
+  div.product {
+    ul.tabs {
+      li.product_safety_tab {
+        display: none;
+      }
+    }
+  }
 }
 
 #order_review .wc-gzd-checkbox-placeholder {
@@ -18,11 +31,69 @@ p.wc-gzd-additional-info:empty {
       display: inline;
     }
   }
+
+  &:empty {
+    display: none;
+  }
 }
 
 .woocommerce-checkout .shop_table {
   background-color: #EEE;
 }
+
+table.woocommerce-checkout-review-order-table {
+  tr.wc-gzd-cart-item-has-thumbnail {
+    .wc-gzd-cart-item-name-wrapper {
+      @media ( min-width: $desktop ) {
+        display: flex;
+        align-items: center;
+      }
+
+      .wc-gzd-cart-item-thumbnail {
+        max-width: 15%;
+        min-width: 60px;
+        margin-right: 1em;
+
+        img {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+body.theme-astra {
+  table.woocommerce-checkout-review-order-table {
+    tr.wc-gzd-cart-item-has-thumbnail {
+      td.product-name {
+        flex-wrap: wrap;
+      }
+    }
+  }
+}
+
+.cart_totals {
+  tr.order-total-small-business-notice, tr.order-total-differential-taxation-notice {
+    td {
+      &::before {
+        content: "" !important;
+      }
+    }
+  }
+}
+
+/**
+ * Hide (block) price labels added via the woocommerce_get_item_data filter
+ * while displaying classic shortcodes. Fallback-use only.
+ */
+.woocommerce-cart, .woocommerce-checkout, .woocommerce-mini-cart, .woocommerce {
+  dl.variation, ul.variation {
+    dt[class*="variation-gzd-"], dd[class*="variation-gzd-"], div[class*="variation-gzd-"], li[class*="variation-gzd-"] {
+      display: none !important;
+    }
+  }
+}
+
 .includes_tax, .tax_label {
   display: none !important;
 }
@@ -161,6 +232,31 @@ p.footer-info {
 .wc-gzd-edit-data-notice p.wc-gzd-info {
   margin: 0;
   padding: 0;
+}
+
+.wc-gzd-power-supply {
+  display: flex;
+  flex-wrap: wrap;
+  height: 70px;
+  margin: 1em 0;
+
+  svg {
+    display: flex;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+
+    text {
+      text-anchor: middle;
+      dominant-baseline: middle;
+      font-size: 1.8rem;
+      font-weight: 600;
+
+      &.power-supply-usb-pd {
+        font-size: 1.5rem;
+      }
+    }
+  }
 }
 
 .wc-gzd-cart-info {

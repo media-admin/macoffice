@@ -41,13 +41,13 @@ class AWS_PRO_Versions {
     public function setup() {
 
         $current_version = get_option( 'aws_pro_plugin_ver' );
-        $reindex_version = get_option( 'aws_pro_reindex_version' );
+        $reindex_version = AWS_PRO()->option_vars->get_reindex_version();
 
-        if ( ! ( $reindex_version ) && current_user_can( 'manage_options' ) ) {
+        if ( ! ( $reindex_version ) && current_user_can( AWS_Admin_Helpers::user_admin_capability() ) ) {
             add_action( 'admin_notices', array( $this, 'admin_notice_no_index' ) );
         }
 
-        if ( $reindex_version && version_compare( $reindex_version, '1.28', '<' ) && current_user_can( 'manage_options' ) ) {
+        if ( $reindex_version && version_compare( $reindex_version, '1.28', '<' ) && current_user_can( AWS_Admin_Helpers::user_admin_capability() ) ) {
             add_action( 'admin_notices', array( $this, 'admin_notice_reindex' ) );
         }
 
@@ -146,7 +146,7 @@ class AWS_PRO_Versions {
 
             if ( version_compare( $current_version, '1.32', '<' ) ) {
 
-                if ( ! AWS_Helpers::is_table_not_exist() ) {
+                if ( ! AWS_PRO()->option_vars->is_index_table_not_exists() ) {
 
                     global $wpdb;
                     $table_name =  $wpdb->prefix . AWS_INDEX_TABLE_NAME;
@@ -765,6 +765,145 @@ class AWS_PRO_Versions {
 
             }
 
+            if ( version_compare( $current_version, '3.00', '<' ) ) {
+
+                $common_opts = get_option( 'aws_pro_common_opts' );
+
+                if ( $common_opts ) {
+
+                    if ( ! isset( $common_opts['search_words_num'] ) ) {
+                        $common_opts['search_words_num'] = 6;
+                        update_option( 'aws_pro_common_opts', $common_opts );
+                    }
+
+                }
+
+            }
+
+            if ( version_compare( $current_version, '3.05', '<' ) ) {
+
+                $settings = get_option( 'aws_pro_settings' );
+
+                if ( $settings ) {
+
+                    foreach( $settings as $search_instance_num => $search_instance_settings ) {
+
+                        if ( ! isset( $search_instance_settings['fuzzy'] ) ) {
+                            $settings[$search_instance_num]['fuzzy'] = 'true';
+                        }
+
+                    }
+
+                    update_option( 'aws_pro_settings', $settings );
+
+                }
+
+            }
+
+            if ( version_compare( $current_version, '3.23', '<' ) ) {
+
+                $settings = get_option( 'aws_pro_settings' );
+
+                if ( $settings ) {
+
+                    foreach( $settings as $search_instance_num => $search_instance_settings ) {
+
+                        if ( ! isset( $search_instance_settings['enable_suggestions'] ) ) {
+                            $settings[$search_instance_num]['enable_suggestions'] = 'false';
+                        }
+
+                        if ( ! isset( $search_instance_settings['suggestions_layout'] ) ) {
+                            $settings[$search_instance_num]['suggestions_layout'] = '2';
+                        }
+
+                        if ( ! isset( $search_instance_settings['suggestions_max_number'] ) ) {
+                            $settings[$search_instance_num]['suggestions_max_number'] = 6;
+                        }
+
+                        if ( ! isset( $search_instance_settings['suggestions_words_max'] ) ) {
+                            $settings[$search_instance_num]['suggestions_words_max'] = 5;
+                        }
+
+                        if ( ! isset( $search_instance_settings['suggestions_sources'] ) ) {
+                            $settings[$search_instance_num]['suggestions_sources']['title'] = 1;
+                            $settings[$search_instance_num]['suggestions_sources']['category'] = 0;
+                        }
+
+                        if ( ! isset( $search_instance_settings['suggestions_no_results'] ) ) {
+                            $settings[$search_instance_num]['suggestions_no_results'] = 'false';
+                        }
+
+                        if ( ! isset( $search_instance_settings['suggestions_on_click'] ) ) {
+                            $settings[$search_instance_num]['suggestions_on_click'] = 'ajax';
+                        }
+
+                    }
+
+                    update_option( 'aws_pro_settings', $settings );
+
+                }
+
+            }
+
+            if ( version_compare( $current_version, '3.29', '<' ) ) {
+
+                $settings = get_option( 'aws_pro_settings' );
+
+                if ( $settings ) {
+
+                    foreach( $settings as $search_instance_num => $search_instance_settings ) {
+                        if ( isset( $search_instance_settings['filters'] ) ) {
+                            foreach ($search_instance_settings['filters'] as $filter_num => $filter_settings) {
+
+                                if ( ! isset( $filter_settings['show_gtin'] )  ) {
+                                    $settings[$search_instance_num]['filters'][$filter_num]['show_gtin'] = 'false';
+                                }
+
+                                if ( isset( $filter_settings['search_in'] ) ) {
+                                    $settings[$search_instance_num]['filters'][$filter_num]['search_in']['gtin'] = 0;
+                                }
+                                
+                            }
+                        }
+                    }
+
+                    update_option( 'aws_pro_settings', $settings );
+
+                }
+
+                $common_opts = get_option( 'aws_pro_common_opts' );
+
+                if ( $common_opts ) {
+
+                    if ( isset( $common_opts['index_sources'] ) ) {
+                        $common_opts['index_sources']['gtin'] = 0;
+                        update_option( 'aws_pro_common_opts', $common_opts );
+                    }
+
+                }
+
+            }
+
+            if ( version_compare( $current_version, '3.34', '<' ) ) {
+
+                $settings = get_option( 'aws_pro_settings' );
+
+                if ( $settings ) {
+
+                    foreach( $settings as $search_instance_num => $search_instance_settings ) {
+
+                        if ( ! isset( $search_instance_settings['search_page_highlight'] ) ) {
+                            $settings[$search_instance_num]['search_page_highlight'] = 'false';
+                        }
+
+                    }
+
+                    update_option( 'aws_pro_settings', $settings );
+
+                }
+
+            }
+
         }
 
         if ( ! $current_version ) {
@@ -807,10 +946,18 @@ class AWS_PRO_Versions {
     /**
      * Admin notice for table first re-index
      */
-    public function admin_notice_no_index() { ?>
+    public function admin_notice_no_index() {
+
+        $button = '<a class="button button-secondary" href="'.esc_url( admin_url('admin.php?page=aws-options') ).'">'.esc_html__( 'Go to Settings Page', 'advanced-woo-search' ).'</a>';
+        if ( isset( $_GET['page'] ) && $_GET['page'] === 'aws-options' ) {
+            $button = '';
+        }
+        ?>
+
         <div class="updated notice is-dismissible">
-            <p><?php printf( esc_html__( 'Advanced Woo Search: Please go to the plugin setting page and start indexing your products. %s', 'advanced-woo-search' ), '<a class="button button-secondary" href="'.esc_url( admin_url('admin.php?page=aws-options') ).'">'.esc_html__( 'Go to Settings Page', 'advanced-woo-search' ).'</a>'  ); ?></p>
+            <p><?php printf( esc_html__( 'Advanced Woo Search: Please go to the plugin setting page and start indexing your products. %s', 'advanced-woo-search' ), $button ); ?></p>
         </div>
+
     <?php }
 
     /**

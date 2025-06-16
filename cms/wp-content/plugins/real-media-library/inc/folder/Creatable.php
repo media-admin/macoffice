@@ -21,11 +21,12 @@ use WP_Query;
  *
  * A new folder type MUST have the implementation with class FOLDERTYPE
  * extends order\Sortable because every folder can also be sortable!
+ * @internal
  */
 abstract class Creatable extends \MatthiasWeb\RealMediaLibrary\folder\BaseFolder implements IOverrideCreatable
 {
     use FolderCreatable;
-    static $cachedOrders = null;
+    private static $cachedOrders = null;
     /**
      * C'tor with the main properties.
      *

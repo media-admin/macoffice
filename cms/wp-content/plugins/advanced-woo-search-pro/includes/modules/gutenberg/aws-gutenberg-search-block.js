@@ -50,7 +50,8 @@
                                         onChange: ( value ) => {
                                             props.setAttributes( { placeholder: value } );
                                         },
-                                        value: props.attributes.placeholder
+                                        value: props.attributes.placeholder,
+                                        __nextHasNoMarginBottom: true
                                     }
                                 ),
                             ),
@@ -64,8 +65,9 @@
                                         onChange: ( value ) => {
                                             props.setAttributes( { form_id_val: value } );
                                         },
-                                        style: { 'min-width': '120px' },
-                                        value: props.attributes.form_id_val
+                                        value: props.attributes.form_id_val,
+                                        __nextHasNoMarginBottom: true,
+                                        style: { 'minWidth': '120px' }
                                     }
                                 ),
                             ),

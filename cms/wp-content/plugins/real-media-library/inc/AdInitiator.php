@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\base\UtilsProvider;
 // @codeCoverageIgnoreEnd
 /**
  * Initiate real-utils functionality.
+ * @internal
  */
 class AdInitiator extends AbstractInitiator
 {

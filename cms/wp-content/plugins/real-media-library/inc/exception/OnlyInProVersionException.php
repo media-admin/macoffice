@@ -9,6 +9,7 @@ use Exception;
 // @codeCoverageIgnoreEnd
 /**
  * When a functionality is only available in PRO version throw an exception.
+ * @internal
  */
 class OnlyInProVersionException extends Exception
 {

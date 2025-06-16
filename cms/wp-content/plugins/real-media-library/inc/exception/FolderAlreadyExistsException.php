@@ -11,6 +11,7 @@ use Exception;
 /**
  * When we want to set parent of a folder and the given name
  * already exists in the parent folder.
+ * @internal
  */
 class FolderAlreadyExistsException extends Exception
 {

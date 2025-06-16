@@ -7,6 +7,7 @@ use MatthiasWeb\RealMediaLibrary\api\IFolder;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 interface IOverrideCreatable
 {
     /**

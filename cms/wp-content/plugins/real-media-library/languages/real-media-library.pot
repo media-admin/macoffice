@@ -1,4 +1,4 @@
-# Copyright (C) 2023 devowl.io
+# Copyright (C) 2025 devowl.io
 # This file is distributed under the same license as the Real Media Library plugin.
 msgid ""
 msgstr ""
@@ -11,25 +11,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: n/a\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.12.0\n"
 
 #. Plugin Name of the plugin
+#: index.php
 msgid "Real Media Library"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: index.php
 msgid "https://devowl.io/wordpress-real-media-library/"
 msgstr ""
 
 #. Description of the plugin
+#: index.php
 msgid "Organize uploaded media in folders, collections and galleries: A file manager for WordPress. Media management made easy!"
 msgstr ""
 
 #. Author of the plugin
+#: index.php
 msgid "devowl.io"
 msgstr ""
 
 #. Author URI of the plugin
+#: index.php
 msgid "https://devowl.io"
 msgstr ""
 
@@ -71,15 +76,15 @@ msgstr ""
 msgid "The given folder was not found."
 msgstr ""
 
-#: inc/Assets.php:247
+#: inc/Assets.php:216
 msgid "https://devowl.io/"
 msgstr ""
 
-#: inc/Assets.php:249
+#: inc/Assets.php:218
 msgid "Complementary Plugins"
 msgstr ""
 
-#: inc/Assets.php:267
+#: inc/Assets.php:236
 msgid ""
 "\n"
 "\n"
@@ -116,6 +121,7 @@ msgstr ""
 
 #. translators:
 #: inc/attachment/CustomField.php:154
+#, php-format
 msgid "For this file is %d shortcut available in the following folder:"
 msgid_plural "For this file are %d shortcuts available in the following folders:"
 msgstr[0] ""
@@ -215,11 +221,11 @@ msgstr ""
 msgid "Importing categories from another plugin is only available in PRO version."
 msgstr ""
 
-#: inc/comp/ExportMediaLibrary.php:156
+#: inc/comp/ExportMediaLibrary.php:158
 msgid "No valid folder."
 msgstr ""
 
-#: inc/comp/ExportMediaLibrary.php:220
+#: inc/comp/ExportMediaLibrary.php:222
 msgid "No valid type."
 msgstr ""
 
@@ -228,25 +234,27 @@ msgid "PolyLang: Automatically move translations"
 msgstr ""
 
 #: inc/comp/PolyLang.php:76
-#: inc/comp/WPML.php:334
+#: inc/comp/WPML.php:332
 msgid "If you move a file, the corresponding translated file will also be moved."
 msgstr ""
 
-#: inc/comp/WPML.php:317
+#: inc/comp/WPML.php:315
 msgid "WPML: Automatically move translations"
 msgstr ""
 
-#: inc/Core.php:108
+#: inc/Core.php:103
 msgid "https://devowl.io/go/real-media-library?source=rml-lite"
 msgstr ""
 
 #. translators:
 #: inc/exception/FolderAlreadyExistsException.php:30
+#, php-format
 msgid "'%s' already exists in this folder."
 msgstr ""
 
 #. translators:
 #: inc/exception/OnlyInProVersionException.php:22
+#, php-format
 msgid "This functionality is not available in the free version (%s)."
 msgstr ""
 
@@ -268,6 +276,7 @@ msgstr ""
 
 #. translators:
 #: inc/folder/Creatable.php:375
+#, php-format
 msgid "'%s' is not a valid folder name."
 msgstr ""
 
@@ -396,6 +405,7 @@ msgstr ""
 
 #. translators:
 #: inc/overrides/pro/folder/Creatable.php:107
+#, php-format
 msgid "The parent %d does not exist."
 msgstr ""
 
@@ -440,11 +450,11 @@ msgstr ""
 msgid "Fetch only media in a folder by folder id."
 msgstr ""
 
-#: inc/rest/Service.php:200
+#: inc/rest/Service.php:198
 msgid "Forbidden"
 msgstr ""
 
-#: inc/rest/Service.php:205
+#: inc/rest/Service.php:203
 msgid "Real Media Library is not active for the current user."
 msgstr ""
 
@@ -508,31 +518,31 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: inc/view/FolderShortcode.php:120
+#: inc/view/FolderShortcode.php:122
 msgid "Attachment File"
 msgstr ""
 
-#: inc/view/FolderShortcode.php:121
+#: inc/view/FolderShortcode.php:126
 msgid "Media File"
 msgstr ""
 
-#: inc/view/FolderShortcode.php:122
+#: inc/view/FolderShortcode.php:130
 msgid "None"
 msgstr ""
 
-#: inc/view/FolderShortcode.php:125
+#: inc/view/FolderShortcode.php:136
 msgid "Thumbnail"
 msgstr ""
 
-#: inc/view/FolderShortcode.php:126
+#: inc/view/FolderShortcode.php:140
 msgid "Medium"
 msgstr ""
 
-#: inc/view/FolderShortcode.php:127
+#: inc/view/FolderShortcode.php:144
 msgid "Large"
 msgstr ""
 
-#: inc/view/FolderShortcode.php:128
+#: inc/view/FolderShortcode.php:148
 msgid "Full Size"
 msgstr ""
 
@@ -961,7 +971,7 @@ msgid "Dismiss"
 msgstr ""
 
 #: inc/view/Lang.php:189
-msgid "Real Media Library creates a virtual folder structure. The URLs of uploads do not change when you move the file. Learn more about <a href=\"https://devowl.io/knowledge-base/how-can-i-physically-reflect-the-virtual-folder-structure-to-my-file-system/\" target=\"_blank\">how to automatically move files to physical folders.</a>"
+msgid "Real Media Library creates a virtual folder structure. The URLs of uploads do not change when you move the file. Learn more about <a href=\"https://devowl.io/knowledge-base/real-media-library-physical-folder-structur/\" target=\"_blank\">how to automatically move files to physical folders.</a>"
 msgstr ""
 
 #: inc/view/Lang.php:193
@@ -1108,28 +1118,28 @@ msgstr ""
 msgid "Reset names, slugs and absolute pathes"
 msgstr ""
 
-#: inc/view/Options.php:136
+#: inc/view/Options.php:134
 msgid "Wipe attachment relations"
 msgstr ""
 
-#: inc/view/Options.php:139
+#: inc/view/Options.php:137
 msgid "Wipe all"
 msgstr ""
 
-#: inc/view/Options.php:148
+#: inc/view/Options.php:146
 msgid "Reset count"
 msgstr ""
 
-#: inc/view/Options.php:157
-#: inc/view/Options.php:183
+#: inc/view/Options.php:155
+#: inc/view/Options.php:181
 msgid "Reset"
 msgstr ""
 
-#: inc/view/Options.php:171
+#: inc/view/Options.php:169
 msgid "Activate this option if you are using a page builder like Divi Page Builder, WPBakery Page Builder or Elementor."
 msgstr ""
 
-#: inc/view/Options.php:186
+#: inc/view/Options.php:184
 msgid "You can also reset an single folder in its folder details."
 msgstr ""
 

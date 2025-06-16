@@ -12,6 +12,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealUtils;
  *
  * All your used transient keys should be in constants so they are readable in code and
  * as short as possible in database.
+ * @internal
  */
 final class TransientHandler
 {

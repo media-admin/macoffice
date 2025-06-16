@@ -12,6 +12,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealUtils\TransientHandler;
 /**
  * An abstract cross-selling implementation which can be used for each pro product of devowl.io.
  * Do not use any constants as they are not available when the plugin is not active.
+ * @internal
  */
 abstract class AbstractCrossSelling
 {
@@ -57,7 +58,7 @@ abstract class AbstractCrossSelling
         $optionName = TransientHandler::TRANSIENT_CROSS_COUNTER . '.' . $this->getSlug() . '.' . $action;
         $cnt = TransientHandler::get(TransientHandler::TRANSIENT_INITIATOR_CROSS, $optionName, 0);
         if ($increment) {
-            $cnt++;
+            ++$cnt;
             TransientHandler::set(TransientHandler::TRANSIENT_INITIATOR_CROSS, $optionName, $cnt);
         }
         return $cnt;

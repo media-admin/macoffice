@@ -10,6 +10,7 @@ use MatthiasWeb\RealMediaLibrary\base\UtilsProvider;
 // @codeCoverageIgnoreEnd
 /**
  * Folders permission handling.
+ * @internal
  */
 class Permissions
 {

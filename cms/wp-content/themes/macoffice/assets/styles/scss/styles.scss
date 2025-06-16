@@ -17,8 +17,12 @@
 @import "components/accordion";
 @import "components/google-map";
 @import "components/youtube-video";
-/* @import "components/contact-forms"; --> LÖSCHEN ??? */
+@import "components/contact-forms";
 @import "components/leasing-calculator.scss";
+@import "components/service-prices.scss";
+@import "components/error-found.scss";
+@import "components/email-info.scss";
+@import "components/email-emergency.scss";
 @import "components/tabs";
 @import "components/notifications";
 @import "components/button-back-to-top";
@@ -50,6 +54,7 @@
 @import "pages/tax-product_cat";
 @import "pages/woocommerce-shop";
 @import "pages/merkzettel";
+@import "pages/search-results";
 
 /* vendors */
 @import "vendors/dywc";

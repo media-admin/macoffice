@@ -3,12 +3,13 @@
 /*
 Plugin Name: Advanced Woo Search PRO
 Description: Advance ajax WooCommerce product search.
-Version: 2.89
+Version: 3.35
 Author: ILLID
 Author URI: https://advanced-woo-search.com/
 Text Domain: advanced-woo-search
+Requires Plugins: woocommerce
 WC requires at least: 3.0.0
-WC tested up to: 8.1.0
+WC tested up to: 9.8.0
 */
 
 
@@ -38,6 +39,16 @@ final class AWS_PRO_Main {
      * @var AWS_PRO_Main Cache instance
      */
     public $cache = null;
+
+    /**
+     * @var AWS_PRO_Main Table updates instance
+     */
+    public $table_updates = null;
+
+    /**
+     * @var AWS_PRO_Main Candition vars
+     */
+    public $option_vars = null;
 
     /**
      * @var AWS_PRO_Main License instance
@@ -70,8 +81,6 @@ final class AWS_PRO_Main {
 
 		add_filter( 'widget_text', 'do_shortcode' );
 
-		add_shortcode( 'aws_search_form', array( $this, 'markup' ) );
-
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
 
 		add_filter( 'plugin_action_links', array( $this, 'add_settings_link' ), 10, 2 );
@@ -96,7 +105,7 @@ final class AWS_PRO_Main {
      */
     private function define_constants() {
 
-        $this->define( 'AWS_PRO_VERSION', '2.89' );
+        $this->define( 'AWS_PRO_VERSION', '3.35' );
         $this->define( 'AWS_PRO_DIR', plugin_dir_path( AWS_PRO_FILE ) );
         $this->define( 'AWS_PRO_URL', plugin_dir_url( AWS_PRO_FILE ) );
         $this->define( 'AWS_PRO_BASENAME', plugin_basename( AWS_PRO_FILE ) );
@@ -113,10 +122,12 @@ final class AWS_PRO_Main {
      */
     public function includes() {
 
+        include_once( 'includes/class-aws-option-vars.php' );
         include_once( 'includes/class-aws-helpers.php' );
         include_once( 'includes/class-aws-versions.php' );
         include_once( 'includes/class-aws-table.php' );
         include_once( 'includes/class-aws-table-data.php' );
+        include_once( 'includes/class-aws-table-updates.php' );
 		include_once( 'includes/class-aws-markup.php' );
 		include_once( 'includes/class-aws-search.php' );
         include_once( 'includes/class-aws-search-filters.php' );
@@ -124,10 +135,15 @@ final class AWS_PRO_Main {
         include_once( 'includes/class-aws-users-search.php' );
         include_once( 'includes/class-aws-cache.php' );
         include_once( 'includes/class-aws-plurals.php' );
+        include_once( 'includes/class-aws-similar-terms.php' );
+        include_once( 'includes/class-aws-search-suggestions.php' );
         include_once( 'includes/class-aws-search-page.php' );
         include_once( 'includes/class-aws-order.php' );
         include_once( 'includes/class-aws-translate.php' );
         include_once( 'includes/class-aws-integrations.php' );
+        include_once( 'includes/class-aws-langs.php' );
+        include_once( 'includes/class-aws-hooks.php' );
+        include_once( 'includes/class-aws-shortcodes.php' );
         include_once( 'includes/widget.php' );
 
         // Admin
@@ -155,15 +171,7 @@ final class AWS_PRO_Main {
         }
 
         if ( ! isset( $atts['id'] ) ) {
-            $settings = $this->get_settings();
-            if ( $settings ) {
-                foreach( $settings as $search_instance_num => $search_instance_settings ) {
-                    $atts['id'] = $search_instance_num;
-                    break;
-                }
-            } else {
-                $atts['id'] = 1;
-            }
+            $atts['id'] = AWS_Helpers::get_available_instance_id();
         }
 
 		$markup = new AWS_Markup( $atts );
@@ -205,8 +213,14 @@ final class AWS_PRO_Main {
      */
     public function init() {
 
+        $this->option_vars = new AWS_Option_Vars();
         $this->cache = AWS_Cache::factory();
+        $this->table_updates = new AWS_Table_Updates();
+
         AWS_Integrations::instance();
+        AWS_Hooks::instance();
+        AWS_Shortcodes::instance();
+        AWS_Langs::instance();
 
         if ( is_admin() ) {
             $this->license = new AWS_License( AWS_PRO_VERSION, AWS_PRO_UPDATE_URL, AWS_PRO_BASENAME );
@@ -380,6 +394,11 @@ function aws_pro_disable_old_version() {
  */
 register_activation_hook( __FILE__, 'aws_pro_on_activation' );
 function aws_pro_on_activation() {
+
+    if ( aws_pro_is_plugin_active( 'advanced-woo-search/advanced-woo-search.php' ) ) {
+        deactivate_plugins('advanced-woo-search/advanced-woo-search.php');
+    }
+
     $hide_notice = get_option( 'aws_hide_welcome_notice' );
     if ( ! $hide_notice ) {
         $free_plugin_version = get_option( 'aws_plugin_ver' );
@@ -389,6 +408,35 @@ function aws_pro_on_activation() {
             $hide = 'true';
         }
         update_option( 'aws_hide_welcome_notice', $hide, false );
+    }
+
+}
+
+
+/*
+ * Deactivate free plugin version if pro is active
+ */
+add_action( 'activated_plugin', 'aws_check_and_deactivate_free_plugin' );
+function aws_check_and_deactivate_free_plugin($plugin) {
+    $free_plugin_file = 'advanced-woo-search/advanced-woo-search.php';
+    if ( $plugin === $free_plugin_file ) {
+        deactivate_plugins( $free_plugin_file );
+        set_transient('aws_free_plugin_deactivated_notice', true, 5);
+    }
+}
+
+add_action('admin_notices', 'aws_show_free_deactivation_notice');
+function aws_show_free_deactivation_notice() {
+    if ( is_admin() ) {
+        $current_screen = get_current_screen();
+        if ( $current_screen && $current_screen->id === 'plugins' && $current_screen->base === 'plugins' ) {
+            if ( get_transient('aws_free_plugin_deactivated_notice') ) {
+                echo '<div class="notice notice-warning is-dismissible">';
+                    echo '<p>' . esc_html__( 'The Advanced Woo Search plugin was deactivated because you are using the PRO version of the same plugin.', 'advanced-woo-search' ) . '</p>';
+                echo '</div>';
+                delete_transient('aws_free_plugin_deactivated_notice');
+            }
+        }
     }
 }
 

@@ -46,7 +46,7 @@ class UIHelper
     //      'noheader' => true,
           'action' => $action,
           'attachment_id' => $attach_id,
-      ));
+      ), $url);
 
       if (isset($_REQUEST['SHORTPIXEL_DEBUG']))
       {
@@ -54,9 +54,8 @@ class UIHelper
         if (is_numeric($spdebug))
           $spdebug = intval($spdebug);
         else {
-          $spdebug = sanitize_text_field($spdebug);
+          $spdebug = 3;
         }
-
         $url = add_query_arg('SHORTPIXEL_DEBUG', $spdebug, $url);
       }
 
@@ -75,9 +74,8 @@ class UIHelper
       if (is_numeric($spdebug))
         $spdebug = intval($spdebug);
       else {
-        $spdebug = sanitize_text_field($spdebug);
+        $spdebug = 3;
       }
-
       $url = add_query_arg('SHORTPIXEL_DEBUG', $spdebug, $url);
     }
 

@@ -14,6 +14,7 @@ use WP_Query;
  * Add an option so the user can disable the WordPress infinite scrolling.
  *
  * @see https://core.trac.wordpress.org/ticket/40330
+ * @internal
  */
 class InfiniteScrolling implements IUserSettings
 {

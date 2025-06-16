@@ -58,6 +58,16 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
          */
         public function scrap_data() {
 
+            /**
+             * Fires before starting to scrap product data for index table
+             * @since 3.02
+             * @param object $this->product Current product
+             * @param integer $this->id Current product ID
+             * @param string $this->lang Current language
+             * @param array $this->options Array of index options
+             */
+            do_action( 'aws_index_before_scrapping', $this->product, $this->id, $this->lang, $this->options );
+
             $product = $this->product;
 
             $products_data = array();
@@ -76,6 +86,7 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
             $ids = $data['id'];
 
             $sku = $product->get_sku();
+            $gtin = method_exists( $product, 'get_global_unique_id' ) ? $product->get_global_unique_id() : '';
             $title = get_the_title( $data['id'] );
             $content = get_post_field( 'post_content', $data['id'] );
             $excerpt = get_post_field( 'post_excerpt', $data['id'] );
@@ -110,6 +121,8 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
 
                         $variation_sku = $variation_product->get_sku();
 
+                        $variation_gtin = method_exists( $variation_product, 'get_global_unique_id' ) ? $variation_product->get_global_unique_id() : '';
+
                         $variation_title = get_the_title( $child_id );
 
                         $variation_desc = '';
@@ -126,6 +139,10 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
                             $sku = $sku . ' ' . $variation_sku;
                         }
 
+                        if ( $variation_gtin ) {
+                            $gtin = $gtin . ' ' . $variation_gtin;
+                        }
+
                         if ( $variation_desc ) {
                             $content_from_variations = $content_from_variations . ' ' . $variation_desc;
                         }
@@ -134,6 +151,7 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
 
                         $products_data['variations'][$child_id] = array(
                             'sku'      => $variation_sku,
+                            'gtin'     => $variation_gtin,
                             'title'    => $variation_title,
                             'content'  => $variation_desc,
                             'attr'     => $variation_attributes,
@@ -203,6 +221,7 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
             $data['terms']['content']  = $this->options['index']['content'] ? $this->extract_terms( $content . ' ' . $content_from_variations, 'content' ) : '';
             $data['terms']['excerpt']  = $this->options['index']['excerpt'] ? $this->extract_terms( $excerpt, 'excerpt' ) : '';
             $data['terms']['sku']      = $this->options['index']['sku'] ? $this->extract_terms( $sku, 'sku' ) : '';
+            $data['terms']['gtin']     = $this->options['index']['gtin'] ? $this->extract_terms( $gtin, 'gtin' ) : '';
             $data['terms']['id']       = $this->options['index']['id'] ? $this->extract_terms( $ids, 'id' ) : '';
 
             // Product categories
@@ -295,6 +314,7 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
                                 $translated_post_data['terms']['content'] = $this->options['index']['content'] ? $this->extract_terms( $translated_content, 'content' ) : '';
                                 $translated_post_data['terms']['excerpt'] = $this->options['index']['excerpt'] ? $this->extract_terms( $translated_excerpt, 'excerpt' ) : '';
                                 $translated_post_data['terms']['sku'] = $this->options['index']['sku'] ? $this->extract_terms( $sku, 'sku' ) : '';
+                                $translated_post_data['terms']['gtin'] = $this->options['index']['gtin'] ? $this->extract_terms( $gtin, 'gtin' ) : '';
                                 $translated_post_data['terms']['id'] = $this->options['index']['id'] ? $this->extract_terms( $translated_post->ID, 'id' ) : '';
 
                                 $this->scraped_data[] = $translated_post_data;
@@ -355,6 +375,7 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
                                         $translated_post_data['terms']['content'] = $this->options['index']['content'] ? $this->extract_terms( $translated_content, 'content' ) : '';
                                         $translated_post_data['terms']['excerpt'] = $this->options['index']['excerpt'] ? $this->extract_terms( $translated_excerpt, 'excerpt' ) : '';
                                         $translated_post_data['terms']['sku'] = $this->options['index']['sku'] ? $this->extract_terms( $sku, 'sku' ) : '';
+                                        $translated_post_data['terms']['gtin'] = $this->options['index']['gtin'] ? $this->extract_terms( $gtin, 'gtin' ) : '';
                                         $translated_post_data['terms']['id'] = $this->options['index']['id'] ? $this->extract_terms( $ids, 'id' ) : '';
 
                                         $products_data['qtranxf_langs'][] = $current_lang;
@@ -399,6 +420,7 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
                         $translated_post_data['terms']['content'] = $this->options['index']['content'] ? $this->extract_terms($translated_content, 'content') : '';
                         $translated_post_data['terms']['excerpt'] = $this->options['index']['excerpt'] ? $this->extract_terms($translated_excerpt, 'excerpt') : '';
                         $translated_post_data['terms']['sku'] = $this->options['index']['sku'] ? $this->extract_terms($sku, 'sku') : '';
+                        $translated_post_data['terms']['gtin'] = $this->options['index']['gtin'] ? $this->extract_terms($gtin, 'gtin') : '';
                         $translated_post_data['terms']['id'] = $this->options['index']['id'] ? $this->extract_terms($data['id'], 'id') : '';
 
                         $this->scraped_data[] = $translated_post_data;
@@ -504,6 +526,7 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
                     $variations_data['in_stock'] = $variation['in_stock'];
                     $variations_data['on_sale'] = $variation['on_sale'];
                     $variations_data['terms']['sku'] = $this->options['index']['sku'] ? $this->extract_terms( $variation['sku'], 'sku' ) : '';
+                    $variations_data['terms']['gtin'] = $this->options['index']['gtin'] ? $this->extract_terms( $variation['gtin'], 'gtin' ) : '';
                     $variations_data['terms']['id'] = $this->options['index']['id'] ? $this->extract_terms( $variation_id, 'id' ) : '';
                     $variations_data['terms']['title'] = $this->options['index']['title'] ? $this->extract_terms( $variation['title'], 'title' ) : '';
                     $variations_data['terms']['content'] = $this->options['index']['content'] ? $this->extract_terms( $content . ' ' . $variation['content'], 'content' ) : '';
@@ -536,6 +559,27 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
             }
 
             $this->filter_terms_sources();
+
+            /**
+             * Fires after starting to scrap product data for index table
+             * @since 3.02
+             * @param object $this->product Current product
+             * @param integer $this->id Current product ID
+             * @param string $this->lang Current language
+             * @param array $this->options Array of index options
+             */
+            do_action( 'aws_index_after_scrapping', $this->product, $this->id, $this->lang, $this->options );
+
+            /**
+             * Filters scrapped index data before saving
+             * @since 3.29
+             * @param array $this->scraped_data Indexed data
+             * @param object $this->product Current product
+             * @param integer $this->id Current product ID
+             * @param string $this->lang Current language
+             * @param array $this->options Array of index options
+             */
+            $this->scraped_data = apply_filters( 'aws_index_scraped_data', $this->scraped_data, $this->product, $this->id, $this->lang, $this->options );
 
             return $this->scraped_data;
 
@@ -570,101 +614,7 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
          */
         private function extract_terms( $str, $source = '' ) {
 
-            // Avoid single A-Z.
-            //$str = preg_replace( '/\b\w{1}\b/i', " ", $str );
-            //if ( ! $term || ( 1 === strlen( $term ) && preg_match( '/^[a-z]$/i', $term ) ) )
-
-            $str = AWS_Helpers::normalize_string( $str );
-
-            $str = str_replace( array(
-                "Ă‹â€ˇ",
-                "Ă‚Â°",
-                "Ă‹â€ş",
-                "Ă‹ĹĄ",
-                "Ă‚Â¸",
-                "Ă‚Â§",
-                "%",
-                "=",
-                "Ă‚Â¨",
-                "â€™",
-                "â€",
-                "â€ť",
-                "â€ś",
-                "â€ž",
-                "Â´",
-                "â€”",
-                "â€“",
-                "Ă—",
-                '&#8217;',
-                "&nbsp;",
-                chr( 194 ) . chr( 160 )
-            ), " ", $str );
-
-            $str = str_replace( 'Ăź', 'ss', $str );
-
-            if ( $source !== 'attr' ) {
-                $str = preg_replace( '/^[a-z]$/i', "", $str );
-            }
-
-            $str = trim( preg_replace( '/\s+/', ' ', $str ) );
-
-            /**
-             * Filters extracted string
-             *
-             * @since 1.33
-             *
-             * @param string $str String of product content
-             * @param @since 1.88 string $source Terms source
-             */
-            $str = apply_filters( 'aws_extracted_string', $str, $source );
-
-            $str_array = explode( ' ', $str );
-            $str_array = AWS_Helpers::filter_stopwords( $str_array );
-            $str_array = array_count_values( $str_array );
-
-            /**
-             * Filters extracted terms before adding to index table
-             *
-             * @since 1.33
-             *
-             * @param string $str_array Array of terms
-             * @param @since 1.88 string $source Terms source
-             */
-            $str_array = apply_filters( 'aws_extracted_terms', $str_array, $source );
-
-            $str_new_array = array();
-
-            // Remove e, es, ies from the end of the string
-            if ( ! empty( $str_array ) && $str_array ) {
-                foreach( $str_array as $str_item_term => $str_item_num ) {
-                    if ( $str_item_term  ) {
-
-                        if ( ! isset( $str_new_array[$str_item_term] ) && preg_match("/es$/", $str_item_term ) ) {
-                            $str_new_array[$str_item_term] = $str_item_num;
-                        }
-
-                        $new_array_key = AWS_Plurals::singularize( $str_item_term );
-
-                        if ( $new_array_key && strlen( $str_item_term ) > 3 && strlen( $new_array_key ) > 2 ) {
-                            if ( ! isset( $str_new_array[$new_array_key] ) ) {
-                                $str_new_array[$new_array_key] = $str_item_num;
-                            }
-                            if ( $source === 'sku' ) {
-                                $str_new_array[$str_item_term] = $str_item_num;
-                            }
-                        } else {
-                            if ( ! isset( $str_new_array[$str_item_term] ) ) {
-                                $str_new_array[$str_item_term] = $str_item_num;
-                            }
-                        }
-
-                    }
-                }
-            }
-
-            $str_new_array = AWS_Helpers::get_synonyms( $str_new_array );
-
-            return $str_new_array;
+            return AWS_Helpers::extract_terms( $str, $source );
 
         }
 
@@ -722,9 +672,15 @@ if ( ! class_exists( 'AWS_Table_Data' ) ) :
          */
         private function filter_terms_sources() {
 
+            $reindex_version = $this->options['reindex_version'];
             $index_sources_available = array_merge( $this->options['index']['attr_sources'], $this->options['index']['tax_sources'], $this->options['index']['meta_sources'] );
 
-            if ( ! empty( $this->scraped_data ) && $index_sources_available && ! empty( $index_sources_available ) ) {
+            $filter = $index_sources_available && ! empty( $index_sources_available );
+            if ( ( $reindex_version && version_compare( $reindex_version, '3.20', '>=' ) ) || ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'aws-reindex' ) ) {
+                $filter = true;
+            }
+
+            if ( ! empty( $this->scraped_data ) && $filter ) {
                 foreach( $this->scraped_data as $pr_key => $pr_data  ) {
                     if ( isset( $pr_data['terms'] ) ) {
                         foreach( $pr_data['terms'] as $term_source => $term_arr ) {

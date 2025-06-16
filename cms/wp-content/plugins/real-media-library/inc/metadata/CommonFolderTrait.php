@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\api\IFolder;
  * Trait common folder meta helper methods.
  *
  * @since 4.0.8
+ * @internal
  */
 trait CommonFolderTrait
 {

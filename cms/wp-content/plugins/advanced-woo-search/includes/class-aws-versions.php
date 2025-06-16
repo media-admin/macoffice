@@ -41,13 +41,13 @@ if ( ! class_exists( 'AWS_Versions' ) ) :
         public function setup() {
 
             $current_version = get_option( 'aws_plugin_ver' );
-            $reindex_version = get_option( 'aws_reindex_version' );
+            $reindex_version = AWS()->option_vars->get_reindex_version();
 
-            if ( ! ( $reindex_version ) && current_user_can( 'manage_options' ) ) {
+            if ( ! ( $reindex_version ) && current_user_can( AWS_Helpers::user_admin_capability() ) ) {
                 add_action( 'admin_notices', array( $this, 'admin_notice_no_index' ) );
             }
 
-            if ( $reindex_version && version_compare( $reindex_version, '1.23', '<' ) && current_user_can( 'manage_options' ) ) {
+            if ( $reindex_version && version_compare( $reindex_version, '1.23', '<' ) && current_user_can( AWS_Helpers::user_admin_capability() ) ) {
                 add_action( 'admin_notices', array( $this, 'admin_notice_reindex' ) );
             }
 
@@ -149,7 +149,7 @@ if ( ! class_exists( 'AWS_Versions' ) ) :
 
                 if ( version_compare( $current_version, '1.43', '<' ) ) {
 
-                    if ( ! AWS_Helpers::is_table_not_exist() ) {
+                    if ( ! AWS()->option_vars->is_index_table_not_exists() ) {
 
                         global $wpdb;
                         $table_name =  $wpdb->prefix . AWS_INDEX_TABLE_NAME;
@@ -445,6 +445,48 @@ if ( ! class_exists( 'AWS_Versions' ) ) :
 
                 }
 
+                if ( version_compare( $current_version, '3.00', '<' ) ) {
+
+                    $settings = get_option( 'aws_settings' );
+
+                    if ( $settings ) {
+                        if ( ! isset( $settings['search_words_num'] ) ) {
+                            $settings['search_words_num'] = 6;
+                            update_option( 'aws_settings', $settings );
+                        }
+
+                    }
+
+                }
+
+                if ( version_compare( $current_version, '3.05', '<' ) ) {
+
+                    $settings = get_option( 'aws_settings' );
+
+                    if ( $settings ) {
+                        if ( ! isset( $settings['fuzzy'] ) ) {
+                            $settings['fuzzy'] = 'true';
+                            update_option( 'aws_settings', $settings );
+                        }
+
+                    }
+
+                }
+
+                if ( version_compare( $current_version, '3.34', '<' ) ) {
+
+                    $settings = get_option( 'aws_settings' );
+
+                    if ( $settings ) {
+                        if ( ! isset( $settings['search_page_highlight'] ) ) {
+                            $settings['search_page_highlight'] = 'false';
+                            update_option( 'aws_settings', $settings );
+                        }
+
+                    }
+
+                }
+
             }
 
             update_option( 'aws_plugin_ver', AWS_VERSION );
@@ -454,10 +496,18 @@ if ( ! class_exists( 'AWS_Versions' ) ) :
         /**
          * Admin notice for table first reindex
          */
-        public function admin_notice_no_index() { ?>
+        public function admin_notice_no_index() {
+
+            $button = '<a class="button button-secondary" href="'.esc_url( admin_url('admin.php?page=aws-options') ).'">'.esc_html__( 'Go to Settings Page', 'advanced-woo-search' ).'</a>';
+            if ( isset( $_GET['page'] ) && $_GET['page'] === 'aws-options' ) {
+                $button = '';
+            }
+            ?>
+
             <div class="updated notice is-dismissible">
-                <p><?php printf( esc_html__( 'Advanced Woo Search: Please go to the plugin setting page and start indexing your products. %s', 'advanced-woo-search' ), '<a class="button button-secondary" href="'.esc_url( admin_url('admin.php?page=aws-options') ).'">'.esc_html__( 'Go to Settings Page', 'advanced-woo-search' ).'</a>'  ); ?></p>
+                <p><?php printf( esc_html__( 'Advanced Woo Search: Please go to the plugin setting page and start indexing your products. %s', 'advanced-woo-search' ), $button ); ?></p>
             </div>
+
         <?php }
 
         /**

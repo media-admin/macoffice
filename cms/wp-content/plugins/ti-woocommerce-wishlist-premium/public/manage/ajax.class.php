@@ -17,6 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TInvWL_Public_Manage_Ajax {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	private $_name;
+
+	/**
 	 * This class
 	 *
 	 * @var \TInvWL_Public_Wishlist_Ajax
@@ -78,7 +85,7 @@ class TInvWL_Public_Manage_Ajax {
 			),
 		) );
 
-		if ( ! $post['tinvwl-manage-action'] ) {
+		if ( ! isset( $post['tinvwl-manage-action'] ) || ! $post['tinvwl-manage-action'] ) {
 			return;
 		}
 
@@ -189,7 +196,7 @@ class TInvWL_Public_Manage_Ajax {
 						break;
 					}
 
-					if ( ! in_array( $wishlist['type'], apply_filters( 'tinvwl_wishlist_type_exclusion', array( 'default' ) ) )  && $wl->remove( $wishlist_id ) ) {
+					if ( ! in_array( $wishlist['type'], apply_filters( 'tinvwl_wishlist_type_exclusion', array( 'default' ) ) ) && $wl->remove( $wishlist_id ) ) {
 						$result[ $wishlist_id ] = ( 'default' === $wishlist['type'] && empty( $wishlist['title'] ) ? apply_filters( 'tinvwl_default_wishlist_title', tinv_get_option( 'general', 'default_title' ) ) : $wishlist['title'] );
 					}
 				} // End foreach().

@@ -15,14 +15,172 @@ class Helper {
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.1.0';
+	const VERSION = '2.0.7';
 
 	public static function get_version() {
 		return self::VERSION;
 	}
 
+	public static function init() {
+		if ( did_action( 'woocommerce_eu_tax_helper_init' ) ) {
+			return;
+		}
+
+		if ( ! did_action( 'plugins_loaded' ) ) {
+			add_action(
+				'plugins_loaded',
+				function () {
+					self::load();
+				}
+			);
+		} else {
+			self::load();
+		}
+
+		do_action( 'woocommerce_eu_tax_helper_init' );
+	}
+
+	private static function get_queue() {
+		return function_exists( 'WC' ) ? WC()->queue() : false;
+	}
+
+	private static function load() {
+		$callback = function () {
+			if ( $queue = self::get_queue() ) {
+				if ( self::enable_tax_rate_observer() ) {
+					// Schedule once per day at 0:00 in local timezone
+					if ( null === $queue->get_next( 'woocommerce_eu_tax_helper_rate_observer', array(), 'woocommerce_eu_tax_helper' ) ) {
+						/**
+						 * Use WC helper method which calculates the date in current
+						 * local timezone.
+						 */
+						$date = wc_string_to_datetime( 'tomorrow midnight' );
+						$queue->cancel_all( 'woocommerce_eu_tax_helper_rate_observer', array(), 'woocommerce_eu_tax_helper' );
+
+						/**
+						 * Action scheduler expects the time in UTC.
+						 */
+						$queue->schedule_recurring( $date->getTimestamp(), DAY_IN_SECONDS, 'woocommerce_eu_tax_helper_rate_observer', array(), 'woocommerce_eu_tax_helper' );
+					}
+				} else {
+					$queue->cancel( 'woocommerce_eu_tax_helper_rate_observer', array(), 'woocommerce_eu_tax_helper' );
+				}
+			}
+		};
+
+		if ( ! did_action( 'init' ) ) {
+			add_action( 'init', $callback, 10 );
+		} else {
+			$callback();
+		}
+
+		add_action(
+			'woocommerce_eu_tax_helper_rate_observer',
+			function () {
+				self::maybe_apply_tax_rate_changesets();
+			},
+			10
+		);
+	}
+
+	public static function apply_tax_rate_changesets() {
+		$changes                   = self::get_eu_tax_rate_changesets();
+		$last_applied_changes_date = null;
+		$today                     = new \WC_DateTime();
+
+		if ( $last_applied_changes = get_option( 'woocommerce_eu_tax_helper_last_rate_changeset' ) ) {
+			$last_applied_changes_date = wc_string_to_datetime( $last_applied_changes . ' 00:00:00' );
+		}
+
+		self::log( sprintf( 'Checking for tax rate changes @ %1$s. Last applied changes: %2$s', $today->date_i18n( 'Y-m-d' ), ( $last_applied_changes_date ? $last_applied_changes_date->date_i18n( 'Y-m-d' ) : '-' ) ) );
+
+		foreach ( $changes as $date => $changeset ) {
+			$changeset_date = wc_string_to_datetime( $date . ' 00:00:00' );
+
+			if ( ! $last_applied_changes_date || $changeset_date > $last_applied_changes_date ) {
+				$is_oss    = self::oss_procedure_is_enabled();
+				$countries = array_keys( $changeset );
+
+				if ( $today >= $changeset_date ) {
+					self::log( sprintf( 'Updating tax rates changes for %1$s @ %2$s: %3$s', $changeset_date->date_i18n( 'Y-m-d' ), $today->date_i18n( 'Y-m-d' ), wc_print_r( $changeset, true ) ) );
+
+					if ( $is_oss ) {
+						foreach ( $countries as $country ) {
+							self::delete_tax_rates_by_country( $country );
+						}
+
+						$tax_rates = self::generate_tax_rates( true, array(), $changeset, false );
+
+						self::log( sprintf( 'New tax rates: %1$s', wc_print_r( $tax_rates, true ) ) );
+
+						foreach ( $tax_rates as $tax_class_type => $tax_rate_data ) {
+							$class = $tax_rate_data['tax_class'];
+							$rates = $tax_rate_data['rates'];
+
+							self::import_rates( $rates, $class, $tax_class_type, false );
+						}
+					} elseif ( in_array( self::get_base_country(), $countries, true ) ) {
+						$eu_rates = self::get_eu_tax_rates( false );
+
+						foreach ( $changeset as $country => $tax_rates ) {
+							$eu_rates[ $country ] = $tax_rates;
+						}
+
+						$tax_rates = self::generate_tax_rates( false, array(), $eu_rates, false );
+
+						self::log( sprintf( 'New tax rates: %1$s', wc_print_r( $tax_rates, true ) ) );
+
+						foreach ( $tax_rates as $tax_class_type => $tax_rate_data ) {
+							$class = $tax_rate_data['tax_class'];
+							$rates = $tax_rate_data['rates'];
+
+							self::import_rates( $rates, $class, $tax_class_type );
+						}
+					}
+
+					update_option( 'woocommerce_eu_tax_helper_last_rate_changeset', $date );
+				}
+			}
+		}
+	}
+
+	protected static function maybe_apply_tax_rate_changesets() {
+		if ( self::enable_tax_rate_observer() ) {
+			self::apply_tax_rate_changesets();
+		}
+	}
+
+	protected static function log( $message, $type = 'info' ) {
+		$logger = wc_get_logger();
+
+		if ( ! $logger || ! apply_filters( 'woocommerce_eu_tax_helper_enable_logging', true ) ) {
+			return;
+		}
+
+		if ( ! is_callable( array( $logger, $type ) ) ) {
+			$type = 'info';
+		}
+
+		$logger->{$type}( $message, array( 'source' => 'woocommerce-eu-tax-helper' ) );
+	}
+
+	public static function enable_tax_rate_observer() {
+		return apply_filters( 'woocommerce_eu_tax_helper_enable_tax_rate_observer', true );
+	}
+
 	public static function oss_procedure_is_enabled() {
 		return apply_filters( 'woocommerce_eu_tax_helper_oss_procedure_is_enabled', false );
+	}
+
+	/**
+	 * There are different opinions on how the entrepreneurial status must be proven.
+	 * By default, deliveries without a valid VAT ID are classified as b2c deliveries
+	 * and therefore as relevant for the OSS procedure.
+	 *
+	 * @return bool
+	 */
+	public static function exclude_b2b_without_vat_id_from_oss() {
+		return apply_filters( 'woocommerce_eu_tax_helper_exclude_b2b_without_vat_id_from_oss', false );
 	}
 
 	public static function get_eu_countries() {
@@ -117,8 +275,19 @@ class Helper {
 	 * @return \string[][]
 	 */
 	public static function get_vat_postcode_exemptions_by_country( $country = '' ) {
-		$country = wc_strtoupper( $country );
+		$country    = wc_strtoupper( $country );
+		$exemptions = self::get_vat_postcode_exemptions();
 
+		if ( empty( $country ) ) {
+			return $exemptions;
+		} elseif ( array_key_exists( $country, $exemptions ) ) {
+			return $exemptions[ $country ];
+		} else {
+			return array();
+		}
+	}
+
+	public static function get_vat_postcode_exemptions() {
 		$exemptions = array(
 			'DE' => array(
 				'27498', // Helgoland
@@ -150,13 +319,7 @@ class Helper {
 			),
 		);
 
-		if ( empty( $country ) ) {
-			return $exemptions;
-		} elseif ( array_key_exists( $country, $exemptions ) ) {
-			return $exemptions[ $country ];
-		} else {
-			return array();
-		}
+		return $exemptions;
 	}
 
 	/**
@@ -168,10 +331,10 @@ class Helper {
 		$order = is_a( $order, 'WC_Order' ) ? $order : wc_get_order( $order );
 
 		$taxable_address = array(
-			WC()->countries->get_base_country(),
-			WC()->countries->get_base_state(),
-			WC()->countries->get_base_postcode(),
-			WC()->countries->get_base_city(),
+			self::get_base_country(),
+			self::get_base_state(),
+			self::get_base_postcode(),
+			self::get_base_city(),
 		);
 
 		if ( ! $order ) {
@@ -223,10 +386,10 @@ class Helper {
 
 		if ( $is_admin_order_request ) {
 			$taxable_address = array(
-				WC()->countries->get_base_country(),
-				WC()->countries->get_base_state(),
-				WC()->countries->get_base_postcode(),
-				WC()->countries->get_base_city(),
+				self::get_base_country(),
+				self::get_base_state(),
+				self::get_base_postcode(),
+				self::get_base_city(),
 			);
 
 			if ( isset( $_POST['order_id'] ) && ( $order = wc_get_order( absint( $_POST['order_id'] ) ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
@@ -249,6 +412,112 @@ class Helper {
 		return is_admin() && current_user_can( 'edit_shop_orders' ) && self::is_admin_order_ajax_request();
 	}
 
+	protected static function is_rest_api_request() {
+		if ( function_exists( 'WC' ) ) {
+			$wc = WC();
+
+			if ( is_callable( array( $wc, 'is_rest_api_request' ) ) ) {
+				return $wc->is_rest_api_request();
+			}
+		}
+
+		return false;
+	}
+
+	protected static function get_current_request_value( $key ) {
+		$value                  = null;
+		$is_admin_order_request = self::is_admin_order_request();
+
+		if ( $is_admin_order_request ) {
+			if ( $order = wc_get_order( absint( $_POST['order_id'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+				$getter = "get_{$key}";
+
+				if ( is_callable( array( $order, $getter ) ) ) {
+					$value = $order->{ $getter }();
+				}
+			}
+		} elseif ( did_action( 'woocommerce_checkout_update_order_review' ) ) {
+			if ( in_array(
+				$key,
+				array(
+					'billing_country',
+					'billing_state',
+					'billing_postcode',
+					'billing_city',
+					'billing_address_1',
+					'billing_address_2',
+					'shipping_country',
+					'shipping_state',
+					'shipping_postcode',
+					'shipping_city',
+					'shipping_address_1',
+					'shipping_address_2',
+				),
+				true
+			) ) {
+				$customer = WC()->customer;
+				$getter   = "get_{$key}";
+
+				if ( $customer && is_callable( array( $customer, $getter ) ) ) {
+					$value = $customer->{ $getter }();
+				}
+			} elseif ( isset( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+				$posted = array();
+
+				if ( is_string( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+					parse_str( $_POST['post_data'], $posted ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+					$posted = wc_clean( wp_unslash( $posted ) );
+				} elseif ( is_array( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+					$posted = wc_clean( wp_unslash( $_POST['post_data'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+				}
+
+				$value = isset( $posted[ $key ] ) ? $posted[ $key ] : null;
+
+				/**
+				 * Do only allow retrieving shipping-related data in case shipping address is activated
+				 */
+				if ( 'shipping_' === substr( $key, 0, 9 ) ) {
+					if ( ! isset( $posted['ship_to_different_address'] ) || ! $posted['ship_to_different_address'] || wc_ship_to_billing_address_only() ) {
+						return self::get_current_request_value( str_replace( 'shipping_', 'billing_', $key ) );
+					}
+				}
+			}
+		} else {
+			$getter   = "get_{$key}";
+			$customer = WC()->customer;
+
+			if ( $customer && is_callable( array( $customer, $getter ) ) ) {
+				$value = $customer->{ $getter }();
+			}
+		}
+
+		return apply_filters( 'woocommerce_eu_tax_helper_current_request_data', $value, $key );
+	}
+
+	public static function current_request_is_b2b() {
+		$is_admin_order_request = self::is_admin_order_request();
+		$company                = false;
+
+		if ( $is_admin_order_request ) {
+			if ( $order = wc_get_order( absint( $_POST['order_id'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+				$company = $order->get_billing_company();
+
+				if ( $order->has_shipping_address() ) {
+					$company = $order->get_shipping_company();
+				}
+			}
+		} else {
+			$use_shipping_address = self::get_current_request_value( 'shipping_address_1' ) || self::get_current_request_value( 'shipping_address_2' );
+			$company              = self::get_current_request_value( 'billing_company' );
+
+			if ( $use_shipping_address ) {
+				$company = self::get_current_request_value( 'shipping_company' );
+			}
+		}
+
+		return apply_filters( 'woocommerce_eu_tax_helper_current_request_is_b2b', ! empty( $company ) );
+	}
+
 	public static function current_request_has_vat_exempt() {
 		$is_admin_order_request = self::is_admin_order_request();
 		$is_vat_exempt          = false;
@@ -257,21 +526,51 @@ class Helper {
 			if ( $order = wc_get_order( absint( $_POST['order_id'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 				$is_vat_exempt = apply_filters( 'woocommerce_order_is_vat_exempt', 'yes' === $order->get_meta( 'is_vat_exempt' ), $order );
 			}
-		} else {
-			if ( WC()->customer && WC()->customer->is_vat_exempt() ) {
+		} elseif ( WC()->customer && WC()->customer->is_vat_exempt() ) {
 				$is_vat_exempt = true;
-			}
 		}
 
-		return $is_vat_exempt;
+		return apply_filters( 'woocommerce_eu_tax_helper_current_request_has_vat_exempt', $is_vat_exempt );
 	}
 
 	public static function get_base_country() {
 		if ( WC()->countries ) {
-			return WC()->countries->get_base_country();
+			$base_country = WC()->countries->get_base_country();
 		} else {
-			return wc_get_base_location()['country'];
+			$base_country = wc_get_base_location()['country'];
 		}
+
+		return apply_filters( 'woocommerce_eu_tax_helper_base_country', $base_country );
+	}
+
+	public static function get_base_postcode() {
+		$base_postcode = '';
+
+		if ( WC()->countries ) {
+			$base_postcode = WC()->countries->get_base_postcode();
+		}
+
+		return apply_filters( 'woocommerce_eu_tax_helper_base_postcode', $base_postcode );
+	}
+
+	public static function get_base_state() {
+		$base_state = '';
+
+		if ( WC()->countries ) {
+			$base_state = WC()->countries->get_base_state();
+		}
+
+		return apply_filters( 'woocommerce_eu_tax_helper_base_state', $base_state );
+	}
+
+	public static function get_base_city() {
+		$base_city = '';
+
+		if ( WC()->countries ) {
+			$base_city = WC()->countries->get_base_city();
+		}
+
+		return apply_filters( 'woocommerce_eu_tax_helper_base_city', $base_city );
 	}
 
 	/**
@@ -323,12 +622,9 @@ class Helper {
 		);
 	}
 
-	protected static function import_tax_rates_internal( $is_oss = true, $tax_class_slug_names = array() ) {
-		self::clear_cache();
-
+	public static function maybe_create_tax_classes( $tax_class_slug_names = array() ) {
 		$tax_class_slugs      = self::get_tax_class_slugs( $tax_class_slug_names );
 		$tax_class_slug_names = self::parse_tax_class_slug_names( $tax_class_slug_names );
-		$eu_rates             = self::get_eu_tax_rates();
 
 		foreach ( $tax_class_slugs as $tax_class_type => $class ) {
 			/**
@@ -337,7 +633,6 @@ class Helper {
 			if ( false === $class ) {
 				switch ( $tax_class_type ) {
 					case 'reduced':
-						/* translators: Do not translate */
 						\WC_Tax::create_tax_class( $tax_class_slug_names['reduced'] );
 						break;
 					case 'greater-reduced':
@@ -351,17 +646,33 @@ class Helper {
 						break;
 				}
 			}
+		}
+	}
 
+	public static function generate_tax_rates( $is_oss = true, $tax_class_slug_names = array(), $eu_rates = array(), $add_zero_rates = true ) {
+		self::clear_cache();
+
+		$tax_class_slugs      = self::get_tax_class_slugs( $tax_class_slug_names );
+		$tax_class_slug_names = self::parse_tax_class_slug_names( $tax_class_slug_names );
+		$eu_rates             = empty( $eu_rates ) ? self::get_eu_tax_rates() : $eu_rates;
+
+		self::maybe_create_tax_classes( $tax_class_slug_names );
+
+		$tax_rates = array();
+
+		foreach ( $tax_class_slugs as $tax_class_type => $class ) {
 			$new_rates = array();
 
 			if ( 'zero' === $tax_class_type ) {
-				$new_rates = array(
-					array(
-						'country' => '*',
-						'rate'    => 0.0,
-						'name'    => '',
-					),
-				);
+				if ( $add_zero_rates ) {
+					$new_rates = array(
+						array(
+							'country' => '*',
+							'rate'    => 0.0,
+							'name'    => '',
+						),
+					);
+				}
 			} else {
 				foreach ( $eu_rates as $country => $rates_data ) {
 					/**
@@ -376,7 +687,7 @@ class Helper {
 							 * do only use the last rule (which does not include exempts) to construct non-base country tax rules.
 							 */
 							if ( $base_country !== $country ) {
-								$base_country_base_rate = array_values( array_slice( $eu_rates[ $base_country ], -1 ) )[0];
+								$base_country_base_rate = array_values( array_slice( $eu_rates[ $base_country ], - 1 ) )[0];
 
 								foreach ( $rates_data as $key => $rate_data ) {
 									$rates_data[ $key ] = array_replace_recursive( $rate_data, $base_country_base_rate );
@@ -447,7 +758,23 @@ class Helper {
 				}
 			}
 
-			self::import_rates( $new_rates, $class, $tax_class_type );
+			$tax_rates[ $tax_class_type ] = array(
+				'tax_class' => $class,
+				'rates'     => $new_rates,
+			);
+		}
+
+		return $tax_rates;
+	}
+
+	protected static function import_tax_rates_internal( $is_oss = true, $tax_class_slug_names = array() ) {
+		$tax_rates = self::generate_tax_rates( $is_oss, $tax_class_slug_names );
+
+		foreach ( $tax_rates as $tax_class_type => $tax_rate_data ) {
+			$class = $tax_rate_data['tax_class'];
+			$rates = $tax_rate_data['rates'];
+
+			self::import_rates( $rates, $class, $tax_class_type );
 		}
 	}
 
@@ -583,7 +910,65 @@ class Helper {
 		return apply_filters( 'woocommerce_eu_tax_helper_country_rate_tax_type', $tax_type, $country, $rate_percentage );
 	}
 
-	public static function get_eu_tax_rates() {
+	public static function get_eu_tax_rate_changesets( $apply_postcode_exempts = true ) {
+		$changesets = array(
+			'2024-01-01' => array(
+				'CZ' => array(
+					array(
+						'standard' => 21,
+						'reduced'  => array( 12 ),
+					),
+				),
+				'EE' => array(
+					array(
+						'standard' => 22,
+						'reduced'  => array( 9 ),
+					),
+				),
+			),
+			'2024-01-02' => array(
+				'LU' => array(
+					array(
+						'standard'      => 17,
+						'reduced'       => array( 8 ),
+						'super-reduced' => 3,
+					),
+				),
+			),
+			'2024-09-01' => array(
+				'FI' => array(
+					array(
+						'standard' => 25.5,
+						'reduced'  => array( 10, 14 ),
+					),
+				),
+			),
+			'2025-01-01' => array(
+				'SK' => array(
+					array(
+						'standard' => 23,
+						'reduced'  => array( 19 ),
+					),
+				),
+				'EE' => array(
+					array(
+						'standard' => 22,
+						'reduced'  => array( 9, 13 ),
+					),
+				),
+			),
+		);
+
+		if ( $apply_postcode_exempts ) {
+			foreach ( $changesets as $date => $tax_rates ) {
+				$changesets[ $date ] = self::apply_vat_postcode_exempts( $tax_rates );
+			}
+		}
+
+		return $changesets;
+	}
+
+	public static function get_eu_tax_rates( $apply_changesets = true ) {
 		/**
 		 * @see https://europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm
 		 *
@@ -617,7 +1002,7 @@ class Helper {
 			'CZ' => array(
 				array(
 					'standard' => 21,
-					'reduced'  => array( 10, 15 ),
+					'reduced'  => array( 12 ),
 				),
 			),
 			'DE' => array(
@@ -634,8 +1019,8 @@ class Helper {
 			),
 			'EE' => array(
 				array(
-					'standard' => 20,
-					'reduced'  => array( 9 ),
+					'standard' => 22,
+					'reduced'  => array( 9, 13 ),
 				),
 			),
 			'GR' => array(
@@ -653,7 +1038,7 @@ class Helper {
 			),
 			'FI' => array(
 				array(
-					'standard' => 24,
+					'standard' => 25.5,
 					'reduced'  => array( 10, 14 ),
 				),
 			),
@@ -698,8 +1083,8 @@ class Helper {
 			),
 			'LU' => array(
 				array(
-					'standard'      => 16,
-					'reduced'       => array( 7 ),
+					'standard'      => 17,
+					'reduced'       => array( 8 ),
 					'super-reduced' => 3,
 				),
 			),
@@ -739,7 +1124,7 @@ class Helper {
 					// Madeira
 					'postcode' => array( '90*', '91*', '92*', '93*', '94*' ),
 					'standard' => 22,
-					'reduced'  => array( 5, 12 ),
+					'reduced'  => array( 4, 12 ),
 					'name'     => _x( 'Madeira', 'tax-helper', 'woocommerce-germanized' ),
 				),
 				array(
@@ -774,8 +1159,8 @@ class Helper {
 			),
 			'SK' => array(
 				array(
-					'standard' => 20,
-					'reduced'  => array( 10 ),
+					'standard' => 23,
+					'reduced'  => array( 19 ),
 				),
 			),
 			'GB' => array(
@@ -788,6 +1173,27 @@ class Helper {
 			),
 		);
 
+		if ( $apply_changesets ) {
+			$changesets = self::get_eu_tax_rate_changesets( false );
+			$today      = new \WC_DateTime();
+
+			foreach ( $changesets as $date => $changeset ) {
+				$changeset_date = wc_string_to_datetime( $date . ' 00:00:00' );
+
+				if ( $today >= $changeset_date ) {
+					foreach ( $changeset as $country => $tax_rates ) {
+						$rates[ $country ] = $tax_rates;
+					}
+				}
+			}
+		}
+
+		$rates = self::apply_vat_postcode_exempts( $rates );
+
+		return $rates;
+	}
+
+	protected static function apply_vat_postcode_exempts( $rates ) {
 		foreach ( self::get_vat_postcode_exemptions_by_country() as $country => $exempt_postcodes ) {
 			if ( array_key_exists( $country, $rates ) ) {
 				$default_rate = array_values( $rates[ $country ] )[0];
@@ -829,19 +1235,33 @@ class Helper {
 		return false;
 	}
 
-	public static function import_rates( $rates, $tax_class = '', $tax_class_type = '' ) {
+	public static function delete_tax_rates_by_country( $country ) {
 		global $wpdb;
 
+		$country = strtoupper( $country );
+
+		foreach ( self::get_tax_class_slugs() as $tax_class ) {
+			$tax_rates = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}woocommerce_tax_rates` WHERE `tax_rate_class` = %s AND `tax_rate_country` = %s;", $tax_class, $country ) );
+
+			foreach ( $tax_rates as $tax_rate ) {
+				\WC_Tax::_delete_tax_rate( $tax_rate->tax_rate_id );
+			}
+		}
+	}
+
+	public static function import_rates( $rates, $tax_class = '', $tax_class_type = '', $clean = true ) {
 		$eu_countries = self::get_eu_vat_countries();
 
 		/**
 		 * Delete EU tax rates and make sure tax rate locations are deleted too
 		 */
-		foreach ( \WC_Tax::get_rates_for_tax_class( $tax_class ) as $rate_id => $rate ) {
-			if ( in_array( $rate->tax_rate_country, $eu_countries, true ) || self::tax_rate_is_northern_ireland( $rate ) || ( 'GB' === $rate->tax_rate_country && 'GB' !== self::get_base_country() ) ) {
-				\WC_Tax::_delete_tax_rate( $rate_id );
-			} elseif ( 'zero' === $tax_class_type && empty( $rate->tax_rate_country ) ) {
-				\WC_Tax::_delete_tax_rate( $rate_id );
+		if ( $clean ) {
+			foreach ( \WC_Tax::get_rates_for_tax_class( $tax_class ) as $rate_id => $rate ) {
+				if ( in_array( $rate->tax_rate_country, $eu_countries, true ) || self::tax_rate_is_northern_ireland( $rate ) || ( 'GB' === $rate->tax_rate_country && 'GB' !== self::get_base_country() ) ) {
+					\WC_Tax::_delete_tax_rate( $rate_id );
+				} elseif ( 'zero' === $tax_class_type && empty( $rate->tax_rate_country ) ) {
+					\WC_Tax::_delete_tax_rate( $rate_id );
+				}
 			}
 		}
 

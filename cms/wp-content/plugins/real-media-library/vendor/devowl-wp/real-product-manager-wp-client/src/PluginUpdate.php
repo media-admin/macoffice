@@ -14,6 +14,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\view\P
  * Plugin update and license handling. If the plugin is hosted on wordpress.org, this
  * class never does anything. But notice, that wordpress.org plugins also needs to "Complete
  * the setup" and get a "free license" from the RPM license server.
+ * @internal
  */
 class PluginUpdate
 {

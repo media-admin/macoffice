@@ -9,6 +9,7 @@ use MatthiasWeb\RealMediaLibrary\api\IMetadata;
 // @codeCoverageIgnoreEnd
 /**
  * Implements a description field.
+ * @internal
  */
 class Description implements IMetadata
 {

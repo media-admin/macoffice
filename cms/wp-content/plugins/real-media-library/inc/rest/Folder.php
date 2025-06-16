@@ -16,6 +16,7 @@ use WP_REST_Response;
 // @codeCoverageIgnoreEnd
 /**
  * Enables the /folders REST for all creatable items.
+ * @internal
  */
 class Folder implements IOverrideFolder
 {

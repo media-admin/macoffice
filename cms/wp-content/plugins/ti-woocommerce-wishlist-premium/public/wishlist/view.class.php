@@ -59,11 +59,18 @@ class TInvWL_Public_Wishlist_View {
 	public $sort;
 
 	/**
-	 * Total pages
+	 * Current page number for pagination.
 	 *
 	 * @var int
 	 */
-	public $pages;
+	private $paged;
+
+	/**
+	 * Total number of pages for pagination.
+	 *
+	 * @var int
+	 */
+	private $pages;
 
 	/**
 	 * Wishlist full URL
@@ -399,7 +406,7 @@ class TInvWL_Public_Wishlist_View {
 	 * @return boolean
 	 */
 	function product_allow_add_to_cart( $allow, $wlproduct, $product ) {
-		if ( ! $allow ) {
+		if ( ! $allow || 'variable' === $product->get_type() ) {
 			return false;
 		}
 
@@ -444,7 +451,6 @@ class TInvWL_Public_Wishlist_View {
 		if ( is_page( apply_filters( 'wpml_object_id', tinv_get_option( 'page', 'wishlist' ), 'page', true ) ) ) {
 			$wishlist = $this->get_current_wishlist();
 			if ( $wishlist && 0 < $wishlist['ID'] ) {
-				$this->wishlist_url = tinv_url_wishlist( $wishlist['share_key'] );
 				if ( 'private' !== $wishlist['status'] && tinv_get_option( 'social', 'facebook' ) ) {
 					if ( is_user_logged_in() ) {
 						$user = get_user_by( 'id', $wishlist['author'] );
@@ -547,6 +553,9 @@ class TInvWL_Public_Wishlist_View {
 				return $this->wishlist_null();
 			}
 		}
+
+		$this->wishlist_url = tinv_url_wishlist( $wishlist['share_key'] );
+
 		if ( ! in_array( $wishlist['type'], apply_filters( 'tinvwl_wishlist_type_exclusion', array( 'default' ) ) ) && ! tinv_get_option( 'general', 'multi' ) ) {
 			if ( $wishlist['is_owner'] ) {
 				printf( '<p><a href="%s">%s</p><script type="text/javascript">window.location.href="%s"</script>', esc_attr( tinv_url_wishlist_default() ), esc_html( __( 'Return to Wishlist', 'ti-woocommerce-wishlist-premium' ) ), esc_attr( tinv_url_wishlist_default() ) );

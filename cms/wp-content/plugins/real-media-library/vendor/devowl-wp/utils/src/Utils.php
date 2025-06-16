@@ -3,6 +3,9 @@
 namespace MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils;
 
 use Exception;
+use MatthiasWeb\RealMediaLibrary\Vendor\JsonMachine\Items;
+use MatthiasWeb\RealMediaLibrary\Vendor\JsonMachine\JsonDecoder\ExtJsonDecoder;
+use Throwable;
 use WP_Error;
 use WP_Filesystem_Direct;
 use WP_Hook;
@@ -13,9 +16,87 @@ use WP_Rewrite;
 // @codeCoverageIgnoreEnd
 /**
  * Utility helpers.
+ * @internal
  */
 class Utils
 {
+    /**
+     * Pull a JSON file from a remote URL and parse it, effectively by streaming it.
+     * If streaming is not possible, it falls back to a normal `wp_remote_get` call which could
+     * cause memory issues.
+     *
+     * Attention: When using this static method, make sure to install [jsonmachine](https://packagist.org/packages/halaxa/json-machine)
+     * on your project as this is a peer dependency.
+     *
+     * @param string $url
+     * @param string[] $instantPointers This pathes are used to read scalar values which are not too big so we can directly parse them
+     * @param string[] $arrayInstantPointers This pathes are used to read array values which are not too big so we can directly parse them
+     * @param string[] $nonInstantPointers This pathes are used to read non-scalar values which are too big so we parse them via streaming
+     * @param boolean $useFallback
+     */
+    public static function pullJson($url, $instantPointers = [], $arrayInstantPointers = [], $nonInstantPointers = [], $useFallback = \false)
+    {
+        // Check if JsonMachine is installed
+        if (!\class_exists(Items::class) && !$useFallback) {
+            // Fallback to normal `wp_remote_get` call
+            return self::pullJson($url, $instantPointers, $arrayInstantPointers, $nonInstantPointers, \true);
+        }
+        // We need to use this file method to avoid memory issues and read the response as a stream
+        if (!$useFallback) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            $tempFile = \wp_tempnam();
+            if (!$tempFile) {
+                // Fallback to normal `wp_remote_get` call
+                return self::pullJson($url, $instantPointers, $arrayInstantPointers, $nonInstantPointers, \true);
+            }
+            \register_shutdown_function(function () use($tempFile) {
+                if (\file_exists($tempFile)) {
+                    @\unlink($tempFile);
+                }
+            });
+        }
+        $response = \wp_remote_get($url, $useFallback ? [] : ['stream' => \true, 'filename' => $tempFile]);
+        if (\is_wp_error($response)) {
+            // Fallback to normal `wp_remote_get` call
+            return $useFallback ? $response : self::pullJson($url, $instantPointers, $arrayInstantPointers, $nonInstantPointers, \true);
+        }
+        $code = \wp_remote_retrieve_response_code($response);
+        $codeIsOk = $code >= 200 && $code < 300;
+        if (!$codeIsOk) {
+            return new WP_Error('pull_json_remote_failed', $response['response']['message'] ?? '');
+        }
+        if ($useFallback) {
+            $body = \wp_remote_retrieve_body($response);
+            return \is_wp_error($body) ? $body : \json_decode($body, ARRAY_A);
+        }
+        try {
+            // Read scalar values we can store in the class instance without memory issues as they are not too big
+            $result = [];
+            if (\count($instantPointers) > 0) {
+                $result = \iterator_to_array(Items::fromFile($tempFile, ['pointer' => $instantPointers, 'decoder' => new ExtJsonDecoder(\true)]));
+            }
+            // Read array values we can store in the class instance without memory issues as they are not too big
+            if (\count($arrayInstantPointers) > 0) {
+                $data = Items::fromFile($tempFile, ['pointer' => $arrayInstantPointers, 'decoder' => new ExtJsonDecoder(\true)]);
+                foreach ($arrayInstantPointers as $pointer) {
+                    $propertyName = \substr($pointer, 1);
+                    $result[$propertyName] = [];
+                }
+                foreach ($data as $key => $value) {
+                    $propertyName = \substr($data->getCurrentJsonPointer(), 1);
+                    $result[$propertyName][$key] = $value;
+                }
+            }
+            foreach ($nonInstantPointers as $pointer) {
+                $propertyName = \substr($pointer, 1);
+                $result[$propertyName] = Items::fromFile($tempFile, ['pointer' => $pointer, 'decoder' => new ExtJsonDecoder(\true)]);
+            }
+            return $result;
+        } catch (Throwable $e) {
+            // Fallback to normal `wp_remote_get` call
+            return $useFallback ? [] : self::pullJson($url, $instantPointers, $arrayInstantPointers, $nonInstantPointers, \true);
+        }
+    }
     /**
      * Run $callback with the $handler disabled for the $hook action/filter
      *
@@ -250,5 +331,136 @@ class Utils
             }
         }
         return $result;
+    }
+    /**
+     * Get the list of active plugins in a map: File => Name. This is needed for the config and the
+     * notice for `skip-if-active` attribute in cookie opt-in codes.
+     *
+     * @param boolean $includeSlugs
+     * @param callable $filter
+     */
+    public static function getActivePluginsMap($includeSlugs = \true, $filter = null)
+    {
+        $result = [];
+        $plugins = \array_merge(\get_option('active_plugins'), \is_multisite() ? \array_keys(\get_site_option('active_sitewide_plugins')) : []);
+        foreach ($plugins as $pluginFile) {
+            $pluginFilePath = \constant('WP_PLUGIN_DIR') . '/' . $pluginFile;
+            if (\file_exists($pluginFilePath)) {
+                $data = \get_plugin_data($pluginFilePath);
+                if ($filter !== null && $filter($data) === \false) {
+                    continue;
+                }
+                $name = \wp_specialchars_decode($data['Name']);
+                $result[$pluginFile] = $name;
+                if ($includeSlugs) {
+                    $slug = \explode('/', $pluginFile)[0];
+                    $result[$slug] = $name;
+                }
+            }
+        }
+        return $result;
+    }
+    /**
+     * Join an array of strings together with comma and the last one with `and`.
+     *
+     * @param string[] $array
+     * @param string $andSeparator
+     */
+    public static function joinWithAndSeparator($array, $andSeparator)
+    {
+        if (\count($array) > 1) {
+            \array_splice($array, \count($array) - 1, 0, ['{{andSeparator}}']);
+        }
+        return \str_replace(', {{andSeparator}}, ', $andSeparator, \join(', ', $array));
+    }
+    /**
+     * Allows to set an array value by passing a key path like `my.awesome.key`.
+     *
+     * @param array $array
+     * @param string $keyPath
+     * @param callable $callback
+     */
+    public static function arrayModifyByKeyPath(&$array, $keyPath, $callback)
+    {
+        $keys = \explode('.', $keyPath);
+        $current =& $array;
+        $pathExists = \true;
+        foreach ($keys as $i => $key) {
+            if (!isset($current[$key])) {
+                $pathExists = \false;
+                break;
+            }
+            if ($i < \count($keys) - 1) {
+                $current =& $current[$key];
+            }
+        }
+        // If the path exists, use the callback to set the new value.
+        if ($pathExists) {
+            $lastKey = \end($keys);
+            if (isset($current[$lastKey])) {
+                $current[$lastKey] = $callback($current[$lastKey]);
+            }
+        }
+    }
+    /**
+     * This hash function is used to generate a simple hash from a given string. This is very simple
+     * so it can be used in frontend (e.g. Webpack chunk loading).
+     *
+     * @param string $s
+     */
+    public static function simpleHash($s)
+    {
+        $a = 0;
+        foreach (\str_split($s) as $char) {
+            $charCode = \ord($char);
+            // Force PHP to perform integer arithmetic by using bitwise operations.
+            // Use & to ensure the result stays within PHP's integer size.
+            $a = ($a << 5 & \PHP_INT_MAX) - $a + $charCode;
+            // Use a bitwise AND with a large prime number to ensure the result stays within 64-bit bounds
+            // and to avoid negative numbers on systems where PHP ints are 64 bits.
+            $a = $a & 0x7fffffff;
+            // This is the largest 31-bit positive integer
+        }
+        return $a;
+    }
+    /**
+     * This obfuscate function is used to generate a simple encrypted string from a text and secret. This is very
+     * simple so it can be used in frontend (e.g. URL obfuscating). This is not a real encryption as it uses
+     * the Vignere Cipher implementation.
+     *
+     * @param string $input
+     * @param string $key The key needs to contain only alphanumeric values, e.g. no spaces
+     * @param boolean $encipher
+     * @see https://www.programmingalgorithms.com/algorithm/vigenere-cipher/php/
+     */
+    public static function simpleObfuscate($input, $key, $encipher)
+    {
+        $keyLen = \strlen($key);
+        if (!\ctype_alnum($key)) {
+            return '';
+        }
+        $output = '';
+        $nonAlphaCharCount = 0;
+        $inputLen = \strlen($input);
+        for ($i = 0; $i < $inputLen; ++$i) {
+            if (\ctype_alpha($input[$i])) {
+                $cIsUpper = \ctype_upper($input[$i]);
+                $offset = \ord($cIsUpper ? 'A' : 'a');
+                $keyIndex = ($i - $nonAlphaCharCount) % $keyLen;
+                $keyChar = $key[$keyIndex];
+                if (\is_numeric($keyChar)) {
+                    $k = \intval($keyChar);
+                } else {
+                    $k = \ord($cIsUpper ? \strtoupper($keyChar) : \strtolower($keyChar)) - $offset;
+                }
+                $k = $encipher ? $k : -$k;
+                $ch = \chr(((\ord($input[$i]) + $k - $offset) % 26 + 26) % 26 + $offset);
+                $output .= $ch;
+            } else {
+                $output .= $input[$i];
+                ++$nonAlphaCharCount;
+            }
+        }
+        return $output;
     }
 }

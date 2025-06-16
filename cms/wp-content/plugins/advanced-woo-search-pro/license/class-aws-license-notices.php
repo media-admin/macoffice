@@ -24,7 +24,7 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
         /**
          * @var AWS_License_Notices Plugin data
          */
-        private $plugin_info = array();
+        private $plugin_info = false;
 
         /**
          * Main AWS_License_Notices Instance
@@ -44,7 +44,11 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
         /*
         * Constructor
         */
-        function __construct() {
+        private function __construct() {
+
+            if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+                return;
+            }
 
             /**
              * Disable all plugin license notices
@@ -57,10 +61,6 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
                 return;
             }
 
-            $this->license_key = AWS_PRO()->license->get_license_key();
-
-            $this->plugin_info = AWS_PRO()->license->updater->get_plugin_info();
-
             add_action( 'admin_init', array( $this, 'add_menu_notices' ) );
 
             add_action( 'aws_updater_page_top', array( $this, 'add_updater_messages' ) );
@@ -72,14 +72,37 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
         }
 
         /*
+         * Get plugin license key
+         */
+        private function get_license_key() {
+            if ( ! $this->license_key ) {
+                $this->license_key = AWS_PRO()->license->get_license_key();
+            }
+            return $this->license_key;
+        }
+
+        /*
+         * Get plugin info data
+         */
+        private function get_plugin_info() {
+            if ( ! $this->plugin_info  ) {
+                $this->plugin_info = AWS_PRO()->license->updater->get_plugin_info();
+            }
+            return $this->plugin_info;
+        }
+
+        /*
          * Add updater page messages
          */
         public function add_updater_messages() {
 
+            $license_key = $this->get_license_key();
+            $plugin_info = $this->get_plugin_info();
+
             $html = '';
 
             // show when license key field is empty
-            if ( ! $this->license_key ) {
+            if ( ! $license_key ) {
                 $html .= '<div class="aws-license-notice">';
                     $html .= '<div class="aws-license-notice--content">';
                         $html .= '<h2>' . __( 'License key inactive', 'advanced-woo-search' ) . '</h2>';
@@ -89,8 +112,8 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
             }
 
             // show when license key expired ( license inactive )
-            if ( $this->license_key && $this->plugin_info && $this->plugin_info->license_status && $this->plugin_info->license_status === 'expired' ) {
-                $renew_link = property_exists( $this->plugin_info, 'renewal_link' ) && $this->plugin_info->renewal_link ? $this->plugin_info->renewal_link : 'https://portal.advanced-woo-search.com/';
+            if ( $license_key && $plugin_info && $plugin_info->license_status && $plugin_info->license_status === 'expired' ) {
+                $renew_link = property_exists( $plugin_info, 'renewal_link' ) && $plugin_info->renewal_link ? $plugin_info->renewal_link : 'https://portal.advanced-woo-search.com/';
                 $html .= '<div class="aws-license-notice">';
                     $html .= '<div class="aws-license-notice--content">';
                         $html .= '<h2>' . __( 'License key expired', 'advanced-woo-search' ) . '</h2>';
@@ -102,11 +125,11 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
             }
 
             // show when missed 5+ plugin updates
-            if ( $this->plugin_info && property_exists( $this->plugin_info, 'updates_missed' ) && intval( $this->plugin_info->updates_missed ) > 5 ) {
+            if ( $plugin_info && property_exists( $plugin_info, 'updates_missed' ) && intval( $plugin_info->updates_missed ) > 5 ) {
                 $html .= '<div class="aws-license-notice">';
                     $html .= '<div class="aws-license-notice--content">';
                         $html .= '<h2>' . __( 'Important plugin updates missed', 'advanced-woo-search' ) . '</h2>';
-                        $html .= '<p>' . sprintf( __( 'Looks like you missed %s plugin updates. Please update the plugin to the latest version. It is very important to always use the latest plugin version as it can contain bugs/compatibility fixes and new cool features.', 'advanced-woo-search' ), '<strong style="color: #ff0000;">'.$this->plugin_info->updates_missed.'</strong>' ) . '</p>';
+                        $html .= '<p>' . sprintf( __( 'Looks like you missed %s plugin updates. Please update the plugin to the latest version. It is very important to always use the latest plugin version as it can contain bugs/compatibility fixes and new cool features.', 'advanced-woo-search' ), '<strong style="color: #ff0000;">'.$plugin_info->updates_missed.'</strong>' ) . '</p>';
                     $html .= '</div>';
                 $html .= '</div>';
             }
@@ -130,7 +153,7 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
 
             $license_action_html = '<span class="aws-updater-actions update-plugins" style="background-color:#ff0000;margin-left: 5px;"><span class="aws-updater-actions-count">' . $notices_num . '</span></span>';
 
-            if ( current_user_can( 'manage_options' ) ) {
+            if ( current_user_can( AWS_Admin_Helpers::user_admin_capability() ) ) {
 
                 if ( $menu ) {
                     foreach ( $menu as $menu_key => $menu_item ) {
@@ -165,14 +188,17 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
                 return;
             }
 
-            if ( ! current_user_can( 'manage_options' ) ) {
+            if ( ! current_user_can( AWS_Admin_Helpers::user_admin_capability() ) ) {
                 return;
             }
 
+            $license_key = $this->get_license_key();
+            $plugin_info = $this->get_plugin_info();
+
             $notices = array();
 
-            $is_license_expired = $this->license_key && $this->plugin_info && $this->plugin_info->license_status && $this->plugin_info->license_status === 'expired';
-            $renew_link = $this->license_key && $this->plugin_info && property_exists( $this->plugin_info, 'renewal_link' ) && $this->plugin_info->renewal_link ? $this->plugin_info->renewal_link : 'https://portal.advanced-woo-search.com/';
+            $is_license_expired = $license_key && $plugin_info && $plugin_info->license_status && $plugin_info->license_status === 'expired';
+            $renew_link = $license_key && $plugin_info && property_exists( $plugin_info, 'renewal_link' ) && $plugin_info->renewal_link ? $plugin_info->renewal_link : 'https://portal.advanced-woo-search.com/';
 
             // show when license key expired ( license inactive )
             if ( $is_license_expired ) {
@@ -198,9 +224,9 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
             }
 
             // show when missed 5+, 10+, 15+ plugin updates and license is empty or expired
-            if ( ( $is_license_expired || ! $this->license_key ) && $this->plugin_info && property_exists( $this->plugin_info, 'updates_missed' ) && intval( $this->plugin_info->updates_missed ) > 5  ) {
+            if ( ( $is_license_expired || ! $license_key ) && $plugin_info && property_exists( $plugin_info, 'updates_missed' ) && intval( $plugin_info->updates_missed ) > 5  ) {
 
-                $num_missed_updates = intval( $this->plugin_info->updates_missed );
+                $num_missed_updates = intval( $plugin_info->updates_missed );
 
                 if ( $num_missed_updates >= 15 ) {
                     $updates_option_cur_value = '15';
@@ -235,7 +261,7 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
                             ),
                         );
 
-                    } elseif ( ! $this->license_key ) {
+                    } elseif ( ! $license_key ) {
 
                         $bottom_msg = '<p>' . __('Your license key is inactive. Please activate it to start receiving plugin updates.', 'advanced-woo-search') . '</p>';
                         $buttons = array(
@@ -260,9 +286,9 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
             }
 
             // plugin custom global notices
-            if ( $this->plugin_info && property_exists( $this->plugin_info, 'custom_messages' ) && is_array( $this->plugin_info->custom_messages ) && isset( $this->plugin_info->custom_messages['global'] ) ) {
+            if ( $plugin_info && property_exists( $plugin_info, 'custom_messages' ) && is_array( $plugin_info->custom_messages ) && isset( $plugin_info->custom_messages['global'] ) ) {
 
-                $custom_messages = is_array( $this->plugin_info->custom_messages['global'] ) ? $this->plugin_info->custom_messages['global'] : array();
+                $custom_messages = is_array( $plugin_info->custom_messages['global'] ) ? $plugin_info->custom_messages['global'] : array();
 
                 foreach ( $custom_messages as $custom_message ) {
                     $notices[] = $custom_message;
@@ -341,17 +367,20 @@ if ( ! class_exists( 'AWS_License_Notices' ) ) :
          */
         private function calculate_notices_num() {
 
+            $license_key = $this->get_license_key();
+            $plugin_info = $this->get_plugin_info();
+
             $num = 0;
 
-            if ( ! $this->license_key ) {
+            if ( ! $license_key ) {
                 $num++;
             }
 
-            if ( $this->license_key && $this->plugin_info && $this->plugin_info->license_status && $this->plugin_info->license_status === 'expired' ) {
+            if ( $license_key && $plugin_info && $plugin_info->license_status && $plugin_info->license_status === 'expired' ) {
                 $num++;
             }
 
-            if ( $this->plugin_info && property_exists( $this->plugin_info, 'updates_missed' ) && intval( $this->plugin_info->updates_missed ) > 5 ) {
+            if ( $plugin_info && property_exists( $plugin_info, 'updates_missed' ) && intval( $plugin_info->updates_missed ) > 5 ) {
                 $num++;
             }
 

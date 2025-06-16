@@ -31,6 +31,20 @@ class TInvWL_Wizard {
 	public $_version;
 
 	/**
+	 * Current page in the wizard.
+	 *
+	 * @var int|string
+	 */
+	private $page;
+
+	/**
+	 * Method to be called for the current page.
+	 *
+	 * @var callable
+	 */
+	private $method;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $plugin_name Plugin name.
@@ -72,8 +86,8 @@ class TInvWL_Wizard {
 		}
 
 		$this->page = filter_input( INPUT_GET, 'step', FILTER_VALIDATE_INT, array(
-				'default'   => 0,
-				'min_range' => 0,
+			'default'   => 0,
+			'min_range' => 0,
 		) );
 		if ( empty( $this->page ) ) {
 			$this->page = 'intro';
@@ -95,11 +109,11 @@ class TInvWL_Wizard {
 				$url_attr['step'] = 0;
 			}
 			$url_attr = filter_var_array( $url_attr, array(
-					'step' => array(
-							'filter'    => FILTER_VALIDATE_INT,
-							'default'   => 0,
-							'min_range' => 0,
-					),
+				'step' => array(
+					'filter'    => FILTER_VALIDATE_INT,
+					'default'   => 0,
+					'min_range' => 0,
+				),
 			) );
 			if ( empty( $url_attr['step'] ) ) {
 				$url_attr['step'] = 'intro';
@@ -138,9 +152,9 @@ class TInvWL_Wizard {
 		$index ++;
 
 		return 'index.php?' . http_build_query( array(
-						'page' => 'tinvwl-wizard',
-						'step' => $index,
-				) );
+				'page' => 'tinvwl-wizard',
+				'step' => $index,
+			) );
 	}
 
 	/**
@@ -162,10 +176,10 @@ class TInvWL_Wizard {
 		}
 
 		TInvWL_View::view( 'header', array(
-				'title'      => $title,
-				'content'    => $content,
-				'page'       => $this->page,
-				'list_steps' => $this->get_list_steps(),
+			'title'      => $title,
+			'content'    => $content,
+			'page'       => $this->page,
+			'list_steps' => $this->get_list_steps(),
 		), 'wizard' );
 	}
 
@@ -174,11 +188,11 @@ class TInvWL_Wizard {
 	 */
 	function enqueue_styles() {
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		if (apply_filters('tinvwl_load_webfont_admin', true)) {
-			wp_enqueue_style($this->_name . '-gfonts', (is_ssl() ? 'https' : 'http') . '://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800', '', null, 'all');
-			wp_enqueue_style($this->_name . '-webfont', TINVWL_URL . 'assets/css/webfont' . $suffix . '.css', array(), $this->_version, 'all');
-			wp_style_add_data($this->_name . '-webfont', 'rtl', 'replace');
-			wp_style_add_data($this->_name . '-webfont', 'suffix', $suffix);
+		if ( apply_filters( 'tinvwl_load_webfont_admin', true ) ) {
+			wp_enqueue_style( $this->_name . '-gfonts', ( is_ssl() ? 'https' : 'http' ) . '://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800', '', null, 'all' );
+			wp_enqueue_style( $this->_name . '-webfont', TINVWL_URL . 'assets/css/webfont' . $suffix . '.css', array(), $this->_version, 'all' );
+			wp_style_add_data( $this->_name . '-webfont', 'rtl', 'replace' );
+			wp_style_add_data( $this->_name . '-webfont', 'suffix', $suffix );
 		}
 		wp_enqueue_style( $this->_name, TINVWL_URL . 'assets/css/admin' . $suffix . '.css', array(), $this->_version, 'all' );
 		wp_style_add_data( $this->_name, 'rtl', 'replace' );
@@ -187,8 +201,8 @@ class TInvWL_Wizard {
 		wp_style_add_data( $this->_name . '-form', 'rtl', 'replace' );
 		wp_style_add_data( $this->_name . '-form', 'suffix', $suffix );
 		wp_enqueue_style( $this->_name . '-setup', TINVWL_URL . 'assets/css/admin-setup' . $suffix . '.css', array(
-				'dashicons',
-				'install',
+			'dashicons',
+			'install',
 		), $this->_version, 'all' );
 		wp_style_add_data( $this->_name . '-setup', 'rtl', 'replace' );
 		wp_style_add_data( $this->_name . '-setup', 'suffix', $suffix );
@@ -262,8 +276,8 @@ class TInvWL_Wizard {
 		}
 
 		TInvWL_View::view( 'footer', array(
-				'content' => $content,
-				'page'    => $this->page,
+			'content' => $content,
+			'page'    => $this->page,
 		), 'wizard' );
 	}
 
@@ -297,16 +311,16 @@ class TInvWL_Wizard {
 	 */
 	function wizard_1() {
 		$data = array(
-				'general_multi_value'    => ( tinv_get_option( 'general', 'multi' ) ? 'many' : 'one' ),
-				'general_multi_options'  => array(
-						'one'  => __( 'only one', 'ti-woocommerce-wishlist-premium' ),
-						'many' => __( 'as many as they need', 'ti-woocommerce-wishlist-premium' ),
-				),
-				'general_guests_value'   => ( tinv_get_option( 'general', 'guests' ) ? 'guests' : 'registered' ),
-				'general_guests_options' => array(
-						'registered' => __( 'Only registered customer', 'ti-woocommerce-wishlist-premium' ),
-						'guests'     => __( 'Anyone can add to wishlist', 'ti-woocommerce-wishlist-premium' ),
-				),
+			'general_multi_value'    => ( tinv_get_option( 'general', 'multi' ) ? 'many' : 'one' ),
+			'general_multi_options'  => array(
+				'one'  => __( 'only one', 'ti-woocommerce-wishlist-premium' ),
+				'many' => __( 'as many as they need', 'ti-woocommerce-wishlist-premium' ),
+			),
+			'general_guests_value'   => ( tinv_get_option( 'general', 'guests' ) ? 'guests' : 'registered' ),
+			'general_guests_options' => array(
+				'registered' => __( 'Only registered customer', 'ti-woocommerce-wishlist-premium' ),
+				'guests'     => __( 'Anyone can add to wishlist', 'ti-woocommerce-wishlist-premium' ),
+			),
 		);
 		TInvWL_View::view( 'step-general', $data, 'wizard' );
 	}
@@ -316,8 +330,8 @@ class TInvWL_Wizard {
 	 */
 	function wizard_1_save() {
 		$data = filter_input_array( INPUT_POST, array(
-				'general_multi'  => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-				'general_guests' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'general_multi'  => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'general_guests' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		) );
 		tinv_update_option( 'general', 'multi', 'many' === $data['general_multi'] );
 		tinv_update_option( 'general', 'guests', 'guests' === $data['general_guests'] );
@@ -337,17 +351,17 @@ class TInvWL_Wizard {
 	 */
 	function wizard_2() {
 		$title_pages = array(
-				'manage'   => __( 'Manage Wishlists', 'ti-woocommerce-wishlist-premium' ),
-				'wishlist' => __( 'Wishlist', 'ti-woocommerce-wishlist-premium' ),
-				'search'   => __( 'Wishlist Search Results', 'ti-woocommerce-wishlist-premium' ),
-				'public'   => __( 'Public Wishlists', 'ti-woocommerce-wishlist-premium' ),
-				'searchp'  => __( 'Wishlist Search', 'ti-woocommerce-wishlist-premium' ),
-				'create'   => __( 'Create Wishlist', 'ti-woocommerce-wishlist-premium' ),
+			'manage'   => __( 'Manage Wishlists', 'ti-woocommerce-wishlist-premium' ),
+			'wishlist' => __( 'Wishlist', 'ti-woocommerce-wishlist-premium' ),
+			'search'   => __( 'Wishlist Search Results', 'ti-woocommerce-wishlist-premium' ),
+			'public'   => __( 'Public Wishlists', 'ti-woocommerce-wishlist-premium' ),
+			'searchp'  => __( 'Wishlist Search', 'ti-woocommerce-wishlist-premium' ),
+			'create'   => __( 'Create Wishlist', 'ti-woocommerce-wishlist-premium' ),
 		);
 		$lists       = get_pages( array( 'number' => 9999999 ) ); // @codingStandardsIgnoreLine WordPress.VIP.RestrictedFunctions.get_pages
 		$page_list   = array(
-				''    => __( 'Create Automatically', 'ti-woocommerce-wishlist-premium' ),
-				- 100 => __( 'Create new Page', 'ti-woocommerce-wishlist-premium' ),
+			''    => __( 'Create Automatically', 'ti-woocommerce-wishlist-premium' ),
+			- 100 => __( 'Create new Page', 'ti-woocommerce-wishlist-premium' ),
 		);
 		$page_name   = array();
 		foreach ( $lists as $list ) {
@@ -355,7 +369,7 @@ class TInvWL_Wizard {
 			$page_name[ $list->post_name ] = $list->ID;
 		}
 		$data = array(
-				'general_default_title_value' => apply_filters( 'tinvwl_default_wishlist_title', tinv_get_option( 'general', 'default_title' ) ),
+			'general_default_title_value' => apply_filters( 'tinvwl_default_wishlist_title', tinv_get_option( 'general', 'default_title' ) ),
 		);
 		foreach ( $title_pages as $key => $text ) {
 			$_data['options']   = $page_list;
@@ -373,23 +387,23 @@ class TInvWL_Wizard {
 	 */
 	function wizard_2_save() {
 		$title_pages     = array(
-				'manage'   => __( 'Manage Wishlists', 'ti-woocommerce-wishlist-premium' ),
-				'wishlist' => __( 'Wishlist', 'ti-woocommerce-wishlist-premium' ),
-				'search'   => __( 'Wishlist Search Results', 'ti-woocommerce-wishlist-premium' ),
-				'public'   => __( 'Public Wishlists', 'ti-woocommerce-wishlist-premium' ),
-				'searchp'  => __( 'Wishlist Search', 'ti-woocommerce-wishlist-premium' ),
-				'create'   => __( 'Create Wishlist', 'ti-woocommerce-wishlist-premium' ),
+			'manage'   => __( 'Manage Wishlists', 'ti-woocommerce-wishlist-premium' ),
+			'wishlist' => __( 'Wishlist', 'ti-woocommerce-wishlist-premium' ),
+			'search'   => __( 'Wishlist Search Results', 'ti-woocommerce-wishlist-premium' ),
+			'public'   => __( 'Public Wishlists', 'ti-woocommerce-wishlist-premium' ),
+			'searchp'  => __( 'Wishlist Search', 'ti-woocommerce-wishlist-premium' ),
+			'create'   => __( 'Create Wishlist', 'ti-woocommerce-wishlist-premium' ),
 		);
 		$shortcode_pages = array(
-				'manage'   => '[ti_wishlists_manage_lists]',
-				'wishlist' => '[ti_wishlistsview]',
-				'search'   => '[ti_wishlists_search]',
-				'searchp'  => '[ti_wishlists_search]',
-				'public'   => '[ti_wishlists_recent]',
-				'create'   => '[ti_wishlists_create]',
+			'manage'   => '[ti_wishlists_manage_lists]',
+			'wishlist' => '[ti_wishlistsview]',
+			'search'   => '[ti_wishlists_search]',
+			'searchp'  => '[ti_wishlists_search]',
+			'public'   => '[ti_wishlists_recent]',
+			'create'   => '[ti_wishlists_create]',
 		);
 		$data            = array(
-				'general_default_title' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'general_default_title' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		);
 		foreach ( array_keys( $title_pages ) as $key ) {
 			$data[ 'page_' . $key ]           = FILTER_VALIDATE_INT;
@@ -417,14 +431,14 @@ class TInvWL_Wizard {
 				$title = apply_filters( 'tinvwl_create_new_page_post_title', $title, $key );
 
 				$_page = array(
-						'post_title'     => $title,
-						'post_content'   => $shortcode,
-						'post_status'    => '',
-						'post_name'      => 'wishlist' === $key ? $key : 'wishlist-' . $key,
-						'post_type'      => 'page',
-						'comment_status' => 'closed',
-						'ping_status'    => 'closed',
-						'post_category'  => array( 1 ),
+					'post_title'     => $title,
+					'post_content'   => $shortcode,
+					'post_status'    => '',
+					'post_name'      => 'wishlist' === $key ? $key : 'wishlist-' . $key,
+					'post_type'      => 'page',
+					'comment_status' => 'closed',
+					'ping_status'    => 'closed',
+					'post_category'  => array( 1 ),
 				);
 				if ( - 100 === $page ) {
 					unset( $_page['post_name'] );
@@ -495,22 +509,22 @@ class TInvWL_Wizard {
 	 */
 	function wizard_3() {
 		$data = array(
-				'add_to_wishlist_position_value'             => tinv_get_option( 'add_to_wishlist', 'position' ),
-				'add_to_wishlist_position_options'           => array(
-						'after'     => __( 'After "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
-						'before'    => __( 'Before "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
-						'shortcode' => __( 'Custom position with code', 'ti-woocommerce-wishlist-premium' ),
-				),
-				'add_to_wishlist_text_value'                 => apply_filters( 'tinvwl_add_to_wishlist_text', tinv_get_option( 'add_to_wishlist', 'text' ) ),
-				'add_to_wishlist_catalog_show_in_loop_value' => tinv_get_option( 'add_to_wishlist_catalog', 'show_in_loop' ),
-				'add_to_wishlist_catalog_position_value'     => tinv_get_option( 'add_to_wishlist_catalog', 'position' ),
-				'add_to_wishlist_catalog_position_options'   => array(
-						'after'       => __( 'After "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
-						'before'      => __( 'Before "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
-						'above_thumb' => __( 'Above Thumbnail', 'ti-woocommerce-wishlist-premium' ),
-						'shortcode'   => __( 'Custom position with code', 'ti-woocommerce-wishlist-premium' ),
-				),
-				'add_to_wishlist_catalog_text_value'         => apply_filters( 'tinvwl_added_to_wishlist_text_loop', tinv_get_option( 'add_to_wishlist_catalog', 'text' ) ),
+			'add_to_wishlist_position_value'             => tinv_get_option( 'add_to_wishlist', 'position' ),
+			'add_to_wishlist_position_options'           => array(
+				'after'     => __( 'After "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
+				'before'    => __( 'Before "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
+				'shortcode' => __( 'Custom position with code', 'ti-woocommerce-wishlist-premium' ),
+			),
+			'add_to_wishlist_text_value'                 => apply_filters( 'tinvwl_add_to_wishlist_text', tinv_get_option( 'add_to_wishlist', 'text' ) ),
+			'add_to_wishlist_catalog_show_in_loop_value' => tinv_get_option( 'add_to_wishlist_catalog', 'show_in_loop' ),
+			'add_to_wishlist_catalog_position_value'     => tinv_get_option( 'add_to_wishlist_catalog', 'position' ),
+			'add_to_wishlist_catalog_position_options'   => array(
+				'after'       => __( 'After "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
+				'before'      => __( 'Before "Add to Cart" button', 'ti-woocommerce-wishlist-premium' ),
+				'above_thumb' => __( 'Above Thumbnail', 'ti-woocommerce-wishlist-premium' ),
+				'shortcode'   => __( 'Custom position with code', 'ti-woocommerce-wishlist-premium' ),
+			),
+			'add_to_wishlist_catalog_text_value'         => apply_filters( 'tinvwl_added_to_wishlist_text_loop', tinv_get_option( 'add_to_wishlist_catalog', 'text' ) ),
 		);
 		TInvWL_View::view( 'step-button', $data, 'wizard' );
 	}
@@ -520,11 +534,11 @@ class TInvWL_Wizard {
 	 */
 	function wizard_3_save() {
 		$data = filter_input_array( INPUT_POST, array(
-				'add_to_wishlist_position'             => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-				'add_to_wishlist_text'                 => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-				'add_to_wishlist_catalog_show_in_loop' => FILTER_VALIDATE_BOOLEAN,
-				'add_to_wishlist_catalog_position'     => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-				'add_to_wishlist_catalog_text'         => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'add_to_wishlist_position'             => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'add_to_wishlist_text'                 => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'add_to_wishlist_catalog_show_in_loop' => FILTER_VALIDATE_BOOLEAN,
+			'add_to_wishlist_catalog_position'     => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'add_to_wishlist_catalog_text'         => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		) );
 		tinv_update_option( 'add_to_wishlist', 'position', $data['add_to_wishlist_position'] );
 		tinv_update_option( 'add_to_wishlist', 'text', $data['add_to_wishlist_text'] );
@@ -549,7 +563,7 @@ class TInvWL_Wizard {
 	 */
 	function wizard_4() {
 		$processing_statuses = array(
-				'tinvwl-addcart' => 'Add to Cart',
+			'tinvwl-addcart' => 'Add to Cart',
 		);
 		$order_statuses      = get_terms( 'shop_order_status', array( 'hide_empty' => false ) );
 		$status_message      = __( 'Order status "%s"', 'ti-woocommerce-wishlist-premium' );
@@ -571,13 +585,13 @@ class TInvWL_Wizard {
 			}
 		}
 		$data = array(
-				'processing_autoremove_value'          => tinv_get_option( 'processing', 'autoremove' ) ? 'auto' : 'manual',
-				'processing_autoremove_options'        => array(
-						'auto'   => __( 'Automatically', 'ti-woocommerce-wishlist-premium' ),
-						'manual' => __( 'Manual', 'ti-woocommerce-wishlist-premium' ),
-				),
-				'processing_autoremove_status_value'   => tinv_get_option( 'processing', 'autoremove_status' ),
-				'processing_autoremove_status_options' => $processing_statuses,
+			'processing_autoremove_value'          => tinv_get_option( 'processing', 'autoremove' ) ? 'auto' : 'manual',
+			'processing_autoremove_options'        => array(
+				'auto'   => __( 'Automatically', 'ti-woocommerce-wishlist-premium' ),
+				'manual' => __( 'Manual', 'ti-woocommerce-wishlist-premium' ),
+			),
+			'processing_autoremove_status_value'   => tinv_get_option( 'processing', 'autoremove_status' ),
+			'processing_autoremove_status_options' => $processing_statuses,
 		);
 		TInvWL_View::view( 'step-processing', $data, 'wizard' );
 	}
@@ -587,8 +601,8 @@ class TInvWL_Wizard {
 	 */
 	function wizard_4_save() {
 		$data       = filter_input_array( INPUT_POST, array(
-				'processing_autoremove'        => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-				'processing_autoremove_status' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'processing_autoremove'        => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'processing_autoremove_status' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		) );
 		$autoremove = 'auto' === $data['processing_autoremove'];
 		tinv_update_option( 'processing', 'autoremove', $autoremove );
@@ -611,17 +625,17 @@ class TInvWL_Wizard {
 	 */
 	function wizard_5() {
 		$data = array(
-				'social_facebook_value'   => tinv_get_option( 'social', 'facebook' ),
-				'social_twitter_value'    => tinv_get_option( 'social', 'twitter' ),
-				'social_pinterest_value'  => tinv_get_option( 'social', 'pinterest' ),
-				'social_whatsapp_value'   => tinv_get_option( 'social', 'whatsapp' ),
-				'social_clipboard_value'  => tinv_get_option( 'social', 'clipboard' ),
-				'social_email_value'      => tinv_get_option( 'social', 'email' ),
-				'subscribe_allow_value'   => tinv_get_option( 'subscribe', 'allow' ) ? 'yes' : 'no',
-				'subscribe_allow_options' => array(
-						'yes' => __( 'Yes', 'ti-woocommerce-wishlist-premium' ),
-						'no'  => __( 'No', 'ti-woocommerce-wishlist-premium' ),
-				),
+			'social_facebook_value'   => tinv_get_option( 'social', 'facebook' ),
+			'social_twitter_value'    => tinv_get_option( 'social', 'twitter' ),
+			'social_pinterest_value'  => tinv_get_option( 'social', 'pinterest' ),
+			'social_whatsapp_value'   => tinv_get_option( 'social', 'whatsapp' ),
+			'social_clipboard_value'  => tinv_get_option( 'social', 'clipboard' ),
+			'social_email_value'      => tinv_get_option( 'social', 'email' ),
+			'subscribe_allow_value'   => tinv_get_option( 'subscribe', 'allow' ) ? 'yes' : 'no',
+			'subscribe_allow_options' => array(
+				'yes' => __( 'Yes', 'ti-woocommerce-wishlist-premium' ),
+				'no'  => __( 'No', 'ti-woocommerce-wishlist-premium' ),
+			),
 		);
 		TInvWL_View::view( 'step-social', $data, 'wizard' );
 	}
@@ -631,13 +645,13 @@ class TInvWL_Wizard {
 	 */
 	function wizard_5_save() {
 		$data = filter_input_array( INPUT_POST, array(
-				'social_facebook'  => FILTER_VALIDATE_BOOLEAN,
-				'social_twitter'   => FILTER_VALIDATE_BOOLEAN,
-				'social_pinterest' => FILTER_VALIDATE_BOOLEAN,
-				'social_whatsapp'  => FILTER_VALIDATE_BOOLEAN,
-				'social_clipboard' => FILTER_VALIDATE_BOOLEAN,
-				'social_email'     => FILTER_VALIDATE_BOOLEAN,
-				'subscribe_allow'  => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'social_facebook'  => FILTER_VALIDATE_BOOLEAN,
+			'social_twitter'   => FILTER_VALIDATE_BOOLEAN,
+			'social_pinterest' => FILTER_VALIDATE_BOOLEAN,
+			'social_whatsapp'  => FILTER_VALIDATE_BOOLEAN,
+			'social_clipboard' => FILTER_VALIDATE_BOOLEAN,
+			'social_email'     => FILTER_VALIDATE_BOOLEAN,
+			'subscribe_allow'  => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		) );
 		tinv_update_option( 'social', 'facebook', (bool) $data['social_facebook'] );
 		tinv_update_option( 'social', 'twitter', (bool) $data['social_twitter'] );

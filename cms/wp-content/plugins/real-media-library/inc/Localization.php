@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\base\UtilsProvider;
 // @codeCoverageIgnoreEnd
 /**
  * i18n management for backend and frontend.
+ * @internal
  */
 class Localization
 {

@@ -22,6 +22,21 @@ class TInvWL_Public_Manage_Wishlist {
 	 * @var string
 	 */
 	private $_name;
+
+	/**
+	 * Current page number for pagination.
+	 *
+	 * @var int
+	 */
+	private $paged;
+
+	/**
+	 * Total number of pages for pagination.
+	 *
+	 * @var int
+	 */
+	private $pages;
+
 	/**
 	 * This class
 	 *

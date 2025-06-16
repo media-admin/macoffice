@@ -34,7 +34,7 @@ return array(
 		'hide_add_to_cart'        => array(
 			'type'      => 'yith-field',
 			'yith-type' => 'inline-fields',
-			'name'      => esc_html__( '"Add to Cart" settings in Catalog Mode', 'yith-woocommerce-catalog-mode' ),
+			'name'      => esc_html__( 'Hide "Add to Cart" in:', 'yith-woocommerce-catalog-mode' ),
 			'desc'      => esc_html__( 'Choose where to hide "Add to Cart".', 'yith-woocommerce-catalog-mode' ),
 			'id'        => 'ywctm_hide_add_to_cart_settings',
 			'fields'    => array(

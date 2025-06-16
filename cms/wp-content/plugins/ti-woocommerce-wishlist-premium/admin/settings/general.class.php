@@ -2,15 +2,13 @@
 /**
  * Admin settings class
  *
- * @since             1.0.0
  * @package           TInvWishlist\Admin
  * @subpackage        Settings
+ * @since 1.0.0
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
+defined( 'ABSPATH' ) or exit;
 
 /**
  * Admin settings class
@@ -20,25 +18,26 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 	/**
 	 * Priority for admin menu
 	 *
-	 * @var integer
+	 * @var int
 	 */
-	public $priority = 20;
+	public int $priority = 20;
 
 	/**
 	 * This class
 	 *
-	 * @var \TInvWL_Admin_Settings_General
+	 * @var TInvWL_Admin_Settings_General
 	 */
-	protected static $_instance = null;
+	protected static ?self $_instance = null;
 
 	/**
 	 * Get this class object
 	 *
 	 * @param string $plugin_name Plugin name.
+	 * @param string $plugin_version Plugin version.
 	 *
-	 * @return \TInvWL_Admin_Settings_General
+	 * @return TInvWL_Admin_Settings_General
 	 */
-	public static function instance( $plugin_name = TINVWL_PREFIX, $plugin_version = TINVWL_VERSION ) {
+	public static function instance( string $plugin_name = TINVWL_PREFIX, string $plugin_version = TINVWL_VERSION ): self {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self( $plugin_name, $plugin_version );
 		}
@@ -52,7 +51,7 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 	 * @param string $plugin_name Plugin name.
 	 * @param string $version Plugin version.
 	 */
-	function __construct( $plugin_name, $version ) {
+	public function __construct( string $plugin_name, string $version ) {
 		$this->_name    = $plugin_name;
 		$this->_version = $version;
 		parent::__construct( $plugin_name, $version );
@@ -63,13 +62,13 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 	 *
 	 * @return array
 	 */
-	function menu() {
-		return array(
+	public function menu(): array {
+		return [
 			'title'      => __( 'General Settings', 'ti-woocommerce-wishlist-premium' ),
-			'method'     => array( $this, '_print_' ),
+			'method'     => [ $this, '_print_' ],
 			'slug'       => 'general-settings',
 			'capability' => 'tinvwl_general_settings',
-		);
+		];
 	}
 
 	/**
@@ -77,9 +76,9 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 	 *
 	 * @return array
 	 */
-	public function get_wp_menus() {
-		$menus     = array( '' => __( 'None', 'ti-woocommerce-wishlist-premium' ) );
-		$get_menus = get_terms( 'nav_menu', array( 'hide_empty' => true ) );
+	public function get_wp_menus(): array {
+		$menus     = [ '' => __( 'None', 'ti-woocommerce-wishlist-premium' ) ];
+		$get_menus = get_terms( 'nav_menu', [ 'hide_empty' => true ] );
 		foreach ( $get_menus as $menu ) {
 			$menus[ $menu->term_id ] = $menu->name;
 		}
@@ -92,7 +91,7 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 	 *
 	 * @return array
 	 */
-	function constructor_data() {
+	public function constructor_data(): array {
 		$processing_statuses = array(
 			'tinvwl-addcart' => __( 'Add to Cart', 'ti-woocommerce-wishlist-premium' ),
 		);
@@ -115,8 +114,8 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 				$processing_statuses[ $key ] = sprintf( $status_message, $s->slug );
 			}
 		}
-		$lists     = get_pages( array( 'number' => 9999999 ) ); // @codingStandardsIgnoreLine WordPress.VIP.RestrictedFunctions.get_pages
-		$page_list = array( '' => '' );
+		$lists     = get_pages( [ 'number' => 9999999 ] ); // @codingStandardsIgnoreLine WordPress.VIP.RestrictedFunctions.get_pages
+		$page_list = [ '' => '' ];
 		foreach ( $lists as $list ) {
 			$page_list[ $list->ID ] = $list->post_title;
 		}
@@ -165,7 +164,6 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 		$menus = $this->get_wp_menus();
 
 		$settings = array(
-			//General
 			array(
 				'id'         => 'general',
 				'title'      => __( 'General Settings', 'ti-woocommerce-wishlist-premium' ),
@@ -771,6 +769,22 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 				),
 			),
 		);
+
+		$settings[] = array(
+			'id'         => 'uninstall',
+			'title'      => __( 'Plugin Data Settings', 'ti-woocommerce-wishlist-premium' ),
+			'show_names' => true,
+			'fields'     => array(
+				array(
+					'type' => 'checkboxonoff',
+					'name' => 'delete_data',
+					'text' => __( 'Erase All Data on Uninstall', 'ti-woocommerce-wishlist-premium' ),
+					'std'  => false,
+					'desc' => __( 'This option will remove all plugin-related data from your database when the plugin is uninstalled. Ideal for keeping your database clean, but irreversible – consider backing up first', 'ti-woocommerce-wishlist-premium' ),
+				),
+			),
+		);
+
 		//Support chat option
 		if ( ! empty( $_GET['chat'] ) ) {
 			$settings[] = array(
@@ -823,7 +837,7 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 	 *
 	 * @param array $data Post section data.
 	 */
-	function constructor_save( $data ) {
+	public function constructor_save( array $data ): void {
 		if ( filter_input( INPUT_POST, 'save_buttons-setting_reset' ) ) {
 			foreach ( array_keys( $data ) as $key ) {
 				if ( ! in_array( $key, array( 'page' ) ) ) {
@@ -834,7 +848,7 @@ class TInvWL_Admin_Settings_General extends TInvWL_Admin_BaseSection {
 		parent::constructor_save( $data );
 
 		if ( empty( $data ) || ! is_array( $data ) ) {
-			return false;
+			return;
 		} else {
 			if ( isset( $data['general']['multi'] ) && $data['general']['multi'] ) {
 				tinv_update_option( 'general', 'show_notice', true );

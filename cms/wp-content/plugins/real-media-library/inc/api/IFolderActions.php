@@ -13,6 +13,7 @@ use MatthiasWeb\RealMediaLibrary\exception\OnlyInProVersionException;
  * Also the root ("Unorganized") is a folder and implements this interface.
  *
  * @since 3.3.1
+ * @internal
  */
 interface IFolderActions
 {
@@ -21,9 +22,9 @@ interface IFolderActions
      * default WP_Query to fetch the ids. You can also use the WP_Query like:
      * ```php
      * $query = new \WP_Query([
-     *  	'post_status' => 'inherit',
-     *  	'post_type' => 'attachment',
-     *  	'rml_folder' => 4, // Can also be an array of integers
+     *      'post_status' => 'inherit',
+     *      'post_type' => 'attachment',
+     *      'rml_folder' => 4, // Can also be an array of integers
      *      'rml_include_children' => false // (optional) Include files of subfolder, you have to use wp_rml_all_children_sql_supported(false, 'function') for checking support
      * ]);
      * ```

@@ -1,41 +1,63 @@
 import { ExperimentalOrderMeta } from '@woocommerce/blocks-checkout';
 import { registerPlugin } from '@wordpress/plugins';
 import { useEffect } from "@wordpress/element";
+import { dispatch, select } from '@wordpress/data';
+import { CHECKOUT_STORE_KEY } from '@woocommerce/block-data';
 
 import SmallBusinessInfo from "../checkout-small-business-info/frontend";
 
 const DomWatcher = ({
-                        extensions,
-                        cart
-                    }) => {
+    extensions,
+    cart
+}) => {
+
+    /**
+     * Use this little helper which sets the default checkout data in case it
+     * does not exist, e.g. the checkboxes block is missing to prevent extension errors.
+     *
+     * @see https://github.com/woocommerce/woocommerce-blocks/issues/11446
+     */
     useEffect(() => {
-        const orderItems = document.getElementsByClassName( 'wc-block-components-order-summary-item' );
+        const extensionsData = select( CHECKOUT_STORE_KEY ).getExtensionData();
 
-        for ( let item of orderItems ) {
-            const unitPrice   = item.getElementsByClassName( "wc-block-components-product-details__gzd-unit-price" )[0];
-            const notGzdElements = item.querySelectorAll( "li:not([class*=__gzd])" )[0];
+        if ( ! extensionsData.hasOwnProperty( 'woocommerce-germanized' ) ) {
+            dispatch( CHECKOUT_STORE_KEY ).__internalSetExtensionData( 'woocommerce-germanized', {} );
+        }
+    }, [] );
 
-            if ( notGzdElements ) {
-                notGzdElements.classList.add( "wc-not-gzd-summary-item-first" );
-            }
+    useEffect(() => {
+        /**
+         * Use a timeout as tweak to make sure DOM is available.
+         */
+        window.setTimeout( () => {
+            const orderItems = document.getElementsByClassName( 'wc-block-components-order-summary-item' );
 
-            if ( unitPrice ) {
-                const priceNode = item.getElementsByClassName( "wc-block-components-order-summary-item__total-price" )[0];
-                const unitPriceNew = priceNode.getElementsByClassName( "wc-gzd-unit-price" )[0];
+            for ( let item of orderItems ) {
+                const unitPrice   = item.getElementsByClassName( "wc-block-components-product-details__gzd-unit-price" )[0];
+                const notGzdElements = item.querySelectorAll( "li:not([class*=__gzd])" )[0];
 
-                if ( unitPriceNew ) {
-                    priceNode.removeChild( unitPriceNew );
+                if ( notGzdElements ) {
+                    notGzdElements.classList.add( "wc-not-gzd-summary-item-first" );
                 }
 
-                const newUnitPrice = document.createElement("div" );
-                newUnitPrice.className = 'wc-gzd-unit-price';
-                newUnitPrice.innerHTML = unitPrice.innerHTML;
+                if ( unitPrice ) {
+                    const priceNode = item.getElementsByClassName( "wc-block-components-order-summary-item__total-price" )[0];
+                    const unitPriceNew = priceNode.getElementsByClassName( "wc-gzd-unit-price" )[0];
 
-                unitPrice.classList.add( "wc-gzd-unit-price-moved" );
+                    if ( unitPriceNew ) {
+                        priceNode.removeChild( unitPriceNew );
+                    }
 
-                priceNode.appendChild( newUnitPrice );
+                    const newUnitPrice = document.createElement("div" );
+                    newUnitPrice.className = 'wc-gzd-unit-price';
+                    newUnitPrice.innerHTML = unitPrice.innerHTML;
+
+                    unitPrice.classList.add( "wc-gzd-unit-price-moved" );
+
+                    priceNode.appendChild( newUnitPrice );
+                }
             }
-        }
+        }, 500 );
     }, [
         cart.cartItems
     ] );

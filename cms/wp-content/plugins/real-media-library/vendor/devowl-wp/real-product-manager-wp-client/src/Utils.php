@@ -9,6 +9,7 @@ use WP_User;
 // @codeCoverageIgnoreEnd
 /**
  * Utils functionality.
+ * @internal
  */
 class Utils
 {
@@ -22,6 +23,9 @@ class Utils
      */
     public static function startsWith($haystack, $needle)
     {
+        if ($haystack === null || $needle === null) {
+            return \false;
+        }
         $length = \strlen($needle);
         return \substr($haystack, 0, $length) === $needle;
     }
@@ -91,13 +95,13 @@ class Utils
         foreach (['alloptions', 'notoptions'] as $cacheKey) {
             $cache = \wp_cache_get($cacheKey, 'options');
             if (\is_array($cache) && isset($cache[$optionName])) {
-                return $cache[$optionName];
+                return \maybe_unserialize($cache[$optionName]);
             }
         }
         // Fallback to directly read the option from the `options` cache
         $directFromCache = \wp_cache_get($optionName, 'options');
         if ($directFromCache !== \false) {
-            return $directFromCache;
+            return \maybe_unserialize($directFromCache);
         }
         return $default;
     }
@@ -123,6 +127,7 @@ class Utils
         $url = \preg_replace('/^www\\./', '', $url);
         // Remove default ports (https://regex101.com/r/eyxvPE/1)
         $url = \preg_replace('/:(80|443)$/', '', $url);
+        $url = \strtolower($url);
         /**
          * This filter allows you to connect multiple hosts / subdomains to one main host and reduce the number of needed license keys.
          *
@@ -210,28 +215,5 @@ class Utils
             }
         }
         return $hostnames;
-    }
-    /**
-     * Get the list of active plugins in a map: File => Name. This is needed for the config and the
-     * notice for `skip-if-active` attribute in cookie opt-in codes.
-     *
-     * @param boolean $includeSlugs
-     */
-    public static function getActivePluginsMap($includeSlugs = \true)
-    {
-        $result = [];
-        $plugins = \array_merge(\get_option('active_plugins'), \is_multisite() ? \array_keys(\get_site_option('active_sitewide_plugins')) : []);
-        foreach ($plugins as $pluginFile) {
-            $pluginFilePath = \constant('WP_PLUGIN_DIR') . '/' . $pluginFile;
-            if (\file_exists($pluginFilePath)) {
-                $name = \wp_specialchars_decode(\get_plugin_data($pluginFilePath)['Name']);
-                $result[$pluginFile] = $name;
-                if ($includeSlugs) {
-                    $slug = \explode('/', $pluginFile)[0];
-                    $result[$slug] = $name;
-                }
-            }
-        }
-        return $result;
     }
 }

@@ -28,6 +28,8 @@ class TInvWL_Includes_API_Update extends TI_Api_Manager_Update {
 	 */
 	protected static $_instance;
 
+	private $_v_new;
+
 	/**
 	 * Create object
 	 *

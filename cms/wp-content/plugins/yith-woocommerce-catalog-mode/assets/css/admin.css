@@ -16,7 +16,7 @@
 	align-items: center;
 }
 
-.woocommerce table.form-table .ywctm-inline-selects .option-element > .yith-plugin-fw-select-field-wrapper > .select2 {
+.woocommerce .yith-plugin-fw__panel__section__content .ywctm-inline-selects .option-element > .yith-plugin-fw-select-field-wrapper > .select2 {
 	width: 220px !important;
 	min-width: 220px !important;
 }

@@ -54,6 +54,33 @@ function shortcode_default_posts() {
 add_shortcode( 'shortcode_default_posts', 'shortcode_default_posts' );
 
 
+function shortcode_error_found() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_error-found');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_error_found', 'shortcode_error_found' );
+
+
+function shortcode_email_info() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_email-info');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_email_info', 'shortcode_email_info' );
+
+
+function shortcode_email_emergency() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_email-emergency');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_email_emergency', 'shortcode_email_emergency' );
+
+
 function shortcode_product_categories() {
 	ob_start();
 	get_template_part( 'shortcodes/shortcode_product-categories');
@@ -97,6 +124,44 @@ function shortcode_leasing_calculator() {
 }
 
 add_shortcode( 'shortcode_leasing_calculator', 'shortcode_leasing_calculator' );
+
+
+
+/* OUTDATED FUNCTION --> PLS USE shortcode_service_pricelist()
+function shortcode_service_prices() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_service-prices');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_service_prices', 'shortcode_service_prices' ); */
+
+
+function shortcode_repair_instructions() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_repair-instructions');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_repair_instructions', 'shortcode_repair_instructions' );
+
+
+function shortcode_service_pricelist() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_service-pricelist');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_service_pricelist', 'shortcode_service_pricelist' );
+
+
+function shortcode_applecare() {
+	ob_start();
+	get_template_part( 'shortcodes/shortcode_applecare');
+	return ob_get_clean();
+}
+
+add_shortcode( 'shortcode_applecare', 'shortcode_applecare' );
 
 
 

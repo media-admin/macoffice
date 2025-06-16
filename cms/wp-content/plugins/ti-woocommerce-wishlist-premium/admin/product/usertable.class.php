@@ -48,11 +48,11 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 		$this->_version = $version;
 
 		parent::__construct( array(
-				'singular' => __( 'Product', 'ti-woocommerce-wishlist-premium' ),
+			'singular' => __( 'Product', 'ti-woocommerce-wishlist-premium' ),
 			// Singular name of the listed records.
-				'plural'   => __( 'users', 'ti-woocommerce-wishlist-premium' ),
+			'plural'   => __( 'users', 'ti-woocommerce-wishlist-premium' ),
 			// Plural name of the listed records.
-				'ajax'     => false,
+			'ajax'     => false,
 			// does this table support ajax?
 		) );
 	}
@@ -64,9 +64,9 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 	 */
 	function get_columns() {
 		$columns = array(
-				'cb'       => '<input type="checkbox"/>',
-				'name'     => __( 'Name', 'ti-woocommerce-wishlist-premium' ),
-				'wishlist' => __( 'Wishlists', 'ti-woocommerce-wishlist-premium' ),
+			'cb'       => '<input type="checkbox"/>',
+			'name'     => __( 'Name', 'ti-woocommerce-wishlist-premium' ),
+			'wishlist' => __( 'Wishlists', 'ti-woocommerce-wishlist-premium' ),
 		);
 		if ( tinv_get_option( 'product_table', 'colm_date' ) ) {
 			$columns['date'] = __( 'Date Added', 'ti-woocommerce-wishlist-premium' );
@@ -87,11 +87,11 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 	 */
 	function get_columns_description() {
 		return array(
-				'name'       => __( 'Name', 'ti-woocommerce-wishlist-premium' ),
-				'wishlist'   => __( 'Wishlists', 'ti-woocommerce-wishlist-premium' ),
-				'date'       => __( 'Date Added', 'ti-woocommerce-wishlist-premium' ),
-				'subscribed' => __( 'Subscribed', 'ti-woocommerce-wishlist-premium' ),
-				'quantity'   => __( 'Quantity', 'ti-woocommerce-wishlist-premium' ),
+			'name'       => __( 'Name', 'ti-woocommerce-wishlist-premium' ),
+			'wishlist'   => __( 'Wishlists', 'ti-woocommerce-wishlist-premium' ),
+			'date'       => __( 'Date Added', 'ti-woocommerce-wishlist-premium' ),
+			'subscribed' => __( 'Subscribed', 'ti-woocommerce-wishlist-premium' ),
+			'quantity'   => __( 'Quantity', 'ti-woocommerce-wishlist-premium' ),
 		);
 	}
 
@@ -106,12 +106,12 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 	public static function get_products( $per_page = 10, $page_number = 1 ) {
 		global $wpdb;
 
-		$orderby = strtolower( filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
-		$order   = strtoupper( filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		$orderby = strtolower( filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ?? '' );
+		$order   = strtoupper( filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ?? '' );
 		$search  = filter_input( INPUT_POST, 's', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( ! in_array( $order, array(
-				'ASC',
-				'DESC',
+			'ASC',
+			'DESC',
 		) ) ) { // @codingStandardsIgnoreLine WordPress.PHP.StrictInArray.MissingTrueStrict
 			$order = 'DESC';
 		}
@@ -127,19 +127,19 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 			$orderby = 'date';
 		}
 		$attr = array(
-				'count'        => $per_page,
-				'offset'       => $per_page * ( $page_number - 1 ),
-				'product_id'   => self::$product->is_type( 'variation' ) ? self::$product->get_parent_id() : self::$product->get_id(),
-				'variation_id' => self::$product->is_type( 'variation' ) ? self::$product->get_id() : 0,
-				'type'         => tinv_get_option( 'general', 'multi' ) ? array( 'default', 'list' ) : 'default',
-				'order_by'     => $orderby,
-				'order'        => $order,
-				'sql'          => 'SELECT `A`.*, `B`.`author` AS `author`, GROUP_CONCAT(`A`.`wishlist_id`) AS `wishlist_id`, SUM(`A`.`quantity`) AS `quantity`, MAX(`A`.`date`) AS `date` FROM `{table}` AS `A` INNER JOIN `' . sprintf( '%s%s_%s', $wpdb->prefix, self::$_name, 'lists' ) . '` AS `B` ON `A`.`wishlist_id` = `B`.`ID` WHERE {where} GROUP BY `A`.`product_id`, `A`.`variation_id`, `B`.`author` ORDER BY `{order_by}` {order} LIMIT {offset},{count};',
+			'count'        => $per_page,
+			'offset'       => $per_page * ( $page_number - 1 ),
+			'product_id'   => self::$product->is_type( 'variation' ) ? self::$product->get_parent_id() : self::$product->get_id(),
+			'variation_id' => self::$product->is_type( 'variation' ) ? self::$product->get_id() : 0,
+			'type'         => tinv_get_option( 'general', 'multi' ) ? array( 'default', 'list' ) : 'default',
+			'order_by'     => $orderby,
+			'order'        => $order,
+			'sql'          => 'SELECT `A`.*, `B`.`author` AS `author`, GROUP_CONCAT(`A`.`wishlist_id`) AS `wishlist_id`, SUM(`A`.`quantity`) AS `quantity`, MAX(`A`.`date`) AS `date` FROM `{table}` AS `A` INNER JOIN `' . sprintf( '%s%s_%s', $wpdb->prefix, self::$_name, 'lists' ) . '` AS `B` ON `A`.`wishlist_id` = `B`.`ID` WHERE {where} GROUP BY `A`.`product_id`, `A`.`variation_id`, `B`.`author` ORDER BY `{order_by}` {order} LIMIT {offset},{count};',
 		);
 		if ( ! empty( $search ) ) {
 			$args       = array(
-					'search'         => $search,
-					'search_columns' => array( 'user_login', 'user_email', 'user_nicename' ),
+				'search'         => $search,
+				'search_columns' => array( 'user_login', 'user_email', 'user_nicename' ),
 			);
 			$user_query = new WP_User_Query( $args );
 			$users      = array();
@@ -167,18 +167,18 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 		global $wpdb;
 
 		$attr = array(
-				'count'        => 9999999,
-				'offset'       => 0,
-				'product_id'   => self::$product->is_type( 'variation' ) ? self::$product->get_parent_id() : self::$product->get_id(),
-				'variation_id' => self::$product->is_type( 'variation' ) ? self::$product->get_id() : 0,
-				'type'         => tinv_get_option( 'general', 'multi' ) ? array( 'default', 'list' ) : 'default',
-				'external'     => false,
-				'sql'          => 'SELECT `A`.*, `B`.`author` AS `author`, GROUP_CONCAT(`A`.`wishlist_id`) AS `wishlist_id`, SUM(`A`.`quantity`) AS `quantity`, MAX(`A`.`date`) AS `date` FROM `{table}` AS `A` INNER JOIN `' . sprintf( '%s%s_%s', $wpdb->prefix, self::$_name, 'lists' ) . '` AS `B` ON `A`.`wishlist_id` = `B`.`ID` WHERE {where} GROUP BY `A`.`product_id`, `A`.`variation_id`, `B`.`author` ORDER BY `{order_by}` {order} LIMIT {offset},{count};',
+			'count'        => 9999999,
+			'offset'       => 0,
+			'product_id'   => self::$product->is_type( 'variation' ) ? self::$product->get_parent_id() : self::$product->get_id(),
+			'variation_id' => self::$product->is_type( 'variation' ) ? self::$product->get_id() : 0,
+			'type'         => tinv_get_option( 'general', 'multi' ) ? array( 'default', 'list' ) : 'default',
+			'external'     => false,
+			'sql'          => 'SELECT `A`.*, `B`.`author` AS `author`, GROUP_CONCAT(`A`.`wishlist_id`) AS `wishlist_id`, SUM(`A`.`quantity`) AS `quantity`, MAX(`A`.`date`) AS `date` FROM `{table}` AS `A` INNER JOIN `' . sprintf( '%s%s_%s', $wpdb->prefix, self::$_name, 'lists' ) . '` AS `B` ON `A`.`wishlist_id` = `B`.`ID` WHERE {where} GROUP BY `A`.`product_id`, `A`.`variation_id`, `B`.`author` ORDER BY `{order_by}` {order} LIMIT {offset},{count};',
 		);
 		if ( ! empty( $search ) ) {
 			$args       = array(
-					'search'         => $search,
-					'search_columns' => array( 'user_login', 'user_email', 'user_nicename' ),
+				'search'         => $search,
+				'search_columns' => array( 'user_login', 'user_email', 'user_nicename' ),
 			);
 			$user_query = new WP_User_Query( $args );
 			$users      = array();
@@ -224,7 +224,7 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 		}
 
 		return sprintf(
-				'<input type="checkbox" name="users[]" value="%s" />', $item['author']
+			'<input type="checkbox" name="users[]" value="%s" />', $item['author']
 		);
 	}
 
@@ -255,11 +255,11 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 		$wl        = new TInvWL_Wishlist( self::$_name );
 		$wishlists = explode( ',', $item['wishlist_id'] );
 		$wishlists = $wl->get( array(
-				'ID' => $wishlists,
+			'ID' => $wishlists,
 		) );
 		foreach ( $wishlists as &$wishlist ) {
 			$wishlist = sprintf(
-					'<a href="%s">%s</a>', esc_url( tinv_url_wishlist( $wishlist['ID'] ) ), esc_html( $wishlist['title'] )
+				'<a href="%s">%s</a>', esc_url( tinv_url_wishlist( $wishlist['ID'] ) ), esc_html( $wishlist['title'] )
 			);
 		}
 
@@ -314,13 +314,13 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 		}
 
 		return $this->row_actions( array(
-				'email' => sprintf( '<a class="tinvwl-modal-btn tinvwl-btn tinvwl-w-mobile white small" href="%s"><i class="tinvwl-mobile ftinvwl ftinvwl-email"></i><span class="tinvwl-full">%s</span></a>', esc_url( self::admin_url( 'product', 'promotional', array_filter( array(
-						'product_id'    => $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id(),
-						'variation_id'  => $product->is_type( 'variation' ) ? $product->get_id() : 0,
-						'user_id'       => $item['author'],
-						'redirect_to'   => 'users',
-						'_tinvwl_nonce' => wp_create_nonce( sprintf( '%s-%s', self::$_name, 'promotional' ) ),
-				) ) ) ), __( 'Send promotional', 'ti-woocommerce-wishlist-premium' ) ),
+			'email' => sprintf( '<a class="tinvwl-modal-btn tinvwl-btn tinvwl-w-mobile white small" href="%s"><i class="tinvwl-mobile ftinvwl ftinvwl-email"></i><span class="tinvwl-full">%s</span></a>', esc_url( self::admin_url( 'product', 'promotional', array_filter( array(
+				'product_id'    => $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id(),
+				'variation_id'  => $product->is_type( 'variation' ) ? $product->get_id() : 0,
+				'user_id'       => $item['author'],
+				'redirect_to'   => 'users',
+				'_tinvwl_nonce' => wp_create_nonce( sprintf( '%s-%s', self::$_name, 'promotional' ) ),
+			) ) ) ), __( 'Send promotional', 'ti-woocommerce-wishlist-premium' ) ),
 		), true );
 	}
 
@@ -336,7 +336,7 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 		switch ( $column_name ) {
 			case 'date':
 				return sprintf(
-						'<time class="entry-date" datetime="%1$s">%2$s</time>', $item['date'], mysql2date( get_option( 'date_format' ), $item['date'] )
+					'<time class="entry-date" datetime="%1$s">%2$s</time>', $item['date'], mysql2date( get_option( 'date_format' ), $item['date'] )
 				);
 			default:
 				return $item[ $column_name ]; // Show the whole array for troubleshooting purposes.
@@ -350,8 +350,8 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 	 */
 	public static function get_sortable_columns_static() {
 		return array(
-				'date'     => array( 'date', false ),
-				'quantity' => array( 'quantity', true ),
+			'date'     => array( 'date', false ),
+			'quantity' => array( 'quantity', true ),
 		);
 	}
 
@@ -492,7 +492,7 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 	 */
 	function get_bulk_actions() {
 		$actions = array(
-				'promo' => __( 'Send promotional', 'ti-woocommerce-wishlist-premium' ),
+			'promo' => __( 'Send promotional', 'ti-woocommerce-wishlist-premium' ),
 		);
 
 		return $actions;
@@ -512,11 +512,11 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 			return false;
 		}
 		$data            = filter_input_array( INPUT_GET, array(
-				'product_id'   => FILTER_VALIDATE_INT,
-				'variation_id' => FILTER_VALIDATE_INT,
+			'product_id'   => FILTER_VALIDATE_INT,
+			'variation_id' => FILTER_VALIDATE_INT,
 		) );
 		$data['user_id'] = array_filter( filter_input( INPUT_POST, 'users', FILTER_VALIDATE_INT, array(
-				'flags' => FILTER_FORCE_ARRAY,
+			'flags' => FILTER_FORCE_ARRAY,
 		) ) );
 		if ( empty( $data['user_id'] ) ) {
 			return false;
@@ -554,8 +554,8 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 		$total_items  = self::record_count();
 
 		$this->set_pagination_args( array(
-				'total_items' => $total_items, // WE have to calculate the total number of items.
-				'per_page'    => $per_page, // WE have to determine how many items to show on a page.
+			'total_items' => $total_items, // WE have to calculate the total number of items.
+			'per_page'    => $per_page, // WE have to determine how many items to show on a page.
 		) );
 
 		$this->items = self::get_products( $per_page, $current_page );
@@ -576,8 +576,8 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 		$protocol = is_ssl() ? 'https' : 'http';
 		$glue     = '-';
 		$params   = array(
-				'page' => empty( $page ) ? self::$_name : self::$_name . $glue . $page,
-				'cat'  => $cat,
+			'page' => empty( $page ) ? self::$_name : self::$_name . $glue . $page,
+			'cat'  => $cat,
 		);
 		if ( is_array( $arg ) ) {
 			$params = array_merge( $params, $arg );
@@ -640,9 +640,9 @@ class TInvWL_Admin_Product_UserTable extends WP_List_Table {
 			if ( 'cb' === $column_key ) {
 				$class[] = 'check-column';
 			} elseif ( in_array( $column_key, array(
-					'posts',
-					'comments',
-					'links',
+				'posts',
+				'comments',
+				'links',
 			) ) ) { // @codingStandardsIgnoreLine WordPress.PHP.StrictInArray.MissingTrueStrict
 				$class[] = 'num';
 			}

@@ -35,6 +35,7 @@ html {
  */
 
 body {
+  background-color: initial !important;
   margin: 0;
 }
 
@@ -376,6 +377,7 @@ html {
   /* color-scheme: light dark; */
   -webkit-hyphens: auto;
           hyphens: auto;
+  scroll-behavior: smooth;
 }
 
 
@@ -384,7 +386,8 @@ body {
   font-size: 1.6rem;
   line-height: 2.2rem;
   color: $color-full-black;
-  background-color: transparent;
+  background-color: initial !important;
+  /* background-color: transparent; */
 }
 
 
@@ -414,16 +417,22 @@ p > a {
 
 
 .site-content {
-  padding-top: 9.0rem;
+  padding-top: 11.0rem;
   padding-bottom: 2.5rem;
 
   @include atMedium {
     padding-top: 14.0rem;
+
+
+    padding-top: 2rem;
     padding-bottom: 2.0rem;
   }
 
   @include atLarge {
     padding-top: 17.0rem;
+
+
+    padding-top: 2rem;
     padding-bottom: 2.0rem;
   }
 }
@@ -440,6 +449,7 @@ p > a {
   .site-content {
     position: initial;
     top: 0px !important;
+    background-color: $color-white !important
   }
 }
 

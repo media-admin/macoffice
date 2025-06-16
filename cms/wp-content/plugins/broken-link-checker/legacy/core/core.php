@@ -25,6 +25,14 @@ require BLC_DIRECTORY_LEGACY . '/includes/screen-meta-links.php';
 require BLC_DIRECTORY_LEGACY . '/includes/wp-mutex.php';
 require BLC_DIRECTORY_LEGACY . '/includes/transactions-manager.php';
 
+if ( ! class_exists( 'blcLinkQuery' ) ) {
+	include_once BLC_DIRECTORY_LEGACY . '/includes/link-query.php';
+}
+
+if ( ! class_exists( 'blcIntegrations' ) ) {
+	include_once BLC_DIRECTORY_LEGACY . '/integrations/integrations.php';
+}
+
 if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 
 	/**
@@ -172,6 +180,17 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 		 * @return void
 		 */
 		public function admin_footer() {
+			/*
+			Don't run the script if the user doesn't have the right capabilities to avoid abuse of overloading the server with requests.
+			Remove chances of unnecessary resource usage. Having every logged-in user spawn AJAX jobs is wasteful, especially on busy sites.
+			Malicious logged-in users could:
+			- Reduce the interval time eg from browser's (DoS risk).
+			- Open multiple tabs and flood server with AJAX calls (Logged-in attackers bypass most of rate-limiters and are harder to detect if they blend in).
+			*/
+			if ( ! current_user_can( 'edit_others_posts' ) ) {
+				return;
+			}
+
 			$fix = filter_input( INPUT_GET, 'fix-install-button', FILTER_VALIDATE_BOOLEAN );
 			$tab = ! empty( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : '';
 
@@ -247,9 +266,10 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
                         $.getJSON(
                             "<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>",
                             {
-                                'action': 'blc_dashboard_status',
-                                'random': Math.random()
-                            },
+							'action': 'blc_dashboard_status',
+							'random': Math.random(),
+							'nonce' : '<?php echo esc_js( wp_create_nonce( 'blc_full_status' ) ); ?>'
+							},
                             function (data) {
                                 if (data && (typeof (data.text) != 'undefined')) {
                                     $('#wsblc_activity_box').html(data.text);
@@ -599,12 +619,16 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 				}
 
 				$this->conf->options['mark_broken_links'] = ! empty( $_POST['mark_broken_links'] );
+
 				$new_broken_link_css                      = trim( $cleanPost['broken_link_css'] );
-				$this->conf->options['broken_link_css']   = $new_broken_link_css;
 
 				$this->conf->options['mark_removed_links'] = ! empty( $_POST['mark_removed_links'] );
 				$new_removed_link_css                      = trim( $cleanPost['removed_link_css'] );
-				$this->conf->options['removed_link_css']   = $new_removed_link_css;
+
+				if ( current_user_can( 'unfiltered_html' ) ) {
+					$this->conf->options['broken_link_css']  = $new_broken_link_css;
+					$this->conf->options['removed_link_css'] = $new_removed_link_css;
+				}
 
 				$this->conf->options['nofollow_broken_links'] = ! empty( $_POST['nofollow_broken_links'] );
 
@@ -679,7 +703,7 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 				$this->conf->options['run_via_cron']     = ! empty( $_POST['run_via_cron'] );
 
 				//youtube api
-				$this->conf->options['youtube_api_key'] = ! empty( $_POST['youtube_api_key'] ) ? $_POST['youtube_api_key'] : '';
+				$this->conf->options['youtube_api_key'] = ! empty( $_POST['youtube_api_key'] ) ? sanitize_text_field( wp_unslash( $_POST['youtube_api_key'] ) ) : '';
 
 				//Email notifications on/off
 				$email_notifications              = ! empty( $_POST['send_email_notifications'] );
@@ -705,9 +729,9 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 					$this->conf->options['notification_email_address'] = '';
 				}
 
-				$widget_cap = strval( $_POST['dashboard_widget_capability'] );
+				$widget_cap = sanitize_text_field( wp_unslash( strval( $_POST['dashboard_widget_capability'] ) ) );
 				if ( ! empty( $widget_cap ) ) {
-					$this->conf->options['dashboard_widget_capability'] = $widget_cap;
+					$this->conf->options['dashboard_widget_capability'] =  $widget_cap;
 				}
 
 				//Link actions. The user can hide some of them to reduce UI clutter.
@@ -1086,9 +1110,8 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 												}
 												?>
                                             >
-					<textarea name="broken_link_css" id="broken_link_css" cols='45' rows='4'>
-					<?php
-					if ( isset( $this->conf->options['broken_link_css'] ) ) {
+					<textarea name="broken_link_css" id="broken_link_css" cols='45' rows='4'><?php
+					if ( isset( $this->conf->options['broken_link_css'] ) && current_user_can( 'unfiltered_html' ) ) {
 						echo $this->conf->options['broken_link_css'];
 					}
 					?>
@@ -1131,9 +1154,8 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 												}
 												?>
                                             >
-					<textarea name="removed_link_css" id="removed_link_css" cols='45' rows='4'>
-					<?php
-					if ( isset( $this->conf->options['removed_link_css'] ) ) {
+					<textarea name="removed_link_css" id="removed_link_css" cols='45' rows='4'><?php
+					if ( isset( $this->conf->options['removed_link_css'] ) && current_user_can( 'unfiltered_html' ) ) {
 						echo $this->conf->options['removed_link_css'];
 					}
 					?>
@@ -1214,7 +1236,7 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
                                                             type="text"
                                                             name="youtube_api_key"
                                                             id="youtube_api_key"
-                                                            value="<?php echo $this->conf->options['youtube_api_key']; ?>"
+                                                            value="<?php echo esc_html( $this->conf->options['youtube_api_key'] ); ?>"
                                                             class="regular-text ltr">
                                                 </label><br>
                                                 <span class="description">
@@ -3264,6 +3286,17 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 		 * @return void
 		 */
 		function ajax_full_status() {
+			if ( ! current_user_can( 'edit_others_posts' ) || ! check_ajax_referer( 'blc_full_status', 'nonce', false ) ) {
+				wp_die(
+				json_encode(
+						array(
+							'error' => __( "You're not allowed to do that!", 'broken-link-checker' ),
+						)
+					),
+					403
+				);
+			}
+			
 			$status = $this->get_status();
 			$text   = $this->status_text( $status );
 
@@ -3362,6 +3395,17 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 		 * @return void
 		 */
 		function ajax_current_load() {
+			if ( ! current_user_can( 'edit_others_posts' ) || ! check_ajax_referer( 'blc_current_load', 'nonce', false ) ) {
+				wp_die(
+				json_encode(
+						array(
+							'error' => __( "You're not allowed to do that!", 'broken-link-checker' ),
+						)
+					),
+					403
+				);
+			}
+
 			$load = blcUtility::get_server_load();
 			if ( empty( $load ) ) {
 				die( _x( 'Unknown', 'current load', 'broken-link-checker' ) );
@@ -3408,6 +3452,10 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 
 		function ajax_work() {
 			check_ajax_referer( 'blc_work' );
+
+			if ( ! current_user_can( 'edit_others_posts' ) ) {
+				die( __( "You're not allowed to do that!", 'broken-link-checker' ) );
+			}
 
 			//Run the worker function
 			$this->work();
@@ -4455,7 +4503,8 @@ if ( ! class_exists( 'wsBrokenLinkChecker' ) ) {
 		 * @return void
 		 */
 		function load_language() {
-			$this->is_textdomain_loaded = load_plugin_textdomain( 'broken-link-checker', false, basename( dirname( $this->loader ) ) . '/languages' );
+			//$this->is_textdomain_loaded = load_plugin_textdomain( 'broken-link-checker', false, basename( dirname( $this->loader ) ) . '/languages' );
+			$this->is_textdomain_loaded = true;
 		}
 
 		protected static function get_default_log_directory() {

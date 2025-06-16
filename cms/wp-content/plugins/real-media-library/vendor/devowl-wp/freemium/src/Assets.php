@@ -7,6 +7,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Base;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 trait Assets
 {
     /**

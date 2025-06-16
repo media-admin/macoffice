@@ -10,6 +10,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils;
  * Base i18n management for backend and frontend for a package.
  * For non-utils packages you need to extend from this class and
  * properly fill the constructor.
+ * @internal
  */
 class PackageLocalization
 {
@@ -91,17 +92,42 @@ class PackageLocalization
     /**
      * Get the `/languages` folder which is directly located under the plugins path.
      *
-     * @param string $path
-     * @param boolean $appendFile
+     * @param string $path A path to a folder or file within the plugins folder
+     * @param boolean $appendFile If `true`, it automatically appends the basename of the `$path` to the resulting path
+     * @param string $format The result format, can be `filesystem` or `url`
      */
-    public static function getParentLanguageFolder($path, $appendFile = \false)
+    public static function getParentLanguageFolder($path, $appendFile = \false, $format = 'filesystem')
     {
-        $pluginFilePath = \constant('WP_PLUGIN_DIR') . '/' . \explode('/', \plugin_basename($path))[0];
-        // Disable this in our local development environment
-        if (@\is_dir($pluginFilePath . '/public/ts')) {
-            return \untrailingslashit($path);
+        $slug = \explode('/', \plugin_basename($path))[0];
+        $pluginFilePath = \constant('WP_PLUGIN_DIR') . '/' . $slug;
+        $pluginFile = $pluginFilePath . '/index.php';
+        $pluginLanguagesFolder = $pluginFilePath . '/languages/';
+        $appendFile = $appendFile ? \basename($path) : '';
+        $pathRelative = \substr($path, \strlen($pluginFilePath) + 1);
+        $defaultReturn = $format === 'url' ? \plugins_url($pathRelative, $pluginFile) : \untrailingslashit($path);
+        $pluginFilePathIsDir = @\is_dir($pluginLanguagesFolder);
+        $result = \untrailingslashit($pluginFilePathIsDir ? $pluginLanguagesFolder . $appendFile : $path);
+        $isRemoteMeta = $pluginFilePathIsDir && \is_file($pluginLanguagesFolder . 'meta.json');
+        if ($isRemoteMeta) {
+            // It is placed in `wp-content/languages/` or `wp-includes/languages/...`
+            $cacheDir = self::getMoCacheDir($slug);
+            if (!$cacheDir) {
+                // Offloaded languages were not yet downloaded
+                return $defaultReturn;
+            }
+            $result = \trailingslashit($cacheDir) . $appendFile;
+            if ($format === 'url') {
+                $wpContentDir = \constant('WP_CONTENT_DIR');
+                $wpIncludesDir = \constant('ABSPATH') . \constant('WPINC');
+                if (\strpos($result, $wpContentDir) === 0) {
+                    return \content_url(\substr($result, \strlen($wpContentDir)));
+                } elseif (\strpos($result, $wpIncludesDir) === 0) {
+                    return \includes_url(\substr($result, \strlen($wpIncludesDir)));
+                }
+            } else {
+                return $result;
+            }
         }
-        $pluginFilePath .= '/languages/';
-        return \untrailingslashit(@\is_dir($pluginFilePath) ? $pluginFilePath . ($appendFile ? \basename($path) : '') : $path);
+        return $defaultReturn;
     }
 }

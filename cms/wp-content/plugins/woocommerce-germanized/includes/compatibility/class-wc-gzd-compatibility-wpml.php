@@ -94,6 +94,21 @@ class WC_GZD_Compatibility_WPML extends WC_GZD_Compatibility {
 		add_filter( 'wcml_emails_options_to_translate', array( $this, 'register_email_options' ), 10, 1 );
 		add_filter( 'wcml_emails_section_name_prefix', array( $this, 'filter_email_section_prefix' ), 10, 2 );
 
+		// Translate product category condition for checkboxes
+		add_filter(
+			'woocommerce_gzd_legal_checkbox_show_for_categories',
+			function ( $product_categories ) {
+				$product_categories = array_map(
+					function ( $product_category ) {
+						return apply_filters( 'wpml_object_id', $product_category, 'category' );
+					},
+					(array) $product_categories
+				);
+
+				return $product_categories;
+			}
+		);
+
 		$this->filter_page_ids();
 
 		/**
@@ -334,14 +349,12 @@ class WC_GZD_Compatibility_WPML extends WC_GZD_Compatibility {
 					$lang = $sitepress->get_default_language();
 				}
 			}
-		} else {
-			if ( $object ) {
-				if ( is_a( $object, 'WC_Order' ) ) {
-					$lang = $object->get_meta( 'wpml_language' );
-				} elseif ( is_a( $object, '\Vendidero\Germanized\Shipments\Shipment' ) ) {
-					if ( $order = $object->get_order() ) {
-						$lang = $order->get_meta( 'wpml_language' );
-					}
+		} elseif ( $object ) {
+			if ( is_a( $object, 'WC_Order' ) ) {
+				$lang = $object->get_meta( 'wpml_language' );
+			} elseif ( is_a( $object, '\Vendidero\Shiptastic\Shipment' ) ) {
+				if ( $order = $object->get_order() ) {
+					$lang = $order->get_meta( 'wpml_language' );
 				}
 			}
 		}
@@ -473,13 +486,13 @@ class WC_GZD_Compatibility_WPML extends WC_GZD_Compatibility {
 	 * Reload default, WC and WC Germanized locale
 	 */
 	public function reload_locale() {
-		unload_textdomain( 'default' );
-		unload_textdomain( 'woocommerce' );
+		unload_textdomain( 'default', true );
+		unload_textdomain( 'woocommerce', true );
 
 		// Init WC locale.
 		WC()->load_plugin_textdomain();
 
-		unload_textdomain( 'woocommerce-germanized' );
+		unload_textdomain( 'woocommerce-germanized', true );
 		WC_germanized()->load_plugin_textdomain();
 
 		load_default_textdomain( get_locale() );
@@ -593,7 +606,7 @@ class WC_GZD_Compatibility_WPML extends WC_GZD_Compatibility {
 		}
 	}
 
-	public function language_locale_filter( $default ) {
+	public function language_locale_filter( $default_locale ) {
 		global $sitepress;
 
 		if ( $this->new_language && ! empty( $this->new_language ) ) {
@@ -602,7 +615,7 @@ class WC_GZD_Compatibility_WPML extends WC_GZD_Compatibility {
 			}
 		}
 
-		return $default;
+		return $default_locale;
 	}
 
 	public function language_user_locale_filter( $value, $user_id, $meta_key ) {

@@ -3,12 +3,13 @@
 /*
 Plugin Name: Advanced Woo Search
 Description: Advance ajax WooCommerce product search.
-Version: 2.90
+Version: 3.36
 Author: ILLID
 Author URI: https://advanced-woo-search.com/
 Text Domain: advanced-woo-search
+Requires Plugins: woocommerce
 WC requires at least: 3.0.0
-WC tested up to: 8.2.0
+WC tested up to: 9.9.0
 */
 
 
@@ -44,6 +45,16 @@ final class AWS_Main {
      */
     public $cache = null;
 
+    /**
+     * @var AWS_Main Table updates instance
+     */
+    public $table_updates = null;
+
+    /**
+     * @var AWS_Main Candition vars
+     */
+    public $option_vars = null;
+
 	/**
 	 * Main AWS_Main Instance
 	 *
@@ -69,8 +80,6 @@ final class AWS_Main {
         $this->data['settings'] = get_option( 'aws_settings' );
 
 		add_filter( 'widget_text', 'do_shortcode' );
-
-		add_shortcode( 'aws_search_form', array( $this, 'markup' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
 
@@ -98,7 +107,7 @@ final class AWS_Main {
      */
     private function define_constants() {
 
-        $this->define( 'AWS_VERSION', '2.90' );
+        $this->define( 'AWS_VERSION', '3.36' );
 
         $this->define( 'AWS_DIR', plugin_dir_path( AWS_FILE ) );
         $this->define( 'AWS_URL', plugin_dir_url( AWS_FILE ) );
@@ -113,18 +122,24 @@ final class AWS_Main {
      */
     public function includes() {
 
+        include_once( 'includes/class-aws-option-vars.php' );
         include_once( 'includes/class-aws-helpers.php' );
         include_once( 'includes/class-aws-versions.php' );
         include_once( 'includes/class-aws-cache.php' );
         include_once( 'includes/class-aws-plurals.php' );
+        include_once( 'includes/class-aws-similar-terms.php' );
         include_once( 'includes/class-aws-table.php' );
         include_once( 'includes/class-aws-table-data.php' );
+        include_once( 'includes/class-aws-table-updates.php' );
         include_once( 'includes/class-aws-markup.php' );
         include_once( 'includes/class-aws-search.php' );
         include_once( 'includes/class-aws-tax-search.php' );
         include_once( 'includes/class-aws-search-page.php' );
         include_once( 'includes/class-aws-order.php' );
         include_once( 'includes/class-aws-integrations.php' );
+        include_once( 'includes/class-aws-langs.php' );
+        include_once( 'includes/class-aws-hooks.php' );
+        include_once( 'includes/class-aws-shortcodes.php' );
         include_once( 'includes/widget.php' );
 
         // Admin
@@ -185,8 +200,13 @@ final class AWS_Main {
      * Init plugin classes
      */
     public function init() {
+        $this->option_vars = new AWS_Option_Vars();
         $this->cache = AWS_Cache::factory();
+        $this->table_updates = new AWS_Table_Updates();
         AWS_Integrations::instance();
+        AWS_Hooks::instance();
+        AWS_Shortcodes::instance();
+        AWS_Langs::instance();
     }
 
 	/*

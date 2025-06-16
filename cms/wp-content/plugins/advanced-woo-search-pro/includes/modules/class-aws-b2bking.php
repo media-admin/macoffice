@@ -78,10 +78,20 @@ if ( ! class_exists( 'AWS_B2BKing' ) ) :
          */
         public function products_filter( $query ) {
 
+            global $wpdb;
+
             $products_ids = $this->b2bking_get_all_visible_products();
 
             if ( ! empty( $products_ids ) ) {
-                $query['exclude_products'] .= sprintf( ' AND ( id IN ( %s ) )', implode( ',', $products_ids ) );
+
+                $query_str = implode( ',', $products_ids );
+
+                if ( strpos( $query['type'], 'child' ) !== false || strpos( $query['type'], '2' ) !== false || trim( $query['type'] ) === '' ) {
+                    $query_str = "SELECT ID from $wpdb->posts WHERE post_parent IN ( {$query_str} ) OR ID IN ( {$query_str} )";
+                }
+
+                $query['exclude_products'] .= sprintf( ' AND ( id IN ( %s ) )', $query_str );
+
             }
 
             return $query;

@@ -50,6 +50,25 @@ class WC_GZD_Coupon_Helper {
 		add_action( 'woocommerce_checkout_create_order_fee_item', array( $this, 'fee_item_save' ), 10, 4 );
 
 		add_filter( 'woocommerce_gzd_force_fee_tax_calculation', array( $this, 'exclude_vouchers_from_forced_tax' ), 10, 2 );
+
+		/**
+		 * Use this tweak to make sure fees are sorted deterministically even though
+		 * the amounts (default order) are the same. Germanized explicitly calls WC()->cart->get_fees()
+		 * within woocommerce_cart_totals_get_fees_from_cart_taxes to determine a custom max discount logic.
+		 */
+		add_filter(
+			'woocommerce_sort_fees_callback',
+			function ( $compare, $a, $b ) {
+				if ( $a->amount === $b->amount ) {
+					$compare = strcmp( $a->id, $b->id );
+				}
+
+				return $compare;
+			},
+			500,
+			3
+		);
+
 		add_filter( 'woocommerce_cart_totals_get_fees_from_cart_taxes', array( $this, 'remove_taxes_for_vouchers' ), 10, 3 );
 
 		add_action( 'woocommerce_order_item_fee_after_calculate_taxes', array( $this, 'remove_order_item_fee_taxes' ), 10 );
@@ -72,14 +91,14 @@ class WC_GZD_Coupon_Helper {
 		 */
 		add_action(
 			'woocommerce_admin_order_items_after_line_items',
-			function() {
+			function () {
 				add_filter( 'woocommerce_order_item_get_discount', array( $this, 'voucher_discount' ), 10, 2 );
 			}
 		);
 
 		add_action(
 			'woocommerce_admin_order_totals_after_discount',
-			function() {
+			function () {
 				remove_filter( 'woocommerce_order_item_get_discount', array( $this, 'voucher_discount' ), 10 );
 			}
 		);
@@ -94,7 +113,7 @@ class WC_GZD_Coupon_Helper {
 		/**
 		 * Legacy support for vouchers which may affect subtotal vs. total in shipment customs data.
 		 */
-		add_filter( 'woocommerce_gzd_shipments_order_has_voucher', array( $this, 'legacy_shipments_order_has_voucher' ), 10, 2 );
+		add_filter( 'woocommerce_shiptastic_order_has_voucher', array( $this, 'legacy_shipments_order_has_voucher' ), 10, 2 );
 		add_action( 'wp_ajax_woocommerce_calc_line_taxes', array( $this, 'legacy_before_recalculate_totals' ), 0 );
 	}
 
@@ -338,8 +357,6 @@ class WC_GZD_Coupon_Helper {
 		$fee->update_meta_data( '_voucher_id', $coupon_data['id'] );
 
 		$fee->set_tax_status( 'none' );
-
-		// Add a placeholder negative amount to trigger the recalculation in WC_GZD_Discount_Helper::allow_order_fee_total_incl_tax()
 		$fee->set_total( wc_format_decimal( $coupon_data['amount'] ) );
 		$fee->set_total_tax( 0 );
 
@@ -417,6 +434,7 @@ class WC_GZD_Coupon_Helper {
 					'name'         => esc_attr( $fee->name ),
 					'coupon_name'  => esc_attr( wc_cart_totals_coupon_label( $fee->code, false ) ),
 					'coupon_class' => 'coupon-' . esc_attr( sanitize_title( $fee->code ) ),
+					'code'         => esc_html( $fee->code ),
 				);
 			}
 		}
@@ -433,7 +451,7 @@ class WC_GZD_Coupon_Helper {
 	protected function get_order_fee_total( $order ) {
 		return array_reduce(
 			$order->get_fees(),
-			function( $carry, $item ) {
+			function ( $carry, $item ) {
 				return $carry + ( $item->get_total() + $item->get_total_tax() );
 			}
 		);
@@ -496,7 +514,7 @@ class WC_GZD_Coupon_Helper {
 				if ( $discount < 0 || $max_voucher_total > $max_discount ) {
 					$fee_total = $discount;
 
-					if ( $item->get_total() != $fee_total ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+					if ( $item->get_total() != $fee_total ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseNotEqual
 						$voucher_item_updated = true;
 						$item->set_total( $fee_total );
 					}
@@ -528,7 +546,7 @@ class WC_GZD_Coupon_Helper {
 		} else {
 			$fee_id = isset( $fee->object ) ? $fee->object->id : $fee->id;
 
-			return strstr( $fee_id, 'voucher_' );
+			return strstr( str_replace( '-', '_', $fee_id ), 'voucher_' );
 		}
 	}
 
@@ -635,7 +653,7 @@ class WC_GZD_Coupon_Helper {
 					/**
 					 * We've reached the current voucher object
 					 */
-					if ( $fee_object === $fee->object ) {
+					if ( $fee_object->id === $fee->object->id ) {
 						// Make sure the max voucher amount does not exceed the coupon amount
 						$max_voucher_amount = max( wc_add_number_precision_deep( $fee->object->amount ), $max_discount );
 						$fee->total         = $max_voucher_amount;
@@ -652,7 +670,7 @@ class WC_GZD_Coupon_Helper {
 					$fee_running_total += $tmp_fee->total;
 				}
 
-				if ( $fee_object === $fee->object ) {
+				if ( $fee_object->id === $fee->object->id ) {
 					break;
 				}
 			}
@@ -715,9 +733,23 @@ class WC_GZD_Coupon_Helper {
 		if ( $coupon_id ) {
 			$coupon_object = new WC_Coupon( $coupon_id );
 		} else {
+			$coupon_info = $item->get_meta( 'coupon_info', true );
+			$coupon_data = (array) $item->get_meta( 'coupon_data', true );
+
+			if ( ! empty( $coupon_info ) ) {
+				$coupon_info = (array) json_decode( $coupon_info );
+				$coupon_data = array(
+					'id'            => $coupon_info[0],
+					'code'          => $coupon_info[1],
+					'discount_type' => $coupon_info[2],
+					'amount'        => $coupon_info[3],
+					'free_shipping' => isset( $coupon_info[4] ) ? wc_string_to_bool( $coupon_info[4] ) : false,
+				);
+			}
+
 			// If we do not have a coupon ID (was it virtual? has it been deleted?) we must create a temporary coupon using what data we have stored during checkout.
 			$coupon_object = new WC_Coupon();
-			$coupon_object->set_props( (array) $item->get_meta( 'coupon_data', true ) );
+			$coupon_object->set_props( $coupon_data );
 			$coupon_object->set_code( $coupon_code );
 			$coupon_object->set_virtual( true );
 		}
@@ -730,7 +762,7 @@ class WC_GZD_Coupon_Helper {
 	 *
 	 * @return array
 	 */
-	protected function get_fee_data_from_coupon( $coupon, $object ) {
+	protected function get_fee_data_from_coupon( $coupon, $cart_or_order ) {
 		if ( is_a( $coupon, 'WC_Order_Item_Coupon' ) ) {
 			$coupon = $this->get_voucher_by_coupon_order_item( $coupon );
 		}
@@ -740,7 +772,7 @@ class WC_GZD_Coupon_Helper {
 		}
 
 		$this->unregister_coupon_validation_filters();
-		$discounts = new WC_GZD_Voucher_Discounts( $object, $coupon );
+		$discounts = new WC_GZD_Voucher_Discounts( $cart_or_order, $coupon );
 		$discounts->apply_coupon( $coupon, false );
 		$total_discounts = $discounts->get_discounts_by_coupon();
 		$this->register_coupon_validation_filters();

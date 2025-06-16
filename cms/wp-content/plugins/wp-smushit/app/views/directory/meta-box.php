@@ -10,16 +10,15 @@
  *
  * @var Smush\App\Pages\Directory $this  Dashboard page.
  */
-
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
 ?>
 <div class="wp-smush-scan-result">
-	<?php if ( ! apply_filters( 'wpmudev_branding_hide_branding', false ) ) : ?>
-		<img class="sui-image" src="<?php echo esc_url( WP_SMUSH_URL . 'app/assets/images/smush-no-media.png' ); ?>" alt="<?php esc_html_e( 'Directory Smush - Choose Folder', 'wp-smushit' ); ?>">
-	<?php endif; ?>
+
+    <img class="sui-image" src="<?php echo esc_url( WP_SMUSH_URL . 'app/assets/images/smush-no-media.png' ); ?>" alt="<?php esc_html_e( 'Directory Smush - Choose Folder', 'wp-smushit' ); ?>">
+
 	<div class="sui-message-content">
 		<p>
 			<?php esc_html_e( 'In addition to smushing your media uploads, you may want to smush non WordPress images that are outside of your uploads directory. Get started by adding files and folders you wish to optimize.', 'wp-smushit' ); ?>
@@ -31,6 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
 	</div>
 	<!-- Notices -->
 	<?php $this->smush_result_notice(); ?>
+	<?php if ( ! WP_Smush::is_pro() ) : ?>
 	<div class="sui-notice sui-notice-info wp-smush-dir-limit sui-hidden">
 		<div class="sui-notice-content">
 			<div class="sui-notice-message">
@@ -49,6 +49,7 @@ if ( ! defined( 'WPINC' ) ) {
 			</div>
 		</div>
 	</div>
+	<?php endif; ?>
 
 	<?php if ( ! empty( $images ) ) : ?>
 		<div class="smush-final-log">

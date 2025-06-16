@@ -5,6 +5,7 @@
  * @since 3.2.3
  * @package WP_Smush
  */
+use Smush\App\Admin;
 
 $upgrade_url = add_query_arg(
 	array(
@@ -24,7 +25,15 @@ $can_use_background = $bg_optimization->can_use_background();
 		<div class="sui-upgrade-page__container">
 			<div class="sui-upgrade-page-header__content">
 				<h1><?php esc_html_e( 'Upgrade to Smush Pro', 'wp-smushit' ); ?></h1>
-				<p><?php esc_html_e( "Get Smush Pro and bulk optimize every image you've ever added to your site with one click. Smush images in the background and serve them in stunning high quality from 114 locations around the globe with our blazing-fast CDN.", 'wp-smushit' ); ?></p>
+				<p>
+				<?php
+				printf(
+					/* translators: %d: Number of CDN PoP locations */
+					esc_html__( "Get Smush Pro and bulk optimize every image you've ever added to your site with one click. Smush images in the background and serve them in stunning high quality from %d locations around the globe with our blazing-fast CDN.", 'wp-smushit' ),
+					Admin::CDN_POP_LOCATIONS
+				);
+				?>
+				</p>
 				<p>
 				<?php
 				printf(
@@ -129,17 +138,38 @@ $can_use_background = $bg_optimization->can_use_background();
 				<h3><?php esc_html_e( 'Compress images in the background', 'wp-smushit' ); ?></h3>
 				<p><?php esc_html_e( 'Thanks to Background Optimization, you can leave the plugin interface while images are still being compressed. Smush will continue to work its magic in the background, leaving you free to do other things!', 'wp-smushit' ); ?></p>
 			</div>
-			<?php endif;?>
+			<?php endif; ?>
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-web-globe-world" aria-hidden="true"></i>
-				<h3><?php esc_html_e( 'Streamline your images with Smush CDN', 'wp-smushit' ); ?></h3>
-				<p><?php esc_html_e( 'Use the blazing-fast Smush image CDN to automatically resize your files to the perfect size and serve WebP files (25% smaller than PNG and JPG) from 114 locations around the globe.', 'wp-smushit' ); ?></p>
+				<h3>
+					<?php
+					echo esc_html( $this->whitelabel->whitelabel_string( __( 'Streamline your images with Smush CDN', 'wp-smushit' ) ) );
+					?>
+				</h3>
+				<p>
+				<?php
+				printf(
+					/* translators: %d: Number of CDN PoP locations */
+					esc_html__( 'Use the blazing-fast Smush image CDN to automatically resize your files to the perfect size and serve WebP files (25%% smaller than PNG and JPG) from %d locations around the globe.', 'wp-smushit' ),
+					Admin::CDN_POP_LOCATIONS
+				);
+				?>
+					</p>
 			</div>
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-photo-picture" aria-hidden="true"></i>
-				<h3><?php esc_html_e( 'Serve next-gen WebP images (without Smush CDN)', 'wp-smushit' ); ?></h3>
-				<p><?php esc_html_e( "Prefer not to use Smush CDN? Our standalone WebP feature allows you to serve next-gen images without sacrificing quality. You can also gracefully fall back to the older image formats for browsers that aren't compatible.", 'wp-smushit' ); ?></p>
-			</div>
+				<h3>
+					<?php
+					echo esc_html( $this->whitelabel->whitelabel_string( __( 'Serve next-gen WebP images (without Smush CDN)', 'wp-smushit' ) ) );
+					?>
+				</h3>
+				<p>
+					<?php
+					$cdn_next_gen_message = __( "Prefer not to use Smush CDN? Our standalone WebP feature allows you to serve next-gen images without sacrificing quality. You can also gracefully fall back to the older image formats for browsers that aren't compatible.", 'wp-smushit' );
+					echo esc_html( $this->whitelabel->whitelabel_string( $cdn_next_gen_message ) );
+					?>
+                </p>
+            </div>
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-wand-magic" aria-hidden="true"></i>
 				<h3><?php esc_html_e( 'Auto-convert PNGs to JPEGs (lossy)', 'wp-smushit' ); ?></h3>
@@ -148,7 +178,15 @@ $can_use_background = $bg_optimization->can_use_background();
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-hummingbird" aria-hidden="true"></i>
 				<h3><?php esc_html_e( 'Get faster sites with Hummingbird Pro', 'wp-smushit' ); ?></h3>
-				<p><?php esc_html_e( 'Optimize the performance of your site and ace that Google PageSpeed score with a full caching suite, automatic asset optimization, and our blazing-fast 114-point CDN.', 'wp-smushit' ); ?></p>
+				<p>
+				<?php
+				printf(
+					/* translators: %d: Number of CDN PoP locations */
+					esc_html__( 'Optimize the performance of your site and ace that Google PageSpeed score with a full caching suite, automatic asset optimization, and our blazing-fast %d-point CDN.', 'wp-smushit' ),
+					Admin::CDN_POP_LOCATIONS
+				);
+				?>
+					</p>
 			</div>
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-graph-bar" aria-hidden="true"></i>
@@ -193,30 +231,5 @@ $can_use_background = $bg_optimization->can_use_background();
 	</div>
 </div>
 
-<div class="sui-footer">
-	<?php esc_html_e( 'Made with', 'wp-smushit' ); ?> <i class="sui-icon-heart" aria-hidden="true"></i> <?php esc_html_e( 'by WPMU DEV', 'wp-smushit' ); ?>
-</div>
-
-<ul class="sui-footer-nav">
-	<li><a href="https://profiles.wordpress.org/wpmudev#content-plugins" target="_blank">
-			<?php esc_html_e( 'Free Plugins', 'wp-smushit' ); ?>
-		</a></li>
-	<li><a href="https://wpmudev.com/roadmap/" target="_blank">
-			<?php esc_html_e( 'Roadmap', 'wp-smushit' ); ?>
-		</a></li>
-	<li><a href="https://wordpress.org/support/plugin/wp-smushit" target="_blank">
-			<?php esc_html_e( 'Support', 'wp-smushit' ); ?>
-		</a></li>
-	<li><a href="https://wpmudev.com/docs/" target="_blank">
-			<?php esc_html_e( 'Docs', 'wp-smushit' ); ?>
-		</a></li>
-	<li><a href="https://wpmudev.com/hub-welcome/" target="_blank">
-			<?php esc_html_e( 'The Hub', 'wp-smushit' ); ?>
-		</a></li>
-	<li><a href="https://wpmudev.com/terms-of-service/" target="_blank">
-			<?php esc_html_e( 'Terms of Service', 'wp-smushit' ); ?>
-		</a></li>
-	<li><a href="https://incsub.com/privacy-policy/" target="_blank">
-			<?php esc_html_e( 'Privacy Policy', 'wp-smushit' ); ?>
-		</a></li>
-</ul>
+<?php
+$this->view( 'footer-links', array(), 'common' );

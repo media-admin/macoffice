@@ -82,6 +82,15 @@
 }
 
 
+	.services__listing {
+		list-style-position: inside;
+		line-height: 2.8rem;
+		margin-left: 2.0rem;
+		padding-top: 1.0rem;
+		padding-bottom: 0.5rem;
+	}
+
+
 .leistungen .services__container .wrapper {
 	color: $color-full-black !important;
 }

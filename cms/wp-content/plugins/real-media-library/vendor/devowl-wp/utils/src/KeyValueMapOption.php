@@ -13,6 +13,7 @@ use WP_REST_Response;
  *
  * It also provides some methods to generate notices with dismiss-functionality (best use-case
  * for a key-value map), and allowing to modify the value via REST API.
+ * @internal
  */
 class KeyValueMapOption
 {
@@ -213,7 +214,7 @@ class KeyValueMapOption
      */
     public function getMap()
     {
-        $map = $this->isSiteWide() ? \get_site_option($this->getName()) : \get_option($this->getName());
+        $map = $this->isSiteWide() ? \get_site_option($this->getName(), []) : \get_option($this->getName(), []);
         if (isset($map['__created']) && $map['__created']) {
             foreach ($this->migrations as $migration) {
                 $map = $migration($map);

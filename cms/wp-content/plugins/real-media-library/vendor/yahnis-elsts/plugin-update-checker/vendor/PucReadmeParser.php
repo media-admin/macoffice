@@ -6,6 +6,7 @@ if (!\class_exists('MatthiasWeb\\RealMediaLibrary\\Vendor\\PucReadmeParser', \fa
     /**
      * This is a slightly modified version of github.com/markjaquith/WordPress-Plugin-Readme-Parser
      * It uses Parsedown instead of the "Markdown Extra" parser.
+     * @internal
      */
     class PucReadmeParser
     {
@@ -213,7 +214,7 @@ if (!\class_exists('MatthiasWeb\\RealMediaLibrary\\Vendor\\PucReadmeParser', \fa
         function sanitize_text($text)
         {
             // not fancy
-            $text = \strip_tags($text);
+            $text = \function_exists('wp_strip_all_tags') ? \wp_strip_all_tags($text) : \strip_tags($text);
             $text = \esc_html($text);
             $text = \trim($text);
             return $text;

@@ -5,9 +5,9 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\
 use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\client\ClientUtils;
 use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\PluginUpdate;
 use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\UtilsProvider;
-use MatthiasWeb\RealMediaLibrary\Vendor\Puc_v4p4_Plugin_UpdateChecker;
-use MatthiasWeb\RealMediaLibrary\Vendor\Puc_v4_Factory;
 use WP_Error;
+use MatthiasWeb\RealMediaLibrary\Vendor\YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+use MatthiasWeb\RealMediaLibrary\Vendor\YahnisElsts\PluginUpdateChecker\v5p3\UpdateChecker;
 // @codeCoverageIgnoreStart
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
@@ -16,6 +16,7 @@ use WP_Error;
  * Enable external updates with the help of PUC. This should be only done in non-free plugins!
  *
  * @see https://github.com/YahnisElsts/plugin-update-checker
+ * @internal
  */
 class PluginUpdateChecker
 {
@@ -30,7 +31,7 @@ class PluginUpdateChecker
     /**
      * Plugin Update Checker instance.
      *
-     * @var Puc_v4p4_Plugin_UpdateChecker|null
+     * @var UpdateChecker|null
      * @see https://github.com/YahnisElsts/plugin-update-checker
      */
     private $puc;
@@ -53,10 +54,7 @@ class PluginUpdateChecker
         if (!$initiator->isExternalUpdateEnabled()) {
             return;
         }
-        // If an old WordPress plugin is using an older version of Composer, then `load-v4p10.php` gets not autoloaded automatically
-        // Unfortunately, PuC is using not the PSR-4 (or greater) autoloader which comes with Composer
-        require_once $initiator->getPluginBase()->getPluginConstant('PATH') . '/vendor/yahnis-elsts/plugin-update-checker/load-v4p11.php';
-        $puc = Puc_v4_Factory::buildUpdateChecker($initiator->getHost() . self::ENDPOINT, $initiator->getPluginFile(), $initiator->getPluginSlug());
+        $puc = PucFactory::buildUpdateChecker($initiator->getHost() . self::ENDPOINT, $initiator->getPluginFile(), $initiator->getPluginSlug());
         // Add our license key to the external request
         $puc->addQueryArgFilter([$this, 'queryArg']);
         // Validate response against license expiration

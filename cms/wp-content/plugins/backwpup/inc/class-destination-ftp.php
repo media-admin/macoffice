@@ -152,45 +152,53 @@ class BackWPup_Destination_Ftp extends BackWPup_Destinations
 		<?php
     }
 
-    public function edit_form_post_save(int $id): void
-    {
-        $_POST['ftphost'] = str_replace(['http://', 'ftp://'], '', sanitize_text_field($_POST['ftphost']));
-        BackWPup_Option::update($id, 'ftphost', $_POST['ftphost'] ?? '');
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param int|array $id
+	 *
+	 * @return void
+	 *
+	 * @phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+	 */
+	public function edit_form_post_save( $id ): void {
+				$jobids = (array) $id;
 
-        BackWPup_Option::update(
-            $id,
-            'ftphostport',
-            !empty($_POST['ftphostport']) ? absint($_POST['ftphostport']) : 21
-        );
-        BackWPup_Option::update(
-            $id,
-            'ftptimeout',
-            !empty($_POST['ftptimeout']) ? absint($_POST['ftptimeout']) : 90
-        );
-        BackWPup_Option::update($id, 'ftpuser', sanitize_text_field($_POST['ftpuser']));
-        BackWPup_Option::update($id, 'ftppass', BackWPup_Encryption::encrypt($_POST['ftppass']));
-
-        if (!empty($_POST['ftpdir'])) {
-            $_POST['ftpdir'] = trailingslashit(
-                str_replace('//', '/', str_replace('\\', '/', trim(sanitize_text_field($_POST['ftpdir']))))
-            );
-        }
-        BackWPup_Option::update($id, 'ftpdir', $_POST['ftpdir']);
-
-        BackWPup_Option::update(
-            $id,
-            'ftpmaxbackups',
-            !empty($_POST['ftpmaxbackups']) ? absint($_POST['ftpmaxbackups']) : 0
-        );
-
-        if (function_exists('ftp_ssl_connect')) {
-            BackWPup_Option::update($id, 'ftpssl', !empty($_POST['ftpssl']));
-        } else {
-            BackWPup_Option::update($id, 'ftpssl', false);
-        }
-
-        BackWPup_Option::update($id, 'ftppasv', !empty($_POST['ftppasv']));
-    }
+		$_POST['ftphost'] = str_replace( [ 'http://', 'ftp://' ], '', sanitize_text_field( $_POST['ftphost'] ) );
+		if ( ! empty( $_POST['ftpdir'] ) ) {
+				$_POST['ftpdir'] = trailingslashit(
+					str_replace( '//', '/', str_replace( '\\', '/', trim( sanitize_text_field( $_POST['ftpdir'] ) ) ) )
+				);
+		}
+		foreach ( $jobids as $id ) {
+				BackWPup_Option::update( $id, 'ftphost', $_POST['ftphost'] ?? '' );
+				BackWPup_Option::update(
+					$id,
+					'ftphostport',
+					! empty( $_POST['ftphostport'] ) ? absint( $_POST['ftphostport'] ) : 21
+				);
+				BackWPup_Option::update(
+					$id,
+					'ftptimeout',
+					! empty( $_POST['ftptimeout'] ) ? absint( $_POST['ftptimeout'] ) : 90
+				);
+				BackWPup_Option::update( $id, 'ftpuser', sanitize_text_field( $_POST['ftpuser'] ) );
+				BackWPup_Option::update( $id, 'ftppass', BackWPup_Encryption::encrypt( $_POST['ftppass'] ) );
+				BackWPup_Option::update( $id, 'ftpdir', $_POST['ftpdir'] );
+				BackWPup_Option::update(
+					$id,
+					'ftpmaxbackups',
+					! empty( $_POST['ftpmaxbackups'] ) ? absint( $_POST['ftpmaxbackups'] ) : 0
+				);
+			if ( function_exists( 'ftp_ssl_connect' ) ) {
+				BackWPup_Option::update( $id, 'ftpssl', ! empty( $_POST['ftpssl'] ) );
+			} else {
+					BackWPup_Option::update( $id, 'ftpssl', false );
+			}
+				BackWPup_Option::update( $id, 'ftppasv', ! empty( $_POST['ftppasv'] ) );
+		}
+	}
+	// phpcs:enable
 
     public function file_delete(string $jobdest, string $backupfile): void
     {
@@ -309,10 +317,10 @@ class BackWPup_Destination_Ftp extends BackWPup_Destinations
             }
             ftp_chdir($ftp_conn_id, $ftp_dir);
 
-            if (BackWPup_Option::get($jobid, 'ftppasv')) {
-                ftp_set_option($ftp_conn_id, FTP_USEPASVADDRESS, apply_filters(self::FILTER_USEPASVADDRESS, true));
-                ftp_pasv($ftp_conn_id, true);
-            } else {
+			if ( BackWPup_Option::get( $jobid, 'ftppasv' ) ) {
+				ftp_set_option( $ftp_conn_id, FTP_USEPASVADDRESS, wpm_apply_filters_typed( 'string', self::FILTER_USEPASVADDRESS, true ) );
+				ftp_pasv( $ftp_conn_id, true );
+			} else {
                 ftp_pasv($ftp_conn_id, false);
             }
         } else {
@@ -571,12 +579,12 @@ class BackWPup_Destination_Ftp extends BackWPup_Destinations
             $job_object->substeps_done = 0;
         }
 
-        //PASV
-        $job_object->log(sprintf(__('FTP client command: %s', 'backwpup'), 'PASV'), E_USER_NOTICE);
-        if ($job_object->job['ftppasv']) {
-            ftp_set_option($ftp_conn_id, FTP_USEPASVADDRESS, apply_filters(self::FILTER_USEPASVADDRESS, true));
-            if (ftp_pasv($ftp_conn_id, true)) {
-                $job_object->log(
+		// PASV.
+		$job_object->log( sprintf( __( 'FTP client command: %s', 'backwpup' ), 'PASV' ), E_USER_NOTICE ); // @phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+		if ( $job_object->job['ftppasv'] ) {
+			ftp_set_option( $ftp_conn_id, FTP_USEPASVADDRESS, wpm_apply_filters_typed( 'boolean', self::FILTER_USEPASVADDRESS, true ) );
+			if ( ftp_pasv( $ftp_conn_id, true ) ) {
+				$job_object->log(
                     sprintf(__('FTP server reply: %s', 'backwpup'), __('Entering passive mode', 'backwpup')),
                     E_USER_NOTICE
                 );
@@ -636,9 +644,11 @@ class BackWPup_Destination_Ftp extends BackWPup_Destinations
                     BackWPup_Option::update(
                         $job_object->job['jobid'],
                         'lastbackupdownloadurl',
-                        'ftp://' . $job_object->job['ftpuser'] . ':' . BackWPup_Encryption::decrypt(
-                            $job_object->job['ftppass']
-                        ) . '@' . $job_object->job['ftphost'] . ':' . $job_object->job['ftphostport'] . $current_ftp_dir . $job_object->backup_file
+                        network_admin_url(
+                            'admin.php?page=backwpupbackups&action=downloadftp&file=' .
+                            $current_ftp_dir . $job_object->backup_file . '&local_file=' .
+                            $job_object->backup_file . '&jobid=' . $job_object->job['jobid']
+                        )
                     );
                 }
 
@@ -658,18 +668,86 @@ class BackWPup_Destination_Ftp extends BackWPup_Destinations
         return true;
     }
 
-    public function can_run(array $job_settings): bool
-    {
-        if (empty($job_settings['ftphost'])) {
-            return false;
+	/**
+	 * Test if the job can run.
+	 *
+	 * @todo Refactor and log errors and clean it up.
+	 *
+	 * @param array $job_settings
+	 * @return boolean
+	 */
+    // phpcs:disable 
+	public function can_run( array $job_settings ): bool {
+		if ( empty( $job_settings['ftphost'] ) ) {
+			return false;
         }
 
         if (empty($job_settings['ftpuser'])) {
             return false;
         }
 
-        return !(empty($job_settings['ftppass']));
+		if ( empty( $job_settings['ftppass'] ) ) {
+			return false;
+		}
+		if ( ! empty( $job_settings['ftpssl'] ) ) { // make SSL FTP connection
+			if ( function_exists( 'ftp_ssl_connect' ) ) {
+				$ftp_conn_id = ftp_ssl_connect(
+					$job_settings['ftphost'],
+					$job_settings['ftphostport'],
+					$job_settings['ftptimeout']
+				);
+				if ( ! $ftp_conn_id ) {
+					return false;
+				}
+			}
+        } else { //make normal FTP connection if SSL not work
+			$ftp_conn_id = ftp_connect(
+				$job_settings['ftphost'],
+				$job_settings['ftphostport'],
+				$job_settings['ftptimeout']
+			);
+			if ( ! $ftp_conn_id ) {
+				return false;
+			}
+        }
+
+		// FTP Login
+		if ( $loginok = @ftp_login(
+			$ftp_conn_id,
+			$job_settings['ftpuser'],
+			BackWPup_Encryption::decrypt( $job_settings['ftppass'] )
+		) ) {
+			// var_dump(
+			// sprintf(
+			// __('FTP server response: %s', 'backwpup'),
+			// 'User ' . $job_settings['ftpuser'] . ' logged in.'
+			// ));
+		} else { // if PHP ftp login don't work use raw login
+			$return = ftp_raw( $ftp_conn_id, 'USER ' . $job_settings['ftpuser'] );
+			// var_dump(sprintf(__('FTP server reply: %s', 'backwpup'), $return[0]));
+			if ( substr( trim( $return[0] ), 0, 3 ) <= 400 ) {
+				// var_dump(
+				// sprintf(__('FTP client command: %s', 'backwpup'), 'PASS *******')
+				// );
+				$return = ftp_raw(
+					$ftp_conn_id,
+					'PASS ' . BackWPup_Encryption::decrypt( $job_settings['ftppass'] )
+				);
+				if ( substr( trim( $return[0] ), 0, 3 ) <= 400 ) {
+					// var_dump(sprintf(__('FTP server reply: %s', 'backwpup'), $return[0]));
+					$loginok = true;
+				} else {
+					// var_dump(sprintf(__('FTP server reply: %s', 'backwpup'), $return[0]));
+				}
+            }
+		}
+		// var_dump($loginok);
+		if ( ! $loginok ) {
+			return false;
+		}
+		return true;
     }
+    // phpcs:enable 
 
     /**
      * Create a directory.

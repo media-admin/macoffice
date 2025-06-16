@@ -10,6 +10,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\Abstra
 // @codeCoverageIgnoreEnd
 /**
  * Initiate real-product-manager-wp-client functionality.
+ * @internal
  */
 class RpmInitiator extends AbstractInitiator
 {

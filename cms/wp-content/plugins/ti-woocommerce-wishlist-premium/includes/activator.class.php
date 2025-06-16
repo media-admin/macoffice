@@ -881,7 +881,7 @@ class TInvWL_Activator {
 					'sell_as_gift'     => 'int_0',
 				),
 				'index'   => array(
-					'unique_product' => 'wishlist_id, product_id, variation_id',
+					'unique_product_analytics' => 'wishlist_id, product_id, variation_id',
 				),
 				'upgrade' => array(
 					array(

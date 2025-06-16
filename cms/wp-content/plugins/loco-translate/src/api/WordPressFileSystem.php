@@ -60,10 +60,10 @@ class Loco_api_WordPressFileSystem {
 
 
     /**
-     * Pre-auth checks for superficial file system blocks and disconnects any active remotes
-     * @param Loco_fs_File $file
+     * Pre-auth checks for superficial file system denials and disconnects any active remotes
+     * @param Loco_fs_File $file the file you wish to modify
      * @throws Loco_error_WriteException
-     * @return bool always true
+     * @return void
      */
     public function preAuthorize( Loco_fs_File $file ){
         if( ! $this->fs_allowed ){
@@ -72,7 +72,6 @@ class Loco_api_WordPressFileSystem {
         }
         // Disconnecting remote file system ensures the auth functions always start with direct file access
         $file->getWriteContext()->disconnect();
-        return true;
     }
 
 
@@ -134,9 +133,8 @@ class Loco_api_WordPressFileSystem {
      * Authorize for move (to another path if given).
      * @param Loco_fs_File $source file being moved (must exist)
      * @param Loco_fs_File|null $target target path (should not exist)
-     * @return bool
      */
-    public function authorizeMove( Loco_fs_File $source, Loco_fs_File $target = null ){
+    public function authorizeMove( Loco_fs_File $source, ?Loco_fs_File $target = null ):bool {
         // source is in charge of its own deletion
         $result = $this->authorizeDelete($source);
         // target is in charge of copying original which it must also be able to read.

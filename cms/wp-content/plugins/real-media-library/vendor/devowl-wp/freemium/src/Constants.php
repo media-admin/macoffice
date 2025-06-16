@@ -8,6 +8,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\Freemium;
 // @codeCoverageIgnoreEnd
 /**
  * Common constants.
+ * @internal
  */
 abstract class Constants
 {

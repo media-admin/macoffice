@@ -14,7 +14,7 @@ dywc.init({
 	id_cookielayer: 'dywc',
 	id_cookieinfo: 'dywc_info',
 
-	url_legalnotice: '/datenschutzerklaerung', // or null
+	url_legalnotice: '/datenschutz', // or null
 	url_imprint: '/impressum', // or null
 
 	text_title: 'Datenschutzeinstellungen',

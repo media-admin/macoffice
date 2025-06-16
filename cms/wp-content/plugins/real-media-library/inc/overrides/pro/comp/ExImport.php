@@ -9,6 +9,7 @@ use MatthiasWeb\RealMediaLibrary\Util;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 trait ExImport
 {
     // Documented in IOverrideExImport
@@ -160,7 +161,7 @@ trait ExImport
             $values = [];
             // Flat
             foreach ($tree as $node) {
-                $this->idOffset++;
+                ++$this->idOffset;
                 // Create column values
                 $columnValues = [$this->idOffset, $parent, \get_current_user_id()];
                 foreach ($this->columns as $column) {
@@ -191,7 +192,7 @@ trait ExImport
                             $metaValues[] = $wpdb->prepare('%d, %s, %s', $lastParent, $meta['meta_key'], $meta['meta_value']);
                         }
                     }
-                    $lastParent--;
+                    --$lastParent;
                 }
                 // SQL Insert meta data
                 if (\count($metaValues) > 0) {

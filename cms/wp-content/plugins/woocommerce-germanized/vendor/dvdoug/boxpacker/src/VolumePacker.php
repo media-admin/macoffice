@@ -20,64 +20,40 @@ use function usort;
 
 /**
  * Actual packer.
- *
- * @author Doug Wright
  */
 class VolumePacker implements LoggerAwareInterface
 {
     /**
      * The logger instance.
-     *
-     * @var LoggerInterface
      */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
      * Box to pack items into.
-     *
-     * @var Box
      */
-    protected $box;
+    protected Box $box;
 
     /**
      * List of items to be packed.
-     *
-     * @var ItemList
      */
-    protected $items;
+    protected ItemList $items;
 
     /**
      * Whether the packer is in single-pass mode.
-     *
-     * @var bool
      */
-    protected $singlePassMode = false;
+    protected bool $singlePassMode = false;
 
     /**
      * Whether the packer should only try packing along the width.
-     *
-     * @var bool
      */
-    protected $packAcrossWidthOnly = false;
+    protected bool $packAcrossWidthOnly = false;
 
-    /**
-     * @var bool
-     */
-    protected $beStrictAboutItemOrdering = false;
+    protected bool $beStrictAboutItemOrdering = false;
 
-    /**
-     * @var LayerPacker
-     */
-    private $layerPacker;
+    private LayerPacker $layerPacker;
 
-    /**
-     * @var bool
-     */
-    private $hasConstrainedItems;
+    private bool $hasConstrainedItems;
 
-    /**
-     * Constructor.
-     */
     public function __construct(Box $box, ItemList $items)
     {
         $this->box = $box;
@@ -155,9 +131,7 @@ class VolumePacker implements LoggerAwareInterface
             $boxPermutations[] = $boxPermutation;
         }
 
-        usort($boxPermutations, static function (PackedBox $a, PackedBox $b) {
-            return $b->getVolumeUtilisation() <=> $a->getVolumeUtilisation();
-        });
+        usort($boxPermutations, static fn (PackedBox $a, PackedBox $b) => $b->getVolumeUtilisation() <=> $a->getVolumeUtilisation());
 
         return reset($boxPermutations);
     }
@@ -170,6 +144,7 @@ class VolumePacker implements LoggerAwareInterface
     private function packRotation(int $boxWidth, int $boxLength): PackedBox
     {
         $this->logger->debug("[EVALUATING ROTATION] {$this->box->getReference()}", ['width' => $boxWidth, 'length' => $boxLength]);
+        $this->layerPacker->setBoxIsRotated($this->box->getInnerWidth() !== $boxWidth);
 
         /** @var PackedLayer[] $layers */
         $layers = [];
@@ -186,11 +161,12 @@ class VolumePacker implements LoggerAwareInterface
                 break;
             }
 
-            if ($preliminaryLayer->getDepth() === $preliminaryLayer->getItems()[0]->getDepth()) { // preliminary === final
+            $preliminaryLayerDepth = $preliminaryLayer->getDepth();
+            if ($preliminaryLayerDepth === $preliminaryLayer->getItems()[0]->getDepth()) { // preliminary === final
                 $layers[] = $preliminaryLayer;
                 $items = $preliminaryItems;
             } else { // redo with now-known-depth so that we can stack to that height from the first item
-                $layers[] = $this->layerPacker->packLayer($items, $packedItemList, 0, 0, $layerStartDepth, $boxWidth, $boxLength, $this->box->getInnerDepth() - $layerStartDepth, $preliminaryLayer->getDepth(), true);
+                $layers[] = $this->layerPacker->packLayer($items, $packedItemList, 0, 0, $layerStartDepth, $boxWidth, $boxLength, $this->box->getInnerDepth() - $layerStartDepth, $preliminaryLayerDepth, true);
             }
         }
 
@@ -198,14 +174,10 @@ class VolumePacker implements LoggerAwareInterface
             $layers = $this->stabiliseLayers($layers);
 
             // having packed layers, there may be tall, narrow gaps at the ends that can be utilised
-            $maxLayerWidth = max(array_map(static function (PackedLayer $layer) {
-                return $layer->getEndX();
-            }, $layers));
+            $maxLayerWidth = max(array_map(static fn (PackedLayer $layer) => $layer->getEndX(), $layers));
             $layers[] = $this->layerPacker->packLayer($items, $this->getPackedItemList($layers), $maxLayerWidth, 0, 0, $boxWidth, $boxLength, $this->box->getInnerDepth(), $this->box->getInnerDepth(), false);
 
-            $maxLayerLength = max(array_map(static function (PackedLayer $layer) {
-                return $layer->getEndY();
-            }, $layers));
+            $maxLayerLength = max(array_map(static fn (PackedLayer $layer) => $layer->getEndY(), $layers));
             $layers[] = $this->layerPacker->packLayer($items, $this->getPackedItemList($layers), 0, $maxLayerLength, 0, $boxWidth, $boxLength, $this->box->getInnerDepth(), $this->box->getInnerDepth(), false);
         }
 
@@ -238,6 +210,8 @@ class VolumePacker implements LoggerAwareInterface
      * Swap back width/length of the packed items to match orientation of the box if needed.
      *
      * @param PackedLayer[] $oldLayers
+     *
+     * @return PackedLayer[]
      */
     private function correctLayerRotation(array $oldLayers, int $boxWidth): array
     {

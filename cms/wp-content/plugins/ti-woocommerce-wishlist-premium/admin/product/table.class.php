@@ -120,8 +120,8 @@ class TInvWL_Admin_Product_Table extends WP_List_Table {
 	public static function get_products( $per_page = 10, $page_number = 1, $external = true ) {
 		global $wpdb;
 
-		$orderby = strtolower( filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
-		$order   = strtoupper( filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		$orderby = strtolower( filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ?? '' );
+		$order   = strtoupper( filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ?? '' );
 		$search  = filter_input( INPUT_POST, 's', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( ! in_array( $order, array(
 			'ASC',

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace DVDoug\BoxPacker;
 
 use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 use function array_filter;
@@ -19,29 +19,25 @@ use function usort;
 /**
  * Figure out orientations for an item and a given set of dimensions.
  *
- * @author Doug Wright
  * @internal
  */
 class OrientatedItemFactory implements LoggerAwareInterface
 {
-    use LoggerAwareTrait;
+    protected LoggerInterface $logger;
 
-    /**
-     * @var Box
-     */
-    protected $box;
+    protected Box $box;
 
     /**
      * Whether the packer is in single-pass mode.
-     *
-     * @var bool
      */
-    protected $singlePassMode = false;
+    protected bool $singlePassMode = false;
+
+    protected bool $boxIsRotated = false;
 
     /**
-     * @var bool[]
+     * @var array<string, bool>
      */
-    protected static $emptyBoxStableItemOrientationCache = [];
+    protected static array $emptyBoxStableItemOrientationCache = [];
 
     public function __construct(Box $box)
     {
@@ -49,9 +45,19 @@ class OrientatedItemFactory implements LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
+    }
+
     public function setSinglePassMode(bool $singlePassMode): void
     {
         $this->singlePassMode = $singlePassMode;
+    }
+
+    public function setBoxIsRotated(bool $boxIsRotated): void
+    {
+        $this->boxIsRotated = $boxIsRotated;
     }
 
     /**
@@ -80,6 +86,11 @@ class OrientatedItemFactory implements LoggerAwareInterface
                     'lengthLeft' => $lengthLeft,
                     'depthLeft' => $depthLeft,
                 ],
+                'position' => [
+                    'x' => $x,
+                    'y' => $y,
+                    'z' => $z,
+                ],
             ]
         );
 
@@ -90,8 +101,7 @@ class OrientatedItemFactory implements LoggerAwareInterface
             return null;
         }
 
-        $sorter = new OrientatedItemSorter($this, $this->singlePassMode, $widthLeft, $lengthLeft, $depthLeft, $nextItems, $rowLength, $x, $y, $z, $prevPackedItemList);
-        $sorter->setLogger($this->logger);
+        $sorter = new OrientatedItemSorter($this, $this->singlePassMode, $widthLeft, $lengthLeft, $depthLeft, $nextItems, $rowLength, $x, $y, $z, $prevPackedItemList, $this->logger);
         usort($usableOrientations, $sorter);
 
         $this->logger->debug('Selected best fit orientation', ['orientation' => $usableOrientations[0]]);
@@ -126,8 +136,20 @@ class OrientatedItemFactory implements LoggerAwareInterface
         }
 
         if ($item instanceof ConstrainedPlacementItem && !$this->box instanceof WorkingVolume) {
-            $orientations = array_filter($orientations, function (OrientatedItem $i) use ($x, $y, $z, $prevPackedItemList) {
-                return $i->getItem()->canBePacked($this->box, $prevPackedItemList, $x, $y, $z, $i->getWidth(), $i->getLength(), $i->getDepth());
+            $orientations = array_filter($orientations, function (OrientatedItem $i) use ($x, $y, $z, $prevPackedItemList): bool {
+                /** @var ConstrainedPlacementItem $constrainedItem */
+                $constrainedItem = $i->getItem();
+
+                if ($this->boxIsRotated) {
+                    $rotatedPrevPackedItemList = new PackedItemList();
+                    foreach ($prevPackedItemList as $prevPackedItem) {
+                        $rotatedPrevPackedItemList->insert(new PackedItem($prevPackedItem->getItem(), $prevPackedItem->getY(), $prevPackedItem->getX(), $prevPackedItem->getZ(), $prevPackedItem->getLength(), $prevPackedItem->getWidth(), $prevPackedItem->getDepth()));
+                    }
+
+                    return $constrainedItem->canBePacked($this->box, $rotatedPrevPackedItemList, $y, $x, $z, $i->getLength(), $i->getWidth(), $i->getDepth());
+                } else {
+                    return $constrainedItem->canBePacked($this->box, $prevPackedItemList, $x, $y, $z, $i->getWidth(), $i->getLength(), $i->getDepth());
+                }
             });
         }
 
@@ -205,15 +227,16 @@ class OrientatedItemFactory implements LoggerAwareInterface
 
         $stableOrientations = array_filter(
             $orientations,
-            static function (OrientatedItem $orientation) {
-                return $orientation->isStable();
-            }
+            static fn (OrientatedItem $orientation) => $orientation->isStable()
         );
         static::$emptyBoxStableItemOrientationCache[$cacheKey] = count($stableOrientations) > 0;
 
         return static::$emptyBoxStableItemOrientationCache[$cacheKey];
     }
 
+    /**
+     * @return array<array<int>>
+     */
     private function generatePermutations(Item $item, ?OrientatedItem $prevItem): array
     {
         // Special case items that are the same as what we just packed - keep orientation

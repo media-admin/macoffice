@@ -17,6 +17,11 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
         private $roles;
 
         /**
+         * @var array AWS_Users_Search Search data
+         */
+        private $data;
+
+        /**
          * @var string AWS_Users_Search Search logic
          */
         private $search_logic;
@@ -25,6 +30,11 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
          * @var string AWS_Users_Search Exact search or not
          */
         private $search_exact;
+
+        /**
+         * @var string AWS_Users_Search Search rule ( %s%, s% )
+         */
+        private $search_rule;
 
         /**
          * @var string AWS_Users_Search Search string
@@ -75,8 +85,11 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
             $data = apply_filters( 'aws_users_search_data', $data, $roles );
 
             $this->roles = $this->set_user_roles( $roles );
+            $this->data = $data;
+
             $this->search_logic = isset( $data['search_logic'] ) ? $data['search_logic'] : 'or';
             $this->search_exact = isset( $data['search_exact'] ) ? $data['search_exact'] : 'false';
+            $this->search_rule = isset( $data['search_rule'] ) ? $data['search_rule'] : 'contains';
             $this->search_string = isset( $data['s'] ) ? $data['s'] : '';
             $this->search_string_unfiltered = isset( $data['s_nonormalize'] ) ? $data['s_nonormalize'] : $this->search_string ;
             $this->search_terms = isset( $data['search_terms'] ) ? $data['search_terms'] : array();
@@ -106,21 +119,33 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
                 $search_logic_operator = 'AND';
             }
 
+            $like = '%' . $wpdb->esc_like( $this->search_string_unfiltered ) . '%';
+
             if ( $this->search_exact === 'true' ) {
                 $filtered_terms_full = $wpdb->prepare( '( display_name = "%s" )', $this->search_string_unfiltered );
+            } elseif ( $this->search_rule === 'begins' ) {
+                $filtered_terms_full = $wpdb->prepare( '( display_name LIKE %s OR display_name LIKE %s )', $wpdb->esc_like( $this->search_string_unfiltered ) . '%', '% ' . $wpdb->esc_like( $this->search_string_unfiltered ) . '%' );
             } else {
-                $filtered_terms_full = $wpdb->prepare( '( display_name LIKE %s )',  '%' . $wpdb->esc_like( $this->search_string_unfiltered ) . '%' );
+                $filtered_terms_full = $wpdb->prepare( '( display_name LIKE %s )', $like );
             }
 
             $search_array = array_map( array( 'AWS_Helpers', 'singularize' ), $this->search_terms  );
-            $search_array = $this->synonyms( $search_array );
-            $search_array = $this->get_search_array( $search_array );
+
+            // Group terms in groups with their synonyms
+            $new_search_array = array();
+            $search_array_with_synonyms = $this->synonyms( $search_array );
+            foreach ( $search_array_with_synonyms as $term_with_synonyms ) {
+                $group_terms = $this->get_search_array( $term_with_synonyms );
+                $new_search_array[] = '(' . implode( ' OR ', $group_terms ) . ')';
+            }
+
+            $search_array = $new_search_array;
 
             $search_query .= sprintf( ' AND ( ( %s ) OR %s )', implode( sprintf( ' %s ', $search_logic_operator ), $search_array ), $filtered_terms_full );
 
             $search_results = $this->query( $search_query );
             $result_array = $this->output( $search_results );
-
+            
             return $result_array;
 
         }
@@ -164,6 +189,9 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
              * @param int
              */
             $terms_number = apply_filters( 'aws_search_terms_number', $this->results_num );
+            if ( ! $terms_number ) {
+                return array();
+            }
 
             $relevance_array = $this->get_relevance_array();
 
@@ -181,6 +209,17 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
                 $search_query .= sprintf( ' AND ( %s )', $adv_filters_string );
             }
 
+            /**
+             * User custom fields that are available for search
+             * @since 3.09
+             * @param array $users_meta_keys Array of meta keys
+             * @param array $this->data Array of search data
+             */
+            $users_meta_keys = apply_filters( 'aws_users_search_meta_keys', array( 'first_name', 'last_name' ), $this->data );
+
+            $users_meta_keys = array_map( array( $this, 'prepare' ), $users_meta_keys );
+            $users_meta_string = implode( ',', $users_meta_keys );
+
             $sql = "
 			SELECT
 				distinct(ID),
@@ -195,7 +234,7 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
 				{$search_query}
 				AND ID IN ( {$users_ids} )
 				AND $wpdb->users.ID = $wpdb->usermeta.user_id
-				AND $wpdb->usermeta.meta_key IN ( 'first_name', 'last_name' )
+				AND $wpdb->usermeta.meta_key IN ( {$users_meta_string} )
 			    GROUP BY ID
 			    ORDER BY relevance DESC, ID DESC
 			LIMIT 0, {$terms_number}";
@@ -268,18 +307,26 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
 
             global $wpdb;
 
+            $relevance_scores = AWS_Helpers::get_relevance_scores( $this->data );
+
             $relevance_array = array();
 
             foreach ( $this->search_terms as $search_term ) {
 
                 $search_term_len = strlen( $search_term );
-                $relevance = 40 + 2 * $search_term_len;
+                $relevance = $relevance_scores['user_name'] + 2 * $search_term_len;
 
                 $like = '%' . $wpdb->esc_like( $search_term ) . '%';
 
-                $relevance_array[] = $wpdb->prepare( "( case when ( display_name LIKE %s ) then {$relevance} else 0 end )", $like );
-                $relevance_array[] = $wpdb->prepare( "( case when ( user_nicename LIKE %s ) then {$relevance} else 0 end )", $like );
-                $relevance_array[] = $wpdb->prepare( "( case when ( meta_value LIKE %s ) then {$relevance} else 0 end )", $like );
+                if ( $this->search_rule === 'begins' ) {
+                    $relevance_array[] = $wpdb->prepare( "( case when ( display_name LIKE %s OR display_name LIKE %s ) then {$relevance} else 0 end )", $wpdb->esc_like( $search_term ) . '%', '% ' . $wpdb->esc_like( $search_term ) . '%' );
+                    $relevance_array[] = $wpdb->prepare( "( case when ( user_nicename LIKE %s OR user_nicename LIKE %s ) then {$relevance} else 0 end )", $wpdb->esc_like( $search_term ) . '%', '% ' . $wpdb->esc_like( $search_term ) . '%' );
+                    $relevance_array[] = $wpdb->prepare( "( case when ( meta_value LIKE %s OR meta_value LIKE %s ) then {$relevance} else 0 end )", $wpdb->esc_like( $search_term ) . '%', '% ' . $wpdb->esc_like( $search_term ) . '%' );
+                } else {
+                    $relevance_array[] = $wpdb->prepare( "( case when ( display_name LIKE %s ) then {$relevance} else 0 end )", $like );
+                    $relevance_array[] = $wpdb->prepare( "( case when ( user_nicename LIKE %s ) then {$relevance} else 0 end )", $like );
+                    $relevance_array[] = $wpdb->prepare( "( case when ( meta_value LIKE %s ) then {$relevance} else 0 end )", $like );
+                }
 
             }
 
@@ -306,10 +353,14 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
                     $search_array[] = $wpdb->prepare( '( display_name = "%s" )', $search_term );
                     $search_array[] = $wpdb->prepare( '( user_nicename = "%s" )', $search_term );
                     $search_array[] = $wpdb->prepare( '( meta_value = "%s" )', $search_term );
+                } elseif ( $this->search_rule === 'begins' ) {
+                    $search_array[] = $wpdb->prepare( '( display_name LIKE %s OR display_name LIKE %s )', $wpdb->esc_like( $search_term ) . '%', '% ' . $wpdb->esc_like( $search_term ) . '%' );
+                    $search_array[] = $wpdb->prepare( '( user_nicename LIKE %s OR user_nicename LIKE %s  )', $wpdb->esc_like( $search_term ) . '%', '% ' . $wpdb->esc_like( $search_term ) . '%' );
+                    $search_array[] = $wpdb->prepare( '( meta_value LIKE %s OR meta_value LIKE %s  )', $wpdb->esc_like( $search_term ) . '%', '% ' . $wpdb->esc_like( $search_term ) . '%' );
                 } else {
-                    $search_array[] = $wpdb->prepare( '( display_name LIKE %s )', $like);
-                    $search_array[] = $wpdb->prepare( '( user_nicename LIKE %s )', $like);
-                    $search_array[] = $wpdb->prepare( '( meta_value LIKE %s )', $like);
+                    $search_array[] = $wpdb->prepare( '( display_name LIKE %s )', $like );
+                    $search_array[] = $wpdb->prepare( '( user_nicename LIKE %s )', $like );
+                    $search_array[] = $wpdb->prepare( '( meta_value LIKE %s )', $like );
                 }
 
             }
@@ -319,11 +370,11 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
         }
 
         /*
-         * Prepare role names for query
-         * @param string $name Role
+         * Prepare strings for query
+         * @param string $name String to prepare
          * @return string Prepared string
          */
-        private function prepare_role_names( $name ) {
+        private function prepare( $name ) {
             global $wpdb;
             return $wpdb->prepare('%s', $name);
         }
@@ -338,14 +389,12 @@ if ( ! class_exists( 'AWS_Users_Search' ) ) :
             if ( $search_terms && ! empty( $search_terms ) ) {
 
                 $new_search_terms = array();
-
                 foreach( $search_terms as $search_term ) {
-                    $new_search_terms[$search_term] = 1;
+                    $current_search_term_arr = array( $search_term => 1 );
+                    $new_search_terms[$search_term] = array_keys( AWS_Helpers::get_synonyms( $current_search_term_arr, true ) );
                 }
 
-                $new_search_terms = AWS_Helpers::get_synonyms( $new_search_terms, true );
-
-                return array_keys( $new_search_terms );
+                return $new_search_terms;
 
             }
 

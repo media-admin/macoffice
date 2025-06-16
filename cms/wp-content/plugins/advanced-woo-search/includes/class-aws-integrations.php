@@ -27,6 +27,11 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
         private $child_theme = '';
 
         /**
+         * @var AWS_Integrations Active plugins arrray
+         */
+        public $active_plugins = array();
+
+        /**
          * @var AWS_Integrations The single instance of the class
          */
         protected static $_instance = null;
@@ -60,6 +65,15 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                     $this->current_theme = $theme->parent()->get( 'Name' );
                 }
             }
+
+            $active_plugins = get_option( 'active_plugins', array() );
+
+            if ( is_multisite() ) {
+                $network_active_plugins = get_site_option( 'active_sitewide_plugins', array() );
+                $active_plugins = array_merge( $active_plugins, array_keys( $network_active_plugins ) );
+            }
+
+            $this->active_plugins = $active_plugins;
 
             $this->includes();
 
@@ -98,11 +112,6 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
 
                 if ( 'Jupiter' === $this->current_theme ) {
                     add_action( 'wp_head', array( $this, 'jupiter_head_action' ) );
-                }
-
-                if ( 'Woodmart' === $this->current_theme ) {
-                    add_action( 'wp_head', array( $this, 'woodmart_head_action' ) );
-                    add_filter( 'aws_seamless_search_form_filter', array( $this, 'woodmart_seamless_search_form_filter' ), 10, 2 );
                 }
 
                 if ( 'Storefront' === $this->current_theme ) {
@@ -217,9 +226,44 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                     add_action( 'kapee_get_template_before', array( $this, 'kapee_get_template_before' ), 10, 3 );
                 }
 
+                if ( 'Hestia' === $this->current_theme ) {
+                    add_filter( 'hestia_after_primary_navigation_addons', array( $this, 'hestia_after_primary_navigation_addons' ), 1 );
+                    add_action( 'wp_enqueue_scripts', array( $this, 'hestia_wp_enqueue_scripts' ) );
+                }
+
+                if ( 'Open Shop' === $this->current_theme ) {
+                    add_action( 'wp_head', array( $this, 'open_shop_wp_head' ) );
+                }
+
+                if ( 'Zephyr' === $this->current_theme ) {
+                    add_action( 'wp_head', array( $this, 'zephyr_wp_head' ) );
+                }
+
+                if ( 'Shoptimizer' === $this->current_theme ) {
+                    add_action( 'wp_enqueue_scripts', array( $this, 'shoptimizer_wp_enqueue_scripts' ) );
+                }
+
+                if ( 'Hitek' === $this->current_theme ) {
+                    add_action( 'xts_after_search_wrapper', array( $this, 'xts_after_search_wrapper' ) );
+                }
+
+                if ( 'Oxygen' === $this->current_theme ) {
+                    add_action( 'wp_before_load_template', array( $this, 'oxygen_wp_before_load_template' ) );
+                    add_action( 'wp_after_load_template', array( $this, 'oxygen_wp_after_load_template' ) );
+                }
+
+                if ( 'Customify' === $this->current_theme ) {
+                    add_action( 'wp_head', array( $this, 'customify_wp_head' ) );
+                }
+
                 // WP Bottom Menu
                 if ( defined( 'WP_BOTTOM_MENU_VERSION' ) ) {
                     add_action( 'wp_head', array( $this, 'wp_bottom_menu_wp_head' ) );
+                }
+
+                // Advance Product Search by themehunk
+                if ( class_exists( 'TH_Advance_Product_Search' ) ) {
+                    add_filter( 'thaps_form_html', array( $this, 'aps_thaps_form_html' ) );
                 }
 
             }
@@ -249,8 +293,10 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                 add_filter( 'aws_searchbox_markup', array( $this, 'electro_searchbox_markup' ), 1, 2 );
             }
 
-            if ( 'Woodmart' === $this->current_theme ) {
-                add_filter( 'woodmart_shop_page_link', array( $this, 'woodmart_shop_page_link' ), 9999 );
+            if ( 'Elessi Theme' === $this->current_theme ) {
+                add_action( 'wp_enqueue_scripts', array( $this,  'elessi_wp_enqueue_scripts' ), 9999999 );
+                add_action( 'aws_search_page_filters', array( $this,  'elessi_aws_search_page_filters' ), 1 );
+                add_filter( 'woocommerce_get_filtered_term_product_counts_query', array( $this, 'elessi_woocommerce_get_filtered_term_product_counts_query' ), 9999999 );
             }
 
             // Product Visibility by User Role for WooCommerce plugin
@@ -286,6 +332,16 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
             //  Deals for WooCommerce
             if ( function_exists( 'DFW' ) ) {
                 add_filter( 'aws_search_pre_filter_products', array( $this, 'dfm_search_pre_filter_products' ) );
+            }
+
+            // WooCommerce Product Search
+            if ( defined('WOO_PS_PLUGIN_VERSION') ) {
+                add_action( 'aws_search_page_filters', array( $this,  'wps_aws_search_page_filters' ), 1 );
+            }
+
+            // Yoast Premium
+            if ( in_array( 'wordpress-seo-premium/wp-seo-premium.php', $this->active_plugins ) ) {
+                add_filter( 'Yoast\WP\SEO\allowlist_permalink_vars', array( $this, 'yoast_allowlist_permalink_vars' ) );
             }
 
         }
@@ -386,6 +442,11 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                 include_once( AWS_DIR . '/includes/modules/class-aws-barn2-protected-categories.php' );
             }
 
+            // WooCommerce Product Table plugin by Barn2
+            if ( class_exists( 'Barn2\Plugin\WC_Product_Table\Product_Table' ) ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-barn2-product-table.php' );
+            }
+
             // WC Marketplace - https://wc-marketplace.com/
             if ( defined( 'WCMp_PLUGIN_VERSION' ) || defined( 'MVX_PLUGIN_VERSION' ) ) {
                 include_once( AWS_DIR . '/includes/modules/class-aws-multivendorx.php' );
@@ -428,6 +489,16 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                 include_once( AWS_DIR . '/includes/modules/class-aws-generatepress.php' );
             }
 
+            // The7 theme
+            if ( 'The7' === $this->current_theme ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-the7.php' );
+            }
+
+            // Woodmart theme
+            if ( 'Woodmart' === $this->current_theme ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-woodmart.php' );
+            }
+
             // Product Filters for WooCommerce
             if ( defined( 'WC_PRODUCT_FILTER_VERSION' ) ) {
                 include_once( AWS_DIR . '/includes/modules/class-aws-pfw.php' );
@@ -446,6 +517,41 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
             // BeRocket WooCommerce AJAX Products Filter
             if ( defined( 'BeRocket_AJAX_filters_version' ) ) {
                 include_once( AWS_DIR . '/includes/modules/class-aws-berocket-filters.php' );
+            }
+
+            // WooCommerce Memberships
+            if ( class_exists( 'WC_Memberships' ) ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-woo-memberships.php' );
+            }
+
+            // WooCommerce Show Single Variations by Iconic
+            if ( class_exists('Iconic_WSSV') || class_exists('JCK_WSSV') ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-single-variations.php' );
+            }
+
+            // YITH WooCommerce Ajax Product Filter
+            if ( defined( 'YITH_WCAN' ) ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-yith-wcan.php' );
+            }
+
+            // Filter Everything
+            if ( class_exists( 'FlrtFilter' ) ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-filter-everything.php' );
+            }
+
+            //  EAN for WooCommerce by WPFactory
+            if ( class_exists( 'Alg_WC_EAN' ) ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-alg-wc-ean.php' );
+            }
+
+            // Breakdance builder
+            if ( defined( 'BREAKDANCE_PLUGIN_URL' ) ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-breakdance.php' );
+            }
+
+            // Crocoblock plugins
+            if ( in_array( 'jet-blocks/jet-blocks.php', $this->active_plugins ) || in_array( 'jet-elements/jet-elements.php', $this->active_plugins ) || in_array( 'jet-woo-builder/jet-woo-builder.php', $this->active_plugins ) ) {
+                include_once( AWS_DIR . '/includes/modules/class-aws-crocoblock.php' );
             }
 
         }
@@ -773,51 +879,6 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
             </script>
 
         <?php }
-
-        /*
-         * Woodmart theme
-         */
-        public function woodmart_head_action() { ?>
-
-             <style>
-
-                 .woodmart-search-full-screen .aws-container .aws-search-form {
-                     padding-top: 0;
-                     padding-right: 0;
-                     padding-bottom: 0;
-                     padding-left: 0;
-                     height: 110px;
-                     border: none;
-                     background-color: transparent;
-                     box-shadow: none;
-                 }
-
-                 .woodmart-search-full-screen .aws-container .aws-search-field {
-                     color: #333;
-                     text-align: center;
-                     font-weight: 600;
-                     font-size: 48px;
-                 }
-
-                 .woodmart-search-full-screen .aws-container .aws-search-form .aws-form-btn,
-                 .woodmart-search-full-screen .aws-container .aws-search-form.aws-show-clear.aws-form-active .aws-search-clear {
-                     display: none !important;
-                 }
-
-             </style>
-
-        <?php }
-
-        /*
-         * Woodmart theme: Filter default search form markup
-         */
-        public function woodmart_seamless_search_form_filter( $markup, $search_form ) {
-            if ( strpos( $search_form, 'wd-search-full-screen' ) !== false ) {
-                $pattern = '/(<form[\s\S]*?<\/form>)/i';
-                $markup = preg_replace( $pattern, $markup, $search_form );
-            }
-            return $markup;
-        }
 
         /*
          * Elessi theme
@@ -1634,6 +1695,162 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
         }
 
         /*
+         * Hestia them fix header search form
+         */
+        public function hestia_after_primary_navigation_addons( $form ) {
+            $form = str_replace('class="aws-wrapper', ' style="height:35px;" class="aws-wrapper', $form );
+            $output  = '';
+            $output .= '<li class="hestia-search-in-menu">';
+                $output .= '<div class="hestia-nav-search">';
+                    $output .= $form;
+                $output .= '</div>';
+                $output .= '<a class="hestia-toggle-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16"><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path></svg></a>';
+            $output .= '</li>';
+            return $output;
+        }
+        public function hestia_wp_enqueue_scripts() {
+            if ( wp_is_mobile() ) {
+                return;
+            }
+            $script = '
+                function aws_results_layout( styles, options ) {
+                    styles.width = 200;
+                    styles.left = styles.left - 200;
+                    styles.top = styles.top + 40;
+                    return styles;
+                }
+                AwsHooks.add_filter( "aws_results_layout", aws_results_layout );
+            ';
+            wp_add_inline_script( 'aws-script', $script);
+            wp_add_inline_script( 'aws-pro-script', $script);
+        }
+
+        /*
+         * Open Shop theme header styles
+         */
+        public function open_shop_wp_head() { ?>
+            <style>
+                .below-header-bar .aws-container {
+                    max-width: 550px;
+                    margin: 0 auto;
+                }
+            </style>
+        <?php }
+
+        /*
+         * Zephyr theme search form styles
+         */
+        public function zephyr_wp_head() { ?>
+            <style>
+                .header_hor .aws-container {
+                    width: 100%;
+                }
+                .header_hor .aws-container .aws-search-field {
+                    color: rgb(53, 65, 91);
+                    font-size: 16px;
+                }
+                .header_hor .aws-container .aws-search-form .aws-form-btn {
+                    background: transparent;
+                    border: none;
+                }
+            </style>
+        <?php }
+
+        /*
+         * Shoptimizer fix search form inside dialog window
+         */
+        public function shoptimizer_wp_enqueue_scripts() {
+
+            $script = "
+                function aws_results_append_to( container, options  ) {
+                    if ( options.form.closest('.shoptimizer-modal').length > 0 ) {
+                        return '.shoptimizer-modal .site-search';
+                    }
+                    return container;
+                }
+                function aws_results_layout( styles, options  ) {
+                    if ( options.form.closest('.shoptimizer-modal').length > 0 ) {
+                        var offset = options.form.offset();
+                        var dialogOffset = options.form.closest('.site-search').offset();
+                        styles.left = offset.left - dialogOffset.left;
+                        styles.top = offset.top - dialogOffset.top + options.form.innerHeight();
+                    }
+                    return styles;
+                }
+                AwsHooks.add_filter( 'aws_results_append_to', aws_results_append_to );
+                AwsHooks.add_filter( 'aws_results_layout', aws_results_layout );
+            ";
+
+            wp_add_inline_script( 'aws-script', $script);
+            wp_add_inline_script( 'aws-pro-script', $script);
+
+        }
+
+        /*
+         * Add search form inside Hitek theme header
+         */
+        public function xts_after_search_wrapper() {
+
+            echo '<style>
+                .xts-header form.searchform, 
+                .xts-search-wrapper form.searchform {
+                    display: none;
+                }
+                .xts-search-wrapper.xts-search-full-screen .aws-container {
+                    margin: 0 35px;
+                    padding-top: 30px;
+                }
+                .xts-search-full-screen .xts-search-close {
+                    top: -110px;
+                }
+            </style>';
+
+            aws_get_search_form();
+
+        }
+
+        /*
+         * Oxygen theme header search form
+         */
+        public function oxygen_wp_before_load_template( $_template_file ) {
+            if ( strpos( $_template_file, 'oxygen/sidebar-menu-top.php' ) !== false ) {
+                ob_start();
+            }
+        }
+        public function oxygen_wp_after_load_template( $_template_file ) {
+            if ( strpos( $_template_file, 'oxygen/sidebar-menu-top.php' ) !== false ) {
+                $deal_html = ob_get_contents();
+                ob_end_clean();
+                $form = aws_get_search_form( false );
+                $form = str_replace( 'aws-container', 'aws-container search-form',$form );
+                echo preg_replace('/\<form[\s\S]*?search-form[\s\S]*?<\/form>/', $form, $deal_html);
+            }
+        }
+
+        /*
+         * Add custom styles for Customify theme
+         */
+        public function customify_wp_head() { ?>
+            <style>
+                .header-search-modal-wrapper .aws-container {
+                    padding: 20px;
+                    margin-top: 15px;
+                    background: #fff;
+                    border: 1px solid #eaecee;
+                    box-shadow: 0 3px 30px rgba(25, 30, 35, 0.1);
+                }
+                .header-search-modal-wrapper .aws-container .aws-search-form {
+                    width: 280px;
+                    position: relative;
+                    margin: 0;
+                }
+                #header-menu-sidebar-inner .aws-container .aws-search-form {
+                    margin: 0;
+                }
+            </style>
+        <?php }
+
+        /*
          * WP Bottom Menu
          */
         public function wp_bottom_menu_wp_head() { ?>
@@ -1651,6 +1868,14 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
             </script>
 
         <?php }
+
+        /*
+         * Advance Product Search by themehunk
+         */
+        public function aps_thaps_form_html( $html ) {
+            $output = aws_get_search_form( false );
+            return $output;
+        }
 
         /*
          * Exclude product categories
@@ -1736,10 +1961,6 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                 $selectors[] = '.responsive-searchform';
             }
 
-            if ( 'Woodmart' === $this->current_theme ) {
-                $selectors[] = '.woodmart-search-form form, form.woodmart-ajax-search';
-            }
-
             if ( 'Venedor' === $this->current_theme ) {
                 $selectors[] = '#search-form form';
             }
@@ -1819,6 +2040,15 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
 
             if ( 'Sinatra' === $this->current_theme ) {
                 $selectors[] = '.si-header-widgets .si-search-form';
+            }
+
+            if ( 'Shopical' === $this->current_theme ) {
+                $selectors[] = '.search .search-form-wrapper';
+            }
+
+            if ( 'Customify' === $this->current_theme ) {
+                $selectors[] = '.header-search-modal-wrapper form.header-search-form';
+                $selectors[] = '#header-menu-sidebar-inner form.header-search-form ';
             }
 
             // WCFM - WooCommerce Multivendor Marketplace
@@ -1967,15 +2197,54 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
         }
 
         /*
-         * Woodmart theme update search page pagination links
+         * Elessi Theme fix for shop filters
          */
-        public function woodmart_shop_page_link( $link ) {
-            if ( isset( $_GET['type_aws'] ) && strpos( $link, 'type_aws' ) === false ) {
-                $link = add_query_arg( array(
-                    'type_aws' => 'true',
-                ), $link );
+        public function elessi_wp_enqueue_scripts() {
+            $script = "
+               jQuery('body').on( 'nasa_store_filter_ajax', function(e) { 
+                    window.setTimeout(function(){
+                        jQuery('.aws-container').aws_search();     
+                    }, 3000);          
+               });
+            ";
+            wp_add_inline_script( 'aws-script', $script);
+        }
+
+        /*
+         * Elessi Theme fix for shop filters
+         */
+        public function elessi_aws_search_page_filters( $filters ) {
+
+            if ( isset( $_GET['on-sale'] ) && $_GET['on-sale'] === '1' ) {
+                $filters['on_sale'] = true;
             }
-            return $link;
+
+            if ( isset( $_GET['in-stock'] ) && $_GET['in-stock'] === '1' ) {
+                $filters['in_status'] = true;
+            }
+
+            if ( isset( $_GET['min_price'] ) ) {
+                $filters['price_min'] = intval( $_GET['min_price'] );
+            }
+
+            if ( isset( $_GET['max_price'] ) ) {
+                $filters['price_max'] = intval( $_GET['max_price'] );
+            }
+
+            return $filters;
+
+        }
+
+        /*
+         * Elessi Theme fix for shop filters products count
+         */
+        public function elessi_woocommerce_get_filtered_term_product_counts_query( $query ) {
+            if ( isset ($_GET['s'] ) && $_GET['s'] && isset( $_GET['type_aws'] ) ) {
+                global $wpdb;
+                $regex = "/AND \({$wpdb->posts}\.post_title.*?\)/i";
+                $query['where'] = preg_replace( $regex, '', $query['where'] );
+            }
+            return $query;
         }
 
         /*
@@ -2108,7 +2377,7 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
                         var $navItems = jQuery('.dce-page-numbers a.page-numbers');
                         if ( $navItems.length > 0 ) {
                             $navItems.each(function(){
-                                var s = encodeURIComponent( '<?php echo $_GET['s']; ?>' );
+                                var s = encodeURIComponent( '<?php echo esc_attr( $_GET['s'] ); ?>' );
                                 var href = jQuery(this).attr( 'href' ) + '&post_type=product&type_aws=true&s=' + s;
                                 jQuery(this).attr( 'href', href );
                             });
@@ -2199,6 +2468,36 @@ if ( ! class_exists( 'AWS_Integrations' ) ) :
 
             return $products_array;
 
+        }
+
+        /*
+         * WooCommerce Product Search plugin - fix filters for s page
+         */
+        public function wps_aws_search_page_filters( $filters ) {
+
+            if ( isset( $_GET['ixwpst'] ) && $_GET['ixwpst'] && is_array( $_GET['ixwpst'] ) ) {
+                foreach( $_GET['ixwpst'] as $tax => $terms ) {
+                    $filters['tax'][$tax] = array(
+                        'terms' => $terms,
+                        'operator' => 'AND',
+                        'include_parent' => true,
+                    );
+                }
+            }
+
+            return $filters;
+
+        }
+
+        /*
+         * Yoast: Allow some permalink vars
+         */
+        public function yoast_allowlist_permalink_vars( $allowed_extravars ) {
+            $allowed_extravars[] = 'post_type';
+            $allowed_extravars[] = 'type_aws';
+            $allowed_extravars[] = 'aws_id';
+            $allowed_extravars[] = 'aws_filter';
+            return $allowed_extravars;
         }
 
     }

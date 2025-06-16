@@ -4,6 +4,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\Freemium;
 
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
+/** @internal */
 interface ICore
 {
     /**

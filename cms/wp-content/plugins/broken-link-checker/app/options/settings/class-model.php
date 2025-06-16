@@ -46,6 +46,7 @@ class Model extends Option {
 		'use_legacy_blc_version'        => true,
 		'blc_schedule_scan_in_progress' => false,
 		'show_multisite_notice'         => true,
+		'show_connector_notice'         => false,
 		'installation_timestamp'        => null,
 		'v2_activation_request'         => false,
 		'version_highlights'            => array(
@@ -108,7 +109,7 @@ class Model extends Option {
 		return $active_recipients;
 	}
 
-	public function get( string $settings_key = null, string $option_name = null, $default = null, bool $force = false ) {
+	public function get( ?string $settings_key = null, ?string $option_name = null, $default = null, bool $force = false ) {
 		if ( Utilities::is_subsite() && 'use_legacy_blc_version' === $settings_key ) {
 			return false;
 		}

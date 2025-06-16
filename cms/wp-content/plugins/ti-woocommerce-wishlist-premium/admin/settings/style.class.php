@@ -2,15 +2,13 @@
 /**
  * Admin settings class
  *
- * @since             1.0.0
  * @package           TInvWishlist\Admin
  * @subpackage        Settings
+ * @since 1.0.0
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
+defined( 'ABSPATH' ) or exit;
 
 /**
  * Admin settings class
@@ -20,25 +18,26 @@ class TInvWL_Admin_Settings_Style extends TInvWL_Admin_BaseStyle {
 	/**
 	 * Priority for admin menu
 	 *
-	 * @var integer
+	 * @var int
 	 */
-	public $priority = 100;
+	public int $priority = 100;
 
 	/**
 	 * This class
 	 *
-	 * @var \TInvWL_Admin_Settings_General
+	 * @var TInvWL_Admin_Settings_Style
 	 */
-	protected static $_instance = null;
+	protected static ?self $_instance = null;
 
 	/**
 	 * Get this class object
 	 *
 	 * @param string $plugin_name Plugin name.
+	 * @param string $plugin_version Plugin version.
 	 *
-	 * @return \TInvWL_Admin_Settings_General
+	 * @return TInvWL_Admin_Settings_Style
 	 */
-	public static function instance( $plugin_name = TINVWL_PREFIX, $plugin_version = TINVWL_VERSION ) {
+	public static function instance( string $plugin_name = TINVWL_PREFIX, string $plugin_version = TINVWL_VERSION ): self {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self( $plugin_name, $plugin_version );
 		}
@@ -63,14 +62,14 @@ class TInvWL_Admin_Settings_Style extends TInvWL_Admin_BaseStyle {
 	 *
 	 * @return array
 	 */
-	function menu() {
-		return array(
+	public function menu(): array {
+		return [
 			'title'      => __( 'Style Options', 'ti-woocommerce-wishlist-premium' ),
 			'page_title' => __( 'Wishlist Style Options', 'ti-woocommerce-wishlist-premium' ),
-			'method'     => array( $this, '_print_' ),
+			'method'     => [ $this, '_print_' ],
 			'slug'       => 'style-settings',
-			'capability' => 'tinvwl_style_options',
-		);
+			'capability' => 'tinvwl_style_settings',
+		];
 	}
 
 	/**
@@ -78,8 +77,8 @@ class TInvWL_Admin_Settings_Style extends TInvWL_Admin_BaseStyle {
 	 *
 	 * @return array
 	 */
-	function default_style_settings() {
-		$font_family = apply_filters( 'tinwl_prepare_fonts', array(
+	function default_style_settings(): array {
+		$font_family = apply_filters( 'tinvwl_prepare_fonts', array(
 			'inherit'                                                            => __( 'Use Default Font', 'ti-woocommerce-wishlist-premium' ),
 			'Georgia, serif'                                                     => 'Georgia',
 			"'Times New Roman', Times, serif"                                    => 'Times New Roman, Times',

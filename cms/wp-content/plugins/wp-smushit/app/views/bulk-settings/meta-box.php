@@ -24,7 +24,15 @@ if ( ! defined( 'WPINC' ) ) {
 		<div class="sui-notice-content">
 			<div class="sui-notice-message">
 				<i class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></i>
-				<p><?php esc_html_e( 'Your images are currently being served via the WPMU DEV CDN. Bulk smush will continue to operate as per your settings below and is treated completely separately in case you ever want to disable the CDN.', 'wp-smushit' ); ?></p>
+				<p>
+					<?php
+					echo esc_html(
+						$this->whitelabel->whitelabel_string(
+							__( 'Your images are currently being served via the WPMU DEV CDN. Bulk smush will continue to operate as per your settings below and is treated completely separately in case you ever want to disable the CDN.', 'wp-smushit' )
+						)
+					);
+					?>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -56,7 +64,7 @@ foreach ( $grouped_settings as $name ) {
 do_action( 'wp_smush_after_basic_settings' );
 ?>
 
-<div class="sui-box-settings-row">
+<div class="sui-box-settings-row" id="bulk-restore-settings-row">
 	<div class="sui-box-settings-col-1">
 		<span class="<?php echo WP_Smush::is_pro() ? 'sui-settings-label' : 'sui-settings-label-with-tag'; ?>">
 			<?php esc_html_e( 'Bulk restore', 'wp-smushit' ); ?>
@@ -76,7 +84,7 @@ do_action( 'wp_smush_after_basic_settings' );
 		<span class="sui-description">
 			<?php
 			printf( /* translators: %1$s - strong tag, %2$s - closing strong tag */
-				wp_kses( 'This feature regenerates thumbnails using your original uploaded images. If %1$sCompress original images%2$s is enabled, your thumbnails can still be regenerated, but the quality will be impacted by the compression of your uploaded images.', 'wp-smushit' ),
+				wp_kses( 'This feature regenerates thumbnails using your original uploaded images. If %1$sOptimize original images%2$s is enabled, your thumbnails can still be regenerated, but the quality will be impacted by the compression of your uploaded images.', 'wp-smushit' ),
 				'<strong>',
 				'</strong>'
 			);

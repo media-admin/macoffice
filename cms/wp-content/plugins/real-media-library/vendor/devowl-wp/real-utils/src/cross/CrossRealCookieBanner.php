@@ -11,6 +11,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealUtils\Core;
  * Cross-selling for Real Cookie Banner.
  *
  * @see https://app.clickup.com/2088/v/dc/218-92/218-1114
+ * @internal
  */
 class CrossRealCookieBanner extends AbstractCrossSelling
 {

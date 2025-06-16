@@ -2,7 +2,15 @@
 
 namespace Simple_History\Services;
 
+use Simple_History\Helpers;
+
+/**
+ * Setup dashboard widget.
+ */
 class Dashboard_Widget extends Service {
+	/**
+	 * @inheritdoc
+	 */
 	public function loaded() {
 		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
 	}
@@ -13,7 +21,7 @@ class Dashboard_Widget extends Service {
 	 * and a setting to show dashboard to be set.
 	 */
 	public function add_dashboard_widget() {
-		if ( $this->simple_history->setting_show_on_dashboard() && current_user_can( $this->simple_history->get_view_history_capability() ) ) {
+		if ( Helpers::setting_show_on_dashboard() && current_user_can( Helpers::get_view_history_capability() ) ) {
 			/**
 			 * Filter to determine if history page should be added to page below dashboard or not
 			 *
@@ -25,11 +33,11 @@ class Dashboard_Widget extends Service {
 
 			// Show link to settings page in dashboard widget if user can view settings page.
 			$show_dashboard_settings_link_html = '';
-			$show_dashboard_settings_link = current_user_can( $this->simple_history->get_view_settings_capability() );
+			$show_dashboard_settings_link = current_user_can( Helpers::get_view_settings_capability() );
 			if ( $show_dashboard_settings_link ) {
 				$show_dashboard_settings_link_html = sprintf(
 					'<a href="%1$s" title="%2$s" class="sh-Icon sh-Dashboard-settingsLink"></a>',
-					esc_url( menu_page_url( $this->simple_history::SETTINGS_MENU_SLUG, false ) ),
+					esc_url( Helpers::get_settings_page_url() ),
 					esc_html__( 'Settings & Tools', 'simple-history' )
 				);
 			}
@@ -51,13 +59,6 @@ class Dashboard_Widget extends Service {
 	 * Output html for the dashboard widget
 	 */
 	public function dashboard_widget_output() {
-		$pager_size = $this->simple_history->get_pager_size_dashboard();
-
 		do_action( 'simple_history/dashboard/before_gui', $this );
-		?>
-		<div class="SimpleHistoryGui"
-			 data-pager-size='<?php echo esc_attr( $pager_size ); ?>'
-			 ></div>
-		<?php
 	}
 }

@@ -3,10 +3,10 @@
 namespace MatthiasWeb\RealMediaLibrary\Vendor;
 
 /**
- * Plugin Update Checker Library 4.11
+ * Plugin Update Checker Library 5.4
  * http://w-shadow.com/
  *
- * Copyright 2021 Janis Elsts
+ * Copyright 2024 Janis Elsts
  * Released under the MIT license. See license.txt for details.
  */
-require \dirname(__FILE__) . '/load-v4p11.php';
+require \dirname(__FILE__) . '/load-v5p4.php';

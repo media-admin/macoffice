@@ -15,6 +15,7 @@ use MatthiasWeb\RealMediaLibrary\base\UtilsProvider;
  * parameters. The settings section headline must start with
  * RealMediaLibrary:* (also in translation). The *-value will be
  * added as navigation label.
+ * @internal
  */
 class Options
 {
@@ -47,10 +48,10 @@ class Options
          * add_action( 'RML/Options/Register', function() {
          *  // Register tab
          *  add_settings_section(
-         *  	'rml_options_custom',
-         *  	__('RealMediaLibrary:My Tab'), // The label must begin with RealMediaLibrary:
-         *  	[MatthiasWeb\RealMediaLibrary\view\Options::getInstance(), 'empty_callback'),
-         *  	'media'
+         *      'rml_options_custom',
+         *      __('RealMediaLibrary:My Tab'), // The label must begin with RealMediaLibrary:
+         *      [MatthiasWeb\RealMediaLibrary\view\Options::getInstance(), 'empty_callback'),
+         *      'media'
          *  );
          *
          *  add_settings_field(

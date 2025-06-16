@@ -7,6 +7,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Core as UtilsCore;
 // Avoid direct file request
 /**
  * Base class for the applications Core class.
+ * @internal
  */
 abstract class Core
 {

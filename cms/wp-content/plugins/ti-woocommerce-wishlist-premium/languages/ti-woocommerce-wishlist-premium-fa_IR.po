@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TI WooCommerce Wishlist Plugin Premium - 1.9.1\n"
 "Report-Msgid-Bugs-To: https://templateinvaders.com/help/\n"
-"POT-Creation-Date: 2021-08-20 00:40+0700\n"
+"POT-Creation-Date: 2024-02-23 19:58+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: TemplateInvaders (https://templateinvaders.com/)\n"
 "Language-Team: TemplateInvaders (https://templateinvaders.com/)\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;"
 "_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
@@ -23,46 +23,46 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 "X-Poedit-SearchPathExcluded-2: templates/soft_skin\n"
 
-#: admin/basestyle.helper.php:99 public/email.helper.php:144
+#: admin/basestyle.helper.php:97 public/email.helper.php:146
 msgid "Default"
 msgstr "پیش فرض"
 
-#: admin/basestyle.helper.php:126 admin/basestyle.helper.php:147
+#: admin/basestyle.helper.php:124 admin/basestyle.helper.php:145
 msgid "Templates"
 msgstr "الگوها"
 
-#: admin/basestyle.helper.php:133
+#: admin/basestyle.helper.php:131
 msgid "Use Theme style"
 msgstr "از استایل تم استفاده کن"
 
-#: admin/basestyle.helper.php:165 admin/basestyle.helper.php:172
+#: admin/basestyle.helper.php:163 admin/basestyle.helper.php:170
 msgid "Custom CSS Rules"
 msgstr "قوانین css دلخواه"
 
-#: admin/basestyle.helper.php:198 admin/settings/addtowishlist.class.php:557
-#: admin/settings/general.class.php:708
-#: admin/settings/integrations.class.php:115
-#: admin/settings/notification.class.php:470
-#: admin/settings/social.class.php:163 admin/settings/table.class.php:260
+#: admin/basestyle.helper.php:196 admin/settings/addtowishlist.class.php:586
+#: admin/settings/general.class.php:815
+#: admin/settings/integrations.class.php:102
+#: admin/settings/notification.class.php:503
+#: admin/settings/social.class.php:164 admin/settings/table.class.php:309
 msgid "Save Settings"
 msgstr "ذخیره تنظیمات"
 
-#: admin/basestyle.helper.php:204 admin/settings/addtowishlist.class.php:563
-#: admin/settings/general.class.php:714
-#: admin/settings/notification.class.php:476
-#: admin/settings/social.class.php:169 admin/settings/table.class.php:266
+#: admin/basestyle.helper.php:202 admin/settings/addtowishlist.class.php:592
+#: admin/settings/general.class.php:821
+#: admin/settings/notification.class.php:509
+#: admin/settings/social.class.php:170 admin/settings/table.class.php:315
 msgid "Reset"
 msgstr "بازنشانی"
 
-#: admin/basestyle.helper.php:210 admin/settings/addtowishlist.class.php:569
-#: admin/settings/general.class.php:720
-#: admin/settings/integrations.class.php:121
-#: admin/settings/notification.class.php:482
-#: admin/settings/social.class.php:175 admin/settings/table.class.php:272
+#: admin/basestyle.helper.php:208 admin/settings/addtowishlist.class.php:598
+#: admin/settings/general.class.php:827
+#: admin/settings/integrations.class.php:108
+#: admin/settings/notification.class.php:515
+#: admin/settings/social.class.php:176 admin/settings/table.class.php:321
 msgid "Save"
 msgstr "ذخیره"
 
-#: admin/basestyle.helper.php:254
+#: admin/basestyle.helper.php:252
 msgid "Template Options"
 msgstr "آپشن های الگوها"
 
@@ -121,7 +121,8 @@ msgid "Send Promotional Email"
 msgstr "ارسال تبلیغ"
 
 #: admin/product/table.class.php:43 admin/product/usertable.class.php:51
-#: templates/ti-wishlist-user.php:40 templates/ti-wishlist.php:41
+#: integrations/vad-product-design.php:73 templates/ti-wishlist-user.php:39
+#: templates/ti-wishlist.php:46
 msgid "Product"
 msgstr "محصول"
 
@@ -129,28 +130,28 @@ msgstr "محصول"
 msgid "Products"
 msgstr "محصولات"
 
-#: admin/product/table.class.php:191
+#: admin/product/table.class.php:193
 #, fuzzy
 msgid "No Products available."
 msgstr "محصولات در دسترس نیستند"
 
-#: admin/product/table.class.php:219
+#: admin/product/table.class.php:221
 msgid "Send promotion"
 msgstr "ارسال تبلیغ"
 
-#: admin/product/table.class.php:224 admin/product/table.class.php:290
+#: admin/product/table.class.php:226 admin/product/table.class.php:315
 msgid "Users"
 msgstr "کاربران"
 
-#: admin/product/table.class.php:286 templates/emails/ti-estimate.php:32
-#: templates/emails/ti-previewestimate.php:65 templates/ti-wishlist-user.php:39
-#: templates/ti-wishlist.php:40
+#: admin/product/table.class.php:311 templates/emails/ti-estimate.php:32
+#: templates/emails/ti-previewestimate.php:65 templates/ti-wishlist-pdf.php:119
+#: templates/ti-wishlist-user.php:38 templates/ti-wishlist.php:45
 msgid "Product Name"
 msgstr "نام  محصول"
 
-#: admin/product/table.class.php:287 admin/product/usertable.class.php:69
-#: admin/product/usertable.class.php:90 admin/wishlist.class.php:26
-#: admin/wishlist.class.php:42 admin/wishlist/table.class.php:45
+#: admin/product/table.class.php:312 admin/product/usertable.class.php:69
+#: admin/product/usertable.class.php:91 admin/wishlist.class.php:24
+#: admin/wishlist.class.php:40 admin/wishlist/table.class.php:45
 #: integrations/automatewoo/trigger-wishlist-item-added-to-cart.php:14
 #: integrations/automatewoo/trigger-wishlist-item-added.php:14
 #: integrations/automatewoo/trigger-wishlist-item-purchased.php:14
@@ -160,136 +161,148 @@ msgstr "نام  محصول"
 msgid "Wishlists"
 msgstr "لیست های علاقه مندی"
 
-#: admin/product/table.class.php:293 templates/emails/ti-estimate.php:40
-#: templates/emails/ti-previewestimate.php:71 templates/ti-wishlist-user.php:52
-#: templates/ti-wishlist.php:53
+#: admin/product/table.class.php:318 templates/emails/ti-estimate.php:40
+#: templates/emails/ti-previewestimate.php:71 templates/ti-wishlist-pdf.php:130
+#: templates/ti-wishlist-user.php:51 templates/ti-wishlist.php:58
 msgid "Qty"
 msgstr "مقدار"
 
-#: admin/product/table.class.php:293
+#: admin/product/table.class.php:318
 msgid " in Wishlists"
 msgstr "در لیست های علاقه مندی"
 
-#: admin/product/table.class.php:295
+#: admin/product/table.class.php:320
 msgid "Views"
 msgstr "نمایش ها"
 
-#: admin/product/table.class.php:296
+#: admin/product/table.class.php:321
 msgid "Purchases"
 msgstr "خریدها"
 
-#: admin/product/table.class.php:297
+#: admin/product/table.class.php:322
 msgid "CTR"
 msgstr "نرخ کلیک"
 
-#: admin/product/table.class.php:298
+#: admin/product/table.class.php:323
 msgid "Abandonment"
 msgstr "رها کردن"
 
-#: admin/product/table.class.php:299 admin/product/usertable.class.php:77
-#: admin/wishlist/table.class.php:69 public/manage/buttons.class.php:226
-#: public/wishlist/buttons.class.php:366
+#: admin/product/table.class.php:324 admin/product/usertable.class.php:78
+#: admin/wishlist/table.class.php:69 public/manage/buttons.class.php:200
+#: public/wishlist/buttons.class.php:221
 msgid "Actions"
 msgstr "اقدام دسته جمعی"
 
-#: admin/product/table.class.php:331 admin/product/usertable.class.php:337
-#: admin/wishlist/subscribers.class.php:213 admin/wishlist/table.class.php:383
+#: admin/product/table.class.php:356 admin/product/usertable.class.php:385
+#: admin/wishlist/subscribers.class.php:213 admin/wishlist/table.class.php:393
 msgid "Previous page"
 msgstr "صف"
 
-#: admin/product/table.class.php:333 admin/product/usertable.class.php:339
-#: admin/wishlist/subscribers.class.php:215 admin/wishlist/table.class.php:385
+#: admin/product/table.class.php:358 admin/product/usertable.class.php:387
+#: admin/wishlist/subscribers.class.php:215 admin/wishlist/table.class.php:395
 msgid "First page"
 msgstr "صفحه اول"
 
-#: admin/product/table.class.php:336 admin/product/table.class.php:346
-#: admin/product/usertable.class.php:342 admin/product/usertable.class.php:352
+#: admin/product/table.class.php:361 admin/product/table.class.php:371
+#: admin/product/usertable.class.php:390 admin/product/usertable.class.php:400
 #: admin/wishlist/subscribers.class.php:218
-#: admin/wishlist/subscribers.class.php:228 admin/wishlist/table.class.php:388
-#: admin/wishlist/table.class.php:398
+#: admin/wishlist/subscribers.class.php:228 admin/wishlist/table.class.php:398
+#: admin/wishlist/table.class.php:408
 msgid "..."
 msgstr "..."
 
-#: admin/product/table.class.php:349 admin/product/usertable.class.php:355
-#: admin/wishlist/subscribers.class.php:231 admin/wishlist/table.class.php:401
+#: admin/product/table.class.php:374 admin/product/usertable.class.php:403
+#: admin/wishlist/subscribers.class.php:231 admin/wishlist/table.class.php:411
 msgid "Last page"
 msgstr "صفحه آخر"
 
-#: admin/product/table.class.php:353 admin/product/usertable.class.php:359
-#: admin/wishlist/subscribers.class.php:235 admin/wishlist/table.class.php:405
+#: admin/product/table.class.php:378 admin/product/usertable.class.php:407
+#: admin/wishlist/subscribers.class.php:235 admin/wishlist/table.class.php:415
 msgid "Next page"
 msgstr "صفحه بعد"
 
-#: admin/product/table.class.php:439 admin/product/usertable.class.php:437
-#: admin/wishlist/table.class.php:483 templates/ti-wishlist-navigation.php:43
+#: admin/product/table.class.php:464 admin/product/usertable.class.php:485
+#: admin/wishlist/table.class.php:493 templates/ti-wishlist-navigation.php:62
 #: templates/ti-wishlist-widget-searchform.php:26
 msgid "Search"
 msgstr "جستجو"
 
-#: admin/product/table.class.php:439
+#: admin/product/table.class.php:464
 msgid "by Product"
 msgstr "بر اساس محصولات"
 
-#: admin/product/table.class.php:541 admin/product/usertable.class.php:579
-#: admin/wishlist/subscribers.class.php:399 admin/wishlist/table.class.php:729
+#: admin/product/table.class.php:566 admin/product/usertable.class.php:627
+#: admin/wishlist/subscribers.class.php:399 admin/wishlist/table.class.php:739
 msgid "Select All"
 msgstr "انتخاب همه"
+
+#: admin/product/table.class.php:637
+msgid "Download CSV"
+msgstr ""
 
 #: admin/product/usertable.class.php:53
 msgid "users"
 msgstr "کاربران"
 
-#: admin/product/usertable.class.php:68 admin/product/usertable.class.php:89
+#: admin/product/usertable.class.php:68 admin/product/usertable.class.php:90
 #: admin/wishlist/subscribers.class.php:68
 msgid "Name"
 msgstr "نام"
 
-#: admin/product/usertable.class.php:72 admin/product/usertable.class.php:91
-#: templates/ti-wishlist-manage.php:33 templates/ti-wishlist-public.php:28
-#: templates/ti-wishlist-user.php:46 templates/ti-wishlist.php:47
+#: admin/product/usertable.class.php:72 admin/product/usertable.class.php:92
+#: templates/ti-wishlist-manage.php:42 templates/ti-wishlist-pdf.php:124
+#: templates/ti-wishlist-public.php:28 templates/ti-wishlist-user.php:45
+#: templates/ti-wishlist.php:52
 msgid "Date Added"
 msgstr "تاریخ اضافه شدن به لیست"
 
-#: admin/product/usertable.class.php:75 admin/product/usertable.class.php:92
+#: admin/product/usertable.class.php:75 admin/product/usertable.class.php:94
 msgid "Quantity"
 msgstr "مقدار"
 
-#: admin/product/usertable.class.php:200
+#: admin/product/usertable.class.php:77 admin/product/usertable.class.php:93
+#, fuzzy
+#| msgid "Subscriber"
+msgid "Subscribed"
+msgstr "ثبت نام کننده"
+
+#: admin/product/usertable.class.php:202
 #, fuzzy
 msgid "No Users available."
 msgstr "هیچ کاربری فعال نیست"
 
-#: admin/product/usertable.class.php:228 admin/wishlist/table.class.php:241
+#: admin/product/usertable.class.php:243 admin/wishlist/table.class.php:252
+#: includes/tinvwl.class.php:266
 msgid "Guest"
 msgstr "مهمان"
 
-#: admin/product/usertable.class.php:275 admin/product/usertable.class.php:447
+#: admin/product/usertable.class.php:323 admin/product/usertable.class.php:495
 msgid "Send promotional"
 msgstr "ارسال تبلیغ"
 
-#: admin/product/usertable.class.php:437 admin/wishlist/table.class.php:483
+#: admin/product/usertable.class.php:485 admin/wishlist/table.class.php:493
 msgid "by User"
 msgstr "بر اساس کاربر"
 
-#: admin/settings/addtowishlist.class.php:72
+#: admin/settings/addtowishlist.class.php:69
 msgid "Button Options"
 msgstr "تنظیمات دکمه"
 
-#: admin/settings/addtowishlist.class.php:73
+#: admin/settings/addtowishlist.class.php:70
 msgid "\"Add to Wishlist\" Button Options"
 msgstr "تنظیمات دکمه\" اضافه به لیست علاقه مندی ها\""
 
-#: admin/settings/addtowishlist.class.php:90
+#: admin/settings/addtowishlist.class.php:86
 #, fuzzy
 msgid "Product page Button Settings"
 msgstr "تنظیمات دکمه صفحه سبد خرید"
 
-#: admin/settings/addtowishlist.class.php:96
-#: admin/settings/addtowishlist.class.php:245 views/wizard/step-button.php:28
+#: admin/settings/addtowishlist.class.php:92
+#: admin/settings/addtowishlist.class.php:258 views/wizard/step-button.php:28
 msgid "Button position"
 msgstr "موقعیت دکمه"
 
-#: admin/settings/addtowishlist.class.php:97
+#: admin/settings/addtowishlist.class.php:93
 msgid ""
 "Add this shortcode <code>[ti_wishlists_addtowishlist]</code> anywhere on "
 "product page, if you have chosen custom position for product button. You "
@@ -299,45 +312,45 @@ msgstr ""
 "محصول میتوانید اضافه کنید اگر مکان قرار گیری دکمه را به صورت اختیاری انتخاب "
 "کرده باشید. و شما باید این کار را برای هر محصول انجام دهید"
 
-#: admin/settings/addtowishlist.class.php:100
-#: admin/settings/addtowishlist.class.php:248 includes/wizard.class.php:500
+#: admin/settings/addtowishlist.class.php:96
+#: admin/settings/addtowishlist.class.php:261 includes/wizard.class.php:500
 #: includes/wizard.class.php:508
 msgid "After \"Add to Cart\" button"
 msgstr "بعد از دکمه \"اضافه به سبد خرید\""
 
-#: admin/settings/addtowishlist.class.php:101
-#: admin/settings/addtowishlist.class.php:249 includes/wizard.class.php:501
+#: admin/settings/addtowishlist.class.php:97
+#: admin/settings/addtowishlist.class.php:262 includes/wizard.class.php:501
 #: includes/wizard.class.php:509
 msgid "Before \"Add to Cart\" button"
 msgstr "قبل از دکمه \"اضافه به سبد خرید\""
 
-#: admin/settings/addtowishlist.class.php:102
+#: admin/settings/addtowishlist.class.php:98
 #, fuzzy
 #| msgid "Above Thumbnail"
 msgid "After Thumbnails"
 msgstr "بالای تصویر"
 
-#: admin/settings/addtowishlist.class.php:103
+#: admin/settings/addtowishlist.class.php:99
 msgid "After summary"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:104
-#: admin/settings/addtowishlist.class.php:251 includes/wizard.class.php:502
+#: admin/settings/addtowishlist.class.php:100
+#: admin/settings/addtowishlist.class.php:264 includes/wizard.class.php:502
 #: includes/wizard.class.php:511
 msgid "Custom position with code"
 msgstr "مکان دلخواه با استفاده از کد"
 
-#: admin/settings/addtowishlist.class.php:110
-#: admin/settings/addtowishlist.class.php:257
-#: admin/settings/addtowishlist.class.php:386
-#: admin/settings/addtowishlist.class.php:478
+#: admin/settings/addtowishlist.class.php:106
+#: admin/settings/addtowishlist.class.php:270
+#: admin/settings/addtowishlist.class.php:415
+#: admin/settings/addtowishlist.class.php:507
 msgid "Button custom CSS class"
 msgstr "css دلخواه برای دکمه"
 
-#: admin/settings/addtowishlist.class.php:111
-#: admin/settings/addtowishlist.class.php:258
-#: admin/settings/addtowishlist.class.php:387
-#: admin/settings/addtowishlist.class.php:479
+#: admin/settings/addtowishlist.class.php:107
+#: admin/settings/addtowishlist.class.php:271
+#: admin/settings/addtowishlist.class.php:416
+#: admin/settings/addtowishlist.class.php:508
 msgid ""
 "You can add custom CSS classes to button markup separated by spaces. Most of "
 "themes using <code>button</code> class for this type of buttons."
@@ -346,16 +359,16 @@ msgstr ""
 "جدا شده اند\n"
 "بیشتر قالب ها از کلاس <code>button</code> برای اینگونه دکمه ها استفاده میکنند"
 
-#: admin/settings/addtowishlist.class.php:120
-#: admin/settings/addtowishlist.class.php:267
+#: admin/settings/addtowishlist.class.php:116
+#: admin/settings/addtowishlist.class.php:280
 msgid "\"Add to Wishlist\" Icon"
 msgstr "آیکون \"اضافه به لیست علاقه مندی ها\""
 
-#: admin/settings/addtowishlist.class.php:121
-#: admin/settings/addtowishlist.class.php:275
-#: admin/settings/addtowishlist.class.php:404
-#: admin/settings/addtowishlist.class.php:496
-#: admin/settings/general.class.php:545
+#: admin/settings/addtowishlist.class.php:117
+#: admin/settings/addtowishlist.class.php:293
+#: admin/settings/addtowishlist.class.php:433
+#: admin/settings/addtowishlist.class.php:525
+#: admin/settings/general.class.php:620
 msgid ""
 "You can choose from our predefined icons or upload your custom icon. Custom "
 "icon size is limited to 16x16 px."
@@ -364,88 +377,102 @@ msgstr ""
 "خودتان استفاده کنید\n"
 "آیکون های ساخته شده توسط شما به سایز 16*16محدود است"
 
-#: admin/settings/addtowishlist.class.php:124
-#: admin/settings/addtowishlist.class.php:270
-#: admin/settings/addtowishlist.class.php:399
-#: admin/settings/addtowishlist.class.php:491
-#: admin/settings/general.class.php:86 admin/settings/general.class.php:540
+#: admin/settings/addtowishlist.class.php:120
+#: admin/settings/addtowishlist.class.php:283
+#: admin/settings/addtowishlist.class.php:428
+#: admin/settings/addtowishlist.class.php:520
+#: admin/settings/general.class.php:80 admin/settings/general.class.php:615
 msgid "None"
 msgstr "هیچی"
 
-#: admin/settings/addtowishlist.class.php:125
-#: admin/settings/addtowishlist.class.php:271
-#: admin/settings/addtowishlist.class.php:400
-#: admin/settings/addtowishlist.class.php:492
-#: admin/settings/general.class.php:541
+#: admin/settings/addtowishlist.class.php:121
+#: admin/settings/addtowishlist.class.php:284
+#: admin/settings/addtowishlist.class.php:429
+#: admin/settings/addtowishlist.class.php:521
+#: admin/settings/general.class.php:616
 msgid "Heart"
 msgstr "قلب"
 
-#: admin/settings/addtowishlist.class.php:126
-#: admin/settings/addtowishlist.class.php:272
-#: admin/settings/addtowishlist.class.php:401
-#: admin/settings/addtowishlist.class.php:493
-#: admin/settings/general.class.php:542
+#: admin/settings/addtowishlist.class.php:122
+#: admin/settings/addtowishlist.class.php:285
+#: admin/settings/addtowishlist.class.php:430
+#: admin/settings/addtowishlist.class.php:522
+#: admin/settings/general.class.php:617
 msgid "Heart+"
 msgstr "قلب+"
 
-#: admin/settings/addtowishlist.class.php:127
-#: admin/settings/addtowishlist.class.php:273
-#: admin/settings/addtowishlist.class.php:402
-#: admin/settings/addtowishlist.class.php:494
-#: admin/settings/general.class.php:543
+#: admin/settings/addtowishlist.class.php:123
+#: admin/settings/addtowishlist.class.php:286
+#: admin/settings/addtowishlist.class.php:431
+#: admin/settings/addtowishlist.class.php:523
+#: admin/settings/general.class.php:618
 msgid "Custom"
 msgstr "دلخواه"
 
-#: admin/settings/addtowishlist.class.php:137
-#: admin/settings/addtowishlist.class.php:284
-#: admin/settings/addtowishlist.class.php:413
-#: admin/settings/addtowishlist.class.php:505
-#: admin/settings/general.class.php:554
-#: admin/settings/notification.class.php:214
-#: admin/settings/notification.class.php:233
+#: admin/settings/addtowishlist.class.php:136
+#: admin/settings/addtowishlist.class.php:299
+#, fuzzy
+#| msgid "Default Wishlist Name"
+msgid "Default state"
+msgstr "اسم پیش فرض برای لیست علاقه مندی ها"
+
+#: admin/settings/addtowishlist.class.php:140
+#: admin/settings/addtowishlist.class.php:153
+#: admin/settings/addtowishlist.class.php:303
+#: admin/settings/addtowishlist.class.php:316
+#: admin/settings/addtowishlist.class.php:442
+#: admin/settings/addtowishlist.class.php:534
+#: admin/settings/general.class.php:629
+#: admin/settings/notification.class.php:210
+#: admin/settings/notification.class.php:229
 msgid "Upload"
 msgstr "بارگذاری"
 
 #: admin/settings/addtowishlist.class.php:149
-#: admin/settings/addtowishlist.class.php:296
+#: admin/settings/addtowishlist.class.php:312
+msgid "Already added state"
+msgstr ""
+
+#: admin/settings/addtowishlist.class.php:162
+#: admin/settings/addtowishlist.class.php:325
 msgid "\"Add to Wishlist\" Icon Color"
 msgstr "رنگ آیکون\"اضافه کردن به لیست علاقه مندی ها\""
 
-#: admin/settings/addtowishlist.class.php:151
-#: admin/settings/addtowishlist.class.php:298
-#: admin/settings/addtowishlist.class.php:427
-#: admin/settings/addtowishlist.class.php:519
-#: admin/settings/general.class.php:568 admin/settings/social.class.php:147
+#: admin/settings/addtowishlist.class.php:164
+#: admin/settings/addtowishlist.class.php:327
+#: admin/settings/addtowishlist.class.php:456
+#: admin/settings/addtowishlist.class.php:548
+#: admin/settings/general.class.php:643 admin/settings/social.class.php:148
 msgid "Use font color"
 msgstr "از رنگ فونت استفاده کن"
 
-#: admin/settings/addtowishlist.class.php:152
-#: admin/settings/addtowishlist.class.php:299
-#: admin/settings/addtowishlist.class.php:428
-#: admin/settings/addtowishlist.class.php:520
-#: admin/settings/general.class.php:569
+#: admin/settings/addtowishlist.class.php:165
+#: admin/settings/addtowishlist.class.php:328
+#: admin/settings/addtowishlist.class.php:457
+#: admin/settings/addtowishlist.class.php:549
+#: admin/settings/general.class.php:644
 msgid "Black"
 msgstr "سیاه"
 
-#: admin/settings/addtowishlist.class.php:153
-#: admin/settings/addtowishlist.class.php:300
-#: admin/settings/addtowishlist.class.php:429
-#: admin/settings/addtowishlist.class.php:521
-#: admin/settings/general.class.php:570 admin/settings/social.class.php:149
+#: admin/settings/addtowishlist.class.php:166
+#: admin/settings/addtowishlist.class.php:329
+#: admin/settings/addtowishlist.class.php:458
+#: admin/settings/addtowishlist.class.php:550
+#: admin/settings/general.class.php:645 admin/settings/social.class.php:150
 msgid "White"
 msgstr "سفید"
 
-#: admin/settings/addtowishlist.class.php:162
-#: admin/settings/addtowishlist.class.php:309
-#: admin/settings/addtowishlist.class.php:438
-#: admin/settings/addtowishlist.class.php:530
+#: admin/settings/addtowishlist.class.php:175
+#: admin/settings/addtowishlist.class.php:338
+#: admin/settings/addtowishlist.class.php:467
+#: admin/settings/addtowishlist.class.php:559
 msgid "Show preloader"
 msgstr "نمایش پیش بارگذاری"
 
-#: admin/settings/addtowishlist.class.php:163
-#: admin/settings/addtowishlist.class.php:310
-#: admin/settings/addtowishlist.class.php:439
-#: admin/settings/addtowishlist.class.php:531
+#: admin/settings/addtowishlist.class.php:176
+#: admin/settings/addtowishlist.class.php:339
+#: admin/settings/addtowishlist.class.php:468
+#: admin/settings/addtowishlist.class.php:560
 msgid ""
 "If enabled, applies animation for the button icon until product adding or "
 "removing processed. (Usable for servers with slow connection mostly.)"
@@ -454,36 +481,36 @@ msgstr ""
 "میشود یا حذف میشود، دکمه اضافه یا حذف به صورت متحرک درمی آید( این گزینه برای "
 "سوررهایی که سرعت پایینی دارند کاربرد دارد) "
 
-#: admin/settings/addtowishlist.class.php:169
-#: admin/settings/addtowishlist.class.php:316
+#: admin/settings/addtowishlist.class.php:182
+#: admin/settings/addtowishlist.class.php:345
 msgid "Show button text"
 msgstr "متن دکمه را نمایش بده"
 
-#: admin/settings/addtowishlist.class.php:184
+#: admin/settings/addtowishlist.class.php:197
 msgid "\"Add to Wishlist\" button Text"
 msgstr "متن دکمه\" اضافه کردن به لیست علاقه مندی ها\""
 
-#: admin/settings/addtowishlist.class.php:190
-#: admin/settings/addtowishlist.class.php:337
+#: admin/settings/addtowishlist.class.php:203
+#: admin/settings/addtowishlist.class.php:366
 msgid "Show \"Already In Wishlist\" button Text"
 msgstr "متن دکمه \"در لیست علاقه مندی ها موجود است\"را نمایش بده"
 
-#: admin/settings/addtowishlist.class.php:200
-#: admin/settings/addtowishlist.class.php:347
+#: admin/settings/addtowishlist.class.php:213
+#: admin/settings/addtowishlist.class.php:376
 msgid "\"Already In Wishlist\" button Text"
 msgstr "متن دکمه \"در لیست علاقه مندی ها موجود است\""
 
-#: admin/settings/addtowishlist.class.php:208
-#: admin/settings/addtowishlist.class.php:355
+#: admin/settings/addtowishlist.class.php:221
+#: admin/settings/addtowishlist.class.php:384
 msgid "\"Remove from Wishlist\" Button Text"
 msgstr "متن دکمه \"حذف از لیست علاقه مندی ها\""
 
-#: admin/settings/addtowishlist.class.php:216
+#: admin/settings/addtowishlist.class.php:229
 #, fuzzy
 msgid "Product Listing page Button Settings"
 msgstr "تنظیمات دکمه در لیست محصولات"
 
-#: admin/settings/addtowishlist.class.php:217
+#: admin/settings/addtowishlist.class.php:230
 msgid ""
 "This is separate settings for \"Add to wishlist\" button on product listing "
 "(Shop page, categories, etc.). You can also adjust button and text colors, "
@@ -493,15 +520,15 @@ msgstr ""
 "(Shop page, categories, etc.). You can also adjust button and text colors, "
 "size, etc. in <code>TI Wishlist > Style Options.</code>"
 
-#: admin/settings/addtowishlist.class.php:223
+#: admin/settings/addtowishlist.class.php:236
 msgid "Show in Product Listing"
 msgstr "نمایش در لیست محصولات"
 
-#: admin/settings/addtowishlist.class.php:238
+#: admin/settings/addtowishlist.class.php:251
 msgid "Show for variable products"
 msgstr "برای محصولات متغیر نمایش بده"
 
-#: admin/settings/addtowishlist.class.php:239
+#: admin/settings/addtowishlist.class.php:252
 msgid ""
 "Will show \"Add to wishlist\" button for variable products if product "
 "variations are set by default."
@@ -509,19 +536,19 @@ msgstr ""
 "دکمه\"  اضافه به سبد خرید\" را برای محصولات متغیر نشان خواهد داد اگر "
 "متغیرهای محصول بر اساس پیش فرض تنظیم شده باشند"
 
-#: admin/settings/addtowishlist.class.php:250 includes/wizard.class.php:510
+#: admin/settings/addtowishlist.class.php:263 includes/wizard.class.php:510
 msgid "Above Thumbnail"
 msgstr "بالای تصویر"
 
-#: admin/settings/addtowishlist.class.php:331 views/wizard/step-button.php:37
+#: admin/settings/addtowishlist.class.php:360 views/wizard/step-button.php:37
 msgid "\"Add to Wishlist\" Text"
 msgstr "رد کردن این مرحله"
 
-#: admin/settings/addtowishlist.class.php:363
+#: admin/settings/addtowishlist.class.php:392
 msgid "Cart page Button Settings"
 msgstr "تنظیمات دکمه صفحه سبد خرید"
 
-#: admin/settings/addtowishlist.class.php:364
+#: admin/settings/addtowishlist.class.php:393
 msgid ""
 "This is separate settings for \"Save for Later\" button on a Cart page. You "
 "can also adjust button and text colors, size, etc. in <code>TI Wishlist > "
@@ -531,44 +558,44 @@ msgstr ""
 "can also adjust button and text colors, size, etc. in <code>TI Wishlist > "
 "Style Options.</code>"
 
-#: admin/settings/addtowishlist.class.php:370
+#: admin/settings/addtowishlist.class.php:399
 msgid "Show button for Cart Items"
 msgstr "برای آیتم های سبد خرید دکمه را نمایش بده"
 
-#: admin/settings/addtowishlist.class.php:372
+#: admin/settings/addtowishlist.class.php:401
 msgid ""
 "Enables/disables \"Save for Later\" button for every cart item in a table."
 msgstr "فعال/غیرفعال کردن دکمه\""
 
-#: admin/settings/addtowishlist.class.php:396
+#: admin/settings/addtowishlist.class.php:425
 msgid "\"Save for Later\" Icon"
 msgstr "آیکن\"ذخیره برای بعدا\""
 
-#: admin/settings/addtowishlist.class.php:425
-#: admin/settings/style.class.php:625
+#: admin/settings/addtowishlist.class.php:454
+#: admin/settings/style.class.php:624
 msgid "\"Save for Later\" Icon Color"
 msgstr "رنگ آیکن \"ذخیره برای بعدا\""
 
-#: admin/settings/addtowishlist.class.php:445
+#: admin/settings/addtowishlist.class.php:474
 msgid "\"Save for Later\" Text"
 msgstr "متن آیکن \"ذخیره برای بعدا\""
 
-#: admin/settings/addtowishlist.class.php:451
-#: admin/settings/addtowishlist.class.php:543
+#: admin/settings/addtowishlist.class.php:480
+#: admin/settings/addtowishlist.class.php:572
 #, fuzzy
 msgid "Remove from cart if added to Wishlist"
 msgstr "زمانی که محصولی به لیست علاقه مندی ها اضافه میشود از لیست خرید حذف شود"
 
-#: admin/settings/addtowishlist.class.php:452
-#: admin/settings/addtowishlist.class.php:544
+#: admin/settings/addtowishlist.class.php:481
+#: admin/settings/addtowishlist.class.php:573
 msgid "Remove from cart when products are added to wishlist."
 msgstr "زمانی که محصولی به لیست علاقه مندی ها اضافه میشود از لیست خرید حذف شود"
 
-#: admin/settings/addtowishlist.class.php:462
+#: admin/settings/addtowishlist.class.php:491
 msgid "Show button for Cart"
 msgstr "نشان دادن دکمه برای سبد خرید"
 
-#: admin/settings/addtowishlist.class.php:464
+#: admin/settings/addtowishlist.class.php:493
 msgid ""
 "Enables/disables \"Save Cart\" button that allows to add all cart items to "
 "wishlist in one click."
@@ -576,49 +603,49 @@ msgstr ""
 "فعال/غیرفعال کردن دکمه \"ذخیره سبد خرید\" که اجازه خواهد داد تمام آیتم های "
 "سبد خرید با یک کلیک به لیست علاقه مندی ها اضافه شود"
 
-#: admin/settings/addtowishlist.class.php:488
+#: admin/settings/addtowishlist.class.php:517
 msgid "\"Save Cart\" Icon"
 msgstr "آیکون\"ذخیره سبد خرید\""
 
-#: admin/settings/addtowishlist.class.php:517
-#: admin/settings/style.class.php:639
+#: admin/settings/addtowishlist.class.php:546
+#: admin/settings/style.class.php:638
 msgid "\"Save Cart\" Icon Color"
 msgstr "رنگ آیکون \"ذخیره سبد خرید\""
 
-#: admin/settings/addtowishlist.class.php:537
+#: admin/settings/addtowishlist.class.php:566
 msgid "\"Save Cart\" Text"
 msgstr "متن\" ذخیره سبد خرید\""
 
-#: admin/settings/general.class.php:72 admin/settings/general.class.php:176
+#: admin/settings/general.class.php:67 admin/settings/general.class.php:169
 #: views/wizard/step-general.php:16
 msgid "General Settings"
 msgstr "تنظیمات عمومی"
 
-#: admin/settings/general.class.php:103
+#: admin/settings/general.class.php:96
 msgid "Add to Cart"
 msgstr "افزودن به سبد خرید"
 
-#: admin/settings/general.class.php:106 includes/wizard.class.php:555
+#: admin/settings/general.class.php:99 includes/wizard.class.php:555
 #, php-format
 msgid "Order status \"%s\""
 msgstr "وضعیت سفارش \"%s\""
 
-#: admin/settings/general.class.php:133
+#: admin/settings/general.class.php:126
 msgid "Allow to Follow Wishlist"
 msgstr "اجازه دنبال کردن لیست علاقه مندی ها را بده"
 
-#: admin/settings/general.class.php:134
+#: admin/settings/general.class.php:127
 msgid ""
 "This option adds Follow button to Wishlist page and allows users to receive "
 "email notifications each time Wishlist owner make changes in his Wishlist."
 msgstr "این گزینه دکمه \"دنبال کردن\" "
 
-#: admin/settings/general.class.php:146
+#: admin/settings/general.class.php:139
 #, fuzzy
 msgid "Period for sending notifications to followers"
 msgstr "دوره های زمانی برای فرستادن اعلانیه برای دنبال کننده ها"
 
-#: admin/settings/general.class.php:147
+#: admin/settings/general.class.php:140
 msgid ""
 "You can control how often followers will be receiving email notifications "
 "about changes in Wishlists that they follow. However, they will not receive "
@@ -629,19 +656,19 @@ msgstr ""
 "تغییر لیست علاقه مندی ای که آنها دنبال میکنند را دریافت کنند در حال اگر "
 "تغییری در لیست ایجاد نشود آنها ایمیلی دریافت نمیکنند"
 
-#: admin/settings/general.class.php:150
+#: admin/settings/general.class.php:143
 msgid "Hourly"
 msgstr "هر ساعت"
 
-#: admin/settings/general.class.php:151
+#: admin/settings/general.class.php:144
 msgid "Daily"
 msgstr "روزانه"
 
-#: admin/settings/general.class.php:158
+#: admin/settings/general.class.php:151
 msgid "Event list status"
 msgstr "وضعیت لیست رویداد ها"
 
-#: admin/settings/general.class.php:159
+#: admin/settings/general.class.php:152
 msgid ""
 "Choose what kind of wishlist events users can follow. Users will have a "
 "choice from enabled options."
@@ -649,42 +676,55 @@ msgstr ""
 "تعیین کنید چه رویدادی از لیست علاقه مندی ها توسط کاربران دنبال شود\n"
 "کاربران میتوانند از گزینه های فعال شده انتخاب کنند"
 
-#: admin/settings/general.class.php:182 views/wizard/step-page.php:28
+#: admin/settings/general.class.php:175 views/wizard/step-page.php:28
 msgid "Default Wishlist Name"
 msgstr "اسم پیش فرض برای لیست علاقه مندی ها"
 
-#: admin/settings/general.class.php:188
+#: admin/settings/general.class.php:181
 msgid "Default Wishlist Privacy"
 msgstr "حریم خصوصی لیست علاقه مندی های پیش فرض"
 
-#: admin/settings/general.class.php:191 admin/settings/general.class.php:522
-#: admin/wishlist/table.class.php:504 public/create.class.php:89
-#: public/manage/buttons.class.php:293 public/manage/wishlist.class.php:156
+#: admin/settings/general.class.php:184 admin/settings/general.class.php:493
+#: admin/wishlist/table.class.php:514 public/manage/wishlist.class.php:123
 msgid "Public"
 msgstr "عمومی"
 
-#: admin/settings/general.class.php:192 admin/settings/general.class.php:521
-#: admin/wishlist/table.class.php:505 public/create.class.php:90
-#: public/manage/buttons.class.php:294 public/manage/wishlist.class.php:157
+#: admin/settings/general.class.php:185 admin/settings/general.class.php:492
+#: admin/wishlist/table.class.php:515 public/manage/wishlist.class.php:124
 #: views/wizard/step-social.php:18
 msgid "Share"
 msgstr "به اشتراک گذاری"
 
-#: admin/settings/general.class.php:193 admin/wishlist/table.class.php:506
-#: public/create.class.php:91 public/manage/buttons.class.php:295
-#: public/manage/wishlist.class.php:158
+#: admin/settings/general.class.php:186 admin/wishlist/table.class.php:516
+#: public/manage/wishlist.class.php:125
 msgid "Private"
 msgstr "شخصی"
 
-#: admin/settings/general.class.php:199
+#: admin/settings/general.class.php:192
+msgid "Setup wishlist page under WooCommerce My Account section"
+msgstr ""
+
+#: admin/settings/general.class.php:193
+msgid ""
+"This option will set up the wishlist page under WooCommerce My Account "
+"section and prevents all sharing features."
+msgstr ""
+
+#: admin/settings/general.class.php:203
+#, fuzzy
+#| msgid "TI WooCommerce Wishlist Templates"
+msgid "WooCommerce My Account Wishlist page slug"
+msgstr "قالب های لیست علاقه مندی های TI"
+
+#: admin/settings/general.class.php:210
 msgid "Show Link to Wishlist in my account"
 msgstr "نمایش لینک لیست علاقه مندی در صفحه حساب کاربری"
 
-#: admin/settings/general.class.php:210
+#: admin/settings/general.class.php:222
 msgid "Enable wishlist functionality for unauthenticated users"
 msgstr "قابلیت لیست علاقه مندی ها را برای کاربران ثبت نام نکرده هم فعال کن"
 
-#: admin/settings/general.class.php:211
+#: admin/settings/general.class.php:223
 msgid ""
 "You can allow guests to add products to a temporary Wishlist to keep them on "
 "your website and force to create an account. Or you can make Wishlist as "
@@ -698,20 +738,20 @@ msgstr ""
 "مهمانان امکان ایجاد و مدیریت لیست علاقه مندی را ندارند.بعد از ثبت نام "
 "محصولات از لیست علاقه مندی مهمان به لیست پیش فرض منتقل میشود"
 
-#: admin/settings/general.class.php:218
+#: admin/settings/general.class.php:230
 msgid "Require Login"
 msgstr "لطفا وارد شوید"
 
-#: admin/settings/general.class.php:219
+#: admin/settings/general.class.php:231
 msgid "Disallows guests to use Wishlist functionality until they sign-in."
 msgstr ""
 "به میهمانان تا زمان ورود اجازه استفاده از لیست علاقه مندی ها داده نمی شود."
 
-#: admin/settings/general.class.php:226
+#: admin/settings/general.class.php:238
 msgid "Redirect to Login Page"
 msgstr "تغییر آدرس به صفحه ورود"
 
-#: admin/settings/general.class.php:227
+#: admin/settings/general.class.php:239
 msgid ""
 "<strong>Currently this option could not be changed because \"Show successful "
 "notice in popup\" is disabled. Guests will be redirected automatically to a "
@@ -721,7 +761,7 @@ msgstr ""
 "notice in popup\" is disabled. Guests will be redirected automatically to a "
 "login page.</strong>"
 
-#: admin/settings/general.class.php:227
+#: admin/settings/general.class.php:239
 msgid ""
 "If enabled, guests will be redirected to a login page once clicking the "
 "\"Add to Wishlist\" button or \"Wishlist Products Counter\" link. Otherwise "
@@ -730,11 +770,11 @@ msgstr ""
 "اگر فعال شود،مهمان های برای اضافه کردن محصولی به لیست علاقه مندی های خود به "
 "صفحه ورود هدایت خواهند شد"
 
-#: admin/settings/general.class.php:237
+#: admin/settings/general.class.php:249
 msgid "Show Login Notice for Guests"
 msgstr "نمایش اخطار ورود برای کاربران مهمان"
 
-#: admin/settings/general.class.php:238
+#: admin/settings/general.class.php:250
 msgid ""
 "This option enables login notice on wishlist page, so customers can login "
 "directly from wishlist page."
@@ -742,19 +782,19 @@ msgstr ""
 "این ویژگی تذکر ورود را فعال میکند ،بنابراین کاربران میتوانند از طریق برگه "
 "علاقه مندی ها به صورت مستقیم وارد بشوند"
 
-#: admin/settings/general.class.php:245
+#: admin/settings/general.class.php:257
 msgid "Login Anchor Text"
 msgstr "متن لنگر صفحه ورود"
 
-#: admin/settings/general.class.php:252
+#: admin/settings/general.class.php:264
 msgid "Login Link Text"
 msgstr "متن لینک ورود"
 
-#: admin/settings/general.class.php:259
+#: admin/settings/general.class.php:271
 msgid "Login Link Behavior"
 msgstr "رفتار لینک ورود"
 
-#: admin/settings/general.class.php:260
+#: admin/settings/general.class.php:272
 msgid ""
 "Allow customers to login directly on wishlist page or redirect them to "
 "default login page."
@@ -762,20 +802,20 @@ msgstr ""
 "در صفحه لیست علاقه مندی ها به مشتریان اجازه بده به صورت مستقیم وارد حساب "
 "کاربری خود بشوند یا آنها را به صفحه ورود پیش فرض هدایت کن"
 
-#: admin/settings/general.class.php:263
+#: admin/settings/general.class.php:275
 msgid "Redirect to login page"
 msgstr "تغییر آدرس به صفحه ورود"
 
-#: admin/settings/general.class.php:264
+#: admin/settings/general.class.php:276
 #, fuzzy
 msgid "Show inline form"
 msgstr "نمایش در قسمت موضوع"
 
-#: admin/settings/general.class.php:275
+#: admin/settings/general.class.php:287
 msgid "Enable products quantity functionality"
 msgstr "فعال کردن قابلیت  تعدد محصولات"
 
-#: admin/settings/general.class.php:277
+#: admin/settings/general.class.php:289
 msgid ""
 "You can allow customers to add as many products to wishlist as they need. If "
 "it’s disabled, the only one product of the same configuration can be added."
@@ -784,11 +824,11 @@ msgstr ""
 "یک محصول به لیست علاقه مندی ها اضافه کنند و اگر فعال نباشد یک محصول فقط یک "
 "بار به لیست اضافه خواهد شد"
 
-#: admin/settings/general.class.php:285
+#: admin/settings/general.class.php:297
 msgid "Enable multi-wishlist support"
 msgstr "فعال کردن پشتیبانی لیست علاقه مندی های چند گانه"
 
-#: admin/settings/general.class.php:286
+#: admin/settings/general.class.php:298
 msgid ""
 "You can allow customers to create and manage Wishlists, so they can create "
 "an event specific wishlists i.e. “Christmas Wishlist” or “Birthday gifts "
@@ -800,11 +840,11 @@ msgstr ""
 "Wishlist” and so on. Or you can limit customers to use only one (Default) "
 "Wishlist"
 
-#: admin/settings/general.class.php:296
+#: admin/settings/general.class.php:308
 msgid "Remove product from Wishlist on second click"
 msgstr "حذف محصول از لیست علاقه مندی ها با کلیک دوم"
 
-#: admin/settings/general.class.php:298
+#: admin/settings/general.class.php:310
 msgid ""
 "If enabled, the product will be removed from a Wishlist on second click the "
 "\"Add to Wishlist\" button."
@@ -812,11 +852,37 @@ msgstr ""
 "اگر فعال شود با کلیک برای بار دوم روی دکمه\"اضافه به لیست علاقه مندی\" محصول "
 "از لیست حذف میشود"
 
-#: admin/settings/general.class.php:312
+#: admin/settings/general.class.php:320
+msgid "Show a button to download wishlist as PDF"
+msgstr ""
+
+#: admin/settings/general.class.php:326
+#, fuzzy
+#| msgid "Show for variable products"
+msgid "Show stats for each product"
+msgstr "برای محصولات متغیر نمایش بده"
+
+#: admin/settings/general.class.php:327
+#, fuzzy
+#| msgid "Displays the number of products in the wishlist on your site."
+msgid "Show number of times each product added to wishlists across the site."
+msgstr "نمایش تعداد محصولات در لیست علاقه مندی ها در سایت."
+
+#: admin/settings/general.class.php:334
+msgid "Days after which the guest wishlist will be deleted"
+msgstr ""
+
+#: admin/settings/general.class.php:340
+msgid ""
+"Guest's wishlists are automatically deleted after a defined period of days "
+"from the latest product addition."
+msgstr ""
+
+#: admin/settings/general.class.php:349
 msgid "Show successful notice in popup"
 msgstr "نمایش اعلان موفقیت آمیز بودن در پاپ اپ"
 
-#: admin/settings/general.class.php:322
+#: admin/settings/general.class.php:359
 msgid ""
 "<strong>Currently this option could not be changed because \"Multi-Wishlist "
 "support\" is enabled. It is needed to choose in which wishlist to add the "
@@ -826,7 +892,7 @@ msgstr ""
 "support\" is enabled. It is needed to choose in which wishlist to add the "
 "product.</strong>"
 
-#: admin/settings/general.class.php:322
+#: admin/settings/general.class.php:359
 msgid ""
 "This option allows to show/hide a popup with successful or error notices "
 "after addition or removing products from a Wishlist."
@@ -834,15 +900,15 @@ msgstr ""
 "این قابلیت به شما اجازه میدهد برای نماش\\\\مخفیکردن پاپ آپ وقتی که موفقیت "
 "آمیز است یا خطایی روی داده در اضافه کردن یا پاک کردن محصول"
 
-#: admin/settings/general.class.php:327
+#: admin/settings/general.class.php:364
 msgid "\"View Wishlist\" button Text"
 msgstr "متن دکمه\"دیدن لیست علاقه مندی ها\""
 
-#: admin/settings/general.class.php:334
+#: admin/settings/general.class.php:371
 msgid "Redirect to Wishlist"
 msgstr "هدایت شدن به لیست علاقه مندی ها"
 
-#: admin/settings/general.class.php:335
+#: admin/settings/general.class.php:372
 msgid ""
 "If enabled, user will be redirected to wishlist page after 5 sec from adding "
 "product to wishlist."
@@ -850,21 +916,22 @@ msgstr ""
 "اگر فعال شود کاربر به صورت خودکار بعد از 5 ثانیه از اضافه شدن محصول به لیست "
 "علاقه مندی ها به صفحه علاقه مندی ها هدایت مشود"
 
-#: admin/settings/general.class.php:342
+#: admin/settings/general.class.php:379
 msgid "\"Product added to Wishlist\" Text"
 msgstr "متن \"محصول به لیست علاقه مندی ها اضافه شد\""
 
-#: admin/settings/general.class.php:344
+#: admin/settings/general.class.php:381
 msgid ""
 "You can use next placeholder in this field to get current product name: "
-"<code>{product_name}</code>, <code>{product_sku}</code>"
+"<code>{product_name}</code>, <code>{product_sku}</code>, "
+"<code>{wishlist_title}</code>"
 msgstr ""
 
-#: admin/settings/general.class.php:350
+#: admin/settings/general.class.php:387
 msgid "\"Product already in Wishlist\" Text"
 msgstr "متن\"محصول در لیست علاقه مندی ها وجود دارد\""
 
-#: admin/settings/general.class.php:351
+#: admin/settings/general.class.php:388
 #, fuzzy
 #| msgid ""
 #| "This notification will be shown if user will try to add product that "
@@ -877,17 +944,17 @@ msgstr ""
 "اضافه کند نمایش داده میشود\n"
 "البته اگر تعدد محصول در لیست غیر فعال باشد"
 
-#: admin/settings/general.class.php:351
+#: admin/settings/general.class.php:388
 msgid ""
 "You can use next placeholder in this field to get current product name: "
 "<code>{product_name}</code>"
 msgstr ""
 
-#: admin/settings/general.class.php:358
+#: admin/settings/general.class.php:395
 msgid "\"Product removed from Wishlist\" Text"
 msgstr "متن \"محصول از لیست علاقه مندی ها حذف شد\""
 
-#: admin/settings/general.class.php:359
+#: admin/settings/general.class.php:396
 msgid ""
 "This notification will be shown if user will try to add product that already "
 "in wishlist when multi-wishlist support & quantity on wishlist page is "
@@ -897,15 +964,15 @@ msgstr ""
 "اضافه کند نمایش داده میشود\n"
 "البته اگر تعدد محصول در لیست غیر فعال باشد"
 
-#: admin/settings/general.class.php:367
+#: admin/settings/general.class.php:405
 msgid "Permalinks Settings"
 msgstr "تنظیمات پیوندهای یکتا"
 
-#: admin/settings/general.class.php:373
+#: admin/settings/general.class.php:411
 msgid "Force permalinks rewrite"
 msgstr "اجبار پیوندهای یکتا به بازنویسی"
 
-#: admin/settings/general.class.php:374
+#: admin/settings/general.class.php:412
 msgid ""
 "This option should be enabled to avoid any issues with URL rewrites between "
 "other plugins and Wishlist"
@@ -913,56 +980,140 @@ msgstr ""
 "این گزینه باید فعال باشد تا از هرگونه اخلالی که ممکن است بین این افزونه و "
 "دیگر افزونه ها در بازنویسی url ها به وجود آید جلوگیری کند"
 
-#: admin/settings/general.class.php:382
+#: admin/settings/general.class.php:420
 #, fuzzy
 #| msgid "Wishlist Settings"
 msgid "Rename wishlist Settings"
 msgstr "تنظیمات لیست علاقه مندی ها"
 
-#: admin/settings/general.class.php:388
+#: admin/settings/general.class.php:426
 #, fuzzy
 #| msgid "Register wishlist plugin"
 msgid "Rename wishlist word across the plugin"
 msgstr "افزونه ثبت شده"
 
-#: admin/settings/general.class.php:389
+#: admin/settings/general.class.php:427
 msgid ""
 "These options allow changing word <code>wishlist</code> across all plugin "
 "instance"
 msgstr ""
 
-#: admin/settings/general.class.php:396
+#: admin/settings/general.class.php:434
 #, fuzzy
 msgid "Single form"
 msgstr "نمایش در قسمت موضوع"
 
-#: admin/settings/general.class.php:397
+#: admin/settings/general.class.php:435
 msgid ""
 "This option allowing you to change a single form of the word. You need to "
 "write a new word in lowercase and the proper case will be applied "
 "automatically for all instances."
 msgstr ""
 
-#: admin/settings/general.class.php:404
+#: admin/settings/general.class.php:442
 msgid "Plural form"
 msgstr ""
 
-#: admin/settings/general.class.php:405
+#: admin/settings/general.class.php:443
 msgid ""
 "This option allowing you to change a plural form of the word. Left it empty "
 "if you need to add just \"s\" suffix to the single form word that you set "
 "above."
 msgstr ""
 
-#: admin/settings/general.class.php:414 templates/ti-wishlist-subscribe.php:19
-msgid "Follow Wishlist"
+#: admin/settings/general.class.php:452
+msgid "Wishlist Processing Options"
+msgstr "آپشن های پردازش لیست علاقه مندی ها"
+
+#: admin/settings/general.class.php:453
+msgid ""
+"Following options allow you to set products to be automatically removed from "
+"a wishlist and under what conditions."
+msgstr ""
+"Following options allow you to set products to be automatically removed from "
+"a wishlist and under what conditions"
+
+#: admin/settings/general.class.php:459
+msgid "Automatic removal"
+msgstr "حذف اتوماتیک"
+
+#: admin/settings/general.class.php:466 views/wizard/step-processing.php:38
+#, fuzzy
+msgid "Removal condition"
+msgstr "شرایط را پاک کن"
+
+#: admin/settings/general.class.php:474
+msgid "Redirect to the checkout page from Wishlist if added to cart"
+msgstr ""
+"زمانی که محصولی از لیست علاقه مندی به سبد خرید اضافه میشود به صورت مستقیم به "
+"صفحه تسویه حساب هدایت شود"
+
+#: admin/settings/general.class.php:480
+msgid "Remove by anyone"
+msgstr "توسط هر کسی پاک شود"
+
+#: admin/settings/general.class.php:488
+msgid "Apply for Wishlist privacy type(s)"
+msgstr "Apply for Wishlist privacy type(s)"
+
+#: admin/settings/general.class.php:491 admin/wishlist/table.class.php:549
+msgid "All"
+msgstr "همه"
+
+#: admin/settings/general.class.php:502
+msgid "Wishlist References on Cart, Checkout, Order"
+msgstr ""
+
+#: admin/settings/general.class.php:503
+#, fuzzy
+#| msgid ""
+#| "Following options allows you to choose what information/functionality to "
+#| "show/enable in wishlist table on wishlist page."
+msgid ""
+"Following options allow you to show wishlist references for each product on "
+"cart, checkout, order if it added from wishlist."
+msgstr ""
+"این گزینه به شما اجازه میدهد که انتخاب کنید که چه اطلاعات/عملکردی را نمایش/"
+"فعال باشد در جدول لیست علاقه مندی ها در برگه لیست علاقه مندی ها"
+
+#: admin/settings/general.class.php:509
+msgid "Reference label"
+msgstr ""
+
+#: admin/settings/general.class.php:510
+msgid ""
+"Add this text before the wishlist reference link for cart and order items."
+msgstr ""
+
+#: admin/settings/general.class.php:511
+#, fuzzy
+#| msgid "Follow Wishlist"
+msgid "From wishlist:"
 msgstr "دنبال کردن لیست علاقه مندی"
 
-#: admin/settings/general.class.php:420
+#: admin/settings/general.class.php:516
+#, fuzzy
+#| msgid "Show button for Cart"
+msgid "Show on cart"
+msgstr "نشان دادن دکمه برای سبد خرید"
+
+#: admin/settings/general.class.php:522
+#, fuzzy
+#| msgid "Show Checkboxes"
+msgid "Show on checkout"
+msgstr "چک باکس را نمایش بده"
+
+#: admin/settings/general.class.php:528
+#, fuzzy
+#| msgid "Show counter"
+msgid "Show on order"
+msgstr "نمایش شمارنده"
+
+#: admin/settings/general.class.php:536
 msgid "Wishlist Page Options"
 msgstr "تنظیمات برگه علاقه مندی ها"
 
-#: admin/settings/general.class.php:421
+#: admin/settings/general.class.php:537
 #, fuzzy
 msgid ""
 "Following pages needs to be selected so the wishlist knows where they are. "
@@ -973,26 +1124,26 @@ msgstr ""
 "These pages should have been created upon installation of the plugin, if not "
 "you will need to create them manually"
 
-#: admin/settings/general.class.php:427 views/wizard/step-page.php:41
+#: admin/settings/general.class.php:543 views/wizard/step-page.php:41
 msgid "My Wishlist"
 msgstr "لیست علاقه مندی من"
 
-#: admin/settings/general.class.php:435 includes/wizard.class.php:340
+#: admin/settings/general.class.php:551 includes/wizard.class.php:340
 #: includes/wizard.class.php:376 views/wizard/step-page.php:42
 msgid "Manage Wishlists"
 msgstr "مدیریت لیست های علاقه مندی"
 
-#: admin/settings/general.class.php:443 views/wizard/step-page.php:43
+#: admin/settings/general.class.php:559 views/wizard/step-page.php:43
 #, fuzzy
 msgid "Search for Wishlist Results"
 msgstr "جستجو برای یک لیست علاقه مندی"
 
-#: admin/settings/general.class.php:455 includes/wizard.class.php:343
+#: admin/settings/general.class.php:571 includes/wizard.class.php:343
 #: includes/wizard.class.php:379
 msgid "Public Wishlists"
 msgstr "لیست های علاقه مندی عمومی"
 
-#: admin/settings/general.class.php:456
+#: admin/settings/general.class.php:572
 msgid ""
 "You can also set additional (not necessarily) pages to show in quick menu on "
 "wishlist page. These are simple pages with search and recent wishlist "
@@ -1002,62 +1153,29 @@ msgstr ""
 "wishlist page. These are simple pages with search and recent wishlist "
 "shortcodes, so you can add any additional content by simply editing a page."
 
-#: admin/settings/general.class.php:464 admin/tinvwl.class.php:696
+#: admin/settings/general.class.php:580 admin/tinvwl.class.php:824
 #: views/wizard/step-page.php:61
 #, fuzzy
 msgid "Search for Wishlist"
 msgstr "جستجو برای یک لیست علاقه مندی"
 
-#: admin/settings/general.class.php:472 includes/wizard.class.php:345
+#: admin/settings/general.class.php:588 includes/wizard.class.php:345
 #: includes/wizard.class.php:381 templates/ti-wishlist-create.php:48
 #: templates/ti-wishlist-create.php:55 views/wizard/step-page.php:62
 msgid "Create Wishlist"
 msgstr "ساخت لیست علاقه مندی"
 
-#: admin/settings/general.class.php:481
-msgid "Wishlist Processing Options"
-msgstr "آپشن های پردازش لیست علاقه مندی ها"
+#: admin/settings/general.class.php:598 templates/ti-wishlist-subscribe.php:19
+msgid "Follow Wishlist"
+msgstr "دنبال کردن لیست علاقه مندی"
 
-#: admin/settings/general.class.php:482
-msgid ""
-"Following options allow you to set products to be automatically removed from "
-"a wishlist and under what conditions."
-msgstr ""
-"Following options allow you to set products to be automatically removed from "
-"a wishlist and under what conditions"
-
-#: admin/settings/general.class.php:488
-msgid "Automatic removal"
-msgstr "حذف اتوماتیک"
-
-#: admin/settings/general.class.php:495 views/wizard/step-processing.php:38
+#: admin/settings/general.class.php:605
 #, fuzzy
-msgid "Removal condition"
-msgstr "شرایط را پاک کن"
-
-#: admin/settings/general.class.php:503
-msgid "Redirect to the checkout page from Wishlist if added to cart"
-msgstr ""
-"زمانی که محصولی از لیست علاقه مندی به سبد خرید اضافه میشود به صورت مستقیم به "
-"صفحه تسویه حساب هدایت شود"
-
-#: admin/settings/general.class.php:509
-msgid "Remove by anyone"
-msgstr "توسط هر کسی پاک شود"
-
-#: admin/settings/general.class.php:517
-msgid "Apply for Wishlist privacy type(s)"
-msgstr "Apply for Wishlist privacy type(s)"
-
-#: admin/settings/general.class.php:520 admin/wishlist/table.class.php:539
-msgid "All"
-msgstr "همه"
-
-#: admin/settings/general.class.php:530
-msgid "Wishlist Product Counter"
+#| msgid "Wishlist Product Counter"
+msgid "Wishlist Products Counter"
 msgstr "شمارنده لیست علاقه مندی‌ها"
 
-#: admin/settings/general.class.php:531
+#: admin/settings/general.class.php:606
 #, fuzzy, php-format
 #| msgid ""
 #| "Add this shortcode <code>[ti_wishlist_products_counter]</code> anywhere "
@@ -1067,28 +1185,28 @@ msgstr "شمارنده لیست علاقه مندی‌ها"
 msgid ""
 "Add this shortcode <code>[ti_wishlist_products_counter]</code> anywhere into "
 "a page content to show Wishlist Counter.<br/><br/>It can be also added as a "
-"widget <code>TI Wishlist Products Counter</code> under the <a href=\"%s"
-"\">Appearance -> Widgets</a> section."
+"widget <code>TI Wishlist Products Counter</code> under the <a "
+"href=\"%s\">Appearance -> Widgets</a> section."
 msgstr ""
 "Add this shortcode <code>[ti_wishlist_products_counter]</code> anywhere into "
 "a page content to show Wishlist Counter.<br/><br/>It can be also added as a "
-"widget <code>TInv Wishlist Products Counter</code> under the <a href=\"%s"
-"\">Appearance -> Widgets</a> section"
+"widget <code>TInv Wishlist Products Counter</code> under the <a "
+"href=\"%s\">Appearance -> Widgets</a> section"
 
-#: admin/settings/general.class.php:537
+#: admin/settings/general.class.php:612
 msgid "\"Wishlist\" Counter Icon"
 msgstr "آیکون \"لیست علاقه مندی ها \""
 
-#: admin/settings/general.class.php:566
+#: admin/settings/general.class.php:641
 msgid "\"Wishlist\" Counter Icon Color"
 msgstr "رنگ آیکون شمارنده \"لیست علاقه مندی ها \""
 
-#: admin/settings/general.class.php:579
+#: admin/settings/general.class.php:654
 #, fuzzy
 msgid "Add Link For \"Wishlist\" Counter Title"
 msgstr "Add link for counter title"
 
-#: admin/settings/general.class.php:580
+#: admin/settings/general.class.php:655
 msgid ""
 "Add or remove link to wishlist page for wishlist counter title and icon. The "
 "link leads to the Default Wishlist page or to Manage Wishlists page (if "
@@ -1098,29 +1216,61 @@ msgstr ""
 "link leads to the Default Wishlist page or to Manage Wishlists page (if "
 "multi-wishlist support is enabled)"
 
-#: admin/settings/general.class.php:586
+#: admin/settings/general.class.php:661
 #, fuzzy
 msgid "Show  \"Wishlist\" Counter Text"
 msgstr "متن دکمه\"دیدن لیست علاقه مندی ها\""
 
-#: admin/settings/general.class.php:595
+#: admin/settings/general.class.php:670
 msgid "\"Wishlist\" Counter Text"
 msgstr "متن شمارنده \"لیست علاقه مندی ها \""
 
-#: admin/settings/general.class.php:596
+#: admin/settings/general.class.php:671
 msgid "Wishlist - "
 msgstr "لیست علاقه مندی ها"
 
-#: admin/settings/general.class.php:602
+#: admin/settings/general.class.php:677
 #, fuzzy
 msgid "Show \"Wishlist\" Counter"
 msgstr "آیکن \"لیست علاقه مندی\""
 
-#: admin/settings/general.class.php:608 public/widget/topwishlist.class.php:58
+#: admin/settings/general.class.php:683
+msgid "Add counter to menu"
+msgstr "افزودن شمارنده به فهرست"
+
+#: admin/settings/general.class.php:685
+msgid "You can add a wishlist products counter as item to the selected menu."
+msgstr ""
+"شما میتوانید یک لیست علاقه مندی را مانند یک آیتم به منوی منتخب اضافه کنید"
+
+#: admin/settings/general.class.php:694
+msgid "Counter position (Menu item order)"
+msgstr "موقعیت شمارنده (آیتم منو)"
+
+#: admin/settings/general.class.php:695
+msgid ""
+"Allows you to add the wishlist counter as a menu item and apply its position."
+msgstr ""
+"به شما اجازه داده شود که لیست علاقه مندی ها مانند یکی از آیتم های منو باشد و "
+"بتوانید موقعیت آنرا تعیین کنید "
+
+#: admin/settings/general.class.php:706
+msgid "Show number of products in counter"
+msgstr "تعداد محصولات را در شمارشگر نمایش بده"
+
+#: admin/settings/general.class.php:715
+msgid "Hide zero value"
+msgstr "صفر را نمایش نده"
+
+#: admin/settings/general.class.php:716
+msgid "Do not show the \"0\" value in a counter if wishlist is empty."
+msgstr "اگر لیست علاقه مندی ها خالی است برای شمارنده \"۰\" را نمایش نده"
+
+#: admin/settings/general.class.php:727 public/widget/topwishlist.class.php:52
 msgid "Show dropdown with mini wishlist"
 msgstr "Show dropdown with mini wishlist"
 
-#: admin/settings/general.class.php:610
+#: admin/settings/general.class.php:729
 msgid ""
 "You can show a drop down with the products recently added to wishlist. "
 "Similar to the woocommerce mini cart."
@@ -1128,132 +1278,114 @@ msgstr ""
 "You can show a drop down with the products recently added to wishlist. "
 "Similar to the woocommerce mini cart"
 
-#: admin/settings/general.class.php:618
+#: admin/settings/general.class.php:737
 #, fuzzy
 msgid "Maximum products in mini wishlist"
 msgstr "حداکثر تعداد محصولات در لیست علاقه مندی کوچک"
 
-#: admin/settings/general.class.php:621
+#: admin/settings/general.class.php:740
 msgid ""
 "Limit amount of products displayed in mini wishlist. Default value is 5."
 msgstr ""
 "Limit amount of products displayed in mini wishlist. Default value is 5"
 
-#: admin/settings/general.class.php:629
-msgid "Wishlist(s) position in mini wishlist"
-msgstr "Wishlist(s) position in mini wishlist"
-
-#: admin/settings/general.class.php:632
-msgid "Before Product"
-msgstr "قبل از محصول"
-
-#: admin/settings/general.class.php:633
-msgid "After Product"
-msgstr "بعد از محصول"
-
-#: admin/settings/general.class.php:636
+#: admin/settings/general.class.php:748
 #, fuzzy
+#| msgid "Search for wishlists:"
+msgid "Show wishlists"
+msgstr "جستجوی برای لیست علاقه مدی:"
+
+#: admin/settings/general.class.php:756
+#, fuzzy
+#| msgid "Show \"Move\" button"
+msgid "Show remove button"
+msgstr "نمایش دکمه\"بیشتر\""
+
+#: admin/settings/general.class.php:764
+#, fuzzy
+#| msgid "add to cart button"
+msgid "Show add to cart button"
+msgstr "دکمه اضافه به سبد خرید"
+
+#: admin/settings/general.class.php:775
+#, fuzzy
+#| msgid "Permalinks Settings"
+msgid "Plugin Data Settings"
+msgstr "تنظیمات پیوندهای یکتا"
+
+#: admin/settings/general.class.php:781
+msgid "Erase All Data on Uninstall"
+msgstr ""
+
+#: admin/settings/general.class.php:783
 msgid ""
-"This option controls the position of the list of wishlists in which the "
-"product was added. You can place it above or below the product title in mini "
-"wishlist."
+"This option will remove all plugin-related data from your database when the "
+"plugin is uninstalled. Ideal for keeping your database clean, but "
+"irreversible – consider backing up first"
 msgstr ""
-"This option controls the position of the list of whishlists in which the "
-"product was added. You can place it above or below the product title in mini "
-"wishlist"
 
-#: admin/settings/general.class.php:641
-msgid "Add counter to menu"
-msgstr "افزودن شمارنده به فهرست"
-
-#: admin/settings/general.class.php:643
-msgid "You can add a wishlist products counter as item to the selected menu."
-msgstr ""
-"شما میتوانید یک لیست علاقه مندی را مانند یک آیتم به منوی منتخب اضافه کنید"
-
-#: admin/settings/general.class.php:652
-msgid "Counter position (Menu item order)"
-msgstr "موقعیت شمارنده (آیتم منو)"
-
-#: admin/settings/general.class.php:653
-msgid ""
-"Allows you to add the wishlist counter as a menu item and apply its position."
-msgstr ""
-"به شما اجازه داده شود که لیست علاقه مندی ها مانند یکی از آیتم های منو باشد و "
-"بتوانید موقعیت آنرا تعیین کنید "
-
-#: admin/settings/general.class.php:664
-msgid "Show number of products in counter"
-msgstr "تعداد محصولات را در شمارشگر نمایش بده"
-
-#: admin/settings/general.class.php:673
-msgid "Hide zero value"
-msgstr "صفر را نمایش نده"
-
-#: admin/settings/general.class.php:674
-msgid "Do not show the \"0\" value in a counter if wishlist is empty."
-msgstr "اگر لیست علاقه مندی ها خالی است برای شمارنده \"۰\" را نمایش نده"
-
-#: admin/settings/general.class.php:685
+#: admin/settings/general.class.php:792
 msgid "Support chat settings"
 msgstr "تنظیمات گفتگوی پشتیبانی "
 
-#: admin/settings/general.class.php:692
-msgid "Disable support chat"
+#: admin/settings/general.class.php:799
+#, fuzzy
+#| msgid "Disable support chat"
+msgid "Enable support chat"
 msgstr "غیرفعال سازی پشتیبانی از طریق چت"
 
-#: admin/settings/integrations.class.php:59
+#: admin/settings/integrations.class.php:55
 #, fuzzy
 #| msgid "Congratulations"
 msgid "Integrations"
 msgstr "تبریک میگم"
 
-#: admin/settings/integrations.class.php:60
+#: admin/settings/integrations.class.php:56
 msgid "Wishlist Integrations with 3rd party plugins and themes"
 msgstr ""
 
-#: admin/settings/integrations.class.php:97
+#: admin/settings/integrations.class.php:89
 #, fuzzy
 #| msgid "Latest Available Version"
 msgid "Available Integrations"
 msgstr "آخرین ورژن موجود"
 
-#: admin/settings/integrations.class.php:100
+#: admin/settings/integrations.class.php:92
 msgid ""
 "You can disable built-in integrations with 3rd party plugins and themes."
 msgstr ""
 
-#: admin/settings/notification.class.php:72
-#: admin/settings/notification.class.php:73
+#: admin/settings/notification.class.php:69
+#: admin/settings/notification.class.php:70
 msgid "Emails Settings"
 msgstr "تنظیمات ایمیل"
 
-#: admin/settings/notification.class.php:93
+#: admin/settings/notification.class.php:89
 #, fuzzy
 #| msgid "General Settings"
 msgid "Global settings"
 msgstr "تنظیمات عمومی"
 
-#: admin/settings/notification.class.php:99
+#: admin/settings/notification.class.php:95
 msgid "Enable all notifications for users by default"
 msgstr ""
 
-#: admin/settings/notification.class.php:100
+#: admin/settings/notification.class.php:96
 msgid ""
 "You can enable all notification by default. Users have options to manage "
 "notifications also."
 msgstr ""
 
-#: admin/settings/notification.class.php:107
+#: admin/settings/notification.class.php:103
 msgid "Ask for Estimate Options"
 msgstr "درخواست برای ویژگی های ارزیابی"
 
-#: admin/settings/notification.class.php:113
+#: admin/settings/notification.class.php:109
 #, fuzzy
 msgid "Enable \"Ask For Estimate\" Button"
 msgstr "فعال کردن درخواست برای دکمه ارزیابی"
 
-#: admin/settings/notification.class.php:114
+#: admin/settings/notification.class.php:110
 msgid ""
 "Enable to show \"Ask For an Estimate\" button on wishlist page. Allows to "
 "send email with products from customer wishlist to store owner with request "
@@ -1263,11 +1395,11 @@ msgstr ""
 "که مشتری یک ایمیل همراه با محصول را به صاحب فروشگاه ارسال کند که در آن "
 "خواستار ارزیابی محصول میشود"
 
-#: admin/settings/notification.class.php:127
+#: admin/settings/notification.class.php:123
 msgid "Enable additional notes for request"
 msgstr "فعال کردن یادداشت اضافه برای درخواست"
 
-#: admin/settings/notification.class.php:128
+#: admin/settings/notification.class.php:124
 msgid ""
 "Enable to show text area in popup, where wishlist owner can add message text "
 "to the estimate request."
@@ -1275,16 +1407,16 @@ msgstr ""
 "فعال کردن ناحیه متنی در پاپ آپ،جایی که صاحب لیست میتواند یک پیام را به عنوان "
 "درخواست ارزیابی ارسال کند."
 
-#: admin/settings/notification.class.php:135
+#: admin/settings/notification.class.php:131
 msgid "Label for \"Additional notes\" text area"
 msgstr "لیبل ناحیه ی متنی \"یادداشت های اضافی\""
 
-#: admin/settings/notification.class.php:142
+#: admin/settings/notification.class.php:138
 #, fuzzy
 msgid "Enable \"Ask For Estimate\" feature for guests"
 msgstr "فعال کردن درخواست برای دکمه ارزیابی"
 
-#: admin/settings/notification.class.php:143
+#: admin/settings/notification.class.php:139
 #, fuzzy
 #| msgid ""
 #| "Enable to show \"Ask For an Estimate\" button on wishlist page. Allows to "
@@ -1298,11 +1430,11 @@ msgstr ""
 "که مشتری یک ایمیل همراه با محصول را به صاحب فروشگاه ارسال کند که در آن "
 "خواستار ارزیابی محصول میشود"
 
-#: admin/settings/notification.class.php:151
+#: admin/settings/notification.class.php:147
 msgid "Wishlist \"Ask for Estimate\" Email settings"
 msgstr ""
 
-#: admin/settings/notification.class.php:152
+#: admin/settings/notification.class.php:148
 #, fuzzy
 msgid ""
 "These are the settings related to the email that will be sent when a user "
@@ -1310,113 +1442,113 @@ msgid ""
 msgstr ""
 "این ایمل زمانی که کاربر روی دکمه \"درخواست ارزیابی\" کلیک میکند ارسال میشود"
 
-#: admin/settings/notification.class.php:169
+#: admin/settings/notification.class.php:165
 msgid "Promotional Email settings"
 msgstr "تنظیمات ایمیل تبلیغاتی "
 
-#: admin/settings/notification.class.php:170
+#: admin/settings/notification.class.php:166
 msgid ""
 "You can send promotional email for specific product to users that added this "
 "product to wishlist. Send promotion button can be found in <code>TI Wishlist "
 "> Product Analytics</code>"
 msgstr ""
 
-#: admin/settings/notification.class.php:185
+#: admin/settings/notification.class.php:181
 msgid "Promotional Email Style"
 msgstr "استایل ایمیل تبلیغاتی"
 
-#: admin/settings/notification.class.php:186
+#: admin/settings/notification.class.php:182
 msgid ""
 "These are the style settings for predefined promotional email templates. You "
 "can choose promotional email temaplate in the \"Email Templates\" block "
 "below."
 msgstr ""
 
-#: admin/settings/notification.class.php:192
+#: admin/settings/notification.class.php:188
 msgid "Use Website Logo Image"
 msgstr "استفاده از لوگوی سایت"
 
-#: admin/settings/notification.class.php:202
-#: admin/settings/notification.class.php:209
+#: admin/settings/notification.class.php:198
+#: admin/settings/notification.class.php:205
 msgid "Logo Image"
 msgstr "لوگو"
 
-#: admin/settings/notification.class.php:222
+#: admin/settings/notification.class.php:218
 msgid "Logo Text"
 msgstr "متن لوگو"
 
-#: admin/settings/notification.class.php:228
+#: admin/settings/notification.class.php:224
 msgid "Header Image"
 msgstr "تصویر سربرگ"
 
-#: admin/settings/notification.class.php:229
+#: admin/settings/notification.class.php:225
 msgid ""
 "You can add header image between logo and email content if allowed in email "
 "template."
 msgstr ""
 
-#: admin/settings/notification.class.php:241
+#: admin/settings/notification.class.php:237
 msgid "Footer Text"
 msgstr "متن پاورقی"
 
-#: admin/settings/notification.class.php:246
+#: admin/settings/notification.class.php:242
 msgid "Social Icons"
 msgstr "آیکن های شبکه اجتماعی"
 
-#: admin/settings/notification.class.php:247
+#: admin/settings/notification.class.php:243
 msgid "Add you social account name to show social icons in email footer area"
 msgstr ""
 
-#: admin/settings/notification.class.php:254
-#: public/wishlist/social.class.php:99
+#: admin/settings/notification.class.php:250
+#: public/wishlist/social.class.php:105
 msgid "Facebook"
 msgstr "فیسبوک"
 
-#: admin/settings/notification.class.php:261
+#: admin/settings/notification.class.php:257
 msgid "twitter"
 msgstr "تویتر"
 
-#: admin/settings/notification.class.php:268
-#: public/wishlist/social.class.php:137
+#: admin/settings/notification.class.php:264
+#: public/wishlist/social.class.php:127
 msgid "Pinterest"
 msgstr "پینترست"
 
-#: admin/settings/notification.class.php:275
+#: admin/settings/notification.class.php:271
 msgid "Google+"
 msgstr "گوگل+"
 
-#: admin/settings/notification.class.php:281
+#: admin/settings/notification.class.php:277
 msgid "Color Options"
 msgstr "ویژگی های رنگ"
 
-#: admin/settings/notification.class.php:288
+#: admin/settings/notification.class.php:284
 msgid "Main color"
 msgstr "رنگ اصلی"
 
-#: admin/settings/notification.class.php:295
+#: admin/settings/notification.class.php:291
 msgid "Email Background color"
 msgstr "رنگ پیش زمینه ایمیل"
 
-#: admin/settings/notification.class.php:302
+#: admin/settings/notification.class.php:298
 msgid "Content Background Color"
 msgstr "رنگ پیش زمینه محتوا"
 
-#: admin/settings/notification.class.php:309 admin/settings/style.class.php:107
-#: admin/settings/style.class.php:798
+#: admin/settings/notification.class.php:305 admin/settings/style.class.php:106
+#: admin/settings/style.class.php:797
 msgid "Title Color"
 msgstr "رنگ موضوع"
 
-#: admin/settings/notification.class.php:316
+#: admin/settings/notification.class.php:312
 msgid "Content text color"
 msgstr "رنگ متن محتوا"
 
-#: admin/settings/notification.class.php:325
+#: admin/settings/notification.class.php:321
 #: public/email/data/notificationprice.helper.php:52
 #, fuzzy
 msgid "Wishlist Notification of change price"
 msgstr "اعلانیه تغییر قیمت برای لیست علاقه مندی"
 
-#: admin/settings/notification.class.php:326
+#: admin/settings/notification.class.php:322
 #, fuzzy
 msgid ""
 "If the product price is changed, customers that have this product in their "
@@ -1425,13 +1557,13 @@ msgstr ""
 "اگر وضعیت کالایی به موجود در انبار تغییر کرد مشتریانی که آن کالا را به لیست "
 "خوداضافه کرده اند یک ایمیل دریافت خواهند کرد"
 
-#: admin/settings/notification.class.php:340
+#: admin/settings/notification.class.php:336
 #: public/email/data/notificationstock.helper.php:52
 #, fuzzy
 msgid "Wishlist Notification of change stock"
 msgstr "اعلانیه تغییر وضعیت موجودی کالا در لیست علاقه مندی"
 
-#: admin/settings/notification.class.php:341
+#: admin/settings/notification.class.php:337
 #, fuzzy
 msgid ""
 "If the product stock status is changed, customers that have this product in "
@@ -1440,11 +1572,25 @@ msgstr ""
 "اگر وضعیت کالایی به موجود در انبار تغییر کرد مشتریانی که آن کالا را به لیست "
 "خوداضافه کرده اند یک ایمیل دریافت خواهند کرد"
 
-#: admin/settings/notification.class.php:362
+#: admin/settings/notification.class.php:352
+#, fuzzy
+msgid "Wishlist Notification of low stock product"
+msgstr "اعلانیه تغییر وضعیت موجودی کالا در لیست علاقه مندی"
+
+#: admin/settings/notification.class.php:353
+#, fuzzy
+msgid ""
+"If the product is low on stock, customers that have this product in their "
+"Wishlist will receive the email notification."
+msgstr ""
+"اگر وضعیت کالایی به موجود در انبار تغییر کرد مشتریانی که آن کالا را به لیست "
+"خوداضافه کرده اند یک ایمیل دریافت خواهند کرد"
+
+#: admin/settings/notification.class.php:376
 msgid "Email Templates"
 msgstr "الگوهای ایمیل"
 
-#: admin/settings/notification.class.php:363
+#: admin/settings/notification.class.php:377
 msgid ""
 "Here you can preview all wishlist emails. Also you can choose email template "
 "for promotional email."
@@ -1452,57 +1598,63 @@ msgstr ""
 "در اینجا شما میتوانید تمام قالب های ایمیل را مشاهده کنید.همچنین انتخاب قالب "
 "برای ایمیل های تبلیغاتی"
 
-#: admin/settings/notification.class.php:369
+#: admin/settings/notification.class.php:383
 #, fuzzy
 #| msgid "Choose Wishlist Email Template"
 msgid "Choose Estimate Email Template"
 msgstr "انتخاب الگوی ایمیل لیست علاقه مندی ها"
 
-#: admin/settings/notification.class.php:390
+#: admin/settings/notification.class.php:404
 msgid "Choose Promotional Email Template"
 msgstr "انتخاب الگوی ایمیل تبلیغاتی"
 
-#: admin/settings/notification.class.php:409
+#: admin/settings/notification.class.php:423
 msgid "Choose Price Notification Email Template"
 msgstr "انتخاب الگوی ایمیل اعلانیه ی قیمت"
 
-#: admin/settings/notification.class.php:428
+#: admin/settings/notification.class.php:442
 msgid "Choose Stock Notification Email Template"
 msgstr "انتخاب الگوی ایمیل اعلانیه ی موجودی"
 
-#: admin/settings/notification.class.php:452
+#: admin/settings/notification.class.php:461
+#, fuzzy
+#| msgid "Choose Stock Notification Email Template"
+msgid "Choose Low Stock Notification Email Template"
+msgstr "انتخاب الگوی ایمیل اعلانیه ی موجودی"
+
+#: admin/settings/notification.class.php:485
 msgid ""
 "You are about to change promotional email template. All changes in "
 "promotional email settings and content will be lost!"
 msgstr ""
 
-#: admin/settings/notification.class.php:453
+#: admin/settings/notification.class.php:486
 msgid "Continue"
 msgstr "ادامه"
 
-#: admin/settings/notification.class.php:454
+#: admin/settings/notification.class.php:487
 #: views/admin/wishlist-confirm.php:24
 msgid "Cancel"
 msgstr "انصراف"
 
-#: admin/settings/settings.class.php:56
+#: admin/settings/settings.class.php:55
 #, fuzzy
 msgid "Export/Import Settings"
 msgstr "تنظیمات محصول"
 
-#: admin/settings/settings.class.php:57
+#: admin/settings/settings.class.php:56
 msgid "Export/Import Plugin Settings"
 msgstr ""
 
-#: admin/settings/social.class.php:68
+#: admin/settings/social.class.php:69
 msgid "Sharing Options"
 msgstr "ویژگی های به اشتراک گذاری"
 
-#: admin/settings/social.class.php:69 admin/settings/social.class.php:96
+#: admin/settings/social.class.php:70 admin/settings/social.class.php:97
 msgid "Social Networks Sharing Options"
 msgstr "ویژگی های به اشتراک گذاری در شبکه های اجتماعی"
 
-#: admin/settings/social.class.php:90
+#: admin/settings/social.class.php:91
 msgid ""
 "Following options enable/disable Social share icons below wishlist table on "
 "wishlist page. Wishlist owner can easily share their wishlists using this "
@@ -1515,399 +1667,399 @@ msgstr ""
 "بگذارد. حریم خصوصی باید به صورت عمومی تنظیم شود و لیست های خصوصی امکان "
 "انتشار ندارند"
 
-#: admin/settings/social.class.php:102 views/wizard/step-social.php:26
+#: admin/settings/social.class.php:103 views/wizard/step-social.php:26
 msgid "Show \"Facebook\" Button"
 msgstr "نمایش دکمه \"Facebook\""
 
-#: admin/settings/social.class.php:108 views/wizard/step-social.php:35
+#: admin/settings/social.class.php:109 views/wizard/step-social.php:35
 msgid "Show \"Twitter\" Button"
 msgstr "نمایش دکمه \"Twitter\""
 
-#: admin/settings/social.class.php:114 views/wizard/step-social.php:44
+#: admin/settings/social.class.php:115 views/wizard/step-social.php:44
 msgid "Show \"Pinterest\" Button"
 msgstr "نمایش دکمه \"Pinterest\""
 
-#: admin/settings/social.class.php:120
+#: admin/settings/social.class.php:121
 #, fuzzy
 msgid "Show \"Share via WhatsApp\" Button"
 msgstr "دکمه \"اشتراک گذاری به وسیله ایمیل\" را نمایش بده"
 
-#: admin/settings/social.class.php:126
+#: admin/settings/social.class.php:127
 #, fuzzy
 msgid "Show \"Copy URL to clipboard\" Button"
 msgstr "دکمه \"افزودن به سبد خرید\" را نمایش بده"
 
-#: admin/settings/social.class.php:132 views/wizard/step-social.php:71
+#: admin/settings/social.class.php:133 views/wizard/step-social.php:71
 msgid "Show \"Share by Email\" Button"
 msgstr "دکمه \"اشتراک گذاری به وسیله ایمیل\" را نمایش بده"
 
-#: admin/settings/social.class.php:138
+#: admin/settings/social.class.php:139
 msgid "\"Share on\" Text"
 msgstr "متن \"به اشتراک گذاری در\""
 
-#: admin/settings/social.class.php:144 admin/settings/style.class.php:771
+#: admin/settings/social.class.php:145 admin/settings/style.class.php:770
 msgid "Social Icons Color"
 msgstr "رنگ آیکون شبکه های اجتماعی"
 
-#: admin/settings/social.class.php:148
+#: admin/settings/social.class.php:149
 msgid "Dark"
 msgstr "تاریک"
 
-#: admin/settings/style.class.php:68
+#: admin/settings/style.class.php:67
 msgid "Style Options"
 msgstr "ویژگی های استایل"
 
-#: admin/settings/style.class.php:69
+#: admin/settings/style.class.php:68
 msgid "Wishlist Style Options"
 msgstr "ویژگی های استایل لیست علاقه مندی ها"
 
-#: admin/settings/style.class.php:83
+#: admin/settings/style.class.php:82
 msgid "Use Default Font"
 msgstr "استفاده از متن پیش فرض"
 
-#: admin/settings/style.class.php:100
+#: admin/settings/style.class.php:99
 msgid "text"
 msgstr "متن"
 
-#: admin/settings/style.class.php:108 admin/settings/style.class.php:121
-#: admin/settings/style.class.php:142 admin/settings/style.class.php:149
-#: admin/settings/style.class.php:180 admin/settings/style.class.php:187
-#: admin/settings/style.class.php:200 admin/settings/style.class.php:233
-#: admin/settings/style.class.php:240 admin/settings/style.class.php:247
-#: admin/settings/style.class.php:254 admin/settings/style.class.php:261
-#: admin/settings/style.class.php:268 admin/settings/style.class.php:275
-#: admin/settings/style.class.php:282 admin/settings/style.class.php:315
-#: admin/settings/style.class.php:322 admin/settings/style.class.php:329
-#: admin/settings/style.class.php:336 admin/settings/style.class.php:343
-#: admin/settings/style.class.php:350 admin/settings/style.class.php:357
-#: admin/settings/style.class.php:364 admin/settings/style.class.php:397
-#: admin/settings/style.class.php:404 admin/settings/style.class.php:411
-#: admin/settings/style.class.php:418 admin/settings/style.class.php:457
-#: admin/settings/style.class.php:464 admin/settings/style.class.php:471
-#: admin/settings/style.class.php:478 admin/settings/style.class.php:511
-#: admin/settings/style.class.php:518 admin/settings/style.class.php:525
-#: admin/settings/style.class.php:532 admin/settings/style.class.php:565
-#: admin/settings/style.class.php:572 admin/settings/style.class.php:579
-#: admin/settings/style.class.php:592 admin/settings/style.class.php:599
-#: admin/settings/style.class.php:626 admin/settings/style.class.php:633
-#: admin/settings/style.class.php:640 admin/settings/style.class.php:647
-#: admin/settings/style.class.php:660 admin/settings/style.class.php:667
-#: admin/settings/style.class.php:674 admin/settings/style.class.php:681
-#: admin/settings/style.class.php:702 admin/settings/style.class.php:723
-#: admin/settings/style.class.php:744 admin/settings/style.class.php:751
-#: admin/settings/style.class.php:758 admin/settings/style.class.php:765
-#: admin/settings/style.class.php:772 admin/settings/style.class.php:779
-#: admin/settings/style.class.php:792 admin/settings/style.class.php:799
-#: admin/settings/style.class.php:820 admin/settings/style.class.php:841
-#: admin/settings/style.class.php:848 admin/settings/style.class.php:861
-#: admin/settings/style.class.php:868 admin/settings/style.class.php:875
-#: admin/settings/style.class.php:882 admin/settings/style.class.php:889
-#: admin/settings/style.class.php:896 admin/settings/style.class.php:903
-#: admin/settings/style.class.php:910 admin/settings/style.class.php:917
-#: admin/settings/style.class.php:924 admin/settings/style.class.php:937
-#: admin/settings/style.class.php:947 admin/settings/style.class.php:961
-#: admin/settings/style.class.php:968 admin/settings/style.class.php:983
-#: admin/settings/style.class.php:990 admin/settings/style.class.php:997
-#: admin/settings/style.class.php:1004 admin/settings/style.class.php:1011
+#: admin/settings/style.class.php:107 admin/settings/style.class.php:120
+#: admin/settings/style.class.php:141 admin/settings/style.class.php:148
+#: admin/settings/style.class.php:179 admin/settings/style.class.php:186
+#: admin/settings/style.class.php:199 admin/settings/style.class.php:232
+#: admin/settings/style.class.php:239 admin/settings/style.class.php:246
+#: admin/settings/style.class.php:253 admin/settings/style.class.php:260
+#: admin/settings/style.class.php:267 admin/settings/style.class.php:274
+#: admin/settings/style.class.php:281 admin/settings/style.class.php:314
+#: admin/settings/style.class.php:321 admin/settings/style.class.php:328
+#: admin/settings/style.class.php:335 admin/settings/style.class.php:342
+#: admin/settings/style.class.php:349 admin/settings/style.class.php:356
+#: admin/settings/style.class.php:363 admin/settings/style.class.php:396
+#: admin/settings/style.class.php:403 admin/settings/style.class.php:410
+#: admin/settings/style.class.php:417 admin/settings/style.class.php:456
+#: admin/settings/style.class.php:463 admin/settings/style.class.php:470
+#: admin/settings/style.class.php:477 admin/settings/style.class.php:510
+#: admin/settings/style.class.php:517 admin/settings/style.class.php:524
+#: admin/settings/style.class.php:531 admin/settings/style.class.php:564
+#: admin/settings/style.class.php:571 admin/settings/style.class.php:578
+#: admin/settings/style.class.php:591 admin/settings/style.class.php:598
+#: admin/settings/style.class.php:625 admin/settings/style.class.php:632
+#: admin/settings/style.class.php:639 admin/settings/style.class.php:646
+#: admin/settings/style.class.php:659 admin/settings/style.class.php:666
+#: admin/settings/style.class.php:673 admin/settings/style.class.php:680
+#: admin/settings/style.class.php:701 admin/settings/style.class.php:722
+#: admin/settings/style.class.php:743 admin/settings/style.class.php:750
+#: admin/settings/style.class.php:757 admin/settings/style.class.php:764
+#: admin/settings/style.class.php:771 admin/settings/style.class.php:778
+#: admin/settings/style.class.php:791 admin/settings/style.class.php:798
+#: admin/settings/style.class.php:819 admin/settings/style.class.php:840
+#: admin/settings/style.class.php:847 admin/settings/style.class.php:860
+#: admin/settings/style.class.php:867 admin/settings/style.class.php:874
+#: admin/settings/style.class.php:881 admin/settings/style.class.php:888
+#: admin/settings/style.class.php:895 admin/settings/style.class.php:902
+#: admin/settings/style.class.php:909 admin/settings/style.class.php:916
+#: admin/settings/style.class.php:923 admin/settings/style.class.php:936
+#: admin/settings/style.class.php:946 admin/settings/style.class.php:960
+#: admin/settings/style.class.php:967 admin/settings/style.class.php:982
+#: admin/settings/style.class.php:989 admin/settings/style.class.php:996
+#: admin/settings/style.class.php:1003 admin/settings/style.class.php:1010
 #: includes/form.helper.php:392
 msgid "Important"
 msgstr "مهم"
 
-#: admin/settings/style.class.php:114 admin/settings/style.class.php:813
+#: admin/settings/style.class.php:113 admin/settings/style.class.php:812
 msgid "Title Font Size"
 msgstr "سایز فونت موضوع"
 
-#: admin/settings/style.class.php:120 admin/settings/style.class.php:701
-#: admin/settings/style.class.php:819
+#: admin/settings/style.class.php:119 admin/settings/style.class.php:700
+#: admin/settings/style.class.php:818
 msgid "Content Text Color"
 msgstr "رنگ متن نوشته شده"
 
-#: admin/settings/style.class.php:127 admin/settings/style.class.php:165
-#: admin/settings/style.class.php:206 admin/settings/style.class.php:288
-#: admin/settings/style.class.php:370 admin/settings/style.class.php:424
-#: admin/settings/style.class.php:484 admin/settings/style.class.php:538
-#: admin/settings/style.class.php:974
+#: admin/settings/style.class.php:126 admin/settings/style.class.php:164
+#: admin/settings/style.class.php:205 admin/settings/style.class.php:287
+#: admin/settings/style.class.php:369 admin/settings/style.class.php:423
+#: admin/settings/style.class.php:483 admin/settings/style.class.php:537
+#: admin/settings/style.class.php:973
 msgid "Font"
 msgstr "فونت"
 
-#: admin/settings/style.class.php:134
+#: admin/settings/style.class.php:133
 msgid "links"
 msgstr "لینک ها"
 
-#: admin/settings/style.class.php:141
+#: admin/settings/style.class.php:140
 msgid "Color"
 msgstr "رنگ "
 
-#: admin/settings/style.class.php:148
+#: admin/settings/style.class.php:147
 msgid "Hover Color"
 msgstr "رنگ شناوری"
 
-#: admin/settings/style.class.php:155
+#: admin/settings/style.class.php:154
 msgid "Underline"
 msgstr "زیر خط دار"
 
-#: admin/settings/style.class.php:157 includes/wizard.class.php:622
+#: admin/settings/style.class.php:156 includes/wizard.class.php:622
 msgid "Yes"
 msgstr "آری"
 
-#: admin/settings/style.class.php:158 includes/wizard.class.php:623
+#: admin/settings/style.class.php:157 includes/wizard.class.php:623
 msgid "No"
 msgstr "خیر"
 
-#: admin/settings/style.class.php:172
+#: admin/settings/style.class.php:171
 msgid "fields"
 msgstr "زمینه ها"
 
-#: admin/settings/style.class.php:179 admin/settings/style.class.php:246
-#: admin/settings/style.class.php:328 admin/settings/style.class.php:396
-#: admin/settings/style.class.php:456 admin/settings/style.class.php:510
-#: admin/settings/style.class.php:659 admin/settings/style.class.php:791
+#: admin/settings/style.class.php:178 admin/settings/style.class.php:245
+#: admin/settings/style.class.php:327 admin/settings/style.class.php:395
+#: admin/settings/style.class.php:455 admin/settings/style.class.php:509
+#: admin/settings/style.class.php:658 admin/settings/style.class.php:790
 msgid "Background Color"
 msgstr "رنگ پیش زمینه"
 
-#: admin/settings/style.class.php:186 admin/settings/style.class.php:666
+#: admin/settings/style.class.php:185 admin/settings/style.class.php:665
 msgid "Border Color"
 msgstr "رنگ مرز"
 
-#: admin/settings/style.class.php:193 admin/settings/style.class.php:302
-#: admin/settings/style.class.php:384 admin/settings/style.class.php:444
-#: admin/settings/style.class.php:498 admin/settings/style.class.php:552
+#: admin/settings/style.class.php:192 admin/settings/style.class.php:301
+#: admin/settings/style.class.php:383 admin/settings/style.class.php:443
+#: admin/settings/style.class.php:497 admin/settings/style.class.php:551
 msgid "Border Radius"
 msgstr "شعاع مرزی "
 
-#: admin/settings/style.class.php:199 admin/settings/style.class.php:260
-#: admin/settings/style.class.php:342 admin/settings/style.class.php:410
-#: admin/settings/style.class.php:470 admin/settings/style.class.php:524
+#: admin/settings/style.class.php:198 admin/settings/style.class.php:259
+#: admin/settings/style.class.php:341 admin/settings/style.class.php:409
+#: admin/settings/style.class.php:469 admin/settings/style.class.php:523
 msgid "Text Color"
 msgstr "رنگ متن "
 
-#: admin/settings/style.class.php:214 admin/settings/style.class.php:296
-#: admin/settings/style.class.php:378 admin/settings/style.class.php:432
-#: admin/settings/style.class.php:492 admin/settings/style.class.php:546
+#: admin/settings/style.class.php:213 admin/settings/style.class.php:295
+#: admin/settings/style.class.php:377 admin/settings/style.class.php:431
+#: admin/settings/style.class.php:491 admin/settings/style.class.php:545
 msgid "Font Size"
 msgstr "سایز فونت "
 
-#: admin/settings/style.class.php:220
+#: admin/settings/style.class.php:219
 msgid "Font Size Of Select Element"
 msgstr ""
 
-#: admin/settings/style.class.php:225
+#: admin/settings/style.class.php:224
 msgid "add to wishlist catalog button"
 msgstr "دکمه اضافه به لیست علاقه مندی در کاتالوگ محصولات"
 
-#: admin/settings/style.class.php:232 admin/settings/style.class.php:314
+#: admin/settings/style.class.php:231 admin/settings/style.class.php:313
 msgid "Icon Color"
 msgstr "رنگ آیکون"
 
-#: admin/settings/style.class.php:239 admin/settings/style.class.php:321
+#: admin/settings/style.class.php:238 admin/settings/style.class.php:320
 msgid "Icon Hover/Active Color"
 msgstr "رنگ آیکن در حالت فعال/سایه"
 
-#: admin/settings/style.class.php:253 admin/settings/style.class.php:335
-#: admin/settings/style.class.php:403 admin/settings/style.class.php:463
-#: admin/settings/style.class.php:517
+#: admin/settings/style.class.php:252 admin/settings/style.class.php:334
+#: admin/settings/style.class.php:402 admin/settings/style.class.php:462
+#: admin/settings/style.class.php:516
 msgid "Background Hover Color"
 msgstr "رنگ پیش زمینه شناوری "
 
-#: admin/settings/style.class.php:267 admin/settings/style.class.php:349
+#: admin/settings/style.class.php:266 admin/settings/style.class.php:348
 msgid "Button Text Color"
 msgstr "رنگ متن  دکمه"
 
-#: admin/settings/style.class.php:274 admin/settings/style.class.php:356
-#: admin/settings/style.class.php:417 admin/settings/style.class.php:477
-#: admin/settings/style.class.php:531
+#: admin/settings/style.class.php:273 admin/settings/style.class.php:355
+#: admin/settings/style.class.php:416 admin/settings/style.class.php:476
+#: admin/settings/style.class.php:530
 msgid "Text Hover Color"
 msgstr "رنگ شناوری "
 
-#: admin/settings/style.class.php:281 admin/settings/style.class.php:363
+#: admin/settings/style.class.php:280 admin/settings/style.class.php:362
 msgid "Button Text Hover Color"
 msgstr "رنگ  متن دکمه شناور"
 
-#: admin/settings/style.class.php:307
+#: admin/settings/style.class.php:306
 msgid "add to wishlist product page button"
 msgstr "دکمه اضافه به لیست علاقه مندی در صفحه محصولات"
 
-#: admin/settings/style.class.php:389
+#: admin/settings/style.class.php:388
 msgid "accent buttons style"
 msgstr "سبک دکمه تاکید"
 
-#: admin/settings/style.class.php:438
+#: admin/settings/style.class.php:437
 msgid "Search Widget Font Size"
 msgstr "سایز فونت ابزارک جستجو"
 
-#: admin/settings/style.class.php:449
+#: admin/settings/style.class.php:448
 msgid "normal buttons style"
 msgstr "استایل دکمه های معمولی"
 
-#: admin/settings/style.class.php:503
+#: admin/settings/style.class.php:502
 msgid "add to cart button"
 msgstr "دکمه اضافه به سبد خرید"
 
-#: admin/settings/style.class.php:557
+#: admin/settings/style.class.php:556
 msgid "wrapped blocks"
 msgstr "بلوک های پیچیده"
 
-#: admin/settings/style.class.php:557
+#: admin/settings/style.class.php:556
 msgid "(create wishlist, search, login)"
 msgstr "(ساخت لیست علاقه مندی، جستجو، ورود)"
 
-#: admin/settings/style.class.php:564
+#: admin/settings/style.class.php:563
 msgid "Block Background Color"
 msgstr "رنگ پس زمینه ی بلاک"
 
-#: admin/settings/style.class.php:571 admin/settings/style.class.php:840
+#: admin/settings/style.class.php:570 admin/settings/style.class.php:839
 msgid "Fields Background Color"
 msgstr "رنگ پس زمینه ی زمینه ها"
 
-#: admin/settings/style.class.php:578 admin/settings/style.class.php:847
+#: admin/settings/style.class.php:577 admin/settings/style.class.php:846
 msgid "Fields Border Color"
 msgstr "رنگ مرزهای زمینه"
 
-#: admin/settings/style.class.php:585 admin/settings/style.class.php:854
+#: admin/settings/style.class.php:584 admin/settings/style.class.php:853
 msgid "Fields Border Radius"
 msgstr "شعاع مرزی زمینه ها"
 
-#: admin/settings/style.class.php:591 admin/settings/style.class.php:860
+#: admin/settings/style.class.php:590 admin/settings/style.class.php:859
 msgid "Fields Text Color"
 msgstr "رنگ متن زمینه ها"
 
-#: admin/settings/style.class.php:598 admin/settings/style.class.php:867
+#: admin/settings/style.class.php:597 admin/settings/style.class.php:866
 msgid "Fields Placeholder Text Color"
 msgstr "رنگ متن نگه داشته شده در زمینه ها"
 
-#: admin/settings/style.class.php:605
+#: admin/settings/style.class.php:604
 msgid "Fields Text Font"
 msgstr "فونت متن زمینه ها"
 
-#: admin/settings/style.class.php:613
+#: admin/settings/style.class.php:612
 msgid "Fields Text Font Size"
 msgstr "سایز فونت متن زمینه ها"
 
-#: admin/settings/style.class.php:618
+#: admin/settings/style.class.php:617
 msgid "Cart page buttons"
 msgstr "دکمه های سبد خرید برگه ها"
 
-#: admin/settings/style.class.php:632
+#: admin/settings/style.class.php:631
 msgid "\"Save for Later\" Icon Hover/Active Color"
 msgstr "رنگ آیکن \"ذخیره برای بعدا\" در حالت فعال/سایه"
 
-#: admin/settings/style.class.php:646
+#: admin/settings/style.class.php:645
 msgid "\"Save Cart\" Icon Hover/Active Color"
 msgstr "رنگ آیکن \"ذخیره سبدخرید\" در حالت سایه/اصلی"
 
-#: admin/settings/style.class.php:652
+#: admin/settings/style.class.php:651
 msgid "table"
 msgstr "جدول "
 
-#: admin/settings/style.class.php:673
+#: admin/settings/style.class.php:672
 msgid "Table Head Background Color"
 msgstr "رنگ پیش زمینه سر جدول "
 
-#: admin/settings/style.class.php:680
+#: admin/settings/style.class.php:679
 msgid "Table Head Text Color"
 msgstr "رنگ متن سرجدول "
 
-#: admin/settings/style.class.php:687
+#: admin/settings/style.class.php:686
 msgid "Table Head Font"
 msgstr "فونت سر جدول "
 
-#: admin/settings/style.class.php:695
+#: admin/settings/style.class.php:694
 msgid "Table Head Font Size"
 msgstr "سایز فونت سرجدول "
 
-#: admin/settings/style.class.php:708 admin/settings/style.class.php:826
+#: admin/settings/style.class.php:707 admin/settings/style.class.php:825
 msgid "Content Text Font"
 msgstr "فونت متن محتوا"
 
-#: admin/settings/style.class.php:716 admin/settings/style.class.php:834
+#: admin/settings/style.class.php:715 admin/settings/style.class.php:833
 msgid "Content Text Font Size"
 msgstr "سایز فونت محتوای نوشته شده"
 
-#: admin/settings/style.class.php:722
+#: admin/settings/style.class.php:721
 msgid "Price Color"
 msgstr "رنگ قیمت"
 
-#: admin/settings/style.class.php:729
+#: admin/settings/style.class.php:728
 msgid "Price Font"
 msgstr "فونت قیمت"
 
-#: admin/settings/style.class.php:737
+#: admin/settings/style.class.php:736
 msgid "Price Font Size"
 msgstr "سایز فونت قیمت"
 
-#: admin/settings/style.class.php:743
+#: admin/settings/style.class.php:742
 msgid "Special Price Color"
 msgstr "رنگ قیمت ویژه"
 
-#: admin/settings/style.class.php:750
+#: admin/settings/style.class.php:749
 msgid "Special Price Background Color"
 msgstr "رنگ پیش زمینه قیمت ویژه"
 
-#: admin/settings/style.class.php:757
+#: admin/settings/style.class.php:756
 msgid "Social Icons Background Color"
 msgstr "رنگ پس زمینه ی آیکون های شبکه  های اجتماعی"
 
-#: admin/settings/style.class.php:764
+#: admin/settings/style.class.php:763
 msgid "Social Icons Background Hover Color"
 msgstr "رنگ آیکون شبکه های اجتماعی در حالت سایه"
 
-#: admin/settings/style.class.php:778
+#: admin/settings/style.class.php:777
 msgid "Social Icons Hover Color"
 msgstr "رنگ آیکن شبکه های اجتماعی در حالت سایه"
 
-#: admin/settings/style.class.php:784
+#: admin/settings/style.class.php:783
 msgid "popups"
 msgstr "پنجره های بازشوی خودکار"
 
-#: admin/settings/style.class.php:805
+#: admin/settings/style.class.php:804
 msgid "Title Font"
 msgstr "فونت موضوع"
 
-#: admin/settings/style.class.php:874
+#: admin/settings/style.class.php:873
 msgid "Normal Buttons Background Color"
 msgstr "رنگ پیش زمینه دکمه های عادی"
 
-#: admin/settings/style.class.php:881
+#: admin/settings/style.class.php:880
 msgid "Normal Buttons Background Hover Color"
 msgstr "رنگ پیش زمینه دکمه های شناور"
 
-#: admin/settings/style.class.php:888
+#: admin/settings/style.class.php:887
 msgid "Normal Buttons Text Color"
 msgstr "رنگ متن دکمه های عادی"
 
-#: admin/settings/style.class.php:895
+#: admin/settings/style.class.php:894
 msgid "Normal Buttons Text Hover Color"
 msgstr "رنگ متن دکمه های شناور عادی"
 
-#: admin/settings/style.class.php:902
+#: admin/settings/style.class.php:901
 msgid "Accent Buttons Background Color"
 msgstr "رنگ پس زمینه ی دکمه های تاکید"
 
-#: admin/settings/style.class.php:909
+#: admin/settings/style.class.php:908
 msgid "Accent Buttons Background Hover Color"
 msgstr "رنگ پس زمینه ی دکمه های تاکید در حالت سایه"
 
-#: admin/settings/style.class.php:916
+#: admin/settings/style.class.php:915
 msgid "Accent Buttons Text Color"
 msgstr "رنگ متن دکمه های تاکید"
 
-#: admin/settings/style.class.php:923
+#: admin/settings/style.class.php:922
 msgid "Accent Buttons Text Hover Color"
 msgstr "رنگ متن دکمه های تاکید در حالت سایه"
 
-#: admin/settings/style.class.php:929
+#: admin/settings/style.class.php:928
 msgid "Counter and Mini Wishlist"
 msgstr "شمارنده و لیست علاقه مندی های کوچک"
 
-#: admin/settings/style.class.php:936
+#: admin/settings/style.class.php:935
 msgid "Drop down background Color"
 msgstr "رنگ پس زمینه بالا پایین"
 
-#: admin/settings/style.class.php:944
+#: admin/settings/style.class.php:943
 msgid "Drop down shadow"
 msgstr "سایه بالا پایین"
 
-#: admin/settings/style.class.php:949
+#: admin/settings/style.class.php:948
 #, php-format
 msgid ""
 "Inset: %1$s<br/>H-Shadow: %2$s<br/>V-Shadow: %3$s<br/>Blur: %4$s<br/>Spread: "
@@ -1916,57 +2068,57 @@ msgstr ""
 "Inset: %1$s<br/>H-Shadow: %2$s<br/>V-Shadow: %3$s<br/>Blur: %4$s<br/>Spread: "
 "%5$s<br/>Color: %6$s"
 
-#: admin/settings/style.class.php:951 includes/form.helper.php:273
+#: admin/settings/style.class.php:950 includes/form.helper.php:273
 msgid "Inset"
 msgstr "اضافه کردن"
 
-#: admin/settings/style.class.php:952 includes/form.helper.php:274
+#: admin/settings/style.class.php:951 includes/form.helper.php:274
 msgid "Outset"
 msgstr "خارج کردن"
 
-#: admin/settings/style.class.php:960
+#: admin/settings/style.class.php:959
 msgid "Mini wishlist text Color"
 msgstr "رنگ متن لیست علاقه مندی های کوچک"
 
-#: admin/settings/style.class.php:967
+#: admin/settings/style.class.php:966
 msgid "Counter text color"
 msgstr "رنگ متن شمارنده"
 
-#: admin/settings/style.class.php:982
+#: admin/settings/style.class.php:981
 #, fuzzy
 msgid "Wishlist tags color"
 msgstr "رنگ متن تگ لیست های علاقه مندی"
 
-#: admin/settings/style.class.php:989
+#: admin/settings/style.class.php:988
 msgid "Mini wishlist links color"
 msgstr "رنگ لینک لیست علاقه مندی کوچک"
 
-#: admin/settings/style.class.php:996
+#: admin/settings/style.class.php:995
 msgid "Mini wishlist links hover color"
 msgstr "رنگ لینک لیست علاقه مندی کوچک در حالت سایه"
 
-#: admin/settings/style.class.php:1003
+#: admin/settings/style.class.php:1002
 msgid "Wishlist icon color"
 msgstr "رنگ آیکون لیست علاقه مندی"
 
-#: admin/settings/style.class.php:1010
+#: admin/settings/style.class.php:1009
 msgid "Wishlist active icon color"
 msgstr "رنگ آیکون لیست علاقه مندی فعال"
 
-#: admin/settings/table.class.php:68
+#: admin/settings/table.class.php:69
 msgid "Table Options"
 msgstr "ویژگی های جدول"
 
-#: admin/settings/table.class.php:69
+#: admin/settings/table.class.php:70
 msgid "Wishlist Table Options"
 msgstr "ویژگی های جدول لیست علاقه مندی"
 
-#: admin/settings/table.class.php:85
+#: admin/settings/table.class.php:86
 #, fuzzy
 msgid "Product Settings"
 msgstr "تنظیمات محصول"
 
-#: admin/settings/table.class.php:86
+#: admin/settings/table.class.php:87
 msgid ""
 "Following options allows you to choose what information/functionality to "
 "show/enable in wishlist table on wishlist page."
@@ -1974,13 +2126,13 @@ msgstr ""
 "این گزینه به شما اجازه میدهد که انتخاب کنید که چه اطلاعات/عملکردی را نمایش/"
 "فعال باشد در جدول لیست علاقه مندی ها در برگه لیست علاقه مندی ها"
 
-#: admin/settings/table.class.php:92
+#: admin/settings/table.class.php:93
 #, fuzzy
 #| msgid "Product image"
 msgid "Show Product Image"
 msgstr "تصویر محصول"
 
-#: admin/settings/table.class.php:98
+#: admin/settings/table.class.php:99
 msgid "Show \"Add to Cart\" button"
 msgstr "دکمه \"افزودن به سبد خرید\" را نمایش بده"
 
@@ -2014,21 +2166,29 @@ msgid ""
 "be shown and the product quantity will be increased instead."
 msgstr ""
 
-#: admin/settings/table.class.php:137
+#: admin/settings/table.class.php:138
 msgid "Show \"Move\" button"
 msgstr "نمایش دکمه\"بیشتر\""
 
-#: admin/settings/table.class.php:138
+#: admin/settings/table.class.php:139
 msgid "This option allows customers to move products between their wishlists"
 msgstr ""
 "این ویژگی به مشتریان اجازه میدهد که محصولات را بین لیست های خود جا به جا کنند"
 
 #: admin/settings/table.class.php:145
+msgid "Show subtotal price per wishlist product"
+msgstr ""
+
+#: admin/settings/table.class.php:151
+msgid "Show the total price for all products in the current wishlist"
+msgstr ""
+
+#: admin/settings/table.class.php:158
 #, fuzzy
 msgid "Table Settings"
 msgstr "تنظیمات جدول"
 
-#: admin/settings/table.class.php:146
+#: admin/settings/table.class.php:159
 msgid ""
 "Following options will help user to manage and add products to cart from "
 "wishlist table in bulk."
@@ -2036,143 +2196,194 @@ msgstr ""
 "این گزینه به کاربر اجازه میدهد که محصولات را به صورت کلی به سبد خرید خود "
 "اضافه کند"
 
-#: admin/settings/table.class.php:152
+#: admin/settings/table.class.php:165
+msgid "Enable sorting products feature"
+msgstr ""
+
+#: admin/settings/table.class.php:167
+msgid ""
+"The drag-and-drop product sorting feature will force to display of all "
+"products on one wishlist page."
+msgstr ""
+
+#: admin/settings/table.class.php:173
+#, fuzzy
+msgid "Products per page"
+msgstr "تصویر محصول"
+
+#: admin/settings/table.class.php:184
 msgid "Show Checkboxes"
 msgstr "چک باکس را نمایش بده"
 
-#: admin/settings/table.class.php:164
+#: admin/settings/table.class.php:196
 msgid "Show Actions button"
 msgstr "دکمه اقدام دسته جمعی را نشان بده"
 
-#: admin/settings/table.class.php:165
+#: admin/settings/table.class.php:197
 msgid "Bulk actions drop down at the bottom of wishlist table"
 msgstr "اقدامات فله در پایین جدول لیست علاقه مندی ها قرار دارد"
 
-#: admin/settings/table.class.php:171
+#: admin/settings/table.class.php:203
 msgid "Show \"Add Selected to Cart\" button"
 msgstr "نمیش دکمه \"انتخاب شده ها را به سبد خرید اضافه کن\" "
 
-#: admin/settings/table.class.php:178
+#: admin/settings/table.class.php:210
 msgid "\"Add Selected to Cart\" Button Text"
 msgstr "متن دکمه \"انتخاب شده ها را به سبد خرید اضافه کن\""
 
-#: admin/settings/table.class.php:189
+#: admin/settings/table.class.php:221
 msgid "Show \"Add All to Cart\" button"
 msgstr "نمایش دکمه \"همه را به لیست خرید اضافه کن\""
 
-#: admin/settings/table.class.php:196
+#: admin/settings/table.class.php:228
 msgid "\"Add All to Cart\" Button Text"
 msgstr "متن\"اضافه کردن همه به لیست خرید\""
 
-#: admin/settings/table.class.php:204
+#: admin/settings/table.class.php:239
+#, fuzzy
+#| msgid "add to wishlist product page button"
+msgid "Hide popup for wishlist products management actions"
+msgstr "دکمه اضافه به لیست علاقه مندی در صفحه محصولات"
+
+#: admin/settings/table.class.php:240
+msgid ""
+"This option allows hide/show a popup after any action is processed with "
+"wishlist products on the wishlist page."
+msgstr ""
+
+#: admin/settings/table.class.php:247
 msgid "Wishlist Table Navigation Buttons"
 msgstr ""
 
-#: admin/settings/table.class.php:205
+#: admin/settings/table.class.php:248
 msgid ""
 "These are the options to enable/disable/manage the quick navigational menu "
 "that can be placed above or/and below the Wishlist table."
 msgstr ""
 
-#: admin/settings/table.class.php:211
+#: admin/settings/table.class.php:254
 msgid "Show in title area"
 msgstr "نمایش در قسمت موضوع"
 
-#: admin/settings/table.class.php:217
+#: admin/settings/table.class.php:260
 msgid "Show after table"
 msgstr "نمایش بعد از جدول"
 
-#: admin/settings/table.class.php:223
+#: admin/settings/table.class.php:266
 msgid "Button type"
 msgstr "مدل دکمه"
 
-#: admin/settings/table.class.php:226
+#: admin/settings/table.class.php:269
 msgid "Link"
 msgstr "لینک"
 
-#: admin/settings/table.class.php:227 includes/wizard.class.php:490
+#: admin/settings/table.class.php:270 includes/wizard.class.php:490
 msgid "Button"
 msgstr "دکمه"
 
-#: admin/settings/table.class.php:233
+#: admin/settings/table.class.php:276
 msgid "Show icons"
 msgstr "نمایش آیکون ها"
 
-#: admin/settings/table.class.php:239
+#: admin/settings/table.class.php:282
 #, fuzzy
 msgid "Show \"All Wishlists\" Button"
 msgstr "نمایش دکمه تمام لیست علاقه مندی ها"
 
-#: admin/settings/table.class.php:240
+#: admin/settings/table.class.php:283
 msgid ""
 "This button opens a page with Recent Wishlist shortcode. You can assign page "
 "to this button in <code>TI Wishlist > General Settings > Wishlist Page "
 "Options: Public Wishlists</code>"
 msgstr ""
 
-#: admin/settings/table.class.php:246
+#: admin/settings/table.class.php:289
 #, fuzzy
 msgid "Show \"Search\" Button"
 msgstr "نمایش دکمه جستجو"
 
-#: admin/settings/table.class.php:247
+#: admin/settings/table.class.php:290
 msgid ""
 "This button opens a page with Search shortcode. You can assign page to this "
 "button in <code>TI Wishlist > General Settings > Wishlist Page Options: "
 "Search for Wishlist</code>"
 msgstr ""
 
-#: admin/tinvwl.class.php:129
+#: admin/settings/table.class.php:296
+#, fuzzy
+#| msgid "Continue Shopping"
+msgid "Show \"Continue Shopping\" Button"
+msgstr "ادامه خرید"
+
+#: admin/tinvwl.class.php:170
 msgid ""
 "<strong>Welcome to WooCommerce Wishlist</strong> – You‘re almost ready to "
 "start :)"
 msgstr ""
 
-#: admin/tinvwl.class.php:131 admin/tinvwl.class.php:148
+#: admin/tinvwl.class.php:172 admin/tinvwl.class.php:192
 msgid "Run the Setup Wizard"
 msgstr "اجرای نصب مرحله ای"
 
-#: admin/tinvwl.class.php:133
+#: admin/tinvwl.class.php:174
 msgid "Skip Setup"
 msgstr "رد کردن نصب"
 
-#: admin/tinvwl.class.php:142
-msgid "Dismiss"
-msgstr "رد کردن"
+#: admin/tinvwl.class.php:183
+#, fuzzy
+#| msgid "WooCommerce Wishlist"
+msgid "WooCommerce Wishlist Plugin is misconfigured!"
+msgstr "لیست علاقه مندی ووکامرس"
 
-#: admin/tinvwl.class.php:143
-msgid "Link to Wishlists does not work!"
-msgstr "اتصال به لیست های علاقه مندی برقرار نمیشود"
+#: admin/tinvwl.class.php:184
+msgid ""
+"Since the Setup Wizard was skipped, the Wishlist may function improperly."
+msgstr ""
 
-#: admin/tinvwl.class.php:145
+#: admin/tinvwl.class.php:185
+msgid ""
+"Create a New Page or open to edit a page where the Wishlist should be "
+"displayed."
+msgstr ""
+
+#: admin/tinvwl.class.php:186
+msgid "Add <code>[ti_wishlistsview]</code> shortcode into a page content."
+msgstr ""
+
+#: admin/tinvwl.class.php:187
+msgid ""
+"In a plugin General Settings section apply this page as a \"Wishlist\" page."
+msgstr ""
+
+#: admin/tinvwl.class.php:189
 msgid "Please apply the Wishlist page"
 msgstr "لطفا لیست علاقه مندی را بپذیر"
 
-#: admin/tinvwl.class.php:146
+#: admin/tinvwl.class.php:190
 msgid " or "
 msgstr "یا"
 
-#: admin/tinvwl.class.php:323
+#: admin/tinvwl.class.php:460
 #, fuzzy
 #| msgid "Wishlist"
 msgid "TI Wishlist"
 msgstr "لیست علاقه مندی ها"
 
-#: admin/tinvwl.class.php:411
+#: admin/tinvwl.class.php:544
 msgid "Are you sure you want to reset the settings?"
 msgstr "از اینکه میخواهید تنظیمات را به حالت اولیه دربیاورید مطمئن هستید؟"
 
-#: admin/tinvwl.class.php:536
+#: admin/tinvwl.class.php:672
 #, fuzzy, php-format
 msgid "Promotional email for Product \"%1$s\" is not sent! %2$s"
 msgstr "تبلیغات برای محصول \"%1$s\" ارسال نشد %2$s"
 
-#: admin/tinvwl.class.php:551
+#: admin/tinvwl.class.php:686
 #, fuzzy, php-format
 msgid "Promotional email for Product \"%s\" has been sent successfully!"
 msgstr "تبلیغات برای محصول \"%s\" با موفقیت ارسال شد"
 
-#: admin/tinvwl.class.php:592
+#: admin/tinvwl.class.php:726
 #, php-format
 msgid ""
 "<code>%1$s</code> version <strong style=\"color:red\">%2$s</strong> is out "
@@ -2181,42 +2392,42 @@ msgstr ""
 "<code>%1$s</code> version <strong style=\"color:red\">%2$s</strong> is out "
 "of date. The core version is <strong style=\"color:red\">%3$s</strong>"
 
-#: admin/tinvwl.class.php:620
+#: admin/tinvwl.class.php:752
 #, php-format
 msgid ""
 "<strong>Your theme (%1$s) contains outdated copies of some WooCommerce "
 "Wishlist Premium template files.</strong><br> These files may need updating "
 "to ensure they are compatible with the current version of TI WooCommerce "
-"Wishlist.<br> You can see which files are affected from the <a href=\"%2$s"
-"\">system status page</a>.<br> If in doubt, check with the author of the "
-"theme."
+"Wishlist.<br> You can see which files are affected from the <a "
+"href=\"%2$s\">system status page</a>.<br> If in doubt, check with the author "
+"of the theme."
 msgstr ""
 
-#: admin/tinvwl.class.php:684
+#: admin/tinvwl.class.php:812
 msgid "Wishlist Page"
 msgstr "برگه ی علاقه مندی ها"
 
-#: admin/tinvwl.class.php:687
+#: admin/tinvwl.class.php:815
 #, fuzzy
 msgid "Manage Wishlists Page"
 msgstr "مدیریت لیست های علاقه مندی"
 
-#: admin/tinvwl.class.php:690
+#: admin/tinvwl.class.php:818
 #, fuzzy
 msgid "Wishlist Search Results Page"
 msgstr "نتایج جستجوی لیست علاقه مندی"
 
-#: admin/tinvwl.class.php:693
+#: admin/tinvwl.class.php:821
 #, fuzzy
 msgid "All Public Wishlists Page"
 msgstr "تمام لیست های علاقه مندی عمومی"
 
-#: admin/tinvwl.class.php:699
+#: admin/tinvwl.class.php:827
 #, fuzzy
 msgid "Create Wishlist Page"
 msgstr "ساخت لیست علاقه مندی"
 
-#: admin/wishlist.class.php:65
+#: admin/wishlist.class.php:63
 #, php-format
 msgid "Wishlist \"%s\" Subscribers"
 msgstr "ثبت نام کننده های لیست علاقه مندی \"%s\""
@@ -2239,10 +2450,10 @@ msgid "No Subscribers available."
 msgstr "هیچ ثبت نام کننده ای در دسترس نیست"
 
 #: admin/wishlist/table.class.php:43 includes/wizard.class.php:341
-#: includes/wizard.class.php:377 integrations/theme-flatsome.php:124
-#: integrations/theme-flatsome.php:167 integrations/theme-flatsome.php:245
-#: integrations/theme-flatsome.php:284 public/tinvwl.class.php:816
-#: views/header.php:25
+#: includes/wizard.class.php:377 integrations/theme-flatsome.php:119
+#: integrations/theme-flatsome.php:161 integrations/theme-flatsome.php:240
+#: integrations/theme-flatsome.php:289 integrations/theme-flatsome.php:314
+#: public/tinvwl.class.php:878 views/header.php:25
 msgid "Wishlist"
 msgstr "لیست علاقه مندی ها"
 
@@ -2268,7 +2479,7 @@ msgstr "آیتم ها"
 msgid "in Wishlists"
 msgstr "در لیست های علاقه مندی"
 
-#: admin/wishlist/table.class.php:66 admin/wishlist/table.class.php:296
+#: admin/wishlist/table.class.php:66 admin/wishlist/table.class.php:305
 msgid "Followers"
 msgstr "دنبال کننده ها"
 
@@ -2276,41 +2487,41 @@ msgstr "دنبال کننده ها"
 msgid "Date of creation"
 msgstr "تاریخ ایجاد"
 
-#: admin/wishlist/table.class.php:200
+#: admin/wishlist/table.class.php:211
 #, fuzzy
 msgid "No Wishlists available."
 msgstr "لیست علاقه مندی در دسترس نیست"
 
-#: admin/wishlist/table.class.php:518
+#: admin/wishlist/table.class.php:528
 #, php-format
 msgid "%1$s (%2$d)"
 msgstr "%1$s (%2$d)"
 
-#: admin/wishlist/table.class.php:580 public/manage/buttons.class.php:227
-#: public/wishlist/buttons.class.php:375 templates/ti-wishlist-manage.php:71
-#: views/admin/wishlist-confirm.php:16 views/admin/wishlist-confirm.php:26
+#: admin/wishlist/table.class.php:590 public/manage/buttons.class.php:201
+#: templates/ti-wishlist-manage.php:90 views/admin/wishlist-confirm.php:16
+#: views/admin/wishlist-confirm.php:26
 msgid "Delete"
 msgstr "پاک کردن"
 
-#: admin/wishlist/table.class.php:603
+#: admin/wishlist/table.class.php:613
 msgid "Wishlists successfully removed!"
 msgstr "لیست های علاقه مندی با موفقیت پاک شدند"
 
-#: admin/wishlist/table.class.php:605
+#: admin/wishlist/table.class.php:615
 msgid "Wishlists is not removed!"
 msgstr "لیست های علاقه مندی پاک نشدند"
 
-#: admin/wishlist/table.class.php:641 public/wishlist/view.class.php:686
+#: admin/wishlist/table.class.php:651 public/wishlist/view.class.php:491
 #, php-format
 msgid "%1$s by %2$s"
 msgstr "%1$s به وسیله %2$s"
 
-#: admin/wishlist/table.class.php:651
+#: admin/wishlist/table.class.php:661
 #, php-format
 msgid "Successfully deleted Wishlists: %s."
 msgstr "با موفقیت لیست علاقه مندی: %s پاک شد"
 
-#: admin/wishlist/table.class.php:654
+#: admin/wishlist/table.class.php:664
 #, php-format
 msgid "Not have been removed Wishlists: %s."
 msgstr "لیست های علاقه مندی پاک نشده: %s"
@@ -2426,7 +2637,7 @@ msgid ""
 "Fields \"API License Key\" and \"API License email\" could not be empty!"
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:511
+#: includes/api/update/class-ti-plugin-update.php:538
 #, php-format
 msgid ""
 "The license key for %1$s has expired. You can reactivate or purchase a "
@@ -2437,14 +2648,14 @@ msgstr ""
 "license key from your account <a href=\"%2$s\" target=\"_blank\">dashboard</"
 "a>."
 
-#: includes/api/update/class-ti-plugin-update.php:513
+#: includes/api/update/class-ti-plugin-update.php:540
 #, php-format
 msgid ""
 "The subscription for %1$s is on-hold. You can reactivate the subscription "
 "from your account <a href=\"%2$s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:515
+#: includes/api/update/class-ti-plugin-update.php:542
 #, php-format
 msgid ""
 "The subscription for %1$s has been cancelled. You can renew the subscription "
@@ -2455,7 +2666,7 @@ msgstr ""
 "from your account <a href=\"%2$s\" target=\"_blank\">dashboard</a>. A new "
 "license key will be emailed to you after your order has been completed."
 
-#: includes/api/update/class-ti-plugin-update.php:517
+#: includes/api/update/class-ti-plugin-update.php:544
 #, php-format
 msgid ""
 "The subscription for %1$s has expired. You can reactivate the subscription "
@@ -2464,7 +2675,7 @@ msgstr ""
 "The subscription for %1$s has expired. You can reactivate the subscription "
 "from your account <a href=\"%2$s\" target=\"_blank\">dashboard</a>."
 
-#: includes/api/update/class-ti-plugin-update.php:519
+#: includes/api/update/class-ti-plugin-update.php:546
 #, php-format
 msgid ""
 "The subscription for %1$s has been suspended. You can reactivate the "
@@ -2475,18 +2686,18 @@ msgstr ""
 "subscription from your account <a href=\"%2$s\" target=\"_blank\">dashboard</"
 "a>."
 
-#: includes/api/update/class-ti-plugin-update.php:521
+#: includes/api/update/class-ti-plugin-update.php:548
 #, php-format
 msgid ""
 "The subscription for %1$s is still pending. You can check on the status of "
-"the subscription from your account <a href=\"%2$s\" target=\"_blank"
-"\">dashboard</a>."
+"the subscription from your account <a href=\"%2$s\" "
+"target=\"_blank\">dashboard</a>."
 msgstr ""
 "The subscription for %1$s is still pending. You can check on the status of "
-"the subscription from your account <a href=\"%2$s\" target=\"_blank"
-"\">dashboard</a>."
+"the subscription from your account <a href=\"%2$s\" "
+"target=\"_blank\">dashboard</a>."
 
-#: includes/api/update/class-ti-plugin-update.php:523
+#: includes/api/update/class-ti-plugin-update.php:550
 #, php-format
 msgid ""
 "The subscription for %1$s has been placed in the trash and will be deleted "
@@ -2497,7 +2708,7 @@ msgstr ""
 "soon. You can purchase a new subscription from your account <a href=\"%2$s\" "
 "target=\"_blank\">dashboard</a>."
 
-#: includes/api/update/class-ti-plugin-update.php:525
+#: includes/api/update/class-ti-plugin-update.php:552
 #, php-format
 msgid ""
 "A subscription for %1$s could not be found. You can purchase a subscription "
@@ -2506,7 +2717,7 @@ msgstr ""
 "A subscription for %1$s could not be found. You can purchase a subscription "
 "from your account <a href=\"%2$s\" target=\"_blank\">dashboard</a>."
 
-#: includes/api/update/class-ti-plugin-update.php:527
+#: includes/api/update/class-ti-plugin-update.php:554
 #, php-format
 msgid ""
 "A license key for %1$s could not be found. Maybe you forgot to enter a "
@@ -2519,7 +2730,7 @@ msgstr ""
 "account. You can reactivate or purchase a license key from your account <a "
 "href=\"%2$s\" target=\"_blank\">dashboard</a>."
 
-#: includes/api/update/class-ti-plugin-update.php:529
+#: includes/api/update/class-ti-plugin-update.php:556
 #, php-format
 msgid ""
 "Download permission for %1$s has been revoked possibly due to a license key "
@@ -2530,7 +2741,7 @@ msgstr ""
 "or subscription expiring. You can reactivate or purchase a license key from "
 "your account <a href=\"%2$s\" target=\"_blank\">dashboard</a>."
 
-#: includes/api/update/class-ti-plugin-update.php:531
+#: includes/api/update/class-ti-plugin-update.php:558
 #, php-format
 msgid ""
 "%1$s has not been activated. Go to the settings page and enter the license "
@@ -2539,136 +2750,149 @@ msgstr ""
 "%1$s has not been activated. Go to the settings page and enter the license "
 "key and license email to activate %1$s."
 
-#: includes/api/update/class-ti-plugin-update.php:533
+#: includes/api/update/class-ti-plugin-update.php:560
 #, php-format
 msgid ""
 "You changed the subscription for %1$s, so you will need to enter your new "
 "API License Key in the settings page. The License Key should have arrived in "
-"your email inbox, if not you can get it by logging into your account <a href="
-"\"%2$s\" target=\"_blank\">dashboard</a>."
+"your email inbox, if not you can get it by logging into your account <a "
+"href=\"%2$s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 "You changed the subscription for %1$s, so you will need to enter your new "
 "API License Key in the settings page. The License Key should have arrived in "
-"your email inbox, if not you can get it by logging into your account <a href="
-"\"%2$s\" target=\"_blank\">dashboard</a>."
+"your email inbox, if not you can get it by logging into your account <a "
+"href=\"%2$s\" target=\"_blank\">dashboard</a>."
 
-#: includes/api/update/class-ti-update.php:203
-#: includes/api/update/class-ti-update.php:241
-#: includes/api/update/class-ti-update.php:280
+#: includes/api/update/class-ti-update.php:165
+#, fuzzy
+#| msgid "TI WooCommerce Wishlist Templates"
+msgid "Welcome to TI WooCommerce Wishlist Premium!"
+msgstr "قالب های لیست علاقه مندی های TI"
+
+#: includes/api/update/class-ti-update.php:168
+msgid ""
+"Please activate your license to get feature updates and premium support."
+msgstr ""
+
+#: includes/api/update/class-ti-update.php:170
+#, fuzzy
+#| msgid "activate license"
+msgctxt "Button label"
+msgid "Activate your license"
+msgstr "فعال کردن لایسنس"
+
+#: includes/api/update/class-ti-update.php:240
+#: includes/api/update/class-ti-update.php:278
+#: includes/api/update/class-ti-update.php:317
 msgid "Connection failed to the License Key API server. Try again later."
 msgstr "Connection failed to the License Key API server. Try again later."
 
-#: includes/api/update/class-ti-update.php:212
+#: includes/api/update/class-ti-update.php:249
 msgid "Plugin license deactivated."
 msgstr "Plugin license deactivated"
 
-#: includes/api/update/class-ti-update.php:252
+#: includes/api/update/class-ti-update.php:289
+#, fuzzy
+#| msgid ""
+#| "The license could not be deactivated. Use the License Deactivation tab to "
+#| "manually deactivate the license before activating a new license."
 msgid ""
-"The license could not be deactivated. Use the License Deactivation tab to "
-"manually deactivate the license before activating a new license."
+"The license could not be deactivated. Use the License Deactivation button on "
+"the https://templateinvaders.com/my-account/downloads/ to manually "
+"deactivate the license before activating a new license."
 msgstr ""
 "The license could not be deactivated. Use the License Deactivation tab to "
 "manually deactivate the license before activating a new license."
 
-#: includes/api/update/class-ti-update.php:286
+#: includes/api/update/class-ti-update.php:323
 msgid "Plugin activated."
 msgstr "Plugin activated"
 
-#: includes/api/wishlist.class.php:127
+#: includes/api/wishlist.class.php:121
 #, fuzzy
 #| msgid "Can not create a wishlist!"
 msgid "User ID required to create a wishlist."
 msgstr "نمیتوان یک لیست علاقه مندی ایجاد کرد!"
 
-#: includes/api/wishlist.class.php:153 includes/api/wishlist.class.php:158
+#: includes/api/wishlist.class.php:147 includes/api/wishlist.class.php:152
 #, fuzzy
 #| msgid "Can not create a wishlist!"
 msgid "Failed create a new wishlist."
 msgstr "نمیتوان یک لیست علاقه مندی ایجاد کرد!"
 
-#: includes/api/wishlist.class.php:180 includes/api/wishlist.class.php:251
-#: includes/api/wishlist.class.php:306 includes/api/wishlist.class.php:346
-#: includes/api/wishlist.class.php:399
+#: includes/api/wishlist.class.php:170 includes/api/wishlist.class.php:176
+#: includes/api/wishlist.class.php:274 includes/api/wishlist.class.php:422
+#: includes/api/wishlist.class.php:429
 msgid "Invalid wishlist share key."
 msgstr "دکمه غیر معتبر به اشتراک گذاری لیست علاقه مندی"
 
-#: includes/api/wishlist.class.php:209
-msgid "WordPress user does not exists."
+#: includes/api/wishlist.class.php:195
+msgid "WordPress user does not exist."
 msgstr ""
 
-#: includes/api/wishlist.class.php:217
+#: includes/api/wishlist.class.php:209
 msgid "No wishlists found for this user."
 msgstr "هیچ لیستی برای این کاربر پیدا نشد"
 
-#: includes/api/wishlist.class.php:276 includes/api/wishlist.class.php:279
+#: includes/api/wishlist.class.php:244 includes/api/wishlist.class.php:248
 msgid "Update wishlist data failed."
 msgstr "به روز رسانی دیتای لیست علاقه مندی با خطا مواجه شده است"
 
-#: includes/api/wishlist.class.php:310
+#: includes/api/wishlist.class.php:278
 #, fuzzy
 #| msgid "Update Wishlist"
 msgid "Delete wishlist failed."
 msgstr "به روزرسانی لیست علاقه مندی"
 
-#: includes/api/wishlist.class.php:316
+#: includes/api/wishlist.class.php:284
 #, fuzzy
 #| msgid "Wishlist is not found!"
 msgid "Wishlist not found."
 msgstr "لیست علاقه مندی ها پیدا نشد"
 
-#: includes/api/wishlist.class.php:319
+#: includes/api/wishlist.class.php:287
 #, fuzzy
 msgid "Wishlist deleted."
 msgstr "صفحه جستجوی لیست علاقه مندی"
 
-#: includes/api/wishlist.class.php:403 includes/api/wishlist.class.php:429
+#: includes/api/wishlist.class.php:350 includes/api/wishlist.class.php:366
 msgid "Add product to wishlist failed."
 msgstr "اضافه کردن محصول به لیست علاقه مندی ها با خطا مواجه شده است"
 
-#: includes/api/wishlist.class.php:462 includes/api/wishlist.class.php:475
+#: includes/api/wishlist.class.php:388
+#, fuzzy
+#| msgid "Invalid wishlist share key."
+msgid "Invalid item ID."
+msgstr "دکمه غیر معتبر به اشتراک گذاری لیست علاقه مندی"
+
+#: includes/api/wishlist.class.php:395 includes/api/wishlist.class.php:405
 msgid "Product not found."
 msgstr "محصول پیدا نشد"
 
-#: includes/api/wishlist.class.php:466
+#: includes/api/wishlist.class.php:399
 #, fuzzy
 #| msgid "Redirect to Wishlist"
 msgid "Remove product from wishlist failed."
 msgstr "هدایت شدن به لیست علاقه مندی ها"
 
-#: includes/api/wishlist.class.php:478
+#: includes/api/wishlist.class.php:408
 msgid "Product removed from a wishlist."
 msgstr "محصول از لیست علاقه مندی ها حذف شد"
 
-#: includes/export.class.php:158 includes/export.class.php:249
+#: includes/export.class.php:148
 msgid "There was an error importing your settings, please try again."
 msgstr ""
 
-#: includes/export.class.php:191
-msgid "The settings file is empty."
-msgstr ""
-
-#: includes/export.class.php:204
-msgid "The settings file is not valid."
-msgstr ""
-
-#: includes/export.class.php:227
-msgid "The file you are uploading is too big."
-msgstr ""
-
-#: includes/export.class.php:237
-msgid "There was an error uploading the file."
-msgstr ""
-
-#: includes/export.class.php:264
+#: includes/export.class.php:177
 msgid ""
 "Please upload the TI WooCommerce Wishlist setting file or copy the content."
 msgstr ""
 
-#: includes/export.class.php:277
-msgid "The settings json is not valid."
+#: includes/export.class.php:183
+msgid "The settings JSON is not valid."
 msgstr ""
 
-#: includes/export.class.php:303
+#: includes/export.class.php:211
 msgid "There was an error exporting your settings, please try again."
 msgstr ""
 
@@ -2754,17 +2978,30 @@ msgstr "تصویر محصول"
 msgid "Out of stock"
 msgstr "ناموجود"
 
-#: includes/subscribers.class.php:463 integrations/woo-product-bundle.php:115
+#: includes/subscribers.class.php:463 integrations/woo-product-bundle.php:123
 #: integrations/woocommerce-composite-products.php:142
-#: integrations/woocommerce-mix-and-match-products.php:112
-#: integrations/woocommerce-product-bundles.php:136
+#: integrations/woocommerce-mix-and-match-products.php:110
+#: integrations/woocommerce-product-bundles.php:134
 #: integrations/yith-woocommerce-product-bundles.php:165
 #: templates/emails/plain/ti-estimate.php:43
 #: templates/emails/plain/ti-subscribes.php:34
 #: templates/emails/ti-estimate.php:99 templates/emails/ti-subscribes.php:45
-#: templates/ti-wishlist-user.php:151 templates/ti-wishlist.php:159
+#: templates/ti-wishlist-pdf.php:209 templates/ti-wishlist-user.php:155
+#: templates/ti-wishlist.php:175
 msgid "In stock"
 msgstr "موجود است"
+
+#: includes/subscribers.class.php:464
+#, fuzzy
+#| msgid "In stock"
+msgid "Low stock"
+msgstr "موجود است"
+
+#: includes/tinvwl.class.php:266
+#, fuzzy
+#| msgid "by User"
+msgid "by "
+msgstr "بر اساس کاربر"
 
 #: includes/view.helper.php:183
 msgid "Attention!"
@@ -2926,11 +3163,17 @@ msgstr "آدرس"
 msgid "Reload existing Gift Card"
 msgstr "کارت هدیه موجود را دوباره استفاده کن"
 
-#: integrations/mycred.php:55
+#: integrations/ione360-configurator.php:59
+#, fuzzy
+#| msgid "Congratulations"
+msgid "Configuration"
+msgstr "تبریک میگم"
+
+#: integrations/mycred.php:56
 msgid "WooCommerce Wishlist"
 msgstr "لیست علاقه مندی ووکامرس"
 
-#: integrations/mycred.php:56
+#: integrations/mycred.php:57
 msgid ""
 "Awards %_plural% for users adding products to their wishlist and purchased "
 "products from their wishlist."
@@ -2938,108 +3181,108 @@ msgstr ""
 "جایزه%ها% برای کاربری که یک محصول را لیست علاقه مندی اضافه کرده و خرید کرده "
 "است محصولاتی را از لیست علاقه مندی های خودش"
 
-#: integrations/mycred.php:209
+#: integrations/mycred.php:206
 msgid "Adding Product to Wishlist"
 msgstr "اضافه کردن محصول به لیست علاقه مندی "
 
-#: integrations/mycred.php:214 integrations/mycred.php:259
+#: integrations/mycred.php:211 integrations/mycred.php:256
 msgid "Points"
 msgstr "امتیازها"
 
-#: integrations/mycred.php:227 integrations/mycred.php:272
+#: integrations/mycred.php:224 integrations/mycred.php:269
 msgid "Limit"
 msgstr "محدود"
 
-#: integrations/mycred.php:240 integrations/mycred.php:285
+#: integrations/mycred.php:237 integrations/mycred.php:282
 msgid "Log Template"
 msgstr "قالب لاگ ها"
 
-#: integrations/mycred.php:244 integrations/mycred.php:289
+#: integrations/mycred.php:241 integrations/mycred.php:286
 msgid "required"
 msgstr "مورد نیاز"
 
-#: integrations/mycred.php:254
+#: integrations/mycred.php:251
 msgid "Purchasing Product from Wishlist"
 msgstr "خرید کردن از لیست علاقه مندی ها"
 
-#: integrations/mycred.php:342
+#: integrations/mycred.php:345
 msgid "Purchased From Wishlist"
 msgstr "خریداری شده از لیست علاقه مندی"
 
-#: integrations/mycred.php:343
+#: integrations/mycred.php:346
 msgid "Added To Wishlist"
 msgstr "به لیست علاقه مندی اضافه شد"
 
-#: integrations/product-extras-for-woocommerce.php:106
+#: integrations/product-extras-for-woocommerce.php:128
 msgid "Flat rate cost"
 msgstr ""
 
-#: integrations/theme-flatsome.php:175
+#: integrations/theme-flatsome.php:169
 #, fuzzy
 #| msgid "Wishlist Settings"
 msgid "Wishlist Icon"
 msgstr "تنظیمات لیست علاقه مندی ها"
 
-#: integrations/theme-flatsome.php:194
+#: integrations/theme-flatsome.php:188
 #, fuzzy
 #| msgid "Wishlist icon color"
 msgid "Wishlist Icon Style"
 msgstr "رنگ آیکون لیست علاقه مندی"
 
-#: integrations/theme-flatsome.php:211
+#: integrations/theme-flatsome.php:205
 #, fuzzy
 msgid "Show Wishlist Title"
 msgstr "آیکن \"لیست علاقه مندی\""
 
-#: integrations/theme-flatsome.php:222
+#: integrations/theme-flatsome.php:216
 #, fuzzy
 #| msgid "Custom"
 msgid "Custom Title"
 msgstr "دلخواه"
 
-#: integrations/woocommerce-rental-and-booking.php:57
+#: integrations/woocommerce-rental-and-booking.php:56
 msgid "Rental Product"
 msgstr "محصول اجاره ای"
 
-#: integrations/woocommerce-rental-and-booking.php:114
+#: integrations/woocommerce-rental-and-booking.php:112
 msgid "Quote Request"
 msgstr "درخواست مظنه دادن"
 
-#: integrations/woocommerce-rental-and-booking.php:130
-#: integrations/woocommerce-rental-and-booking.php:146
+#: integrations/woocommerce-rental-and-booking.php:128
+#: integrations/woocommerce-rental-and-booking.php:144
 msgid " Cost"
 msgstr "هزینه"
 
-#: integrations/woocommerce-rental-and-booking.php:154
+#: integrations/woocommerce-rental-and-booking.php:152
 msgid "Location Cost"
 msgstr "هزینه در محل سکونت"
+
+#: integrations/woocommerce-rental-and-booking.php:162
+#: integrations/woocommerce-rental-and-booking.php:178
+#: integrations/woocommerce-rental-and-booking.php:194
+msgid "Per Day"
+msgstr "هر روز"
 
 #: integrations/woocommerce-rental-and-booking.php:164
 #: integrations/woocommerce-rental-and-booking.php:180
 #: integrations/woocommerce-rental-and-booking.php:196
-msgid "Per Day"
-msgstr "هر روز"
-
-#: integrations/woocommerce-rental-and-booking.php:166
-#: integrations/woocommerce-rental-and-booking.php:182
-#: integrations/woocommerce-rental-and-booking.php:198
 msgid "One Time"
 msgstr "یک دفعه"
 
-#: integrations/woocommerce-rental-and-booking.php:230
-#: integrations/woocommerce-rental-and-booking.php:244
+#: integrations/woocommerce-rental-and-booking.php:228
+#: integrations/woocommerce-rental-and-booking.php:242
 msgid "at"
 msgstr "در"
 
-#: integrations/woocommerce-rental-and-booking.php:257
+#: integrations/woocommerce-rental-and-booking.php:255
 msgid "Total Days"
 msgstr "کل روزها"
 
-#: integrations/woocommerce-rental-and-booking.php:263
+#: integrations/woocommerce-rental-and-booking.php:261
 msgid "Total Hours"
 msgstr "کل ساعت ها"
 
-#: integrations/woocommerce-rental-and-booking.php:271
+#: integrations/woocommerce-rental-and-booking.php:269
 msgid "Due Payment"
 msgstr "در خلال پرداخت"
 
@@ -3053,55 +3296,126 @@ msgstr "تنظیمات لیست علاقه مندی ها"
 msgid "Base price"
 msgstr "قیمت پایه"
 
-#: public/addtowishlist.class.php:202 public/cartsave.class.php:357
-#: public/cartsave.class.php:597 templates/ti-wishlist-form-login.php:25
+#: public/addtowishlist.class.php:243 public/cartsave.class.php:372
+#: public/cartsave.class.php:612 templates/ti-wishlist-form-login.php:25
 #: templates/ti-wishlist-form-login.php:49
-#: templates/ti-wishlist-subscribe.php:63
+#: templates/ti-wishlist-subscribe.php:64
 msgid "Login"
 msgstr "ورود"
 
-#: public/addtowishlist.class.php:230 public/cartsave.class.php:385
+#: public/addtowishlist.class.php:274 public/cartsave.class.php:402
+#: public/manage/ajax.class.php:89 public/manage/ajax.class.php:115
+#: public/manage/ajax.class.php:123 public/manage/ajax.class.php:177
+#: public/manage/ajax.class.php:201 public/manage/ajax.class.php:224
+#: public/wishlist/ajax.class.php:107 public/wishlist/ajax.class.php:146
+#: public/wishlist/ajax.class.php:156 public/wishlist/ajax.class.php:162
+#: public/wishlist/ajax.class.php:188 public/wishlist/ajax.class.php:194
+#: public/wishlist/ajax.class.php:243 public/wishlist/ajax.class.php:253
+#: public/wishlist/ajax.class.php:442 public/wishlist/ajax.class.php:451
+#: public/wishlist/ajax.class.php:457 public/wishlist/ajax.class.php:517
+#: public/wishlist/ajax.class.php:526 public/wishlist/ajax.class.php:554
+#: public/wishlist/ajax.class.php:611 public/wishlist/ajax.class.php:615
+#: public/wishlist/ajax.class.php:625
 msgid "Something went wrong"
 msgstr ""
 
-#: public/cartsave.class.php:334
+#: public/cart.class.php:717
+#, php-format
+msgid "Sorry, the &quot;%s&quot; cannot be purchased."
+msgid_plural ""
+"Sorry, the following products cannot be purchased: &quot;%s&quot;."
+msgstr[0] ""
+
+#: public/cart.class.php:728
+#, php-format
+msgid ""
+"You cannot add &quot;%s&quot; to the cart because the product is out of "
+"stock."
+msgid_plural ""
+"You cannot add the following products to the cart because they are out of "
+"stock: &quot;%s&quot;."
+msgstr[0] ""
+
+#: public/cart.class.php:739
+#, php-format
+msgid "External product &quot;%s&quot; cannot be bought."
+msgid_plural ""
+"The following external products cannot be bought: &quot;%s&quot;."
+msgstr[0] ""
+
+#: public/cart.class.php:750
+#, php-format
+msgid "Please choose product options for &quot;%s&quot;."
+msgid_plural ""
+"Please choose options for the following products: &quot;%s&quot;."
+msgstr[0] ""
+
+#: public/cart.class.php:761
+#, php-format
+msgid "You cannot add another &quot;%s&quot; to your cart."
+msgid_plural "You cannot add &quot;%s&quot; more to your cart."
+msgstr[0] ""
+
+#: public/cart.class.php:772
+#, php-format
+msgid ""
+"You cannot add that amount of &quot;%s&quot; to the cart because there is "
+"not enough stock."
+msgid_plural ""
+"You cannot add the following products to the cart because there is not "
+"enough stock: &quot;%s&quot;."
+msgstr[0] ""
+
+#: public/cart.class.php:783
+#, php-format
+msgid ""
+"Product &quot;%s&quot; could not be added to the cart because some "
+"requirements are not met."
+msgid_plural ""
+"Products: &quot;%s&quot; could not be added to the cart because some "
+"requirements are not met."
+msgstr[0] ""
+
+#: public/cartsave.class.php:349
 msgid "Product not found in cart!"
 msgstr "محصول در لیست خرید پیدا نشد"
 
-#: public/cartsave.class.php:655
-#, php-format
-msgid "%1$s has been successfully added to wishlist."
-msgid_plural "%1$s have been successfully added to wishlist."
+#: public/cartsave.class.php:680
+#, fuzzy, php-format
+#| msgid "%1$s has been successfully added to wishlist."
+#| msgid_plural "%1$s have been successfully added to wishlist."
+msgid "%1$s has been successfully added to {wishlist_title}."
+msgid_plural "%1$s have been successfully added to {wishlist_title}."
 msgstr[0] ""
 "%1$s به لیست علاقه مندی اضافه شد\n"
 "%1$s به لیست علاقه مندی اضافه شدند"
 
-#: public/cartsave.class.php:658
+#: public/cartsave.class.php:683
 #, fuzzy, php-format
-msgid "%s has not added to the wishlist."
-msgid_plural "%s have not been added to the wishlist."
+msgid "%s has not added to the {wishlist_title}."
+msgid_plural "%s have not been added to the {wishlist_title}."
 msgstr[0] ""
 "%s به لیست علاقه مندی اضافه نشد\n"
 "%s به لیست علاقه مندی اضافه نشدند"
 
-#: public/cartsave.class.php:661
+#: public/cartsave.class.php:686
 #, fuzzy, php-format
 #| msgid "%s is already in wishlist."
 #| msgid_plural "%s are already in wishlist."
-msgid "%s is already in wishlist."
-msgid_plural "%s are already in wishlist."
+msgid "%s is already in {wishlist_title}."
+msgid_plural "%s are already in {wishlist_title}."
 msgstr[0] ""
 "%s در لیست علاقه مندی وجود دارد\n"
 "%s در لیست علاقه مندی وجود دارند "
 
-#: public/create.class.php:94
+#: public/create.class.php:90
 msgid ""
 "Anyone can search for and see this list. You can also share using a link."
 msgstr ""
 "هر کسی میتواند این لیست را ببیند و جستجو کند.شما همچنین با استفاده از یک "
 "لینک آنرا به اشتراک بگذارید"
 
-#: public/create.class.php:95
+#: public/create.class.php:91
 msgid ""
 "Only people with the link can see this list. It will not appear in public "
 "search results."
@@ -3109,11 +3423,11 @@ msgstr ""
 "فقط افراد به وسیله لینک میتوانند این لیست را ببینید و آن در نتایج جستجوی "
 "عمومی نمایش داده نخواهد شد"
 
-#: public/create.class.php:96
+#: public/create.class.php:92
 msgid "Only you can see this list."
 msgstr "فقط شما میتوانید این لیست را ببینید"
 
-#: public/create.class.php:133
+#: public/create.class.php:131
 msgid "Wishlist successfully created"
 msgstr "لیست علاقه مندی با موفقیت ساخته شد"
 
@@ -3133,44 +3447,52 @@ msgid "Estimate Request"
 msgstr "درخواست ارزیابی"
 
 #: public/email/data/estimate.helper.php:69
+#: public/email/data/notificationlowstock.helper.php:69
 #: public/email/data/notificationprice.helper.php:70
 #: public/email/data/notificationstock.helper.php:69
+#: public/email/data/promotional.helper.php:69
 #: public/email/subscribe.class.php:283
 msgid "Enable/Disable"
 msgstr "فعال/غیرفعال"
 
 #: public/email/data/estimate.helper.php:71
+#: public/email/data/notificationlowstock.helper.php:71
 #: public/email/data/notificationprice.helper.php:72
 #: public/email/data/notificationstock.helper.php:71
+#: public/email/data/promotional.helper.php:71
 #: public/email/subscribe.class.php:285
 msgid "Enable this email notification"
 msgstr "فعال کردن اطلاع رسانی این ایمیل"
 
 #: public/email/data/estimate.helper.php:75
+#: public/email/data/notificationlowstock.helper.php:75
 #: public/email/data/notificationprice.helper.php:76
 #: public/email/data/notificationstock.helper.php:75
-#: public/email/data/promotional.helper.php:69
+#: public/email/data/promotional.helper.php:75
 #: public/email/subscribe.class.php:289
 msgid "Email Subject"
 msgstr "موضوع ایمیل"
 
 #: public/email/data/estimate.helper.php:77
 #: public/email/data/estimate.helper.php:84
+#: public/email/data/notificationlowstock.helper.php:77
+#: public/email/data/notificationlowstock.helper.php:84
 #: public/email/data/notificationprice.helper.php:78
 #: public/email/data/notificationprice.helper.php:85
 #: public/email/data/notificationstock.helper.php:77
 #: public/email/data/notificationstock.helper.php:84
-#: public/email/data/promotional.helper.php:71
-#: public/email/data/promotional.helper.php:78
+#: public/email/data/promotional.helper.php:77
+#: public/email/data/promotional.helper.php:84
 #: public/email/subscribe.class.php:291 public/email/subscribe.class.php:298
 #, php-format
 msgid "Defaults to <code>%s</code>"
 msgstr "Defaults to <code>%s</code>"
 
 #: public/email/data/estimate.helper.php:82
+#: public/email/data/notificationlowstock.helper.php:82
 #: public/email/data/notificationprice.helper.php:83
 #: public/email/data/notificationstock.helper.php:82
-#: public/email/data/promotional.helper.php:76
+#: public/email/data/promotional.helper.php:82
 #: public/email/subscribe.class.php:296
 msgid "Email Heading"
 msgstr "سربرگ ایمیل"
@@ -3197,41 +3519,162 @@ msgid "Send CC copy to wishlist owner"
 msgstr "ارسال cc copy به صاحب لیست "
 
 #: public/email/data/estimate.helper.php:102
+#: public/email/data/notificationlowstock.helper.php:119
 #: public/email/data/notificationprice.helper.php:120
 #: public/email/data/notificationstock.helper.php:119
-#: public/email/data/promotional.helper.php:116
+#: public/email/data/promotional.helper.php:122
 #: public/email/subscribe.class.php:303
 msgid "Email type"
 msgstr "نوع ایمیل"
 
 #: public/email/data/estimate.helper.php:104
+#: public/email/data/notificationlowstock.helper.php:121
 #: public/email/data/notificationprice.helper.php:122
 #: public/email/data/notificationstock.helper.php:121
-#: public/email/data/promotional.helper.php:118
+#: public/email/data/promotional.helper.php:124
 #: public/email/subscribe.class.php:305
 msgid "Choose which format of email to send."
 msgstr "انتخاب اینکه ایمیل با چه فرمتی ارسال شود"
 
 #: public/email/data/estimate.helper.php:119
+#: public/email/data/notificationlowstock.helper.php:136
 #: public/email/data/notificationprice.helper.php:137
 #: public/email/data/notificationstock.helper.php:136
-#: public/email/data/promotional.helper.php:133
+#: public/email/data/promotional.helper.php:139
 msgid "Plain text"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:122
+#: public/email/data/notificationlowstock.helper.php:139
 #: public/email/data/notificationprice.helper.php:140
 #: public/email/data/notificationstock.helper.php:139
-#: public/email/data/promotional.helper.php:136
+#: public/email/data/promotional.helper.php:142
 msgid "HTML"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:123
+#: public/email/data/notificationlowstock.helper.php:140
 #: public/email/data/notificationprice.helper.php:141
 #: public/email/data/notificationstock.helper.php:140
-#: public/email/data/promotional.helper.php:137
+#: public/email/data/promotional.helper.php:143
 msgid "Multipart"
 msgstr ""
+
+#: public/email/data/notificationlowstock.helper.php:52
+#, fuzzy
+msgid "Wishlist Notification of low stock"
+msgstr "اعلانیه تغییر وضعیت موجودی کالا در لیست علاقه مندی"
+
+#: public/email/data/notificationlowstock.helper.php:53
+#, fuzzy
+#| msgid ""
+#| "This notification will be sent to customers if product status has been "
+#| "changed to “In Stock” and they have this product in a Wishlist."
+msgid ""
+"This notification will be sent to customers if product is low on stock and "
+"they have this product in a Wishlist."
+msgstr ""
+"این اطلاعیه به مشتریانی که از یک محصول در لیست خود دارند و وضعیت آن در انبار "
+"تغییر کرده است   ارسال میشود"
+
+#: public/email/data/notificationlowstock.helper.php:56
+#: templates/emails/ti-previewnotification-low-stock.php:34
+#, fuzzy
+msgid "The Product is low on stock!"
+msgstr "محصول منتقل نشد!"
+
+#: public/email/data/notificationlowstock.helper.php:57
+#, fuzzy
+#| msgid "A product of your wishlist is in stock"
+msgid "A product on your wishlist is low on stock"
+msgstr "یک محصول از لیست علاقه مندی شما در انبار موجود شده است"
+
+#: public/email/data/notificationlowstock.helper.php:89
+#: public/email/data/notificationprice.helper.php:90
+#: public/email/data/notificationstock.helper.php:89
+#: public/email/data/promotional.helper.php:89
+msgid "Email Content"
+msgstr "محتوای ایمیل"
+
+#: public/email/data/notificationlowstock.helper.php:91
+#: public/email/data/notificationprice.helper.php:92
+#: public/email/data/notificationstock.helper.php:91
+#: public/email/data/promotional.helper.php:91
+#, fuzzy
+#| msgid ""
+#| "This field lets you modify the main content of the HTML email. You can "
+#| "use the following placeholder: <code>{user_name}</code>, "
+#| "<code>{user_email}</code>, <code>{user_first_name}</code>, "
+#| "<code>{user_last_name}</code>, <code>{product_image}</code>, "
+#| "<code>{product_image_with_url}</code>, <code>{product_in_wishlists}</"
+#| "code>, <code>{product_name}</code>, <code>{product_name_with_url}</code>, "
+#| "<code>{product_price}</code>, <code>{product_price_regular}</code>, "
+#| "<code>{product_price_sale}</code>, <code>{product_url}</code>, "
+#| "<code>{coupon_code}</code>, <code>{coupon_amount}</code>, "
+#| "<code>{url_wishlist_with_product}</code>."
+msgid ""
+"This field lets you modify the main content of the HTML email. You can use "
+"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
+"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
+"<code>{company}</code>, <code>{product_image}</code>, "
+"<code>{product_image_with_url}</code>, <code>{product_in_wishlists}</code>, "
+"<code>{product_name}</code>, <code>{product_name_with_url}</code>, "
+"<code>{product_price}</code>, <code>{product_price_regular}</code>, "
+"<code>{product_price_sale}</code>, <code>{product_url}</code>, "
+"<code>{coupon_code}</code>, <code>{coupon_amount}</code>, "
+"<code>{url_wishlist_with_product}</code>."
+msgstr ""
+"This field lets you modify the main content of the HTML email. You can use "
+"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
+"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
+"<code>{product_image}</code>, <code>{product_image_with_url}</code>, "
+"<code>{product_in_wishlists}</code>, <code>{product_name}</code>, "
+"<code>{product_name_with_url}</code>, <code>{product_price}</code>, "
+"<code>{product_price_regular}</code>, <code>{product_price_sale}</code>, "
+"<code>{product_url}</code>, <code>{coupon_code}</code>, <code>{coupon_amount}"
+"</code>, <code>{url_wishlist_with_product}</code>."
+
+#: public/email/data/notificationlowstock.helper.php:107
+#: public/email/data/notificationprice.helper.php:108
+#: public/email/data/notificationstock.helper.php:107
+#: public/email/data/promotional.helper.php:108
+msgid "Email Content Plain"
+msgstr "محتوای ساده و خام(plain) ایمیل"
+
+#: public/email/data/notificationlowstock.helper.php:109
+#: public/email/data/notificationprice.helper.php:110
+#: public/email/data/notificationstock.helper.php:109
+#: public/email/data/promotional.helper.php:110
+#, fuzzy
+#| msgid ""
+#| "This field lets you modify the main content of the HTML email. You can "
+#| "use the following placeholder: <code>{user_name}</code>, "
+#| "<code>{user_email}</code>, <code>{user_first_name}</code>, "
+#| "<code>{user_last_name}</code>, <code>{product_image}</code>, "
+#| "<code>{product_in_wishlists}</code>, <code>{product_name}</code>, "
+#| "<code>{product_price}</code>, <code>{product_price_regular}</code>, "
+#| "<code>{product_price_sale}</code>, <code>{product_url}</code>, "
+#| "<code>{coupon_code}</code>, <code>{coupon_amount}</code>, "
+#| "<code>{url_wishlist_with_product}</code>."
+msgid ""
+"This field lets you modify the main content of the HTML email. You can use "
+"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
+"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
+"<code>{company}</code>, <code>{product_image}</code>, "
+"<code>{product_in_wishlists}</code>, <code>{product_name}</code>, "
+"<code>{product_price}</code>, <code>{product_price_regular}</code>, "
+"<code>{product_price_sale}</code>, <code>{product_url}</code>, "
+"<code>{coupon_code}</code>, <code>{coupon_amount}</code>, "
+"<code>{url_wishlist_with_product}</code>."
+msgstr ""
+"This field lets you modify the main content of the HTML email. You can use "
+"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
+"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
+"<code>{product_image}</code>, <code>{product_in_wishlists}</code>, "
+"<code>{product_name}</code>, <code>{product_price}</code>, "
+"<code>{product_price_regular}</code>, <code>{product_price_sale}</code>, "
+"<code>{product_url}</code>, <code>{coupon_code}</code>, <code>{coupon_amount}"
+"</code>, <code>{url_wishlist_with_product}</code>."
 
 #: public/email/data/notificationprice.helper.php:53
 msgid ""
@@ -3250,64 +3693,6 @@ msgstr "قیمت محصول کاهش پیدا کرده است!"
 #: public/email/data/promotional.helper.php:57
 msgid "A product of your wishlist is on sale"
 msgstr "محصولی که شما در لیست علاقه مندی خود دارید شامل تخفیف شده است"
-
-#: public/email/data/notificationprice.helper.php:90
-#: public/email/data/notificationstock.helper.php:89
-#: public/email/data/promotional.helper.php:83
-msgid "Email Content"
-msgstr "محتوای ایمیل"
-
-#: public/email/data/notificationprice.helper.php:92
-#: public/email/data/notificationstock.helper.php:91
-#: public/email/data/promotional.helper.php:85
-msgid ""
-"This field lets you modify the main content of the HTML email. You can use "
-"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
-"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
-"<code>{product_image}</code>, <code>{product_image_with_url}</code>, "
-"<code>{product_in_wishlists}</code>, <code>{product_name}</code>, "
-"<code>{product_name_with_url}</code>, <code>{product_price}</code>, "
-"<code>{product_price_regular}</code>, <code>{product_price_sale}</code>, "
-"<code>{product_url}</code>, <code>{coupon_code}</code>, <code>{coupon_amount}"
-"</code>, <code>{url_wishlist_with_product}</code>."
-msgstr ""
-"This field lets you modify the main content of the HTML email. You can use "
-"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
-"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
-"<code>{product_image}</code>, <code>{product_image_with_url}</code>, "
-"<code>{product_in_wishlists}</code>, <code>{product_name}</code>, "
-"<code>{product_name_with_url}</code>, <code>{product_price}</code>, "
-"<code>{product_price_regular}</code>, <code>{product_price_sale}</code>, "
-"<code>{product_url}</code>, <code>{coupon_code}</code>, <code>{coupon_amount}"
-"</code>, <code>{url_wishlist_with_product}</code>."
-
-#: public/email/data/notificationprice.helper.php:108
-#: public/email/data/notificationstock.helper.php:107
-#: public/email/data/promotional.helper.php:102
-msgid "Email Content Plain"
-msgstr "محتوای ساده و خام(plain) ایمیل"
-
-#: public/email/data/notificationprice.helper.php:110
-#: public/email/data/notificationstock.helper.php:109
-#: public/email/data/promotional.helper.php:104
-msgid ""
-"This field lets you modify the main content of the HTML email. You can use "
-"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
-"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
-"<code>{product_image}</code>, <code>{product_in_wishlists}</code>, "
-"<code>{product_name}</code>, <code>{product_price}</code>, "
-"<code>{product_price_regular}</code>, <code>{product_price_sale}</code>, "
-"<code>{product_url}</code>, <code>{coupon_code}</code>, <code>{coupon_amount}"
-"</code>, <code>{url_wishlist_with_product}</code>."
-msgstr ""
-"This field lets you modify the main content of the HTML email. You can use "
-"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
-"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
-"<code>{product_image}</code>, <code>{product_in_wishlists}</code>, "
-"<code>{product_name}</code>, <code>{product_price}</code>, "
-"<code>{product_price_regular}</code>, <code>{product_price_sale}</code>, "
-"<code>{product_url}</code>, <code>{coupon_code}</code>, <code>{coupon_amount}"
-"</code>, <code>{url_wishlist_with_product}</code>."
 
 #: public/email/data/notificationstock.helper.php:53
 msgid ""
@@ -3346,18 +3731,21 @@ msgstr ""
 msgid "There is a deal for you!"
 msgstr "یک فرصت خوب برای شما"
 
-#: public/email/notificationprice.class.php:309
-#: public/email/notificationprice.class.php:311
-#: public/email/notificationstock.class.php:308
-#: public/email/notificationstock.class.php:310
-#: public/email/promotional.class.php:315
-#: public/email/promotional.class.php:317
+#: public/email/notificationlowstock.class.php:309
+#: public/email/notificationlowstock.class.php:311
+#: public/email/notificationprice.class.php:310
+#: public/email/notificationprice.class.php:312
+#: public/email/notificationstock.class.php:309
+#: public/email/notificationstock.class.php:311
+#: public/email/promotional.class.php:316
+#: public/email/promotional.class.php:318
 msgid "Free!"
 msgstr "رایگان"
 
-#: public/email/notificationprice.class.php:331
-#: public/email/notificationstock.class.php:330
-#: public/email/promotional.class.php:337 templates/emails/ti-estimate.php:61
+#: public/email/notificationlowstock.class.php:331
+#: public/email/notificationprice.class.php:332
+#: public/email/notificationstock.class.php:331
+#: public/email/promotional.class.php:338 templates/emails/ti-estimate.php:61
 #: templates/emails/ti-subscribes.php:34
 msgid "Product image"
 msgstr "تصویر محصول"
@@ -3381,64 +3769,60 @@ msgstr "لیست علاقه مندی ای که شما دنبال میکردید 
 msgid "The Wishlist you follow has been changed"
 msgstr "لیست علاقه مندی ای که شما دنبال میکردید تغییر کرده است"
 
-#: public/manage/buttons.class.php:55 public/wishlist/buttons.class.php:62
-#, php-format
-msgid "Apply %s"
-msgstr "%s را انجام بده"
-
-#: public/manage/buttons.class.php:55 public/wishlist/buttons.class.php:62
-msgid "Action"
-msgstr "عملیات"
-
-#: public/manage/buttons.class.php:62
-msgid "Save Wishlists"
-msgstr "ذخیره لیست های غلاقه مندی"
-
-#: public/manage/buttons.class.php:220
-msgid "Set \"Public\""
-msgstr "عمومی"
-
-#: public/manage/buttons.class.php:221
-msgid "Set \"Share\""
-msgstr "مشترک"
-
-#: public/manage/buttons.class.php:222
-msgid "Set \"Private\""
-msgstr "شخصی"
-
-#: public/manage/buttons.class.php:289
-#, php-format
-msgid "Successfully deleted wishlists: %s."
-msgstr "با موفقیت لیست علاقه مندی: %s پاک شد"
-
-#: public/manage/buttons.class.php:297
-#, php-format
-msgid "Successfully changed the status to \"%1$s\" wishlists: %2$s."
-msgstr "با موفقیت وضعیت به  \"%1$s\" تغییر کرد لیست های علاقه مندی:%2$s."
-
-#: public/manage/buttons.class.php:364
-#, php-format
-msgid "Successfully updated wishlists: %s."
-msgstr "با موفقیت لیست علاقه مندی: %s به روزرسانی شد"
-
-#: public/manage/wishlist.class.php:131
+#: public/manage/ajax.class.php:120 public/manage/ajax.class.php:198
+#: public/manage/wishlist.class.php:99
 #, php-format
 msgid "Successfully deleted wishlist \"%s\"."
 msgstr "لیست علاقه مندی \"%s\" با موفقیت پاک شد"
 
-#: public/manage/wishlist.class.php:189 public/wishlist/view.class.php:918
+#: public/manage/ajax.class.php:174 public/manage/ajax.class.php:221
+#: public/manage/buttons.class.php:326
+#, php-format
+msgid "Successfully updated wishlists: %s."
+msgstr "با موفقیت لیست علاقه مندی: %s به روزرسانی شد"
+
+#: public/manage/buttons.class.php:55 public/wishlist/buttons.class.php:56
+#, php-format
+msgid "Apply %s"
+msgstr "%s را انجام بده"
+
+#: public/manage/buttons.class.php:55 public/wishlist/buttons.class.php:56
+msgid "Action"
+msgstr "عملیات"
+
+#: public/manage/buttons.class.php:63
+msgid "Save Wishlists"
+msgstr "ذخیره لیست های غلاقه مندی"
+
+#: public/manage/buttons.class.php:207
+#, fuzzy
+#| msgid "Set \"Share\""
+msgid "Set \""
+msgstr "مشترک"
+
+#: public/manage/buttons.class.php:260
+#, php-format
+msgid "Successfully deleted wishlists: %s."
+msgstr "با موفقیت لیست علاقه مندی: %s پاک شد"
+
+#: public/manage/buttons.class.php:264
+#, php-format
+msgid "Successfully changed the status to \"%1$s\" wishlists: %2$s."
+msgstr "با موفقیت وضعیت به  \"%1$s\" تغییر کرد لیست های علاقه مندی:%2$s."
+
+#: public/manage/wishlist.class.php:171 public/wishlist/view.class.php:554
 msgid "Return to Wishlist"
 msgstr "بازگشت به لیست علاقه مندی ها"
 
-#: public/manage/wishlist.class.php:236 public/popular.class.php:116
+#: public/manage/wishlist.class.php:240 public/popular.class.php:116
 #: public/public.class.php:143 public/search.class.php:161
-#: public/wishlist/view.class.php:1083
+#: public/wishlist/view.class.php:722
 msgid "Previous Page"
 msgstr "صفحه قبل"
 
-#: public/manage/wishlist.class.php:265 public/popular.class.php:126
+#: public/manage/wishlist.class.php:269 public/popular.class.php:126
 #: public/public.class.php:172 public/search.class.php:190
-#: public/wishlist/view.class.php:1113
+#: public/wishlist/view.class.php:749
 msgid "Next Page"
 msgstr "صفحه بعد"
 
@@ -3457,6 +3841,21 @@ msgstr "تصویر محصول"
 msgid "Product stock status changed"
 msgstr "تصویر محصول"
 
+#: public/notifications.class.php:101
+#, fuzzy
+#| msgid "Out of stock"
+msgid "Product low stock"
+msgstr "ناموجود"
+
+#: public/notifications.class.php:143
+#, fuzzy
+#| msgid "%s has been successfully updated."
+#| msgid_plural "%s have been successfully updated."
+msgid "Notifications settings have been successfully updated"
+msgstr ""
+" %s با موفقیت به روزرسانی شد.\n"
+" %s با موفقیت به روزرسانی شدند."
+
 #: public/search.class.php:230
 msgid "Search for a Wishlist"
 msgstr "جستجو برای یک لیست علاقه مندی"
@@ -3465,26 +3864,32 @@ msgstr "جستجو برای یک لیست علاقه مندی"
 msgid "Type a name or email"
 msgstr "یک نام یا ایمیل را بنویسید "
 
-#: public/tinvwl.class.php:678
+#: public/tinvwl.class.php:684
 msgid "Create New"
 msgstr "یکی جدید بساز"
 
-#: public/tinvwl.class.php:684
+#: public/tinvwl.class.php:690
 msgid ""
 "Please select some product options before adding this product to your "
 "wishlist."
 msgstr ""
 "لطفا قبل از اضافه کردن محصول به لیست غلاقه مندی ها چند آپشن را انتخاب کنید"
 
-#: public/tinvwl.class.php:686
+#: public/tinvwl.class.php:692
 msgid "No items or actions are selected."
 msgstr "هیچ محصول یا دستوری انتخاب نشده است."
 
-#: public/tinvwl.class.php:687
+#: public/tinvwl.class.php:693
 msgid "Copied!"
 msgstr "کپی شد!"
 
-#: public/tinvwl.class.php:711
+#: public/tinvwl.class.php:704
+#, fuzzy
+#| msgid "Save Settings"
+msgid "Update any settings before saving."
+msgstr "ذخیره تنظیمات"
+
+#: public/tinvwl.class.php:730
 #, fuzzy
 msgid "The field \"Name your list\" can not be empty!"
 msgstr "قسمت نامگذاری لیست علاقه مندی خالی است"
@@ -3539,84 +3944,88 @@ msgstr "یک جعبه جستجو فقط برای لیست های علاقه من
 msgid "TI Wishlists Search"
 msgstr "جستجوی لیست علاقه مندی"
 
-#: public/widget/topwishlist.class.php:26
+#: public/widget/topwishlist.class.php:20
 msgid "Displays the number of products in the wishlist on your site."
 msgstr "نمایش تعداد محصولات در لیست علاقه مندی ها در سایت."
 
-#: public/widget/topwishlist.class.php:28
+#: public/widget/topwishlist.class.php:22
 msgid "TI Wishlist Products Counter"
 msgstr "شمارنده محصولات لیست علاقه مندی های TI"
 
-#: public/widget/topwishlist.class.php:33
+#: public/widget/topwishlist.class.php:27
 msgid "Show counter icon"
 msgstr "نمایش ایکون شمارنده"
 
-#: public/widget/topwishlist.class.php:38
+#: public/widget/topwishlist.class.php:32
 msgid "Add link for counter title"
 msgstr "Add link for counter title"
 
-#: public/widget/topwishlist.class.php:43
+#: public/widget/topwishlist.class.php:37
 msgid "Show counter text"
 msgstr "نمایش متن شمارنده"
 
-#: public/widget/topwishlist.class.php:48
+#: public/widget/topwishlist.class.php:42
 msgid "Counter Text"
 msgstr "متن شمارنده"
 
-#: public/widget/topwishlist.class.php:53
+#: public/widget/topwishlist.class.php:47
 msgid "Show counter"
 msgstr "نمایش شمارنده"
 
-#: public/wishlist/buttons.class.php:90
-msgid "Update Wishlist"
-msgstr "به روزرسانی لیست علاقه مندی"
+#: public/wishlist/ajax.class.php:166 public/wishlist/ajax.class.php:198
+#: public/wishlist/ajax.class.php:265 public/wishlist/ajax.class.php:476
+#: public/wishlist/ajax.class.php:572 public/wishlist/ajax.class.php:663
+#: public/wishlist/ajax.class.php:673
+#, php-format
+msgid "&ldquo;%s&rdquo;"
+msgstr "&ldquo;%s&rdquo;"
 
-#: public/wishlist/buttons.class.php:334 public/wishlist/buttons.class.php:481
+#: public/wishlist/ajax.class.php:173
+#, fuzzy, php-format
+#| msgid "%s has been removed from wishlist."
+msgid "%s has been removed from {wishlist_title}."
+msgstr "%s از لیست علاقه مندی ها حذف شده است"
+
+#: public/wishlist/ajax.class.php:176
+#, fuzzy, php-format
+#| msgid "%s has not been removed from wishlist."
+msgid "%s has not been removed from {wishlist_title}."
+msgstr "%s از لیست علاقه مندی ها حذف نشده است"
+
+#: public/wishlist/ajax.class.php:225 public/wishlist/ajax.class.php:349
+#: public/wishlist/ajax.class.php:428
+#, fuzzy, php-format
+msgid "%s has been added to your cart."
+msgid_plural "%s have been added to your cart."
+msgstr[0] ""
+"%s به لیست علاقه مندی اضافه نشد\n"
+"%s به لیست علاقه مندی اضافه نشدند"
+
+#: public/wishlist/ajax.class.php:273 public/wishlist/ajax.class.php:686
+#, fuzzy, php-format
+#| msgid "%s has been successfully removed from wishlist."
+#| msgid_plural "%s have been successfully removed from wishlist."
+msgid "%s has been successfully removed from {wishlist_title}."
+msgid_plural "%s have been successfully removed from {wishlist_title}."
+msgstr[0] ""
+"s% از لیست علاقه مندی ها حذف شد.\n"
+"s% از لیست علاقه مندی ها حذف شدند."
+
+#: public/wishlist/ajax.class.php:343 public/wishlist/ajax.class.php:422
 #, php-format
 msgctxt "Item name in quotes"
 msgid "&ldquo;%s&rdquo;"
 msgstr "&ldquo;%s&rdquo;"
 
-#: public/wishlist/buttons.class.php:337 public/wishlist/buttons.class.php:484
-#, php-format
-msgid ""
-"Product %s could not be added to cart because some requirements are not met."
-msgid_plural ""
-"Products: %s could not be added to cart because some requirements are not "
-"met."
-msgstr[0] ""
-
-#: public/wishlist/buttons.class.php:383
-#, php-format
-msgid "Move to \"%s\""
-msgstr "انتقال به \"%s\""
-
-#: public/wishlist/buttons.class.php:539 public/wishlist/buttons.class.php:592
-#: public/wishlist/buttons.class.php:676 public/wishlist/buttons.class.php:685
-#: public/wishlist/view.class.php:550 public/wishlist/view.class.php:749
-#, php-format
-msgid "&ldquo;%s&rdquo;"
-msgstr "&ldquo;%s&rdquo;"
-
-#: public/wishlist/buttons.class.php:556 public/wishlist/buttons.class.php:698
+#: public/wishlist/ajax.class.php:492 public/wishlist/ajax.class.php:588
 #, fuzzy, php-format
-#| msgid "%s has been successfully removed from wishlist."
-#| msgid_plural "%s have been successfully removed from wishlist."
-msgid "%s has been successfully removed from wishlist."
-msgid_plural "%s have been successfully removed from wishlist."
-msgstr[0] ""
-"s% از لیست علاقه مندی ها حذف شد.\n"
-"s% از لیست علاقه مندی ها حذف شدند."
-
-#: public/wishlist/buttons.class.php:607 public/wishlist/view.class.php:559
-#, fuzzy, php-format
-msgid "Product %1$s has been moved to Wishlist \"%2$s\"."
-msgid_plural "Products %1$s have been moved to Wishlist \"%2$s\"."
+msgid "Product %1$s has been moved to \"%2$s\"."
+msgid_plural "Products %1$s have been moved to \"%2$s\"."
 msgstr[0] ""
 "%1$s به \"%2$s\" منتقل شده است.\n"
 "%1$s به \"%2$s\" منتقل شده اند"
 
-#: public/wishlist/buttons.class.php:613
+#: public/wishlist/ajax.class.php:500 public/wishlist/ajax.class.php:595
 #, php-format
 msgid "%1$s has been moved to \"%2$s\", but not removed from \"%3$s\"."
 msgid_plural "%1$s have been moved to \"%2$s\", but not removed from \"%3$s\"."
@@ -3624,7 +4033,7 @@ msgstr[0] ""
 "%1$s به \"%2$s\" منتقل شده است ،اما از \"%3$s\" پاک نشده است.\n"
 "%1$s به \"%2$s\" منتقل شده اند ،اما از \"%3$s\" پاک نشده اند."
 
-#: public/wishlist/buttons.class.php:620 public/wishlist/view.class.php:572
+#: public/wishlist/ajax.class.php:510 public/wishlist/ajax.class.php:604
 #, fuzzy, php-format
 msgid "%s has not been moved."
 msgid_plural "%s have not been moved."
@@ -3632,7 +4041,19 @@ msgstr[0] ""
 "%s منتقل نشده است\n"
 "%s منتقل نشده اند"
 
-#: public/wishlist/buttons.class.php:695
+#: public/wishlist/ajax.class.php:538
+#, fuzzy, php-format
+msgid ""
+"Oops! It looks like wishlist with the name \"%s\" already exists. Please, "
+"try another name"
+msgstr "لیست علاقه مندی با نام \"%s\"  وجود دارد و استفاده میشود!"
+
+#: public/wishlist/ajax.class.php:542
+msgid ""
+"Wishlist is not added, and the product is added to the Default Wishlist!"
+msgstr "لیست علاقه مندی اضافه نشد، و محصول به لیست غلاقه مندی پیش فرض اضافه شد"
+
+#: public/wishlist/ajax.class.php:683
 #, fuzzy, php-format
 #| msgid "%s has been successfully updated."
 #| msgid_plural "%s have been successfully updated."
@@ -3642,33 +4063,56 @@ msgstr[0] ""
 " %s با موفقیت به روزرسانی شد.\n"
 " %s با موفقیت به روزرسانی شدند."
 
-#: public/wishlist/estimate.class.php:121
+#: public/wishlist/ajax.class.php:692
+#, fuzzy
+#| msgid "%s has been successfully updated."
+#| msgid_plural "%s have been successfully updated."
+msgid "Products order has been successfully updated."
+msgstr ""
+" %s با موفقیت به روزرسانی شد.\n"
+" %s با موفقیت به روزرسانی شدند."
+
+#: public/wishlist/buttons.class.php:73
+msgid "Update Wishlist"
+msgstr "به روزرسانی لیست علاقه مندی"
+
+#: public/wishlist/buttons.class.php:230 templates/ti-miniwishlist.php:52
+#: templates/ti-wishlist.php:115
+msgid "Remove"
+msgstr "پاک کردن"
+
+#: public/wishlist/buttons.class.php:238
+#, php-format
+msgid "Move to \"%s\""
+msgstr "انتقال به \"%s\""
+
+#: public/wishlist/estimate.class.php:152
 #, php-format
 msgid "Ask for Estimate for Wishlist \"%1$s\" is not sent! %2$s"
 msgstr ""
 
-#: public/wishlist/estimate.class.php:134
+#: public/wishlist/estimate.class.php:157
 #, php-format
 msgid "Ask for Estimate for Wishlist \"%s\" is successfully sent!"
 msgstr ""
 
-#: public/wishlist/social.class.php:118
+#: public/wishlist/social.class.php:116
 #, fuzzy
 #| msgid "twitter"
 msgid "Twitter"
 msgstr "تویتر"
 
-#: public/wishlist/social.class.php:157
+#: public/wishlist/social.class.php:141
 #, fuzzy
 #| msgid "To Email"
 msgid "Email"
 msgstr "پست الکترونیکی"
 
-#: public/wishlist/social.class.php:176
+#: public/wishlist/social.class.php:152
 msgid "Clipboard"
 msgstr ""
 
-#: public/wishlist/social.class.php:191
+#: public/wishlist/social.class.php:163
 msgid "WhatsApp"
 msgstr ""
 
@@ -3682,61 +4126,22 @@ msgstr "شما هم اکنون لیست علاقه مندی \"%s\" را دنبا
 msgid "You are now unfollowing wishlist \"%s\"!"
 msgstr "شما هم اکنون لیست علاقه مندی \"%s\" را دنبال نمی کنید!"
 
-#: public/wishlist/view.class.php:490
-#, fuzzy, php-format
-msgid ""
-"Oops! It looks like wishlist with the name \"%s\" already exists. Please, "
-"try another name"
-msgstr "لیست علاقه مندی با نام \"%s\"  وجود دارد و استفاده میشود!"
-
-#: public/wishlist/view.class.php:494
-msgid ""
-"Wishlist is not added, and the product is added to the Default Wishlist!"
-msgstr "لیست علاقه مندی اضافه نشد، و محصول به لیست غلاقه مندی پیش فرض اضافه شد"
-
-#: public/wishlist/view.class.php:505
-msgid "Please select Wishlist or specify a name for the new Wishlist!"
-msgstr "لطفا یک لیست علاقه مندی را مشخص کنید یا یک لیست جدید بسازید"
-
-#: public/wishlist/view.class.php:516
-msgid "The Product is not moved!"
-msgstr "محصول منتقل نشد!"
-
-#: public/wishlist/view.class.php:537
-msgid "The Product not found!"
-msgstr "محصول پیدا نشد!"
-
-#: public/wishlist/view.class.php:565
-#, php-format
-msgid "%1$s has been added to \"%2$s\", but not removed from \"%3$s\"."
-msgstr "%1$s به \"%2$s\" اضافه شده است، اما از  \"%3$s\" پاک نشده است."
-
-#: public/wishlist/view.class.php:763
-#, php-format
-msgid "%s has been removed from wishlist."
-msgstr "%s از لیست علاقه مندی ها حذف شده است"
-
-#: public/wishlist/view.class.php:765
-#, php-format
-msgid "%s has not been removed from wishlist."
-msgstr "%s از لیست علاقه مندی ها حذف نشده است"
-
-#: public/wishlist/view.class.php:1060
+#: public/wishlist/view.class.php:701
 msgid "Create"
 msgstr "ساختن"
 
-#: public/wishlist/view.class.php:1071
+#: public/wishlist/view.class.php:711
 #: templates/ti-wishlist-notifications.php:37
 #, fuzzy
 #| msgid "Event Notifications"
 msgid "Notifications"
 msgstr "اعلانیه های رویداد"
 
-#: public/wishlistcounter.class.php:211
+#: public/wishlistcounter.class.php:217
 msgid "View My Wishlists"
 msgstr "لیست های علاقه مندی خودم را ببینم"
 
-#: public/wishlistcounter.class.php:213
+#: public/wishlistcounter.class.php:219
 #: templates/ti-wishlist-create-message.php:27
 msgid "View Wishlist"
 msgstr "دیدن لیست علاقه مندی"
@@ -3763,6 +4168,7 @@ msgstr "اطلاعات بیشتر"
 #: templates/emails/ti-contentpromotionalTI-v01.php:28
 #: templates/emails/ti-contentpromotionalTI-v02.php:49
 #: templates/emails/ti-contentpromotionalTI-v03.php:32
+#: templates/emails/ti-previewnotification-low-stock.php:50
 #: templates/emails/ti-previewnotification-price.php:50
 #: templates/emails/ti-previewnotification-stock.php:50
 #: templates/emails/ti-previewpromotional.php:45
@@ -3818,18 +4224,19 @@ msgid ""
 msgstr ""
 
 #: templates/emails/ti-estimate.php:34
-#: templates/emails/ti-previewestimate.php:67 templates/ti-wishlist-user.php:43
-#: templates/ti-wishlist.php:44
+#: templates/emails/ti-previewestimate.php:67 templates/ti-wishlist-pdf.php:121
+#: templates/ti-wishlist-user.php:42 templates/ti-wishlist.php:49
 msgid "Unit Price"
 msgstr "قیمت"
 
 #: templates/emails/ti-estimate.php:37
-#: templates/emails/ti-previewestimate.php:69 templates/ti-wishlist-user.php:49
-#: templates/ti-wishlist.php:50
+#: templates/emails/ti-previewestimate.php:69 templates/ti-wishlist-pdf.php:127
+#: templates/ti-wishlist-user.php:48 templates/ti-wishlist.php:55
 msgid "Stock Status"
 msgstr "وضعیت موجودی"
 
 #: templates/emails/ti-previewestimate.php:53
+#: templates/emails/ti-previewnotification-low-stock.php:56
 #: templates/emails/ti-previewnotification-price.php:56
 #: templates/emails/ti-previewnotification-stock.php:56
 msgid "Default wishlist"
@@ -3838,6 +4245,12 @@ msgstr "لیست علاقه مندی پیش فرض"
 #: templates/emails/ti-previewestimate.php:57
 msgid "This is Preview Additional notes"
 msgstr "این پیش نمایش یادداشت های اضافه شده است"
+
+#: templates/emails/ti-previewnotification-low-stock.php:52
+#, fuzzy
+#| msgid "A product of your wishlist is in stock!"
+msgid "A product on your wishlist is low on stock!"
+msgstr "یک محصول از لیست علاقه مندی شما در انبار موجود شده است"
 
 #: templates/emails/ti-previewnotification-price.php:52
 msgid "A product of your wishlist is on sale!"
@@ -3859,8 +4272,8 @@ msgstr "لیست علاقه مندی  \"%s\" تغییر یافته است"
 
 #: templates/ti-addedtowishlist-dialogbox.php:36
 #: templates/ti-addtowishlist-dialogbox.php:31
-#: templates/ti-wishlist-create-message.php:33
-#: templates/ti-wishlist-manage.php:88
+#: templates/ti-wishlist-create-message.php:31
+#: templates/ti-wishlist-manage.php:107
 msgid "Close"
 msgstr "بستن"
 
@@ -3868,15 +4281,15 @@ msgstr "بستن"
 msgid "Choose Wishlist:"
 msgstr "انتخاب لیست علاقه مندی:"
 
-#: templates/ti-miniwishlist.php:48 templates/ti-miniwishlist.php:80
+#: templates/ti-miniwishlist.php:84
 msgid "more..."
 msgstr "بیشتر..."
 
-#: templates/ti-miniwishlist.php:91
+#: templates/ti-miniwishlist.php:113
 msgid "No products in the wishlist."
 msgstr "هیچ محصولی در لیست علاقه مندی نیست"
 
-#: templates/ti-miniwishlist.php:96
+#: templates/ti-miniwishlist.php:118
 msgid "Total products"
 msgstr "تمام محصولات"
 
@@ -3888,15 +4301,19 @@ msgstr "لیست خود را نام گذاری کنید"
 msgid "Create List"
 msgstr "یک لیست جدید بسازید"
 
-#: templates/ti-wishlist-empty.php:23
-msgid "Your Wishlist is currently empty."
+#: templates/ti-wishlist-empty.php:23 templates/ti-wishlist-pdf.php:235
+#, fuzzy
+#| msgid "Your Wishlist is currently empty."
+msgid "Your {wishlist_title} is currently empty."
 msgstr "لیست علاقه مندی های شما هنوز خالی است"
 
-#: templates/ti-wishlist-empty.php:25
-msgid "Wishlist is currently empty."
+#: templates/ti-wishlist-empty.php:25 templates/ti-wishlist-pdf.php:237
+#, fuzzy
+#| msgid "Wishlist is currently empty."
+msgid "{wishlist_title} is currently empty."
 msgstr "لیست علاقه مندی ها هنوز خالی است"
 
-#: templates/ti-wishlist-empty.php:33 templates/ti-wishlist-null.php:24
+#: templates/ti-wishlist-empty.php:36 templates/ti-wishlist-null.php:24
 msgid "Return To Shop"
 msgstr "بازگشت به خرید"
 
@@ -3958,24 +4375,28 @@ msgstr "ضد هرزنامه"
 msgid "Rename"
 msgstr "تغییر نام"
 
-#: templates/ti-wishlist-manage.php:30 templates/ti-wishlist-public.php:24
+#: templates/ti-wishlist-manage.php:39 templates/ti-wishlist-public.php:24
 msgid "List Name"
 msgstr "نام لیست"
 
-#: templates/ti-wishlist-manage.php:31 templates/ti-wishlist-public.php:25
+#: templates/ti-wishlist-manage.php:40 templates/ti-wishlist-public.php:25
 msgid "List"
 msgstr "لیست"
 
-#: templates/ti-wishlist-manage.php:34
+#: templates/ti-wishlist-manage.php:44
 msgid "Privacy Settings"
 msgstr "تنظیمات حریم خصوصی"
 
-#: templates/ti-wishlist-manage.php:83
+#: templates/ti-wishlist-manage.php:84 templates/ti-wishlist-navigation.php:74
+msgid "Download"
+msgstr ""
+
+#: templates/ti-wishlist-manage.php:102
 #, php-format
 msgid "Remove Wishlist \"%s\"?"
 msgstr "آیا لیست علاقه مندی \"%s\" پاک شود؟"
 
-#: templates/ti-wishlist-manage.php:85
+#: templates/ti-wishlist-manage.php:104
 msgid "Confirm"
 msgstr "تایید"
 
@@ -3983,15 +4404,15 @@ msgstr "تایید"
 msgid "Move to"
 msgstr "انتقال به"
 
-#: templates/ti-wishlist-navigation.php:24
+#: templates/ti-wishlist-navigation.php:33
 msgid "My Wishlists"
 msgstr "لیست های من"
 
-#: templates/ti-wishlist-navigation.php:35
+#: templates/ti-wishlist-navigation.php:50
 msgid "All Wishlists"
 msgstr "تمام لیست ها"
 
-#: templates/ti-wishlist-navigation.php:50
+#: templates/ti-wishlist-navigation.php:87
 msgid "Continue Shopping"
 msgstr "ادامه خرید"
 
@@ -4005,7 +4426,7 @@ msgstr "تنظیمات محصول"
 msgid "Receive email notifications when:"
 msgstr "دریافت ایمیل اطلاع رسانی زمانی که:"
 
-#: templates/ti-wishlist-notifications.php:60
+#: templates/ti-wishlist-notifications.php:61
 #, fuzzy
 #| msgid "Save Settings"
 msgid "Update settings"
@@ -4015,6 +4436,18 @@ msgstr "ذخیره تنظیمات"
 msgid "Wishlist is not found!"
 msgstr "لیست علاقه مندی ها پیدا نشد"
 
+#: templates/ti-wishlist-pdf.php:133 templates/ti-wishlist-user.php:54
+#: templates/ti-wishlist.php:61
+msgid "Subtotal"
+msgstr ""
+
+#: templates/ti-wishlist-pdf.php:247 templates/ti-wishlist-user.php:214
+#: templates/ti-wishlist.php:237
+#, fuzzy
+#| msgid "Total Days"
+msgid "Total: "
+msgstr "کل روزها"
+
 #: templates/ti-wishlist-searchform-empty.php:16
 msgid ""
 "Sorry, but nothing matched your search. Please try again with some different "
@@ -4023,36 +4456,36 @@ msgstr ""
 "متاسفانه هیچ نتیجه ای یافت نشد.لطفا با یک کلید واژه متفاوت دوباره امتحان "
 "کنید."
 
-#: templates/ti-wishlist-subscribe.php:47
+#: templates/ti-wishlist-subscribe.php:48
 msgid "At least one condition should be selected to follow wishlist."
 msgstr ""
 "حداقل یکی از شرایط باید انتخاب شود تا بتوانید لیست علاقه مندی را دنبال کنید"
 
-#: templates/ti-wishlist-subscribe.php:50
+#: templates/ti-wishlist-subscribe.php:51
 msgid "Select all"
 msgstr "انتخاب همه"
 
-#: templates/ti-wishlist-subscribe.php:53
+#: templates/ti-wishlist-subscribe.php:54
 msgid "Select none"
 msgstr "انتخاب هیچ کدام"
 
-#: templates/ti-wishlist-subscribe.php:57
+#: templates/ti-wishlist-subscribe.php:58
 msgid "Follow this Wishlist"
 msgstr "دنبال کردن لیست علاقه مندی"
 
-#: templates/ti-wishlist-subscribe.php:62
+#: templates/ti-wishlist-subscribe.php:63
 msgid "Please login to follow this wishlist"
 msgstr "لطفا برای دنبال کردن لیست علاقه مندی وارد حساب کاربری خود بشوید"
 
-#: templates/ti-wishlist-subscribe.php:76
+#: templates/ti-wishlist-subscribe.php:77
 msgid "Unfollow Wishlist"
 msgstr "دنبال نکردن لیست علاقه مندی"
 
-#: templates/ti-wishlist-user.php:32 templates/ti-wishlist.php:32
+#: templates/ti-wishlist-user.php:31 templates/ti-wishlist.php:37
 msgid "Select all for bulk action"
 msgstr "انتخاب همه برای انجام عملیات کلی"
 
-#: templates/ti-wishlist-user.php:90
+#: templates/ti-wishlist-user.php:94 templates/ti-wishlist.php:107
 msgid "Select for bulk action"
 msgstr "انتخاب عملیات کلی"
 
@@ -4060,32 +4493,28 @@ msgstr "انتخاب عملیات کلی"
 msgid "Search for wishlists:"
 msgstr "جستجوی برای لیست علاقه مدی:"
 
-#: templates/ti-wishlist.php:99
-msgid "Remove"
-msgstr "پاک کردن"
-
-#: templates/ti-wishlist.php:198
+#: templates/ti-wishlist.php:219
 msgid "Move"
 msgstr "انتقال"
 
-#: tinv-wishlists-function.php:311
+#: tinv-wishlists-function.php:384
 msgid "Can not create a wishlist!"
 msgstr "نمیتوان یک لیست علاقه مندی ایجاد کرد!"
 
-#: tinv-wishlists-function.php:317
+#: tinv-wishlists-function.php:390
 msgid "Please, login to add products to Wishlist"
 msgstr "لطفا برای اضافه کردن محصول به لیست علاقه مندی ها وارد شوید"
 
-#: tinv-wishlists-function.php:331
+#: tinv-wishlists-function.php:404
 msgid "Empty name of the new wishlist!"
 msgstr "قسمت نام لیست علاقه مندی خالی است!"
 
-#: tinv-wishlists-function.php:335
+#: tinv-wishlists-function.php:408
 #, php-format
 msgid "Wishlist with the name \"%s\" already exists and will be used!"
 msgstr "لیست علاقه مندی با نام \"%s\"  وجود دارد و استفاده میشود!"
 
-#: tinv-wishlists-function.php:349
+#: tinv-wishlists-function.php:422
 #, php-format
 msgid ""
 "Wishlist with the name \"%s\" was not created, and the Default Wishlist will "
@@ -4094,7 +4523,7 @@ msgstr ""
 "لیست علاقه مندی با نام \"%s\" ایجاد نشده است،و لیست پیش فرض مورد استفاده "
 "قرار خواهد گرفت"
 
-#: tinv-wishlists-function.php:385
+#: tinv-wishlists-function.php:457
 #, php-format
 msgid "Wishlist with name \"%s\" not found"
 msgstr "لیست علاقه مندی با نام \"%s\"  پیدا نشد"
@@ -4460,6 +4889,50 @@ msgstr ""
 #, fuzzy
 msgid "TI Wishlist > General"
 msgstr "Ti.Wishlist > کلی "
+
+#~ msgid "Wishlist(s) position in mini wishlist"
+#~ msgstr "Wishlist(s) position in mini wishlist"
+
+#~ msgid "Before Product"
+#~ msgstr "قبل از محصول"
+
+#~ msgid "After Product"
+#~ msgstr "بعد از محصول"
+
+#, fuzzy
+#~ msgid ""
+#~ "This option controls the position of the list of wishlists in which the "
+#~ "product was added. You can place it above or below the product title in "
+#~ "mini wishlist."
+#~ msgstr ""
+#~ "This option controls the position of the list of whishlists in which the "
+#~ "product was added. You can place it above or below the product title in "
+#~ "mini wishlist"
+
+#~ msgid "Dismiss"
+#~ msgstr "رد کردن"
+
+#~ msgid "Link to Wishlists does not work!"
+#~ msgstr "اتصال به لیست های علاقه مندی برقرار نمیشود"
+
+#~ msgid "Set \"Public\""
+#~ msgstr "عمومی"
+
+#~ msgid "Set \"Private\""
+#~ msgstr "شخصی"
+
+#~ msgid "Please select Wishlist or specify a name for the new Wishlist!"
+#~ msgstr "لطفا یک لیست علاقه مندی را مشخص کنید یا یک لیست جدید بسازید"
+
+#~ msgid "The Product is not moved!"
+#~ msgstr "محصول منتقل نشد!"
+
+#~ msgid "The Product not found!"
+#~ msgstr "محصول پیدا نشد!"
+
+#, php-format
+#~ msgid "%1$s has been added to \"%2$s\", but not removed from \"%3$s\"."
+#~ msgstr "%1$s به \"%2$s\" اضافه شده است، اما از  \"%3$s\" پاک نشده است."
 
 #~ msgid "Select options"
 #~ msgstr "انتخاب آپشن"

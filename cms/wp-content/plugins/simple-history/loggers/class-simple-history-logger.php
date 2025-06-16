@@ -2,19 +2,25 @@
 
 namespace Simple_History\Loggers;
 
-use Simple_History\Event_Details\Event_Details_Container;
 use Simple_History\Event_Details\Event_Details_Group;
 use Simple_History\Event_Details\Event_Details_Item;
+use Simple_History\Helpers;
 
 /**
  * Logs changes made on the Simple History settings page.
  */
 class Simple_History_Logger extends Logger {
+	/** @var string Logger slug */
 	protected $slug = 'SimpleHistoryLogger';
 
 	/** @var array<int,array<string,string>> Found changes */
 	private $arr_found_changes = [];
 
+	/**
+	 * Get info about this logger.
+	 *
+	 * @return array
+	 */
 	public function get_info() {
 		return [
 			'name'        => _x( 'Simple History Logger', 'Logger: SimpleHistoryLogger', 'simple-history' ),
@@ -30,6 +36,11 @@ class Simple_History_Logger extends Logger {
 		];
 	}
 
+	/**
+	 * Called when service is loaded.
+	 *
+	 * @return void
+	 */
 	public function loaded() {
 		add_action( 'load-options.php', [ $this, 'on_load_options_page' ] );
 		add_action( 'simple_history/rss_feed/secret_updated', [ $this, 'on_rss_feed_secret_updated' ] );
@@ -76,7 +87,14 @@ class Simple_History_Logger extends Logger {
 	 * @return void
 	 */
 	public function on_load_options_page() {
+		// Bail if option_page does not exist in $_POST variable.
+		// This happens when visiting /wp-admin/options.php directly.
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! isset( $_POST['option_page'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		if ( $_POST['option_page'] === $this->simple_history::SETTINGS_GENERAL_OPTION_GROUP ) {
 			// Save all changes.
 			add_action( 'updated_option', array( $this, 'on_updated_option' ), 10, 3 );
@@ -98,8 +116,8 @@ class Simple_History_Logger extends Logger {
 	/**
 	 * Log found changes made on the Simple History settings page.
 	 *
-	 * @param string $location
-	 * @param int $status
+	 * @param string $location URL to redirect to.
+	 * @param int    $status HTTP status code.
 	 * @return string
 	 */
 	public function commit_log_on_wp_redirect( $location, $status ) {
@@ -127,9 +145,9 @@ class Simple_History_Logger extends Logger {
 	/**
 	 * Store all changed options in one array.
 	 *
-	 * @param string $option
-	 * @param mixed $old_value
-	 * @param mixed $new_value
+	 * @param string $option Option name.
+	 * @param mixed  $old_value Old value.
+	 * @param mixed  $new_value New value.
 	 * @return void
 	 */
 	public function on_updated_option( $option, $old_value, $new_value ) {
@@ -140,7 +158,48 @@ class Simple_History_Logger extends Logger {
 		];
 	}
 
+	/**
+	 * Get the log row details for this logger.
+	 *
+	 * @param object $row Log row.
+	 * @return Event_Details_Group
+	 */
 	public function get_log_row_details_output( $row ) {
+		$message_key = $row->context_message_key;
+
+		if ( $message_key === 'purged_events' ) {
+			// For message "Removed 24318 events that were older than 60 days"
+			// add a text with a link with information on how to modify this.
+			// If they already have the plugin, show message with link to settings page.
+
+			$is_premium_or_extended_settings_enabled = Helpers::is_extended_settings_add_on_active() || Helpers::is_premium_add_on_active();
+
+			if ( $is_premium_or_extended_settings_enabled ) {
+				$message = sprintf(
+					/* translators: 1 is a link to webpage with info about how to modify number of days to keep the log */
+					__( '<a href="%1$s">Set number of days the log is kept.</a>', 'simple-history' ),
+					esc_url( Helpers::get_settings_page_url() )
+				);
+			} else {
+				$message = sprintf(
+				/* translators: 1 is a link to webpage with info about how to modify number of days to keep the log */
+					__( '<a href="%1$s" target="_blank" class="sh-ExternalLink">Get Premium to set number of days the log is kept.</a>', 'simple-history' ),
+					esc_url( 'https://simple-history.com/add-ons/premium/?utm_source=wordpress_admin&utm_medium=Simple_History&utm_campaign=premium_upsell&utm_content=premium-purged-events' )
+				);
+			}
+
+			return '<p>' . wp_kses(
+				$message,
+				[
+					'a' => [
+						'href' => [],
+						'target' => [],
+						'class' => [],
+					],
+				]
+			) . '</p>';
+		}
+
 		$event_details_group = ( new Event_Details_Group() )
 			->add_items(
 				[
@@ -163,6 +222,10 @@ class Simple_History_Logger extends Logger {
 					new Event_Details_Item(
 						[ 'enable_rss_feed' ],
 						__( 'RSS feed enabled', 'simple-history' ),
+					),
+					new Event_Details_Item(
+						[ 'detective_mode_enabled' ],
+						__( 'Detective Mode enabled', 'simple-history' ),
 					),
 				]
 			)

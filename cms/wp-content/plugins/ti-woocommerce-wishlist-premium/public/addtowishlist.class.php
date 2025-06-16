@@ -62,6 +62,14 @@ class TInvWL_Public_AddToWishlist {
 	 * @var bool
 	 */
 	private $is_loop;
+
+	/**
+	 * Array of products ID
+	 *
+	 * @var array
+	 */
+	private $variation_ids;
+
 	/**
 	 * This class
 	 *
@@ -147,10 +155,12 @@ class TInvWL_Public_AddToWishlist {
 					add_action( 'uael_woo_products_add_to_cart_after', 'tinvwl_view_addto_htmlloop' );
 					break;
 			}
-
-			add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'htmloutput_block' ), 9, 3 );
-			add_filter( 'woocommerce_product_get_description', array( $this, 'woocommerce_blocks' ), 10, 2 );
 		}
+
+		// WooCommerce Blocks
+		add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'htmloutput_block' ), 9, 3 );
+		add_filter( 'woocommerce_product_get_description', array( $this, 'woocommerce_blocks_all_products' ), 10, 2 );
+		add_action( 'init', array( $this, 'woocommerce_blocks' ) );
 
 		add_action( 'wp_loaded', array( $this, 'add_to_wishlist' ), 0 );
 		if ( is_user_logged_in() && apply_filters( 'tinvwl_allow_data_cookies', true ) ) {
@@ -472,7 +482,7 @@ class TInvWL_Public_AddToWishlist {
 		if ( ! is_user_logged_in() ) {
 			$share_key = $wishlist['share_key'];
 		}
-		$data['action']  = 'add_to_wishlist';
+		$data['action']         = 'add_to_wishlist';
 		$data['wishlists_data'] = $this->get_wishlists_data( $share_key );
 		$data                   = apply_filters( 'tinvwl_addtowishlist_return_ajax', $data, $post, $form, $product );
 		ob_clean();
@@ -480,7 +490,7 @@ class TInvWL_Public_AddToWishlist {
 	}
 
 	/**
-	 * @param $share_key
+	 * @param string $share_key
 	 *
 	 * @return array
 	 */
@@ -488,14 +498,17 @@ class TInvWL_Public_AddToWishlist {
 
 		global $wpdb;
 
-		$table              = sprintf( '%s%s', $wpdb->prefix, 'tinvwl_items' );
-		$table_lists        = sprintf( '%s%s', $wpdb->prefix, 'tinvwl_lists' );
-		$table_stats        = sprintf( '%s%s', $wpdb->prefix, 'tinvwl_analytics' );
-		$table_translations = sprintf( '%s%s', $wpdb->prefix, 'icl_translations' );
-		$table_languages    = sprintf( '%s%s', $wpdb->prefix, 'icl_languages' );
-		$lang               = filter_input( INPUT_POST, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-		$lang_default       = filter_input( INPUT_POST, 'lang_default', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-		$stats              = filter_input( INPUT_POST, 'stats', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		$table              = $wpdb->prefix . 'tinvwl_items';
+		$table_lists        = $wpdb->prefix . 'tinvwl_lists';
+		$table_stats        = $wpdb->prefix . 'tinvwl_analytics';
+		$table_translations = $wpdb->prefix . 'icl_translations';
+		$table_languages    = $wpdb->prefix . 'icl_languages';
+
+		// Sanitize inputs
+		$lang         = sanitize_text_field( filter_input( INPUT_POST, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		$lang_default = sanitize_text_field( filter_input( INPUT_POST, 'lang_default', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		$stats        = sanitize_text_field( filter_input( INPUT_POST, 'stats', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		$share_key    = sanitize_text_field( $share_key );
 
 		$data = $products = $wishlists = $results = $user_wishlists = $analytics = array();
 
@@ -541,194 +554,174 @@ class TInvWL_Public_AddToWishlist {
 				'sql'      => '',
 			);
 
+			// Validate order and order_by parameters
+			$allowed_orders          = array( 'ASC', 'DESC' );
+			$allowed_order_by_fields = array( 'date', 'title', 'ID' ); // Add other allowed fields
+
 			foreach ( $default as $_k => $_v ) {
 				if ( array_key_exists( $_k, $data ) ) {
 					$default[ $_k ] = $data[ $_k ];
 					unset( $data[ $_k ] );
 				}
 			}
+			// Sanitize order parameters
+			$default['order']    = in_array( strtoupper( $default['order'] ), $allowed_orders ) ? strtoupper( $default['order'] ) : 'DESC';
+			$default['order_by'] = in_array( $default['order_by'], $allowed_order_by_fields ) ? $default['order_by'] : 'date';
 
 			$default['offset'] = absint( $default['offset'] );
 			$default['count']  = absint( $default['count'] );
 
+			// Build the base SELECT clause
 			if ( $lang ) {
-				$default['field'] = $table . '.ID, t.element_id AS product_id, t2.element_id AS variation_id, ' . $table . '.formdata,' . $table . '.author,' . $table . '.date,' . $table . '.quantity,' . $table . '.price,' . $table . '.in_stock,';
+				$select_fields = "{$table}.ID, t.element_id AS product_id, t2.element_id AS variation_id,
+                            {$table}.formdata, {$table}.author, {$table}.date, {$table}.quantity,
+                            {$table}.price, {$table}.in_stock";
 			} else {
-				$default['field'] = $table . '.*, ';
+				$select_fields = "{$table}.*";
 			}
 
-			$default['field'] .= $table_lists . '.ID as wishlist_id, ' . $table_lists . '.status as wishlist_status, ' . $table_lists . '.title as wishlist_title, ' . $table_lists . '.share_key as wishlist_share_key, ' . $table_lists . '.type as wishlist_type';
+			// Add the wishlist fields to the SELECT clause
+			$select_fields .= ", {$table_lists}.ID as wishlist_id, {$table_lists}.status as wishlist_status,
+                           {$table_lists}.title as wishlist_title, {$table_lists}.share_key as wishlist_share_key";
 
-			$sql = "SELECT {$default[ 'field' ]} FROM `{$table}` INNER JOIN `{$table_lists}` ON `{$table}`.`wishlist_id` = `{$table_lists}`.`ID`";
+			// Build base query
+			$sql = "SELECT {$select_fields}
+                FROM {$table}
+                INNER JOIN {$table_lists} ON {$table}.wishlist_id = {$table_lists}.ID
+                AND {$table_lists}.type = 'default'";
 
-			if ( ! filter_input( INPUT_POST, 'multi_wishlists', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) {
-				$sql .= "AND `{$table_lists}`.`type` = 'default' ";
-			}
-
+			// Add share key condition if present
 			if ( $share_key ) {
-				$sql .= " AND `{$table_lists}`.`share_key` = '{$share_key}'";
+				$sql .= $wpdb->prepare( " AND {$table_lists}.share_key = %s", $share_key );
 			}
+
+			// Add language joins if needed
 			if ( $lang ) {
+				$language_conditions = array( $lang );
 				if ( $lang_default ) {
-					$languages = sprintf( "'%s'", implode( "', '", array( $lang, $lang_default ) ) );
-				} else {
-					$languages = "'" . $lang . "'";
+					$language_conditions[] = $lang_default;
 				}
 
-				$sql .= "LEFT JOIN {$table_translations} tr ON
-    {$table}.product_id = tr.element_id AND tr.element_type = 'post_product'
-LEFT JOIN {$table_translations} tr2 ON
-    {$table}.variation_id != 0 AND {$table}.variation_id = tr2.element_id AND tr2.element_type = 'post_product_variation'
-		LEFT JOIN {$table_translations} t ON
-    tr.trid = t.trid AND t.element_type = 'post_product' AND t.language_code IN ({$languages})
-LEFT JOIN {$table_translations} t2 ON
-    {$table}.variation_id != 0 AND tr2.trid = t2.trid AND t2.element_type = 'post_product_variation' AND t2.language_code IN ({$languages})
-JOIN {$table_languages} l ON
-    (
-        t.language_code = l.code OR t2.language_code = l.code
-    ) AND l.active = 1";
-			}
-			$where = '1';
+				$languages_in = "'" . implode( "','", array_map( 'esc_sql', $language_conditions ) ) . "'";
 
+				$sql .= " LEFT JOIN {$table_translations} tr ON
+                        {$table}.product_id = tr.element_id AND tr.element_type = 'post_product'
+                    LEFT JOIN {$table_translations} tr2 ON
+                        {$table}.variation_id != 0 AND {$table}.variation_id = tr2.element_id
+                        AND tr2.element_type = 'post_product_variation'
+                    LEFT JOIN {$table_translations} t ON
+                        tr.trid = t.trid AND t.element_type = 'post_product'
+                        AND t.language_code IN ({$languages_in})
+                    LEFT JOIN {$table_translations} t2 ON
+                        {$table}.variation_id != 0 AND tr2.trid = t2.trid
+                        AND t2.element_type = 'post_product_variation'
+                        AND t2.language_code IN ({$languages_in})
+                    JOIN {$table_languages} l ON
+                        (t.language_code = l.code OR t2.language_code = l.code) AND l.active = 1";
+			}
+
+			// Build WHERE clause
+			$where_conditions = array( '1=1' );
 			if ( ! empty( $data ) && is_array( $data ) ) {
-
-				if ( array_key_exists( 'meta', $data ) ) {
-					$product_id = $variation_id = 0;
-					if ( array_key_exists( 'product_id', $data ) ) {
-						$product_id = $data['product_id'];
-					}
-					if ( array_key_exists( 'variation_id', $data ) ) {
-						$variation_id = $data['variation_id'];
-					}
-					$data['formdata'] = '';
-					unset( $data['meta'] );
-				}
-
-				foreach ( $data as $f => $v ) {
-					$s = is_array( $v ) ? ' IN ' : '=';
-					if ( is_array( $v ) ) {
-						foreach ( $v as $_f => $_v ) {
-							$v[ $_f ] = $wpdb->prepare( '%s', $_v );
-						}
-						$v = implode( ',', $v );
-						$v = "($v)";
+				foreach ( $data as $field => $value ) {
+					if ( is_array( $value ) ) {
+						$placeholders       = array_fill( 0, count( $value ), '%s' );
+						$where_conditions[] = $wpdb->prepare(
+							"{$table}.{$field} IN (" . implode( ',', $placeholders ) . ")",
+							$value
+						);
 					} else {
-						$v = $wpdb->prepare( '%s', $v );
+						$where_conditions[] = $wpdb->prepare(
+							"{$table}.{$field} = %s",
+							$value
+						);
 					}
-					$data[ $f ] = sprintf( $table . '.' . '`%s`%s%s', $f, $s, $v );
 				}
-
-				$where = implode( ' AND ', $data );
-
-				$sql .= ' WHERE ' . $where;
 			}
 
-			$sql .= sprintf( ' GROUP BY `%s`.ID ORDER BY `%s` %s LIMIT %d,%d;', $table, $default['order_by'], $default['order'], $default['offset'], $default['count'] );
+			$sql .= " WHERE " . implode( ' AND ', $where_conditions );
 
-			if ( ! empty( $default['sql'] ) ) {
-				$replacer    = $replace = array();
-				$replace[0]  = '{table}';
-				$replacer[0] = $table;
-				$replace[1]  = '{where}';
-				$replacer[1] = $where;
+			// Add GROUP BY, ORDER BY, and LIMIT
+			$sql .= " GROUP BY {$table}.ID";
+			$sql .= " ORDER BY {$default['order_by']} {$default['order']}";
+			$sql .= $wpdb->prepare( " LIMIT %d, %d", $default['offset'], $default['count'] );
 
-				foreach ( $default as $key => $value ) {
-					$i = count( $replace );
-
-					$replace[ $i ]  = '{' . $key . '}';
-					$replacer[ $i ] = $value;
-				}
-
-				$sql = str_replace( $replace, $replacer, $default['sql'] );
-			}
-
+			// Execute query
 			$results = $wpdb->get_results( $sql, ARRAY_A );
 
+			// Process results
 			if ( ! empty( $results ) ) {
 				foreach ( $results as $product ) {
 					$wishlists[ $product['wishlist_id'] ] = array(
 						'ID'        => (int) $product['wishlist_id'],
-						'title'     => $product['wishlist_title'],
-						'status'    => $product['wishlist_status'],
-						'share_key' => $product['wishlist_share_key'],
-						'in'        => array(),
-						'type'      => $product['wishlist_type'],
+						'title'     => sanitize_text_field( $product['wishlist_title'] ),
+						'status'    => sanitize_text_field( $product['wishlist_status'] ),
+						'share_key' => sanitize_text_field( $product['wishlist_share_key'] ),
 					);
-
 				}
 
 				foreach ( $wishlists as $wishlist ) {
-
 					foreach ( $results as $product ) {
-
 						if ( (int) $wishlist['ID'] !== (int) $product['wishlist_id'] ) {
 							continue;
 						}
 
-						if ( ! ( array_key_exists( $product['product_id'], $products ) && array_key_exists( $wishlist['ID'], $products[ $product['product_id'] ] ) && is_array( $products[ $product['product_id'] ][ $wishlist['ID'] ] ) ) ) {
-							$products[ $product['product_id'] ][ $wishlist['ID'] ] = $wishlist;
-						}
-
-						if ( isset( $products[ $product['product_id'] ][ $wishlist['ID'] ]['in'] ) && ! in_array( (int) $product['variation_id'], $products[ $product['product_id'] ][ $wishlist['ID'] ]['in'] ) ) {
+						if ( array_key_exists( $product['product_id'], $products ) ) {
+							$products[ $product['product_id'] ][ $wishlist['ID'] ]['in'][] = (int) $product['variation_id'];
+						} else {
+							$products[ $product['product_id'] ][ $wishlist['ID'] ]         = $wishlist;
 							$products[ $product['product_id'] ][ $wishlist['ID'] ]['in'][] = (int) $product['variation_id'];
 						}
 					}
 				}
-
-				foreach ( $products as $id => $product ) {
-					foreach ( $product as $wid => $data ) {
-						$products[ $id ][ $wid ] = wp_json_encode( $data );
-					}
-				}
 			}
-
 		}
 
+		// Handle statistics query
 		if ( $stats ) {
 			$stats_count = 0;
 			$analytics   = array();
 
-			$stats_sql = "SELECT `A`.`product_id`, `A`.`variation_id`, COUNT(`B`.`ID`) AS `count` FROM `{$table_stats}` AS `A` LEFT JOIN `{$table}` AS `C` ON `C`.`wishlist_id` = `A`.`wishlist_id` AND `C`.`product_id` = `A`.`product_id` AND `C`.`variation_id` = `A`.`variation_id` LEFT JOIN `{$table_lists}` AS `B` ON `C`.`wishlist_id` = `B`.`ID` LEFT JOIN `{$table_lists}` AS `G` ON `C`.`wishlist_id` = `G`.`ID` AND `G`.`author` = 0 WHERE `A`.`product_id` > 0 GROUP BY `A`.`product_id`, `A`.`variation_id` HAVING `count` > 0 LIMIT 0, 9999999";
+			$stats_sql = "SELECT A.product_id, A.variation_id, COUNT(B.ID) AS count
+                      FROM {$table_stats} AS A
+                      LEFT JOIN {$table} AS C ON C.wishlist_id = A.wishlist_id
+                          AND C.product_id = A.product_id
+                          AND C.variation_id = A.variation_id
+                      LEFT JOIN {$table_lists} AS B ON C.wishlist_id = B.ID
+                      LEFT JOIN {$table_lists} AS G ON C.wishlist_id = G.ID AND G.author = 0
+                      WHERE A.product_id > 0
+                      GROUP BY A.product_id, A.variation_id
+                      HAVING count > 0
+                      LIMIT 0, 9999999";
 
 			$stats_results = $wpdb->get_results( $stats_sql, ARRAY_A );
 
 			if ( ! empty( $stats_results ) ) {
 				foreach ( $stats_results as $product_stats ) {
-					$analytics[ $product_stats['product_id'] ][ $product_stats['variation_id'] ] = $product_stats['count'];
-					$stats_count                                                                 = $stats_count + $product_stats['count'];
+					$analytics[ $product_stats['product_id'] ][ $product_stats['variation_id'] ] = (int) $product_stats['count'];
+					$stats_count                                                                 += (int) $product_stats['count'];
 				}
 			}
 		}
 
-
-		if ( empty( $user_wishlists ) ) {
-			$user_wishlists[0]['tittle'] = '';
-		}
-
-		$count = is_array( $results ) ? array_sum( array_column( $results, 'quantity' ) ) : 0;
-
-		ob_start();
-		$class = TInvWL_Public_WishlistCounter::instance();
-		$class->mini_wishlist();
+		$count = is_array( $results ) ? count( $results ) : 0;
 
 		$response = array(
-			'products'      => $products,
-			'counter'       => round( $count, 2 ),
-			'mini_wishlist' => ob_get_clean(),
-			'wishlists'     => $user_wishlists,
+			'products' => $products,
+			'counter'  => $count,
 		);
 
 		if ( $lang ) {
-			$response['lang'] = $lang;
+			$response['lang'] = sanitize_text_field( $lang );
 		}
 
 		if ( $lang_default ) {
-			$response['lang_default'] = $lang_default;
+			$response['lang_default'] = sanitize_text_field( $lang_default );
 		}
 
 		if ( $stats ) {
 			$response['stats']       = $analytics;
-			$response['stats_count'] = $stats_count;
+			$response['stats_count'] = (int) $stats_count;
 		}
 
 		return $response;
@@ -930,7 +923,7 @@ JOIN {$table_languages} l ON
 
 			$this->product = apply_filters( 'tinvwl_addtowishlist_out_prepare_product', $_product );
 
-			$position = tinv_get_option( 'add_to_wishlist', 'position' );
+			$position = $this->is_loop ? tinv_get_option( 'add_to_wishlist_catalog', 'position' ) : tinv_get_option( 'add_to_wishlist', 'position' );
 		}
 
 		if ( empty( $this->product ) || ! ( $this->product instanceof WC_Product ) || ! apply_filters( 'tinvwl_allow_addtowishlist_single_product', true, $this->product ) ) {
@@ -986,7 +979,7 @@ JOIN {$table_languages} l ON
 		$action_class = current_action() ? ' tinvwl-' . current_action() : ' tinvwl-no-action';
 
 		$data = array(
-			'class_position'      => sprintf( 'tinvwl-%s-add-to-cart', $this->is_loop ? tinv_get_option( 'add_to_wishlist_catalog', 'position' ) : $position ) . ( $this->is_loop ? ' tinvwl-loop-button-wrapper' : '' ) . $action_class,
+			'class_position'      => sprintf( 'tinvwl-%s-add-to-cart', $position ) . ( $this->is_loop ? ' tinvwl-loop-button-wrapper' : '' ) . $action_class,
 			'product'             => $this->product,
 			'variation_id'        => ( $this->is_loop && in_array( $this->product->get_type(), array(
 					'variable',
@@ -1046,7 +1039,7 @@ JOIN {$table_languages} l ON
 			$icon_upload       = tinv_get_option( 'add_to_wishlist' . ( $this->is_loop ? '_catalog' : '' ), 'icon_upload' );
 			$icon_upload_added = tinv_get_option( 'add_to_wishlist' . ( $this->is_loop ? '_catalog' : '' ), 'icon_upload_added' );
 			if ( 'custom' === $icon && ! empty( $icon_upload ) ) {
-				$text = sprintf( '<img src="%s" alt="%s"' . ( ! empty( $icon_upload_added ) ? 'class="icon-add-on-wishlist"' : '' ) . '  /> %s', esc_url( $icon_upload ), esc_attr( apply_filters( 'tinvwl_add_to_wishlist_text_loop', tinv_get_option( 'add_to_wishlist' . ( $this->is_loop ? '_catalog' : '' ), 'text' ) ) ), $text );
+				$text = sprintf( '<img src="%s" alt="%s"' . ( ! empty( $icon_upload_added ) ? ' class="icon-add-on-wishlist"' : '' ) . '  /> %s', esc_url( $icon_upload ), esc_attr( apply_filters( 'tinvwl_add_to_wishlist_text_loop', tinv_get_option( 'add_to_wishlist' . ( $this->is_loop ? '_catalog' : '' ), 'text' ) ) ), $text );
 				if ( ! empty( $icon_upload_added ) ) {
 					$text = sprintf( '<img src="%s" alt="%s" class="icon-already-on-wishlist" /> %s', esc_url( $icon_upload_added ), esc_attr( apply_filters( 'tinvwl_added_to_wishlist_text_loop', tinv_get_option( 'add_to_wishlist' . ( $this->is_loop ? '_catalog' : '' ), 'text_already_on' ) ) ), $text );
 				}
@@ -1072,15 +1065,17 @@ JOIN {$table_languages} l ON
 
 		$icon .= $this->is_loop ? ' tinvwl-loop' : '';
 
+		$product_variation = apply_filters( 'wpml_object_id', ( ( $this->is_loop && in_array( $this->product->get_type(), array(
+				'variable',
+				'variable-subscription',
+			) ) ) ? $this->variation_id : ( $this->product->is_type( 'variation' ) ? $this->product->get_id() : 0 ) ), 'product', true );
+
 		$content .= sprintf( '<a role="button" tabindex="0" name="%s" aria-label="%s" class="tinvwl_add_to_wishlist_button %s" data-tinv-wl-list="[]" data-tinv-wl-product="%s" data-tinv-wl-productvariation="%s" data-tinv-wl-productvariations="%s" data-tinv-wl-producttype="%s" data-tinv-wl-action="add">%s</a>',
 			esc_attr( sanitize_title( $button_text ) ),
 			$button_text,
 			$icon,
 			apply_filters( 'wpml_object_id', ( $this->product->is_type( 'variation' ) ? $this->product->get_parent_id() : $this->product->get_id() ), 'product', true ),
-			apply_filters( 'wpml_object_id', ( ( $this->is_loop && in_array( $this->product->get_type(), array(
-					'variable',
-					'variable-subscription',
-				) ) ) ? $this->variation_id : ( $this->product->is_type( 'variation' ) ? $this->product->get_id() : 0 ) ), 'product', true ),
+			( $product_variation ) ?: 0,
 			json_encode( ( $this->is_loop && in_array( $this->product->get_type(), array(
 					'variable',
 					'variable-subscription',
@@ -1132,6 +1127,37 @@ JOIN {$table_languages} l ON
 		return ob_get_clean();
 	}
 
+	/**
+	 * Registers the WooCommerce blocks.
+	 */
+	function woocommerce_blocks() {
+		/**
+		 * Registers the custom product label block.
+		 */
+		register_block_type(
+			'tinvwl/add-to-wishlist',
+			[
+				'render_callback' => array( $this, 'woocommerce_blocks_render' ),
+			]
+		);
+	}
+
+	/**
+	 * Renders the WooCommerce blocks.
+	 *
+	 * @param array $attributes The block attributes.
+	 *
+	 * @return string The rendered output.
+	 */
+	function woocommerce_blocks_render( $attributes ) {
+		global $product;
+
+		ob_start();
+		echo do_shortcode( '[ti_wishlists_addtowishlist loop=yes]' );
+		$output = ob_get_clean();
+
+		return $output;
+	}
 
 	/**
 	 * Add button to WC Blocks
@@ -1187,7 +1213,7 @@ JOIN {$table_languages} l ON
 	 * Add button to WC Block All Products
 	 *
 	 */
-	function woocommerce_blocks( $description, $product_object ) {
+	function woocommerce_blocks_all_products( $description, $product_object ) {
 
 		global $product;
 
@@ -1205,15 +1231,9 @@ JOIN {$table_languages} l ON
 			return $description;
 		}
 
-		$position = tinv_get_option( 'add_to_wishlist_catalog', 'position' );
-
-		if ( ! in_array( $position, array( 'before', 'after', 'above_thumb' ) ) ) {
-			return $description;
-		}
-
 		$product = $product_object;
 		ob_start();
-		tinvwl_view_addto_htmlloop();
+		echo do_shortcode( '[ti_wishlists_addtowishlist loop=yes]' );
 		$add_to_wishlist = ob_get_clean();
 
 		$product = '';

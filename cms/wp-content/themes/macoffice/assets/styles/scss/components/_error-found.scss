@@ -1,0 +1,53 @@
+/* === ERROR FOUND === */
+
+.error-found {
+
+	&__section {
+		text-align: center;
+		background-color: $color-white;
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+
+		@include atMedium {
+
+		}
+
+
+		& .modal-content {
+			text-align: left;
+		}
+
+	}
+
+
+	&__button {
+		font-size: 1.0rem;
+		color: $color-secondary;
+		margin-top: 2rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__button:hover {
+		color: $color-tertiary !important;
+		background-color: $color-secondary !important;
+		margin-top: 2rem;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__modal {
+		text-align: left;
+
+		@include atMedium {
+
+		}
+	}
+
+}

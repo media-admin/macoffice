@@ -72,14 +72,6 @@ get_header(); ?>
 		</section>
 
 
-		<section id="default-posts" class="default-posts section-container" data-matching-link="#default-posts-link">
-			<h2 class="default-posts__headline h2__section-headline">Weitere Beiträge</h2>
-
-			<?php echo do_shortcode("[shortcode_default_posts]"); ?>
-
-		</section>
-
-
 		<?php echo do_shortcode("[shortcode_product_categories]"); ?>
 
 		<section id="services" class="services section-container container--black wrapper" data-matching-link="#services-link">
@@ -214,6 +206,8 @@ get_header(); ?>
 			</div>
 
 		</section>
+
+		<?php echo do_shortcode('[shortcode_error_found]');  ?>
 
 	</div>
 </main>

@@ -163,7 +163,7 @@ if ( ! class_exists( 'WC_GZD_Admin_Setup_Wizard' ) ) :
 					$pages,
 					array(
 						'title'   => _x( 'OSS status', 'install', 'woocommerce-germanized' ),
-						'desc'    => sprintf( __( 'I\'m participating in the <a href="%s" target="_blank" rel="noopener">One Stop Shop (OSS) procedure</a>.', 'woocommerce-germanized' ), 'https://ec.europa.eu/taxation_customs/business/vat/oss_de' ) . ( ! \Vendidero\Germanized\PluginsHelper::is_oss_plugin_active() ? '<div class="wc-gzd-additional-desc">' . __( 'Activating this option will automatically install the <a href="https://wordpress.org/plugins/one-stop-shop-woocommerce/" target="_blank">One Stop Shop Plugin</a> developed by us.', 'woocommerce-germanized' ) . '</div>' : '' ),
+						'desc'    => sprintf( __( 'I\'m participating in the <a href="%s" target="_blank" rel="noopener">One Stop Shop (OSS) procedure</a>.', 'woocommerce-germanized' ), 'https://vat-one-stop-shop.ec.europa.eu/?prefLang=de' ) . ( ! \Vendidero\Germanized\PluginsHelper::is_oss_plugin_active() ? '<div class="wc-gzd-additional-desc">' . __( 'Activating this option will automatically install the <a href="https://wordpress.org/plugins/one-stop-shop-woocommerce/" target="_blank">One Stop Shop Plugin</a> developed by us.', 'woocommerce-germanized' ) . '</div>' : '' ),
 						'id'      => 'oss_use_oss_procedure',
 						'default' => 'no',
 						'type'    => 'gzd_toggle',
@@ -218,7 +218,17 @@ if ( ! class_exists( 'WC_GZD_Admin_Setup_Wizard' ) ) :
 					),
 				);
 			} elseif ( 'shipping_provider' === $step ) {
-				$providers = apply_filters( 'woocommerce_gzd_shipment_admin_provider_list', wc_gzd_get_shipping_providers() );
+				$providers = array();
+
+				if ( class_exists( '\Vendidero\Shiptastic\ShippingProvider\Helper' ) ) {
+					$helper       = \Vendidero\Shiptastic\ShippingProvider\Helper::instance();
+					$providers    = $helper->get_shipping_providers();
+					$integrations = $helper->get_available_shipping_provider_integrations( true );
+
+					foreach ( $integrations as $integration ) {
+						$providers[ $integration->get_name() ] = $integration;
+					}
+				}
 
 				foreach ( $providers as $provider ) {
 					if ( $provider->is_manual_integration() ) {
@@ -253,6 +263,12 @@ if ( ! class_exists( 'WC_GZD_Admin_Setup_Wizard' ) ) :
 							)
 						);
 					} else {
+						$is_active = wc_bool_to_string( $provider->is_activated() );
+
+						if ( 'deutsche_post' === $provider->get_name() && ! $provider->get_id() ) {
+							$is_active = false;
+						}
+
 						$settings = array_merge(
 							$settings,
 							array(
@@ -260,7 +276,7 @@ if ( ! class_exists( 'WC_GZD_Admin_Setup_Wizard' ) ) :
 									'title'   => $title_clean,
 									'desc'    => sprintf( __( 'Enable %s integration', 'woocommerce-germanized' ), $provider->get_title() ),
 									'id'      => 'woocommerce_gzd_' . $provider->get_name() . '_activate',
-									'default' => wc_bool_to_string( $provider->is_activated() ),
+									'default' => wc_bool_to_string( $is_active ),
 									'type'    => 'gzd_toggle',
 								),
 							)
@@ -298,11 +314,15 @@ if ( ! class_exists( 'WC_GZD_Admin_Setup_Wizard' ) ) :
 			if ( $this->is_setup_wizard() ) {
 				$gzd = WC_germanized();
 
+				wp_register_style( 'woocommerce-gzd-admin', $gzd->get_assets_build_url( 'static/admin.css' ), false, WC_GERMANIZED_VERSION );
+				wp_enqueue_style( 'woocommerce-gzd-admin' );
+
 				// Register admin styles.
 				wp_register_style( 'woocommerce-gzd-admin-setup-wizard', $gzd->get_assets_build_url( 'static/admin-wizard.css' ), array( 'wp-admin', 'dashicons', 'install', 'woocommerce-gzd-admin-settings' ), WC_GERMANIZED_VERSION );
 				wp_enqueue_style( 'woocommerce-gzd-admin-setup-wizard' );
 
-				wp_register_script( 'wc-gzd-admin-settings', $gzd->get_assets_build_url( 'static/admin-settings.js' ), array(), WC_GERMANIZED_VERSION, true );
+				wp_register_script( 'wc-gzd-admin', $gzd->get_assets_build_url( 'static/admin.js' ), array( 'jquery' ), WC_GERMANIZED_VERSION ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
+				wp_register_script( 'wc-gzd-admin-settings', $gzd->get_assets_build_url( 'static/admin-settings.js' ), array( 'wc-gzd-admin' ), WC_GERMANIZED_VERSION, true );
 				wp_register_script( 'wc-gzd-admin-setup', $gzd->get_assets_build_url( 'static/admin-setup.js' ), array( 'jquery', 'wc-gzd-admin-settings', 'jquery-tiptip' ), WC_GERMANIZED_VERSION, true );
 
 				wp_enqueue_script( 'wc-gzd-admin-setup' );
@@ -499,12 +519,14 @@ if ( ! class_exists( 'WC_GZD_Admin_Setup_Wizard' ) ) :
 		public function wc_gzd_setup_provider_save() {
 			$redirect    = $this->get_step_url( $this->get_next_step() );
 			$current_url = $this->get_step_url( $this->step );
-			$providers   = wc_gzd_get_shipping_providers();
+			$providers   = wc_stc_get_shipping_providers();
 
 			foreach ( $providers as $provider ) {
 				if ( isset( $_POST[ "woocommerce_gzd_{$provider->get_name()}_activate" ] ) && 'yes' === wc_bool_to_string( wc_clean( wp_unslash( $_POST[ "woocommerce_gzd_{$provider->get_name()}_activate" ] ) ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					$provider->activate();
 					update_option( '_wc_gzd_setup_shipping_provider_activated', 'yes' );
+				} else {
+					$provider->deactivate();
 				}
 			}
 

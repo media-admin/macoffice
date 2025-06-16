@@ -27,6 +27,13 @@ use WPMUDEV_BLC\Core\Controllers\Webhook;
  */
 class Controller extends Webhook {
 	/**
+	 * The webhook.
+	 *
+	 * @var string $webhook The webhook
+	 */
+	public $webhook = 'broken-link-checker-activation';
+
+	/**
 	 * The webhook tag.
 	 *
 	 * @var string $webhook The webhook tag
@@ -145,7 +152,7 @@ class Controller extends Webhook {
 	 *
 	 * @return false|void
 	 */
-	protected function unset_registered_recipient( int $user_id = null ) {
+	protected function unset_registered_recipient( ?int $user_id = null ) {
 		if ( empty( $user_id ) ) {
 			return false;
 		}

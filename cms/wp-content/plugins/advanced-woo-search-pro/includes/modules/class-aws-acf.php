@@ -112,7 +112,7 @@ if ( ! class_exists( 'AWS_ACF' ) ) :
                 $acf_fields = $this->get_available_acf_fields();
 
                 foreach ( $custom_fields as $custom_field_key => $custom_field_val ) {
-                    if ( $custom_field_key && $custom_field_val[0] && strpos( $custom_field_val[0], 'field_' ) === 0 && strpos( $custom_field_key, '_') === 0 ) {
+                    if ( $custom_field_key && is_string( $custom_field_key ) && $custom_field_val[0] && is_string( $custom_field_val[0] ) && strpos( $custom_field_val[0], 'field_' ) === 0 && strpos( $custom_field_key, '_') === 0 ) {
                         $field_key = $custom_field_val[0];
                         $field_name = ltrim( $custom_field_key, '_' );
                         if ( isset( $acf_fields[$field_key] ) && in_array( $acf_fields[$field_key]['data']['type'], $this->acf_supported_types )  ) {

@@ -6,6 +6,7 @@ namespace MatthiasWeb\RealMediaLibrary\lite\comp;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 trait WPML
 {
     // Documented in IOverrideWPML

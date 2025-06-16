@@ -1,195 +1,292 @@
-# Simple History – user activity log, audit tool
+# Simple History – Track, Log, and Audit WordPress Changes
 
-Contributors: eskapism
-Donate link: https://www.paypal.me/eskapism
-Tags: history, log, changes, changelog, audit, audit log, event log, user tracking, trail, pages, attachments, users, dashboard, admin, syslog, feed, activity, stream, audit trail, brute-force
-Tested up to: 6.3
-Stable tag: 4.7.1
+Contributors: eskapism, wpsimplehistory
+Donate link: https://simple-history.com/sponsor/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=sponsorship&utm_content=readme_donate_link
+Tags: history, audit log, event log, user tracking, activity
+Tested up to: 6.8
+Stable tag: 5.12.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-View changes made by users within WordPress. See who created a page, uploaded an attachment or approved an comment, and more.
+Track changes and user activities on your WordPress site. See who created a page, uploaded an attachment, and more, for a complete audit trail.
 
 ## Description
 
-Simple History shows recent changes made within WordPress, directly on your dashboard or on a separate page.
+> _"So far the best and most comprehensive logging plugin"_ - [@herrschuessler](https://wordpress.org/support/topic/so-far-the-best-and-most-comprehensive-logging-plugin/)
 
-The plugin works as a log/history/audit log/version history of the most important events that occur in WordPress.
+Simple History shows recent changes made within WordPress, directly on your dashboard, on a separate page, or in the admin bar.
 
-It’s a plugin that is good to have on websites where several people are involved in editing the content.
+The plugin acts as an audit log of the most important events that occur in WordPress.
+
+It's a plugin that is good to have on websites where several people are involved in editing the content.
+
+No coding is required to use the plugin. Just install it and it will start logging events.
+
+### 🔍 How Simple History Helps in Real Situations
+
+**Track what's happening on your site**  
+_"Has someone done anything today? Ah, Sarah uploaded the new press release and created an article for it. Great! Now I don't have to do that."_
+
+**Identify issues and debug faster**  
+_"The site feels slow since yesterday. Has anyone done anything special? ... Ah, Steven activated 'naughty-plugin-x', that must be it."_
+
+**Keep Freelancers & Agencies Accountable**
+_"I hired a developer to optimize my site. But did they actually do anything? A quick glance at Simple History shows me exactly what they worked on, so I know I'm getting my money's worth!"_
+
+### ✨ Simple History Features
 
 Out of the box Simple History has support for:
 
-- **Posts and pages** – see who added, updated or deleted a post or page
+-   **Posts and pages** – see who added, updated or deleted a post or page
 
-- **Attachments** – see who added, updated or deleted an attachment
+-   **Attachments** – see who added, updated or deleted an attachment
 
-- **Taxonomies (Custom taxonomies, categories, tags)** – see who added, updated or deleted an taxonomy
+-   **Taxonomies (Custom taxonomies, categories, tags)** – see who added, updated or deleted an taxonomy
 
-- **Comments** – see who edited, approved or removed a comment
+-   **Comments** – see who edited, approved or removed a comment
 
-- **Widgets** – get info when someone adds, updates or removes a widget in a sidebar
+-   **Widgets** – get info when someone adds, updates or removes a widget in a sidebar
 
-- **Plugins** – activation and deactivation
+-   **Plugins** – activation and deactivation
 
-- **User profiles** – info about added, updated or removed users
+-   **User profiles** – info about added, updated or removed users
 
-- **User logins** – see when a user login & logout. Also see when a user fails to login (good way to catch brute-force login attempts).
+-   **User logins** – see when a user login & logout. Also see when a user fails to login (good way to catch brute-force login attempts).
 
-- **Failed user logins** – see when someone has tried to log in, but failed. The log will then include ip address of the possible hacker.
+-   **User edits** – see when a user is added, updated or removed, and get detailed information about the changes made to the user.
 
-- **Menu edits**
+-   **Failed user logins** – see when someone has tried to log in, but failed. The log will then include ip address of the possible hacker.
 
-- **Option screens** – view details about changes made in the different settings sections of WordPress. Things like changes to the site title and the permalink structure will be logged.
+-   **Menu edits**
 
-- **Privacy page** – when a privacy page is created or set to a new page.
+-   **Option screens** – view details about changes made in the different settings sections of WordPress. Things like changes to the site title and the permalink structure will be logged.
 
-- **Data Export** – see when a privacy data export request is added and when this request is approved by the user, downloaded by an admin, or emailed to the user.
+-   **Privacy page** – when a privacy page is created or set to a new page.
 
-- **User Data Erasure Requests** – see when a user privacy data export request is added and when this request is approved by the user and when the user data is removed.
+-   **Data Export** – see when a privacy data export request is added and when this request is approved by the user, downloaded by an admin, or emailed to the user.
 
-### Support for third party plugins
+-   **User Data Erasure Requests** – see when a user privacy data export request is added and when this request is approved by the user and when the user data is removed.
 
-By default Simple History comes with built in support for the following plugins:
+-   **admin page access denied** – see when a user tries to access an admin page they don't have permission to access.
 
-- **Jetpack** – The [Jetpack plugin](https://wordpress.org/plugins/jetpack/) is a plugin from Automattic (the company behind the WordPress.com service) that lets you supercharge your website by adding a lot of extra functions.
-  In Simple History you will see what Jetpack modules that are activated and deactivated.
+#### Built-in logging for third-party plugins
 
-- **Advanced Custom Fields (ACF)** – [ACF](https://www.advancedcustomfields.com/) adds fields to your posts and pages.
-  Simple History will log changes made to the field groups and the fields inside field groups. Your will see when both field groups and fields are created and modified.
+Simple History comes with built in support for many plugins:
 
-- **User Switching** – The [User Switching plugin](https://wordpress.org/plugins/user-switching/) allows you to quickly swap between user accounts in WordPress at the click of a button.
-  Simple History will log each user switch being made.
+-   **Jetpack** – See which Jetpack modules are activated and deactivated.
 
-- **WP Crontrol** – The [WP Crontrol plugin](https://wordpress.org/plugins/wp-crontrol/) enables you to view and control what's happening in the WP-Cron system.
-  Simple History will log when cron events are added, edited, deleted, paused, resumed, and manually ran, and when cron schedules are added and deleted.
+-   **Advanced Custom Fields (ACF)** – See when field groups and fields are created and modified.
 
-- **Enable Media Replace** – The [Enable Media Replace plugin](https://wordpress.org/plugins/enable-media-replace/) allows you to replace a file in your media library by uploading a new file in its place.
-  Simple history will log details about the file being replaced and details about the new file.
+-   **User Switching** – See each user switch being made.
 
-- **Limit Login Attempts** – The plugin [Limit Login Attempts](https://wordpress.org/plugins/limit-login-attempts/) is old
-  and has not been updated for 4 years. However it still has +1 million installs, so many users will benefit from
-  Simple History logging login attempts, lockouts, and configuration changes made in the plugin Limit Login Attempts.
+-   **WP Crontrol** – See when cron events are added, edited, deleted, paused, resumed, and manually ran, and when cron schedules are added and deleted.
 
-- **Redirection** – The [redirection plugin](https://wordpress.org/plugins/redirection/) manages url redirections, using a nice GUI.
-  Simple History will log redirects and groups that are created, changed, enabled or disabled and also when the global plugin settings have been modified.
+-   **Enable Media Replace** – See details about the file being replaced and details about the new file.
 
-- **Duplicate Post** – The plugin [Duplicate Post](https://wordpress.org/plugins/duplicate-post/) allows users to
-  clone posts of any type.
-  Simple History will log when a clone of a post or page is done.
+-   **Limit Login Attempts** – See login attempts, lockouts, and configuration changes made in the plugin Limit Login Attempts.
 
-- **Beaver Builder** – The plugin [Beaver Build](https://wordpress.org/plugins/beaver-builder-lite-version/) is a page builder for WordPress that adds a flexible drag and drop page builder to the front end of your WordPress website.
-  Simple History will log when a Beaver Builder layout or template is saved or when the settings for the plugins are saved.
+-   **Redirection** – See redirects and groups that are created, changed, enabled or disabled and also when the global plugin settings have been modified.
 
-Plugin authors can add support for Simple History in their plugins using the [logging API](https://simple-history.com/docs/logging-api/). Plugins that have support for Simple History includes:
+-   **Duplicate Post** –See when a clone of a post or page is done.
 
-- [Simple History Beaver Builder Add-On](https://wordpress.org/plugins/extended-simple-history-for-beaver-builder/)
-- [WP-Optimize – Cache, Clean, Compress.](https://wordpress.org/plugins/wp-optimize/)
-- [Add Customer for WooCommerce](https://wordpress.org/plugins/add-customer-for-woocommerce/)
-- [Better WishList API](https://wordpress.org/plugins/better-wlm-api/)
-- [AJAX Login and Registration modal popup + inline form](https://wordpress.org/plugins/ajax-login-and-registration-modal-popup/)
-- [Loginpetze](https://wordpress.org/plugins/loginpetze/)
-- [Authorizer](https://wordpress.org/plugins/authorizer/)
+-   **Beaver Builder** – See when a Beaver Builder layout or template is saved or when the settings for the plugins are saved.
 
-### What users say
+Is your plugin missing? No problem – plugin authors can add support for Simple History in their plugins using the [logging API](https://simple-history.com/docs/logging-api/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_logging_api).
 
-[300+ five-star reviews](https://wordpress.org/support/plugin/simple-history/reviews/?filter=5) speak to the reliability of this plugin.
+#### Plugins that have support for Simple History includes:
 
-- _"So far the best and most comprehensive logging plugin"_ - [@herrschuessler](https://wordpress.org/support/topic/so-far-the-best-and-most-comprehensive-logging-plugin/)
+-   [Simple History Beaver Builder Add-On](https://wordpress.org/plugins/extended-simple-history-for-beaver-builder/)
+-   [WP-Optimize – Cache, Clean, Compress.](https://wordpress.org/plugins/wp-optimize/)
+-   [Add Customer for WooCommerce](https://wordpress.org/plugins/add-customer-for-woocommerce/)
+-   [Better WishList API](https://wordpress.org/plugins/better-wlm-api/)
+-   [AJAX Login and Registration modal popup + inline form](https://wordpress.org/plugins/ajax-login-and-registration-modal-popup/)
+-   [Loginpetze](https://wordpress.org/plugins/loginpetze/)
+-   [Authorizer](https://wordpress.org/plugins/authorizer/)
+-   [Ad Inserter](https://wordpress.org/plugins/ad-inserter/)
+-   [FV Player Pro](https://foliovision.com/player/features/sharing/video-downloading-with-simple-history#integration-with-simple-history)
+-   [Login Me Now](https://wordpress.org/plugins/login-me-now/)
 
-- _"The best history plugin I’ve found"_ – [Rich Mehta](https://wordpress.org/support/topic/the-best-history-plugin-ive-found/)
+### 💬 What users say
 
-- _"Custom Logs Are Crazy Awesome!"_ - [Ahmad Awais](https://wordpress.org/support/topic/awesome-4654/)
+🌟 [300+ five-star reviews](https://wordpress.org/support/plugin/simple-history/reviews/?filter=5) speak to the reliability of this plugin. 🌟
 
-- _"Amazing activity logging plugin"_ - [digidestination](https://wordpress.org/support/topic/amazing-activity-logging-plugin/)
+-   _"The best history plugin I've found"_ – [Rich Mehta](https://wordpress.org/support/topic/the-best-history-plugin-ive-found/)
 
-- _"Fantastic plugin I use on all sites"_ - [Duncan Michael-MacGregor](https://wordpress.org/support/topic/fantastic-plugin-i-use-on-all-sites/)
+-   _"Custom Logs Are Crazy Awesome!"_ - [Ahmad Awais](https://wordpress.org/support/topic/awesome-4654/)
 
-- _"Useful Quick View of Activity"_ - [Dan O](https://wordpress.org/support/topic/useful-quick-view-of-activity/)
+-   _"Amazing activity logging plugin"_ - [digidestination](https://wordpress.org/support/topic/amazing-activity-logging-plugin/)
 
-- _"The best Activity Plugin"_ - [Rahim](https://wordpress.org/support/topic/the-best-activity-plugin/)
+-   _"Fantastic plugin I use on all sites"_ - [Duncan Michael-MacGregor](https://wordpress.org/support/topic/fantastic-plugin-i-use-on-all-sites/)
 
-- _"The best free history plugin ever"_ - [abazeed](https://wordpress.org/support/topic/the-best-free-history-plugin-ever/)
+-   _"Useful Quick View of Activity"_ - [Dan O](https://wordpress.org/support/topic/useful-quick-view-of-activity/)
 
-- _"It is a standard plugin for all of our sites"_ - [Mr Tibbs](https://wordpress.org/support/topic/it-is-a-standard-plugin-for-all-of-our-sites/)
+-   _"The best Activity Plugin"_ - [Rahim](https://wordpress.org/support/topic/the-best-activity-plugin/)
 
-### RSS feed with changes
+-   _"The best free history plugin ever"_ - [abazeed](https://wordpress.org/support/topic/the-best-free-history-plugin-ever/)
+
+-   _"It is a standard plugin for all of our sites"_ - [Mr Tibbs](https://wordpress.org/support/topic/it-is-a-standard-plugin-for-all-of-our-sites/)
+
+### 🚀 Zero-Config Activity Tracking
+
+Simple History begins tracking your WordPress site's activities instantly after installation - no setup required. View your activity logs through the convenient dashboard widget or browse the full history on the dedicated 'Simple History' page in your WordPress admin.
+
+### 📡 RSS feed with changes
 
 Using the optional password protected **RSS feed** you can keep track of the changes made on your website using your favorite RSS reader.
 
-### Comes with WP-CLI commands
+### 🤖 WP-CLI commands for automation
 
-For those of you who like to work with the command line there are also some WP-CLI commands available.
+[Multiple WP-CLI commands exist](https://simple-history.com/features/wp-cli-commands/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_wp_cli_commands), to view and search the log, and to view more information about a specific event.
 
-- `wp simple-history list` – List the latest logged events.
+WP-CLI support is perfect for system administrators and agencies managing multiple WordPress sites. Using WP-CLI commands they can automate log monitoring, create reports, or integrate with existing DevOps tools.
 
-### Example scenarios
+Example commands:
 
-Keep track of what other people are doing:
-_"Has someone done anything today? Ah, Sarah uploaded
-the new press release and created an article for it. Great! Now I don't have to do that."_
+-   `wp simple-history event list` – List the latest logged events.
+-   `simple-history event get` – Get more information about a specific event.
+-   `wp simple-history event add` – Add a custom event to the log.
+-   `wp simple-history event search` – Search for events.
+-   `wp simple-history stealth-mode` – See Stealth Mode status.
 
-Or for debug purposes:
-_"The site feels slow since yesterday. Has anyone done anything special? ... Ah, Steven activated 'naughty-plugin-x',
-that must be it."_
+### 🥷 Stealth Mode – Hide Simple History from the WordPress Admin
 
-### API so you can add your own events to the audit log
+[Stealth Mode](https://simple-history.com/add-ons/premium?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_stealth_mode) allows Simple History to run completely in the background, hidden from the WordPress admin interface. This is ideal for agencies, developers, and administrators who want to track user activity discreetly without exposing the logs to other users.
 
-If you are a theme or plugin developer and would like to add your own things/events to Simple History you can do that by using the function `SimpleLogger()` like this:
+There are two modes:
 
-`
+-   **Full Stealth Mode** – Completely hides Simple History from everyone.
+-   **Partial Stealth Mode** – Hides the plugin but allows selected users to access the logs.
 
-<?php
+The activity log remains accessible via the REST API, WP-CLI, and RSS feed, ensuring administrators can still retrieve logs when needed.
 
-if ( function_exists("SimpleLogger") ) {
+Stealth Mode is enabled using a constant or filter, allowing you to customize who can access the logs while keeping the plugin hidden in the admin interface.
 
-		// Most basic example: just add some information to the log
-		SimpleLogger()->info("This is a message sent to the log");
+### 📝 Add your own events to the log using the API
 
-		// A bit more advanced: log events with different severities
-		SimpleLogger()->info("User admin edited page 'About our company'");
-		SimpleLogger()->warning("User 'Jessie' deleted user 'Kim'");
-		SimpleLogger()->debug("Ok, cron job is running!");
+Theme and plugin developers can log custom events in Simple History using the `simple_history_log` filter:
 
-}
-?>
+`apply_filters(
+  'simple_history_log',
+  'This is a logged message'
+);`
 
-`
+See the [documentation](https://simple-history.com/docs/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_overview) for examples on how to [log your own events](https://simple-history.com/docs/logging-api/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_logging_api), [query the log](https://simple-history.com/docs/query-api/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_query_api), and more.
 
-See the [documentation](https://simple-history.com/docs/) for examples on how to [log your own events](https://simple-history.com/docs/logging-api/) and how to [query the log](https://simple-history.com/docs/query-api/), and more.
+### 🔆 Extend with Add-ons
 
-### Translations/Languages
+Take your activity logging to the next level with add-ons that enhance tracking, security, and customization.
 
-So far Simple History is translated to 17 languages: Chinese (China), Danish, Dutch, Dutch (Belgium), English (US), French (France), German, German (Switzerland), Korean, Polish, Portuguese (Brazil), Russian, Spanish (Colombia), Spanish (Mexico), Spanish (Spain), Spanish (Venezuela), and Swedish.
+#### [Simple History Premium](https://simple-history.com/add-ons/premium?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_premium)
 
-If you want to translate Simple History to your language then read about how this is done over at the [Polyglots handbook](https://make.wordpress.org/polyglots/handbook/rosetta/theme-plugin-directories/#translating-themes-plugins).
+Unlock advanced features and customization options:
 
-### Contribute at GitHub
+-   **Custom Log Entries** – Add custom log entries using a UI. Document important changes by creating custom log entries for team actions, content updates, or system changes that aren't automatically tracked.
+-   **Stealth Mode** – Hide Simple History from the WordPress admin for discreet tracking. Allows only specified users to see Simple History in the WordPress admin.
+-   **Log Retention** – Control how long logs are stored, from a few days to forever.
+-   **Export Search Results** – Download logs in CSV or JSON format for deeper analysis.
+-   **Failed User Logins** – Disable or limit logging of failed login attempts to reduce noise.
+-   **IP Address Anonymization** – Choose whether to store full IPs or anonymize them for privacy compliance (e.g., GDPR).
+-   **Login Location Lookup** – View the location of a specific login attempt on Google Maps to identify suspicious activity.
+-   **Logger Control** – Enable or disable specific loggers to manage what type of events are recorded.
+-   **Ad-Free Experience** – Remove promotional banners for a distraction-free workflow.
 
-Development of this plugin takes place at GitHub. Please join in with feature requests, bug reports, or even pull requests!
-<a href="https://github.com/bonny/WordPress-Simple-History">https://github.com/bonny/WordPress-Simple-History</a>
+#### [WooCommerce Logger](https://simple-history.com/add-ons/woocommerce/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=addons&utm_content=readme_addon_woocommerce)
 
-### Donation
+Track WooCommerce activity with detailed logs for:
 
-If you like this plugin please consider donating to support the development.
+✔️ Orders, refunds, and stock changes  
+✔️ Product updates and pricing adjustments  
+✔️ Settings modifications and coupon usage
 
-You can [donate using PayPal](https://www.paypal.me/eskapism) or you can [become a GitHub sponsor](https://github.com/sponsors/bonny).
+#### [Debug and Monitor](https://simple-history.com/add-ons/debug-and-monitor/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=addons&utm_content=readme_addon_debug_monitor)
+
+Gain deeper insights into your site's background activity:
+
+🛠️ Monitor outgoing requests and emails  
+🔍 Debug HTTP API calls and server communication  
+👨‍💻 Essential for developers, support teams, and anyone curious about what's happening under the hood
+
+### 💚 Sponsor this project
+
+If you like this plugin please consider [sponsoring the development of the free plugin](https://simple-history.com/sponsor/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=sponsorship&utm_content=readme_sponsor_footer). The plugin has been free for the last 10 years and will continue to be free.
 
 ## Frequently Asked Questions
 
-= Can I add my own events to the log? =
+### Is the plugin free?
 
-Yes. See the [Developer Documentation](https://simple-history.com/docs/).
+Yes! Simple History has been free for over 10 years and will remain free. To support development and unlock extra features, you can purchase add-ons. [View add-ons](https://simple-history.com/add-ons/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=addons&utm_content=readme_addons_overview).
 
-= Is it possible to exclude users from the log? =
+### How do I view the log?
 
-Yes, you exclude users by role or email using the filter [`simple_history/log/do_log`](https://simple-history.com/docs/hooks/).
+You can access the log in multiple ways:
 
-See the [hooks documentation](https://simple-history.com/docs/hooks/) for more info.
+-   The **dashboard** widget
+-   The **admin bar menu**
+-   A **dedicated log page** in the WordPress admin area
 
-= For how long are events stored? =
+### Can I change where the History menu appears in WordPress admin?
 
-Events in the log are stored for 60 days by default. Events older than this will be removed.
+Yes! You can customize the menu position in the plugin settings. Choose between showing Simple History at the top or bottom of the main menu, or inside the dashboard menu or tools menu.
 
-This can be modified using the filter [`simple_history/db_purge_days_interval`](https://simple-history.com/docs/hooks/#simplehistorydbpurgedaysinterval) or using the [Simple History Extended Settings add-on](https://simple-history.com/add-ons/extended-settings).
+### Do I need coding skills to use the plugin?
+
+No! Just install and activate the plugin, and it will start collecting activity logs automatically.
+
+### Where is the log stored?
+
+The log is stored in your WordPress database.
+
+### Can I export the log?
+
+Yes, you can export logs in **CSV** or **JSON** format for further analysis.
+
+### Is it compatible with other plugins?
+
+Yes! Simple History supports many popular plugins out of the box. Additionally, developers can integrate it with any plugin using the [Logging API](https://simple-history.com/docs/logging-api/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_faq_api).
+
+### Will this plugin slow down my website?
+
+No, Simple History is lightweight and optimized for performance. Most logging occurs in the WordPress admin area when a WordPress user performs an action.
+
+By default, nothing is logged on the front end, ensuring visitors experience no impact on performance.
+
+### Who can view the log?
+
+Access to the log depends on the user's role:
+
+-   **Administrators** can view all logged events.
+-   **Editors** can see events related to posts and pages.
+
+### Can I exclude certain users from being logged?
+
+Yes, you can exclude users based on **role** or **email** using the [`simple_history/log/do_log`](https://simple-history.com/docs/hooks/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_hooks#simplehistorylogdolog) filter.
+
+For more details, check the [hooks documentation](https://simple-history.com/docs/hooks/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_hooks#simplehistorylogdolog).
+
+### How long is the history kept?
+
+By default, logs are stored for **60 days**.
+
+Upgrade to [Simple History Premium](https://simple-history.com/add-ons/premium?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_premium) to change this using a GUI.
+
+### Can I track changes made by specific users?
+
+Yes! You can **filter logs by username**, making it easy to track individual activity.
+
+### Is this plugin GDPR compliant?
+
+GDPR compliance depends on **how you use the plugin** and how you handle collected data. WordPress guidelines prohibit plugins from making legal compliance claims, so you should review your site's data policies to ensure compliance.
+
+That said, Simple History follows **privacy-friendly practices**:
+
+-   ❌ No Google Fonts
+-   ❌ No cookies
+-   ❌ No local storage
+-   ✅ IP addresses are anonymized by default
+
+Since the plugin logs events (which may contain personal data), it's **your responsibility** to ensure GDPR compliance based on your site's usage.
+
+For more information, see our support page [GDPR and Privacy: How Your Data is Stored in Simple History](https://simple-history.com/support/gdpr-and-privacy/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_gdpr_support).
 
 ## Screenshots
 
@@ -210,275 +307,265 @@ This can be modified using the filter [`simple_history/db_purge_days_interval`](
 7. A chart with some quick statistics is available, so you can see the number of events that has been logged each day.
    A simple way to see any uncommon activity, for example an increased number of logins or similar.
 
+8. Stats and summaries page that gives you a quick overview summary of your site's activity.
+
 ## Changelog
 
-### 4.7.1 (October 2023)
+✨ If you find Simple History useful ✨
 
-- Fix: Only context table was cleared when clearing the database. Now also the events table is cleared.
-- Add function `AddOns_Licences::get_plugin()`.
-- Misc internal code cleanup and improvements.
+-   [Sponsor the plugin to keep it free.](https://simple-history.com/sponsor/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=sponsorship&utm_content=readme_sponsor_footer)
+-   [Add a 5-star review so other users know it's good.](https://wordpress.org/support/plugin/simple-history/reviews/?filter=5)
+-   [Get the premium add-on for more features.](https://simple-history.com/add-ons/premium?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_premium)
 
-### 4.7.0 (October 2023)
+### 5.12.0 (May 2025)
 
-Most notable in this release is the new logotype and a new shortcut to the "Settings & Tools" page.
-[Read the release post for more info](https://simple-history.com/2023/simple-history-4-7-0/).
+📊 This release enhances the quick stats visualization with improved readability and additional metrics, while also addressing several minor issues.
+[Read the release post](https://simple-history.com/2025/simple-history-5-12-0-released/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_release_5_12_0) for more details.
 
-- Changed: UI changes, including a new logo and a shortcut to the settings page.
-- Add function `get_view_history_page_admin_url()`.
-- Add filter `simple_history/log_row_details_output-{logger_slug}` to allow modifying the output of the details of a log row.
-- Misc internal code cleanup and improvements.
+**Improved**
 
-### 4.6.0 (September 2023)
+-   Redesign the "quick stats" box (to the right of the main events listing):
+    -   Improve readability of statistics.
+    -   Add metrics for today and last 7 days (in addition to existing stats for last 28 days and total events).
+    -   Add graphical list of most active users in the last 28 days (visible only to administrators).
+    -   Improve chart interaction - hover anywhere on the box to view daily values.
+    -   Change chart visualization from bar chart to line chart.
 
-This release contains some new filters and some other improvements.
-[See the release post for more info](https://simple-history.com/2023/simple-history-4-6-0/).
+**Fixed**
 
-- Added: Filter `simple_history/get_log_row_plain_text_output/output` to be able to modify the output of the plain text output of a log row. Solves support thread [Is it possible to log post ID](https://wordpress.org/support/topic/is-it-possible-to-log-post-id/). See [documentation page for filter](https://simple-history.com/docs/hooks/#simplehistorygetlogrowplaintextoutputoutput) for details.
-- Added: Filter `simple_history/log_insert_data_and_context` to be able to modify the data and context that is inserted into the log.
-- Added: WP-CLI command now includes "via" in output.
-- Added: Debug settings tab now shows if a logger is enabled or disabled.
-- Changed: WP-CLI: ID field is not the first column and in uppercase, to follow the same format as the other wp cli commands use.
-- Changed: GUI enhancements on settings page.
-- Changed: Don't log WooCommerce post type `shop_order_placehold`, that is used by WooCommerce new [High-Performance Order Storage (HPOS)](https://developer.woocommerce.com/2022/10/11/hpos-upgrade-faqs/).
-- Fixed: Allow direct access to protected class variable `$logger->slug` but mark access as deprectad and recommend usage of `$logger->get_slug()`. Fixes support thread [PHP fatal error Cannot access protected property $slug](https://wordpress.org/support/topic/php-fatal-error-cannot-access-protected-property-slug/).
+-   Fix deprecated function warning when searching for events.
+-   Fix undefined chart label on Stats and Summaries page.
+-   Enhance translation support.
 
-### 4.5.0 (August 2023)
+### 5.11.0 (May 2025)
 
-This release contains some smaller new features and improvements.
-[See the release post for more info](https://simple-history.com/simple-history-4-5-0/).
+📌 This release introduces Sticky Events support for sticking important events to the top of your log, adds visual dividers for better log overview, and includes several UX improvements.
+[Read the release post](https://simple-history.com/2025/simple-history-5-11-0-released-sticky-events-visual-day-dividers/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_release_5_11_0) for more details and screenshots.
 
 **Added**
 
-- The debug page now detects if the required tables are missing and shows a warning. This can happen when the database of a website is moved between different servers using software that does not know about the tables used by Simple History. Fixes issue [#344](https://github.com/bonny/WordPress-Simple-History/issues/344) and support thread [Missing table support](https://wordpress.org/support/topic/missing-table-support/) among others.
-- Add filters `simple_history/feeds/enable_feeds_checkbox_text` and `simple_history/feeds/after_address`.
-- Add action `simple_history/settings_page/general_section_output`.
-- Add filter `simple_history/db/events_purged` that is fired after db has been purged from old events.
-- Add helper functions `required_tables_exist()`, `get_class_short_name()`.
-- Add function `get_slug()` to `Dropin` class.
-- Add function `get_rss_secret()` to `RSS_Dropin` class.
-- Show review hint at footer on settings page and log page.
-- Add functions `get_instantiated_dropin_by_slug()`, `get_external_loggers()`, `set_instantiated_loggers()`, ` set_instantiated_dropins()`, `get_instantiated_services()` to `Simple_History` class.
-- Dropins and services are now listed on the debug page.
+-   Visual day divider labels to the event log, e.g., "Sticky", "Today", "Yesterday", "May 14, 2025", for improved scannability and better log overview.
+-   Sticky Events: pin important events to the top of your log.
+-   WP-CLI commands to manage sticky events (stick, unstick, list):
+    -   wp simple-history event stick
+    -   wp simple-history event unstick
+    -   wp simple-history event is_sticky
+    -   wp simple-history event list_sticky [--format=<format>]
+-   Date and ID of the oldest event is now shown on the debug page.
+
+**Fixed**
+
+-   URL is no longer changed when using filters on the dashboard.
+-   Hide link to stats and summaries page in quick stats box if user doesn't have permission to view it.
+
+### 5.10.0 (May 2025)
+
+🎯 This release improves performance, enhances the user interface, and adds several quality-of-life improvements to make Simple History more efficient and user-friendly.
+[Read the release post](https://simple-history.com/2025/simple-history-5-10-0-released/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_release_5_10_0) for more details.
+
+**Added**
+
+-   Add option to include header row in CSV exports.
+-   Add URL-based search filters for easy bookmarking and sharing of search selections.
+-   Add option to view more events from the same user or for the same type of event.
 
 **Changed**
 
-- Order of settings tab can now be set with key `order` in the array passed to `add_settings_tab()`.
-- Rename network admin menu item "Simple History" to "View History" to use to same name as the admin menu item.
-- Purged events are logged using the simple history logger (instead of directly in the purge function).
-- Refactor code and move core functionality to multiple service classes.
-
-### 4.4.0 (August 2023)
-
-This version of Simple history is tested on the just released [WordPress 6.3](https://wordpress.org/news/2023/08/lionel/). It also contains some new features and bug fixes.
-
-[Release post for Simple History 4.4.0](https://simple-history.com/2023/simple-history-4-4-0/).
-
-**Added**
-
-- Logger for logging changes to the Simple History settings page. 🙈 And yes, it was quite embarrassing that the plugin itself did not log its activities.
-- RSS feed now accepts arguments to filter the events that are included in the feed. This makes it possible to subscribe to for example only WordPress core updates, or failed user logins, or any combination you want. See the documentation page for [available arguments and some examples](https://simple-history.com/docs/feeds/). [#387](https://github.com/bonny/WordPress-Simple-History/issues/387)
-- Event ID of each entry is included in WP-CLI output when running command `wp simple-history list`.
-- Filter `simple_history/settings/log_cleared` that is fired after the log has been cleared using the "Clear log now" button on the settings page.
-- Add helper function `is_plugin_active()` that loads the needed WordPress files before using the WordPress function with the same name. Part of fix for [#373](https://github.com/bonny/WordPress-Simple-History/issues/373).
+-   Load icons from a separate CSS file for better cache busting.
+-   Make interface even clearer by hiding some promo boxes if [Premium](https://simple-history.com/add-ons/premium/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_premium) is active.
+-   Remove `server_http_user_agent` from user updates, user creation, user deletion. It is still available for user successful and failed logins. If support personal needs to know the user agent, the login event is the best place to find this. Note: if you need event more debug info, you can enable [Detective Mode](https://simple-history.com/support/detective-mode/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_detective_mode) or get the [Debug and Monitor add-on](https://simple-history.com/add-ons/debug-and-monitor/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_debug_monitor).
+-   Use priority 1 for `wp_login` action instead of default 10 for better compatibility with auth plugins like [Two Factor](https://wordpress.org/plugins/two-factor/).
+-   Improve performance of stats and summaries page.
+-   Refactor query `date_from` and `date_to` parsing so sending in format `Y-m-d` means start/end of day automatically.
 
 **Fixed**
 
-- Shop changes to post type `customize_changeset`. Fix issue [#224](https://github.com/bonny/WordPress-Simple-History/issues/224) and support threads [stop the “Updated changeset” and “Move changeset” notifications](https://wordpress.org/support/topic/stop-the-updated-changeset-and-move-changeset-notifications/), [Newbie question](https://wordpress.org/support/topic/newbie-question-65/).
-- Scrollbar on dashboard on RTL websites. Fixes issue [#212](https://github.com/bonny/WordPress-Simple-History/issues/212), support thread [Horizontal Scroll](https://wordpress.org/support/topic/horizontal-scroll-16/).
-- PHP error when showing a log entry when all core loggers are disabled. Fixes [#373](https://github.com/bonny/WordPress-Simple-History/issues/373).
+-   Add log level `notice` to the GUI filters.
+-   Remove duplicate `date_gmt` column from event details table.
+-   Hide link to stats and summaries page from quick stats box if user doesn't have permission to view it.
+-   Hide notification bar if user can't visit link that is provided for the notification message.
+-   Misc internal improvements.
+-   Add option to copy event message (with or without details) to clipboard.
+
+### 5.9.0 (April 2025)
+
+📊 This release adds a new [stats and summaries page](https://simple-history.com/features/stats-and-summaries/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_stats_summaries) that gives you a quick overview summary of your site's activity.
+[Read more about the new stats and summaries page in the release post](https://simple-history.com/2025/simple-history-5-9-0-released/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_release_5_9_0).
+
+**Added**
+
+-   New stats and summaries page that gives you a lot of information about your site's activity. For the last month (customizable in [Premium](https://simple-history.com/add-ons/premium/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_premium)) you can see things like:
+    -   Quick numbers like total events during this period, total number of users that performed actions, number of posts and pages created, etc.
+    -   A big chart with the number of events logged each day.
+    -   A visual overview of the most active users.
+-   Quick access link to [stats and summaries](https://simple-history.com/features/stats-and-summaries/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_stats_summaries) in the quick stats box
+
+-   Hook `simple_history/admin_page/after_header` to allow plugins to add content after the header in Simple History admin pages.
+-   A discrete notification bar at top.
+
+**Fixed**
+
+-   Remove upsell boxes in settings page when [Premium](https://simple-history.com/add-ons/premium/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_premium) is active
 
 **Changed**
 
-- Tested on WordPress 6.3.
-- Use `uniqid()` as cache invalidator instead of `time()`. Querying the log multiple times during the same PHP request with the same arguments, adding entries to the log between each log query, the same results would be returned.
-- Function `get_event_ip_number_headers()` moved from Simple Logger class to Helpers class.
-- Misc internal code cleanup.
+-   Verified compatibility with WordPress 6.8
 
-### 4.3.0 (July 2023)
+### 5.8.2 (April 2025)
 
-**Added**
-
-- Add action `simple_history/rss_feed/secret_updated` that is fired when the secret for the RSS feed is updated.
-- Add tests for RSS feed.
-
-**Fixed**
-
-- RSS feed: Use `esc_xml` to escape texts. Fixes support thread [XML error with RSS feed](https://wordpress.org/support/topic/xml-error-with-rss-feed/), issue [#364](https://github.com/bonny/WordPress-Simple-History/issues/364).
-- RSS feed: Some texts was double escaped.
-- Plugin User Switching: store login and email context of user performing action, so information about a user exists even after user deletion. [#376](https://github.com/bonny/WordPress-Simple-History/issues/376).
-
-### 4.2.1 (July 2023)
-
-**Fixed**
-
-- Fix PHP error when running WP-Cron jobs on PHP 8 and something was to be logged. Fixes [#370](https://github.com/bonny/WordPress-Simple-History/issues/370) and support threads [wordpress.org/support/topic/fatal-error-4492/](https://wordpress.org/support/topic/fatal-error-4492/), [wordpress.org/support/topic/fatal-error-4488/](https://wordpress.org/support/topic/fatal-error-4488/), [wordpress.org/support/topic/php-error-in-lastest-version/](https://wordpress.org/support/topic/php-error-in-lastest-version/).
-
-### 4.2.0 (July 2023)
+🧩 This release improves compatibility with older WordPress versions and fixes some issues.
 
 **Added**
 
-- Filter `simple_history/day_of_week_to_purge_db` to set the day that the db should be cleared/purged on. 0 = monday, 7 = sunday. Default is 7.
-- Add class `SimpleHistory` so old code like `SimpleHistory->get_instance()` will work.
-- Add helper function `camel_case_to_snake_case()`.
-- Automatically convert camelCase function names to snake_case function names when calling functions on the `\Simple_History` class. This way more old code and old examples will work. Fixes for example [support thread](https://wordpress.org/support/topic/uncaught-error-class-simplehistory/).
-- Add `Helpers::privacy_anonymize_ip()`.
-- Add filter `simple_history/privacy/add_char_to_anonymized_ip_address` to control if a char should be added to anonymized IPV4 addresses.
-- Add filter `simple_history/maps_api_key` to set a Google Maps API key to be used to show a Google Map of the location of a user login using the user IP address.
-- If a Google Maps API key is set then a map of a users location is shown when clicking on the IP address of a logged event. [#249](https://github.com/bonny/WordPress-Simple-History/issues/249).
-
-**Fixed**
-
-- Fix `Undefined property` warning when loading more similar events. [#357](https://github.com/bonny/WordPress-Simple-History/issues/357)
-- Include "Plugin URI" from plugin when logging single plugin installs. [#323](https://github.com/bonny/WordPress-Simple-History/issues/323)
-- Check that installed theme has a `destination_name`. [#324](https://github.com/bonny/WordPress-Simple-History/issues/324)
-- Log correct role for user when adding a user on a subsite on a network/multisite install. [#325](https://github.com/bonny/WordPress-Simple-History/issues/325)
-- Check that required array keys exists in theme- and translation loggers. Fixes [support thread](https://wordpress.org/support/topic/strange-error-message-during-updates/), issue [#339](https://github.com/bonny/WordPress-Simple-History/issues/339).
-- Fix undefined index warning in logger when context was missing `_user_id`, `_user_email`, or `_user_login`. Fix [#367](https://github.com/bonny/WordPress-Simple-History/issues/367).
-- Misc code cleanup and improvements.
-- Fix spellings, as found by [Typos](https://github.com/crate-ci/typos/).
+-   Add filter `simple_history/post_logger/meta_keys_to_ignore` to modify the array with custom field keys to ignore. [#543](https://github.com/bonny/WordPress-Simple-History/issues/543)
 
 **Changed**
 
-- Move function `get_avatar()` to helpers class.
-- Change location of filter `gettext` and `gettext_with_context` and unhook when filter is not needed any more, resulting in much fewer function calls.
-- IPV4 addresses that are anonymized get a ".x" added last instead of ".0" to make it more clear to the user that the IP address is anonymized.
+-   Add compatibility with WordPress down to version 6.3 (from 6.6 previously). This makes it possible for users on older versions of WordPress to use the plugin. This was possible thanks to the great https://github.com/johnbillion/wp-compat library. [#542](https://github.com/bonny/WordPress-Simple-History/issues/542)
+-   Mask more password related fields when using [Detective Mode](https://simple-history.com/support/detective-mode/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_detective_mode). [#546](https://github.com/bonny/WordPress-Simple-History/issues/546)
 
-**Removed**
+### 5.8.1 (march 2025)
 
-- Remove unused schedule `simple_history/purge_db`.
-- Remove function `filter_gettext_store_latest_translations()`.
-- Remove support for automatically un-translating messages to the log, loggers are better and have better support for languages.
-
-### 4.1.0 (July 2023)
+🔧 This release adds several UI improvements and internal enhancements to make Simple History more user-friendly and robust.
 
 **Added**
 
-- Actions `simple_history/pause` and `simple_history/resume` to pause and resume logging. Useful for developers that for example write their own data importers because the log can be overwhelmed with data when importing a lot of data. [#307](https://github.com/bonny/WordPress-Simple-History/issues/307)
-- `clear_log()` now returns the number of rows deleted.
-- Added `disable_taxonomy_log()` to simplify disabling logging of a taxonomy.
-- Function `get_db_table_stats()` that returns for example the number of rows in each table.
-
-**Fixed**
-
-- Check that array keys `attachment_parent_title` and `attachment_parent_post_type` exists in Media Logger. [#313](https://github.com/bonny/WordPress-Simple-History/issues/313)
-- Don't log when terms are added to author taxonomy in [Co-Authors Plus](https://wordpress.org/plugins/co-authors-plus/). Fixes [support thread](https://wordpress.org/support/topic/co-author-plus-spamming-simple-history-plugin-is-this-a-but-or-a-feature/), issue [#238](https://github.com/bonny/WordPress-Simple-History/issues/238).
-- Don't load the log or check for updates on dashboard if the widget is hidden.
-- Don't check for updates on dashboard if a request is already ongoing.
+-   Add reload button when events fail to load (typically due to an expired nonce from admin inactivity).
+-   Add review notice for admins after many events has been logged to encourage [leaving a review](https://wordpress.org/support/plugin/simple-history/reviews/#new-post?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_review). (It keeps me motivated, you know.) It will only be shown on the admin pages that belong to Simple History.
 
 **Changed**
 
-- Moved filter `simple_history/dashboard_pager_size` to method `get_pager_size_dashboard()`.
-- Move function `get_initiator_text_from_row()` to `Log_Initiators` class.
-- If a filter is modifying the pager sizes then show a readonly text input with pager size instead of a dropdown select. [#298](https://github.com/bonny/WordPress-Simple-History/issues/298)
-- Update Chart.js library from 2.0.2 to 4.3.0. Fixes [support thread](https://wordpress.org/support/topic/outdated-chartjs-component-used/), issue [#340](https://github.com/bonny/WordPress-Simple-History/issues/340).
-
-### 4.0.1 (June 2023)
+-   Rename debug page to "Help & Support" for better clarity.
+-   Improve dropin loading by automatically finding dropins in the dropins folder.
 
 **Fixed**
 
-- Replace multibyte functions with non-multibyte versions, since `mbstring` is not a [required PHP extension](https://make.wordpress.org/hosting/handbook/server-environment/#php-extensions) (it is however a highly recommended one). Should fix https://wordpress.org/support/topic/wordpress-critical-error-9/. ([#351](https://github.com/bonny/WordPress-Simple-History/issues/351))
+-   Remove unnecessary div element in diff output.
+-   Enhance footer text handling to properly manage boolean and non-string inputs.
 
-### 4.0.0 (June 2023)
+### 5.8.0 (March 2025)
 
-🚀 This update of Simple History contains some big changes – that you hopefully won't even notice.
-
-For regular users these are the regular additions and bug fixes:
-
-**Changed**
-
-- Minimum required PHP version is 7.4. Users with lower versions can use [version 3.4.0 of the plugin](https://downloads.wordpress.org/plugin/simple-history.3.3.0.zip).
-- Minimum required WordPress version is 6.1.
-- Categories logger does not log changes to taxonomy `nav_menu` any longer, since the Menu logger takes care of those, i.e. changes to the menus.
+🔍 This release adds support for custom log entries and also adds logging when a user gets an access denied message when trying to view an admin page that they do not have access to.
+[Read the release post](https://simple-history.com/2025/simple-history-5-8-0-released/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_release_5_8_0) for more details and screenshots.
 
 **Added**
 
-- Log if "Send personal data export confirmation email" is checked when adding a Data Export Request.
-- Log when a Data Export Request is marked as complete.
-- Log when Personal Data is erased by an admin.
-- Log when a group is modified in Redirection plugin.
-- Added context key `export_content` to export logger. The key will contain the post type exported, or "all" if all content was exported.
+-   Add logging of admin page access denied events. When a user attempts to access an admin page they don't have permission for, this is now logged in the User Logger.
+-   Add new `Custom_Entry_Logger` logger that adds support for custom entries to be added via WP-CLI and REST API.
+    -   Only administrators (users with `manage_options` capability) can add custom log entries using the REST API.
+    -   Users with access to WP-CLI can add custom log entries.
+    -   See the release post for examples and screenshots of how to use custom entries.
+    -   (There is also an option in the Premium add-on to add custom entries via the UI.).
 
 **Fixed**
 
-- Fix error on MariaDB databases when collation `utf8mb4_unicode_520_ci` is used for the Simple history tables. Reported at: [https://wordpress.org/support/topic/database-error-after-upgrade-to-wordpress-6-1/](https://wordpress.org/support/topic/database-error-after-upgrade-to-wordpress-6-1/).
-- Privacy logger is logging the creation and selection of privacy page again. It stopped worked because [a WordPress core file was renamed](https://core.trac.wordpress.org/ticket/43895).
-- Log when a groups is enabled, disabled, or deleted in Redirection plugin.
+-   Fix rare options key missing error when retrieving logger search options.
 
-👩‍💻 For developers there are some bigger changes, that is noticeable:
+### 5.7.0 (February 2025)
 
-- The plugin now uses namespaces – and they are loaded using an autoloader.
-- The code has been changed to follow [WordPress coding standard](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/). This means that for example all functions have been renamed from `myFunctionName()` to `my_function_name()`.
-- The update to PHP 7.4 as the minimum required PHP version makes code more modern in so many ways and makes development easier and more funny, since we don't have to worry about backwards compatibility as much.
-- Many more tests using [wp-browser](https://wpbrowser.wptestkit.dev/) have has been added to minimize risk of bugs or fatal errors.
-
-A more detailed changelog that probably most developers are interested in:
+🔄 This release adds more menu location options and some other smaller improvements to the interface and internal code.
+[Read the release post](https://simple-history.com/2025/simple-history-5-7-0-released/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_release_5_7_0) for more details and screenshots.
 
 **Added**
 
-- Add cached = true|false to AJAX JSON answer when fetching events or checking for new events. It's a simple way to see if an object cache is in use and is working.
-- Most of the code now uses namespaces.
-  - The main namespace is `Simple_History`.
-  - The main class is `Simple_History\Simple_History`.
-  - Dropins use namespace `Simple_History\Dropins` and dropins must now extend the base class `Dropin`.
-  - Loggers use namespace `Simple_History\Loggers` and loggers must extend the base class `Logger`.
-- Add hooks that controls loggers and their instantiation: `simple_history/core_loggers`, `simple_history/loggers/instantiated`.
-- Add hooks that controls dropins and their instantiation: `simple_history/dropins_to_instantiate`, `simple_history/core_dropins`, `simple_history/dropins_to_instantiate`, `simple_history/dropin/instantiate_{$dropin_short_name}`, `simple_history/dropin/instantiate_{$dropin_short_name}`, `simple_history/dropins/instantiated`.
-- Add filter `simple_history/ip_number_header_names`.
-- Add methods `get_events_table_name()` and `get_contexts_table_name()`.
-- Call method `loaded()` on dropins when they are loaded (use this instead of `__construct`).
-- Make sure that a dropin class exists before trying to use it.
+-   Add new menu location options "Inside dashboard menu item" and "Inside tools menu item" (in addition to the available "Top of main menu" and "Bottom of main menu").
+    -   The "Inside dashboard menu item" option will add the main history log page to the Dashboard page, while the settings page for the plugin will be located under the Settings menu item. This is pretty much the same location as before the 5.5.0 update.
+    -   The location can be set using filter `simple_history/admin_menu_location`.
+-   Total number of events logged since install in now shown in the [Stats & Insights box](https://simple-history.com/add-ons/premium?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_stats_insights).
 
 **Changed**
 
-- Improved code organization with the introduction of namespaces. Code now uses namespaces and classes (including loggers and dropins) are now loaded using an autoloader.
-- Functions are renamed to use `snake_case` (WordPress coding style) instead of `camelCase` (PHP PSR coding style). Some examples:
-  - `registerSettingsTab` is renamed to `register_settings_tab`.
-- Remove usage of deprectead function `wp_get_user_request_data()`.
-- Rename message key from `data_erasure_request_sent` to `data_erasure_request_added`.
-- Rename message key from `data_erasure_request_handled` to `data_erasure_request_completed`.
-- Applied code fixes using Rector and PHPStan for better code quality.
-- Add new class `Helpers` that contain helper functions.
-- Move functions `simple_history_get_current_screen()`, `interpolate()`, `text_diff`, `validate_ip`, `ends_with`, `get_cache_incrementor` to new helper class.
-- Function `get_ip_number_header_keys` is moved to helper class and renamed `get_ip_number_header_names`.
-- Class `SimpleHistoryLogQuery` renamed to `Log_Query`.
-- Class `SimpleLoggerLogLevels` renamed to `Log_Levels`.
-- Class `SimpleLoggerLogInitiators` renamed to `Log_Initiators`.
-- Dropin files are renamed.
-- Move init code in dropins from `__construct()` to new `loaded()` method.
-- Rename `getLogLevelTranslated()` to `get_log_level_translated()` and move to class `log_levels`.
-- Rename message key `user_application_password_deleted` to `user_application_password_revoked`.
-- Context key `args` is renamed to `export_args` in export logger. This key contains some of the options that was passed to export function, like author, category, start date, end date, and status.
-- Ensure loggers has a name and a slug set to avoid development oversights. `_doing_it_wrong()` will be called if they have not.
-- Logger: Method `get_info_value_by_key()` is now public so it can be used outside of a logger.
-- Logger: Method `get_info()` is now abstract, since it must be added by loggers.
-- For backwards compatibility `SimpleHistoryLogQuery`, `SimpleLoggerLogLevels`, `SimpleLoggerLogInitiators`, `SimpleLogger` will continue to exist for a couple of more versions.
+-   Enhancement: Format number of events in Stats & Insights.
+-   Update menu settings name from "Menu page location" to "History menu position".
+-   Improve location of settings errors.
+-   Improve logic for determine if the current admin page belongs to Simple History or not. Improves compatibility with translation plugins. [#531](https://github.com/bonny/WordPress-Simple-History/issues/531)
 
-**Removed**
+**Fixed**
 
-- Function `simple_history_add` has been removed. See [docs.simple-history.com/logging](https://docs.simple-history.com/logging) for other ways to add messages to the history log.
-- Unused function `sh_ucwords()` has been removed.
-- Removed filters `simple_history/loggers_files`, `simple_history/logger/load_logger`, `'simple_history/dropins_files'`.
-- Unused class `SimpleLoggerLogTypes` removed.
-- Removed logger for plugin Ultimate Members.
-- Removed patches for plugin [captcha-on-login](https://wordpress.org/plugins/captcha-on-login/).
-- Remove dropin used to populate log with test data.
-- Remove dropin used to show log stats.
-- Examples in examples folder are removed and moved to the documentation site at docs.[simple-history.com](https://docs.simple-history.com/).
+-   Fix warning for [deprecated bottom styles in SelectControl component](https://make.wordpress.org/core/2024/10/18/editor-components-updates-in-wordpress-6-7/#bottom-margin-styles-are-deprecated).
+-   Show correct [limit login attempts link](https://simple-history.com/add-ons/premium/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_limit_login#limit-failed-logins) for [premium](https://simple-history.com/add-ons/premium?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_premium#features) users.
+-   Remove setting "Show history: as a page under the dashboard menu", since the history menu now can be set to multiple locations.
 
-### 3.5.1 (May 2023)
+**Other**
 
-- Fixed JavaScript error when Backbone.history is already started by other plugins. Fixes https://github.com/bonny/WordPress-Simple-History/issues/319.
+-   Deprecate functions `register_settings_tab()`, `get_main_nav_html()`, `get_subnav_html()`, `get_settings_tabs()`.
+-   Misc internal improvements and changes.
 
-### 3.5.0 (March 2023)
+### 5.6.1 (January 2025)
 
-- Added: Log an entry when a cron event hook is paused or resumed with the WP Crontrol plugin [#328](https://github.com/bonny/WordPress-Simple-History/pull/328).
-- Fixed: DB error on MariaDB database when collation `utf8mb4_unicode_520_ci` is used for the Simple history tables. Reported at: https://wordpress.org/support/topic/database-error-after-upgrade-to-wordpress-6-1/.
-- Tested up to WordPress 6.2.
+🚀 This release fixes incomplete exports due to an error in pagination logic.
+It also improves the post Quick Diff view by preventing scrollbar jumping on hover states.
+A small but very nice improvement! [See the difference in the release post.](https://simple-history.com/2025/simple-history-5-6-1-released/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_release_5_6_1)
 
-Note: Next major version of the plugin will require PHP 7. If you are running a PHP version older than that please read https://wordpress.org/support/update-php/.
+**Fixed**
 
-= 3.4.0 (February 2023) =
+-   Incomplete exports due to error in pagination logic.
+-   PHP notice when exporting events with missing user email data.
 
-- Changed: When exporting a CSV file of the history, each cell is escaped to reduce the risk of "CSV injection" in spreadsheet applications when importing the exported CSV. Reported at: https://patchstack.com/database/vulnerability/simple-history/wordpress-simple-history-plugin-3-3-1-csv-injection-vulnerability.
+**Improved**
 
-[Changelog for 2022 and earlier](https://github.com/bonny/WordPress-Simple-History/blob/master/CHANGELOG.md)
+-   Enhance post Quick Diff view by preventing scrollbar jumping on hover states. [#530](https://github.com/bonny/WordPress-Simple-History/issues/530)
+
+### 5.6.0 (January 2025)
+
+🔝 This version adds an option to the settings page to control the location of the menu page (at top or bottom).
+🫣 It also adds support for **Stealth Mode**: When enabled, Simple History will be hidden from places like the dashboard, the admin menu, the admin bar, and the plugin list.
+👉 Read the [release post](https://simple-history.com/2025/simple-history-5-6-released-with-stealth-mode/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_release_5_6_0) for more details and examples how to use this feature.
+
+**Added**
+
+-   Add support for **Stealth Mode**. When enabled (programmatically using a constant or filters) Simple History will be hidden from places like the dashboard, the admin menu, the admin bar, and the plugin list. [#401](https://github.com/bonny/WordPress-Simple-History/issues/401)
+-   Add option to set menu page location to settings page. [#525](https://github.com/bonny/WordPress-Simple-History/issues/525)
+-   Add WP-CLI command `simple-history stealth-mode status` to get status of Stealh Mode using WP-CLI.
+-   Add filter `simple_history/show_admin_menu_page` to
+-   Add filter `simple_history/admin_menu_location`.
+-   Add filters `simple_history/show_in_admin_bar` and `simple_history/show_on_dashboard`, that work the same way as `simple_history_show_in_admin_bar` and `simple_history_show_dashboard_widget`, but with correct naming convention.
+
+**Improved**
+
+-   Decrease the icon size in the admin bar and main menu, to match the size of other icons. Props @hjalle.
+
+**Fixed**
+
+-   Fix for `simple_history/show_action_link` when being used and returning false then the other action links was not shown.
+
+### 5.5.1 (January 2025)
+
+-   Fix the redirect from old settings page to new settings page and from old event log page to new event log page not always working when there was for example a WordPress update notice.
+
+### 5.5.0 (January 2025)
+
+Simple History 5.5.0 contains an improved event log menu location, and more 💥.
+Read the [release post](https://simple-history.com/2025/simple-history-5-5-0-released/?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_release_5_5_0) for more details.
+
+**Added**
+
+-   Added Simple History to the top level of the admin bar for improved accessibility and visibility. Previously, the plugin was located in the dashboard menu, the settings menu, and contained tools like export and debug scattered across sub-tabs. This change centralizes these tools, making them easier to find and use.
+-   Introduced a link to the settings page for users with the Premium add-on, shown in the "events cleared" text. [#486](https://github.com/bonny/WordPress-Simple-History/issues/486)
+-   Added slotfill `SimpleHistorySlotEventActionsMenu` to enable future extensions and customizations. [#499](https://github.com/bonny/WordPress-Simple-History/issues/499)
+
+**Deprecated**
+
+-   Deprecated the filter `simple_history/admin_location` since the event log page now includes sub-pages and cannot be moved.
+
+**Changed**
+
+-   Updated icons next to menu titles to improve visual clarity and consistency. [#517](https://github.com/bonny/WordPress-Simple-History/issues/517)
+
+**Fixed**
+
+-   Resolved an issue where premium info was displayed below the "clear log" button even when the Premium add-on was installed.
+-   Various internal code enhancements and optimizations.
+
+### 5.4.4 (January 2025)
+
+First release of 2025! 🎉
+
+-   Don't output CSS and JS for _Admin Bar Quick View_ if admin bar is not visible. [#510](https://github.com/bonny/WordPress-Simple-History/issues/510)
+-   Only load events from the last 7 days in the _Admin Bar Quick View_.
+-   Remove some unused CSS. [#505](https://github.com/bonny/WordPress-Simple-History/issues/505)
+-   🎨 Fresh new logo for the plugin.
+-   Style some admin boxes to match new design.
+-   Misc other internal improvements.
+
+[Changelog for previous versions.](https://github.com/bonny/WordPress-Simple-History/blob/main/CHANGELOG.md?utm_source=wordpress_org&utm_medium=plugin_directory&utm_campaign=documentation&utm_content=readme_doc_changelog)

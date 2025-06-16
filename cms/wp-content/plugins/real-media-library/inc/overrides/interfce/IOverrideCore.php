@@ -7,6 +7,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\Freemium\ICore;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 interface IOverrideCore extends ICore
 {
     /**

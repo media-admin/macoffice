@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TI WooCommerce Wishlist Plugin Premium - 1.22.1\n"
 "Report-Msgid-Bugs-To: https://templateinvaders.com/help/\n"
-"POT-Creation-Date: 2021-08-20 00:40+0700\n"
+"POT-Creation-Date: 2024-02-23 19:56+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: TemplateInvaders (https://templateinvaders.com/)\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;"
 "_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
@@ -24,46 +24,46 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 "X-Poedit-SearchPathExcluded-2: templates/soft_skin\n"
 
-#: admin/basestyle.helper.php:99 public/email.helper.php:144
+#: admin/basestyle.helper.php:97 public/email.helper.php:146
 msgid "Default"
 msgstr ""
 
-#: admin/basestyle.helper.php:126 admin/basestyle.helper.php:147
+#: admin/basestyle.helper.php:124 admin/basestyle.helper.php:145
 msgid "Templates"
 msgstr "Πρότυπα"
 
-#: admin/basestyle.helper.php:133
+#: admin/basestyle.helper.php:131
 msgid "Use Theme style"
 msgstr "Χρησιμοποιήστε το στυλ του Θέματος σας"
 
-#: admin/basestyle.helper.php:165 admin/basestyle.helper.php:172
+#: admin/basestyle.helper.php:163 admin/basestyle.helper.php:170
 msgid "Custom CSS Rules"
 msgstr ""
 
-#: admin/basestyle.helper.php:198 admin/settings/addtowishlist.class.php:557
-#: admin/settings/general.class.php:708
-#: admin/settings/integrations.class.php:115
-#: admin/settings/notification.class.php:470
-#: admin/settings/social.class.php:163 admin/settings/table.class.php:260
+#: admin/basestyle.helper.php:196 admin/settings/addtowishlist.class.php:586
+#: admin/settings/general.class.php:815
+#: admin/settings/integrations.class.php:102
+#: admin/settings/notification.class.php:503
+#: admin/settings/social.class.php:164 admin/settings/table.class.php:309
 msgid "Save Settings"
 msgstr "Αποθήκευση ρυθμίσεων"
 
-#: admin/basestyle.helper.php:204 admin/settings/addtowishlist.class.php:563
-#: admin/settings/general.class.php:714
-#: admin/settings/notification.class.php:476
-#: admin/settings/social.class.php:169 admin/settings/table.class.php:266
+#: admin/basestyle.helper.php:202 admin/settings/addtowishlist.class.php:592
+#: admin/settings/general.class.php:821
+#: admin/settings/notification.class.php:509
+#: admin/settings/social.class.php:170 admin/settings/table.class.php:315
 msgid "Reset"
 msgstr "Επαναφορά"
 
-#: admin/basestyle.helper.php:210 admin/settings/addtowishlist.class.php:569
-#: admin/settings/general.class.php:720
-#: admin/settings/integrations.class.php:121
-#: admin/settings/notification.class.php:482
-#: admin/settings/social.class.php:175 admin/settings/table.class.php:272
+#: admin/basestyle.helper.php:208 admin/settings/addtowishlist.class.php:598
+#: admin/settings/general.class.php:827
+#: admin/settings/integrations.class.php:108
+#: admin/settings/notification.class.php:515
+#: admin/settings/social.class.php:176 admin/settings/table.class.php:321
 msgid "Save"
 msgstr "Αποθήκευση"
 
-#: admin/basestyle.helper.php:254
+#: admin/basestyle.helper.php:252
 msgid "Template Options"
 msgstr "Επιλογές Προτύπου"
 
@@ -120,7 +120,8 @@ msgid "Send Promotional Email"
 msgstr ""
 
 #: admin/product/table.class.php:43 admin/product/usertable.class.php:51
-#: templates/ti-wishlist-user.php:40 templates/ti-wishlist.php:41
+#: integrations/vad-product-design.php:73 templates/ti-wishlist-user.php:39
+#: templates/ti-wishlist.php:46
 msgid "Product"
 msgstr "Προϊόν"
 
@@ -128,27 +129,27 @@ msgstr "Προϊόν"
 msgid "Products"
 msgstr ""
 
-#: admin/product/table.class.php:191
+#: admin/product/table.class.php:193
 msgid "No Products available."
 msgstr ""
 
-#: admin/product/table.class.php:219
+#: admin/product/table.class.php:221
 msgid "Send promotion"
 msgstr ""
 
-#: admin/product/table.class.php:224 admin/product/table.class.php:290
+#: admin/product/table.class.php:226 admin/product/table.class.php:315
 msgid "Users"
 msgstr ""
 
-#: admin/product/table.class.php:286 templates/emails/ti-estimate.php:32
-#: templates/emails/ti-previewestimate.php:65 templates/ti-wishlist-user.php:39
-#: templates/ti-wishlist.php:40
+#: admin/product/table.class.php:311 templates/emails/ti-estimate.php:32
+#: templates/emails/ti-previewestimate.php:65 templates/ti-wishlist-pdf.php:119
+#: templates/ti-wishlist-user.php:38 templates/ti-wishlist.php:45
 msgid "Product Name"
 msgstr "Όνομα προϊοντος"
 
-#: admin/product/table.class.php:287 admin/product/usertable.class.php:69
-#: admin/product/usertable.class.php:90 admin/wishlist.class.php:26
-#: admin/wishlist.class.php:42 admin/wishlist/table.class.php:45
+#: admin/product/table.class.php:312 admin/product/usertable.class.php:69
+#: admin/product/usertable.class.php:91 admin/wishlist.class.php:24
+#: admin/wishlist.class.php:40 admin/wishlist/table.class.php:45
 #: integrations/automatewoo/trigger-wishlist-item-added-to-cart.php:14
 #: integrations/automatewoo/trigger-wishlist-item-added.php:14
 #: integrations/automatewoo/trigger-wishlist-item-purchased.php:14
@@ -158,134 +159,144 @@ msgstr "Όνομα προϊοντος"
 msgid "Wishlists"
 msgstr "Λίστες Επιθυμιών"
 
-#: admin/product/table.class.php:293 templates/emails/ti-estimate.php:40
-#: templates/emails/ti-previewestimate.php:71 templates/ti-wishlist-user.php:52
-#: templates/ti-wishlist.php:53
+#: admin/product/table.class.php:318 templates/emails/ti-estimate.php:40
+#: templates/emails/ti-previewestimate.php:71 templates/ti-wishlist-pdf.php:130
+#: templates/ti-wishlist-user.php:51 templates/ti-wishlist.php:58
 msgid "Qty"
 msgstr ""
 
-#: admin/product/table.class.php:293
+#: admin/product/table.class.php:318
 msgid " in Wishlists"
 msgstr ""
 
-#: admin/product/table.class.php:295
+#: admin/product/table.class.php:320
 msgid "Views"
 msgstr ""
 
-#: admin/product/table.class.php:296
+#: admin/product/table.class.php:321
 msgid "Purchases"
 msgstr ""
 
-#: admin/product/table.class.php:297
+#: admin/product/table.class.php:322
 msgid "CTR"
 msgstr ""
 
-#: admin/product/table.class.php:298
+#: admin/product/table.class.php:323
 msgid "Abandonment"
 msgstr ""
 
-#: admin/product/table.class.php:299 admin/product/usertable.class.php:77
-#: admin/wishlist/table.class.php:69 public/manage/buttons.class.php:226
-#: public/wishlist/buttons.class.php:366
+#: admin/product/table.class.php:324 admin/product/usertable.class.php:78
+#: admin/wishlist/table.class.php:69 public/manage/buttons.class.php:200
+#: public/wishlist/buttons.class.php:221
 msgid "Actions"
 msgstr "Ενέργειες"
 
-#: admin/product/table.class.php:331 admin/product/usertable.class.php:337
-#: admin/wishlist/subscribers.class.php:213 admin/wishlist/table.class.php:383
+#: admin/product/table.class.php:356 admin/product/usertable.class.php:385
+#: admin/wishlist/subscribers.class.php:213 admin/wishlist/table.class.php:393
 msgid "Previous page"
 msgstr ""
 
-#: admin/product/table.class.php:333 admin/product/usertable.class.php:339
-#: admin/wishlist/subscribers.class.php:215 admin/wishlist/table.class.php:385
+#: admin/product/table.class.php:358 admin/product/usertable.class.php:387
+#: admin/wishlist/subscribers.class.php:215 admin/wishlist/table.class.php:395
 msgid "First page"
 msgstr ""
 
-#: admin/product/table.class.php:336 admin/product/table.class.php:346
-#: admin/product/usertable.class.php:342 admin/product/usertable.class.php:352
+#: admin/product/table.class.php:361 admin/product/table.class.php:371
+#: admin/product/usertable.class.php:390 admin/product/usertable.class.php:400
 #: admin/wishlist/subscribers.class.php:218
-#: admin/wishlist/subscribers.class.php:228 admin/wishlist/table.class.php:388
-#: admin/wishlist/table.class.php:398
+#: admin/wishlist/subscribers.class.php:228 admin/wishlist/table.class.php:398
+#: admin/wishlist/table.class.php:408
 msgid "..."
 msgstr ""
 
-#: admin/product/table.class.php:349 admin/product/usertable.class.php:355
-#: admin/wishlist/subscribers.class.php:231 admin/wishlist/table.class.php:401
+#: admin/product/table.class.php:374 admin/product/usertable.class.php:403
+#: admin/wishlist/subscribers.class.php:231 admin/wishlist/table.class.php:411
 msgid "Last page"
 msgstr ""
 
-#: admin/product/table.class.php:353 admin/product/usertable.class.php:359
-#: admin/wishlist/subscribers.class.php:235 admin/wishlist/table.class.php:405
+#: admin/product/table.class.php:378 admin/product/usertable.class.php:407
+#: admin/wishlist/subscribers.class.php:235 admin/wishlist/table.class.php:415
 msgid "Next page"
 msgstr ""
 
-#: admin/product/table.class.php:439 admin/product/usertable.class.php:437
-#: admin/wishlist/table.class.php:483 templates/ti-wishlist-navigation.php:43
+#: admin/product/table.class.php:464 admin/product/usertable.class.php:485
+#: admin/wishlist/table.class.php:493 templates/ti-wishlist-navigation.php:62
 #: templates/ti-wishlist-widget-searchform.php:26
 msgid "Search"
 msgstr ""
 
-#: admin/product/table.class.php:439
+#: admin/product/table.class.php:464
 msgid "by Product"
 msgstr ""
 
-#: admin/product/table.class.php:541 admin/product/usertable.class.php:579
-#: admin/wishlist/subscribers.class.php:399 admin/wishlist/table.class.php:729
+#: admin/product/table.class.php:566 admin/product/usertable.class.php:627
+#: admin/wishlist/subscribers.class.php:399 admin/wishlist/table.class.php:739
 msgid "Select All"
+msgstr ""
+
+#: admin/product/table.class.php:637
+msgid "Download CSV"
 msgstr ""
 
 #: admin/product/usertable.class.php:53
 msgid "users"
 msgstr ""
 
-#: admin/product/usertable.class.php:68 admin/product/usertable.class.php:89
+#: admin/product/usertable.class.php:68 admin/product/usertable.class.php:90
 #: admin/wishlist/subscribers.class.php:68
 msgid "Name"
 msgstr ""
 
-#: admin/product/usertable.class.php:72 admin/product/usertable.class.php:91
-#: templates/ti-wishlist-manage.php:33 templates/ti-wishlist-public.php:28
-#: templates/ti-wishlist-user.php:46 templates/ti-wishlist.php:47
+#: admin/product/usertable.class.php:72 admin/product/usertable.class.php:92
+#: templates/ti-wishlist-manage.php:42 templates/ti-wishlist-pdf.php:124
+#: templates/ti-wishlist-public.php:28 templates/ti-wishlist-user.php:45
+#: templates/ti-wishlist.php:52
 msgid "Date Added"
 msgstr "Ημερομηνία προσθήκης"
 
-#: admin/product/usertable.class.php:75 admin/product/usertable.class.php:92
+#: admin/product/usertable.class.php:75 admin/product/usertable.class.php:94
 msgid "Quantity"
 msgstr ""
 
-#: admin/product/usertable.class.php:200
+#: admin/product/usertable.class.php:77 admin/product/usertable.class.php:93
+msgid "Subscribed"
+msgstr ""
+
+#: admin/product/usertable.class.php:202
 msgid "No Users available."
 msgstr ""
 
-#: admin/product/usertable.class.php:228 admin/wishlist/table.class.php:241
+#: admin/product/usertable.class.php:243 admin/wishlist/table.class.php:252
+#: includes/tinvwl.class.php:266
 msgid "Guest"
 msgstr ""
 
-#: admin/product/usertable.class.php:275 admin/product/usertable.class.php:447
+#: admin/product/usertable.class.php:323 admin/product/usertable.class.php:495
 msgid "Send promotional"
 msgstr ""
 
-#: admin/product/usertable.class.php:437 admin/wishlist/table.class.php:483
+#: admin/product/usertable.class.php:485 admin/wishlist/table.class.php:493
 msgid "by User"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:72
+#: admin/settings/addtowishlist.class.php:69
 msgid "Button Options"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:73
+#: admin/settings/addtowishlist.class.php:70
 msgid "\"Add to Wishlist\" Button Options"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:90
+#: admin/settings/addtowishlist.class.php:86
 msgid "Product page Button Settings"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:96
-#: admin/settings/addtowishlist.class.php:245 views/wizard/step-button.php:28
+#: admin/settings/addtowishlist.class.php:92
+#: admin/settings/addtowishlist.class.php:258 views/wizard/step-button.php:28
 msgid "Button position"
 msgstr "Θέση Κουμπιού"
 
-#: admin/settings/addtowishlist.class.php:97
+#: admin/settings/addtowishlist.class.php:93
 msgid ""
 "Add this shortcode <code>[ti_wishlists_addtowishlist]</code> anywhere on "
 "product page, if you have chosen custom position for product button. You "
@@ -295,45 +306,45 @@ msgstr ""
 "οπουδήποτε στη σελίδα προϊόντος, αν έχετε επιλέξει την προσαρμοσμένη θέση "
 "για το κουμπί προϊόντος. Θα πρέπει να το κάνετε αυτό για κάθε προϊόν."
 
-#: admin/settings/addtowishlist.class.php:100
-#: admin/settings/addtowishlist.class.php:248 includes/wizard.class.php:500
+#: admin/settings/addtowishlist.class.php:96
+#: admin/settings/addtowishlist.class.php:261 includes/wizard.class.php:500
 #: includes/wizard.class.php:508
 msgid "After \"Add to Cart\" button"
 msgstr "Μετά από το κουμπί \"Προσθήκη στο Καλάθι\""
 
-#: admin/settings/addtowishlist.class.php:101
-#: admin/settings/addtowishlist.class.php:249 includes/wizard.class.php:501
+#: admin/settings/addtowishlist.class.php:97
+#: admin/settings/addtowishlist.class.php:262 includes/wizard.class.php:501
 #: includes/wizard.class.php:509
 msgid "Before \"Add to Cart\" button"
 msgstr "Πριν από το κουμπί \"Προσθήκη στο Καλάθι\""
 
-#: admin/settings/addtowishlist.class.php:102
+#: admin/settings/addtowishlist.class.php:98
 #, fuzzy
 #| msgid "Above Thumbnail"
 msgid "After Thumbnails"
 msgstr "Πάνω από την μικρογραφία"
 
-#: admin/settings/addtowishlist.class.php:103
+#: admin/settings/addtowishlist.class.php:99
 msgid "After summary"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:104
-#: admin/settings/addtowishlist.class.php:251 includes/wizard.class.php:502
+#: admin/settings/addtowishlist.class.php:100
+#: admin/settings/addtowishlist.class.php:264 includes/wizard.class.php:502
 #: includes/wizard.class.php:511
 msgid "Custom position with code"
 msgstr "Προσαρμοσμένη θέση με κώδικα"
 
-#: admin/settings/addtowishlist.class.php:110
-#: admin/settings/addtowishlist.class.php:257
-#: admin/settings/addtowishlist.class.php:386
-#: admin/settings/addtowishlist.class.php:478
+#: admin/settings/addtowishlist.class.php:106
+#: admin/settings/addtowishlist.class.php:270
+#: admin/settings/addtowishlist.class.php:415
+#: admin/settings/addtowishlist.class.php:507
 msgid "Button custom CSS class"
 msgstr "Κλάση CSS κουμπιού"
 
-#: admin/settings/addtowishlist.class.php:111
-#: admin/settings/addtowishlist.class.php:258
-#: admin/settings/addtowishlist.class.php:387
-#: admin/settings/addtowishlist.class.php:479
+#: admin/settings/addtowishlist.class.php:107
+#: admin/settings/addtowishlist.class.php:271
+#: admin/settings/addtowishlist.class.php:416
+#: admin/settings/addtowishlist.class.php:508
 msgid ""
 "You can add custom CSS classes to button markup separated by spaces. Most of "
 "themes using <code>button</code> class for this type of buttons."
@@ -342,16 +353,16 @@ msgstr ""
 "κενά. Τα περισσότερα θέματα χρησιμοποιούν <code>button</code> κλάση για αυτά "
 "τα κουμπιά."
 
-#: admin/settings/addtowishlist.class.php:120
-#: admin/settings/addtowishlist.class.php:267
+#: admin/settings/addtowishlist.class.php:116
+#: admin/settings/addtowishlist.class.php:280
 msgid "\"Add to Wishlist\" Icon"
 msgstr "Εικονίδιο \"Προσθήκη στη Λίστα Επιθυμιών\""
 
-#: admin/settings/addtowishlist.class.php:121
-#: admin/settings/addtowishlist.class.php:275
-#: admin/settings/addtowishlist.class.php:404
-#: admin/settings/addtowishlist.class.php:496
-#: admin/settings/general.class.php:545
+#: admin/settings/addtowishlist.class.php:117
+#: admin/settings/addtowishlist.class.php:293
+#: admin/settings/addtowishlist.class.php:433
+#: admin/settings/addtowishlist.class.php:525
+#: admin/settings/general.class.php:620
 msgid ""
 "You can choose from our predefined icons or upload your custom icon. Custom "
 "icon size is limited to 16x16 px."
@@ -360,88 +371,102 @@ msgstr ""
 "σας προσαρμοσμένο εικονίδιο. Το μέγεθος του προσαρμοσμένου εικονιδίου "
 "περιορίζεται σε 16x16 px."
 
-#: admin/settings/addtowishlist.class.php:124
-#: admin/settings/addtowishlist.class.php:270
-#: admin/settings/addtowishlist.class.php:399
-#: admin/settings/addtowishlist.class.php:491
-#: admin/settings/general.class.php:86 admin/settings/general.class.php:540
+#: admin/settings/addtowishlist.class.php:120
+#: admin/settings/addtowishlist.class.php:283
+#: admin/settings/addtowishlist.class.php:428
+#: admin/settings/addtowishlist.class.php:520
+#: admin/settings/general.class.php:80 admin/settings/general.class.php:615
 msgid "None"
 msgstr "Κανένα"
 
-#: admin/settings/addtowishlist.class.php:125
-#: admin/settings/addtowishlist.class.php:271
-#: admin/settings/addtowishlist.class.php:400
-#: admin/settings/addtowishlist.class.php:492
-#: admin/settings/general.class.php:541
+#: admin/settings/addtowishlist.class.php:121
+#: admin/settings/addtowishlist.class.php:284
+#: admin/settings/addtowishlist.class.php:429
+#: admin/settings/addtowishlist.class.php:521
+#: admin/settings/general.class.php:616
 msgid "Heart"
 msgstr "Καρδιά"
 
-#: admin/settings/addtowishlist.class.php:126
-#: admin/settings/addtowishlist.class.php:272
-#: admin/settings/addtowishlist.class.php:401
-#: admin/settings/addtowishlist.class.php:493
-#: admin/settings/general.class.php:542
+#: admin/settings/addtowishlist.class.php:122
+#: admin/settings/addtowishlist.class.php:285
+#: admin/settings/addtowishlist.class.php:430
+#: admin/settings/addtowishlist.class.php:522
+#: admin/settings/general.class.php:617
 msgid "Heart+"
 msgstr "Καρδιά+"
 
-#: admin/settings/addtowishlist.class.php:127
-#: admin/settings/addtowishlist.class.php:273
-#: admin/settings/addtowishlist.class.php:402
-#: admin/settings/addtowishlist.class.php:494
-#: admin/settings/general.class.php:543
+#: admin/settings/addtowishlist.class.php:123
+#: admin/settings/addtowishlist.class.php:286
+#: admin/settings/addtowishlist.class.php:431
+#: admin/settings/addtowishlist.class.php:523
+#: admin/settings/general.class.php:618
 msgid "Custom"
 msgstr "Προσαρμογή"
 
-#: admin/settings/addtowishlist.class.php:137
-#: admin/settings/addtowishlist.class.php:284
-#: admin/settings/addtowishlist.class.php:413
-#: admin/settings/addtowishlist.class.php:505
-#: admin/settings/general.class.php:554
-#: admin/settings/notification.class.php:214
-#: admin/settings/notification.class.php:233
+#: admin/settings/addtowishlist.class.php:136
+#: admin/settings/addtowishlist.class.php:299
+#, fuzzy
+#| msgid "Use Default Font"
+msgid "Default state"
+msgstr "Χρήση προεπιλεγμένης γραμματοσειράς"
+
+#: admin/settings/addtowishlist.class.php:140
+#: admin/settings/addtowishlist.class.php:153
+#: admin/settings/addtowishlist.class.php:303
+#: admin/settings/addtowishlist.class.php:316
+#: admin/settings/addtowishlist.class.php:442
+#: admin/settings/addtowishlist.class.php:534
+#: admin/settings/general.class.php:629
+#: admin/settings/notification.class.php:210
+#: admin/settings/notification.class.php:229
 msgid "Upload"
 msgstr "Μεταφόρτωση"
 
 #: admin/settings/addtowishlist.class.php:149
-#: admin/settings/addtowishlist.class.php:296
+#: admin/settings/addtowishlist.class.php:312
+msgid "Already added state"
+msgstr ""
+
+#: admin/settings/addtowishlist.class.php:162
+#: admin/settings/addtowishlist.class.php:325
 msgid "\"Add to Wishlist\" Icon Color"
 msgstr "Χρώμα Εικονιδίου \"Προσθήκη στη Λίστα Επιθυμιών\""
 
-#: admin/settings/addtowishlist.class.php:151
-#: admin/settings/addtowishlist.class.php:298
-#: admin/settings/addtowishlist.class.php:427
-#: admin/settings/addtowishlist.class.php:519
-#: admin/settings/general.class.php:568 admin/settings/social.class.php:147
+#: admin/settings/addtowishlist.class.php:164
+#: admin/settings/addtowishlist.class.php:327
+#: admin/settings/addtowishlist.class.php:456
+#: admin/settings/addtowishlist.class.php:548
+#: admin/settings/general.class.php:643 admin/settings/social.class.php:148
 msgid "Use font color"
 msgstr "Χρησιμοποιήστε το χρώμα της γραμματοσειράς"
 
-#: admin/settings/addtowishlist.class.php:152
-#: admin/settings/addtowishlist.class.php:299
-#: admin/settings/addtowishlist.class.php:428
-#: admin/settings/addtowishlist.class.php:520
-#: admin/settings/general.class.php:569
+#: admin/settings/addtowishlist.class.php:165
+#: admin/settings/addtowishlist.class.php:328
+#: admin/settings/addtowishlist.class.php:457
+#: admin/settings/addtowishlist.class.php:549
+#: admin/settings/general.class.php:644
 msgid "Black"
 msgstr "Μαύρο"
 
-#: admin/settings/addtowishlist.class.php:153
-#: admin/settings/addtowishlist.class.php:300
-#: admin/settings/addtowishlist.class.php:429
-#: admin/settings/addtowishlist.class.php:521
-#: admin/settings/general.class.php:570 admin/settings/social.class.php:149
+#: admin/settings/addtowishlist.class.php:166
+#: admin/settings/addtowishlist.class.php:329
+#: admin/settings/addtowishlist.class.php:458
+#: admin/settings/addtowishlist.class.php:550
+#: admin/settings/general.class.php:645 admin/settings/social.class.php:150
 msgid "White"
 msgstr "Λευκό"
 
-#: admin/settings/addtowishlist.class.php:162
-#: admin/settings/addtowishlist.class.php:309
-#: admin/settings/addtowishlist.class.php:438
-#: admin/settings/addtowishlist.class.php:530
+#: admin/settings/addtowishlist.class.php:175
+#: admin/settings/addtowishlist.class.php:338
+#: admin/settings/addtowishlist.class.php:467
+#: admin/settings/addtowishlist.class.php:559
 msgid "Show preloader"
 msgstr "Εμφάνιση preloader"
 
-#: admin/settings/addtowishlist.class.php:163
-#: admin/settings/addtowishlist.class.php:310
-#: admin/settings/addtowishlist.class.php:439
-#: admin/settings/addtowishlist.class.php:531
+#: admin/settings/addtowishlist.class.php:176
+#: admin/settings/addtowishlist.class.php:339
+#: admin/settings/addtowishlist.class.php:468
+#: admin/settings/addtowishlist.class.php:560
 msgid ""
 "If enabled, applies animation for the button icon until product adding or "
 "removing processed. (Usable for servers with slow connection mostly.)"
@@ -450,158 +475,158 @@ msgstr ""
 "κουμπιού, μέχρι να προστεθεί, ή να αφαιρεθεί το προϊόν που έχει υποστεί "
 "επεξεργασία (Χρήσιμο για διακομιστές με αργή σύνδεση.)"
 
-#: admin/settings/addtowishlist.class.php:169
-#: admin/settings/addtowishlist.class.php:316
+#: admin/settings/addtowishlist.class.php:182
+#: admin/settings/addtowishlist.class.php:345
 msgid "Show button text"
 msgstr "Εμφάνιση κειμένου κουμπιού"
 
-#: admin/settings/addtowishlist.class.php:184
+#: admin/settings/addtowishlist.class.php:197
 msgid "\"Add to Wishlist\" button Text"
 msgstr "Κείμενο κουμπιού \"Προσθήκη στη Λίστα Επιθυμιών\""
 
-#: admin/settings/addtowishlist.class.php:190
-#: admin/settings/addtowishlist.class.php:337
+#: admin/settings/addtowishlist.class.php:203
+#: admin/settings/addtowishlist.class.php:366
 msgid "Show \"Already In Wishlist\" button Text"
 msgstr "Δείξε κουμπί Κειμένου \" Ήδη στη Λίστα Επιθυμιών \""
 
-#: admin/settings/addtowishlist.class.php:200
-#: admin/settings/addtowishlist.class.php:347
+#: admin/settings/addtowishlist.class.php:213
+#: admin/settings/addtowishlist.class.php:376
 msgid "\"Already In Wishlist\" button Text"
 msgstr "Κείμενο κουμπιού \"Ήδη στην λίστα επιθυμιών\""
 
-#: admin/settings/addtowishlist.class.php:208
-#: admin/settings/addtowishlist.class.php:355
+#: admin/settings/addtowishlist.class.php:221
+#: admin/settings/addtowishlist.class.php:384
 msgid "\"Remove from Wishlist\" Button Text"
 msgstr "Διαγραφή"
 
-#: admin/settings/addtowishlist.class.php:216
+#: admin/settings/addtowishlist.class.php:229
 msgid "Product Listing page Button Settings"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:217
+#: admin/settings/addtowishlist.class.php:230
 msgid ""
 "This is separate settings for \"Add to wishlist\" button on product listing "
 "(Shop page, categories, etc.). You can also adjust button and text colors, "
 "size, etc. in <code>TI Wishlist > Style Options.</code>"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:223
+#: admin/settings/addtowishlist.class.php:236
 msgid "Show in Product Listing"
 msgstr "Εμφάνιση στη λίστα προϊόντων"
 
-#: admin/settings/addtowishlist.class.php:238
+#: admin/settings/addtowishlist.class.php:251
 msgid "Show for variable products"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:239
+#: admin/settings/addtowishlist.class.php:252
 msgid ""
 "Will show \"Add to wishlist\" button for variable products if product "
 "variations are set by default."
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:250 includes/wizard.class.php:510
+#: admin/settings/addtowishlist.class.php:263 includes/wizard.class.php:510
 msgid "Above Thumbnail"
 msgstr "Πάνω από την μικρογραφία"
 
-#: admin/settings/addtowishlist.class.php:331 views/wizard/step-button.php:37
+#: admin/settings/addtowishlist.class.php:360 views/wizard/step-button.php:37
 msgid "\"Add to Wishlist\" Text"
 msgstr "\"Add to Wishlist\" Κείμενο"
 
-#: admin/settings/addtowishlist.class.php:363
+#: admin/settings/addtowishlist.class.php:392
 msgid "Cart page Button Settings"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:364
+#: admin/settings/addtowishlist.class.php:393
 msgid ""
 "This is separate settings for \"Save for Later\" button on a Cart page. You "
 "can also adjust button and text colors, size, etc. in <code>TI Wishlist > "
 "Style Options.</code>"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:370
+#: admin/settings/addtowishlist.class.php:399
 msgid "Show button for Cart Items"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:372
+#: admin/settings/addtowishlist.class.php:401
 msgid ""
 "Enables/disables \"Save for Later\" button for every cart item in a table."
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:396
+#: admin/settings/addtowishlist.class.php:425
 msgid "\"Save for Later\" Icon"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:425
-#: admin/settings/style.class.php:625
+#: admin/settings/addtowishlist.class.php:454
+#: admin/settings/style.class.php:624
 msgid "\"Save for Later\" Icon Color"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:445
+#: admin/settings/addtowishlist.class.php:474
 msgid "\"Save for Later\" Text"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:451
-#: admin/settings/addtowishlist.class.php:543
+#: admin/settings/addtowishlist.class.php:480
+#: admin/settings/addtowishlist.class.php:572
 msgid "Remove from cart if added to Wishlist"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:452
-#: admin/settings/addtowishlist.class.php:544
+#: admin/settings/addtowishlist.class.php:481
+#: admin/settings/addtowishlist.class.php:573
 msgid "Remove from cart when products are added to wishlist."
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:462
+#: admin/settings/addtowishlist.class.php:491
 msgid "Show button for Cart"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:464
+#: admin/settings/addtowishlist.class.php:493
 msgid ""
 "Enables/disables \"Save Cart\" button that allows to add all cart items to "
 "wishlist in one click."
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:488
+#: admin/settings/addtowishlist.class.php:517
 msgid "\"Save Cart\" Icon"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:517
-#: admin/settings/style.class.php:639
+#: admin/settings/addtowishlist.class.php:546
+#: admin/settings/style.class.php:638
 msgid "\"Save Cart\" Icon Color"
 msgstr ""
 
-#: admin/settings/addtowishlist.class.php:537
+#: admin/settings/addtowishlist.class.php:566
 msgid "\"Save Cart\" Text"
 msgstr ""
 
-#: admin/settings/general.class.php:72 admin/settings/general.class.php:176
+#: admin/settings/general.class.php:67 admin/settings/general.class.php:169
 #: views/wizard/step-general.php:16
 msgid "General Settings"
 msgstr "Γενικές ρυθμίσεις"
 
-#: admin/settings/general.class.php:103
+#: admin/settings/general.class.php:96
 msgid "Add to Cart"
 msgstr "Προσθήκη στο καλάθι"
 
-#: admin/settings/general.class.php:106 includes/wizard.class.php:555
+#: admin/settings/general.class.php:99 includes/wizard.class.php:555
 #, php-format
 msgid "Order status \"%s\""
 msgstr ""
 
-#: admin/settings/general.class.php:133
+#: admin/settings/general.class.php:126
 msgid "Allow to Follow Wishlist"
 msgstr ""
 
-#: admin/settings/general.class.php:134
+#: admin/settings/general.class.php:127
 msgid ""
 "This option adds Follow button to Wishlist page and allows users to receive "
 "email notifications each time Wishlist owner make changes in his Wishlist."
 msgstr ""
 
-#: admin/settings/general.class.php:146
+#: admin/settings/general.class.php:139
 msgid "Period for sending notifications to followers"
 msgstr ""
 
-#: admin/settings/general.class.php:147
+#: admin/settings/general.class.php:140
 msgid ""
 "You can control how often followers will be receiving email notifications "
 "about changes in Wishlists that they follow. However, they will not receive "
@@ -609,60 +634,73 @@ msgid ""
 "period of time."
 msgstr ""
 
-#: admin/settings/general.class.php:150
+#: admin/settings/general.class.php:143
 msgid "Hourly"
 msgstr ""
 
-#: admin/settings/general.class.php:151
+#: admin/settings/general.class.php:144
 msgid "Daily"
 msgstr ""
 
-#: admin/settings/general.class.php:158
+#: admin/settings/general.class.php:151
 msgid "Event list status"
 msgstr ""
 
-#: admin/settings/general.class.php:159
+#: admin/settings/general.class.php:152
 msgid ""
 "Choose what kind of wishlist events users can follow. Users will have a "
 "choice from enabled options."
 msgstr ""
 
-#: admin/settings/general.class.php:182 views/wizard/step-page.php:28
+#: admin/settings/general.class.php:175 views/wizard/step-page.php:28
 msgid "Default Wishlist Name"
 msgstr ""
 
-#: admin/settings/general.class.php:188
+#: admin/settings/general.class.php:181
 msgid "Default Wishlist Privacy"
 msgstr ""
 
-#: admin/settings/general.class.php:191 admin/settings/general.class.php:522
-#: admin/wishlist/table.class.php:504 public/create.class.php:89
-#: public/manage/buttons.class.php:293 public/manage/wishlist.class.php:156
+#: admin/settings/general.class.php:184 admin/settings/general.class.php:493
+#: admin/wishlist/table.class.php:514 public/manage/wishlist.class.php:123
 msgid "Public"
 msgstr ""
 
-#: admin/settings/general.class.php:192 admin/settings/general.class.php:521
-#: admin/wishlist/table.class.php:505 public/create.class.php:90
-#: public/manage/buttons.class.php:294 public/manage/wishlist.class.php:157
+#: admin/settings/general.class.php:185 admin/settings/general.class.php:492
+#: admin/wishlist/table.class.php:515 public/manage/wishlist.class.php:124
 #: views/wizard/step-social.php:18
 msgid "Share"
 msgstr "Διαμοιρασμός"
 
-#: admin/settings/general.class.php:193 admin/wishlist/table.class.php:506
-#: public/create.class.php:91 public/manage/buttons.class.php:295
-#: public/manage/wishlist.class.php:158
+#: admin/settings/general.class.php:186 admin/wishlist/table.class.php:516
+#: public/manage/wishlist.class.php:125
 msgid "Private"
 msgstr ""
 
-#: admin/settings/general.class.php:199
+#: admin/settings/general.class.php:192
+msgid "Setup wishlist page under WooCommerce My Account section"
+msgstr ""
+
+#: admin/settings/general.class.php:193
+msgid ""
+"This option will set up the wishlist page under WooCommerce My Account "
+"section and prevents all sharing features."
+msgstr ""
+
+#: admin/settings/general.class.php:203
+#, fuzzy
+#| msgid "TI WooCommerce Wishlist Templates"
+msgid "WooCommerce My Account Wishlist page slug"
+msgstr "TI WooCommerce Wishlist Πρότυπα"
+
+#: admin/settings/general.class.php:210
 msgid "Show Link to Wishlist in my account"
 msgstr "Εμφάνιση συνδέσμου στην Λίστα Επιθυμιών στο λογαριασμό μου"
 
-#: admin/settings/general.class.php:210
+#: admin/settings/general.class.php:222
 msgid "Enable wishlist functionality for unauthenticated users"
 msgstr ""
 
-#: admin/settings/general.class.php:211
+#: admin/settings/general.class.php:223
 msgid ""
 "You can allow guests to add products to a temporary Wishlist to keep them on "
 "your website and force to create an account. Or you can make Wishlist as "
@@ -671,28 +709,28 @@ msgid ""
 "default wishlist."
 msgstr ""
 
-#: admin/settings/general.class.php:218
+#: admin/settings/general.class.php:230
 msgid "Require Login"
 msgstr "Απαιτείται σύνδεση"
 
-#: admin/settings/general.class.php:219
+#: admin/settings/general.class.php:231
 msgid "Disallows guests to use Wishlist functionality until they sign-in."
 msgstr ""
 "Απαγορεύει στους επισκέπτες να χρησιμοποιούν τη λειτουργία Λίστα Αγαπημένων "
 "μέχρι να συνδεθούν."
 
-#: admin/settings/general.class.php:226
+#: admin/settings/general.class.php:238
 msgid "Redirect to Login Page"
 msgstr "Προώθηση στη σελίδα σύνδεσης"
 
-#: admin/settings/general.class.php:227
+#: admin/settings/general.class.php:239
 msgid ""
 "<strong>Currently this option could not be changed because \"Show successful "
 "notice in popup\" is disabled. Guests will be redirected automatically to a "
 "login page.</strong>"
 msgstr ""
 
-#: admin/settings/general.class.php:227
+#: admin/settings/general.class.php:239
 msgid ""
 "If enabled, guests will be redirected to a login page once clicking the "
 "\"Add to Wishlist\" button or \"Wishlist Products Counter\" link. Otherwise "
@@ -703,57 +741,57 @@ msgstr ""
 "\"Λίστα επιθυμιών προϊόντων\". Διαφορετικά, θα εμφανιστεί ένα αναδυόμενο "
 "παράθυρο με ειδοποίηση που ενημερώνει ότι απαιτείται σύνδεση."
 
-#: admin/settings/general.class.php:237
+#: admin/settings/general.class.php:249
 msgid "Show Login Notice for Guests"
 msgstr ""
 
-#: admin/settings/general.class.php:238
+#: admin/settings/general.class.php:250
 msgid ""
 "This option enables login notice on wishlist page, so customers can login "
 "directly from wishlist page."
 msgstr ""
 
-#: admin/settings/general.class.php:245
+#: admin/settings/general.class.php:257
 msgid "Login Anchor Text"
 msgstr ""
 
-#: admin/settings/general.class.php:252
+#: admin/settings/general.class.php:264
 msgid "Login Link Text"
 msgstr ""
 
-#: admin/settings/general.class.php:259
+#: admin/settings/general.class.php:271
 msgid "Login Link Behavior"
 msgstr ""
 
-#: admin/settings/general.class.php:260
+#: admin/settings/general.class.php:272
 msgid ""
 "Allow customers to login directly on wishlist page or redirect them to "
 "default login page."
 msgstr ""
 
-#: admin/settings/general.class.php:263
+#: admin/settings/general.class.php:275
 msgid "Redirect to login page"
 msgstr ""
 
-#: admin/settings/general.class.php:264
+#: admin/settings/general.class.php:276
 msgid "Show inline form"
 msgstr ""
 
-#: admin/settings/general.class.php:275
+#: admin/settings/general.class.php:287
 msgid "Enable products quantity functionality"
 msgstr ""
 
-#: admin/settings/general.class.php:277
+#: admin/settings/general.class.php:289
 msgid ""
 "You can allow customers to add as many products to wishlist as they need. If "
 "it’s disabled, the only one product of the same configuration can be added."
 msgstr ""
 
-#: admin/settings/general.class.php:285
+#: admin/settings/general.class.php:297
 msgid "Enable multi-wishlist support"
 msgstr ""
 
-#: admin/settings/general.class.php:286
+#: admin/settings/general.class.php:298
 msgid ""
 "You can allow customers to create and manage Wishlists, so they can create "
 "an event specific wishlists i.e. “Christmas Wishlist” or “Birthday gifts "
@@ -761,28 +799,53 @@ msgid ""
 "Wishlist."
 msgstr ""
 
-#: admin/settings/general.class.php:296
+#: admin/settings/general.class.php:308
 msgid "Remove product from Wishlist on second click"
 msgstr "Αφαίρεση προϊόντος από την Λίστα Επιθυμιών στο δεύτερο κλικ"
 
-#: admin/settings/general.class.php:298
+#: admin/settings/general.class.php:310
 msgid ""
 "If enabled, the product will be removed from a Wishlist on second click the "
 "\"Add to Wishlist\" button."
 msgstr ""
 
-#: admin/settings/general.class.php:312
+#: admin/settings/general.class.php:320
+msgid "Show a button to download wishlist as PDF"
+msgstr ""
+
+#: admin/settings/general.class.php:326
+msgid "Show stats for each product"
+msgstr ""
+
+#: admin/settings/general.class.php:327
+#, fuzzy
+#| msgid "Displays the number of products in the wishlist on your site."
+msgid "Show number of times each product added to wishlists across the site."
+msgstr ""
+"Εμφανίζει τον αριθμό των προϊόντων στη λίστα αγαπημένων στον ιστότοπό σας."
+
+#: admin/settings/general.class.php:334
+msgid "Days after which the guest wishlist will be deleted"
+msgstr ""
+
+#: admin/settings/general.class.php:340
+msgid ""
+"Guest's wishlists are automatically deleted after a defined period of days "
+"from the latest product addition."
+msgstr ""
+
+#: admin/settings/general.class.php:349
 msgid "Show successful notice in popup"
 msgstr "Εμφάνιση επιτυχημένης ειδοποίησης στο αναδυόμενο παράθυρο"
 
-#: admin/settings/general.class.php:322
+#: admin/settings/general.class.php:359
 msgid ""
 "<strong>Currently this option could not be changed because \"Multi-Wishlist "
 "support\" is enabled. It is needed to choose in which wishlist to add the "
 "product.</strong>"
 msgstr ""
 
-#: admin/settings/general.class.php:322
+#: admin/settings/general.class.php:359
 msgid ""
 "This option allows to show/hide a popup with successful or error notices "
 "after addition or removing products from a Wishlist."
@@ -791,66 +854,67 @@ msgstr ""
 "επιτυχημένες ειδοποιήσεις ή σφάλματα μετά την προσθήκη ή την αφαίρεση "
 "προϊόντων από μια λίστα επιθυμιών."
 
-#: admin/settings/general.class.php:327
+#: admin/settings/general.class.php:364
 msgid "\"View Wishlist\" button Text"
 msgstr ""
 
-#: admin/settings/general.class.php:334
+#: admin/settings/general.class.php:371
 msgid "Redirect to Wishlist"
 msgstr ""
 
-#: admin/settings/general.class.php:335
+#: admin/settings/general.class.php:372
 msgid ""
 "If enabled, user will be redirected to wishlist page after 5 sec from adding "
 "product to wishlist."
 msgstr ""
 
-#: admin/settings/general.class.php:342
+#: admin/settings/general.class.php:379
 msgid "\"Product added to Wishlist\" Text"
 msgstr ""
 
-#: admin/settings/general.class.php:344
+#: admin/settings/general.class.php:381
 msgid ""
 "You can use next placeholder in this field to get current product name: "
-"<code>{product_name}</code>, <code>{product_sku}</code>"
+"<code>{product_name}</code>, <code>{product_sku}</code>, "
+"<code>{wishlist_title}</code>"
 msgstr ""
 
-#: admin/settings/general.class.php:350
+#: admin/settings/general.class.php:387
 msgid "\"Product already in Wishlist\" Text"
 msgstr ""
 
-#: admin/settings/general.class.php:351
+#: admin/settings/general.class.php:388
 msgid ""
 "This notification will be shown if user will try to add product that already "
 "in wishlist when quantity on wishlist page is disabled. "
 msgstr ""
 
-#: admin/settings/general.class.php:351
+#: admin/settings/general.class.php:388
 msgid ""
 "You can use next placeholder in this field to get current product name: "
 "<code>{product_name}</code>"
 msgstr ""
 
-#: admin/settings/general.class.php:358
+#: admin/settings/general.class.php:395
 msgid "\"Product removed from Wishlist\" Text"
 msgstr "\"Προϊόν που καταργήθηκε από τη Λίστα Επιθυμιών\" Κείμενο"
 
-#: admin/settings/general.class.php:359
+#: admin/settings/general.class.php:396
 msgid ""
 "This notification will be shown if user will try to add product that already "
 "in wishlist when multi-wishlist support & quantity on wishlist page is "
 "disabled."
 msgstr ""
 
-#: admin/settings/general.class.php:367
+#: admin/settings/general.class.php:405
 msgid "Permalinks Settings"
 msgstr "Ρυθμίσεις μόνιμων συνδέσμων"
 
-#: admin/settings/general.class.php:373
+#: admin/settings/general.class.php:411
 msgid "Force permalinks rewrite"
 msgstr "Επιβάλετε μόνιμους συνδέσμους ανακατεύθυνσης"
 
-#: admin/settings/general.class.php:374
+#: admin/settings/general.class.php:412
 msgid ""
 "This option should be enabled to avoid any issues with URL rewrites between "
 "other plugins and Wishlist"
@@ -859,524 +923,601 @@ msgstr ""
 "προβλήματα με τις διευθύνσεις URL ανακατεύθυνσης, μεταξύ άλλων πρόσθετων "
 "στοιχείων και του προσθέτου Αγαπημένων"
 
-#: admin/settings/general.class.php:382
+#: admin/settings/general.class.php:420
 #, fuzzy
 #| msgid "Wishlist Settings"
 msgid "Rename wishlist Settings"
 msgstr "Ρυθμίσεις αγαπημένων"
 
-#: admin/settings/general.class.php:388
+#: admin/settings/general.class.php:426
 msgid "Rename wishlist word across the plugin"
 msgstr ""
 
-#: admin/settings/general.class.php:389
+#: admin/settings/general.class.php:427
 msgid ""
 "These options allow changing word <code>wishlist</code> across all plugin "
 "instance"
 msgstr ""
 
-#: admin/settings/general.class.php:396
+#: admin/settings/general.class.php:434
 msgid "Single form"
 msgstr ""
 
-#: admin/settings/general.class.php:397
+#: admin/settings/general.class.php:435
 msgid ""
 "This option allowing you to change a single form of the word. You need to "
 "write a new word in lowercase and the proper case will be applied "
 "automatically for all instances."
 msgstr ""
 
-#: admin/settings/general.class.php:404
+#: admin/settings/general.class.php:442
 msgid "Plural form"
 msgstr ""
 
-#: admin/settings/general.class.php:405
+#: admin/settings/general.class.php:443
 msgid ""
 "This option allowing you to change a plural form of the word. Left it empty "
 "if you need to add just \"s\" suffix to the single form word that you set "
 "above."
 msgstr ""
 
-#: admin/settings/general.class.php:414 templates/ti-wishlist-subscribe.php:19
-msgid "Follow Wishlist"
+#: admin/settings/general.class.php:452
+msgid "Wishlist Processing Options"
 msgstr ""
 
-#: admin/settings/general.class.php:420
+#: admin/settings/general.class.php:453
+msgid ""
+"Following options allow you to set products to be automatically removed from "
+"a wishlist and under what conditions."
+msgstr ""
+
+#: admin/settings/general.class.php:459
+msgid "Automatic removal"
+msgstr "Αυτόματη αφαίρεση"
+
+#: admin/settings/general.class.php:466 views/wizard/step-processing.php:38
+msgid "Removal condition"
+msgstr ""
+
+#: admin/settings/general.class.php:474
+msgid "Redirect to the checkout page from Wishlist if added to cart"
+msgstr ""
+"Ανακατεύθυνση  στη σελίδα  checkout από τα αγαπημένα αν προστεθεί στο καλάθι"
+
+#: admin/settings/general.class.php:480
+msgid "Remove by anyone"
+msgstr "Αφαίρεση από καθένα"
+
+#: admin/settings/general.class.php:488
+msgid "Apply for Wishlist privacy type(s)"
+msgstr ""
+
+#: admin/settings/general.class.php:491 admin/wishlist/table.class.php:549
+msgid "All"
+msgstr ""
+
+#: admin/settings/general.class.php:502
+msgid "Wishlist References on Cart, Checkout, Order"
+msgstr ""
+
+#: admin/settings/general.class.php:503
+msgid ""
+"Following options allow you to show wishlist references for each product on "
+"cart, checkout, order if it added from wishlist."
+msgstr ""
+
+#: admin/settings/general.class.php:509
+msgid "Reference label"
+msgstr ""
+
+#: admin/settings/general.class.php:510
+msgid ""
+"Add this text before the wishlist reference link for cart and order items."
+msgstr ""
+
+#: admin/settings/general.class.php:511
+#, fuzzy
+#| msgid "Purchased From Wishlist"
+msgid "From wishlist:"
+msgstr "Αγορασμένο από την Λίστα Επιθυμιών"
+
+#: admin/settings/general.class.php:516
+#, fuzzy
+#| msgid "Show button text"
+msgid "Show on cart"
+msgstr "Εμφάνιση κειμένου κουμπιού"
+
+#: admin/settings/general.class.php:522
+#, fuzzy
+#| msgid "Show button text"
+msgid "Show on checkout"
+msgstr "Εμφάνιση κειμένου κουμπιού"
+
+#: admin/settings/general.class.php:528
+#, fuzzy
+#| msgid "Show preloader"
+msgid "Show on order"
+msgstr "Εμφάνιση preloader"
+
+#: admin/settings/general.class.php:536
 msgid "Wishlist Page Options"
 msgstr "Επιλογές Σελίδας Λίστας Επιθυμιών"
 
-#: admin/settings/general.class.php:421
+#: admin/settings/general.class.php:537
 msgid ""
 "Following pages needs to be selected so the wishlist knows where they are. "
 "These pages should be created upon installation of the plugin, if not you "
 "will need to create them manually."
 msgstr ""
 
-#: admin/settings/general.class.php:427 views/wizard/step-page.php:41
+#: admin/settings/general.class.php:543 views/wizard/step-page.php:41
 msgid "My Wishlist"
 msgstr "Τα αγαπημένα μου"
 
-#: admin/settings/general.class.php:435 includes/wizard.class.php:340
+#: admin/settings/general.class.php:551 includes/wizard.class.php:340
 #: includes/wizard.class.php:376 views/wizard/step-page.php:42
 msgid "Manage Wishlists"
 msgstr ""
 
-#: admin/settings/general.class.php:443 views/wizard/step-page.php:43
+#: admin/settings/general.class.php:559 views/wizard/step-page.php:43
 msgid "Search for Wishlist Results"
 msgstr ""
 
-#: admin/settings/general.class.php:455 includes/wizard.class.php:343
+#: admin/settings/general.class.php:571 includes/wizard.class.php:343
 #: includes/wizard.class.php:379
 msgid "Public Wishlists"
 msgstr ""
 
-#: admin/settings/general.class.php:456
+#: admin/settings/general.class.php:572
 msgid ""
 "You can also set additional (not necessarily) pages to show in quick menu on "
 "wishlist page. These are simple pages with search and recent wishlist "
 "shortcodes, so you can add any additional content by simply editing a page."
 msgstr ""
 
-#: admin/settings/general.class.php:464 admin/tinvwl.class.php:696
+#: admin/settings/general.class.php:580 admin/tinvwl.class.php:824
 #: views/wizard/step-page.php:61
 msgid "Search for Wishlist"
 msgstr ""
 
-#: admin/settings/general.class.php:472 includes/wizard.class.php:345
+#: admin/settings/general.class.php:588 includes/wizard.class.php:345
 #: includes/wizard.class.php:381 templates/ti-wishlist-create.php:48
 #: templates/ti-wishlist-create.php:55 views/wizard/step-page.php:62
 msgid "Create Wishlist"
 msgstr ""
 
-#: admin/settings/general.class.php:481
-msgid "Wishlist Processing Options"
+#: admin/settings/general.class.php:598 templates/ti-wishlist-subscribe.php:19
+msgid "Follow Wishlist"
 msgstr ""
 
-#: admin/settings/general.class.php:482
-msgid ""
-"Following options allow you to set products to be automatically removed from "
-"a wishlist and under what conditions."
-msgstr ""
-
-#: admin/settings/general.class.php:488
-msgid "Automatic removal"
-msgstr "Αυτόματη αφαίρεση"
-
-#: admin/settings/general.class.php:495 views/wizard/step-processing.php:38
-msgid "Removal condition"
-msgstr ""
-
-#: admin/settings/general.class.php:503
-msgid "Redirect to the checkout page from Wishlist if added to cart"
-msgstr ""
-"Ανακατεύθυνση  στη σελίδα  checkout από τα αγαπημένα αν προστεθεί στο καλάθι"
-
-#: admin/settings/general.class.php:509
-msgid "Remove by anyone"
-msgstr "Αφαίρεση από καθένα"
-
-#: admin/settings/general.class.php:517
-msgid "Apply for Wishlist privacy type(s)"
-msgstr ""
-
-#: admin/settings/general.class.php:520 admin/wishlist/table.class.php:539
-msgid "All"
-msgstr ""
-
-#: admin/settings/general.class.php:530
-msgid "Wishlist Product Counter"
+#: admin/settings/general.class.php:605
+#, fuzzy
+#| msgid "Wishlist Product Counter"
+msgid "Wishlist Products Counter"
 msgstr "Μετρητής προϊόντων Αγαπημένων"
 
-#: admin/settings/general.class.php:531
+#: admin/settings/general.class.php:606
 #, php-format
 msgid ""
 "Add this shortcode <code>[ti_wishlist_products_counter]</code> anywhere into "
 "a page content to show Wishlist Counter.<br/><br/>It can be also added as a "
-"widget <code>TI Wishlist Products Counter</code> under the <a href=\"%s"
-"\">Appearance -> Widgets</a> section."
+"widget <code>TI Wishlist Products Counter</code> under the <a "
+"href=\"%s\">Appearance -> Widgets</a> section."
 msgstr ""
 
-#: admin/settings/general.class.php:537
+#: admin/settings/general.class.php:612
 msgid "\"Wishlist\" Counter Icon"
 msgstr "Εικονίδιο μετρητή \"Αγαπημένων\""
 
-#: admin/settings/general.class.php:566
+#: admin/settings/general.class.php:641
 msgid "\"Wishlist\" Counter Icon Color"
 msgstr "Χρώμα εικονιδίου μετρητή \"Αγαπημένων\""
 
-#: admin/settings/general.class.php:579
+#: admin/settings/general.class.php:654
 msgid "Add Link For \"Wishlist\" Counter Title"
 msgstr ""
 
-#: admin/settings/general.class.php:580
+#: admin/settings/general.class.php:655
 msgid ""
 "Add or remove link to wishlist page for wishlist counter title and icon. The "
 "link leads to the Default Wishlist page or to Manage Wishlists page (if "
 "multi-wishlist support is enabled)."
 msgstr ""
 
-#: admin/settings/general.class.php:586
+#: admin/settings/general.class.php:661
 msgid "Show  \"Wishlist\" Counter Text"
 msgstr ""
 
-#: admin/settings/general.class.php:595
+#: admin/settings/general.class.php:670
 msgid "\"Wishlist\" Counter Text"
 msgstr "Κείμενο μετρητή \"Αγαπημένων\""
 
-#: admin/settings/general.class.php:596
+#: admin/settings/general.class.php:671
 msgid "Wishlist - "
 msgstr "Λίστα Επιθυμιών - "
 
-#: admin/settings/general.class.php:602
+#: admin/settings/general.class.php:677
 msgid "Show \"Wishlist\" Counter"
 msgstr ""
 
-#: admin/settings/general.class.php:608 public/widget/topwishlist.class.php:58
-msgid "Show dropdown with mini wishlist"
-msgstr ""
-
-#: admin/settings/general.class.php:610
-msgid ""
-"You can show a drop down with the products recently added to wishlist. "
-"Similar to the woocommerce mini cart."
-msgstr ""
-
-#: admin/settings/general.class.php:618
-msgid "Maximum products in mini wishlist"
-msgstr ""
-
-#: admin/settings/general.class.php:621
-msgid ""
-"Limit amount of products displayed in mini wishlist. Default value is 5."
-msgstr ""
-
-#: admin/settings/general.class.php:629
-msgid "Wishlist(s) position in mini wishlist"
-msgstr ""
-
-#: admin/settings/general.class.php:632
-msgid "Before Product"
-msgstr ""
-
-#: admin/settings/general.class.php:633
-msgid "After Product"
-msgstr ""
-
-#: admin/settings/general.class.php:636
-msgid ""
-"This option controls the position of the list of wishlists in which the "
-"product was added. You can place it above or below the product title in mini "
-"wishlist."
-msgstr ""
-
-#: admin/settings/general.class.php:641
+#: admin/settings/general.class.php:683
 msgid "Add counter to menu"
 msgstr "Προσθήκη μετρητή στο μενού"
 
-#: admin/settings/general.class.php:643
+#: admin/settings/general.class.php:685
 msgid "You can add a wishlist products counter as item to the selected menu."
 msgstr ""
 "Μπορείτε να προσθέσετε ενα μετρητή αγαπημένων σαν επιλογή στο επιλεγμένο "
 "μενού."
 
-#: admin/settings/general.class.php:652
+#: admin/settings/general.class.php:694
 msgid "Counter position (Menu item order)"
 msgstr "Θέση μετρητή αγαπημένων (Ταξινόμηση επιλογής μενού)"
 
-#: admin/settings/general.class.php:653
+#: admin/settings/general.class.php:695
 msgid ""
 "Allows you to add the wishlist counter as a menu item and apply its position."
 msgstr ""
 "Σας επιτρέπει να προσθέσετε τον μετρητή αγαπημένων ως επιλογή μενού και να "
 "εφαρμόσετε την θέση του."
 
-#: admin/settings/general.class.php:664
+#: admin/settings/general.class.php:706
 msgid "Show number of products in counter"
 msgstr "Εμφάνιση πλήθους προϊόντων στον μετρητή"
 
-#: admin/settings/general.class.php:673
+#: admin/settings/general.class.php:715
 msgid "Hide zero value"
 msgstr "Απόκρυψη μηδενικής τιμής"
 
-#: admin/settings/general.class.php:674
+#: admin/settings/general.class.php:716
 msgid "Do not show the \"0\" value in a counter if wishlist is empty."
 msgstr "Όταν είναι άδεια η λίστα αγαπημένων να μην εμφανίζεται η τιμή \"0\"."
 
-#: admin/settings/general.class.php:685
+#: admin/settings/general.class.php:727 public/widget/topwishlist.class.php:52
+msgid "Show dropdown with mini wishlist"
+msgstr ""
+
+#: admin/settings/general.class.php:729
+msgid ""
+"You can show a drop down with the products recently added to wishlist. "
+"Similar to the woocommerce mini cart."
+msgstr ""
+
+#: admin/settings/general.class.php:737
+msgid "Maximum products in mini wishlist"
+msgstr ""
+
+#: admin/settings/general.class.php:740
+msgid ""
+"Limit amount of products displayed in mini wishlist. Default value is 5."
+msgstr ""
+
+#: admin/settings/general.class.php:748
+#, fuzzy
+#| msgid "\"Add to Wishlist\" Text"
+msgid "Show wishlists"
+msgstr "\"Add to Wishlist\" Κείμενο"
+
+#: admin/settings/general.class.php:756
+#, fuzzy
+#| msgid "Show \"Facebook\" Button"
+msgid "Show remove button"
+msgstr "Προβολή κουμπιού \"Facebook\""
+
+#: admin/settings/general.class.php:764
+#, fuzzy
+#| msgid "add to cart button"
+msgid "Show add to cart button"
+msgstr "κουμπί προσθήκη στο καλάθι"
+
+#: admin/settings/general.class.php:775
+#, fuzzy
+#| msgid "Permalinks Settings"
+msgid "Plugin Data Settings"
+msgstr "Ρυθμίσεις μόνιμων συνδέσμων"
+
+#: admin/settings/general.class.php:781
+msgid "Erase All Data on Uninstall"
+msgstr ""
+
+#: admin/settings/general.class.php:783
+msgid ""
+"This option will remove all plugin-related data from your database when the "
+"plugin is uninstalled. Ideal for keeping your database clean, but "
+"irreversible – consider backing up first"
+msgstr ""
+
+#: admin/settings/general.class.php:792
 msgid "Support chat settings"
 msgstr "Ρυθμίσεις συνομιλίας υποστήριξης"
 
-#: admin/settings/general.class.php:692
-msgid "Disable support chat"
+#: admin/settings/general.class.php:799
+#, fuzzy
+#| msgid "Disable support chat"
+msgid "Enable support chat"
 msgstr "Απενεργοποίηση συνομιλίας υποστήριξης"
 
-#: admin/settings/integrations.class.php:59
+#: admin/settings/integrations.class.php:55
 #, fuzzy
 #| msgid "Congratulations"
 msgid "Integrations"
 msgstr "Συγχαρητήρια"
 
-#: admin/settings/integrations.class.php:60
+#: admin/settings/integrations.class.php:56
 msgid "Wishlist Integrations with 3rd party plugins and themes"
 msgstr ""
 
-#: admin/settings/integrations.class.php:97
+#: admin/settings/integrations.class.php:89
 msgid "Available Integrations"
 msgstr ""
 
-#: admin/settings/integrations.class.php:100
+#: admin/settings/integrations.class.php:92
 msgid ""
 "You can disable built-in integrations with 3rd party plugins and themes."
 msgstr ""
 
-#: admin/settings/notification.class.php:72
-#: admin/settings/notification.class.php:73
+#: admin/settings/notification.class.php:69
+#: admin/settings/notification.class.php:70
 msgid "Emails Settings"
 msgstr ""
 
-#: admin/settings/notification.class.php:93
+#: admin/settings/notification.class.php:89
 msgid "Global settings"
 msgstr ""
 
-#: admin/settings/notification.class.php:99
+#: admin/settings/notification.class.php:95
 msgid "Enable all notifications for users by default"
 msgstr ""
 
-#: admin/settings/notification.class.php:100
+#: admin/settings/notification.class.php:96
 msgid ""
 "You can enable all notification by default. Users have options to manage "
 "notifications also."
 msgstr ""
 
-#: admin/settings/notification.class.php:107
+#: admin/settings/notification.class.php:103
 msgid "Ask for Estimate Options"
 msgstr ""
 
-#: admin/settings/notification.class.php:113
+#: admin/settings/notification.class.php:109
 msgid "Enable \"Ask For Estimate\" Button"
 msgstr ""
 
-#: admin/settings/notification.class.php:114
+#: admin/settings/notification.class.php:110
 msgid ""
 "Enable to show \"Ask For an Estimate\" button on wishlist page. Allows to "
 "send email with products from customer wishlist to store owner with request "
 "for estimate."
 msgstr ""
 
-#: admin/settings/notification.class.php:127
+#: admin/settings/notification.class.php:123
 msgid "Enable additional notes for request"
 msgstr ""
 
-#: admin/settings/notification.class.php:128
+#: admin/settings/notification.class.php:124
 msgid ""
 "Enable to show text area in popup, where wishlist owner can add message text "
 "to the estimate request."
 msgstr ""
 
-#: admin/settings/notification.class.php:135
+#: admin/settings/notification.class.php:131
 msgid "Label for \"Additional notes\" text area"
 msgstr ""
 
-#: admin/settings/notification.class.php:142
+#: admin/settings/notification.class.php:138
 msgid "Enable \"Ask For Estimate\" feature for guests"
 msgstr ""
 
-#: admin/settings/notification.class.php:143
+#: admin/settings/notification.class.php:139
 msgid ""
 "Enable to show \"Ask For an Estimate\" button on wishlist page for guests. "
 "It will add required name and email fields."
 msgstr ""
 
-#: admin/settings/notification.class.php:151
+#: admin/settings/notification.class.php:147
 msgid "Wishlist \"Ask for Estimate\" Email settings"
 msgstr ""
 
-#: admin/settings/notification.class.php:152
+#: admin/settings/notification.class.php:148
 msgid ""
 "These are the settings related to the email that will be sent when a user "
 "clicks the \"Ask for estimate\" button."
 msgstr ""
 
-#: admin/settings/notification.class.php:169
+#: admin/settings/notification.class.php:165
 msgid "Promotional Email settings"
 msgstr ""
 
-#: admin/settings/notification.class.php:170
+#: admin/settings/notification.class.php:166
 msgid ""
 "You can send promotional email for specific product to users that added this "
 "product to wishlist. Send promotion button can be found in <code>TI Wishlist "
 "> Product Analytics</code>"
 msgstr ""
 
-#: admin/settings/notification.class.php:185
+#: admin/settings/notification.class.php:181
 msgid "Promotional Email Style"
 msgstr ""
 
-#: admin/settings/notification.class.php:186
+#: admin/settings/notification.class.php:182
 msgid ""
 "These are the style settings for predefined promotional email templates. You "
 "can choose promotional email temaplate in the \"Email Templates\" block "
 "below."
 msgstr ""
 
-#: admin/settings/notification.class.php:192
+#: admin/settings/notification.class.php:188
 msgid "Use Website Logo Image"
 msgstr ""
 
-#: admin/settings/notification.class.php:202
-#: admin/settings/notification.class.php:209
+#: admin/settings/notification.class.php:198
+#: admin/settings/notification.class.php:205
 msgid "Logo Image"
 msgstr ""
 
-#: admin/settings/notification.class.php:222
+#: admin/settings/notification.class.php:218
 msgid "Logo Text"
 msgstr ""
 
-#: admin/settings/notification.class.php:228
+#: admin/settings/notification.class.php:224
 msgid "Header Image"
 msgstr ""
 
-#: admin/settings/notification.class.php:229
+#: admin/settings/notification.class.php:225
 msgid ""
 "You can add header image between logo and email content if allowed in email "
 "template."
 msgstr ""
 
-#: admin/settings/notification.class.php:241
+#: admin/settings/notification.class.php:237
 msgid "Footer Text"
 msgstr ""
 
-#: admin/settings/notification.class.php:246
+#: admin/settings/notification.class.php:242
 msgid "Social Icons"
 msgstr ""
 
-#: admin/settings/notification.class.php:247
+#: admin/settings/notification.class.php:243
 msgid "Add you social account name to show social icons in email footer area"
 msgstr ""
 
-#: admin/settings/notification.class.php:254
-#: public/wishlist/social.class.php:99
+#: admin/settings/notification.class.php:250
+#: public/wishlist/social.class.php:105
 msgid "Facebook"
 msgstr "Facebook"
 
-#: admin/settings/notification.class.php:261
+#: admin/settings/notification.class.php:257
 msgid "twitter"
 msgstr ""
 
-#: admin/settings/notification.class.php:268
-#: public/wishlist/social.class.php:137
+#: admin/settings/notification.class.php:264
+#: public/wishlist/social.class.php:127
 msgid "Pinterest"
 msgstr "Pinterest"
 
-#: admin/settings/notification.class.php:275
+#: admin/settings/notification.class.php:271
 msgid "Google+"
 msgstr ""
 
-#: admin/settings/notification.class.php:281
+#: admin/settings/notification.class.php:277
 msgid "Color Options"
 msgstr ""
 
-#: admin/settings/notification.class.php:288
+#: admin/settings/notification.class.php:284
 msgid "Main color"
 msgstr ""
 
-#: admin/settings/notification.class.php:295
+#: admin/settings/notification.class.php:291
 msgid "Email Background color"
 msgstr ""
 
-#: admin/settings/notification.class.php:302
+#: admin/settings/notification.class.php:298
 msgid "Content Background Color"
 msgstr ""
 
-#: admin/settings/notification.class.php:309 admin/settings/style.class.php:107
-#: admin/settings/style.class.php:798
+#: admin/settings/notification.class.php:305 admin/settings/style.class.php:106
+#: admin/settings/style.class.php:797
 msgid "Title Color"
 msgstr "Χρώμα τίτλου"
 
-#: admin/settings/notification.class.php:316
+#: admin/settings/notification.class.php:312
 msgid "Content text color"
 msgstr ""
 
-#: admin/settings/notification.class.php:325
+#: admin/settings/notification.class.php:321
 #: public/email/data/notificationprice.helper.php:52
 msgid "Wishlist Notification of change price"
 msgstr ""
 
-#: admin/settings/notification.class.php:326
+#: admin/settings/notification.class.php:322
 msgid ""
 "If the product price is changed, customers that have this product in their "
 "Wishlist will receive the email notification."
 msgstr ""
 
-#: admin/settings/notification.class.php:340
+#: admin/settings/notification.class.php:336
 #: public/email/data/notificationstock.helper.php:52
 msgid "Wishlist Notification of change stock"
 msgstr ""
 
-#: admin/settings/notification.class.php:341
+#: admin/settings/notification.class.php:337
 msgid ""
 "If the product stock status is changed, customers that have this product in "
 "their Wishlist will receive the email notification."
 msgstr ""
 
-#: admin/settings/notification.class.php:362
+#: admin/settings/notification.class.php:352
+msgid "Wishlist Notification of low stock product"
+msgstr ""
+
+#: admin/settings/notification.class.php:353
+msgid ""
+"If the product is low on stock, customers that have this product in their "
+"Wishlist will receive the email notification."
+msgstr ""
+
+#: admin/settings/notification.class.php:376
 msgid "Email Templates"
 msgstr ""
 
-#: admin/settings/notification.class.php:363
+#: admin/settings/notification.class.php:377
 msgid ""
 "Here you can preview all wishlist emails. Also you can choose email template "
 "for promotional email."
 msgstr ""
 
-#: admin/settings/notification.class.php:369
+#: admin/settings/notification.class.php:383
 msgid "Choose Estimate Email Template"
 msgstr ""
 
-#: admin/settings/notification.class.php:390
+#: admin/settings/notification.class.php:404
 msgid "Choose Promotional Email Template"
 msgstr ""
 
-#: admin/settings/notification.class.php:409
+#: admin/settings/notification.class.php:423
 msgid "Choose Price Notification Email Template"
 msgstr ""
 
-#: admin/settings/notification.class.php:428
+#: admin/settings/notification.class.php:442
 msgid "Choose Stock Notification Email Template"
 msgstr ""
 
-#: admin/settings/notification.class.php:452
+#: admin/settings/notification.class.php:461
+msgid "Choose Low Stock Notification Email Template"
+msgstr ""
+
+#: admin/settings/notification.class.php:485
 msgid ""
 "You are about to change promotional email template. All changes in "
 "promotional email settings and content will be lost!"
 msgstr ""
 
-#: admin/settings/notification.class.php:453
+#: admin/settings/notification.class.php:486
 msgid "Continue"
 msgstr ""
 
-#: admin/settings/notification.class.php:454
+#: admin/settings/notification.class.php:487
 #: views/admin/wishlist-confirm.php:24
 msgid "Cancel"
 msgstr ""
 
-#: admin/settings/settings.class.php:56
+#: admin/settings/settings.class.php:55
 msgid "Export/Import Settings"
 msgstr "Ρυθμίσεις Εξαγωγής/Εισαγωγής"
 
-#: admin/settings/settings.class.php:57
+#: admin/settings/settings.class.php:56
 msgid "Export/Import Plugin Settings"
 msgstr "Ρυθμίσεις Εξαγωγής/Εισαγωγής προσθέτου"
 
-#: admin/settings/social.class.php:68
+#: admin/settings/social.class.php:69
 msgid "Sharing Options"
 msgstr ""
 
-#: admin/settings/social.class.php:69 admin/settings/social.class.php:96
+#: admin/settings/social.class.php:70 admin/settings/social.class.php:97
 msgid "Social Networks Sharing Options"
 msgstr ""
 
-#: admin/settings/social.class.php:90
+#: admin/settings/social.class.php:91
 msgid ""
 "Following options enable/disable Social share icons below wishlist table on "
 "wishlist page. Wishlist owner can easily share their wishlists using this "
@@ -1384,464 +1525,464 @@ msgid ""
 "shared status, private wishlists can't be shared."
 msgstr ""
 
-#: admin/settings/social.class.php:102 views/wizard/step-social.php:26
+#: admin/settings/social.class.php:103 views/wizard/step-social.php:26
 msgid "Show \"Facebook\" Button"
 msgstr "Προβολή κουμπιού \"Facebook\""
 
-#: admin/settings/social.class.php:108 views/wizard/step-social.php:35
+#: admin/settings/social.class.php:109 views/wizard/step-social.php:35
 msgid "Show \"Twitter\" Button"
 msgstr "Προβολή κουμπιού \"Twitter\""
 
-#: admin/settings/social.class.php:114 views/wizard/step-social.php:44
+#: admin/settings/social.class.php:115 views/wizard/step-social.php:44
 msgid "Show \"Pinterest\" Button"
 msgstr "Προβολή κουμπιού \"Pinterest\""
 
-#: admin/settings/social.class.php:120
+#: admin/settings/social.class.php:121
 msgid "Show \"Share via WhatsApp\" Button"
 msgstr ""
 
-#: admin/settings/social.class.php:126
+#: admin/settings/social.class.php:127
 msgid "Show \"Copy URL to clipboard\" Button"
 msgstr ""
 
-#: admin/settings/social.class.php:132 views/wizard/step-social.php:71
+#: admin/settings/social.class.php:133 views/wizard/step-social.php:71
 msgid "Show \"Share by Email\" Button"
 msgstr ""
 
-#: admin/settings/social.class.php:138
+#: admin/settings/social.class.php:139
 msgid "\"Share on\" Text"
 msgstr "Κείμενο \"Διαμοιρασμός στο\""
 
-#: admin/settings/social.class.php:144 admin/settings/style.class.php:771
+#: admin/settings/social.class.php:145 admin/settings/style.class.php:770
 msgid "Social Icons Color"
 msgstr "Χρώμα εικονιδίου κοινωνικών δικτύων"
 
-#: admin/settings/social.class.php:148
+#: admin/settings/social.class.php:149
 msgid "Dark"
 msgstr "Σκούρο"
 
-#: admin/settings/style.class.php:68
+#: admin/settings/style.class.php:67
 msgid "Style Options"
 msgstr "Επιλογές στυλ"
 
-#: admin/settings/style.class.php:69
+#: admin/settings/style.class.php:68
 msgid "Wishlist Style Options"
 msgstr "Επιλογές στυλ Λίστα Επιθυμιών"
 
-#: admin/settings/style.class.php:83
+#: admin/settings/style.class.php:82
 msgid "Use Default Font"
 msgstr "Χρήση προεπιλεγμένης γραμματοσειράς"
 
-#: admin/settings/style.class.php:100
+#: admin/settings/style.class.php:99
 msgid "text"
 msgstr "κείμενο"
 
-#: admin/settings/style.class.php:108 admin/settings/style.class.php:121
-#: admin/settings/style.class.php:142 admin/settings/style.class.php:149
-#: admin/settings/style.class.php:180 admin/settings/style.class.php:187
-#: admin/settings/style.class.php:200 admin/settings/style.class.php:233
-#: admin/settings/style.class.php:240 admin/settings/style.class.php:247
-#: admin/settings/style.class.php:254 admin/settings/style.class.php:261
-#: admin/settings/style.class.php:268 admin/settings/style.class.php:275
-#: admin/settings/style.class.php:282 admin/settings/style.class.php:315
-#: admin/settings/style.class.php:322 admin/settings/style.class.php:329
-#: admin/settings/style.class.php:336 admin/settings/style.class.php:343
-#: admin/settings/style.class.php:350 admin/settings/style.class.php:357
-#: admin/settings/style.class.php:364 admin/settings/style.class.php:397
-#: admin/settings/style.class.php:404 admin/settings/style.class.php:411
-#: admin/settings/style.class.php:418 admin/settings/style.class.php:457
-#: admin/settings/style.class.php:464 admin/settings/style.class.php:471
-#: admin/settings/style.class.php:478 admin/settings/style.class.php:511
-#: admin/settings/style.class.php:518 admin/settings/style.class.php:525
-#: admin/settings/style.class.php:532 admin/settings/style.class.php:565
-#: admin/settings/style.class.php:572 admin/settings/style.class.php:579
-#: admin/settings/style.class.php:592 admin/settings/style.class.php:599
-#: admin/settings/style.class.php:626 admin/settings/style.class.php:633
-#: admin/settings/style.class.php:640 admin/settings/style.class.php:647
-#: admin/settings/style.class.php:660 admin/settings/style.class.php:667
-#: admin/settings/style.class.php:674 admin/settings/style.class.php:681
-#: admin/settings/style.class.php:702 admin/settings/style.class.php:723
-#: admin/settings/style.class.php:744 admin/settings/style.class.php:751
-#: admin/settings/style.class.php:758 admin/settings/style.class.php:765
-#: admin/settings/style.class.php:772 admin/settings/style.class.php:779
-#: admin/settings/style.class.php:792 admin/settings/style.class.php:799
-#: admin/settings/style.class.php:820 admin/settings/style.class.php:841
-#: admin/settings/style.class.php:848 admin/settings/style.class.php:861
-#: admin/settings/style.class.php:868 admin/settings/style.class.php:875
-#: admin/settings/style.class.php:882 admin/settings/style.class.php:889
-#: admin/settings/style.class.php:896 admin/settings/style.class.php:903
-#: admin/settings/style.class.php:910 admin/settings/style.class.php:917
-#: admin/settings/style.class.php:924 admin/settings/style.class.php:937
-#: admin/settings/style.class.php:947 admin/settings/style.class.php:961
-#: admin/settings/style.class.php:968 admin/settings/style.class.php:983
-#: admin/settings/style.class.php:990 admin/settings/style.class.php:997
-#: admin/settings/style.class.php:1004 admin/settings/style.class.php:1011
+#: admin/settings/style.class.php:107 admin/settings/style.class.php:120
+#: admin/settings/style.class.php:141 admin/settings/style.class.php:148
+#: admin/settings/style.class.php:179 admin/settings/style.class.php:186
+#: admin/settings/style.class.php:199 admin/settings/style.class.php:232
+#: admin/settings/style.class.php:239 admin/settings/style.class.php:246
+#: admin/settings/style.class.php:253 admin/settings/style.class.php:260
+#: admin/settings/style.class.php:267 admin/settings/style.class.php:274
+#: admin/settings/style.class.php:281 admin/settings/style.class.php:314
+#: admin/settings/style.class.php:321 admin/settings/style.class.php:328
+#: admin/settings/style.class.php:335 admin/settings/style.class.php:342
+#: admin/settings/style.class.php:349 admin/settings/style.class.php:356
+#: admin/settings/style.class.php:363 admin/settings/style.class.php:396
+#: admin/settings/style.class.php:403 admin/settings/style.class.php:410
+#: admin/settings/style.class.php:417 admin/settings/style.class.php:456
+#: admin/settings/style.class.php:463 admin/settings/style.class.php:470
+#: admin/settings/style.class.php:477 admin/settings/style.class.php:510
+#: admin/settings/style.class.php:517 admin/settings/style.class.php:524
+#: admin/settings/style.class.php:531 admin/settings/style.class.php:564
+#: admin/settings/style.class.php:571 admin/settings/style.class.php:578
+#: admin/settings/style.class.php:591 admin/settings/style.class.php:598
+#: admin/settings/style.class.php:625 admin/settings/style.class.php:632
+#: admin/settings/style.class.php:639 admin/settings/style.class.php:646
+#: admin/settings/style.class.php:659 admin/settings/style.class.php:666
+#: admin/settings/style.class.php:673 admin/settings/style.class.php:680
+#: admin/settings/style.class.php:701 admin/settings/style.class.php:722
+#: admin/settings/style.class.php:743 admin/settings/style.class.php:750
+#: admin/settings/style.class.php:757 admin/settings/style.class.php:764
+#: admin/settings/style.class.php:771 admin/settings/style.class.php:778
+#: admin/settings/style.class.php:791 admin/settings/style.class.php:798
+#: admin/settings/style.class.php:819 admin/settings/style.class.php:840
+#: admin/settings/style.class.php:847 admin/settings/style.class.php:860
+#: admin/settings/style.class.php:867 admin/settings/style.class.php:874
+#: admin/settings/style.class.php:881 admin/settings/style.class.php:888
+#: admin/settings/style.class.php:895 admin/settings/style.class.php:902
+#: admin/settings/style.class.php:909 admin/settings/style.class.php:916
+#: admin/settings/style.class.php:923 admin/settings/style.class.php:936
+#: admin/settings/style.class.php:946 admin/settings/style.class.php:960
+#: admin/settings/style.class.php:967 admin/settings/style.class.php:982
+#: admin/settings/style.class.php:989 admin/settings/style.class.php:996
+#: admin/settings/style.class.php:1003 admin/settings/style.class.php:1010
 #: includes/form.helper.php:392
 msgid "Important"
 msgstr ""
 
-#: admin/settings/style.class.php:114 admin/settings/style.class.php:813
+#: admin/settings/style.class.php:113 admin/settings/style.class.php:812
 msgid "Title Font Size"
 msgstr "Μέγεθος χαρακτήρων τίτλου"
 
-#: admin/settings/style.class.php:120 admin/settings/style.class.php:701
-#: admin/settings/style.class.php:819
+#: admin/settings/style.class.php:119 admin/settings/style.class.php:700
+#: admin/settings/style.class.php:818
 msgid "Content Text Color"
 msgstr "Χρώμα κειμένου περιεχομένου"
 
-#: admin/settings/style.class.php:127 admin/settings/style.class.php:165
-#: admin/settings/style.class.php:206 admin/settings/style.class.php:288
-#: admin/settings/style.class.php:370 admin/settings/style.class.php:424
-#: admin/settings/style.class.php:484 admin/settings/style.class.php:538
-#: admin/settings/style.class.php:974
+#: admin/settings/style.class.php:126 admin/settings/style.class.php:164
+#: admin/settings/style.class.php:205 admin/settings/style.class.php:287
+#: admin/settings/style.class.php:369 admin/settings/style.class.php:423
+#: admin/settings/style.class.php:483 admin/settings/style.class.php:537
+#: admin/settings/style.class.php:973
 msgid "Font"
 msgstr "Γραμματοσειρά"
 
-#: admin/settings/style.class.php:134
+#: admin/settings/style.class.php:133
 msgid "links"
 msgstr ""
 
-#: admin/settings/style.class.php:141
+#: admin/settings/style.class.php:140
 msgid "Color"
 msgstr "Χρώμα"
 
-#: admin/settings/style.class.php:148
+#: admin/settings/style.class.php:147
 msgid "Hover Color"
 msgstr "Χρώμα κατάδειξης"
 
-#: admin/settings/style.class.php:155
+#: admin/settings/style.class.php:154
 msgid "Underline"
 msgstr "Υπογραμμισμένα"
 
-#: admin/settings/style.class.php:157 includes/wizard.class.php:622
+#: admin/settings/style.class.php:156 includes/wizard.class.php:622
 msgid "Yes"
 msgstr "Ναι"
 
-#: admin/settings/style.class.php:158 includes/wizard.class.php:623
+#: admin/settings/style.class.php:157 includes/wizard.class.php:623
 msgid "No"
 msgstr "Όχι"
 
-#: admin/settings/style.class.php:172
+#: admin/settings/style.class.php:171
 msgid "fields"
 msgstr "πεδία"
 
-#: admin/settings/style.class.php:179 admin/settings/style.class.php:246
-#: admin/settings/style.class.php:328 admin/settings/style.class.php:396
-#: admin/settings/style.class.php:456 admin/settings/style.class.php:510
-#: admin/settings/style.class.php:659 admin/settings/style.class.php:791
+#: admin/settings/style.class.php:178 admin/settings/style.class.php:245
+#: admin/settings/style.class.php:327 admin/settings/style.class.php:395
+#: admin/settings/style.class.php:455 admin/settings/style.class.php:509
+#: admin/settings/style.class.php:658 admin/settings/style.class.php:790
 msgid "Background Color"
 msgstr "Χρώμα φόντου"
 
-#: admin/settings/style.class.php:186 admin/settings/style.class.php:666
+#: admin/settings/style.class.php:185 admin/settings/style.class.php:665
 msgid "Border Color"
 msgstr "Χρώμα Πλαισίου"
 
-#: admin/settings/style.class.php:193 admin/settings/style.class.php:302
-#: admin/settings/style.class.php:384 admin/settings/style.class.php:444
-#: admin/settings/style.class.php:498 admin/settings/style.class.php:552
+#: admin/settings/style.class.php:192 admin/settings/style.class.php:301
+#: admin/settings/style.class.php:383 admin/settings/style.class.php:443
+#: admin/settings/style.class.php:497 admin/settings/style.class.php:551
 msgid "Border Radius"
 msgstr "Στρογγύλεμα περιθωρίου"
 
-#: admin/settings/style.class.php:199 admin/settings/style.class.php:260
-#: admin/settings/style.class.php:342 admin/settings/style.class.php:410
-#: admin/settings/style.class.php:470 admin/settings/style.class.php:524
+#: admin/settings/style.class.php:198 admin/settings/style.class.php:259
+#: admin/settings/style.class.php:341 admin/settings/style.class.php:409
+#: admin/settings/style.class.php:469 admin/settings/style.class.php:523
 msgid "Text Color"
 msgstr "Χρώμα κειμένου"
 
-#: admin/settings/style.class.php:214 admin/settings/style.class.php:296
-#: admin/settings/style.class.php:378 admin/settings/style.class.php:432
-#: admin/settings/style.class.php:492 admin/settings/style.class.php:546
+#: admin/settings/style.class.php:213 admin/settings/style.class.php:295
+#: admin/settings/style.class.php:377 admin/settings/style.class.php:431
+#: admin/settings/style.class.php:491 admin/settings/style.class.php:545
 msgid "Font Size"
 msgstr "Μέγεθος γραμματοσειράς"
 
-#: admin/settings/style.class.php:220
+#: admin/settings/style.class.php:219
 msgid "Font Size Of Select Element"
 msgstr ""
 
-#: admin/settings/style.class.php:225
+#: admin/settings/style.class.php:224
 msgid "add to wishlist catalog button"
 msgstr ""
 
-#: admin/settings/style.class.php:232 admin/settings/style.class.php:314
+#: admin/settings/style.class.php:231 admin/settings/style.class.php:313
 msgid "Icon Color"
 msgstr "Χρώμα Εικονιδίου"
 
-#: admin/settings/style.class.php:239 admin/settings/style.class.php:321
+#: admin/settings/style.class.php:238 admin/settings/style.class.php:320
 msgid "Icon Hover/Active Color"
 msgstr ""
 
-#: admin/settings/style.class.php:253 admin/settings/style.class.php:335
-#: admin/settings/style.class.php:403 admin/settings/style.class.php:463
-#: admin/settings/style.class.php:517
+#: admin/settings/style.class.php:252 admin/settings/style.class.php:334
+#: admin/settings/style.class.php:402 admin/settings/style.class.php:462
+#: admin/settings/style.class.php:516
 msgid "Background Hover Color"
 msgstr ""
 
-#: admin/settings/style.class.php:267 admin/settings/style.class.php:349
+#: admin/settings/style.class.php:266 admin/settings/style.class.php:348
 msgid "Button Text Color"
 msgstr "Χρώμα Κειμένου Κουμπιού"
 
-#: admin/settings/style.class.php:274 admin/settings/style.class.php:356
-#: admin/settings/style.class.php:417 admin/settings/style.class.php:477
-#: admin/settings/style.class.php:531
+#: admin/settings/style.class.php:273 admin/settings/style.class.php:355
+#: admin/settings/style.class.php:416 admin/settings/style.class.php:476
+#: admin/settings/style.class.php:530
 msgid "Text Hover Color"
 msgstr "Χρώμα κατάδειξης κειμένου"
 
-#: admin/settings/style.class.php:281 admin/settings/style.class.php:363
+#: admin/settings/style.class.php:280 admin/settings/style.class.php:362
 msgid "Button Text Hover Color"
 msgstr ""
 
-#: admin/settings/style.class.php:307
+#: admin/settings/style.class.php:306
 msgid "add to wishlist product page button"
 msgstr ""
 
-#: admin/settings/style.class.php:389
+#: admin/settings/style.class.php:388
 msgid "accent buttons style"
 msgstr ""
 
-#: admin/settings/style.class.php:438
+#: admin/settings/style.class.php:437
 msgid "Search Widget Font Size"
 msgstr ""
 
-#: admin/settings/style.class.php:449
+#: admin/settings/style.class.php:448
 msgid "normal buttons style"
 msgstr ""
 
-#: admin/settings/style.class.php:503
+#: admin/settings/style.class.php:502
 msgid "add to cart button"
 msgstr "κουμπί προσθήκη στο καλάθι"
 
-#: admin/settings/style.class.php:557
+#: admin/settings/style.class.php:556
 msgid "wrapped blocks"
 msgstr ""
 
-#: admin/settings/style.class.php:557
+#: admin/settings/style.class.php:556
 msgid "(create wishlist, search, login)"
 msgstr ""
 
-#: admin/settings/style.class.php:564
+#: admin/settings/style.class.php:563
 msgid "Block Background Color"
 msgstr ""
 
-#: admin/settings/style.class.php:571 admin/settings/style.class.php:840
+#: admin/settings/style.class.php:570 admin/settings/style.class.php:839
 msgid "Fields Background Color"
 msgstr ""
 
-#: admin/settings/style.class.php:578 admin/settings/style.class.php:847
+#: admin/settings/style.class.php:577 admin/settings/style.class.php:846
 msgid "Fields Border Color"
 msgstr ""
 
-#: admin/settings/style.class.php:585 admin/settings/style.class.php:854
+#: admin/settings/style.class.php:584 admin/settings/style.class.php:853
 msgid "Fields Border Radius"
 msgstr ""
 
-#: admin/settings/style.class.php:591 admin/settings/style.class.php:860
+#: admin/settings/style.class.php:590 admin/settings/style.class.php:859
 msgid "Fields Text Color"
 msgstr ""
 
-#: admin/settings/style.class.php:598 admin/settings/style.class.php:867
+#: admin/settings/style.class.php:597 admin/settings/style.class.php:866
 msgid "Fields Placeholder Text Color"
 msgstr ""
 
-#: admin/settings/style.class.php:605
+#: admin/settings/style.class.php:604
 msgid "Fields Text Font"
 msgstr ""
 
-#: admin/settings/style.class.php:613
+#: admin/settings/style.class.php:612
 msgid "Fields Text Font Size"
 msgstr ""
 
-#: admin/settings/style.class.php:618
+#: admin/settings/style.class.php:617
 msgid "Cart page buttons"
 msgstr ""
 
-#: admin/settings/style.class.php:632
+#: admin/settings/style.class.php:631
 msgid "\"Save for Later\" Icon Hover/Active Color"
 msgstr ""
 
-#: admin/settings/style.class.php:646
+#: admin/settings/style.class.php:645
 msgid "\"Save Cart\" Icon Hover/Active Color"
 msgstr ""
 
-#: admin/settings/style.class.php:652
+#: admin/settings/style.class.php:651
 msgid "table"
 msgstr "πίνακας"
 
-#: admin/settings/style.class.php:673
+#: admin/settings/style.class.php:672
 msgid "Table Head Background Color"
 msgstr "Χρώμα Φόντου Κεφαλίδας Πίνακα"
 
-#: admin/settings/style.class.php:680
+#: admin/settings/style.class.php:679
 msgid "Table Head Text Color"
 msgstr "Χρώμα Κειμένου Κεφαλίδας Πίνακα"
 
-#: admin/settings/style.class.php:687
+#: admin/settings/style.class.php:686
 msgid "Table Head Font"
 msgstr "Γραμματοσειρά Κεφαλίδας Πίνακα"
 
-#: admin/settings/style.class.php:695
+#: admin/settings/style.class.php:694
 msgid "Table Head Font Size"
 msgstr "Μέγεθος Γραμματοσειράς Κεφαλίδας Πίνακα"
 
-#: admin/settings/style.class.php:708 admin/settings/style.class.php:826
+#: admin/settings/style.class.php:707 admin/settings/style.class.php:825
 msgid "Content Text Font"
 msgstr "Γραμματοσειρά Κειμένου Περιεχομένου"
 
-#: admin/settings/style.class.php:716 admin/settings/style.class.php:834
+#: admin/settings/style.class.php:715 admin/settings/style.class.php:833
 msgid "Content Text Font Size"
 msgstr "Μέγεθος Γραμματοσειράς Κειμένου Περιεχομένου"
 
-#: admin/settings/style.class.php:722
+#: admin/settings/style.class.php:721
 msgid "Price Color"
 msgstr "Χρώμα τιμής"
 
-#: admin/settings/style.class.php:729
+#: admin/settings/style.class.php:728
 msgid "Price Font"
 msgstr "Γραμματοσειρά τιμής"
 
-#: admin/settings/style.class.php:737
+#: admin/settings/style.class.php:736
 msgid "Price Font Size"
 msgstr "Μέγεθος Γραμματοσειράς Τιμής"
 
-#: admin/settings/style.class.php:743
+#: admin/settings/style.class.php:742
 msgid "Special Price Color"
 msgstr "Χρώμα Ειδικής Τιμής"
 
-#: admin/settings/style.class.php:750
+#: admin/settings/style.class.php:749
 msgid "Special Price Background Color"
 msgstr ""
 
-#: admin/settings/style.class.php:757
+#: admin/settings/style.class.php:756
 msgid "Social Icons Background Color"
 msgstr ""
 
-#: admin/settings/style.class.php:764
+#: admin/settings/style.class.php:763
 msgid "Social Icons Background Hover Color"
 msgstr ""
 
-#: admin/settings/style.class.php:778
+#: admin/settings/style.class.php:777
 msgid "Social Icons Hover Color"
 msgstr ""
 
-#: admin/settings/style.class.php:784
+#: admin/settings/style.class.php:783
 msgid "popups"
 msgstr "Αναδυόμενα παράθυρα"
 
-#: admin/settings/style.class.php:805
+#: admin/settings/style.class.php:804
 msgid "Title Font"
 msgstr ""
 
-#: admin/settings/style.class.php:874
+#: admin/settings/style.class.php:873
 msgid "Normal Buttons Background Color"
 msgstr ""
 
-#: admin/settings/style.class.php:881
+#: admin/settings/style.class.php:880
 msgid "Normal Buttons Background Hover Color"
 msgstr ""
 
-#: admin/settings/style.class.php:888
+#: admin/settings/style.class.php:887
 msgid "Normal Buttons Text Color"
 msgstr ""
 
-#: admin/settings/style.class.php:895
+#: admin/settings/style.class.php:894
 msgid "Normal Buttons Text Hover Color"
 msgstr ""
 
-#: admin/settings/style.class.php:902
+#: admin/settings/style.class.php:901
 msgid "Accent Buttons Background Color"
 msgstr ""
 
-#: admin/settings/style.class.php:909
+#: admin/settings/style.class.php:908
 msgid "Accent Buttons Background Hover Color"
 msgstr ""
 
-#: admin/settings/style.class.php:916
+#: admin/settings/style.class.php:915
 msgid "Accent Buttons Text Color"
 msgstr ""
 
-#: admin/settings/style.class.php:923
+#: admin/settings/style.class.php:922
 msgid "Accent Buttons Text Hover Color"
 msgstr ""
 
-#: admin/settings/style.class.php:929
+#: admin/settings/style.class.php:928
 msgid "Counter and Mini Wishlist"
 msgstr ""
 
-#: admin/settings/style.class.php:936
+#: admin/settings/style.class.php:935
 msgid "Drop down background Color"
 msgstr ""
 
-#: admin/settings/style.class.php:944
+#: admin/settings/style.class.php:943
 msgid "Drop down shadow"
 msgstr ""
 
-#: admin/settings/style.class.php:949
+#: admin/settings/style.class.php:948
 #, php-format
 msgid ""
 "Inset: %1$s<br/>H-Shadow: %2$s<br/>V-Shadow: %3$s<br/>Blur: %4$s<br/>Spread: "
 "%5$s<br/>Color: %6$s"
 msgstr ""
 
-#: admin/settings/style.class.php:951 includes/form.helper.php:273
+#: admin/settings/style.class.php:950 includes/form.helper.php:273
 msgid "Inset"
 msgstr ""
 
-#: admin/settings/style.class.php:952 includes/form.helper.php:274
+#: admin/settings/style.class.php:951 includes/form.helper.php:274
 msgid "Outset"
 msgstr ""
 
-#: admin/settings/style.class.php:960
+#: admin/settings/style.class.php:959
 msgid "Mini wishlist text Color"
 msgstr ""
 
-#: admin/settings/style.class.php:967
+#: admin/settings/style.class.php:966
 msgid "Counter text color"
 msgstr ""
 
-#: admin/settings/style.class.php:982
+#: admin/settings/style.class.php:981
 msgid "Wishlist tags color"
 msgstr ""
 
-#: admin/settings/style.class.php:989
+#: admin/settings/style.class.php:988
 msgid "Mini wishlist links color"
 msgstr ""
 
-#: admin/settings/style.class.php:996
+#: admin/settings/style.class.php:995
 msgid "Mini wishlist links hover color"
 msgstr ""
 
-#: admin/settings/style.class.php:1003
+#: admin/settings/style.class.php:1002
 msgid "Wishlist icon color"
 msgstr ""
 
-#: admin/settings/style.class.php:1010
+#: admin/settings/style.class.php:1009
 msgid "Wishlist active icon color"
 msgstr ""
 
-#: admin/settings/table.class.php:68
+#: admin/settings/table.class.php:69
 msgid "Table Options"
 msgstr ""
 
-#: admin/settings/table.class.php:69
+#: admin/settings/table.class.php:70
 msgid "Wishlist Table Options"
 msgstr ""
 
-#: admin/settings/table.class.php:85
+#: admin/settings/table.class.php:86
 msgid "Product Settings"
 msgstr ""
 
-#: admin/settings/table.class.php:86
+#: admin/settings/table.class.php:87
 msgid ""
 "Following options allows you to choose what information/functionality to "
 "show/enable in wishlist table on wishlist page."
 msgstr ""
 
-#: admin/settings/table.class.php:92
+#: admin/settings/table.class.php:93
 #, fuzzy
 #| msgid "Show in Product Listing"
 msgid "Show Product Image"
 msgstr "Εμφάνιση στη λίστα προϊόντων"
 
-#: admin/settings/table.class.php:98
+#: admin/settings/table.class.php:99
 msgid "Show \"Add to Cart\" button"
 msgstr "Εμφάνιση κουμπί \"Προσθήκη στο Καλάθι\""
 
@@ -1874,19 +2015,27 @@ msgid ""
 "be shown and the product quantity will be increased instead."
 msgstr ""
 
-#: admin/settings/table.class.php:137
+#: admin/settings/table.class.php:138
 msgid "Show \"Move\" button"
 msgstr ""
 
-#: admin/settings/table.class.php:138
+#: admin/settings/table.class.php:139
 msgid "This option allows customers to move products between their wishlists"
 msgstr ""
 
 #: admin/settings/table.class.php:145
+msgid "Show subtotal price per wishlist product"
+msgstr ""
+
+#: admin/settings/table.class.php:151
+msgid "Show the total price for all products in the current wishlist"
+msgstr ""
+
+#: admin/settings/table.class.php:158
 msgid "Table Settings"
 msgstr ""
 
-#: admin/settings/table.class.php:146
+#: admin/settings/table.class.php:159
 msgid ""
 "Following options will help user to manage and add products to cart from "
 "wishlist table in bulk."
@@ -1894,142 +2043,192 @@ msgstr ""
 "Οι ακόλουθες επιλογές θα βοηθήσουν το χρήστη να διαχειρίζεται και να "
 "προσθέτει τα προϊόντα στο καλάθι από τον πίνακα επιθυμιών μαζικά."
 
-#: admin/settings/table.class.php:152
+#: admin/settings/table.class.php:165
+msgid "Enable sorting products feature"
+msgstr ""
+
+#: admin/settings/table.class.php:167
+msgid ""
+"The drag-and-drop product sorting feature will force to display of all "
+"products on one wishlist page."
+msgstr ""
+
+#: admin/settings/table.class.php:173
+#, fuzzy
+#| msgid "Product Name"
+msgid "Products per page"
+msgstr "Όνομα προϊοντος"
+
+#: admin/settings/table.class.php:184
 msgid "Show Checkboxes"
 msgstr ""
 
-#: admin/settings/table.class.php:164
+#: admin/settings/table.class.php:196
 msgid "Show Actions button"
 msgstr ""
 
-#: admin/settings/table.class.php:165
+#: admin/settings/table.class.php:197
 msgid "Bulk actions drop down at the bottom of wishlist table"
 msgstr ""
 
-#: admin/settings/table.class.php:171
+#: admin/settings/table.class.php:203
 msgid "Show \"Add Selected to Cart\" button"
 msgstr "Δείξε κουμπί \"Προσθήκη Επιλεγμένων στο Καλάθι\""
 
-#: admin/settings/table.class.php:178
+#: admin/settings/table.class.php:210
 msgid "\"Add Selected to Cart\" Button Text"
 msgstr "Κείμενο Κουμπιού \"Προσθήκη Επιλεγμένων στο Καλάθι\""
 
-#: admin/settings/table.class.php:189
+#: admin/settings/table.class.php:221
 msgid "Show \"Add All to Cart\" button"
 msgstr "Δείξε κουμπί \"Προσθήκη Όλων στο Καλάθι\""
 
-#: admin/settings/table.class.php:196
+#: admin/settings/table.class.php:228
 msgid "\"Add All to Cart\" Button Text"
 msgstr "Κείμενο Κουμπιού \"Προσθήκη Όλων στο Καλάθι\""
 
-#: admin/settings/table.class.php:204
+#: admin/settings/table.class.php:239
+msgid "Hide popup for wishlist products management actions"
+msgstr ""
+
+#: admin/settings/table.class.php:240
+msgid ""
+"This option allows hide/show a popup after any action is processed with "
+"wishlist products on the wishlist page."
+msgstr ""
+
+#: admin/settings/table.class.php:247
 msgid "Wishlist Table Navigation Buttons"
 msgstr ""
 
-#: admin/settings/table.class.php:205
+#: admin/settings/table.class.php:248
 msgid ""
 "These are the options to enable/disable/manage the quick navigational menu "
 "that can be placed above or/and below the Wishlist table."
 msgstr ""
 
-#: admin/settings/table.class.php:211
+#: admin/settings/table.class.php:254
 msgid "Show in title area"
 msgstr ""
 
-#: admin/settings/table.class.php:217
+#: admin/settings/table.class.php:260
 msgid "Show after table"
 msgstr ""
 
-#: admin/settings/table.class.php:223
+#: admin/settings/table.class.php:266
 msgid "Button type"
 msgstr ""
 
-#: admin/settings/table.class.php:226
+#: admin/settings/table.class.php:269
 msgid "Link"
 msgstr ""
 
-#: admin/settings/table.class.php:227 includes/wizard.class.php:490
+#: admin/settings/table.class.php:270 includes/wizard.class.php:490
 msgid "Button"
 msgstr "Πλήκτρο"
 
-#: admin/settings/table.class.php:233
+#: admin/settings/table.class.php:276
 msgid "Show icons"
 msgstr ""
 
-#: admin/settings/table.class.php:239
+#: admin/settings/table.class.php:282
 msgid "Show \"All Wishlists\" Button"
 msgstr ""
 
-#: admin/settings/table.class.php:240
+#: admin/settings/table.class.php:283
 msgid ""
 "This button opens a page with Recent Wishlist shortcode. You can assign page "
 "to this button in <code>TI Wishlist > General Settings > Wishlist Page "
 "Options: Public Wishlists</code>"
 msgstr ""
 
-#: admin/settings/table.class.php:246
+#: admin/settings/table.class.php:289
 msgid "Show \"Search\" Button"
 msgstr ""
 
-#: admin/settings/table.class.php:247
+#: admin/settings/table.class.php:290
 msgid ""
 "This button opens a page with Search shortcode. You can assign page to this "
 "button in <code>TI Wishlist > General Settings > Wishlist Page Options: "
 "Search for Wishlist</code>"
 msgstr ""
 
-#: admin/tinvwl.class.php:129
+#: admin/settings/table.class.php:296
+#, fuzzy
+#| msgid "Show \"WhatsApp\" Button"
+msgid "Show \"Continue Shopping\" Button"
+msgstr "Εμφάνιση του κουμπιού \"WhatsApp\""
+
+#: admin/tinvwl.class.php:170
 msgid ""
 "<strong>Welcome to WooCommerce Wishlist</strong> – You‘re almost ready to "
 "start :)"
 msgstr ""
 
-#: admin/tinvwl.class.php:131 admin/tinvwl.class.php:148
+#: admin/tinvwl.class.php:172 admin/tinvwl.class.php:192
 msgid "Run the Setup Wizard"
 msgstr "Εκτελέστε τον Οδηγό εγκατάστασης"
 
-#: admin/tinvwl.class.php:133
+#: admin/tinvwl.class.php:174
 msgid "Skip Setup"
 msgstr "Παράλειψη ρύθμισης"
 
-#: admin/tinvwl.class.php:142
-msgid "Dismiss"
-msgstr "Αφαίρεση"
+#: admin/tinvwl.class.php:183
+#, fuzzy
+#| msgid "WooCommerce Wishlist"
+msgid "WooCommerce Wishlist Plugin is misconfigured!"
+msgstr "WooCommerce Λίστα Επιθυμιών"
 
-#: admin/tinvwl.class.php:143
-msgid "Link to Wishlists does not work!"
+#: admin/tinvwl.class.php:184
+msgid ""
+"Since the Setup Wizard was skipped, the Wishlist may function improperly."
 msgstr ""
 
-#: admin/tinvwl.class.php:145
+#: admin/tinvwl.class.php:185
+msgid ""
+"Create a New Page or open to edit a page where the Wishlist should be "
+"displayed."
+msgstr ""
+
+#: admin/tinvwl.class.php:186
+msgid "Add <code>[ti_wishlistsview]</code> shortcode into a page content."
+msgstr ""
+
+#: admin/tinvwl.class.php:187
+msgid ""
+"In a plugin General Settings section apply this page as a \"Wishlist\" page."
+msgstr ""
+
+#: admin/tinvwl.class.php:189
 msgid "Please apply the Wishlist page"
 msgstr "Παρακαλούμε εφαρμόστε τη σελίδα Wishlist"
 
-#: admin/tinvwl.class.php:146
+#: admin/tinvwl.class.php:190
 msgid " or "
 msgstr " ή "
 
-#: admin/tinvwl.class.php:323
+#: admin/tinvwl.class.php:460
 #, fuzzy
 #| msgid "Wishlist"
 msgid "TI Wishlist"
 msgstr "Λίστα Επιθυμιών"
 
-#: admin/tinvwl.class.php:411
+#: admin/tinvwl.class.php:544
 msgid "Are you sure you want to reset the settings?"
 msgstr ""
 "Είστε σίγουροι οτι θέλετε να ακυρώσετε όλες τις αλλαγές στις ρυθμίσεις;"
 
-#: admin/tinvwl.class.php:536
+#: admin/tinvwl.class.php:672
 #, php-format
 msgid "Promotional email for Product \"%1$s\" is not sent! %2$s"
 msgstr ""
 
-#: admin/tinvwl.class.php:551
+#: admin/tinvwl.class.php:686
 #, php-format
 msgid "Promotional email for Product \"%s\" has been sent successfully!"
 msgstr ""
 
-#: admin/tinvwl.class.php:592
+#: admin/tinvwl.class.php:726
 #, php-format
 msgid ""
 "<code>%1$s</code> version <strong style=\"color:red\">%2$s</strong> is out "
@@ -2038,38 +2237,38 @@ msgstr ""
 "<code>%1$s</code> έκδοση <strong style=\"color:red\">%2$s</strong> εκτός "
 "ημερομηνίας. Η έκδοση πυρήνα είναι<strong style=\"color:red\">%3$s</strong>"
 
-#: admin/tinvwl.class.php:620
+#: admin/tinvwl.class.php:752
 #, php-format
 msgid ""
 "<strong>Your theme (%1$s) contains outdated copies of some WooCommerce "
 "Wishlist Premium template files.</strong><br> These files may need updating "
 "to ensure they are compatible with the current version of TI WooCommerce "
-"Wishlist.<br> You can see which files are affected from the <a href=\"%2$s"
-"\">system status page</a>.<br> If in doubt, check with the author of the "
-"theme."
+"Wishlist.<br> You can see which files are affected from the <a "
+"href=\"%2$s\">system status page</a>.<br> If in doubt, check with the author "
+"of the theme."
 msgstr ""
 
-#: admin/tinvwl.class.php:684
+#: admin/tinvwl.class.php:812
 msgid "Wishlist Page"
 msgstr "Σελίδα Αγαπημένων"
 
-#: admin/tinvwl.class.php:687
+#: admin/tinvwl.class.php:815
 msgid "Manage Wishlists Page"
 msgstr ""
 
-#: admin/tinvwl.class.php:690
+#: admin/tinvwl.class.php:818
 msgid "Wishlist Search Results Page"
 msgstr ""
 
-#: admin/tinvwl.class.php:693
+#: admin/tinvwl.class.php:821
 msgid "All Public Wishlists Page"
 msgstr ""
 
-#: admin/tinvwl.class.php:699
+#: admin/tinvwl.class.php:827
 msgid "Create Wishlist Page"
 msgstr ""
 
-#: admin/wishlist.class.php:65
+#: admin/wishlist.class.php:63
 #, php-format
 msgid "Wishlist \"%s\" Subscribers"
 msgstr ""
@@ -2091,10 +2290,10 @@ msgid "No Subscribers available."
 msgstr ""
 
 #: admin/wishlist/table.class.php:43 includes/wizard.class.php:341
-#: includes/wizard.class.php:377 integrations/theme-flatsome.php:124
-#: integrations/theme-flatsome.php:167 integrations/theme-flatsome.php:245
-#: integrations/theme-flatsome.php:284 public/tinvwl.class.php:816
-#: views/header.php:25
+#: includes/wizard.class.php:377 integrations/theme-flatsome.php:119
+#: integrations/theme-flatsome.php:161 integrations/theme-flatsome.php:240
+#: integrations/theme-flatsome.php:289 integrations/theme-flatsome.php:314
+#: public/tinvwl.class.php:878 views/header.php:25
 msgid "Wishlist"
 msgstr "Λίστα Επιθυμιών"
 
@@ -2119,7 +2318,7 @@ msgstr ""
 msgid "in Wishlists"
 msgstr ""
 
-#: admin/wishlist/table.class.php:66 admin/wishlist/table.class.php:296
+#: admin/wishlist/table.class.php:66 admin/wishlist/table.class.php:305
 msgid "Followers"
 msgstr ""
 
@@ -2127,40 +2326,40 @@ msgstr ""
 msgid "Date of creation"
 msgstr ""
 
-#: admin/wishlist/table.class.php:200
+#: admin/wishlist/table.class.php:211
 msgid "No Wishlists available."
 msgstr ""
 
-#: admin/wishlist/table.class.php:518
+#: admin/wishlist/table.class.php:528
 #, php-format
 msgid "%1$s (%2$d)"
 msgstr ""
 
-#: admin/wishlist/table.class.php:580 public/manage/buttons.class.php:227
-#: public/wishlist/buttons.class.php:375 templates/ti-wishlist-manage.php:71
-#: views/admin/wishlist-confirm.php:16 views/admin/wishlist-confirm.php:26
+#: admin/wishlist/table.class.php:590 public/manage/buttons.class.php:201
+#: templates/ti-wishlist-manage.php:90 views/admin/wishlist-confirm.php:16
+#: views/admin/wishlist-confirm.php:26
 msgid "Delete"
 msgstr ""
 
-#: admin/wishlist/table.class.php:603
+#: admin/wishlist/table.class.php:613
 msgid "Wishlists successfully removed!"
 msgstr ""
 
-#: admin/wishlist/table.class.php:605
+#: admin/wishlist/table.class.php:615
 msgid "Wishlists is not removed!"
 msgstr ""
 
-#: admin/wishlist/table.class.php:641 public/wishlist/view.class.php:686
+#: admin/wishlist/table.class.php:651 public/wishlist/view.class.php:491
 #, php-format
 msgid "%1$s by %2$s"
 msgstr "%1$s από %2$s"
 
-#: admin/wishlist/table.class.php:651
+#: admin/wishlist/table.class.php:661
 #, php-format
 msgid "Successfully deleted Wishlists: %s."
 msgstr ""
 
-#: admin/wishlist/table.class.php:654
+#: admin/wishlist/table.class.php:664
 #, php-format
 msgid "Not have been removed Wishlists: %s."
 msgstr ""
@@ -2276,7 +2475,7 @@ msgid ""
 "Fields \"API License Key\" and \"API License email\" could not be empty!"
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:511
+#: includes/api/update/class-ti-plugin-update.php:538
 #, php-format
 msgid ""
 "The license key for %1$s has expired. You can reactivate or purchase a "
@@ -2284,14 +2483,14 @@ msgid ""
 "a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:513
+#: includes/api/update/class-ti-plugin-update.php:540
 #, php-format
 msgid ""
 "The subscription for %1$s is on-hold. You can reactivate the subscription "
 "from your account <a href=\"%2$s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:515
+#: includes/api/update/class-ti-plugin-update.php:542
 #, php-format
 msgid ""
 "The subscription for %1$s has been cancelled. You can renew the subscription "
@@ -2299,14 +2498,14 @@ msgid ""
 "license key will be emailed to you after your order has been completed."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:517
+#: includes/api/update/class-ti-plugin-update.php:544
 #, php-format
 msgid ""
 "The subscription for %1$s has expired. You can reactivate the subscription "
 "from your account <a href=\"%2$s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:519
+#: includes/api/update/class-ti-plugin-update.php:546
 #, php-format
 msgid ""
 "The subscription for %1$s has been suspended. You can reactivate the "
@@ -2314,15 +2513,15 @@ msgid ""
 "a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:521
+#: includes/api/update/class-ti-plugin-update.php:548
 #, php-format
 msgid ""
 "The subscription for %1$s is still pending. You can check on the status of "
-"the subscription from your account <a href=\"%2$s\" target=\"_blank"
-"\">dashboard</a>."
+"the subscription from your account <a href=\"%2$s\" "
+"target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:523
+#: includes/api/update/class-ti-plugin-update.php:550
 #, php-format
 msgid ""
 "The subscription for %1$s has been placed in the trash and will be deleted "
@@ -2330,14 +2529,14 @@ msgid ""
 "target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:525
+#: includes/api/update/class-ti-plugin-update.php:552
 #, php-format
 msgid ""
 "A subscription for %1$s could not be found. You can purchase a subscription "
 "from your account <a href=\"%2$s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:527
+#: includes/api/update/class-ti-plugin-update.php:554
 #, php-format
 msgid ""
 "A license key for %1$s could not be found. Maybe you forgot to enter a "
@@ -2346,7 +2545,7 @@ msgid ""
 "href=\"%2$s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:529
+#: includes/api/update/class-ti-plugin-update.php:556
 #, php-format
 msgid ""
 "Download permission for %1$s has been revoked possibly due to a license key "
@@ -2354,126 +2553,133 @@ msgid ""
 "your account <a href=\"%2$s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:531
+#: includes/api/update/class-ti-plugin-update.php:558
 #, php-format
 msgid ""
 "%1$s has not been activated. Go to the settings page and enter the license "
 "key and license email to activate %1$s."
 msgstr ""
 
-#: includes/api/update/class-ti-plugin-update.php:533
+#: includes/api/update/class-ti-plugin-update.php:560
 #, php-format
 msgid ""
 "You changed the subscription for %1$s, so you will need to enter your new "
 "API License Key in the settings page. The License Key should have arrived in "
-"your email inbox, if not you can get it by logging into your account <a href="
-"\"%2$s\" target=\"_blank\">dashboard</a>."
+"your email inbox, if not you can get it by logging into your account <a "
+"href=\"%2$s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: includes/api/update/class-ti-update.php:203
-#: includes/api/update/class-ti-update.php:241
-#: includes/api/update/class-ti-update.php:280
+#: includes/api/update/class-ti-update.php:165
+#, fuzzy
+#| msgid "TI WooCommerce Wishlist Templates"
+msgid "Welcome to TI WooCommerce Wishlist Premium!"
+msgstr "TI WooCommerce Wishlist Πρότυπα"
+
+#: includes/api/update/class-ti-update.php:168
+msgid ""
+"Please activate your license to get feature updates and premium support."
+msgstr ""
+
+#: includes/api/update/class-ti-update.php:170
+msgctxt "Button label"
+msgid "Activate your license"
+msgstr ""
+
+#: includes/api/update/class-ti-update.php:240
+#: includes/api/update/class-ti-update.php:278
+#: includes/api/update/class-ti-update.php:317
 msgid "Connection failed to the License Key API server. Try again later."
 msgstr ""
 
-#: includes/api/update/class-ti-update.php:212
+#: includes/api/update/class-ti-update.php:249
 msgid "Plugin license deactivated."
 msgstr ""
 
-#: includes/api/update/class-ti-update.php:252
+#: includes/api/update/class-ti-update.php:289
 msgid ""
-"The license could not be deactivated. Use the License Deactivation tab to "
-"manually deactivate the license before activating a new license."
+"The license could not be deactivated. Use the License Deactivation button on "
+"the https://templateinvaders.com/my-account/downloads/ to manually "
+"deactivate the license before activating a new license."
 msgstr ""
 
-#: includes/api/update/class-ti-update.php:286
+#: includes/api/update/class-ti-update.php:323
 msgid "Plugin activated."
 msgstr ""
 
-#: includes/api/wishlist.class.php:127
+#: includes/api/wishlist.class.php:121
 msgid "User ID required to create a wishlist."
 msgstr ""
 
-#: includes/api/wishlist.class.php:153 includes/api/wishlist.class.php:158
+#: includes/api/wishlist.class.php:147 includes/api/wishlist.class.php:152
 msgid "Failed create a new wishlist."
 msgstr ""
 
-#: includes/api/wishlist.class.php:180 includes/api/wishlist.class.php:251
-#: includes/api/wishlist.class.php:306 includes/api/wishlist.class.php:346
-#: includes/api/wishlist.class.php:399
+#: includes/api/wishlist.class.php:170 includes/api/wishlist.class.php:176
+#: includes/api/wishlist.class.php:274 includes/api/wishlist.class.php:422
+#: includes/api/wishlist.class.php:429
 msgid "Invalid wishlist share key."
 msgstr ""
 
-#: includes/api/wishlist.class.php:209
-msgid "WordPress user does not exists."
+#: includes/api/wishlist.class.php:195
+msgid "WordPress user does not exist."
 msgstr ""
 
-#: includes/api/wishlist.class.php:217
+#: includes/api/wishlist.class.php:209
 msgid "No wishlists found for this user."
 msgstr "Δεν βρέθηκε λίστα αγαπημένων γι' αυτόν τον χρήστη."
 
-#: includes/api/wishlist.class.php:276 includes/api/wishlist.class.php:279
+#: includes/api/wishlist.class.php:244 includes/api/wishlist.class.php:248
 msgid "Update wishlist data failed."
 msgstr "Η ενημέρωση των δεδομένων της λίστας αγαπημένων απέτυχε."
 
-#: includes/api/wishlist.class.php:310
+#: includes/api/wishlist.class.php:278
 msgid "Delete wishlist failed."
 msgstr ""
 
-#: includes/api/wishlist.class.php:316
+#: includes/api/wishlist.class.php:284
 msgid "Wishlist not found."
 msgstr ""
 
-#: includes/api/wishlist.class.php:319
+#: includes/api/wishlist.class.php:287
 msgid "Wishlist deleted."
 msgstr ""
 
-#: includes/api/wishlist.class.php:403 includes/api/wishlist.class.php:429
+#: includes/api/wishlist.class.php:350 includes/api/wishlist.class.php:366
 msgid "Add product to wishlist failed."
 msgstr "Η προσθήκη προϊόντος στην λίστα Αγαπημένων απέτυχε."
 
-#: includes/api/wishlist.class.php:462 includes/api/wishlist.class.php:475
+#: includes/api/wishlist.class.php:388
+msgid "Invalid item ID."
+msgstr ""
+
+#: includes/api/wishlist.class.php:395 includes/api/wishlist.class.php:405
 msgid "Product not found."
 msgstr "Το προϊόν δεν βρέθηκε."
 
-#: includes/api/wishlist.class.php:466
+#: includes/api/wishlist.class.php:399
 msgid "Remove product from wishlist failed."
 msgstr ""
 
-#: includes/api/wishlist.class.php:478
+#: includes/api/wishlist.class.php:408
 msgid "Product removed from a wishlist."
 msgstr "Το προϊόν αφαιρέθηκε από τη λίστα Αγαπημένων."
 
-#: includes/export.class.php:158 includes/export.class.php:249
+#: includes/export.class.php:148
 msgid "There was an error importing your settings, please try again."
 msgstr ""
 
-#: includes/export.class.php:191
-msgid "The settings file is empty."
-msgstr "Το αρχείο ρυθμίσεων είναι κενό."
-
-#: includes/export.class.php:204
-msgid "The settings file is not valid."
-msgstr "Το αρχείο ρυθμίσεων είναι εσφαλμένο."
-
-#: includes/export.class.php:227
-msgid "The file you are uploading is too big."
-msgstr "Το αρχείο που μεταφορτώνετε είναι πολύ μεγάλο."
-
-#: includes/export.class.php:237
-msgid "There was an error uploading the file."
-msgstr "Υπήρξε ένα σφάλμα κατά τη μεταφόρτωση του αρχείου."
-
-#: includes/export.class.php:264
+#: includes/export.class.php:177
 msgid ""
 "Please upload the TI WooCommerce Wishlist setting file or copy the content."
 msgstr ""
 
-#: includes/export.class.php:277
-msgid "The settings json is not valid."
-msgstr ""
+#: includes/export.class.php:183
+#, fuzzy
+#| msgid "The settings file is not valid."
+msgid "The settings JSON is not valid."
+msgstr "Το αρχείο ρυθμίσεων είναι εσφαλμένο."
 
-#: includes/export.class.php:303
+#: includes/export.class.php:211
 msgid "There was an error exporting your settings, please try again."
 msgstr ""
 
@@ -2555,17 +2761,28 @@ msgstr ""
 msgid "Out of stock"
 msgstr "Χωρίς απόθεμα"
 
-#: includes/subscribers.class.php:463 integrations/woo-product-bundle.php:115
+#: includes/subscribers.class.php:463 integrations/woo-product-bundle.php:123
 #: integrations/woocommerce-composite-products.php:142
-#: integrations/woocommerce-mix-and-match-products.php:112
-#: integrations/woocommerce-product-bundles.php:136
+#: integrations/woocommerce-mix-and-match-products.php:110
+#: integrations/woocommerce-product-bundles.php:134
 #: integrations/yith-woocommerce-product-bundles.php:165
 #: templates/emails/plain/ti-estimate.php:43
 #: templates/emails/plain/ti-subscribes.php:34
 #: templates/emails/ti-estimate.php:99 templates/emails/ti-subscribes.php:45
-#: templates/ti-wishlist-user.php:151 templates/ti-wishlist.php:159
+#: templates/ti-wishlist-pdf.php:209 templates/ti-wishlist-user.php:155
+#: templates/ti-wishlist.php:175
 msgid "In stock"
 msgstr "σε απόθεμα"
+
+#: includes/subscribers.class.php:464
+#, fuzzy
+#| msgid "In stock"
+msgid "Low stock"
+msgstr "σε απόθεμα"
+
+#: includes/tinvwl.class.php:266
+msgid "by "
+msgstr ""
 
 #: includes/view.helper.php:183
 msgid "Attention!"
@@ -2723,11 +2940,17 @@ msgstr "Διεύθυνση"
 msgid "Reload existing Gift Card"
 msgstr "Επαναφόρτωση Δωροκάρτας"
 
-#: integrations/mycred.php:55
+#: integrations/ione360-configurator.php:59
+#, fuzzy
+#| msgid "Congratulations"
+msgid "Configuration"
+msgstr "Συγχαρητήρια"
+
+#: integrations/mycred.php:56
 msgid "WooCommerce Wishlist"
 msgstr "WooCommerce Λίστα Επιθυμιών"
 
-#: integrations/mycred.php:56
+#: integrations/mycred.php:57
 msgid ""
 "Awards %_plural% for users adding products to their wishlist and purchased "
 "products from their wishlist."
@@ -2735,109 +2958,109 @@ msgstr ""
 "Βραβεία % _plural% για χρήστες που προσθέτουν προϊόντα στη λίστα επιθυμιών "
 "τους και αγοράζουν προϊόντα από τη λίστα επιθυμιών τους."
 
-#: integrations/mycred.php:209
+#: integrations/mycred.php:206
 msgid "Adding Product to Wishlist"
 msgstr "Προσθέστε προϊόντα στην λίστα Αγαπημένων"
 
-#: integrations/mycred.php:214 integrations/mycred.php:259
+#: integrations/mycred.php:211 integrations/mycred.php:256
 msgid "Points"
 msgstr "Πόντοι"
 
-#: integrations/mycred.php:227 integrations/mycred.php:272
+#: integrations/mycred.php:224 integrations/mycred.php:269
 msgid "Limit"
 msgstr "Όριο"
 
-#: integrations/mycred.php:240 integrations/mycred.php:285
+#: integrations/mycred.php:237 integrations/mycred.php:282
 msgid "Log Template"
 msgstr "Πρότυπο καταγραφής"
 
-#: integrations/mycred.php:244 integrations/mycred.php:289
+#: integrations/mycred.php:241 integrations/mycred.php:286
 msgid "required"
 msgstr "απαραίτητο"
 
-#: integrations/mycred.php:254
+#: integrations/mycred.php:251
 msgid "Purchasing Product from Wishlist"
 msgstr "Αγοράστε ένα προϊόν από την λίστα Αγαπημένων"
 
-#: integrations/mycred.php:342
+#: integrations/mycred.php:345
 msgid "Purchased From Wishlist"
 msgstr "Αγορασμένο από την Λίστα Επιθυμιών"
 
-#: integrations/mycred.php:343
+#: integrations/mycred.php:346
 msgid "Added To Wishlist"
 msgstr "Προσθήκη στη λίστα επιθυμιών"
 
-#: integrations/product-extras-for-woocommerce.php:106
+#: integrations/product-extras-for-woocommerce.php:128
 msgid "Flat rate cost"
 msgstr ""
 
-#: integrations/theme-flatsome.php:175
+#: integrations/theme-flatsome.php:169
 #, fuzzy
 #| msgid "Wishlist Button"
 msgid "Wishlist Icon"
 msgstr "Κουμπί Λίστας επιθυμιών"
 
-#: integrations/theme-flatsome.php:194
+#: integrations/theme-flatsome.php:188
 #, fuzzy
 #| msgid "Wishlist Style Options"
 msgid "Wishlist Icon Style"
 msgstr "Επιλογές στυλ Λίστα Επιθυμιών"
 
-#: integrations/theme-flatsome.php:211
+#: integrations/theme-flatsome.php:205
 #, fuzzy
 #| msgid "\"Add to Wishlist\" Text"
 msgid "Show Wishlist Title"
 msgstr "\"Add to Wishlist\" Κείμενο"
 
-#: integrations/theme-flatsome.php:222
+#: integrations/theme-flatsome.php:216
 #, fuzzy
 #| msgid "Custom"
 msgid "Custom Title"
 msgstr "Προσαρμογή"
 
-#: integrations/woocommerce-rental-and-booking.php:57
+#: integrations/woocommerce-rental-and-booking.php:56
 msgid "Rental Product"
 msgstr "Ενοικιαζόμενο προϊόν"
 
-#: integrations/woocommerce-rental-and-booking.php:114
+#: integrations/woocommerce-rental-and-booking.php:112
 msgid "Quote Request"
 msgstr "Αίτημα Προσφοράς"
 
-#: integrations/woocommerce-rental-and-booking.php:130
-#: integrations/woocommerce-rental-and-booking.php:146
+#: integrations/woocommerce-rental-and-booking.php:128
+#: integrations/woocommerce-rental-and-booking.php:144
 msgid " Cost"
 msgstr " Κόστος"
 
-#: integrations/woocommerce-rental-and-booking.php:154
+#: integrations/woocommerce-rental-and-booking.php:152
 msgid "Location Cost"
 msgstr "Κόστος τοποθεσίας"
+
+#: integrations/woocommerce-rental-and-booking.php:162
+#: integrations/woocommerce-rental-and-booking.php:178
+#: integrations/woocommerce-rental-and-booking.php:194
+msgid "Per Day"
+msgstr "Ανά ημέρα"
 
 #: integrations/woocommerce-rental-and-booking.php:164
 #: integrations/woocommerce-rental-and-booking.php:180
 #: integrations/woocommerce-rental-and-booking.php:196
-msgid "Per Day"
-msgstr "Ανά ημέρα"
-
-#: integrations/woocommerce-rental-and-booking.php:166
-#: integrations/woocommerce-rental-and-booking.php:182
-#: integrations/woocommerce-rental-and-booking.php:198
 msgid "One Time"
 msgstr "Μια φορά"
 
-#: integrations/woocommerce-rental-and-booking.php:230
-#: integrations/woocommerce-rental-and-booking.php:244
+#: integrations/woocommerce-rental-and-booking.php:228
+#: integrations/woocommerce-rental-and-booking.php:242
 msgid "at"
 msgstr "στο"
 
-#: integrations/woocommerce-rental-and-booking.php:257
+#: integrations/woocommerce-rental-and-booking.php:255
 msgid "Total Days"
 msgstr "Συνολικές ημέρες"
 
-#: integrations/woocommerce-rental-and-booking.php:263
+#: integrations/woocommerce-rental-and-booking.php:261
 msgid "Total Hours"
 msgstr "Σύνολο ωρών"
 
-#: integrations/woocommerce-rental-and-booking.php:271
+#: integrations/woocommerce-rental-and-booking.php:269
 msgid "Due Payment"
 msgstr "Καθυστερημένη πληρωμή"
 
@@ -2849,58 +3072,136 @@ msgstr "Κουμπί Λίστας επιθυμιών"
 msgid "Base price"
 msgstr "Αρχική τιμή"
 
-#: public/addtowishlist.class.php:202 public/cartsave.class.php:357
-#: public/cartsave.class.php:597 templates/ti-wishlist-form-login.php:25
+#: public/addtowishlist.class.php:243 public/cartsave.class.php:372
+#: public/cartsave.class.php:612 templates/ti-wishlist-form-login.php:25
 #: templates/ti-wishlist-form-login.php:49
-#: templates/ti-wishlist-subscribe.php:63
+#: templates/ti-wishlist-subscribe.php:64
 msgid "Login"
 msgstr "Σύνδεση"
 
-#: public/addtowishlist.class.php:230 public/cartsave.class.php:385
+#: public/addtowishlist.class.php:274 public/cartsave.class.php:402
+#: public/manage/ajax.class.php:89 public/manage/ajax.class.php:115
+#: public/manage/ajax.class.php:123 public/manage/ajax.class.php:177
+#: public/manage/ajax.class.php:201 public/manage/ajax.class.php:224
+#: public/wishlist/ajax.class.php:107 public/wishlist/ajax.class.php:146
+#: public/wishlist/ajax.class.php:156 public/wishlist/ajax.class.php:162
+#: public/wishlist/ajax.class.php:188 public/wishlist/ajax.class.php:194
+#: public/wishlist/ajax.class.php:243 public/wishlist/ajax.class.php:253
+#: public/wishlist/ajax.class.php:442 public/wishlist/ajax.class.php:451
+#: public/wishlist/ajax.class.php:457 public/wishlist/ajax.class.php:517
+#: public/wishlist/ajax.class.php:526 public/wishlist/ajax.class.php:554
+#: public/wishlist/ajax.class.php:611 public/wishlist/ajax.class.php:615
+#: public/wishlist/ajax.class.php:625
 msgid "Something went wrong"
 msgstr "Κάτι πήγε στραβά"
 
-#: public/cartsave.class.php:334
+#: public/cart.class.php:717
+#, php-format
+msgid "Sorry, the &quot;%s&quot; cannot be purchased."
+msgid_plural ""
+"Sorry, the following products cannot be purchased: &quot;%s&quot;."
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/cart.class.php:728
+#, php-format
+msgid ""
+"You cannot add &quot;%s&quot; to the cart because the product is out of "
+"stock."
+msgid_plural ""
+"You cannot add the following products to the cart because they are out of "
+"stock: &quot;%s&quot;."
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/cart.class.php:739
+#, php-format
+msgid "External product &quot;%s&quot; cannot be bought."
+msgid_plural ""
+"The following external products cannot be bought: &quot;%s&quot;."
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/cart.class.php:750
+#, php-format
+msgid "Please choose product options for &quot;%s&quot;."
+msgid_plural ""
+"Please choose options for the following products: &quot;%s&quot;."
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/cart.class.php:761
+#, php-format
+msgid "You cannot add another &quot;%s&quot; to your cart."
+msgid_plural "You cannot add &quot;%s&quot; more to your cart."
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/cart.class.php:772
+#, php-format
+msgid ""
+"You cannot add that amount of &quot;%s&quot; to the cart because there is "
+"not enough stock."
+msgid_plural ""
+"You cannot add the following products to the cart because there is not "
+"enough stock: &quot;%s&quot;."
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/cart.class.php:783
+#, php-format
+msgid ""
+"Product &quot;%s&quot; could not be added to the cart because some "
+"requirements are not met."
+msgid_plural ""
+"Products: &quot;%s&quot; could not be added to the cart because some "
+"requirements are not met."
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/cartsave.class.php:349
 msgid "Product not found in cart!"
 msgstr ""
 
-#: public/cartsave.class.php:655
+#: public/cartsave.class.php:680
+#, fuzzy, php-format
+#| msgid "%s has been removed from wishlist."
+msgid "%1$s has been successfully added to {wishlist_title}."
+msgid_plural "%1$s have been successfully added to {wishlist_title}."
+msgstr[0] "Το %s έχει αφαιρεθεί από τη λίστα αγαπημένων."
+msgstr[1] "Το %s έχει αφαιρεθεί από τη λίστα αγαπημένων."
+
+#: public/cartsave.class.php:683
+#, fuzzy, php-format
+#| msgid "%s has not been removed from wishlist."
+msgid "%s has not added to the {wishlist_title}."
+msgid_plural "%s have not been added to the {wishlist_title}."
+msgstr[0] "Το %s δεν έχει αφαιρεθεί από τη λίστα αγαπημένων."
+msgstr[1] "Το %s δεν έχει αφαιρεθεί από τη λίστα αγαπημένων."
+
+#: public/cartsave.class.php:686
 #, php-format
-msgid "%1$s has been successfully added to wishlist."
-msgid_plural "%1$s have been successfully added to wishlist."
+msgid "%s is already in {wishlist_title}."
+msgid_plural "%s are already in {wishlist_title}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: public/cartsave.class.php:658
-#, php-format
-msgid "%s has not added to the wishlist."
-msgid_plural "%s have not been added to the wishlist."
-msgstr[0] ""
-msgstr[1] ""
-
-#: public/cartsave.class.php:661
-#, php-format
-msgid "%s is already in wishlist."
-msgid_plural "%s are already in wishlist."
-msgstr[0] ""
-msgstr[1] ""
-
-#: public/create.class.php:94
+#: public/create.class.php:90
 msgid ""
 "Anyone can search for and see this list. You can also share using a link."
 msgstr ""
 
-#: public/create.class.php:95
+#: public/create.class.php:91
 msgid ""
 "Only people with the link can see this list. It will not appear in public "
 "search results."
 msgstr ""
 
-#: public/create.class.php:96
+#: public/create.class.php:92
 msgid "Only you can see this list."
 msgstr ""
 
-#: public/create.class.php:133
+#: public/create.class.php:131
 msgid "Wishlist successfully created"
 msgstr ""
 
@@ -2919,44 +3220,52 @@ msgid "Estimate Request"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:69
+#: public/email/data/notificationlowstock.helper.php:69
 #: public/email/data/notificationprice.helper.php:70
 #: public/email/data/notificationstock.helper.php:69
+#: public/email/data/promotional.helper.php:69
 #: public/email/subscribe.class.php:283
 msgid "Enable/Disable"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:71
+#: public/email/data/notificationlowstock.helper.php:71
 #: public/email/data/notificationprice.helper.php:72
 #: public/email/data/notificationstock.helper.php:71
+#: public/email/data/promotional.helper.php:71
 #: public/email/subscribe.class.php:285
 msgid "Enable this email notification"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:75
+#: public/email/data/notificationlowstock.helper.php:75
 #: public/email/data/notificationprice.helper.php:76
 #: public/email/data/notificationstock.helper.php:75
-#: public/email/data/promotional.helper.php:69
+#: public/email/data/promotional.helper.php:75
 #: public/email/subscribe.class.php:289
 msgid "Email Subject"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:77
 #: public/email/data/estimate.helper.php:84
+#: public/email/data/notificationlowstock.helper.php:77
+#: public/email/data/notificationlowstock.helper.php:84
 #: public/email/data/notificationprice.helper.php:78
 #: public/email/data/notificationprice.helper.php:85
 #: public/email/data/notificationstock.helper.php:77
 #: public/email/data/notificationstock.helper.php:84
-#: public/email/data/promotional.helper.php:71
-#: public/email/data/promotional.helper.php:78
+#: public/email/data/promotional.helper.php:77
+#: public/email/data/promotional.helper.php:84
 #: public/email/subscribe.class.php:291 public/email/subscribe.class.php:298
 #, php-format
 msgid "Defaults to <code>%s</code>"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:82
+#: public/email/data/notificationlowstock.helper.php:82
 #: public/email/data/notificationprice.helper.php:83
 #: public/email/data/notificationstock.helper.php:82
-#: public/email/data/promotional.helper.php:76
+#: public/email/data/promotional.helper.php:82
 #: public/email/subscribe.class.php:296
 msgid "Email Heading"
 msgstr ""
@@ -2981,40 +3290,113 @@ msgid "Send CC copy to wishlist owner"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:102
+#: public/email/data/notificationlowstock.helper.php:119
 #: public/email/data/notificationprice.helper.php:120
 #: public/email/data/notificationstock.helper.php:119
-#: public/email/data/promotional.helper.php:116
+#: public/email/data/promotional.helper.php:122
 #: public/email/subscribe.class.php:303
 msgid "Email type"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:104
+#: public/email/data/notificationlowstock.helper.php:121
 #: public/email/data/notificationprice.helper.php:122
 #: public/email/data/notificationstock.helper.php:121
-#: public/email/data/promotional.helper.php:118
+#: public/email/data/promotional.helper.php:124
 #: public/email/subscribe.class.php:305
 msgid "Choose which format of email to send."
 msgstr ""
 
 #: public/email/data/estimate.helper.php:119
+#: public/email/data/notificationlowstock.helper.php:136
 #: public/email/data/notificationprice.helper.php:137
 #: public/email/data/notificationstock.helper.php:136
-#: public/email/data/promotional.helper.php:133
+#: public/email/data/promotional.helper.php:139
 msgid "Plain text"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:122
+#: public/email/data/notificationlowstock.helper.php:139
 #: public/email/data/notificationprice.helper.php:140
 #: public/email/data/notificationstock.helper.php:139
-#: public/email/data/promotional.helper.php:136
+#: public/email/data/promotional.helper.php:142
 msgid "HTML"
 msgstr ""
 
 #: public/email/data/estimate.helper.php:123
+#: public/email/data/notificationlowstock.helper.php:140
 #: public/email/data/notificationprice.helper.php:141
 #: public/email/data/notificationstock.helper.php:140
-#: public/email/data/promotional.helper.php:137
+#: public/email/data/promotional.helper.php:143
 msgid "Multipart"
+msgstr ""
+
+#: public/email/data/notificationlowstock.helper.php:52
+msgid "Wishlist Notification of low stock"
+msgstr ""
+
+#: public/email/data/notificationlowstock.helper.php:53
+msgid ""
+"This notification will be sent to customers if product is low on stock and "
+"they have this product in a Wishlist."
+msgstr ""
+
+#: public/email/data/notificationlowstock.helper.php:56
+#: templates/emails/ti-previewnotification-low-stock.php:34
+msgid "The Product is low on stock!"
+msgstr ""
+
+#: public/email/data/notificationlowstock.helper.php:57
+#, fuzzy
+#| msgid "Add product to wishlist failed."
+msgid "A product on your wishlist is low on stock"
+msgstr "Η προσθήκη προϊόντος στην λίστα Αγαπημένων απέτυχε."
+
+#: public/email/data/notificationlowstock.helper.php:89
+#: public/email/data/notificationprice.helper.php:90
+#: public/email/data/notificationstock.helper.php:89
+#: public/email/data/promotional.helper.php:89
+msgid "Email Content"
+msgstr ""
+
+#: public/email/data/notificationlowstock.helper.php:91
+#: public/email/data/notificationprice.helper.php:92
+#: public/email/data/notificationstock.helper.php:91
+#: public/email/data/promotional.helper.php:91
+msgid ""
+"This field lets you modify the main content of the HTML email. You can use "
+"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
+"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
+"<code>{company}</code>, <code>{product_image}</code>, "
+"<code>{product_image_with_url}</code>, <code>{product_in_wishlists}</code>, "
+"<code>{product_name}</code>, <code>{product_name_with_url}</code>, "
+"<code>{product_price}</code>, <code>{product_price_regular}</code>, "
+"<code>{product_price_sale}</code>, <code>{product_url}</code>, "
+"<code>{coupon_code}</code>, <code>{coupon_amount}</code>, "
+"<code>{url_wishlist_with_product}</code>."
+msgstr ""
+
+#: public/email/data/notificationlowstock.helper.php:107
+#: public/email/data/notificationprice.helper.php:108
+#: public/email/data/notificationstock.helper.php:107
+#: public/email/data/promotional.helper.php:108
+msgid "Email Content Plain"
+msgstr ""
+
+#: public/email/data/notificationlowstock.helper.php:109
+#: public/email/data/notificationprice.helper.php:110
+#: public/email/data/notificationstock.helper.php:109
+#: public/email/data/promotional.helper.php:110
+msgid ""
+"This field lets you modify the main content of the HTML email. You can use "
+"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
+"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
+"<code>{company}</code>, <code>{product_image}</code>, "
+"<code>{product_in_wishlists}</code>, <code>{product_name}</code>, "
+"<code>{product_price}</code>, <code>{product_price_regular}</code>, "
+"<code>{product_price_sale}</code>, <code>{product_url}</code>, "
+"<code>{coupon_code}</code>, <code>{coupon_amount}</code>, "
+"<code>{url_wishlist_with_product}</code>."
 msgstr ""
 
 #: public/email/data/notificationprice.helper.php:53
@@ -3031,47 +3413,6 @@ msgstr ""
 #: public/email/data/notificationprice.helper.php:57
 #: public/email/data/promotional.helper.php:57
 msgid "A product of your wishlist is on sale"
-msgstr ""
-
-#: public/email/data/notificationprice.helper.php:90
-#: public/email/data/notificationstock.helper.php:89
-#: public/email/data/promotional.helper.php:83
-msgid "Email Content"
-msgstr ""
-
-#: public/email/data/notificationprice.helper.php:92
-#: public/email/data/notificationstock.helper.php:91
-#: public/email/data/promotional.helper.php:85
-msgid ""
-"This field lets you modify the main content of the HTML email. You can use "
-"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
-"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
-"<code>{product_image}</code>, <code>{product_image_with_url}</code>, "
-"<code>{product_in_wishlists}</code>, <code>{product_name}</code>, "
-"<code>{product_name_with_url}</code>, <code>{product_price}</code>, "
-"<code>{product_price_regular}</code>, <code>{product_price_sale}</code>, "
-"<code>{product_url}</code>, <code>{coupon_code}</code>, <code>{coupon_amount}"
-"</code>, <code>{url_wishlist_with_product}</code>."
-msgstr ""
-
-#: public/email/data/notificationprice.helper.php:108
-#: public/email/data/notificationstock.helper.php:107
-#: public/email/data/promotional.helper.php:102
-msgid "Email Content Plain"
-msgstr ""
-
-#: public/email/data/notificationprice.helper.php:110
-#: public/email/data/notificationstock.helper.php:109
-#: public/email/data/promotional.helper.php:104
-msgid ""
-"This field lets you modify the main content of the HTML email. You can use "
-"the following placeholder: <code>{user_name}</code>, <code>{user_email}</"
-"code>, <code>{user_first_name}</code>, <code>{user_last_name}</code>, "
-"<code>{product_image}</code>, <code>{product_in_wishlists}</code>, "
-"<code>{product_name}</code>, <code>{product_price}</code>, "
-"<code>{product_price_regular}</code>, <code>{product_price_sale}</code>, "
-"<code>{product_url}</code>, <code>{coupon_code}</code>, <code>{coupon_amount}"
-"</code>, <code>{url_wishlist_with_product}</code>."
 msgstr ""
 
 #: public/email/data/notificationstock.helper.php:53
@@ -3106,18 +3447,21 @@ msgstr ""
 msgid "There is a deal for you!"
 msgstr ""
 
-#: public/email/notificationprice.class.php:309
-#: public/email/notificationprice.class.php:311
-#: public/email/notificationstock.class.php:308
-#: public/email/notificationstock.class.php:310
-#: public/email/promotional.class.php:315
-#: public/email/promotional.class.php:317
+#: public/email/notificationlowstock.class.php:309
+#: public/email/notificationlowstock.class.php:311
+#: public/email/notificationprice.class.php:310
+#: public/email/notificationprice.class.php:312
+#: public/email/notificationstock.class.php:309
+#: public/email/notificationstock.class.php:311
+#: public/email/promotional.class.php:316
+#: public/email/promotional.class.php:318
 msgid "Free!"
 msgstr ""
 
-#: public/email/notificationprice.class.php:331
-#: public/email/notificationstock.class.php:330
-#: public/email/promotional.class.php:337 templates/emails/ti-estimate.php:61
+#: public/email/notificationlowstock.class.php:331
+#: public/email/notificationprice.class.php:332
+#: public/email/notificationstock.class.php:331
+#: public/email/promotional.class.php:338 templates/emails/ti-estimate.php:61
 #: templates/emails/ti-subscribes.php:34
 msgid "Product image"
 msgstr ""
@@ -3141,64 +3485,58 @@ msgstr ""
 msgid "The Wishlist you follow has been changed"
 msgstr ""
 
-#: public/manage/buttons.class.php:55 public/wishlist/buttons.class.php:62
-#, php-format
-msgid "Apply %s"
-msgstr "Εφαρμογή %s"
-
-#: public/manage/buttons.class.php:55 public/wishlist/buttons.class.php:62
-msgid "Action"
-msgstr "Ενέργεια"
-
-#: public/manage/buttons.class.php:62
-msgid "Save Wishlists"
-msgstr ""
-
-#: public/manage/buttons.class.php:220
-msgid "Set \"Public\""
-msgstr ""
-
-#: public/manage/buttons.class.php:221
-msgid "Set \"Share\""
-msgstr ""
-
-#: public/manage/buttons.class.php:222
-msgid "Set \"Private\""
-msgstr ""
-
-#: public/manage/buttons.class.php:289
-#, php-format
-msgid "Successfully deleted wishlists: %s."
-msgstr ""
-
-#: public/manage/buttons.class.php:297
-#, php-format
-msgid "Successfully changed the status to \"%1$s\" wishlists: %2$s."
-msgstr ""
-
-#: public/manage/buttons.class.php:364
-#, php-format
-msgid "Successfully updated wishlists: %s."
-msgstr ""
-
-#: public/manage/wishlist.class.php:131
+#: public/manage/ajax.class.php:120 public/manage/ajax.class.php:198
+#: public/manage/wishlist.class.php:99
 #, php-format
 msgid "Successfully deleted wishlist \"%s\"."
 msgstr ""
 
-#: public/manage/wishlist.class.php:189 public/wishlist/view.class.php:918
+#: public/manage/ajax.class.php:174 public/manage/ajax.class.php:221
+#: public/manage/buttons.class.php:326
+#, php-format
+msgid "Successfully updated wishlists: %s."
+msgstr ""
+
+#: public/manage/buttons.class.php:55 public/wishlist/buttons.class.php:56
+#, php-format
+msgid "Apply %s"
+msgstr "Εφαρμογή %s"
+
+#: public/manage/buttons.class.php:55 public/wishlist/buttons.class.php:56
+msgid "Action"
+msgstr "Ενέργεια"
+
+#: public/manage/buttons.class.php:63
+msgid "Save Wishlists"
+msgstr ""
+
+#: public/manage/buttons.class.php:207
+msgid "Set \""
+msgstr ""
+
+#: public/manage/buttons.class.php:260
+#, php-format
+msgid "Successfully deleted wishlists: %s."
+msgstr ""
+
+#: public/manage/buttons.class.php:264
+#, php-format
+msgid "Successfully changed the status to \"%1$s\" wishlists: %2$s."
+msgstr ""
+
+#: public/manage/wishlist.class.php:171 public/wishlist/view.class.php:554
 msgid "Return to Wishlist"
 msgstr "Επιστροφή στη Λίστα Επιθυμιών"
 
-#: public/manage/wishlist.class.php:236 public/popular.class.php:116
+#: public/manage/wishlist.class.php:240 public/popular.class.php:116
 #: public/public.class.php:143 public/search.class.php:161
-#: public/wishlist/view.class.php:1083
+#: public/wishlist/view.class.php:722
 msgid "Previous Page"
 msgstr "Προηγούμενη σελίδα"
 
-#: public/manage/wishlist.class.php:265 public/popular.class.php:126
+#: public/manage/wishlist.class.php:269 public/popular.class.php:126
 #: public/public.class.php:172 public/search.class.php:190
-#: public/wishlist/view.class.php:1113
+#: public/wishlist/view.class.php:749
 msgid "Next Page"
 msgstr "Επόμενη σελίδα"
 
@@ -3214,6 +3552,16 @@ msgstr ""
 msgid "Product stock status changed"
 msgstr ""
 
+#: public/notifications.class.php:101
+#, fuzzy
+#| msgid "Out of stock"
+msgid "Product low stock"
+msgstr "Χωρίς απόθεμα"
+
+#: public/notifications.class.php:143
+msgid "Notifications settings have been successfully updated"
+msgstr ""
+
 #: public/search.class.php:230
 msgid "Search for a Wishlist"
 msgstr ""
@@ -3222,11 +3570,11 @@ msgstr ""
 msgid "Type a name or email"
 msgstr ""
 
-#: public/tinvwl.class.php:678
+#: public/tinvwl.class.php:684
 msgid "Create New"
 msgstr "Δημιουργία νέου"
 
-#: public/tinvwl.class.php:684
+#: public/tinvwl.class.php:690
 msgid ""
 "Please select some product options before adding this product to your "
 "wishlist."
@@ -3234,15 +3582,19 @@ msgstr ""
 "Παρακαλώ επιλέξτε ορισμένες επιλογές προϊόντος πριν προσθέσετε αυτό το "
 "προϊόν στη λίστα επιθυμιών σας."
 
-#: public/tinvwl.class.php:686
+#: public/tinvwl.class.php:692
 msgid "No items or actions are selected."
 msgstr "Δεν έχει επιλεγεί κανένα προϊόν ή ενέργεια."
 
-#: public/tinvwl.class.php:687
+#: public/tinvwl.class.php:693
 msgid "Copied!"
 msgstr "Αντιγράφηκε!"
 
-#: public/tinvwl.class.php:711
+#: public/tinvwl.class.php:704
+msgid "Update any settings before saving."
+msgstr ""
+
+#: public/tinvwl.class.php:730
 msgid "The field \"Name your list\" can not be empty!"
 msgstr ""
 
@@ -3294,125 +3646,159 @@ msgstr ""
 msgid "TI Wishlists Search"
 msgstr ""
 
-#: public/widget/topwishlist.class.php:26
+#: public/widget/topwishlist.class.php:20
 msgid "Displays the number of products in the wishlist on your site."
 msgstr ""
 "Εμφανίζει τον αριθμό των προϊόντων στη λίστα αγαπημένων στον ιστότοπό σας."
 
-#: public/widget/topwishlist.class.php:28
+#: public/widget/topwishlist.class.php:22
 msgid "TI Wishlist Products Counter"
 msgstr "TI Wishlist Μετρητής προϊόντων"
 
-#: public/widget/topwishlist.class.php:33
+#: public/widget/topwishlist.class.php:27
 msgid "Show counter icon"
 msgstr "Εμφάνιση εικονιδίου μετρητή"
 
-#: public/widget/topwishlist.class.php:38
+#: public/widget/topwishlist.class.php:32
 msgid "Add link for counter title"
 msgstr ""
 
-#: public/widget/topwishlist.class.php:43
+#: public/widget/topwishlist.class.php:37
 msgid "Show counter text"
 msgstr "Εμφάνιση κειμένου μετρητή"
 
-#: public/widget/topwishlist.class.php:48
+#: public/widget/topwishlist.class.php:42
 msgid "Counter Text"
 msgstr "Κείμενο μετρητή"
 
-#: public/widget/topwishlist.class.php:53
+#: public/widget/topwishlist.class.php:47
 msgid "Show counter"
 msgstr ""
 
-#: public/wishlist/buttons.class.php:90
-msgid "Update Wishlist"
-msgstr ""
+#: public/wishlist/ajax.class.php:166 public/wishlist/ajax.class.php:198
+#: public/wishlist/ajax.class.php:265 public/wishlist/ajax.class.php:476
+#: public/wishlist/ajax.class.php:572 public/wishlist/ajax.class.php:663
+#: public/wishlist/ajax.class.php:673
+#, php-format
+msgid "&ldquo;%s&rdquo;"
+msgstr "&ldquo;%s&rdquo;"
 
-#: public/wishlist/buttons.class.php:334 public/wishlist/buttons.class.php:481
+#: public/wishlist/ajax.class.php:173
+#, fuzzy, php-format
+#| msgid "%s has been removed from wishlist."
+msgid "%s has been removed from {wishlist_title}."
+msgstr "Το %s έχει αφαιρεθεί από τη λίστα αγαπημένων."
+
+#: public/wishlist/ajax.class.php:176
+#, fuzzy, php-format
+#| msgid "%s has not been removed from wishlist."
+msgid "%s has not been removed from {wishlist_title}."
+msgstr "Το %s δεν έχει αφαιρεθεί από τη λίστα αγαπημένων."
+
+#: public/wishlist/ajax.class.php:225 public/wishlist/ajax.class.php:349
+#: public/wishlist/ajax.class.php:428
+#, php-format
+msgid "%s has been added to your cart."
+msgid_plural "%s have been added to your cart."
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/wishlist/ajax.class.php:273 public/wishlist/ajax.class.php:686
+#, fuzzy, php-format
+#| msgid "%s has been removed from wishlist."
+msgid "%s has been successfully removed from {wishlist_title}."
+msgid_plural "%s have been successfully removed from {wishlist_title}."
+msgstr[0] "Το %s έχει αφαιρεθεί από τη λίστα αγαπημένων."
+msgstr[1] "Το %s έχει αφαιρεθεί από τη λίστα αγαπημένων."
+
+#: public/wishlist/ajax.class.php:343 public/wishlist/ajax.class.php:422
 #, php-format
 msgctxt "Item name in quotes"
 msgid "&ldquo;%s&rdquo;"
 msgstr "&ldquo;%s&rdquo;"
 
-#: public/wishlist/buttons.class.php:337 public/wishlist/buttons.class.php:484
-#, php-format
-msgid ""
-"Product %s could not be added to cart because some requirements are not met."
-msgid_plural ""
-"Products: %s could not be added to cart because some requirements are not "
-"met."
-msgstr[0] ""
-msgstr[1] ""
+#: public/wishlist/ajax.class.php:492 public/wishlist/ajax.class.php:588
+#, fuzzy, php-format
+#| msgid "%s has been removed from wishlist."
+msgid "Product %1$s has been moved to \"%2$s\"."
+msgid_plural "Products %1$s have been moved to \"%2$s\"."
+msgstr[0] "Το %s έχει αφαιρεθεί από τη λίστα αγαπημένων."
+msgstr[1] "Το %s έχει αφαιρεθεί από τη λίστα αγαπημένων."
 
-#: public/wishlist/buttons.class.php:383
-#, php-format
-msgid "Move to \"%s\""
-msgstr ""
-
-#: public/wishlist/buttons.class.php:539 public/wishlist/buttons.class.php:592
-#: public/wishlist/buttons.class.php:676 public/wishlist/buttons.class.php:685
-#: public/wishlist/view.class.php:550 public/wishlist/view.class.php:749
-#, php-format
-msgid "&ldquo;%s&rdquo;"
-msgstr "&ldquo;%s&rdquo;"
-
-#: public/wishlist/buttons.class.php:556 public/wishlist/buttons.class.php:698
-#, php-format
-msgid "%s has been successfully removed from wishlist."
-msgid_plural "%s have been successfully removed from wishlist."
-msgstr[0] ""
-msgstr[1] ""
-
-#: public/wishlist/buttons.class.php:607 public/wishlist/view.class.php:559
-#, php-format
-msgid "Product %1$s has been moved to Wishlist \"%2$s\"."
-msgid_plural "Products %1$s have been moved to Wishlist \"%2$s\"."
-msgstr[0] ""
-msgstr[1] ""
-
-#: public/wishlist/buttons.class.php:613
+#: public/wishlist/ajax.class.php:500 public/wishlist/ajax.class.php:595
 #, php-format
 msgid "%1$s has been moved to \"%2$s\", but not removed from \"%3$s\"."
 msgid_plural "%1$s have been moved to \"%2$s\", but not removed from \"%3$s\"."
 msgstr[0] ""
 msgstr[1] ""
 
-#: public/wishlist/buttons.class.php:620 public/wishlist/view.class.php:572
+#: public/wishlist/ajax.class.php:510 public/wishlist/ajax.class.php:604
 #, php-format
 msgid "%s has not been moved."
 msgid_plural "%s have not been moved."
 msgstr[0] ""
 msgstr[1] ""
 
-#: public/wishlist/buttons.class.php:695
+#: public/wishlist/ajax.class.php:538
+#, php-format
+msgid ""
+"Oops! It looks like wishlist with the name \"%s\" already exists. Please, "
+"try another name"
+msgstr ""
+
+#: public/wishlist/ajax.class.php:542
+msgid ""
+"Wishlist is not added, and the product is added to the Default Wishlist!"
+msgstr ""
+
+#: public/wishlist/ajax.class.php:683
 #, php-format
 msgid "%s has been successfully updated."
 msgid_plural "%s have been successfully updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: public/wishlist/estimate.class.php:121
+#: public/wishlist/ajax.class.php:692
+msgid "Products order has been successfully updated."
+msgstr ""
+
+#: public/wishlist/buttons.class.php:73
+msgid "Update Wishlist"
+msgstr ""
+
+#: public/wishlist/buttons.class.php:230 templates/ti-miniwishlist.php:52
+#: templates/ti-wishlist.php:115
+msgid "Remove"
+msgstr "Αφαίρεση"
+
+#: public/wishlist/buttons.class.php:238
+#, php-format
+msgid "Move to \"%s\""
+msgstr ""
+
+#: public/wishlist/estimate.class.php:152
 #, php-format
 msgid "Ask for Estimate for Wishlist \"%1$s\" is not sent! %2$s"
 msgstr ""
 
-#: public/wishlist/estimate.class.php:134
+#: public/wishlist/estimate.class.php:157
 #, php-format
 msgid "Ask for Estimate for Wishlist \"%s\" is successfully sent!"
 msgstr ""
 
-#: public/wishlist/social.class.php:118
+#: public/wishlist/social.class.php:116
 msgid "Twitter"
 msgstr "Twitter"
 
-#: public/wishlist/social.class.php:157
+#: public/wishlist/social.class.php:141
 msgid "Email"
 msgstr "Email"
 
-#: public/wishlist/social.class.php:176
+#: public/wishlist/social.class.php:152
 msgid "Clipboard"
 msgstr ""
 
-#: public/wishlist/social.class.php:191
+#: public/wishlist/social.class.php:163
 msgid "WhatsApp"
 msgstr "WhatsApp"
 
@@ -3426,59 +3812,20 @@ msgstr ""
 msgid "You are now unfollowing wishlist \"%s\"!"
 msgstr ""
 
-#: public/wishlist/view.class.php:490
-#, php-format
-msgid ""
-"Oops! It looks like wishlist with the name \"%s\" already exists. Please, "
-"try another name"
-msgstr ""
-
-#: public/wishlist/view.class.php:494
-msgid ""
-"Wishlist is not added, and the product is added to the Default Wishlist!"
-msgstr ""
-
-#: public/wishlist/view.class.php:505
-msgid "Please select Wishlist or specify a name for the new Wishlist!"
-msgstr ""
-
-#: public/wishlist/view.class.php:516
-msgid "The Product is not moved!"
-msgstr ""
-
-#: public/wishlist/view.class.php:537
-msgid "The Product not found!"
-msgstr ""
-
-#: public/wishlist/view.class.php:565
-#, php-format
-msgid "%1$s has been added to \"%2$s\", but not removed from \"%3$s\"."
-msgstr ""
-
-#: public/wishlist/view.class.php:763
-#, php-format
-msgid "%s has been removed from wishlist."
-msgstr "Το %s έχει αφαιρεθεί από τη λίστα αγαπημένων."
-
-#: public/wishlist/view.class.php:765
-#, php-format
-msgid "%s has not been removed from wishlist."
-msgstr "Το %s δεν έχει αφαιρεθεί από τη λίστα αγαπημένων."
-
-#: public/wishlist/view.class.php:1060
+#: public/wishlist/view.class.php:701
 msgid "Create"
 msgstr ""
 
-#: public/wishlist/view.class.php:1071
+#: public/wishlist/view.class.php:711
 #: templates/ti-wishlist-notifications.php:37
 msgid "Notifications"
 msgstr ""
 
-#: public/wishlistcounter.class.php:211
+#: public/wishlistcounter.class.php:217
 msgid "View My Wishlists"
 msgstr ""
 
-#: public/wishlistcounter.class.php:213
+#: public/wishlistcounter.class.php:219
 #: templates/ti-wishlist-create-message.php:27
 msgid "View Wishlist"
 msgstr ""
@@ -3505,6 +3852,7 @@ msgstr ""
 #: templates/emails/ti-contentpromotionalTI-v01.php:28
 #: templates/emails/ti-contentpromotionalTI-v02.php:49
 #: templates/emails/ti-contentpromotionalTI-v03.php:32
+#: templates/emails/ti-previewnotification-low-stock.php:50
 #: templates/emails/ti-previewnotification-price.php:50
 #: templates/emails/ti-previewnotification-stock.php:50
 #: templates/emails/ti-previewpromotional.php:45
@@ -3560,18 +3908,19 @@ msgid ""
 msgstr ""
 
 #: templates/emails/ti-estimate.php:34
-#: templates/emails/ti-previewestimate.php:67 templates/ti-wishlist-user.php:43
-#: templates/ti-wishlist.php:44
+#: templates/emails/ti-previewestimate.php:67 templates/ti-wishlist-pdf.php:121
+#: templates/ti-wishlist-user.php:42 templates/ti-wishlist.php:49
 msgid "Unit Price"
 msgstr "Τιμή μονάδας"
 
 #: templates/emails/ti-estimate.php:37
-#: templates/emails/ti-previewestimate.php:69 templates/ti-wishlist-user.php:49
-#: templates/ti-wishlist.php:50
+#: templates/emails/ti-previewestimate.php:69 templates/ti-wishlist-pdf.php:127
+#: templates/ti-wishlist-user.php:48 templates/ti-wishlist.php:55
 msgid "Stock Status"
 msgstr "Κατάσταση αποθέματος"
 
 #: templates/emails/ti-previewestimate.php:53
+#: templates/emails/ti-previewnotification-low-stock.php:56
 #: templates/emails/ti-previewnotification-price.php:56
 #: templates/emails/ti-previewnotification-stock.php:56
 msgid "Default wishlist"
@@ -3580,6 +3929,12 @@ msgstr ""
 #: templates/emails/ti-previewestimate.php:57
 msgid "This is Preview Additional notes"
 msgstr ""
+
+#: templates/emails/ti-previewnotification-low-stock.php:52
+#, fuzzy
+#| msgid "Add product to wishlist failed."
+msgid "A product on your wishlist is low on stock!"
+msgstr "Η προσθήκη προϊόντος στην λίστα Αγαπημένων απέτυχε."
 
 #: templates/emails/ti-previewnotification-price.php:52
 msgid "A product of your wishlist is on sale!"
@@ -3600,8 +3955,8 @@ msgstr ""
 
 #: templates/ti-addedtowishlist-dialogbox.php:36
 #: templates/ti-addtowishlist-dialogbox.php:31
-#: templates/ti-wishlist-create-message.php:33
-#: templates/ti-wishlist-manage.php:88
+#: templates/ti-wishlist-create-message.php:31
+#: templates/ti-wishlist-manage.php:107
 msgid "Close"
 msgstr "Κλείσιμο"
 
@@ -3609,15 +3964,15 @@ msgstr "Κλείσιμο"
 msgid "Choose Wishlist:"
 msgstr ""
 
-#: templates/ti-miniwishlist.php:48 templates/ti-miniwishlist.php:80
+#: templates/ti-miniwishlist.php:84
 msgid "more..."
 msgstr ""
 
-#: templates/ti-miniwishlist.php:91
+#: templates/ti-miniwishlist.php:113
 msgid "No products in the wishlist."
 msgstr ""
 
-#: templates/ti-miniwishlist.php:96
+#: templates/ti-miniwishlist.php:118
 msgid "Total products"
 msgstr ""
 
@@ -3629,15 +3984,19 @@ msgstr ""
 msgid "Create List"
 msgstr ""
 
-#: templates/ti-wishlist-empty.php:23
-msgid "Your Wishlist is currently empty."
+#: templates/ti-wishlist-empty.php:23 templates/ti-wishlist-pdf.php:235
+#, fuzzy
+#| msgid "Your Wishlist is currently empty."
+msgid "Your {wishlist_title} is currently empty."
 msgstr "Η Λίστα Αγαπημένων σας είναι αυτή τη στιγμή κενή."
 
-#: templates/ti-wishlist-empty.php:25
-msgid "Wishlist is currently empty."
+#: templates/ti-wishlist-empty.php:25 templates/ti-wishlist-pdf.php:237
+#, fuzzy
+#| msgid "Wishlist is currently empty."
+msgid "{wishlist_title} is currently empty."
 msgstr "Η Λίστα Αγαπημένων είναι προς το παρόν κενή."
 
-#: templates/ti-wishlist-empty.php:33 templates/ti-wishlist-null.php:24
+#: templates/ti-wishlist-empty.php:36 templates/ti-wishlist-null.php:24
 msgid "Return To Shop"
 msgstr "Επιστροφή στο κατάστημα"
 
@@ -3699,24 +4058,28 @@ msgstr ""
 msgid "Rename"
 msgstr ""
 
-#: templates/ti-wishlist-manage.php:30 templates/ti-wishlist-public.php:24
+#: templates/ti-wishlist-manage.php:39 templates/ti-wishlist-public.php:24
 msgid "List Name"
 msgstr ""
 
-#: templates/ti-wishlist-manage.php:31 templates/ti-wishlist-public.php:25
+#: templates/ti-wishlist-manage.php:40 templates/ti-wishlist-public.php:25
 msgid "List"
 msgstr ""
 
-#: templates/ti-wishlist-manage.php:34
+#: templates/ti-wishlist-manage.php:44
 msgid "Privacy Settings"
 msgstr ""
 
-#: templates/ti-wishlist-manage.php:83
+#: templates/ti-wishlist-manage.php:84 templates/ti-wishlist-navigation.php:74
+msgid "Download"
+msgstr ""
+
+#: templates/ti-wishlist-manage.php:102
 #, php-format
 msgid "Remove Wishlist \"%s\"?"
 msgstr ""
 
-#: templates/ti-wishlist-manage.php:85
+#: templates/ti-wishlist-manage.php:104
 msgid "Confirm"
 msgstr ""
 
@@ -3724,15 +4087,15 @@ msgstr ""
 msgid "Move to"
 msgstr ""
 
-#: templates/ti-wishlist-navigation.php:24
+#: templates/ti-wishlist-navigation.php:33
 msgid "My Wishlists"
 msgstr ""
 
-#: templates/ti-wishlist-navigation.php:35
+#: templates/ti-wishlist-navigation.php:50
 msgid "All Wishlists"
 msgstr ""
 
-#: templates/ti-wishlist-navigation.php:50
+#: templates/ti-wishlist-navigation.php:87
 msgid "Continue Shopping"
 msgstr ""
 
@@ -3745,7 +4108,7 @@ msgstr ""
 msgid "Receive email notifications when:"
 msgstr ""
 
-#: templates/ti-wishlist-notifications.php:60
+#: templates/ti-wishlist-notifications.php:61
 msgid "Update settings"
 msgstr ""
 
@@ -3753,41 +4116,53 @@ msgstr ""
 msgid "Wishlist is not found!"
 msgstr "Τα αγαπημένα δεν βρέθηκαν!"
 
+#: templates/ti-wishlist-pdf.php:133 templates/ti-wishlist-user.php:54
+#: templates/ti-wishlist.php:61
+msgid "Subtotal"
+msgstr ""
+
+#: templates/ti-wishlist-pdf.php:247 templates/ti-wishlist-user.php:214
+#: templates/ti-wishlist.php:237
+#, fuzzy
+#| msgid "Total Days"
+msgid "Total: "
+msgstr "Συνολικές ημέρες"
+
 #: templates/ti-wishlist-searchform-empty.php:16
 msgid ""
 "Sorry, but nothing matched your search. Please try again with some different "
 "keywords."
 msgstr ""
 
-#: templates/ti-wishlist-subscribe.php:47
+#: templates/ti-wishlist-subscribe.php:48
 msgid "At least one condition should be selected to follow wishlist."
 msgstr ""
 
-#: templates/ti-wishlist-subscribe.php:50
+#: templates/ti-wishlist-subscribe.php:51
 msgid "Select all"
 msgstr ""
 
-#: templates/ti-wishlist-subscribe.php:53
+#: templates/ti-wishlist-subscribe.php:54
 msgid "Select none"
 msgstr ""
 
-#: templates/ti-wishlist-subscribe.php:57
+#: templates/ti-wishlist-subscribe.php:58
 msgid "Follow this Wishlist"
 msgstr ""
 
-#: templates/ti-wishlist-subscribe.php:62
+#: templates/ti-wishlist-subscribe.php:63
 msgid "Please login to follow this wishlist"
 msgstr ""
 
-#: templates/ti-wishlist-subscribe.php:76
+#: templates/ti-wishlist-subscribe.php:77
 msgid "Unfollow Wishlist"
 msgstr ""
 
-#: templates/ti-wishlist-user.php:32 templates/ti-wishlist.php:32
+#: templates/ti-wishlist-user.php:31 templates/ti-wishlist.php:37
 msgid "Select all for bulk action"
 msgstr "Επιλογή όλων για μαζική ενέργεια"
 
-#: templates/ti-wishlist-user.php:90
+#: templates/ti-wishlist-user.php:94 templates/ti-wishlist.php:107
 msgid "Select for bulk action"
 msgstr "Επιλέξτε για μαζική ενέργεια"
 
@@ -3795,39 +4170,35 @@ msgstr "Επιλέξτε για μαζική ενέργεια"
 msgid "Search for wishlists:"
 msgstr ""
 
-#: templates/ti-wishlist.php:99
-msgid "Remove"
-msgstr "Αφαίρεση"
-
-#: templates/ti-wishlist.php:198
+#: templates/ti-wishlist.php:219
 msgid "Move"
 msgstr ""
 
-#: tinv-wishlists-function.php:311
+#: tinv-wishlists-function.php:384
 msgid "Can not create a wishlist!"
 msgstr ""
 
-#: tinv-wishlists-function.php:317
+#: tinv-wishlists-function.php:390
 msgid "Please, login to add products to Wishlist"
 msgstr "Παρακαλούμε, συνδεθείτε για να το προσθέσετε στη Λίστα Επιθυμιών"
 
-#: tinv-wishlists-function.php:331
+#: tinv-wishlists-function.php:404
 msgid "Empty name of the new wishlist!"
 msgstr ""
 
-#: tinv-wishlists-function.php:335
+#: tinv-wishlists-function.php:408
 #, php-format
 msgid "Wishlist with the name \"%s\" already exists and will be used!"
 msgstr ""
 
-#: tinv-wishlists-function.php:349
+#: tinv-wishlists-function.php:422
 #, php-format
 msgid ""
 "Wishlist with the name \"%s\" was not created, and the Default Wishlist will "
 "be used!"
 msgstr ""
 
-#: tinv-wishlists-function.php:385
+#: tinv-wishlists-function.php:457
 #, php-format
 msgid "Wishlist with name \"%s\" not found"
 msgstr ""
@@ -4163,6 +4534,18 @@ msgstr ""
 #: views/wizard/step-social.php:96
 msgid "TI Wishlist > General"
 msgstr ""
+
+#~ msgid "Dismiss"
+#~ msgstr "Αφαίρεση"
+
+#~ msgid "The settings file is empty."
+#~ msgstr "Το αρχείο ρυθμίσεων είναι κενό."
+
+#~ msgid "The file you are uploading is too big."
+#~ msgstr "Το αρχείο που μεταφορτώνετε είναι πολύ μεγάλο."
+
+#~ msgid "There was an error uploading the file."
+#~ msgstr "Υπήρξε ένα σφάλμα κατά τη μεταφόρτωση του αρχείου."
 
 #~ msgid "Select options"
 #~ msgstr "Επιλέξτε επιλογές"

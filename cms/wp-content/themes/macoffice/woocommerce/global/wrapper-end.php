@@ -46,6 +46,9 @@ switch ( $template ) {
 	case 'twentysixteen':
 		echo '</main></div>';
 		break;
+	case 'macoffice':
+	echo '</main></div>';
+	break;
 	default:
 		echo '</main></div>';
 		break;

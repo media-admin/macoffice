@@ -12,6 +12,7 @@ use WP_Post;
 /**
  * This class handles the compatibility for general page builders. If a page builder
  * has more compatibility options, please see / create another compatibility class.
+ * @internal
  */
 class PageBuilders
 {
@@ -62,6 +63,10 @@ class PageBuilders
             $this->diviBuilder();
         }
         $this->themify();
+        // BeBuilder
+        \add_action('mfn_header_enqueue', function () {
+            $this->getCore()->getAssets()->enqueue_scripts_and_styles('mfn_header_enqueue');
+        });
     }
     /**
      * Divi Page Builder

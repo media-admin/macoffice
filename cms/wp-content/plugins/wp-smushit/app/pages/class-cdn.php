@@ -9,6 +9,7 @@ namespace Smush\App\Pages;
 
 use Smush\App\Abstract_Summary_Page;
 use Smush\App\Interface_Page;
+use Smush\Core\CDN\CDN_Helper;
 use WP_Smush;
 
 if ( ! defined( 'WPINC' ) ) {
@@ -78,37 +79,43 @@ class CDN extends Abstract_Summary_Page implements Interface_Page {
 	 * @since 3.0
 	 */
 	public function cdn_meta_box() {
-		$status = WP_Smush::get_instance()->core()->mod->cdn->status();
+		$status = CDN_Helper::get_instance()->get_cdn_status_string();
+
+		$cdn_enabled_notice = __(
+			'Your media is currently being served from the WPMU DEV CDN. Bulk and Directory smush features are treated separately and will continue to run independently.',
+			'wp-smushit'
+		);
+
+		$cdn_upgrade_notice = sprintf(
+			__(
+			/* translators: %1$s - starting a tag, %2$s - closing a tag */
+				"You're almost through your CDN bandwidth limit. Please contact your administrator to upgrade your Smush CDN plan to ensure you don't lose this service. %1\$sUpgrade plan%2\$s",
+				'wp-smushit'
+			),
+			'<a href="https://wpmudev.com/hub/account/" target="_blank">',
+			'</a>'
+		);
+
+		$cdn_overcap_notice = sprintf(
+			__(
+			/* translators: %1$s - starting a tag, %2$s - closing a tag */
+				"You've gone through your CDN bandwidth limit, so we’ve stopped serving your images via the CDN. Contact your administrator to upgrade your Smush CDN plan to reactivate this service. %1\$sUpgrade plan%2\$s",
+				'wp-smushit'
+			),
+			'<a href="https://wpmudev.com/hub/account/" target="_blank">',
+			'</a>'
+		);
 
 		// Available values: warning (inactive), success (active) or error (expired).
 		$status_msg = array(
-			'enabled'    => __(
-				'Your media is currently being served from the WPMU DEV CDN. Bulk and Directory smush features are treated separately and will continue to run independently.',
-				'wp-smushit'
-			),
+			'enabled'    => $this->whitelabel->whitelabel_string( $cdn_enabled_notice ),
 			'disabled'   => __( 'CDN is not yet active. Configure your settings below and click Activate.', 'wp-smushit' ),
 			'activating' => __(
 				'Your settings have been saved and changes are now propagating to the CDN. Changes can take up to 30 minutes to take effect but your images will continue to be served in the meantime, please be patient.',
 				'wp-smushit'
 			),
-			'upgrade'    => sprintf(
-				__(
-				/* translators: %1$s - starting a tag, %2$s - closing a tag */
-					"You're almost through your CDN bandwidth limit. Please contact your administrator to upgrade your Smush CDN plan to ensure you don't lose this service. %1\$sUpgrade now%2\$s",
-					'wp-smushit'
-				),
-				'<a href="https://wpmudev.com/hub/account/" target="_blank">',
-				'</a>'
-			),
-			'overcap'    => sprintf(
-				__(
-				/* translators: %1$s - starting a tag, %2$s - closing a tag */
-					"You've gone through your CDN bandwidth limit, so we’ve stopped serving your images via the CDN. Contact your administrator to upgrade your Smush CDN plan to reactivate this service. %1\$sUpgrade now%2\$s",
-					'wp-smushit'
-				),
-				'<a href="https://wpmudev.com/hub/account/" target="_blank">',
-				'</a>'
-			),
+			'upgrade'    => $this->whitelabel->whitelabel_string( $cdn_upgrade_notice ),
+			'overcap'    => $this->whitelabel->whitelabel_string( $cdn_overcap_notice ),
 		);
 
 		$status_color = array(
@@ -121,7 +128,9 @@ class CDN extends Abstract_Summary_Page implements Interface_Page {
 
 		// Disable CDN on staging.
 		if ( isset( $_SERVER['WPMUDEV_HOSTING_ENV'] ) && 'staging' === $_SERVER['WPMUDEV_HOSTING_ENV'] ) {
-			$status_msg['disabled']   = __( 'Your Staging environment’s media is currently being served from your local server. If you move your Staging files into Production, your Production environment’s media will automatically be served from the Smush CDN.', 'wp-smushit' );
+			$status_msg['disabled']   = $this->whitelabel->whitelabel_string(
+				__( 'Your Staging environment’s media is currently being served from your local server. If you move your Staging files into Production, your Production environment’s media will automatically be served from the Smush CDN.', 'wp-smushit' )
+			);
 			$status_color['disabled'] = 'warning';
 		}
 

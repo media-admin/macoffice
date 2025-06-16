@@ -119,7 +119,9 @@ class WC_GZD_Payment_Gateways {
 	}
 
 	protected function maybe_force_gateway_button_text( $gateway ) {
-		if ( ! isset( $gateway->force_order_button_text ) || $gateway->force_order_button_text ) {
+		$button_text = $gateway->order_button_text;
+
+		if ( ! is_null( $button_text ) && ! empty( $button_text ) && ( ! isset( $gateway->force_order_button_text ) || $gateway->force_order_button_text ) ) {
 			/**
 			 * Filter to adjust the forced order submit button text per gateway.
 			 * By default Woo allows gateways to adjust the submit button text.
@@ -144,7 +146,6 @@ class WC_GZD_Payment_Gateways {
 		$gateways = WC()->payment_gateways()->payment_gateways();
 
 		foreach ( $gateways as $gateway ) {
-
 			if ( 'yes' !== $gateway->enabled ) {
 				continue;
 			}
@@ -153,7 +154,6 @@ class WC_GZD_Payment_Gateways {
 			$this->maybe_force_gateway_button_text( $gateway );
 
 			if ( $this->gateway_supports_fees( $gateway->id ) && $gateway->get_option( 'fee' ) ) {
-
 				$gateway_description = $this->gateway_data[ $gateway->id ]['description'];
 				$desc                = sprintf( __( '%s payment charge', 'woocommerce-germanized' ), wc_price( $gateway->get_option( 'fee' ) ) ) . '.';
 
@@ -171,7 +171,6 @@ class WC_GZD_Payment_Gateways {
 				 *
 				 */
 				$gateway_description .= apply_filters( 'woocommerce_gzd_payment_gateway_description', ' ' . $desc, $gateway );
-
 				$gateway->description = $gateway_description;
 			}
 		}
@@ -241,17 +240,29 @@ class WC_GZD_Payment_Gateways {
 		return $fields;
 	}
 
+	public function get_current_gateway() {
+		$current_gateway    = WC()->session ? WC()->session->get( 'chosen_payment_method' ) : '';
+		$has_block_checkout = \Vendidero\Germanized\Utilities\CartCheckout::uses_checkout_block() || WC()->is_rest_api_request();
+
+		if ( $has_block_checkout ) {
+			$current_gateway = WC()->session ? WC()->session->get( 'wc_gzd_blocks_chosen_payment_method', '' ) : '';
+		}
+
+		return $current_gateway;
+	}
+
 	/**
 	 * Update fee for cart if feeable gateway has been selected as payment method
 	 */
 	public function init_fee() {
-		$gateways = WC()->payment_gateways()->get_available_payment_gateways();
+		$gateways        = WC()->payment_gateways()->get_available_payment_gateways();
+		$current_gateway = $this->get_current_gateway();
 
-		if ( ! ( $key = WC()->session->get( 'chosen_payment_method' ) ) || ! isset( $gateways[ $key ] ) ) {
+		if ( ! $current_gateway || ! isset( $gateways[ $current_gateway ] ) ) {
 			return;
 		}
 
-		$gateway = $gateways[ $key ];
+		$gateway = $gateways[ $current_gateway ];
 
 		if ( 'yes' !== $gateway->enabled ) {
 			return;

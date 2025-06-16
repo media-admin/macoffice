@@ -19,7 +19,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
         /**
          * @var AWS_Table Data
          */
-        private $data;
+        private $data = array();
 
         /**
          * Constructor
@@ -36,7 +36,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
             // Change product status
             add_action( 'wp_insert_post', array( $this, 'product_changed' ), 10, 3 );
 
-            // Cheduled products
+            // Scheduled products
             add_action( 'wp_after_insert_post', array( $this, 'wp_after_insert_post' ), 10, 4 );
 
             // Delete product
@@ -57,6 +57,8 @@ if ( ! class_exists( 'AWS_Table' ) ) :
 
             add_action( 'woocommerce_product_set_stock_status', array( $this, 'stock_status_changes' ), 10, 3 );
             add_action( 'woocommerce_variation_set_stock_status', array( $this, 'stock_status_changes' ), 10, 3 );
+
+            add_action( 'woocommerce_attribute_updated', array( $this, 'attr_term_changed' ), 10, 3 );
 
             add_action( 'wp_ajax_aws-reindex', array( $this, 'reindex_table_ajax' ) );
 
@@ -121,11 +123,13 @@ if ( ! class_exists( 'AWS_Table' ) ) :
 
                 $this->create_table();
 
-                if ( AWS_PRO()->cache->is_cache_table_not_exist() ) {
+                if ( AWS_PRO()->option_vars->is_cache_table_not_exists() ) {
                     AWS_PRO()->cache->create_cache_table();
                 }
 
                 $index_meta['found_posts'] = $this->get_number_of_products();
+
+                do_action( 'aws_index_started', $index_meta );
 
             } else if ( ! empty( $index_meta['site_stack'] ) && $index_meta['offset'] >= $index_meta['found_posts'] ) {
                 $status = 'start';
@@ -172,10 +176,6 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                     $this->fill_table( $posts );
 
                     $index_meta['offset'] = absint( $index_meta['offset'] + $posts_per_page );
-
-                    if ( $index_meta['offset'] >= $index_meta['found_posts'] ) {
-                        $index_meta['offset'] = $index_meta['found_posts'];
-                    }
 
                     set_transient( 'aws_index_processed', $index_meta, 60*60 );
 
@@ -318,28 +318,24 @@ if ( ! class_exists( 'AWS_Table' ) ) :
             global $wpdb;
 
             $charset_collate = $wpdb->get_charset_collate();
-            $terms_key = '';
-
-            $search_rule = AWS_PRO()->get_common_settings( 'search_rule' );
-            if ( $search_rule === 'begins' ) {
-                $terms_key = 'KEY term (term),';
-            }
 
             $sql = "CREATE TABLE {$this->table_name} (
-                      id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
-                      term VARCHAR(50) NOT NULL DEFAULT 0,
-                      term_source VARCHAR(50) NOT NULL DEFAULT 0,
-                      type VARCHAR(50) NOT NULL DEFAULT 0,
-                      count BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
-                      in_stock INT(11) NOT NULL DEFAULT 0,
-                      on_sale INT(11) NOT NULL DEFAULT 0,
-                      term_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
-                      visibility VARCHAR(20) NOT NULL DEFAULT 0,
-                      lang VARCHAR(20) NOT NULL DEFAULT 0,
-                      KEY id (id),
-                      {$terms_key}
-                      KEY term_id (term_id),
-                      UNIQUE KEY source_term (id,term,term_source,lang)
+                        k BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+                        id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+                        term VARCHAR(50) NOT NULL DEFAULT 0,
+                        term_source VARCHAR(50) NOT NULL DEFAULT 0,
+                        type TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+                        count SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+                        in_stock TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+                        on_sale TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+                        term_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+                        visibility TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+                        lang VARCHAR(20) NOT NULL DEFAULT 0,
+                        PRIMARY KEY (k),
+                        KEY id (id),
+                        KEY term (term),
+                        KEY term_id (term_id),
+                        UNIQUE KEY source_term (id,type,in_stock,on_sale,visibility,lang,term_source,term,count)
                 ) $charset_collate;";
 
             /**
@@ -360,6 +356,8 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                 }
 
             }
+
+            update_option( 'aws_pro_index_table_version', AWS_PRO_VERSION );
 
             do_action( 'aws_create_index_table' );
 
@@ -416,6 +414,8 @@ if ( ! class_exists( 'AWS_Table' ) ) :
         private function insert_into_table( $data ) {
             global $wpdb;
 
+            $rows = AWS_PRO()->table_updates->get_table_rows();
+
             /**
              * Filters product data array before it will be added to index table.
              *
@@ -426,6 +426,9 @@ if ( ! class_exists( 'AWS_Table' ) ) :
              * @param null ( since 1.73 )
              */
             $data = apply_filters( 'aws_indexed_data', $data, $data['id'], null );
+
+            $data['type'] = AWS_PRO()->table_updates->get_product_type_code( $data['type'] );
+            $data['visibility'] = AWS_PRO()->table_updates->get_visibility_code( $data['visibility'] );
 
             $values = array();
 
@@ -442,6 +445,10 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                         }
                     }
 
+                    if ( strlen( $source) > 50 ) {
+                        $source = substr( $source, 0, 50 );
+                    }
+
                     if ( is_array( $all_terms ) && ! empty( $all_terms ) ) {
                         foreach ( $all_terms as $term => $count ) {
 
@@ -450,7 +457,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                             }
 
                             $value = $wpdb->prepare(
-                                "(%d, %s, %s, %s, %d, %d, %d, %d, %s, %s)",
+                                $rows,
                                 $data['id'], $term, $source, $data['type'], $count, $data['in_stock'], $data['on_sale'], $term_id, $data['visibility'], $data['lang']
                             );
 
@@ -549,7 +556,9 @@ if ( ! class_exists( 'AWS_Table' ) ) :
          */
         public function wp_after_insert_post( $post_id, $post, $update, $post_before ) {
 
-            if ( $update && $post->post_type === 'product' && $post_before && $post_before->post_status === 'future' ) {
+            if ( $update && $post->post_type === 'product' && $post_before &&
+                ( $post_before->post_status === 'future' || ( $post_before->post_status === 'trash' && $post->post_status === 'publish' ) )
+            ) {
                 $this->update_table( $post_id );
             }
 
@@ -578,7 +587,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
          * Product removed hook
          */
         public function product_deleted( $post_id, $post = false ) {
-            
+
             $slug = 'product';
 
             if ( $post && $slug != $post->post_type ) {
@@ -611,7 +620,15 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                 return;
             }
 
-            $this->update_table( $object_id );
+            $index_options = AWS_Helpers::get_index_options();
+            if ( $index_options && $index_options['index']['meta'] ) {
+                $meta_name = 'meta_' . $meta_key;
+                if ( ! isset( $index_options['index']['meta_sources'][$meta_name] ) || ! $index_options['index']['meta_sources'][$meta_name] ) {
+                    // do not index
+                } else {
+                    $this->update_table( $object_id );
+                }
+            }
 
         }
 
@@ -629,7 +646,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
             global $wp_current_filter, $wpdb;
             if ( ! in_array( 'save_post', $wp_current_filter ) || in_array( 'woocommerce_process_shop_order_meta', $wp_current_filter ) ) {
                 $sync = AWS_PRO()->get_common_settings('autoupdates');
-                if ( AWS_Helpers::is_table_not_exist() ) {
+                if ( AWS_PRO()->option_vars->is_index_table_not_exists() ) {
                     $this->create_table();
                 }
                 if ( $sync !== 'false' ) {
@@ -677,11 +694,15 @@ if ( ! class_exists( 'AWS_Table' ) ) :
              */
             $sync = $force ? 'true' : apply_filters( 'aws_sync_index_table', $sync, $product_id );
 
-            if ( AWS_Helpers::is_table_not_exist() ) {
+            if ( AWS_PRO()->option_vars->is_index_table_not_exists() ) {
                 $this->create_table();
             }
 
             if ( $sync === 'false' ) {
+                return;
+            }
+
+            if ( isset( $this->data['product_to_index'] ) && array_search( $product_id, $this->data['product_to_index'] ) !== false ) {
                 return;
             }
 
@@ -727,6 +748,8 @@ if ( ! class_exists( 'AWS_Table' ) ) :
 
             do_action('aws_cache_clear');
 
+            $this->data['product_to_index'][] = $product_id;
+
         }
 
         /*
@@ -749,6 +772,104 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                 }
             }
             return $include_meta;
+        }
+
+        /*
+         * If attribute slug changed - made options changes
+         */
+        public function attr_term_changed( $attribute_id, $data, $old_slug ) {
+
+            $new_slug = isset( $data['attribute_name'] ) ? $data['attribute_name'] : '';
+
+            if ( $new_slug && $new_slug !== $old_slug ) {
+
+                $need_change_index = false;
+                $update_settings = false;
+
+                $common_settings = AWS_PRO()->get_common_settings();
+                $settings = AWS_PRO()->get_settings();
+
+                $attr_sources = isset( $common_settings['index_sources_attr'] ) ? $common_settings['index_sources_attr'] : array();
+
+                $attr_slug_old = str_replace( 'pa_', '', $old_slug );
+                $attr_slug_old = AWS_Helpers::normalize_term_name( $attr_slug_old, $attr_slug_old );
+                $attr_slug_old = 'attr_pa_' . $attr_slug_old;
+
+                $new_slug = str_replace( 'pa_', '', $new_slug );
+                $new_slug = AWS_Helpers::normalize_term_name( $new_slug, $new_slug );
+                $new_slug = 'attr_pa_' . $new_slug;
+
+                if ( ! empty( $attr_sources ) ) {
+                    foreach ( $attr_sources as $attr_source => $attr_value ) {
+                        if ( $attr_source === $attr_slug_old && $attr_value ) {
+                            $need_change_index = true;
+                            break;
+                        }
+                    }
+                }
+
+                // update archive pages search options
+                if ( $settings ) {
+                    foreach( $settings as $search_instance_num => $search_instance_settings ) {
+                        if ( isset( $search_instance_settings['filters'] ) ) {
+                            foreach ($search_instance_settings['filters'] as $filter_num => $filter_settings) {
+                                if ( isset( $filter_settings['search_archives'] ) && isset( $filter_settings['search_archives']['archive_attr'] ) && $filter_settings['search_archives']['archive_attr'] ) {
+
+                                    $attr_archive_old = str_replace( 'attr_', '', $attr_slug_old );
+                                    $attr_archive_new = str_replace( 'attr_', '', $new_slug );
+
+                                    if ( isset( $filter_settings['search_archives_attr'] ) && isset( $filter_settings['search_archives_attr'][$attr_archive_old] ) && $filter_settings['search_archives_attr'][$attr_archive_old] ) {
+                                        unset( $settings[$search_instance_num]['filters'][$filter_num]['search_archives_attr'][$attr_archive_old] );
+                                        $settings[$search_instance_num]['filters'][$filter_num]['search_archives_attr'][$attr_archive_new] = 1;
+                                        $update_settings = true;
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if ( $need_change_index ) {
+
+                    // update performance options
+                    unset( $common_settings['index_sources_attr'][$attr_slug_old] );
+                    $common_settings['index_sources_attr'][$new_slug] = 1;
+                    update_option( 'aws_pro_common_opts', $common_settings );
+
+                    // update search in options for each search form instance
+                    if ( $settings ) {
+
+                        foreach( $settings as $search_instance_num => $search_instance_settings ) {
+                            if ( isset( $search_instance_settings['filters'] ) ) {
+                                foreach ($search_instance_settings['filters'] as $filter_num => $filter_settings) {
+
+                                    if ( isset( $filter_settings['search_in'] ) && isset( $filter_settings['search_in']['attr'] ) && $filter_settings['search_in']['attr'] ) {
+                                        if ( isset( $filter_settings['search_in_attr'] ) && isset( $filter_settings['search_in_attr'][$attr_slug_old] ) && $filter_settings['search_in_attr'][$attr_slug_old] ) {
+                                            unset( $settings[$search_instance_num]['filters'][$filter_num]['search_in_attr'][$attr_slug_old] );
+                                            $settings[$search_instance_num]['filters'][$filter_num]['search_in_attr'][$new_slug] = 1;
+                                            $update_settings = true;
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+
+                    // update index table
+                    global $wpdb;
+                    $wpdb->update( $this->table_name, array( 'term_source' => $new_slug ), array( 'term_source' => $attr_slug_old ) );
+
+                }
+
+                if ( $update_settings ) {
+                    update_option( 'aws_pro_settings', $settings );
+                }
+
+            }
+
         }
 
     }

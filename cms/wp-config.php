@@ -24,7 +24,7 @@
  * Ersetze datenbankname_hier_einfuegen
  * mit dem Namen der Datenbank, die du verwenden möchtest.
  */
-define( 'DB_NAME', 'macoffice-maintain' );
+define( 'DB_NAME', 'macoffice' );
 
 /**
  * Ersetze benutzername_hier_einfuegen
@@ -103,7 +103,10 @@ set_time_limit(300);
 define( 'WP_DEBUG', true );
 
 // Disable display of errors and warnings
-define( 'WP_DEBUG_DISPLAY', true );
+define( 'WP_DEBUG_DISPLAY', false );
+
+// Enable Debug logging to the /wp-content/debug.log file
+define( 'WP_DEBUG_LOG', true );
 
 
 /* Füge individuelle Werte zwischen dieser Zeile und der „Schluss mit dem Bearbeiten“ Zeile ein. */
@@ -113,7 +116,6 @@ define( 'WP_MEMORY_LIMIT', '512M' );
 
 /* Germanzied Verschlüsselung */
 define( 'WC_GZD_ENCRYPTION_KEY', 'f43b15f87925375ecc8322ed4bb467b1c6a01b1d861cd26091c039ba6a0e4330' );
-
 
 
 /* Das war’s, Schluss mit dem Bearbeiten! Viel Spaß. */

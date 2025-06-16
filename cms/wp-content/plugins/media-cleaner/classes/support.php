@@ -184,6 +184,33 @@ class Meow_WPMC_Support {
       array_push( $unsupported, 'Mailpoet' );
 		}
 
+    if ( defined( 'ACADEMY_VERSION' ) ) {
+      array_push( $unsupported, 'Academy LMS' );
+    }
+
+    if ( defined( 'BREAKDANCE_PLUGIN_URL' ) ) {
+      array_push( $unsupported, 'Breakdance Builder' );
+		}
+
+		if ( defined( 'BRICKS_VERSION' ) ) {
+      array_push( $unsupported, 'Bricks Builder' );
+		}
+
+    // Spectra
+		if ( defined( 'UAGB_PLUGIN_SHORT_NAME' ) ) {
+      array_push( $unsupported, 'Spectra' );
+		}
+
+    // Foo Gallery
+		if ( defined( 'FOOGALLERY_VERSION' ) ) {
+			array_push( $unsupported, 'Foo Gallery' );
+		}
+
+    // Tutor LMS
+    if ( defined( 'TUTOR_VERSION' ) ) {
+      array_push( $unsupported, 'Tutor LMS' );
+    }
+
     return $unsupported;
   }
 }

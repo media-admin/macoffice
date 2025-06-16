@@ -12,7 +12,7 @@
  *
  * @see https://github.com/vendidero/woocommerce-germanized/wiki/Overriding-Germanized-Templates
  * @package Germanized/Templates
- * @version 3.9.1
+ * @version 3.17.8
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

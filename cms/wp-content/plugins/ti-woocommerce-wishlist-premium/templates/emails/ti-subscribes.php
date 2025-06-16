@@ -2,7 +2,7 @@
 /**
  * The Template for displaying notification email for change actions by follow wishlist this plugin.
  *
- * @version             1.0.0
+ * @version             2.8.2
  * @package           TInvWishlist\Admin\Template
  */
 
@@ -34,8 +34,8 @@ foreach ( $events_name as $key => $name_event ) {
 				<td><?php echo '<img src="' . ( $product->get_image_id() ? current( wp_get_attachment_image_src( $product->get_image_id(), 'thumbnail' ) ) : wc_placeholder_img_src() ) . '" alt="' . esc_attr__( 'Product image', 'ti-woocommerce-wishlist-premium' ) . '" width="180" />'; // WPCS: xss ok. ?></td>
 				<td>
 					<?php echo apply_filters( 'tinvwl_email_wishlist_item_name', is_callable( array(
-							$product,
-							'get_name'
+						$product,
+						'get_name'
 					) ) ? $product->get_name() : $product->get_title(), $product, $plain_text ); // WPCS: xss ok. ?>
 					<?php echo apply_filters( 'tinvwl_email_wishlist_item_meta_data', tinv_wishlist_get_item_data( $product, true ), $product, $plain_text ); // WPCS: xss ok. ?>
 				</td>
@@ -46,7 +46,7 @@ foreach ( $events_name as $key => $name_event ) {
 
 					echo apply_filters( 'tinvwl_email_wishlist_item_status', $availability_text, $availability['availability'], $product, $plain_text ); // WPCS: xss ok.
 					?></td>
-				<td><?php echo $product->wl_quantity; // WPCS: xss ok. ?></td>
+				<td><?php echo $product->get_meta( 'wl_quantity', true ); // WPCS: xss ok. ?></td>
 			</tr>
 		<?php } ?>
 	</table>

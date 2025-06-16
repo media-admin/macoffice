@@ -23,6 +23,7 @@ if (!\function_exists('wp_rml_debug')) {
      * @param mixed|string $message The message
      * @param string $methodOrFunction __METHOD__ or __FUNCTION__
      * @since 4.0.2
+     * @internal
      */
     function wp_rml_debug($message, $methodOrFunction = null)
     {
@@ -36,6 +37,7 @@ if (!\function_exists('is_rml_folder')) {
      *
      * @param int|IFolder $obj Object or int (ID)
      * @return boolean
+     * @internal
      */
     function is_rml_folder($obj)
     {
@@ -48,6 +50,7 @@ if (!\function_exists('wp_rml_get_parent_id')) {
      *
      * @param int $id The id of the folder, collection, ...
      * @return int or null
+     * @internal
      */
     function wp_rml_get_parent_id($id)
     {
@@ -60,6 +63,7 @@ if (!\function_exists('wp_rml_objects')) {
      * Get all available folders, collections, galleries, ...
      *
      * @return IFolder[]
+     * @internal
      */
     function wp_rml_objects()
     {
@@ -71,6 +75,7 @@ if (!\function_exists('wp_rml_root_childs')) {
      * Gets the first level childs of the media library.
      *
      * @return IFolder[]
+     * @internal
      */
     function wp_rml_root_childs()
     {
@@ -93,6 +98,7 @@ if (!\function_exists('wp_rml_create')) {
      * @return int|string[] int (ID) when successfully array with error strings
      * @throws OnlyInProVersionException
      * @since 4.12.1 This function ignores the `$parent` parameter in Lite version as creating subfolders is no longer supported
+     * @internal
      */
     function wp_rml_create($name, $parent, $type, $restrictions = [], $supress_validation = \false, $return_existing_id = \false)
     {
@@ -115,6 +121,7 @@ if (!\function_exists('wp_rml_create_p')) {
      * @throws OnlyInProVersionException
      * @since 4.12.0
      * @since 4.12.1 This function is no longer available in PRO version
+     * @internal
      */
     function wp_rml_create_p($name, $parent, $type, $restrictions = [], $supress_validation = \false)
     {
@@ -132,6 +139,7 @@ if (!\function_exists('wp_rml_create_or_return_existing_id')) {
      * @param boolean $supress_validation Supress the permission validation
      * @return int|string[] int (ID) when successfully array with error strings
      * @since 4.12.1 This function ignores the `$parent` parameter in Lite version as creating subfolders is no longer supported
+     * @internal
      */
     function wp_rml_create_or_return_existing_id($name, $parent, $type, $restrictions = [], $supress_validation = \false)
     {
@@ -147,6 +155,7 @@ if (!\function_exists('wp_rml_rename')) {
      * @param int $id The ID of the folder
      * @param boolean $supress_validation Suppress the permission validation
      * @return boolean|string[] true or array with error strings
+     * @internal
      */
     function wp_rml_rename($name, $id, $supress_validation = \false)
     {
@@ -160,6 +169,7 @@ if (!\function_exists('wp_rml_delete')) {
      * @param int $id The ID of the folder
      * @param boolean $supress_validation Supress the permission validation
      * @return boolean|string[] True or array with error string
+     * @internal
      */
     function wp_rml_delete($id, $supress_validation = \false)
     {
@@ -175,6 +185,7 @@ if (!\function_exists('wp_rml_update_count')) {
      * @param int[] $attachments Array of attachments ID, is merged with $folders if given
      * @param boolean $onlyReturn Set to true if you only want the SQL query
      * @return string|null
+     * @internal
      */
     function wp_rml_update_count($folders = null, $attachments = null, $onlyReturn = \false)
     {
@@ -198,6 +209,7 @@ if (!\function_exists('wp_rml_selector')) {
      * @param array $options
      * @return string
      * @since 4.3
+     * @internal
      */
     function wp_rml_selector($options = [])
     {
@@ -216,6 +228,7 @@ if (!\function_exists('wp_rml_dropdown')) {
      * @param int[] $disabled Which folder types are disabled. Default disabled is RML_TYPE_COLLECTION
      * @param boolean $useAll boolean Defines, if "All Files" should be showed
      * @return string
+     * @internal
      */
     function wp_rml_dropdown($selected, $disabled, $useAll = \true)
     {
@@ -233,6 +246,7 @@ if (!\function_exists('wp_rml_dropdown_collection')) {
      *
      * @param mixed $selected The selected item, "" => "All Files", _wp_rml_root() => "Root", int => Folder ID. Can also be an array for multiple select (since 3.1.2)
      * @return string
+     * @internal
      */
     function wp_rml_dropdown_collection($selected)
     {
@@ -250,6 +264,7 @@ if (!\function_exists('wp_rml_dropdown_gallery')) {
      *
      * @param mixed $selected The selected item, "" => "All Files", _wp_rml_root() => "Root", int => Folder ID. Can also be an array for multiple select (since 3.1.2)
      * @return string
+     * @internal
      */
     function wp_rml_dropdown_gallery($selected)
     {
@@ -264,6 +279,7 @@ if (!\function_exists('wp_rml_dropdown_gallery_or_collection')) {
      *
      * @param mixed $selected The selected item, "" => "All Files", _wp_rml_root() => "Root", int => Folder ID. Can also be an array for multiple select (since 3.1.2)
      * @return string
+     * @internal
      */
     function wp_rml_dropdown_gallery_or_collection($selected)
     {
@@ -277,6 +293,7 @@ if (!\function_exists('wp_rml_is_type')) {
      * @param IFolder|int $folder The folder object
      * @param int[] $allowed Which folder types are allowed
      * @return boolean
+     * @internal
      */
     function wp_rml_is_type($folder, $allowed)
     {
@@ -297,6 +314,7 @@ if (!\function_exists('wp_rml_get_object_by_id')) {
      * @param int $id
      * @param int[] $allowed
      * @return IFolder
+     * @internal
      */
     function wp_rml_get_object_by_id($id, $allowed = null)
     {
@@ -314,6 +332,7 @@ if (!\function_exists('wp_rml_get_by_id')) {
      * @param boolean $mustBeFolderObject Defines if the function may return the wp_rml_root_childs result
      * @param boolean $nullForRoot If set to false and $id == -1 then the Root instance is returned
      * @return IFolder
+     * @internal
      */
     function wp_rml_get_by_id($id, $allowed = null, $mustBeFolderObject = \false, $nullForRoot = \true)
     {
@@ -340,6 +359,7 @@ if (!\function_exists('wp_rml_get_by_absolute_path')) {
      * @param string $path Folder Absolute Path
      * @param int[] $allowed Which folder types are allowed. If null all folder types are allowed.
      * @return IFolder
+     * @internal
      */
     function wp_rml_get_by_absolute_path($path, $allowed = null)
     {
@@ -360,6 +380,7 @@ if (!\function_exists('wp_rml_register_creatable')) {
      * @param string $qualified The qualified name of the class representing the creatable
      * @param int $type The type of the creatable. It must be the same as in yourClass::getType is returned
      * @param boolean $onRegister Calls the yourClass::onRegister function
+     * @internal
      */
     function wp_rml_register_creatable($qualified, $type, $onRegister = \false)
     {
@@ -371,6 +392,7 @@ if (!\function_exists('_wp_rml_root')) {
      * Get the parent root folder for a given blog id.
      *
      * @return int Folder id
+     * @internal
      */
     function _wp_rml_root()
     {
@@ -397,6 +419,7 @@ if (!\function_exists('wp_rml_active')) {
      *
      * @return boolean
      * @since 4.0.2
+     * @internal
      */
     function wp_rml_active()
     {
@@ -423,6 +446,7 @@ if (!\function_exists('_wp_rml_sanitize')) {
      * @param boolean $database If true the name is generated unique from the database slugs
      * @param int $exclude
      * @return string
+     * @internal
      */
     function _wp_rml_sanitize($name, $database = \false, $exclude = -1)
     {
@@ -440,7 +464,7 @@ if (!\function_exists('_wp_rml_sanitize')) {
                 $var = $wpdb->get_var($sql);
                 // phpcs:enable WordPress.DB.PreparedSQL
                 if ($var > 0) {
-                    $i++;
+                    ++$i;
                 } else {
                     break;
                 }
@@ -454,6 +478,7 @@ if (!\function_exists('_wp_rml_sanitize')) {
 }
 if (!\function_exists('_wp_rml_sanitize_filename')) {
     // Internal
+    /** @internal */
     function _wp_rml_sanitize_filename($name)
     {
         $_name = \sanitize_file_name($name);
@@ -473,6 +498,7 @@ if (!\function_exists('wp_rml_structure_reset')) {
      * @param boolean $fetchData Determine if the data should be re-fetched
      * @param int $returnId If set this folder is returned
      * @return IFolder If $returnId is set
+     * @internal
      */
     function wp_rml_structure_reset($root = null, $fetchData = \true, $returnId = \false)
     {
@@ -488,6 +514,7 @@ if (!\function_exists('wp_rml_structure')) {
      *
      * @return IStructure
      * @since 3.3.1
+     * @internal
      */
     function wp_rml_structure()
     {
@@ -517,6 +544,7 @@ if (!\function_exists('wp_rml_create_all_parents_sql')) {
      * @param int $until Until this folder id
      * @param array $options Additional options for the SQL query, see above
      * @return string|boolean SQL query or false if something went wrong
+     * @internal
      */
     function wp_rml_create_all_parents_sql($folder, $includeSelf = \false, $until = null, $options = null)
     {
@@ -534,6 +562,7 @@ if (!\function_exists('wp_rml_all_children_sql_supported')) {
      * @param string $type The type which is minimum required. Possible values: 'function' (MySQL UDF) or 'legacy' (default, old variant)
      * @return boolean
      * @since 4.0.9
+     * @internal
      */
     function wp_rml_all_children_sql_supported($force = \false, $type = 'legacy')
     {
@@ -560,6 +589,7 @@ if (!\function_exists('wp_rml_create_all_children_sql')) {
      * @param boolean $includeSelf Set true to include self (passed $folder)
      * @param array $options Additional options for the SQL query, see above
      * @return string|boolean SQL query or false if something went wrong
+     * @internal
      */
     function wp_rml_create_all_children_sql($folder, $includeSelf = \false, $options = null)
     {
@@ -573,6 +603,7 @@ if (!\function_exists('wp_rml_last_queried_folder')) {
      * @param int $folder The folder id (0 is handled as "All files" folder)
      * @return int
      * @since 4.0.5
+     * @internal
      */
     function wp_rml_last_queried_folder($folder = null)
     {

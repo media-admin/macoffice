@@ -13,6 +13,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Base;
  * Put this trait in all your classes! Note also not to use the
  * below methods by your plugin, instead use direct access to the constant.
  * It just is for composer packages which needs to access dynamically the plugin!
+ * @internal
  */
 trait UtilsProvider
 {

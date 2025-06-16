@@ -12,8 +12,8 @@ use DVDoug\BoxPacker\BoxList;
 use DVDoug\BoxPacker\ItemList;
 use DVDoug\BoxPacker\PackedBox;
 use DVDoug\BoxPacker\PackedBoxList;
-use DVDoug\BoxPacker\PackedItem;
 use DVDoug\BoxPacker\Packer;
+use DVDoug\BoxPacker\Rotation;
 use DVDoug\BoxPacker\Test\TestBox;
 use DVDoug\BoxPacker\Test\TestItem;
 use DVDoug\BoxPacker\VolumePacker;
@@ -26,35 +26,17 @@ use PHPUnit\Framework\Assert;
  */
 class PackerContext implements Context
 {
-    /**
-     * @var Box
-     */
-    protected $box;
+    protected Box $box;
 
-    /**
-     * @var BoxList
-     */
-    protected $boxList;
+    protected BoxList $boxList;
 
-    /**
-     * @var ItemList
-     */
-    protected $itemList;
+    protected ItemList $itemList;
 
-    /**
-     * @var PackedBox
-     */
-    protected $packedBox;
+    protected PackedBox $packedBox;
 
-    /**
-     * @var PackedBoxList
-     */
-    protected $packedBoxList;
+    protected PackedBoxList $packedBoxList;
 
-    /**
-     * @var string
-     */
-    protected $packerClass = Packer::class;
+    protected string $packerClass = Packer::class;
 
     /**
      * Initializes context.
@@ -116,10 +98,8 @@ class PackerContext implements Context
         $depth,
         $weight
     ): void {
-        $item = new TestItem($itemName, $width, $length, $depth, $weight, false);
-        for ($i = 0; $i < $qty; ++$i) {
-            $this->itemList->insert($item);
-        }
+        $item = new TestItem($itemName, $width, $length, $depth, $weight, Rotation::BestFit);
+        $this->itemList->insert($item, $qty);
     }
 
     /**
@@ -133,10 +113,8 @@ class PackerContext implements Context
         $depth,
         $weight
     ): void {
-        $item = new TestItem($itemName, $width, $length, $depth, $weight, true);
-        for ($i = 0; $i < $qty; ++$i) {
-            $this->itemList->insert($item);
-        }
+        $item = new TestItem($itemName, $width, $length, $depth, $weight, Rotation::KeepFlat);
+        $this->itemList->insert($item, $qty);
     }
 
     /**
@@ -144,7 +122,6 @@ class PackerContext implements Context
      */
     public function iDoAPacking(): void
     {
-        /** @var Packer $packer */
         $packer = new $this->packerClass();
         $packer->setBoxes($this->boxList);
         $packer->setItems($this->itemList);
@@ -169,7 +146,6 @@ class PackerContext implements Context
     ): void {
         $foundBoxes = 0;
 
-        /** @var PackedBox $packedBox */
         foreach ($this->packedBoxList as $packedBox) {
             if ($packedBox->getBox()->getReference() === $boxType) {
                 ++$foundBoxes;
@@ -188,7 +164,6 @@ class PackerContext implements Context
     ): void {
         $foundItems = 0;
 
-        /** @var PackedItem $packedItem */
         foreach ($this->packedBox->getItems() as $packedItem) {
             if ($packedItem->getItem()->getDescription() === $itemType) {
                 ++$foundItems;
@@ -201,7 +176,7 @@ class PackerContext implements Context
     /**
      * @Transform /^(\d+)$/
      */
-    public function castStringToNumber($string)
+    public function castStringToNumber($string): int
     {
         return (int) $string;
     }

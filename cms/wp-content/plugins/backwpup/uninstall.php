@@ -8,12 +8,8 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 /** @var wpdb $wpdb */
 global $wpdb;
 
-//only uninstall if no BackWPup Version active
-if (!class_exists(\BackWPup::class)) {
-    //do nothing if `keep plugin data` enabled
-    if (!empty(get_site_option('backwpup_cfg_keepplugindata'))) {
-        return;
-    }
+// only uninstall if no BackWPup Version active.
+if ( ! class_exists( \BackWPup::class ) ) {
 
     //delete plugin options
     if (is_multisite()) {
@@ -21,6 +17,8 @@ if (!class_exists(\BackWPup::class)) {
     } else {
         $wpdb->query('DELETE FROM ' . $wpdb->options . " WHERE option_name LIKE '%backwpup_%' ");
     }
+
+	$wpdb->query( 'DELETE FROM ' . $wpdb->usermeta . " WHERE meta_key LIKE '%backwpup_%' " );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
     //delete Backwpup user roles
     // Special handling for multisite when network-activated.

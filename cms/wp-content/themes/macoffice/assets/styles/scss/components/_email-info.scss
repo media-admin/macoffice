@@ -1,0 +1,139 @@
+/* === ERROR FOUND === */
+
+.email-info {
+	text-align: center;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+
+	@include atMedium {
+
+	}
+
+
+	& .modal-content {
+		margin: 0 auto;
+		text-align: left;
+	}
+
+
+	&__button {
+		/* font-size: 1.0rem;
+		color: $color-secondary;
+		margin-top: 2rem; */
+
+		display: flex;
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__button:hover,
+	&__button:focus {
+		cursor: pointer;
+		/*
+		color: $color-tertiary !important;
+		background-color: $color-secondary !important;
+		margin-top: 2rem;
+		*/
+
+		@include atMedium {
+
+		}
+	}
+
+
+	&__modal {
+		background-color: $color-white;
+		text-align: left;
+
+		@include atMedium {
+
+		}
+	}
+
+}
+
+
+.contact-form-section__form-item-message-text {
+	font-size: 1.8rem;
+	line-height: 2.6rem;
+	font-weight: 400;
+	min-height: 100px;
+	background: $color-white;
+	border: 1px solid $color-secondary;
+}
+
+
+.site-header__navi-contact-information-mail-address #email-info__button--desktop,
+.site-header__navi-contact-information-mail-address #email-info__button--smartphone {
+	/* font-size: 1.0rem;
+	color: $color-secondary;
+	margin-top: 2rem; */
+	color: $color-secondary;
+	font-size: 1.4rem;
+	font-weight: 600;
+	text-decoration: none;
+
+	@include atMedium {
+
+	}
+}
+
+
+.site-header__navi-contact-information-mail-address .email-info {
+		margin-top: 0rem;
+		margin-bottom: 0rem;
+
+	@include atMedium {
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+	}
+}
+
+
+#email-info__modal--smartphone .contact-form-section__title {
+	padding-left: 1.0rem !important;
+}
+
+
+
+#email-info__modal--smartphone .contact-form-section {
+	margin-top: 0rem;
+	margin-bottom: 0rem;
+	padding-top: 2rem;
+
+	@include atMedium {
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+	}
+}
+
+
+#email-info__modal--smartphone .contact-form-section__container {
+	margin-top: 0rem;
+	margin-bottom: 0rem;
+	padding: 0.5rem 0.25rem !important;
+}
+
+
+#email-info__modal--smartphone .modal-content {
+	padding: 0.5rem 0.5rem !important;
+}
+
+
+#email-info__modal--smartphone .contact-form-section__form {
+	padding: 0.5rem 0.5rem !important;
+
+}
+
+
+#email-info__modal--smartphone .wpcf7-form-control-wrap {
+	width: 100% !important;
+}
+
+
+#email-info__modal--smartphone .contact-form-section__form .wpcf7-acceptance .wpcf7-list-item .wpcf7-list-item-label {
+	width: calc(100% - 2rem);
+}

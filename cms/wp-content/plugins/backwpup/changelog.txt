@@ -1,4 +1,247 @@
 == Changelog ==
+= 5.2.3 =
+Release date: May 22, 2025
+
+* Bugfix: Fixed fatal error when both Free and Pro versions are activated together.
+
+= 5.2.2 =
+Release date: May 20, 2025
+
+* New feature: Deselect Website Server as a default storage destination
+* Enhancement: Reduce overall plugin size
+* Bugfix: Google Drive does not remain selected
+* Bugfix: Plugin interface becomes non-functional & not clickable
+* Bugfix: Error during backup for Dropbox storage
+* Bugfix: Dropbox authentication error
+
+= 5.2.1 =
+Release date: April 30, 2025
+
+* Bugfix: Fixed fatal error caused by cal_days_in_month() function on 5.2 for unsupported servers.
+
+= 5.2.0 =
+Release date: April 29, 2025
+
+* New feature: Add “Backup Now” button to each scheduled job
+* Enhancement: Monthly frequency to allow users to select the exact day
+* Enhancement: Show the Toast messages on specific actions instead of every actions
+
+= 5.1.3 =
+Release date: April 23,2025
+
+* Added: Filter to show legacy/disabled jobs
+* Added: Notice for legacy disabled jobs
+* Enhancement: Replaced Files icon (currently WP logo) with a new file icon
+* Enhancement: Adding new jobs moves the existing job placement in the interface
+* Enhancement: Increased the default timeout for toast messages
+* Bugfix: Old jobs auto disabled for users from v5.0.9 & v5.1.0 to v5.1
+* Bugfix: Legacy jobs link not triggering the job
+* Bugfix: Clicking “Save & Continue” before the page fully loads skips onboarding
+* Bugfix: Added WP default admin styles in the Legacy jobs page
+* Bugfix: WordPress timezone changes mess up the frequency feature
+* Bugfix: The “Backup Now” error when there’s no job available
+* Bugfix: Fix a problem with the encryption Save button doing nothing
+* Bugfix: Long load time on clicking Data after adding File job exclusion
+* Bugfix: Backup job pencil icon grows smaller with long titles
+* Bugfix: Conflict with MainWP child plugin
+
+= 5.1.2 =
+Release date: April 15,2025
+
+* Enhancement: Display the warning message for customers affected by the bug in 5.1 version of the plugin
+
+= 5.1.1 =
+Release date: April 11,2025
+
+* Fixed: Backups created before v5 are no longer deactivated when updating the plugin.
+
+= 5.1.0 =
+Release date: April 07,2025
+
+* New feature: Introduce possibility to add more than two backup jobs
+* New feature: Add possibility to set a title for each job
+* Enhancement: Rework of the 'Backup Now' feature
+* Enhancemnet: Make 'Local Storage' more descriptive
+* Enhancement: Rework of the notices inside the plugin
+* Enhancement: Introduce cache busting strategy for static assets inside the plugin
+* Enhancement: Make sure not to display the non-existing buckets inside the Amazon S3 storage panel
+* Enhancement: Update the phrasing for the restore process page to make it easier to understand
+* Bugfix: Fix Dropbox authentication bug
+* Bugfix: Fix a problem when excluded files were still included in the backup
+* Bugfix: Fix a problem with 'FTP passive mode'
+
+= 5.0.9 =
+Release date: March 21, 2025
+
+* Fixed: Huge package size
+* Fixed: Files and DB jobs are not separated in certain scenario
+
+= 5.0.8 =
+Release date: March 20, 2025
+
+* New Feature: Allow to choose storage for specific backup job
+* Enhancement: Security enhancements related to unserialize function
+* Enhancement: Remove unnecessary strings in the scheduled backup jobs blocks
+* Enhancement: Improve welcome banner's UI
+* Bugfix: Make sure not to display backups which were removed using UI in the backup history list
+
+= 5.0.7 =
+Release date: March 13, 2025
+
+* Added: Hourly frequency for backups
+* Added: WPM Apply filters library for better code maintainability
+* Fixed: PHP Warning & auto reset advanced settings issue
+* Fixed: Closing banner cancels the onboarding issue
+* Fixed: Correct the title of Next Schedule Backup
+* Changed: Onboarding backup success page notice & redirection
+* Changed: "Restore Full Backup" string to "Restore Backup"
+
+= 5.0.6 =
+Release date: March 10, 2025
+
+* Fixed: Archive file format Tar generation code to handle long file names
+* Fixed: Clicking on actions should close other opened sections in Backup History
+
+= 5.0.5 =
+Release date: March 03, 2025
+
+* Added: Dropdown to allow users to select the Backup file format (zip, tar, tar.gz)
+* Added: Show different in-app notices to new & existing users
+* Fixed: BackWPUp Menu Visible to All User Roles, Including Subscribers
+* Fixed: Database & File backup does not remain selected, automatically becomes off
+
+= 5.0.4 =
+Release date: feb 13, 2025
+
+* Fixed: Layout issue with theme customizer
+* Fixed: API error when the number of backups is equal to 0
+* Fixed: Php 8.x deprecated notices
+* Removed : "Add new" job button from Job listing
+* Fixed: Tooltip text cut off
+* Removed: Hover style on disabled elements
+* Added: Hover tooltip on storage icons
+
+= 5.0.3 =
+Release date: feb 07, 2025
+
+* Fixed: Backup is running constantly & can’t be stopped.
+* Fixed: Authentication issue for Dropbox, FTP & Azure.
+* Added: Custom scheduling option.
+* Added: Display history of all backups.
+* Added: Custom filter to allow zip and tar.gz compression
+* Changed: Changed plugin noticed Message.
+
+= 5.0.2 =
+Release date: feb 04,2025
+
+* Fixed : Error due to unrecognized cron expression
+
+= 5.0.1 =
+Release date: feb 04, 2025
+
+* Fixed : Css issues with the new UI
+
+= 5.0.0 =
+Release date: feb 04, 2025
+
+* Changed : Redesigned the plugin backend for a more intuitive user experience
+
+= 4.1.8 =
+Release date: dec 18, 2024
+
+* Fixed : One drive is not configured properly message
+
+= 4.1.7 =
+Release date: nov 25, 2024
+
+* Changed : Update dependencies :
+    ** guzzlehttp/guzzle to 7.0
+    ** onedrive-php-sdk to 3.2.0
+    ** microsoft-graph to 1.7.0
+
+= 4.1.6 =
+Release date: oct 15, 2024
+
+* Changed : Show the Restore feature information notice only for free version users
+* Changed : The default format is now .tar
+* Fixed : Warnings on the backup script on PHP 8.x when tar format is used
+
+
+= 4.1.5 =
+Release date: sept 27, 2024
+
+* Added : Restore feature information notice
+* Changed : Upgraded Wordpress minimum version to 4.9
+* Removed : Remove the EasyCron integration and switch it with WPCron.
+* Removed : Remove Database Backup file name & compression options from the UI can be edited via filter (backwpup_generate_dump_filename)
+* Fixed : Conflict with WP Hotel Booking from ThimPress
+* Changed : Add the default exclude files in a filter. (backwpup_file_exclude)
+* Fixed : Use wp translation
+
+
+= 4.1.4 =
+Release date: jul 22, 2024
+
+* Ehanced: Store the review notice dismiss as an option
+* Fixed: Hide the evaluate notice using css
+* Removed: Remove the "Compression" option in Settings > Logs
+    ** Disabled by default, can be enabled with a filter (backwpup_gz_logs)
+* Fixed: Check if the third parties constants are defined before using them
+
+
+= 4.1.3 =
+Release date: Jul 05, 2024
+
+* Changed: Upgraded minimum version to PHP 7.4
+* Fixed: Evaluate notice doesn't dismiss
+* Removed: General tab on settings page
+    ** Admin bar: enabled by default, can be disabled with a filter (backwpup_is_in_admin_bar)
+    ** Folder sizes: disabled by default, can be enabled with a filter (backwpup_show_folder_size)
+    ** Protect folders: we protect your folders by default can be disabled with a filter (backwpup_protect_folders)
+    ** Plugin data: we delete all plugin data after its delation by default
+* Fixed: Fix S3 uploads over 5 Gb
+
+= 4.1.2 =
+Release date: Jun 27, 2024
+
+* Fixed: Open_basedir restriction on some servers
+* Added: Notice to ask users their experience with BackWpUp
+
+= 4.1.1 =
+Release date: Jun 18, 2024
+
+* Changed: AutoExclude the cache plugin folders from the backup
+* Fixed: Problems with the sql dump of the database
+* Fixed: Update phpseclib library to fix issues in Windows environment.
+
+= 4.1.0 =
+Release date: Jun 4, 2024
+
+* Changed: Add Restore to the free version
+* Fixed: Improved checking of encrypted archives
+* Added (pro): decryption and encryption with WP-CLI of archives
+* Fixed (pro): Problems with Asymmetric encryption on restarts
+
+= 4.0.5 =
+Release date: May 21, 2024
+
+* Fixed (pro): Gdrive oAuth authentication flow
+
+= 4.0.4 =
+Release date: March 12, 2024
+
+* Fixed: Changed directory structure of BackWPup temporary files to prevent unauthorized access of database backup.
+
+= 4.0.3 =
+Release date: February 22, 2024
+
+* Fixed: Security issue where FTP passwords were stored in the database in plaintext.
+
+= 4.0.2 =
+Release date: November 22, 2023
+
+* Fixed: Disallow backups or logs directories from being outside of wp-content directory for security purposes
+
 = 4.0.1 =
 Release date: October 18, 2023
 

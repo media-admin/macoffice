@@ -40,6 +40,7 @@ class WC_GZD_Product_Export {
 		add_filter( 'woocommerce_product_export_product_default_columns', array( $this, 'set_columns' ), 10, 1 );
 		add_filter( 'woocommerce_product_export_row_data', array( $this, 'export_delivery_times' ), 10, 2 );
 		add_filter( 'woocommerce_product_export_row_data', array( $this, 'export_nutrients' ), 15, 2 );
+		add_filter( 'woocommerce_product_export_row_data', array( $this, 'export_product_attribute_data' ), 20, 3 );
 		add_filter( 'woocommerce_product_export_column_names', array( $this, 'register_additional_columns' ), 500, 2 );
 		add_filter( 'woocommerce_product_export_skip_meta_keys', array( $this, 'register_core_meta_data' ), 10, 2 );
 
@@ -75,41 +76,49 @@ class WC_GZD_Product_Export {
 		return apply_filters(
 			'woocommerce_gzd_product_export_default_columns',
 			array(
-				'service'                  => _x( 'Is service?', 'exporter', 'woocommerce-germanized' ),
-				'used_good'                => _x( 'Is used good?', 'exporter', 'woocommerce-germanized' ),
-				'defective_copy'           => _x( 'Is defective copy?', 'exporter', 'woocommerce-germanized' ),
-				'photovoltaic_system'      => _x( 'Is photovoltaic system?', 'exporter', 'woocommerce-germanized' ),
-				'warranty_attachment_id'   => _x( 'Warranty attachment id (PDF)', 'exporter', 'woocommerce-germanized' ),
-				'gtin'                     => _x( 'GTIN', 'exporter', 'woocommerce-germanized' ),
-				'mpn'                      => _x( 'MPN', 'exporter', 'woocommerce-germanized' ),
-				'differential_taxation'    => _x( 'Is differential taxed?', 'exporter', 'woocommerce-germanized' ),
-				'free_shipping'            => _x( 'Has free shipping?', 'exporter', 'woocommerce-germanized' ),
-				'unit_price_regular'       => _x( 'Unit price regular', 'exporter', 'woocommerce-germanized' ),
-				'unit_price_sale'          => _x( 'Unit price sale', 'exporter', 'woocommerce-germanized' ),
-				'unit_price_auto'          => _x( 'Unit price calculated automatically?', 'exporter', 'woocommerce-germanized' ),
-				'unit'                     => _x( 'Unit', 'exporter', 'woocommerce-germanized' ),
-				'unit_base'                => _x( 'Unit base', 'exporter', 'woocommerce-germanized' ),
-				'unit_product'             => _x( 'Unit product', 'exporter', 'woocommerce-germanized' ),
-				'mini_desc'                => _x( 'Cart description', 'exporter', 'woocommerce-germanized' ),
-				'min_age'                  => _x( 'Minimum age', 'exporter', 'woocommerce-germanized' ),
-				'defect_description'       => _x( 'Defect description', 'exporter', 'woocommerce-germanized' ),
-				'delivery_time'            => _x( 'Delivery time', 'exporter', 'woocommerce-germanized' ),
-				'sale_price_label'         => _x( 'Strike Price label', 'exporter', 'woocommerce-germanized' ),
-				'sale_price_regular_label' => _x( 'Sale Price label', 'exporter', 'woocommerce-germanized' ),
-				'is_food'                  => _x( 'Is food?', 'exporter', 'woocommerce-germanized' ),
-				'nutrients'                => _x( 'Nutrients', 'exporter', 'woocommerce-germanized' ),
-				'allergen_ids'             => _x( 'Allergenic', 'exporter', 'woocommerce-germanized' ),
-				'deposit_type'             => _x( 'Deposit Type', 'exporter', 'woocommerce-germanized' ),
-				'deposit_quantity'         => _x( 'Deposit Quantity', 'exporter', 'woocommerce-germanized' ),
-				'ingredients'              => _x( 'Ingredients', 'exporter', 'woocommerce-germanized' ),
-				'nutrient_reference_value' => _x( 'Nutrient reference value slug', 'exporter', 'woocommerce-germanized' ),
-				'alcohol_content'          => _x( 'Alcohol content', 'exporter', 'woocommerce-germanized' ),
-				'drained_weight'           => _x( 'Drained weight', 'exporter', 'woocommerce-germanized' ),
-				'net_filling_quantity'     => _x( 'Net filling quantity', 'exporter', 'woocommerce-germanized' ),
-				'nutri_score'              => _x( 'Nutri-Score', 'exporter', 'woocommerce-germanized' ),
-				'food_description'         => _x( 'Food Description', 'exporter', 'woocommerce-germanized' ),
-				'food_place_of_origin'     => _x( 'Food Place of Origin', 'exporter', 'woocommerce-germanized' ),
-				'food_distributor'         => _x( 'Food Distributor', 'exporter', 'woocommerce-germanized' ),
+				'service'                         => _x( 'Is service?', 'exporter', 'woocommerce-germanized' ),
+				'used_good'                       => _x( 'Is used good?', 'exporter', 'woocommerce-germanized' ),
+				'defective_copy'                  => _x( 'Is defective copy?', 'exporter', 'woocommerce-germanized' ),
+				'photovoltaic_system'             => _x( 'Is photovoltaic system?', 'exporter', 'woocommerce-germanized' ),
+				'wireless_electronic_device'      => _x( 'Is electronic device (wireless)?', 'exporter', 'woocommerce-germanized' ),
+				'device_contains_power_supply'    => _x( 'Contains power supply?', 'exporter', 'woocommerce-germanized' ),
+				'device_charging_supports_usb_pd' => _x( 'Supports charging USB PD?', 'exporter', 'woocommerce-germanized' ),
+				'device_charging_watt_min'        => _x( 'Minimum charging power (Watt)', 'exporter', 'woocommerce-germanized' ),
+				'device_charging_watt_max'        => _x( 'Maximum charging power (Watt)', 'exporter', 'woocommerce-germanized' ),
+				'warranty_attachment_id'          => _x( 'Warranty attachment id (PDF)', 'exporter', 'woocommerce-germanized' ),
+				'gtin'                            => _x( 'GTIN', 'exporter', 'woocommerce-germanized' ),
+				'mpn'                             => _x( 'MPN', 'exporter', 'woocommerce-germanized' ),
+				'differential_taxation'           => _x( 'Is differential taxed?', 'exporter', 'woocommerce-germanized' ),
+				'free_shipping'                   => _x( 'Has free shipping?', 'exporter', 'woocommerce-germanized' ),
+				'unit_price_regular'              => _x( 'Unit price regular', 'exporter', 'woocommerce-germanized' ),
+				'unit_price_sale'                 => _x( 'Unit price sale', 'exporter', 'woocommerce-germanized' ),
+				'unit_price_auto'                 => _x( 'Unit price calculated automatically?', 'exporter', 'woocommerce-germanized' ),
+				'unit'                            => _x( 'Unit', 'exporter', 'woocommerce-germanized' ),
+				'manufacturer'                    => _x( 'Manufacturer', 'exporter', 'woocommerce-germanized' ),
+				'safety_attachment_ids'           => _x( 'Safety attachments ids', 'exporter', 'woocommerce-germanized' ),
+				'safety_instructions'             => _x( 'Safety instructions', 'exporter', 'woocommerce-germanized' ),
+				'unit_base'                       => _x( 'Unit base', 'exporter', 'woocommerce-germanized' ),
+				'unit_product'                    => _x( 'Unit product', 'exporter', 'woocommerce-germanized' ),
+				'mini_desc'                       => _x( 'Cart description', 'exporter', 'woocommerce-germanized' ),
+				'min_age'                         => _x( 'Minimum age', 'exporter', 'woocommerce-germanized' ),
+				'defect_description'              => _x( 'Defect description', 'exporter', 'woocommerce-germanized' ),
+				'delivery_time'                   => _x( 'Delivery time', 'exporter', 'woocommerce-germanized' ),
+				'sale_price_label'                => _x( 'Strike Price label', 'exporter', 'woocommerce-germanized' ),
+				'sale_price_regular_label'        => _x( 'Sale Price label', 'exporter', 'woocommerce-germanized' ),
+				'is_food'                         => _x( 'Is food?', 'exporter', 'woocommerce-germanized' ),
+				'nutrients'                       => _x( 'Nutrients', 'exporter', 'woocommerce-germanized' ),
+				'allergen_ids'                    => _x( 'Allergenic', 'exporter', 'woocommerce-germanized' ),
+				'deposit_type'                    => _x( 'Deposit Type', 'exporter', 'woocommerce-germanized' ),
+				'deposit_quantity'                => _x( 'Deposit Quantity', 'exporter', 'woocommerce-germanized' ),
+				'ingredients'                     => _x( 'Ingredients', 'exporter', 'woocommerce-germanized' ),
+				'nutrient_reference_value'        => _x( 'Nutrient reference value slug', 'exporter', 'woocommerce-germanized' ),
+				'alcohol_content'                 => _x( 'Alcohol content', 'exporter', 'woocommerce-germanized' ),
+				'drained_weight'                  => _x( 'Drained weight', 'exporter', 'woocommerce-germanized' ),
+				'net_filling_quantity'            => _x( 'Net filling quantity', 'exporter', 'woocommerce-germanized' ),
+				'nutri_score'                     => _x( 'Nutri-Score', 'exporter', 'woocommerce-germanized' ),
+				'food_description'                => _x( 'Food Description', 'exporter', 'woocommerce-germanized' ),
+				'food_place_of_origin'            => _x( 'Food Place of Origin', 'exporter', 'woocommerce-germanized' ),
+				'food_distributor'                => _x( 'Food Distributor', 'exporter', 'woocommerce-germanized' ),
 			)
 		);
 	}
@@ -199,6 +208,37 @@ class WC_GZD_Product_Export {
 	}
 
 	/**
+	 * @param $row
+	 * @param WC_Product $product
+	 * @param WC_Product_CSV_Exporter $exporter
+	 */
+	public function export_product_attribute_data( $row, $product, $exporter ) {
+		if ( $exporter->is_column_exporting( 'attributes' ) ) {
+			$attributes = $product->get_attributes();
+
+			if ( count( $attributes ) ) {
+				$i = 1;
+				foreach ( $attributes as $attribute_name => $attribute ) {
+					/* translators: %s: attribute number */
+					$this->additional_columns[ 'attributes:checkout_visible' . $i ] = sprintf( __( 'Attribute %d checkout visible', 'woocommerce-germanized' ), $i );
+
+					if ( is_a( $attribute, 'WC_Product_Attribute' ) ) {
+						if ( $gzd_attribute = WC_GZD_Product_Attribute_Helper::instance()->get_attribute( $attribute, $product ) ) {
+							$row[ 'attributes:checkout_visible' . $i ] = $gzd_attribute->get_checkout_visible();
+						}
+					} else {
+						$row[ 'attributes:checkout_visible' . $i ] = 0;
+					}
+
+					++$i;
+				}
+			}
+		}
+
+		return $row;
+	}
+
+	/**
 	 * @param $value
 	 * @param WC_Product $product
 	 *
@@ -208,7 +248,7 @@ class WC_GZD_Product_Export {
 		$filter        = current_filter();
 		$column_name   = str_replace( 'woocommerce_product_export_product_column_', '', $filter );
 		$gzd_product   = wc_gzd_get_product( $product );
-		$is_html_field = in_array( $column_name, array( 'ingredients', 'food_description', 'food_place_of_origin', 'food_distributor', 'defect_description', 'mini_desc' ), true );
+		$is_html_field = in_array( $column_name, array( 'ingredients', 'food_description', 'food_place_of_origin', 'food_distributor', 'defect_description', 'mini_desc', 'safety_instructions' ), true );
 
 		/**
 		 * Delivery time needs special handling
@@ -296,6 +336,31 @@ class WC_GZD_Product_Export {
 		return implode( '|', $allergenic_list );
 	}
 
+	protected function get_column_value_safety_attachment_ids( $product ) {
+		$safety_attachment_ids = wc_gzd_get_gzd_product( $product )->get_safety_attachment_ids();
+
+		return $this->implode_values( $safety_attachment_ids );
+	}
+
+	/**
+	 * Implode CSV cell values using commas by default, and wrapping values
+	 * which contain the separator.
+	 *
+	 * @since  3.2.0
+	 * @param  array $values Values to implode.
+	 * @return string
+	 */
+	protected function implode_values( $values ) {
+		$values_to_implode = array();
+
+		foreach ( $values as $value ) {
+			$value               = (string) is_scalar( $value ) ? html_entity_decode( $value, ENT_QUOTES ) : '';
+			$values_to_implode[] = str_replace( ',', '\\,', $value );
+		}
+
+		return implode( ', ', $values_to_implode );
+	}
+
 	protected function get_column_value_sale_price_label( $product ) {
 		$term = wc_gzd_get_product( $product )->get_sale_price_label_term();
 
@@ -321,6 +386,14 @@ class WC_GZD_Product_Export {
 
 		if ( is_a( $term, 'WP_Term' ) ) {
 			return $term->name;
+		}
+
+		return '';
+	}
+
+	protected function get_column_value_manufacturer( $product ) {
+		if ( $manufacturer = wc_gzd_get_product( $product )->get_manufacturer() ) {
+			return $manufacturer->get_name();
 		}
 
 		return '';

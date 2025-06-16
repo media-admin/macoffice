@@ -163,6 +163,9 @@ msgstr ""
 msgid "Using shortcode %s"
 msgstr ""
 
+msgid "Using a page builder - locate the built-in search form widget and add it to the desired location on the page."
+msgstr ""
+
 msgid "Add search form as a widget. Go to %s and drag&drop 'AWS Widget' to one of your widget areas"
 msgstr ""
 
@@ -396,6 +399,15 @@ msgstr ""
 msgid "Comma separated list of synonym words. Each group of synonyms must be on separated text line."
 msgstr ""
 
+msgid "Misspelling fix"
+msgstr ""
+
+msgid "Fix typos inside search words %s."
+msgstr ""
+
+msgid "Applied if the current search query returns no results."
+msgstr ""
+
 #: includes/options.php:42
 msgid "Use Google Analytics"
 msgstr ""
@@ -450,7 +462,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-msgid "Click on status icon to enable or disable search source."
+msgid "Click on the status icon to enable or disable the search source for products search."
 msgstr ""
 
 msgid "Search Source"
@@ -567,7 +579,7 @@ msgstr ""
 msgid "New Search Sources"
 msgstr ""
 
-msgid "Search additionally inside %sproduct attributes%s, %staxonomies%s and %scustom fields%s. Inside the plugin settings page it is possible to choose some specific sources that must be available for search ( for example only several product attributes ) or just search for all of them."
+msgid "Search additionally inside %sproduct attributes%s, %staxonomies%s, %scustom fields%s, %sunique number fields%s. Inside the plugin settings page it is possible to choose some specific sources that must be available for search ( for example only several product attributes ) or just search for all of them."
 msgstr ""
 
 msgid "Learn more"
@@ -582,7 +594,7 @@ msgstr ""
 msgid "Archive Pages Search"
 msgstr ""
 
-msgid "Search for WooCommerce product %scustom taxonomies%s and %sattributes archive pages%s. Display them right inside search results list along with the product search results."
+msgid "Search for WooCommerce product %scustom taxonomies%s and %sattributes archive pages%s. Display them right inside the search results list along with the product search results."
 msgstr ""
 
 msgid "Users Search"
@@ -600,7 +612,7 @@ msgstr ""
 msgid "Search Form Instances"
 msgstr ""
 
-msgid "Unlimited amount of search form instances with totally different settings and products look. You can create totally different search forms for any of your needs. Each instance is %sindependent%s and has its own %sset of settings%s."
+msgid "Unlimited number of search form instances with totally different settings and products look. You can create totally different search forms for any of your needs. Each instance is %sindependent%s and has its own %sset of settings%s."
 msgstr ""
 
 msgid "Search Logic Change"
@@ -612,7 +624,7 @@ msgstr ""
 msgid "Add to Cart Button"
 msgstr ""
 
-msgid "Display %sAdd to Cart%s button right inside the search results. This makes it possible to add the product to the cart without visiting the product page. This button works perfect also and with product variations."
+msgid "Display %sAdd to Cart%s button right inside the search results. This makes it possible to add the product to the cart without visiting the product page. This button works perfectly also and with product variations."
 msgstr ""
 
 msgid "Search Results Layouts"
@@ -627,10 +639,16 @@ msgstr ""
 msgid "Option to exclude or include products from search results by %sproduct ids%s, %staxonomies%s or %sattributes%s. Show only those products that you want. This option works great with the search form filters."
 msgstr ""
 
+msgid "Search Suggestions"
+msgstr ""
+
+msgid "Generate and show %sterms suggestions for current search query%s. Such suggestions will be visible at the top of the search results list."
+msgstr ""
+
 msgid "ACF Plugin Support"
 msgstr ""
 
-msgid "All fields that were created with the help of %sAdvanced Custom Fields%s plugin are available for search. Also use a special build-in filters to display any ACF field value right inside the search results list."
+msgid "All fields that were created with the help of %sAdvanced Custom Fields%s plugin are available for search. Also use a special built-in filter to display any ACF field value right inside the search results list."
 msgstr ""
 
 msgid "You will benefit from our full support for any issues you have with this plugin."
@@ -726,6 +744,12 @@ msgstr ""
 msgid "Time after user input that script is waiting before sending a search event to the server, ms."
 msgstr ""
 
+msgid "Search words number"
+msgstr ""
+
+msgid "The maximum number of words allowed for the search. All extra words will be removed from the search query."
+msgstr ""
+
 msgid "Index table options"
 msgstr ""
 
@@ -792,6 +816,9 @@ msgstr ""
 msgid "If you have any problems with correct products results on the search results page - try to change this option."
 msgstr ""
 
+msgid "Highlight search words inside the search results page."
+msgstr ""
+
 msgid "Default"
 msgstr ""
 
@@ -832,4 +859,49 @@ msgid "Archive pages number"
 msgstr ""
 
 msgid "Maximum number of displayed archive pages search results."
+msgstr ""
+
+msgid "logo"
+msgstr ""
+
+msgid "Support"
+msgstr ""
+
+msgid "Showing results for"
+msgstr ""
+
+msgid "Did you mean:"
+msgstr ""
+
+msgid "On. Automatically search for fixed terms."
+msgstr ""
+
+msgid "On. Additionally show text \"Showing results for ...\" with a list of fixed terms at the top of search results."
+msgstr ""
+
+msgid "Off. Totally disable misspelling fix."
+msgstr ""
+
+msgid "Off. Instead show text \"Did you mean ...\" with a clickable list of fixed terms at the top of search results."
+msgstr ""
+
+msgid "Categories results"
+msgstr ""
+
+msgid "Categories results"
+msgstr ""
+
+msgid "Taxonomies Results"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Results Count"
+msgstr ""
+
+msgid "Columns"
+msgstr ""
+
+msgid "Taxonomy"
 msgstr ""

@@ -38,9 +38,9 @@ class BackWPup_JobType_WPPlugin extends BackWPup_JobTypes
 			<tr>
 				<th scope="row"><label for="idpluginlistfile"><?php esc_html_e('Plugin list file name', 'backwpup'); ?></label></th>
 				<td>
-					<input name="pluginlistfile" type="text" id="idpluginlistfile"
-						   value="<?php echo esc_attr(BackWPup_Option::get($jobid, 'pluginlistfile')); ?>"
-						   class="medium-text code"/>.txt
+					<input readonly disabled  name="pluginlistfile" type="text" id="idpluginlistfile"
+							value="<?php echo esc_attr( BackWPup_Option::get( $jobid, 'pluginlistfile' ) ); ?>"
+							class="medium-text code"/>.txt
 				</td>
 			</tr>
 			<tr>
@@ -48,12 +48,13 @@ class BackWPup_JobType_WPPlugin extends BackWPup_JobTypes
 				<td>
 					<fieldset>
 						<?php
-                        echo '<label for="idpluginlistfilecompression"><input class="radio" type="radio"' . checked('', BackWPup_Option::get($jobid, 'pluginlistfilecompression'), false) . ' name="pluginlistfilecompression"  id="idpluginlistfilecompression" value="" /> ' . esc_html__('none', 'backwpup') . '</label><br />';
-        if (function_exists('gzopen')) {
-            echo '<label for="idpluginlistfilecompression-gz"><input class="radio" type="radio"' . checked('.gz', BackWPup_Option::get($jobid, 'pluginlistfilecompression'), false) . ' name="pluginlistfilecompression" id="idpluginlistfilecompression-gz" value=".gz" /> ' . esc_html__('GZip', 'backwpup') . '</label><br />';
-        } else {
-            echo '<label for="idpluginlistfilecompression-gz"><input class="radio" type="radio"' . checked('.gz', BackWPup_Option::get($jobid, 'pluginlistfilecompression'), false) . ' name="pluginlistfilecompression" id="idpluginlistfilecompression-gz" value=".gz" disabled="disabled" /> ' . esc_html__('GZip', 'backwpup') . '</label><br />';
-        } ?>
+						echo '<label for="idpluginlistfilecompression"><input readonly disabled  class="radio" type="radio"' . checked( '', BackWPup_Option::get( $jobid, 'pluginlistfilecompression' ), false ) . ' name="pluginlistfilecompression"  id="idpluginlistfilecompression" value="" /> ' . esc_html__( 'none', 'backwpup' ) . '</label><br />';
+						if ( function_exists( 'gzopen' ) ) {
+							echo '<label for="idpluginlistfilecompression-gz"><input readonly disabled  class="radio" type="radio"' . checked( '.gz', BackWPup_Option::get( $jobid, 'pluginlistfilecompression' ), false ) . ' name="pluginlistfilecompression" id="idpluginlistfilecompression-gz" value=".gz" /> ' . esc_html__( 'GZip', 'backwpup' ) . '</label><br />';
+						} else {
+							echo '<label for="idpluginlistfilecompression-gz"><input readonly disabled  class="radio" type="radio"' . checked( '.gz', BackWPup_Option::get( $jobid, 'pluginlistfilecompression' ), false ) . ' name="pluginlistfilecompression" id="idpluginlistfilecompression-gz" value=".gz" disabled="disabled" /> ' . esc_html__( 'GZip', 'backwpup' ) . '</label><br />';
+						}
+						?>
 					</fieldset>
 				</td>
 			</tr>
@@ -101,12 +102,12 @@ class BackWPup_JobType_WPPlugin extends BackWPup_JobTypes
             $header .= '  Blog Name: ' . get_bloginfo('name') . PHP_EOL;
             $header .= '  Blog URL: ' . get_bloginfo('url') . PHP_EOL;
             $header .= '  Generated on: ' . date('Y-m-d H:i.s', current_time('timestamp')) . PHP_EOL;
-            $header .= '------------------------------------------------------------' . PHP_EOL . PHP_EOL;
-            fwrite($handle, $header);
-            //get Plugins
-            if (!function_exists('get_plugins')) {
-                require_once ABSPATH . 'wp-admin/includes/plugin.php';
-            }
+			$header .= '------------------------------------------------------------' . PHP_EOL . PHP_EOL;
+			fwrite( $handle, $header ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
+			// get Plugins.
+			if ( ! function_exists( 'get_plugins' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php'; // @phpstan-ignore-line
+			}
             $plugins = get_plugins();
             $plugins_active = get_option('active_plugins');
             //write it to file

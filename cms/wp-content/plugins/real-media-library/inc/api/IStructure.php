@@ -15,6 +15,7 @@ namespace MatthiasWeb\RealMediaLibrary\api;
  * @see wp_rml_structure_reset()
  * @see wp_rml_structure()
  * @since 3.3.1
+ * @internal
  */
 interface IStructure
 {

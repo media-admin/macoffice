@@ -149,21 +149,20 @@ class BackWPup_Job
      */
     private $signal = 0;
 
-    public static function start_http($starttype, $jobid = 0)
-    {
-        //load text domain
-        $log_level = get_site_option('backwpup_cfg_loglevel', 'normal_translated');
-        if (strstr((string) $log_level, 'translated')) {
-            BackWPup::load_text_domain();
-        } else {
-            add_filter('override_load_textdomain', '__return_true');
-            $GLOBALS['l10n'] = [];
-        }
-        if ($starttype !== 'restart') {
-            //check job id exists
-            if ((int) $jobid !== (int) BackWPup_Option::get($jobid, 'jobid')) {
-                return false;
-            }
+	/**
+	 * Start the job.
+	 *
+	 * @param string $starttype Start type.
+	 * @param int    $jobid Job ID.
+	 *
+	 * @return void
+	 */
+	public static function start_http( $starttype, $jobid = 0 ) {
+		if ( 'restart' !== $starttype ) {
+			// check job id exists.
+			if ( (int) BackWPup_Option::get( $jobid, 'jobid' ) !== (int) $jobid ) {
+				return;
+			}
 
             //check folders
             $log_folder = get_site_option('backwpup_cfg_logfolder');
@@ -173,9 +172,9 @@ class BackWPup_Job
                 BackWPup_Admin::message($folder_message_log, true);
                 BackWPup_Admin::message($folder_message_temp, true);
 
-                return false;
-            }
-        }
+				return;
+			}
+		}
 
         // redirect
         if ($starttype === 'runnowalt') {
@@ -228,11 +227,10 @@ class BackWPup_Job
             return false;
         }
 
-        if ($job_object = unserialize($file_data)) {
-            if ($job_object instanceof BackWPup_Job) {
-                return $job_object;
-            }
-        }
+		$job_data = json_decode( $file_data, true );
+		if ( ! empty( $job_data ) ) {
+			return self::init( $job_data );
+		}
 
         return false;
     }
@@ -283,17 +281,30 @@ class BackWPup_Job
         $this->logfile = $log_folder . 'backwpup_log_' . BackWPup::get_generated_hash(6) . '_' . date(
             'Y-m-d_H-i-s',
             current_time('timestamp')
-        ) . '.html';
-        //write settings to job
-        BackWPup_Option::update($this->job['jobid'], 'lastrun', $this->start_time);
-        BackWPup_Option::update($this->job['jobid'], 'logfile', $this->logfile); //Set current logfile
-        BackWPup_Option::update($this->job['jobid'], 'lastbackupdownloadurl', '');
-        //Set needed job values
-        $this->timestamp_last_update = microtime(true);
-        $this->exclude_from_backup = explode(',', trim((string) $this->job['fileexclude']));
-        $this->exclude_from_backup = array_unique($this->exclude_from_backup);
-        //setup job steps
-        $this->steps_data['CREATE']['CALLBACK'] = '';
+		) . '.html';
+		// write settings to job.
+		BackWPup_Option::update( $this->job['jobid'], 'lastrun', $this->start_time );
+		BackWPup_Option::update( $this->job['jobid'], 'logfile', $this->logfile ); // Set current logfile.
+		BackWPup_Option::update( $this->job['jobid'], 'lastbackupdownloadurl', '' );
+		// Set needed job values.
+		$this->timestamp_last_update = microtime( true );
+		/**
+		 * Filter to exclude files from backup.
+		 *
+		 * @param array $excluded_files List of excluded files.
+		 */
+		$this->exclude_from_backup = wpm_apply_filters_typed(
+			'array',
+			'backwpup_file_exclude',
+			explode( ',', trim( (string) $this->job['fileexclude'] ) )
+		);
+		$this->exclude_from_backup = array_merge(
+			$this->exclude_from_backup,
+			[ '.tmp','.svn','.git','desktop.ini','.DS_Store','/node_modules/' ]
+		);
+		$this->exclude_from_backup = array_unique( $this->exclude_from_backup );
+		// setup job steps.
+		$this->steps_data['CREATE']['CALLBACK'] = '';
         $this->steps_data['CREATE']['NAME'] = __('Job Start', 'backwpup');
         $this->steps_data['CREATE']['STEP_TRY'] = 0;
         //ADD Job types file
@@ -331,14 +342,26 @@ class BackWPup_Job
                 //set temp folder to backup folder if not set because we need one
                 if (!$this->backup_folder || $this->backup_folder == '/') {
                     $this->backup_folder = BackWPup::get_plugin_data('TEMP');
-                }
-                //Create backup archive full file name
-                $this->backup_file = $this->generate_filename($this->job['archivename'], $this->job['archiveformat']);
-                //add archive create
-                $this->steps_todo[] = 'CREATE_ARCHIVE';
-                $this->steps_data['CREATE_ARCHIVE']['NAME'] = __('Creates archive', 'backwpup');
-                $this->steps_data['CREATE_ARCHIVE']['STEP_TRY'] = 0;
-                $this->steps_data['CREATE_ARCHIVE']['SAVE_STEP_TRY'] = 0;
+				}
+				// Add job type to the filename.
+				$archive_filename = $this->job['archivename'] . '_' . implode( '-', $this->job['type'] );
+				$format           = $this->job['archiveformat'];
+				/**
+				 * Filter the backup extension.
+				 *
+				 * @param string $format The initial extension name.
+				 */
+				$format = wpm_apply_filters_typed( 'string', 'backwpup_generate_archive_extension', $format );
+				if ( ! in_array( $format, [ 'zip', 'tar', 'tar.gz', '.zip', '.tar', '.tar.gz' ], true ) ) {
+					$format = 'tar';
+				}
+				// Create backup archive full file name.
+				$this->backup_file = $this->generate_filename( $archive_filename, $format );
+				// add archive create.
+				$this->steps_todo[]                                  = 'CREATE_ARCHIVE';
+				$this->steps_data['CREATE_ARCHIVE']['NAME']          = __( 'Creates archive', 'backwpup' );
+				$this->steps_data['CREATE_ARCHIVE']['STEP_TRY']      = 0;
+				$this->steps_data['CREATE_ARCHIVE']['SAVE_STEP_TRY'] = 0;
                 // Encrypt archive
                 if (BackWPup_Option::get($this->job['jobid'], 'archiveencryption')) {
                     $this->steps_todo[] = 'ENCRYPT_ARCHIVE';
@@ -401,20 +424,21 @@ class BackWPup_Job
             true
         )) {
             $this->log_level = 'normal_translated';
-        }
-        //create log file
-        $head = '';
-        $info = '';
-        $head .= '<!DOCTYPE html>' . PHP_EOL;
-        $head .= '<html lang="' . str_replace('_', '-', get_locale()) . '">' . PHP_EOL;
-        $head .= '<head>' . PHP_EOL;
-        $head .= '<meta charset="' . get_bloginfo('charset') . '" />' . PHP_EOL;
-        $head .= '<title>' . sprintf(
-            __('BackWPup log for %1$s from %2$s at %3$s', 'backwpup'),
-            esc_attr($this->job['name']),
-            date_i18n(get_option('date_format')),
-            date_i18n(get_option('time_format'))
-        ) . '</title>' . PHP_EOL;
+		}
+		// create log file.
+		$head  = '';
+		$info  = '';
+		$head .= '<!DOCTYPE html>' . PHP_EOL;
+		$head .= '<html lang="' . str_replace( '_', '-', get_locale() ) . '">' . PHP_EOL;
+		$head .= '<head>' . PHP_EOL;
+		$head .= '<meta charset="' . get_bloginfo( 'charset' ) . '" />' . PHP_EOL;
+		$head .= '<title>' . sprintf(
+			// translators: %1$s = job name, %2$s = date, %3$s = time.
+			__( 'BackWPup log for %1$s from %2$s at %3$s', 'backwpup' ),
+			esc_attr( $this->job['name'] ),
+			wp_date( get_option( 'date_format' ) ),
+			wp_date( get_option( 'time_format' ) )
+		) . '</title>' . PHP_EOL;
         $head .= '<meta name="robots" content="noindex, nofollow" />' . PHP_EOL;
         $head .= '<meta name="copyright" content="Copyright &copy; 2012 - ' . date('Y') . ' WP Media, Inc." />' . PHP_EOL;
         $head .= '<meta name="author" content="WP Media" />' . PHP_EOL;
@@ -481,30 +505,30 @@ class BackWPup_Job
             if ($this->is_debug()) {
                 if (!$cron_next) {
                     $cron_next = __('Not scheduled!', 'backwpup');
-                } else {
-                    $cron_next = date_i18n(
-                        'D, j M Y @ H:i',
-                        $cron_next + (get_option('gmt_offset') * 3600),
-                        true
-                    );
+				} else {
+					$cron_next = wp_date(
+						'D, j M Y @ H:i',
+						$cron_next
+					);
                 }
                 $info .= sprintf(
                     __('[INFO] Cron: %s; Next: %s ', 'backwpup'),
                     $this->job['cron'],
                     $cron_next
                 ) . '<br />' . PHP_EOL;
-            }
-        } elseif ($this->job['activetype'] == 'link' && $this->is_debug()) {
-            $info .= __('[INFO] BackWPup job start with link is active', 'backwpup') . '<br />' . PHP_EOL;
-        } elseif ($this->job['activetype'] == 'easycron' && $this->is_debug()) {
-            $info .= __('[INFO] BackWPup job start with EasyCron.com', 'backwpup') . '<br />' . PHP_EOL;
-            //output scheduling
-            if ($this->is_debug()) {
-                $cron_next = BackWPup_Cron::cron_next($this->job['cron']);
-                $cron_next = date_i18n('D, j M Y @ H:i', $cron_next + (get_option('gmt_offset') * 3600), true);
-                $info .= sprintf(
-                    __('[INFO] Cron: %s; Next: %s ', 'backwpup'),
-                    $this->job['cron'],
+			}
+		} elseif ( 'link' === $this->job['activetype'] && $this->is_debug() ) {
+			$info .= __( '[INFO] BackWPup job start with link is active', 'backwpup' ) . '<br />' . PHP_EOL;
+		} elseif ( 'easycron' === $this->job['activetype'] && $this->is_debug() ) {
+			$info .= __( '[INFO] BackWPup job start with EasyCron.com', 'backwpup' ) . '<br />' . PHP_EOL;
+			// output scheduling.
+			if ( $this->is_debug() ) {
+				$cron_next = BackWPup_Cron::cron_next( $this->job['cron'] );
+				$cron_next = wp_date( 'D, j M Y @ H:i', $cron_next );
+				$info     .= sprintf(
+					// translators: %1$s = cron name, %2$s = next run.
+					__( '[INFO] Cron: %1$s; Next: %2$s ', 'backwpup' ),
+					$this->job['cron'],
                     $cron_next
                 ) . '<br />' . PHP_EOL;
             }
@@ -643,16 +667,33 @@ class BackWPup_Job
     {
         if ($suffix) {
             $suffix = '.' . trim($suffix, '. ');
-        }
-
-        $name = BackWPup_Option::substitute_date_vars($name);
-        $name .= $suffix;
+		}
+		$name  = BackWPup_Option::substitute_date_vars( $name );
+		$name .= $suffix;
         if ($delete_temp_file && is_writeable(BackWPup::get_plugin_data('TEMP') . $name) && !is_dir(BackWPup::get_plugin_data('TEMP') . $name) && !is_link(BackWPup::get_plugin_data('TEMP') . $name)) {
             unlink(BackWPup::get_plugin_data('TEMP') . $name);
         }
 
         return $name;
     }
+
+	/**
+	 * Generate a filename for a database dump.
+	 *
+	 * @param string $name   The initial filename.
+	 * @param string $suffix The suffix to append to the filename.
+	 *
+	 * @return string The generated filename.
+	 */
+	public function generate_db_dump_filename( $name, $suffix = '' ) {
+		/**
+		 * Filter the db dump filename.
+		 *
+		 * @param string $name The initial filename.
+		 */
+		$name = wpm_apply_filters_typed( 'string', 'backwpup_generate_dump_filename', $name );
+		return $this->generate_filename( $name, $suffix );
+	}
 
     /**
      * Sanitizes a filename, replacing whitespace with underscores.
@@ -704,8 +745,8 @@ class BackWPup_Job
 
     private function write_running_file()
     {
-        $clone = clone $this;
-        $data = '<?php //' . serialize($clone);
+		$clone = clone $this;
+		$data  = '<?php //' . wp_json_encode( get_object_vars( $clone ) );
 
         $write = file_put_contents(BackWPup::get_plugin_data('running_file'), $data);
         if (!$write || $write < strlen($data)) {
@@ -1228,11 +1269,12 @@ class BackWPup_Job
                     $status = __('ERROR', 'backwpup');
                 }
 
-                $subject = sprintf(
-                    __('[%3$s] BackWPup log %1$s: %2$s', 'backwpup'),
-                    date_i18n('d-M-Y H:i', $this->start_time, true),
-                    esc_attr($this->job['name']),
-                    $status
+				$subject = sprintf(
+					// translators: %1$s = Date, %2$s = job name, %3$s = job status.
+					__( '[%3$s] BackWPup log %1$s: %2$s', 'backwpup' ),
+					wp_date( 'd-M-Y H:i', $this->start_time ),
+					esc_attr( $this->job['name'] ),
+					$status
                 );
                 $headers = [];
                 $headers[] = 'Content-Type: text/html; charset=' . get_bloginfo('charset');
@@ -1280,10 +1322,12 @@ class BackWPup_Job
         //logfile end
         file_put_contents($this->logfile, '</body>' . PHP_EOL . '</html>', FILE_APPEND);
 
-        BackWPup_Cron::check_cleanup();
-
-        exit();
-    }
+		// Disable The job if it's a temp job.
+		if ( true === $this->job['tempjob'] ) {
+			self::disable_job( $this->job['jobid'] );
+		}
+		BackWPup_Cron::check_cleanup();
+	}
 
     /**
      * Cleanup Temp Folder.
@@ -1502,7 +1546,11 @@ class BackWPup_Job
             }
         }
 
-        $cron_request = apply_filters('cron_request', $cron_request);
+		$cron_request = wpm_apply_filters_typed(
+			'array',
+			'cron_request',
+			$cron_request
+		);
 
         if ($starttype === 'test') {
             $cron_request['args']['timeout'] = 15;
@@ -1570,14 +1618,21 @@ class BackWPup_Job
         @putenv('TMPDIR=' . BackWPup::get_plugin_data('TEMP'));
         //Write Wordpress DB errors to log
         $wpdb->suppress_errors(false);
-        $wpdb->hide_errors();
-        //set wp max memory limit
-        @ini_set('memory_limit', apply_filters('admin_memory_limit', WP_MAX_MEMORY_LIMIT));
-        //set error handler
-        if (!empty($this->logfile)) {
-            if ($this->is_debug()) {
-                set_error_handler([$this, 'log']);
-            } else {
+		$wpdb->hide_errors();
+		// set wp max memory limit.
+		@ini_set( // @phpcs:ignore
+			'memory_limit',
+			wpm_apply_filters_typed(
+				'string',
+				'admin_memory_limit',
+				WP_MAX_MEMORY_LIMIT
+			)
+		);
+		// set error handler.
+		if ( ! empty( $this->logfile ) ) {
+			if ( $this->is_debug() ) {
+				set_error_handler( [ $this, 'log' ] ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler
+			} else {
                 set_error_handler([$this, 'log'], E_ALL ^ E_NOTICE);
             }
         }
@@ -1618,8 +1673,8 @@ class BackWPup_Job
                 //'SIGIO', //Term
                 'SIGPWR', //Term
                 'SIGSYS', //Core
-            ];
-            $signals = apply_filters('backwpup_job_signals_to_handel', $signals);
+			];
+			$signals = wpm_apply_filters_typed( 'array', 'backwpup_job_signals_to_handel', $signals );
 
             declare(ticks=1);
             $this->signal = 0;
@@ -1900,9 +1955,9 @@ class BackWPup_Job
     private function encrypt_archive()
     {
         $encryptionType = get_site_option('backwpup_cfg_encryption');
-        // Substeps is number of 128 KB chunks
-        $blockSize = 128 * 1024;
-        $this->substeps_todo = ceil($this->backup_filesize / $blockSize);
+		// Substeps is number of 128 KB chunks
+		$blockSize           = 128 * 1024;
+		$this->substeps_todo = $this->backup_filesize;
 
         if (!isset($this->steps_data[$this->step_working]['encrypted_filename'])) {
             $this->steps_data[$this->step_working]['encrypted_filename'] = $this->backup_folder . $this->backup_file . '.encrypted';
@@ -1911,15 +1966,17 @@ class BackWPup_Job
             }
         }
 
-        if (!isset($this->steps_data[$this->step_working]['key'])) {
-            switch ($encryptionType) {
-                case self::ENCRYPTION_SYMMETRIC:
+		if ( ! isset( $this->steps_data[ $this->step_working ]['key'] ) ) {
+			$this->steps_data[ $this->step_working ]['OutFilePos'] = 0;
+			$this->steps_data[ $this->step_working ]['aesIv']      = \phpseclib3\Crypt\Random::string( 16 );
+			switch ( $encryptionType ) {
+				case self::ENCRYPTION_SYMMETRIC:
                     $this->steps_data[$this->step_working]['key'] = pack('H*', get_site_option('backwpup_cfg_encryptionkey'));
                     break;
 
-                case self::ENCRYPTION_ASYMMETRIC:
-                    $this->steps_data[$this->step_working]['key'] = get_site_option('backwpup_cfg_publickey');
-                    break;
+				case self::ENCRYPTION_ASYMMETRIC:
+					$this->steps_data[ $this->step_working ]['key'] = \phpseclib3\Crypt\Random::string( 32 );
+					break;
             }
 
             if (empty($this->steps_data[$this->step_working]['key'])) {
@@ -1928,8 +1985,6 @@ class BackWPup_Job
                 return false;
             }
         }
-
-        $key = $this->steps_data[$this->step_working]['key'];
 
         if ($this->steps_data[$this->step_working]['SAVE_STEP_TRY'] != $this->steps_data[$this->step_working]['STEP_TRY']) {
             // Show initial log message
@@ -1958,17 +2013,20 @@ class BackWPup_Job
             return false;
         }
 
-        $encryptor = null;
+		$encryptor = null;
+		$key       = $this->steps_data[ $this->step_working ]['key'];
+		$aesIv     = $this->steps_data[ $this->step_working ]['aesIv'];
 
-        switch ($encryptionType) {
-                case self::ENCRYPTION_SYMMETRIC:
-                    $encryptor = EncryptionStream::fromSymmetric($key, Utils::streamFor($fileOut));
-                    break;
+		switch ( $encryptionType ) {
+			case self::ENCRYPTION_SYMMETRIC:
+				$encryptor = new EncryptionStream( $aesIv, $key, Utils::streamFor( $fileOut ) );
+				break;
 
-                case self::ENCRYPTION_ASYMMETRIC:
-                    $encryptor = EncryptionStream::fromAsymmetric($key, Utils::streamFor($fileOut));
-                    break;
-            }
+			case self::ENCRYPTION_ASYMMETRIC:
+				$rsaPubKey = get_site_option( 'backwpup_cfg_publickey' );
+				$encryptor = new EncryptionStream( $aesIv, $key, Utils::streamFor( $fileOut ), $rsaPubKey );
+				break;
+        }
 
         if ($encryptor === null) {
             $this->log(__('Could not initialize encryptor.', 'backwpup'), E_USER_ERROR);
@@ -1976,34 +2034,29 @@ class BackWPup_Job
             return false;
         }
 
-        $bytesRead = $this->substeps_done * $blockSize;
-        $fileIn->seek($bytesRead);
+		$fileIn->seek( $this->substeps_done );
+		$encryptor->seek( $this->steps_data[ $this->step_working ]['OutFilePos'] );
 
-        while ($bytesRead < $this->backup_filesize) {
-            $data = $fileIn->read($blockSize);
-            $encryptor->write($data);
-
-            ++$this->substeps_done;
-            $bytesRead += strlen($data);
-            $this->update_working_data();
-
-            // Should we restart?
-            $restartTime = $this->get_restart_time();
-            if ($restartTime <= 0) {
-                $this->do_restart_time(true);
-                $fileIn->close();
-                $encryptor->close();
-
-                return false;
-            }
-        }
-
-        $fileIn->close();
+		while ( ! $fileIn->eof() ) {
+			$data                 = $fileIn->read( $blockSize );
+			$outBytes             = $encryptor->write( $data );
+			$this->substeps_done += $blockSize;
+			$this->steps_data[ $this->step_working ]['OutFilePos'] += $outBytes;
+			$this->update_working_data();
+			// Should we restart?
+			$restartTime = $this->get_restart_time();
+			if ( $restartTime <= 0 ) {
+				$fileIn->close();
+				$encryptor->close();
+				$this->do_restart_time( true );
+			}
+		}
+		$fileIn->close();
         $encryptor->close();
 
-        $this->log(
-            sprintf(__('Encrypted %s of data.', 'backwpup'), size_format($bytesRead, 2)),
-            E_USER_NOTICE
+		$this->log(
+			sprintf( __( 'Encrypted %s of data.', 'backwpup' ), size_format( $this->substeps_done, 2 ) ),
+			E_USER_NOTICE
         );
 
         // Remove the original file then rename the encrypted file
@@ -2331,15 +2384,6 @@ class BackWPup_Job
         //define DOING_CRON to prevent caching
         if (!defined('DOING_CRON')) {
             define('DOING_CRON', true);
-        }
-
-        //load text domain
-        $log_level = get_site_option('backwpup_cfg_loglevel', 'normal_translated');
-        if (strstr((string) $log_level, 'translated')) {
-            BackWPup::load_text_domain();
-        } else {
-            add_filter('override_load_textdomain', '__return_true');
-            $GLOBALS['l10n'] = [];
         }
 
         $jobid = absint($jobid);
@@ -2805,4 +2849,154 @@ class BackWPup_Job
 
         return in_array(basename((string) $file), $dump_files, true);
     }
+
+	/**
+	 * Check if a job is enabled.
+	 *
+	 * This function checks if a job with the given ID is enabled by verifying if its 'activetype' option is set to 'wpcron'.
+	 *
+	 * @param int $job_id The ID of the job to check.
+	 * @return bool True if the job is enabled, false otherwise.
+	 */
+	public static function is_job_enabled( $job_id ): bool {
+		return BackWPup_Option::get( $job_id, 'activetype' ) === 'wpcron';
+	}
+
+	/**
+	 * Enables a BackWPup job by updating its activation type to 'wpcron'.
+	 *
+	 * @param int $job_id The ID of the job to enable.
+	 */
+	public static function enable_job( $job_id ): void {
+		BackWPup_Option::update( $job_id, 'activetype', 'wpcron' );
+	}
+
+	/**
+	 * Disables a BackWPup job.
+	 *
+	 * This function updates the job's 'activetype' option to an empty string,
+	 * effectively disabling the job. It also clears any scheduled cron hooks
+	 * associated with the job.
+	 *
+	 * @param int $job_id The ID of the job to disable.
+	 */
+	public static function disable_job( $job_id ): void {
+		BackWPup_Option::update( $job_id, 'activetype', '' );
+		wp_clear_scheduled_hook( 'backwpup_cron', [ 'arg' => $job_id ] );
+	}
+
+	/**
+	 * Schedules a single job event for the given job ID.
+	 *
+	 * This function schedules a single cron event for the specified job ID using the WordPress
+	 * scheduling system. The event will be triggered at the next scheduled time for the job.
+	 *
+	 * @param int $job_id The ID of the job to schedule.
+	 * @return int|false The Unix timestamp of the next scheduled event, or false if an error occurred.
+	 */
+	public static function schedule_job( $job_id ) {
+		wp_clear_scheduled_hook( 'backwpup_cron', [ 'arg' => $job_id ] );
+		$cron_next = BackWPup_Cron::cron_next( BackWPup_Option::get( $job_id, 'cron' ) );
+		wp_schedule_single_event( $cron_next, 'backwpup_cron', [ 'arg' => $job_id ] );
+		return $cron_next;
+	}
+
+	/**
+	 * Renames a BackWPup job.
+	 *
+	 * This function updates the name of a BackWPup job with the given job ID.
+	 *
+	 * @param int    $job_id   The ID of the job to rename.
+	 * @param string $new_name The new name for the job.
+	 */
+	public static function rename_job( $job_id, $new_name ): void {
+		BackWPup_Option::update( $job_id, 'name', $new_name );
+	}
+
+	/**
+	 * Duplicates a job based on the given job ID.
+	 *
+	 * @param int $old_job_id The ID of the job to duplicate.
+	 * @return int|WP_Error The ID of the new duplicated job on success, or a WP_Error object on failure.
+	 */
+	public static function duplicate_job( $old_job_id ) {
+		$newjobid = BackWPup_Option::get_job_ids();
+		sort( $newjobid );
+		$newjobid    = end( $newjobid ) + 1;
+		$old_options = BackWPup_Option::get_job( $old_job_id );
+
+		foreach ( $old_options as $key => $option ) {
+			// Skip keys that should not be updated.
+			if ( in_array( $key, [ 'logfile', 'lastbackupdownloadurl', 'lastruntime', 'lastrun' ], true ) ) {
+				continue;
+			}
+
+			// Update option values based on key.
+			switch ( $key ) {
+				case 'jobid':
+					$option = $newjobid;
+					break;
+
+				case 'name':
+					$option = __( 'Copy of', 'backwpup' ) . ' ' . $option;
+					break;
+
+				case 'activetype':
+					$option = '';
+					break;
+
+				case 'archivename':
+					$option = str_replace( $old_job_id, $newjobid, (string) $option );
+					break;
+			}
+
+			// Save the updated option.
+			BackWPup_Option::update( $newjobid, $key, $option );
+		}
+		return $newjobid;
+	}
+
+	/**
+	 * Init and instantiate job instance.
+	 *
+	 * @param array $args Job arguments.
+	 * @return self
+	 */
+	public static function init( $args = [] ) {
+		$instance = new self();
+		foreach ( $args as $key => $value ) {
+			if ( ! isset( $instance->$key ) ) {
+				continue;
+			}
+			$instance->$key = $value;
+		}
+		return $instance;
+	}
+
+
+	/**
+	 * Get the list of jobs from the backwpup_jobs site option.
+	 *
+	 * @return array The list of jobs.
+	 */
+	public static function get_jobs() {
+		return get_site_option( 'backwpup_jobs', [] );
+	}
+
+	/**
+	 * Deletes a BackWPup job.
+	 *
+	 * This function removes the job with the given job ID from the options and clears any scheduled cron hooks
+	 * associated with the job.
+	 *
+	 * @param int $job_id The ID of the job to delete.
+	 */
+	public static function delete_job( $job_id ): bool {
+		if ( BackWPup_Option::delete_job( $job_id ) ) {
+			// Clear any scheduled cron hooks for the job.
+			wp_clear_scheduled_hook( 'backwpup_cron', [ 'arg' => $job_id ] );
+			return true;
+		}
+		return false;
+	}
 }

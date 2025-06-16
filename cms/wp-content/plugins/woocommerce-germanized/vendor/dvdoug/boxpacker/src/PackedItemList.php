@@ -19,26 +19,17 @@ use function usort;
 
 /**
  * List of packed items, ordered by volume.
- *
- * @author Doug Wright
  */
 class PackedItemList implements Countable, IteratorAggregate
 {
     /**
-     * List containing items.
-     *
      * @var PackedItem[]
      */
-    private $list = [];
+    private array $list = [];
 
-    private $weight = 0;
+    private int $weight = 0;
 
-    /**
-     * Has this list already been sorted?
-     *
-     * @var bool
-     */
-    private $isSorted = false;
+    private bool $isSorted = false;
 
     public function insert(PackedItem $item): void
     {
@@ -47,7 +38,7 @@ class PackedItemList implements Countable, IteratorAggregate
     }
 
     /**
-     * @return Traversable|PackedItem[]
+     * @return Traversable<PackedItem>
      */
     public function getIterator(): Traversable
     {
@@ -76,9 +67,7 @@ class PackedItemList implements Countable, IteratorAggregate
      */
     public function asItemArray(): array
     {
-        return array_map(function (PackedItem $packedItem) {
-            return $packedItem->getItem();
-        }, $this->list);
+        return array_map(fn (PackedItem $packedItem) => $packedItem->getItem(), $this->list);
     }
 
     /**

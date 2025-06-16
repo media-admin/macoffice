@@ -1,6 +1,13 @@
 jQuery(document).ready(function ($) {
     'use strict';
 
+    // Tooltips
+    $( '.aws-tip' ).tipTip( {
+        'attribute': 'data-tip',
+        'fadeIn': 50,
+        'fadeOut': 50,
+        'delay': 50,
+    } );
 
     //Sortable for filters
     $('.aws-form-filters tbody').sortable({
@@ -346,6 +353,39 @@ jQuery(document).ready(function ($) {
 
     });
 
+    // Make instance main
+    $('.aws-table.aws-form-instances .featured').on( 'click', function(e) {
+
+        e.preventDefault();
+
+        var self = $(this);
+        var instanceId = self.data('id');
+        var enabled = '0';
+
+        if ( self.hasClass('is-featured') ) {
+            enabled = '1';
+            $('.aws-table.aws-form-instances .featured').removeClass('is-featured')
+        } else {
+            $('.aws-table.aws-form-instances .featured').removeClass('is-featured')
+            self.addClass('is-featured');
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: aws_vars.ajaxurl,
+            data: {
+                action: 'aws-makeMainForm',
+                id: instanceId,
+                enabled: enabled,
+                _ajax_nonce: aws_vars.ajax_nonce
+            },
+            dataType: "json",
+            success: function (data) {
+            }
+        });
+
+    });
+
     // Copy instance
     $('.aws-table.aws-form-instances .aws-actions .copy').on( 'click', function(e) {
 
@@ -353,6 +393,8 @@ jQuery(document).ready(function ($) {
 
         var self = $(this);
         var instanceId = self.data('id');
+
+        self.addClass('loading');
 
         $.ajax({
             type: 'POST',
@@ -378,6 +420,8 @@ jQuery(document).ready(function ($) {
         var self = $(this);
         var instanceId = self.data('id');
 
+        self.addClass('loading');
+
         if ( confirm( "Are you sure want to delete this search form?" ) ) {
 
             $.ajax({
@@ -399,10 +443,12 @@ jQuery(document).ready(function ($) {
     });
 
     // Add instance
-    $('.aws-insert-instance').on( 'click', function(e) {
+    $('.aws-insert-instance-btn').on( 'click', function(e) {
 
         e.preventDefault();
         e.stopPropagation();
+
+        $(this).addClass('aws-loading');
 
         $.ajax({
             type: 'POST',
@@ -423,6 +469,8 @@ jQuery(document).ready(function ($) {
     $('.aws-insert-filter').on( 'click', function(e) {
 
         e.preventDefault();
+
+        $(this).addClass('aws-loading');
 
         var self = $(this);
         var instanceId = self.data('instance');
@@ -452,6 +500,8 @@ jQuery(document).ready(function ($) {
         var instanceId = self.data('instance');
         var filterId = self.data('id');
 
+        self.addClass('loading');
+
         $.ajax({
             type: 'POST',
             url: aws_vars.ajaxurl,
@@ -479,6 +529,8 @@ jQuery(document).ready(function ($) {
         var filterId = self.data('id');
 
         if ( confirm( "Are you sure want to delete this filter?" ) ) {
+
+            self.addClass('loading');
 
             $.ajax({
                 type: 'POST',
@@ -549,7 +601,7 @@ jQuery(document).ready(function ($) {
 
         var $clearCacheBlock = $(this).closest('#aws-clear-cache');
 
-        $clearCacheBlock.addClass('loading');
+        $clearCacheBlock.addClass('aws-loading');
 
         $.ajax({
             type: 'POST',
@@ -560,8 +612,8 @@ jQuery(document).ready(function ($) {
             },
             dataType: "json",
             success: function (data) {
+                $clearCacheBlock.removeClass('aws-loading');
                 alert('Cache cleared!');
-                $clearCacheBlock.removeClass('loading');
             }
         });
 
@@ -617,6 +669,9 @@ jQuery(document).ready(function ($) {
                 processed = response.data.offset;
 
                 processedP = Math.floor( processed / toProcess * 100 );
+                if ( processedP > 100 ) {
+                    processedP = 100;
+                }
 
                 syncData = response.data;
 

@@ -1,3 +1,84 @@
+
+/* Help tips */
+.aws-help-tip {
+    color: #666;
+    display: inline-block;
+    font-size: 1.4em;
+    font-style: normal;
+    height: 16px;
+    line-height: 16px;
+    position: absolute;
+    vertical-align: middle;
+    width: 16px;
+    margin: 0;
+    top: 9px;
+    left: -20px;
+}
+
+.aws-help-tip::after {
+    font-family: Dashicons;
+    speak: none;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    text-indent: 0px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    content: "";
+    cursor: help;
+    font-variant: normal;
+    margin: 0px;
+}
+
+#tiptip_holder {
+    display: none;
+    z-index: 8675309;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#tiptip_holder.tip_bottom {
+    padding-top: 5px;
+}
+
+#tiptip_arrow,
+#tiptip_arrow_inner {
+    position: absolute;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 6px;
+    height: 0;
+    width: 0;
+}
+
+#tiptip_holder.tip_bottom #tiptip_arrow_inner {
+    margin-top: -5px;
+    margin-left: -6px;
+    border-bottom-color: #333;
+}
+
+#tiptip_content,
+.chart-tooltip,
+.wc_error_tip {
+    color: #fff;
+    font-size: .8em;
+    background: #333;
+    text-align: center;
+    border-radius: 3px;
+    padding: .618em 1em;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+#tiptip_content a {
+    color: #fff;
+    pointer-events: auto;
+}
+
 .sortable-container {
     width: 200px;
     padding: 0;
@@ -57,6 +138,105 @@
     margin-bottom: 10px;
 }
 
+/* Loaders */
+.aws-loading {
+    position: relative;
+}
+.aws-loading:after {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url('../img/loader.svg') no-repeat 50% 50%;
+    margin-left: 24px;
+    margin-top: 4px;
+}
+
+/* Admin header */
+#aws-admin-header {
+    margin: 0 0 20px -20px;
+    padding: 0;
+    border-bottom: 1px solid #c3c4c7;
+    background: #fff;
+}
+
+#aws-admin-header .inner {
+    display: flex;
+    position: relative;
+    padding: 20px 22px;
+    margin: 0 auto;
+    justify-content: space-between
+}
+
+#aws-admin-header .inner .logo {
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+#aws-admin-header .inner .logo img {
+    width: 32px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+#aws-admin-header .inner .logo .title {
+    vertical-align: middle;
+}
+
+#aws-admin-header .inner .logo .version {
+    background: #f0f0f1;
+    display: inline-block;
+    padding: 0 8px;
+    border-radius: 13px;
+    height: 26px;
+    line-height: 26px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    color: #1d2327;
+    font-size: 12px;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+#aws-admin-header .inner .btns {
+}
+
+#aws-admin-header .inner .btns a {
+    padding: 6px 12px;
+    line-height: 1;
+    margin-left: 5px;
+}
+
+#aws-admin-header .inner .btns a:before {
+    speak: none;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    text-indent: 0;
+    text-align: center;
+    font-family: Dashicons;
+    line-height: 1;
+    margin-right: 4px;
+    vertical-align: text-top;
+    font-size: 15px;
+}
+#aws-admin-header .inner .btns a.button-docs:before {
+    content: "\f318";
+}
+#aws-admin-header .inner .btns a.button-support:before {
+    content: "\f466";
+}
+
+@media screen and (max-width: 782px) {
+    #aws-admin-header .inner .btns {
+        display: none;
+    }
+}
+
 /* Table */
 .aws-table {
     margin: 20px 0 10px;
@@ -88,7 +268,7 @@
     line-height: 2em;
 }
 
-.aws-table .aws-actions a {
+.aws-table .aws-actions a{
     display: block;
     text-indent: -9999px;
     position: relative;
@@ -99,7 +279,8 @@
     margin-left: 10px;
 }
 
-.aws-table .aws-actions a:after {
+.aws-table .aws-actions a:after,
+.aws-table .featured:after {
     speak: none;
     font-weight: 400;
     font-variant: normal;
@@ -133,9 +314,48 @@
     content: "";
 }
 
+.aws-table .aws-actions a.loading:after {
+    content: "";
+    width: 15px;
+    margin-top: -7px;
+    height: 15px;
+    margin-left: 4px;
+    top: 50%;
+    position: absolute;
+    background: url('../img/loader-2.svg') no-repeat 50% 50%;
+}
+
+.aws-table .featured {
+    display: inline-block;
+    text-indent: -9999px;
+    position: relative;
+    top: 1px;
+    padding: 0!important;
+    height: 2em!important;
+    min-height: 2em!important;
+    width: 2em;
+    margin-right: 8px;
+    color: #2271b1;
+}
+
+.aws-table .featured:focus,
+.aws-table .featured:active {
+    outline: none;
+    box-shadow: none;
+}
+
+.aws-table .featured:after{
+    content: "";
+}
+
+.aws-table .featured.is-featured:after,
+.aws-table .featured:hover:after {
+    content: "";
+}
+
 .aws-insert-instance {
     margin: 20px 0;
-
+    position: relative;
 }
 
 .aws-table.aws-table-sources {
@@ -199,7 +419,7 @@
     margin: 0 auto;
     width: 20px;
     height: 20px;
-    background: url('../img/loader-2.gif') no-repeat 50% 50%;
+    background: url('../img/loader-2.svg') no-repeat 50% 50%;
 }
 
 .aws-table.aws-table-sources td.aws-active.loading .aws-yes,
@@ -500,7 +720,7 @@ h2.aws-instance-filter:before {
     display: none;
     width: 20px;
     height: 20px;
-    background: url('../img/loader-1.GIF') no-repeat 50% 50%;
+    background: url('../img/loader.svg') no-repeat 50% 50%;
     margin-left: 15px;
     margin-top: 4px;
 }
@@ -523,6 +743,12 @@ h2.aws-instance-filter:before {
 #aws-reindex.loading .reindex-progress,
 #aws-reindex.loading .reindex-notice {
     display: inline-block;
+}
+
+/* Cache button */
+#aws-clear-cache {
+    display: inline-block;
+    margin: 0 0 20px;
 }
 
 /* Advanced filters */
@@ -623,7 +849,7 @@ h2.aws-instance-filter:before {
     right: -40px;
     width: 20px;
     height: 20px;
-    background: url('../img/loader-3.gif') no-repeat 50% 50%;
+    background: url('../img/loader.svg') no-repeat 50% 50%;
 }
 
 #aws_form .aws-rules .aws-rules-table .aws-pending td.param {

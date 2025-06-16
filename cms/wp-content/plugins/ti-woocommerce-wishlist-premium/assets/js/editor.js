@@ -33,7 +33,12 @@
 		supports: {
 			html: false
 		},
-		parent: ['woocommerce/all-products'],
+        parent: [
+            'woocommerce/all-products',
+            'woocommerce/single-product',
+            'core/post-template',
+            'woocommerce/product-template',
+        ],
 		icon: el('img', {
 			'class': 'tinvwl-component-icon',
 			'src': tinvwl_add_to_wishlist.plugin_url + '/assets/img/logo_heart.png'

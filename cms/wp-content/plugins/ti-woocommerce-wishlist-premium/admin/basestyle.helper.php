@@ -2,14 +2,12 @@
 /**
  * Basic admin style helper class
  *
+ * @package TInvWishlist\Admin\Helper
  * @since             1.0.0
- * @package           TInvWishlist\Admin\Helper
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
+defined( 'ABSPATH' ) or exit;
 
 /**
  * Basic admin style helper class
@@ -19,7 +17,7 @@ abstract class TInvWL_Admin_BaseStyle extends TInvWL_Admin_BaseSection {
 	/**
 	 * Create AJAX method
 	 */
-	function load_function() {
+	public function load_function(): void {
 		parent::load_function();
 		add_action( 'wp_ajax_selecttemplate', array( $this, 'load_settings_template' ) );
 	}
@@ -89,7 +87,7 @@ abstract class TInvWL_Admin_BaseStyle extends TInvWL_Admin_BaseSection {
 	}
 
 	/**
-	 * Create Scetions for this settings
+	 * Create section for this settings.
 	 *
 	 * @return array
 	 */
@@ -267,7 +265,7 @@ abstract class TInvWL_Admin_BaseStyle extends TInvWL_Admin_BaseSection {
 	 *
 	 * @return array
 	 */
-	function prepare_fields( $fields = array(), $data = array() ) {
+	public function prepare_fields( array $fields = [], array $data = [] ): array {
 		foreach ( $fields as &$field ) {
 			if ( ! array_key_exists( 'selector', $field ) || ! array_key_exists( 'element', $field ) ) {
 				continue;
@@ -306,11 +304,11 @@ abstract class TInvWL_Admin_BaseStyle extends TInvWL_Admin_BaseSection {
 	 *
 	 * @param array $data Post section data.
 	 *
-	 * @return boolean
+	 * @return void
 	 */
-	function constructor_save( $data ) {
+	public function constructor_save( array $data ): void {
 		if ( empty( $data ) || ! is_array( $data ) ) {
-			return false;
+			return;
 		}
 		if ( array_key_exists( 'style', (array) $data ) ) {
 			if ( false === $data['style']['customstyle'] ) {
@@ -370,7 +368,7 @@ abstract class TInvWL_Admin_BaseStyle extends TInvWL_Admin_BaseSection {
 	 *
 	 * @return string
 	 */
-	public static function create_selectorkey( $selector, $element ) {
+	public static function create_selectorkey( string $selector, string $element ): string {
 		return md5( $selector . '||' . $element );
 	}
 
@@ -381,7 +379,7 @@ abstract class TInvWL_Admin_BaseStyle extends TInvWL_Admin_BaseSection {
 	 *
 	 * @return array
 	 */
-	function break_css( $css ) {
+	public function break_css( string $css ): array {
 		$results = array();
 		$css     = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
 		$css     = preg_replace( '/(\r|\n|\t| {2,})/', '', $css );
@@ -402,7 +400,7 @@ abstract class TInvWL_Admin_BaseStyle extends TInvWL_Admin_BaseSection {
 	/**
 	 * Convert settings to css
 	 *
-	 * @param string $template Name template.
+	 * @param array $style Array of style attributes.
 	 *
 	 * @return string
 	 */

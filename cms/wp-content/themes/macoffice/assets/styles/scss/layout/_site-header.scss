@@ -3,28 +3,40 @@
 .site-header {
   position: relative;
   display: flex;
+  align-items: center;
   width: 100%;
   min-height: 1.6rem;
   height: auto;
-  background-color: #F5F5F5;
-  margin-top: 15px;
+  background-color: $color-white;
+  margin-top: 25px;
   /* padding-left: 18px;
   padding-right: 18px; */
   z-index: 1 !important;
 
   @include atMedium {
+    /* position: fixed; */
+
     /* max-height: 95px; */
     min-height: 145px;
     height: auto;
-    background-color: #F5F5F5;
+
+    align-items: center;
+
+    background-color: $color-white;
     border-bottom: 3px solid $color-primary;
     margin-top: initial !important;
     padding-top: 55px;
-    padding-right: 1.8rem;
-    padding-left: 1.8rem;
+    padding-right: .8rem;
+    padding-left: .8rem;
     z-index: 1 !important;
 
-    position: fixed;
+
+  }
+
+
+  @include atLarge {
+    padding-right: 1.8rem;
+    padding-left: 1.8rem;
   }
 }
 
@@ -50,6 +62,7 @@
 
 .site-header__branding {
     display: inline;
+    display: flex;
     width: 100%;
     padding-left: -18px;
     padding-right: -18px;
@@ -58,6 +71,7 @@
       display: inline-flex;
       width: auto;
       margin-top: -7px;
+      align-items: center;
     }
   }
 
@@ -65,17 +79,24 @@
 .site-header__logo {
   position: relative;
   display: inline-block;
-  width: 50%;
-  padding-top: 10px;
+/*   width: 50%; */
+  max-width: 200px;
+  width: auto;
+ /* width: 40%; */
+ width: 50%;
+
+/*   padding-top: 10px; */
   padding-bottom: 10px;
-  padding-left: 1.8rem;
+  padding-left: 0.8rem;
   transition: transform 0.3s ease-out;
 
   @include atMedium {
+    max-width: initial;
     width: auto;
     left: auto;
     transform: translateX(0);
-    padding-top: 6px;
+/*     padding-top: 6px; */
+  padding-left: 0rem;
   }
 }
 
@@ -108,7 +129,26 @@
 }
 
 
-.site-header__apple-haendler {
+
+.site-header__apple-certificates {
+  display: flex;
+  flex-direction: row;
+/*   align-items: flex-start; */
+  align-items: center;
+  padding-top: 10px;
+
+  @include atMedium {
+    display: flex;
+    flex-direction: row;
+    /*   align-items: flex-start; */
+    align-items: center;
+    padding-top: 10px;
+    padding-top: 0px;
+  }
+}
+
+
+/* .site-header__apple-autorisierter-haendler {
   position: absolute;
   top: 15px;
   display: inline-block;
@@ -125,19 +165,199 @@
     top: 20px;
     margin-bottom: 40px;
   }
+} */
+
+
+.site-header__apple-autorisierter-haendler {
+  position: absolute;
+  display: inline-block;
+  /* width: 25%; */
+
+  max-width: 200px;
+  width: auto;
+/*   width: 40%; */
+
+
+  line-height: 1.0rem;
+  border-left: 1px solid #D6D6D6;
+
+/*   top: 20px; */
+/*   margin-left: 48%; */
+/*   margin-left: 35%; */
+
+  margin-left: 16px;
+
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  padding-left: 15px;
+
+
+  @include atMedium {
+    display: none;
+    border-left: none;
+    margin-left: initial;
+    margin-bottom: initial;
+    padding-bottom: initial;
+    padding-left: initial;
+
+  }
 }
 
 
-.site-header__apple-haendler-img {
+.site-header__apple-autorisierter-haendler-img { /* ------ HERE WE GO ------ */
   position: relative;
+  width: 50%;
   line-height: 1.0rem;
   margin-top: 8px;
 
   @include atMedium {
-    margin-top: 8px;
+    /* margin-top: 8px;
+    margin-top: 0px; */
+    margin-top: -8px;
+
+    height: 38px !important;
+    width: auto;
   }
 }
 
+
+.site-header__apple-certificates-combo {
+  display: none;
+
+  @include atMedium {
+    position: relative;
+    display: initial;
+    width: 25%;
+    width: inherit;
+
+    top: 20px;
+    top: inherit;
+
+    line-height: 1.0rem;
+    border-left: 1px solid #D6D6D6;
+
+
+    margin-left: 16px;
+
+    margin-bottom: initial;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+
+
+
+
+    /*   top: 20px; */
+    /*   margin-left: 48%; */
+    /*   margin-left: 35%; */
+
+
+      /* margin-bottom: 20px;
+      padding-bottom: 20px; */
+
+
+
+
+  }
+}
+
+
+.site-header__apple-certificates-combo-img { /* ------ HERE WE GO ------ */
+  position: relative;
+  width: 84%;
+  line-height: 1.0rem;
+  margin-top: 8px;
+
+  @include atMedium {
+    /* margin-top: 8px;
+    margin-top: 0px; */
+    margin-top: -8px;
+
+    line-height: 1.0rem;
+
+    height: 38px !important;
+    width: auto;
+  }
+}
+
+
+
+
+/* .site-header__apple-autorisierter-service-provider {
+  position: absolute;
+  top: 15px;
+  display: inline-block;
+  width: 25%;
+  line-height: 1.0rem;
+  border-left: 1px solid #D6D6D6;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+
+  @include atMedium {
+    position: relative;
+    width: inherit;
+/*     top: 20px;
+    margin-bottom: 40px;
+  }
+} */
+
+
+.site-header__apple-autorisierter-service-provider {
+  position: absolute;
+  top: 15px;
+  display: inline-block;
+  width: 25%;
+  line-height: 1.0rem;
+  border-left: 1px solid #D6D6D6;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+
+  display: none;
+
+  @include atMedium {
+
+    display: initial;
+    position: relative;
+    width: inherit;
+    width: 50%;
+    top: 20px;
+
+    position: relative;
+    display: initial;
+    width: inherit;
+    top: inherit;
+
+    margin-bottom: initial;
+    margin-left: 15px;
+
+    padding-bottom: 10px;
+
+
+/*     margin-bottom: 40px; */
+  }
+}
+
+
+.site-header__apple-autorisierter-service-provider-img { /* ------ HERE WE GO ------ */
+  position: relative;
+  width: 80%;
+  line-height: 1.0rem;
+  margin-top: 8px;
+
+  @include atMedium {
+    min-width: 97.5px;
+    margin-top: 10px;
+
+    min-width: initial;
+    margin-top: 0px;
+
+    height: 38px !important;
+    width: auto;
+  }
+}
 
 
 
@@ -151,17 +371,21 @@
   /* justify-content: flex-start; */
   justify-content: space-around;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   top: 62px;
+/*   top: 70px; */
   border-top: 2px solid $color-primary;
   border-bottom: 2px solid $color-primary;
   margin-top: 20px;
+  margin-top: 0px;
+  margin-top: 10px;
+
   margin-bottom: 20px;
 
   padding-top: 1.8rem;
-  padding-right: 1.8rem;
+  /* padding-right: 2rem; */
   padding-bottom: 1.0rem;
-  padding-left: 1.8rem;
+  padding-left: 2rem;
 
   @include atMedium {
     display: none !important;
@@ -171,7 +395,8 @@
 
 .site-header__navi-contact-information a {
     color: $color-secondary;
-    font-size: 1.2rem;
+/*     color: $color-white; */
+    font-size: 1.4rem;
     font-weight: 600;
     text-decoration: none;
   }
@@ -183,8 +408,8 @@
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
-  width: calc(50% - 1.8rem);
-  line-height: 1.8rem;
+  width: calc(50% - 2rem);
+  line-height: 2.4rem;
   margin-bottom: 1.0rem;
 }
 
@@ -208,8 +433,8 @@
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
-  width: calc(50% - 1.8rem);
-  line-height: 1.8rem;
+  width: calc(60% - 2rem);
+  line-height: 2.4rem;
   margin-bottom: 1.0rem;
 
   @include atMedium {
@@ -228,15 +453,15 @@
 .site-header__navi-contact-information-mail-address {
 }
 
-.site-header__navi-contact-information-call {
+/* .site-header__navi-contact-information-call {
   position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
-  width: calc(70% - 1.8rem);
-  width: 70%;
-  line-height: 1.8rem;
+  width: calc(70% - 2rem);
+  width: 50%;
+  line-height: 2.4rem;
   padding-bottom: 0.5rem;
 }
 
@@ -244,11 +469,34 @@
 .site-header__navi-contact-information-call-icon {
   width: 20px;
   padding-right: 0.5rem;
-/*   padding-top: 1.5rem; */
 }
 
 
 .site-header__navi-contact-information-number {
+} */
+
+
+.site-header__navi-contact-information-remote-support {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: calc(70% - 2rem);
+  width: 50%;
+  line-height: 2.4rem;
+  padding-bottom: 0.5rem;
+}
+
+
+.site-header__navi-contact-information-remote-support-icon {
+  width: 23px;
+  padding-right: 0.75rem;
+/*   margin-left: -0.25rem; */
+}
+
+
+.site-header__navi-contact-information-remote-support-link {
 }
 
 
@@ -265,17 +513,19 @@
     position: relative;
     display: inline-flex !important;
     width: auto;
+    height: 100%;
+    align-items: center;
     border-top: 0px;
     border-bottom: 0px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
+    /* margin-top: 6px; */
+    margin-right: 2rem;
   }
 }
 
 
 .site-header__navi-additional-area > div {
 }
-
-
 
 
 
@@ -291,8 +541,13 @@
   display: flex;
 
   @include atMedium {
+/*     max-width: 70px; */
     width: auto;
-    margin-top: 12px;
+    width: 100%;
+/*     max-height: 70px; */
+    height: auto;
+    top: initial;
+/*     margin-top: 12px; */
     padding-right: 0px;
   }
 }
@@ -301,22 +556,31 @@
 .site-header__additional-area--smartphone  {
   position: relative;
   display: flex;
+  flex: 2;
   flex-direction: row;
   flex-wrap: nowrap;
-  align-items: baseline;
-  width: calc(30% - 1.8rem);
-  width: 30%;
+  justify-content: flex-end;
+  align-items: center;
+  width: calc(50% - 2rem);
+/*   width: 50%; */
+  min-height: 40px;
 }
 
 
 .site-header__search-area--smartphone {
-  margin-right: 1.0rem;
+  width: 50%;
+
+
+/*   margin-right: 1.0rem; */
 }
 
 
 .site-header__search-area--smartphone .site-header__search-icon {
-  width: 1.8rem;
+  width: 3.8rem;
   height: auto;
+
+  margin: 0 auto;
+  padding: 0;
 }
 
 
@@ -325,8 +589,14 @@
   position: relative;
   width: 100%;
   height: auto;
-  padding-left: 18px;
-  padding-right: 18px;
+  padding-left: 23px;
+  padding-right: 7px;
+
+  @include atMedium {
+/*     top: 5px; */
+    padding-left: initial;
+    padding-right: initial;
+  }
 }
 
 
@@ -346,13 +616,21 @@
   padding-right: 10px;
 
   @include atMedium {
-    min-width: 25px;
+    /* min-width: 25px; */
+    max-width: 75px;
     width: 100%;
+    max-height: 75px;
     height: auto;
     padding-left: 0;
     padding-right: 0;
   }
 }
+
+
+
+
+
+
 
 
 
@@ -383,31 +661,34 @@
   width: 95%; /* Could be more or less, depending on screen size */
   background-color: $color-white;
   border: 1px solid $color-secondary;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 8% auto; /* 15% from the top and centered */
   padding: 5rem 2rem 2rem 2rem;
 
   @include atMedium {
     width: 80%; /* Could be more or less, depending on screen size */
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 5rem 2rem 2rem 2rem;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 1.5rem 2rem 1.5rem 2rem;
   }
 }
 
 
 
 /* The Close Button */
-.modal-close-btn {
+.modal-close-btn--desktop {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  width: 24px;
+  height: 24px;
+  top: 2.5rem;
+  right: 2.5rem;
   color: $color-secondary-light;
   float: right;
   font-size: 28px;
   font-weight: 300;
+  z-index: 1 !important;
 }
 
-.modal-close-btn:hover,
-.modal-close-btn:focus {
+.modal-close-btn--desktop:hover,
+.modal-close-btn--desktop:focus {
   color: $color-black;
   text-decoration: none;
   cursor: pointer;
@@ -418,12 +699,15 @@
 /* The Close Button Smartphone */
 .modal-close-btn--smartphone {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  width: 24px;
+  height: 24px;
+  top: 2.5rem;
+  right: 2.5rem;
   color: $color-secondary-light;
   float: right;
   font-size: 28px;
   font-weight: 300;
+  z-index: 1 !important;
 }
 
 .modal-close-btn--smartphone:hover,
@@ -440,7 +724,9 @@
 /* --- MODE SWITCHER --- */
 
 #mode {
+  height: 0;
   font-size: 0.1px;
+  order: 2;
 }
 
 .site-header__mode-switcher  {
@@ -448,51 +734,62 @@
   display: inline-grid;
   width: 15%;
   width: auto;
+  width: 50%;
+
   height: 25px;
-  top: 5px;
-  top: 8px;
+  height: 40px;
+
+  /* top: 5px;
+  top: 8px; */
   border-left: 1px solid rgba($color-secondary-dark, 0.3);
-  margin-bottom: 0.5rem;
+/*   margin-bottom: 0.5rem; */
   margin-left: 1.5rem;
+  margin-left: 1.0rem;
+
 
   @include atMedium {
+    display: flex;
     width: 100%;
     height: 38px;
-    top: 10px;
+    height: auto;
+    height: 100%;
+/*     top: 10px; */
+    top: initial;
     border-left: 1px solid rgba($color-secondary-dark, 0.3);
     line-height: 1.0rem;
-    margin-top: -0px;
+    margin-top: 0px;
+    margin-top: initial;
+/*     margin-bottom: 0.5rem; */
     padding-left: 0px;
+    padding-left: initial;
     padding-right: 0px;
+    padding-right: initial;
   }
 }
 
 
-.site-header__mode-switcher-link  {
-  position: relative;
-  border: none;
-  background-color: transparent;
-  /* padding-left: 10px; */
-  padding-right: 10px;
-}
 
 
 .site-header__mode-switcher-link  {
   position: relative;
-  width: 100%;
-  height: 100%;
+
   border: none;
   background-color: transparent;
-  margin-top: -8px;
+
+  margin: 0 auto;
+  padding: 0;
+/*   margin-top: -8px; */
 
 
   @include atMedium {
     position: relative;
+    width: 100%;
+    height: 100%;
     border: none;
     background-color: transparent;
-    margin-top: -8px;
+/*     margin-top: -8px; */
     /* padding-left: 10px; */
-    padding-right: 10px;
+    /* padding-right: 10px; */
   }
 }
 
@@ -503,24 +800,27 @@
 
 
 .site-header__mode-switcher-link-icon  {
-  width: 3.0rem;
+  width: 3.8rem;
   height: auto;
-  margin-top: -5px;
-  margin-left: 15px;
-  margin-left: 0px;
+
+/*   margin-top: -5px; */
+/*   margin-left: 15px;
+  margin-left: 0px; */
 
   @include atMedium {
     width: 7.0rem;
     height: auto;
-    margin-top: -20px;
-    margin-left: initial;
+/*     margin-top: 2px; */
+    margin-left: 1rem;
   }
 }
 
 
 #site-header__logo-img-light {
   display: inherit;
+
 }
+
 
 
 #site-header__logo-img-dark {
@@ -528,105 +828,11 @@
 }
 
 
-#site-header__apple-haendler-light {
+#site-header__apple-autorisierter-haendler-light {
   display: inherit;
 }
 
 
-#site-header__apple-haendler-dark {
+#site-header__apple-autorisierter-haendler-dark {
   display: none;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-.site-header {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: $color-tertiary;
-  border-bottom: 3px solid $color-primary;
-
-  @include atMedium {
-    position: absolute;
-    height: 115px;
-    background-color: rgba(255, 255, 255, 0.85);
-    z-index: 100 !important;
-  }
-
-  &__branding {
-    @include atMedium {
-    }
-  }
-
-  &__logo {
-    position: relative;
-    min-width: 260px;
-    width: auto;
-    height: auto;
-    margin-top: 10px;
-    margin-left: 0.5rem;
-
-    @include atMedium {
-      min-width: 150px;
-      min-height: 120px;
-    }
-  }
-
-  &__logo-img {
-    width: 100%;
-    height: auto;
-
-    @include atMedium {
-      display: none;
-    }
-  }
-
-  &__logo-img--desktop {
-    display: none;
-
-    @include atMedium {
-      position: absolute;
-      display: block;
-      width: 135px;
-      height: auto;
-      top: -60px;
-      left: 2rem;
-    }
-  }
-
-  & a {
-    color: $color-secondary;
-    @include style-text-link;
-  }
-} */

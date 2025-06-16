@@ -17,6 +17,7 @@ use Exception;
  * instead use the API functions.
  * The R (Read) is not implemented here because updates should be executed through the API functions.
  * It also holds the registered creatables.
+ * @internal
  */
 class CRUD implements IOverrideCRUD
 {

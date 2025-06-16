@@ -7,6 +7,7 @@ use MatthiasWeb\RealMediaLibrary\api\IUserSettings;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 class Demo implements IUserSettings
 {
     // Documented in CommonUserSettingsTrait

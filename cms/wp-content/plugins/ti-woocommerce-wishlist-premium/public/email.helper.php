@@ -43,6 +43,10 @@ class TInvWL_Public_Email {
 	 */
 	public $parent_settings;
 
+	public $template_html;
+
+	public $template_plain;
+
 	/**
 	 * Get this class object
 	 *

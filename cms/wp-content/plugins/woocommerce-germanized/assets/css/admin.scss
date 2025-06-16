@@ -3,6 +3,53 @@ table.data_table tr td p.form-field {
   padding: 0 !important;
 }
 
+a.woocommerce-gzd-input-toggle-trigger {
+  color: transparent;
+  border: none;
+  text-decoration: none;
+
+  &:focus {
+    color: transparent;
+    box-shadow: none;
+    border: none;
+  }
+}
+
+span.woocommerce-gzd-input-toggle {
+  height: 16px;
+  width: 32px;
+  border: 2px solid var(--wp-admin-theme-color, #007cba);
+  background-color: var(--wp-admin-theme-color, #007cba);
+  display: inline-block;
+  text-indent: -9999px;
+  border-radius: 10em;
+  position: relative;
+  margin-top: -1px;
+  vertical-align: text-top;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 100%;
+  }
+
+  &.woocommerce-input-toggle--disabled {
+    border-color: #999;
+    background-color: #999;
+
+    &::before {
+      right: auto;
+      left: 0;
+    }
+  }
+}
+
 .woocommerce-gzd-message {
   position: relative;
   overflow: hidden;
@@ -54,6 +101,9 @@ table.data_table tr td p.form-field {
   box-sizing: border-box;
   display: none;
   padding: 5px 12px;
+  border-left-color: #dba617 !important;
+  border-left-width: 4px !important;
+  border-top: none !important;
 }
 
 ._billing_title_field, ._billing_address_1_field, ._shipping_title_field, ._shipping_address_1_field  {
@@ -99,6 +149,25 @@ table.data_table tr td p.form-field {
 
 .wc-gzd-button-wrapper .button {
   margin-right: 1em;
+}
+
+.product_data .form-field-wc-gzd-wp-editor {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 1em;
+
+  label {
+    float: none;
+    width: 150px;
+    margin: 0;
+    padding: 12px;
+    padding-right: 0;
+  }
+
+  .wc-gzd-product-editor-wrap {
+    flex-grow: 1;
+    padding-right: 20px;
+  }
 }
 
 .wc-gzd-pro, .product_tab_gzd_pro a::after, .product_type_gzd_pro::after {
@@ -193,6 +262,16 @@ a.wc-gzd-pro-outlined {
 a.page-title-action {
   .wc-gzd-pro {
     background: #0073aa;
+  }
+
+  &.invalid {
+    border-color: #d63638;
+    color: #d63638;
+
+    &:hover {
+      border-color: #b30e10;
+      color: #b30e10;
+    }
   }
 
   &:hover {
@@ -497,17 +576,39 @@ table.wc-gzd-tax-example tr th:first-child, table.wc-gzd-tax-example tr td:first
   }
 }
 
-.wc-gzd-warranty-upload-wrapper {
-  .upload_warranty_button {
-    margin-right: .5em;
+.wc-gzd-product-upload-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  &.wc-gzd-product-upload-wrapper-single {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+
+    .wc-gzd-product-upload-remove {
+      margin-left: .25em;
+    }
   }
 
-  .wc-gzd-warranty-delete {
-    color: #b32d2e;
+  .wc-gzd-product-single-attachment {
+    display: block;
+  }
 
-    &.file-missing {
-      display: none;
+  .wc-gzd-product-upload-remove {
+    text-indent: 0;
+    overflow: hidden;
+    color: #b32d2e;
+    text-decoration: none;
+    vertical-align: middle;
+    margin-right: 1em;
+
+    &::before {
+      content: "\f335";
     }
+  }
+
+  .wc-gzd-product-upload {
+    display: inline-flex;
+    align-self: flex-start;
   }
 }
 
@@ -606,6 +707,33 @@ table.wc-gzd-tax-example tr th:first-child, table.wc-gzd-tax-example tr td:first
       &::before {
         display: none;
       }
+    }
+  }
+}
+
+.wc-gzd-checkbox-log-list {
+  max-width: 400px;
+
+  .wc-gzd-log-checkbox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 1em 0;
+
+    p.checkbox-title, p.checkbox-status {
+      margin: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.taxonomy-product_manufacturer {
+  .term-name-wrap {
+    .description, #name-description {
+      display: none !important;
     }
   }
 }

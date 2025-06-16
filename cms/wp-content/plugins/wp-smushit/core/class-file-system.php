@@ -8,6 +8,10 @@ class File_System {
 			return false;
 		}
 
+		if ( str_starts_with( $path, ABSPATH ) && ! file_exists( $path ) ) {
+			return false;
+		}
+
 		$args = array( $path, $use_include_path, $context, $offset );
 		if ( ! is_null( $length ) ) {
 			// Even though the default value of $length is 'null', an empty string is returned when 'null' is passed as $length. So, we only include it when a non-null value is provided.
@@ -57,5 +61,18 @@ class File_System {
 
 	private function is_valid_path( $path ) {
 		return false === stripos( $path, 'phar://' );
+	}
+
+	public function get_wp_filesystem() {
+		global $wp_filesystem;
+		if ( is_null( $wp_filesystem ) ) {
+			// These aren't included when applying a config from the Hub.
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+			}
+			WP_Filesystem();
+		}
+
+		return $wp_filesystem;
 	}
 }

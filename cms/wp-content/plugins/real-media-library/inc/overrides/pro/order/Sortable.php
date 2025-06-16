@@ -11,6 +11,7 @@ use Exception;
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
+/** @internal */
 trait Sortable
 {
     // Documented in IFolderContent

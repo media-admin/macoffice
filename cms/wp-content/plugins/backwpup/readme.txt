@@ -1,169 +1,429 @@
-=== BackWPup - WordPress Backup Plugin ===
-Contributors: wp_media, danielhuesken, Bueltge, nullbyte, wido, dinamiko, cocreation, krafit
-Tags: backup, database backup, cloud backup, restore, wordpress backup
-Requires at least: 3.9
-Tested up to: 6.3
-Requires PHP: 7.2
-Stable tag: 4.0.1
+=== BackWPup – WordPress Backup & Restore Plugin === 
+
+Contributors: backwpup, wp_rocket, imagify 
+Tags: backup, restore, cloud backup, database backup, wordpress backup 
+Requires at least: 4.9
+Tested up to: 6.8
+Requires PHP: 7.4
+Stable tag: 5.2.3
 License: GPLv2+
 
-Schedule complete automatic backups of your WordPress installation. Decide which content will be stored (Dropbox, S3…). This is the free version
+Create a complete WordPress backup easily. Schedule automatic backups, store securely, and restore effortlessly with the best WordPress backup plugin! 
 
-== Description ==
-The **backup plugin** **[BackWPup](https://backwpup.com/)** can be used to save your complete installation including /wp-content/ and push them to an external Backup Service, like **Dropbox**, **S3**, **FTP** and many more, see list below. With a single backup .zip file you are able to easily restore an installation. 
+  
 
-Please understand: this free version will not be supported as well as the [BackWPup Pro version](https://backwpup.com). With our premium version you get first class support and more features.
+== Description == 
 
-* Database Backup  *(needs mysqli)*
-* WordPress XML Export
-* Generate a file with installed plugins
-* Optimize Database
-* Check and repair Database
-* File backup
-* Backups in zip, tar, tar.gz format *(needs gz, ZipArchive)*
-* Store backup to directory
-* Store backup to FTP server *(needs ftp)*
-* Store backup to Dropbox *(needs curl)*
-* Store backup to S3 services *(needs curl)*
-* Store backup to Microsoft Azure (Blob) *(needs curl)*
-* Store backup to RackSpaceCloud *(curl)*
-* Store backup to SugarSync *(needs curl)*
-* PRO: Store backup to Amazon Glacier *(needs curl)*
-* PRO: Store backup to Google Drive *(needs curl)*
-* PRO: Store backup to OneDrive *(needs curl)*
-* PRO: Store backup to HiDrive *(needs curl)*
-* Send logs and backups by email
-* Multi-site support only as network admin
-* Pro version and support available - [BackWPup Pro](https://backwpup.com)
-* NEW - PRO: Restore your backups with only a few clicks from your WordPress backend. Also available as Standalone App.
-* NEW - PRO: Encrypt backup archives and restore from encrypted backups.
+[BackWPup](https://backwpup.com/) is the most comprehensive backup & restore plugin for WordPress.
+ 
 
-In case you need to comply with the new GDPR regulation, check out our post [BacKWPup, Backups and GDPR](https://backwpup.com/docs/backwpup-backups-and-gdpr/).
+= 🎉 BackWPup 5.2 – New Features & Improvements =
 
-= Requirements =
-* WordPress 3.9 and PHP 7.2 required! (read more about [recommended php version and why you should switch to modern php](https://inpsyde.com/en/wordpress-recommended-php-version-update-php))
-* To use the Plugin with full functionality PHP 7.2 with mysqli, FTP,gz, bz2, ZipArchive and curl is needed.
-* Plugin functions that don't work because of your server settings, will not be displayed in admin area.
+BackWPup 5.2 is now available! This update builds on the improvements introduced in [5.1](https://backwpup.com/backwpup-5-1/), combining our redesigned interface with the return of even more features you’ve requested.
+**Read our [blog post](https://backwpup.com/backwpup-5-2/)** for all the details.
+
+🚀 What’s New in BackWPup 5.2?
+
+✅ Monthly Frequency:  Choose the exact day for your monthly backups.
+✅ “Backup Now” button: Instantly run any scheduled backup job.
+ 
+If you happen to experience any issues with the new version, contact us directly [here](https://backwpup.com/contact) so we can investigate your case. We are committed to resolving any concerns quickly and are actively working to ensure a smooth experience for everyone.
+
+How It Works: The 3-Step Backup Wizard   
+
+* **What** - Choose your backup contents through our intuitive setup wizard 
+
+* **When** - Set your backup schedule (hourly, daily, weekly, or monthly) 
+
+* **Where** - Select your preferred storage destination(s) 
+
+Create comprehensive backups and restore your data with ease! 
+
+ 
+
+= 🌟 The Best WordPress Backup & Restore Plugin = 
+
+Easily create a complete WordPress backup, store it on external services (such as **Dropbox**, **S3**, **FTP**, **Google Drive**, **OneDrive** and more) and restore your backup directly from your WordPress admin, in just a few clicks. 
+
+BackWPup is designed for ease of use. Even beginners can create a reliable backup of their WordPress sites with just a few clicks.  With BackWPup, you can enjoy peace of mind knowing your data is safe and secure. Whether you are a small business owner or managing a large enterprise, BackWPup is the ultimate solution for protecting your WordPress site.   
+
+  
+
+= 💎 BackWPup Pro Features =  
+
+Take your WordPress backups to the next level with BackWPup Pro. Get additional features like:  
+
+* Additional Cloud Storage options (Amazon Glacier, Google Drive, OneDrive, HiDrive). 
+
+* Encrypted backups for enhanced security  
+
+* Custom API keys for Dropbox and SugarSync	 
+
+* Standalone restore application for recovery without WordPress access 
+
+* Seamless site migration by restoring to a new URL with BackWPup. 
+
+* Premium support with dedicated ticket system 
+
+* And much more! 
+
+**[Get BackWPup Pro](https://backwpup.com/#buy)** for the complete backup and restore solution. 
+
+ 
+
+= ⏰ Schedule and Manage Backups Easily = 
+
+With BackWPup, you have full control over your backup process. You can back up your entire WordPress site, including files and database, save them to multiple locations, and easily restore your site from a backup if anything goes wrong. You can choose what to back up, how often to perform backups, and where to store them: 
+
+* Backup your entire WordPress installation, including the /wp-content/ folder and your database. 
+
+* Schedule automatic backups to run hourly, daily, weekly, or monthly, ensuring your data is always up-to-date and secure. 
+
+* Store your backup in different locations: 
+> **Free version**: Dropbox, Amazon S3, FTP, Rackspace Cloud, Microsoft Azure, SugarSync.  
+> **Pro version**: Additional storage options including Amazon Glacier, Google Drive, OneDrive and HiDrive **[Get BackWPup Pro](https://backwpup.com/#buy)** 
+
+This flexibility makes BackWPup the best choice for WordPress backup. 
+
+  
+
+= 🛟 Easily Restore Your WordPress Site = 
+
+Restore your site effortlessly from a backup with our **one-click restore option**. To restore a backup, go to the BackWPup plugin settings in your WordPress admin area. Select the backup you wish to restore, click on the three dots menu and click ‘Restore Full Backup’. And the restore is done. This feature ensures that even in the event of data loss or site issues, you can quickly and efficiently restore your site to its previous state. 
+
+**Access-Free Recovery** 
+Locked out of your dashboard? No problem. The standalone restore app on the Pro version lets you restore your site from any backup, even when you can’t access WordPress. Perfect for emergencies. **[Get BackWPup Pro](https://backwpup.com/#buy)** 
+
+ 
+
+= ⚡ Improve Your Site’s Reliability and Performance =  
+
+Did you know that regular backups and database maintenance can improve the performance and reliability of your WordPress site? With BackWPup, you can ensure that your data is always protected and that your site is always running smoothly.  
+
+By scheduling regular backups and database maintenance, you can avoid data loss and downtime. BackWPup makes it easy to protect your data and keep your site running at its best.  
+
+Even Google recommends regular backups and database maintenance to ensure the reliability and performance of your site. With BackWPup, you can follow best practices and keep your site secure and reliable.  
+
+   
+
+= 😎 Easy Migration =    
+
+BackWPup makes migrating your WordPress site simple. Whether you’re switching hosts or moving to a new server, easily export your files and database, then restore everything with just a few clicks—quick and hassle-free. Available only on the Pro version - **[Get BackWPup Pro](https://backwpup.com/#buy)** 
+
+  
+
+= ❓ Is BackWPup Free? =  
+
+ You can use BackWPup for free with all its basic features. The free version includes complete backup, scheduling, support for external storage services (like Dropbox, S3, FTP, and more) and restore.  
+
+ The pro version offers many additional features including more settings, destinations, and of course access to our premium support. Check out our premium plans: [https://backwpup.com/#buy](https://backwpup.com/#buy)  
+
+  
+
+= ℹ️ Who Are We? =  
+
+ We are [WP Media](https://wp-media.me/), the company behind WP Rocket, the best performance plugin for WordPress.   
+
+ Our mission is to improve the web. We are making it faster with [WP Rocket](https://wp-rocket.me/), lighter with [Imagify](https://imagify.io) and safer with [BackWPup](https://backwpup.com/).  
+
+   
+
+= 👋 Get in Touch! =   
+
+* Website: [backwpup.com](https://backwpup.com/)  
+* Contact Us: [https://backwpup.com/contact/](https://backwpup.com/contact/)  
 
 
-Our friends at [OSTraining](https://www.ostraining.com/) have done a tremendous job with their video tutorials on BackWPup. The complete series of five videos have been made [available for free on YouTube](https://www.youtube.com/watch?v=pECMkLE27QQ&list=PLtaXuX0nEZk9_54BOxcBYXMI3gx3ZxICQ&index=1).
+= 🔌 Related Plugins =  
 
-*(Are you a WordPress novice? Check out all of OSTraining’s [WordPress video trainings](https://www.ostraining.com/courses/categories/wordpress/)!)*
+ * [WP Rocket: The best performance plugin](https://wp-rocket.me/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=backwpupplugin) to speed up your WordPress website.  
 
+ * [Imagify: The best image optimization plugin](https://imagify.io/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=backwpupplugin) to speed up your website with lighter images.  
 
-**Remember: The most expensive backup is the one you never did! And please test your backups!**
+ * [Lazy Load](https://wordpress.org/plugins/rocket-lazy-load/): The best Lazy Load script to reduce the number of HTTP requests and improve the website's loading time.  
 
-Get the [BackWPup Pro](https://backwpup.com) Version with more features.
+ * [Heartbeat Control by WP Rocket](https://wordpress.org/plugins/heartbeat-control/): Heartbeat Control by WP Rocket: The best plugin to control the WordPress Heartbeat API and reduce CPU usage.  
 
-**Made by [WP Media](https://wp-media.me)**
+ * [RocketCDN: The best CDN plugin for WordPress](https://rocketcdn.me/wordpress/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=backwpupplugin) to propel your content at the speed of light – no matter where your users are located in the world.  
 
-== Frequently Asked Questions ==
+ * [Increase Max upload file size](https://wordpress.org/plugins/upload-max-file-size/): The best plugin to increase the upload file size limit to any value with one click.  
 
-= How do I restore a backup? =
-Restoring backups made with BackWPup can be done multiple ways. Please take a look at our [documentation here](https://backwpup.com/docs/how-to-restore-a-wordpress-backup/) to learn more.
+  
 
-BackWPup Pro includes a convenient restore feature to restore your backups [directly from your WordPress admin](https://backwpup.com/docs/how-do-i-use-the-backwpup-restore-feature/).
+  
 
-BackWPup Pro also offers many additional features including more settings, destinations, a [Standalone Restore App](https://backwpup.com/docs/why-backwpup-restore-stand-alone-app/) and of course access to our premium support. To learn more about the differences between BackWPup Free and Pro, have a look at [this chart](https://backwpup.com/docs/what-is-the-difference-between-backwpup-free-and-backwpup-pro/).
+License: GPLv2 or later  
 
-= My backup jobs don’t seem to run as scheduled. =
+License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
-BackWPup uses WordPress’ own cron job system (**WP Cron**) to execute scheduled backup jobs. In order for WordPress to “know” when to execute a job, its “inner clock” needs to be set regularly. That happens whenever someone (including yourself) visits your site.
-If your site happens to not being visited for a period of time, WordPress’ inner clock gets sort of slow. In that case it takes an extra server-side cron job to regularly call http://your-site.tld/wp-cron.php and tell WordPress what time it is.
+  
+== Installation ==  
 
-A simple way to find out whether WP Cron works as it should on your site is to create a new post and set its publishing date to some point in the future, i.e. 10 minutes from now. Then leave your site (that’s important), come back after 11 minutes and check whether your scheduled post has been published. If not, you’re very likely to have an issue with WP Cron.
+= WordPress Admin Method =  
 
-= Yuk! It says: “ERROR: No destination correctly defined for backup!” =
+ 1. Go to you administration area in WordPress `Plugins > Add`  
+ 2. Look for `BackWPup` (use search form)  
+ 3. Click on Install and activate the plugin  
 
-That means a backup job has started, but BackWPup doens’t know where to store the backup files. Please cancel the running job and re-edit its configuration. There should be a Tab “To: …” in your backup job’s configuration. Have you set a backup target correctly?
+= FTP Method =  
 
-= A backup job has started, but nothing seems to be happening—not even when I re-start it manually. =
+ 1. Upload the complete `backwpup` folder to the `/wp-content/plugins/` directory  
+ 2. Activate the plugin through the 'Plugins' menu in WordPress  
 
-**Solution #1**
+  
 
-* Open BackWPup->Settings
-* Go to the Informations tab.
-* Find *Server self connect:* in the left column.
-* If it says something like *(401) Authorisation required* in the right column, go to the Network tab and set the username and password for server-side authentication.
-* Try again starting the backup job.
+= Pro Version =  
 
-**Solution #2**
+ [You can find a detailed tutorial in the BackWPup documentation]. (https://backwpup.com/docs/install-backwpup-pro-activate-licence/)  
 
-* Open wp-config.php and find the line where it says `if ( !defined('ABSPATH') )`.
-* Somewhere before that line add this: `define( 'ALTERNATE_WP_CRON', true );`
+== Screenshots == 
 
-**Solution #3**
+1. WHAT - Choose your backup contents through our intuitive setup wizard 
+2. WHEN - Set your backup schedule (hourly, daily, weekly, or monthly) 
+3. WHERE - Select your preferred storage destination(s) 
+4. Configure all your backup settings 
+5. Add new backup, backup history, next scheduled backups all in one place
+6. Content selector to exclude or include files for backups 
+7. Storage settings to select location to store backups 
 
-Not really a solution, but a way to identify the real problem: see remarks on WP Cron at the top.
-
-= I get this error message: `The HTTP response test get a error "Connection time-out"` =
-
-BackWPup performs a simple HTTP request to the server itself every time you click `run now` or whenever a backup job starts automatically. The HTTP response test message could mean:
-* Your host does not allow *loop back connections*. (If you know what `WP_ALTERNATE_CRON` is, try it.)
-* Your WordPress root directory or backup directory requires authentication. Set username and password in Settings->Network.
-* The Server can’t resolve its own hostname.
-* A plugin or theme is blocking the request.
-* Other issues related to your individual server and/or WordPress configuration.
-
-
-= I get a fatal error: `Can not create folder: […]/wp-content/backwpup-[…]-logs in […]/wp-content/plugins/backwpup/inc/class-job.php …` =
-Please set CHMOD 775 on the /wp-content/ directory and refresh the BackWPup dashboard. If that doesn’t help, try CHMOD 777. You can revert it to 755 once BackWPup has created its folder.
-
-
-= When I edit a job the Files tab loads forever. =
-Go to Settings->General and disable “Display folder sizes on files tab if job edited”. Calculating folder sizes can take a while on sites with many folders.
-
-= I generated a list of my installed plugins, but it’s hard to read. =
-Try opening the text file in an editor software like Notepad++ (Windows) or TextMate (Mac) to preserve line-breaks.
-
-= My web host notified me BackWPup was causing an inacceptable server load! =
-Go to Settings->Jobs and try a different option for “Reduce server load”.
-
-= Can I cancel a running backup job via FTP? =
-Yes. Go to your BackWPup temp directory and find a file named `backwpup-xyz-working.json` where “xyz” is a random string of numbers and characters. Delete that file to cancel the currently running backup job.
-
-= Can I move the temp directory to a different location? =
-Yes. You need to have writing access to the wp-config.php file (usually residing in the root directory of your WordPress installation).
-
-* Open wp-config.php and find the line where it says `if ( !defined('ABSPATH') )`.
-* Somewhere *before* that line add this: `define( 'WP_TEMP_DIR', '/absolute/path/to/wp/your/temp-dir' );`
-* Replace `/absolute/path/to/wp/` with the absolute path of your WordPress installation and `your/temp-dir` with the path to your new temp directory.
-* Save the file.
-
-
-= What do those placeholders in file names stand for? =
-
-* %d = Two digit day of the month, with leading zeros
-* %j = Day of the month, without leading zeros
-* %m = Day of the month, with leading zeros
-* %n = Representation of the month (without leading zeros)
-* %Y = Four digit representation for the year
-* %y = Two digit representation of the year
-* %a = Lowercase ante meridiem (am) and post meridiem (pm)
-* %A = Uppercase ante meridiem (AM) and post meridiem (PM)
-* %B = [Swatch Internet Time](http://en.wikipedia.org/wiki/Swatch_Internet_Time)
-* %g = Hour in 12-hour format, without leading zeros
-* %G = Hour in 24-hour format, without leading zeros
-* %h = Hour in 12-hour format, with leading zeros
-* %H = Hour in 24-hour format, with leading zeros
-* %i = Two digit representation of the minute
-* %s = Two digit representation of the second
-
-== Screenshots ==
-
-1. Working job and jobs overview
-2. Job creation/edit
-3. Displaying logs
-4. Manage backup archives
-5. Dashboard
-
-== Upgrade Notice ==
-
-== Installation ==
-
-[You can find a detailed tutorial in the BackWPup documentation.](https://backwpup.com/docs/install-backwpup-pro-activate-licence/)
+ 
 
 == Changelog ==
+
+= 5.2.3 =
+Release date: May 22, 2025
+
+* Bugfix: Fixed fatal error when both Free and Pro versions are activated together.
+
+= 5.2.2 =
+Release date: May 20, 2025
+
+* New feature: Deselect Website Server as a default storage destination
+* Enhancement: Reduce overall plugin size
+* Bugfix: Google Drive does not remain selected
+* Bugfix: Plugin interface becomes non-functional & not clickable
+* Bugfix: Error during backup for Dropbox storage
+* Bugfix: Dropbox authentication error
+
+= 5.2.1 =
+Release date: April 30, 2025
+
+* Bugfix: Fixed fatal error caused by cal_days_in_month() function on 5.2 for unsupported servers.
+
+= 5.2.0 =
+Release date: April 29, 2025
+
+* New feature: Add “Backup Now” button to each scheduled job
+* Enhancement: Monthly frequency to allow users to select the exact day
+* Enhancement: Show the Toast messages on specific actions instead of every actions
+
+= 5.1.3 =
+Release date: April 23,2025
+
+* Added: Filter to show legacy/disabled jobs
+* Added: Notice for legacy disabled jobs
+* Enhancement: Replaced Files icon (currently WP logo) with a new file icon
+* Enhancement: Adding new jobs moves the existing job placement in the interface
+* Enhancement: Increased the default timeout for toast messages
+* Bugfix: Old jobs auto disabled for users from v5.0.9 & v5.1.0 to v5.1
+* Bugfix: Legacy jobs link not triggering the job
+* Bugfix: Clicking “Save & Continue” before the page fully loads skips onboarding
+* Bugfix: Added WP default admin styles in the Legacy jobs page
+* Bugfix: WordPress timezone changes mess up the frequency feature
+* Bugfix: The “Backup Now” error when there’s no job available
+* Bugfix: Fix a problem with the encryption Save button doing nothing
+* Bugfix: Long load time on clicking Data after adding File job exclusion
+* Bugfix: Backup job pencil icon grows smaller with long titles
+* Bugfix: Conflict with MainWP child plugin
+
+= 5.1.2 =
+Release date: April 15,2025
+
+* Enhancement: Display the warning message for customers affected by the bug in 5.1 version of the plugin
+
+= 5.1.1 =
+* Fixed: Backups created before v5 are no longer deactivated when updating the plugin
+
+= 5.1.0 =
+Release date: April 07,2025
+
+* New feature: Introduce possibility to add more than two backup jobs
+* New feature: Add possibility to set a title for each job
+* Enhancement: Rework of the 'Backup Now' feature
+* Enhancemnet: Make 'Local Storage' more descriptive
+* Enhancement: Rework of the notices inside the plugin
+* Enhancement: Introduce cache busting strategy for static assets inside the plugin
+* Enhancement: Make sure not to display the non-existing buckets inside the Amazon S3 storage panel
+* Enhancement: Update the phrasing for the restore process page to make it easier to understand
+* Bugfix: Fix Dropbox authentication bug
+* Bugfix: Fix a problem when excluded files were still included in the backup
+* Bugfix: Fix a problem with 'FTP passive mode'
+
+= 5.0.9 =
+Release date: March 21, 2025
+
+* Fixed: Huge package size
+* Fixed: Files and DB jobs are not separated in certain scenario
+
+= 5.0.8 =
+Release date: March 20, 2025
+
+* New Feature: Allow to choose storage for specific backup job
+* Enhancement: Security enhancements related to unserialize function
+* Enhancement: Remove unnecessary strings in the scheduled backup jobs blocks
+* Enhancement: Improve welcome banner's UI
+* Bugfix: Make sure not to display backups which were removed using UI in the backup history list
+
+= 5.0.7 =
+Release date: March 13, 2025
+
+* Added: Hourly frequency for backups
+* Added: WPM Apply filters library for better code maintainability
+* Fixed: PHP Warning & auto reset advanced settings issue
+* Fixed: Closing banner cancels the onboarding issue
+* Fixed: Correct the title of Next Schedule Backup
+* Changed: Onboarding backup success page notice & redirection
+* Changed: "Restore Full Backup" string to "Restore Backup"
+
+= 5.0.6 =
+Release date: March 10, 2025
+
+* Fixed: Archive file format Tar generation code to handle long file names
+* Fixed: Clicking on actions should close other opened sections in Backup History
+
+= 5.0.5 =
+Release date: March 03, 2025
+
+* Added: Dropdown to allow users to select the Backup file format (zip, tar, tar.gz)
+* Added: Show different in-app notices to new & existing users
+* Fixed: BackWPUp Menu Visible to All User Roles, Including Subscribers
+* Fixed: Database & File backup does not remain selected, automatically becomes off
+
+= 5.0.4 =
+Release date: feb 13, 2025
+
+* Fixed: Layout issue with theme customizer
+* Fixed: API error when the number of backups is equal to 0
+* Fixed: Php 8.x deprecated notices
+* Removed : "Add new" job button from Job listing
+* Fixed: Tooltip text cut off
+* Removed: Hover style on disabled elements
+* Added: Hover tooltip on storage icons
+
+= 5.0.3 =
+Release date: feb 07, 2025
+
+* Fixed: Backup is running constantly & can’t be stopped.
+* Fixed: Authentication issue for Dropbox, FTP & Azure.
+* Added: Custom scheduling option.
+* Added: Display history of all backups.
+* Added: Custom filter to allow zip and tar.gz compression
+* Changed: Changed plugin noticed Message.
+
+= 5.0.2 =
+Release date: feb 04,2025
+
+* Fixed : Error due to unrecognized cron expression
+
+= 5.0.1 =
+Release date: feb 04, 2025
+
+* Fixed : Css issues with the new UI
+
+= Version 5.0 =
+Release date: Feb 4, 2024 
+
+* Complete revamp of the plugin UI 
+* Changed: Updated dependencies 
+* Moved Jobs, Logs, Network, license & settings under Advance Settings  
+* Removed: Jobs, Logs, Backups, Add new job, Settings, Restore & About from the plugin menu 
+
+= 4.1.7 =
+Release date: nov 25, 2024
+* Changed : Update dependencies :
+    ** guzzlehttp/guzzle to 7.0
+    ** onedrive-php-sdk to 3.2.0
+    ** microsoft-graph to 1.7.0
+
+= 4.1.6 =
+Release date: oct 15, 2024
+
+* Changed : Show the Restore feature information notice only for free version users
+* Changed : The default format is now .tar
+* Fixed : Warnings on the backup script on PHP 8.x when tar format is used
+
+= 4.1.5 =
+Release date: sept 27, 2024
+
+* Added : Restore feature information notice
+* Changed : Upgraded Wordpress minimum version to 4.9
+* Removed : Remove the EasyCron integration and switch it with WPCron.
+* Removed : Remove Database Backup file name & compression options from the UI can be edited via filter (backwpup_generate_dump_filename)
+* Fixed : Conflict with WP Hotel Booking from ThimPress
+* Changed : Add the default exclude files in a filter. (backwpup_file_exclude)
+* Fixed : Use wp translation
+
+= 4.1.4 =
+Release date: jul 22, 2024
+
+* Ehanced: Store the review notice dismiss as an option
+* Fixed: Hide the evaluate notice using css
+* Removed: Remove the "Compression" option in Settings > Logs
+    ** Disabled by default, can be enabled with a filter (backwpup_gz_logs)
+* Fixed: Check if the third parties constants are defined before using them
+
+= 4.1.3 =
+Release date: Jul 05, 2024
+
+* Changed: Upgraded minimum version to PHP 7.4
+* Fixed: Evaluate notice doesn't dismiss
+* Removed: General tab on settings page
+    ** Admin bar: enabled by default, can be disabled with a filter (backwpup_is_in_admin_bar)
+    ** Folder sizes: disabled by default, can be enabled with a filter (backwpup_show_folder_size)
+    ** Protect folders: we protect your folders by default can be disabled with a filter (backwpup_protect_folders)
+    ** Plugin data: we delete all plugin data after its delation by default
+* Fixed: Fix S3 uploads over 5 Gb
+
+= 4.1.2 =
+Release date: Jun 27, 2024
+
+* Fixed: Open_basedir restriction on some servers
+* Added: Notice to ask users their experience with BackWpUp
+
+= 4.1.1 =
+Release date: Jun 18, 2024
+
+* Changed: AutoExclude the cache plugin folders from the backup
+* Fixed: Problems with the sql dump of the database
+* Fixed: Update phpseclib library to fix issues in Windows environment.
+
+= 4.1.0 =
+Release date: Jun 4, 2024
+
+* Changed: Add Restore to the free version
+* Fixed: Improved checking of encrypted archives
+* Added (pro): decryption and encryption with WP-CLI of archives
+* Fixed (pro): Problems with Asymmetric encryption on restarts
+
+= 4.0.5 =
+Release date: May 21, 2024
+
+* Fixed (pro): Gdrive oAuth authentication flow
+
+= 4.0.4 =
+Release date: March 12, 2024
+
+* Fixed: Changed directory structure of BackWPup temporary files to prevent unauthorized access of database backup.
+
+= 4.0.3 =
+Release date: February 22, 2024
+
+* Fixed: Security issue where FTP passwords were stored in the database in plaintext.
+
+= 4.0.2 =
+Release date: November 22, 2023
+
+* Fixed: Disallow backups or logs directories from being outside of wp-content directory for security purposes
 
 = 4.0.1 =
 Release date: October 18, 2023
@@ -221,7 +481,7 @@ Release Date: September 1, 2021
 * Fixed: PHP 8 deprecation notice in XML export
 
 = Version 3.9.0 =
-Release Date: June 10, 2021
+Release Date: June 14, 2021
 
 * Added (pro): Migrate website to another URL
 * Added (pro): Validation for database credentials on restore
@@ -247,7 +507,7 @@ Release Date: June 10, 2021
 * Removed: Remote admin notices
 
 = Version 3.8.0 =
-Release Date: September 22, 2020
+Release Date: September 21, 2020
 
 * Added: OneDrive destination for Pro version
 * Added: HiDrive destination for Pro version
@@ -266,7 +526,7 @@ Release Date: September 22, 2020
 Release Date: March 30, 2020
 
 * Fixed: Error Notices CSS is loaded on all pages and overwrite the color of other plugins notices
-* Updated: License system update for premium version (Pro version)
+* Updated: (Pro) License system update for premium version
 
 = Version 3.7.0 =
 Release Date: Nov 27, 2019
@@ -281,7 +541,7 @@ Release Date: Nov 27, 2019
 * Added: Option to enable or disable the phone home client
 
 = Version 3.6.10 =
-Release Date: July 8, 2019
+Release Date: Jul 8, 2019
 
 * Fixed: Azure Supports https on uploading
 * Fixed: Auto remove old backup files not working when archive file name have prefix "backwpup"
@@ -408,441 +668,3 @@ Release Date: May 16, 2018
 
 * Added: Restore for pro version
 * Fixed: stylesheet was being included on frontend
-
-= Version 3.4.5 =
-* Added: Support for PclZip.
-* Fixed: Disable use of mysqldump if it is not available.
-* Fixed: Invalid argument supplied for foreach() error.
-
-= Version 3.4.4 =
-* Fixed: Security issue that created too many sessions.
-* Fixed: Correct decryption of passwords when escaped.
-
-= Version 3.4.3 =
-* Fixed: No longer show hashes on job edit page.
-* Fixed: Compatibility with Sunrise.
-* Fixed: Delete old-style archive names.
-* Improved: Changed the way hashes are generated.
-* Added: Support for EU (London) S3 region.
-* Added: Support for Amazon S3 signature V4.
-
-= Version 3.4.2 =
-* Fixed: Security issue to prevent backups from being seen by others.
-* Fixed: Only one admin notice shown at a time.
-* Improved: Better support for large XML files.
-* Fixed: Remove user roles on uninstall.
-* Fixed: S3 parse URL issue
-* Fixed: open_basedir warning from looking for mysqldump
-* Fixed: Dropbox sync fails because of case sensitivity
-* Fixed: Dropbox sync sometimes deletes synced files
-* Fixed: Dropbox fails when user uses proxy
-* Improved: German formal and chinese translation for PRO
-
-= Version 3.4.1 =
-* Check if file is dot to prevent open_basedir warning.
-* Only display Dropbox upload progress in debug mode.
-* Fix PHP notice when running job via WP CLI.
-* Fix the way Dropbox API wrapper handles errors.
-* Only encode DB values to hex when binary flag is set.
-* Fix handling of storing backups in root Dropbox dir.
-* Allow symbolic links to be excluded.
-* If archive name is not valid format, will still recognize and delete old files.
-* Allow user to copy debug info for support.
-* Do not display notices for pro users.
-* Add support form for pro users.
-* Add Rate Us admin notice.
-* Support empty folder name when syncing to Dropbox.
-* Allow folders under wp-content to be excluded.
-
-= Version 3.4.0 =
-* Changed: Dropped support for PHP 5.2.
-* Improved: Migrated to Dropbox API V2.
-* Changed: Removed Adminer link from backend.
-* Added: Backup file tracking so backups from other jobs aren't accidentally deleted.
-* Fixed: Call to get_users was previously incorrect.
-* Added: Ability to have backup file sent to multiple email addresses.
-* Added: Web.config is now included in list of special files to back up.
-* Fixed: error for some users when generating XML export.
-* Fixed: opendir permission denied warning on some versions of IIS.
-* Improved: accuracy of binary column export.
-
-= Version 3.3.7 =
-* Fixed: Services credentials lost after 3.3.6 update
-* Fixed: Removed all instances of PHP short echo tags and other minor PHP 5.2 compatibility issues
-* Improved: Dashboard widget only shown to user who has 'backwpup' capability and can be hidden defining INPSYDE_DASHBOARD_WIDGET constant
-* Changed: German translation of job announcement in dashboard widget is now gender neutral
-* Added: Italian translation for the plugin
-* Added: Message in BackWPup dashboard to ask users to join as BackWPup beta testers
-* PRO: Fixed: Removed duplicate file in Google vendor folder
-
-= Version 3.3.6 =
-* Improved: Compatibility with PHP 7 and PHP 7.1
-* Improved: Encryption (use Open SSL when available, mcrypt as fallback for PHP 5.2 users)
-* Improved: check for mod_authz_core.c module in .htaccess file
-* Added: Deprecation notice for PHP 5.2 users
-* Added: Translation for formal german
-* Added: Ask for consent on phone home anonymously PHP & WP Version
-* Added: Dashboard widget to recruit new Inpsyders
-* Updated: Translation for german
-* PRO: Fixed issue with wrong redirect during Google Drive authorization
-
-= Version 3.3.5 =
-* PRO: fixed gdrive Could not create resumable file transfer
-
-= Version 3.3.4 =
-* Fixed: Database gone away messages
-* Fixed: restarts in cli mode
-* Added: AWS S3 Region Asia Pacific (Mumbai)
-* PRO: fix false email sender address in job creation wizard
-* PRO: fix gdrive ssl problem on uploads
-
-= Version 3.3.3 =
-* Removed admin notices
-
-= Version 3.3.2 =
-* Notice: For MSAzure requires PHP 5.5 in next BackWPup Version
-* Changed: Colors of Warning and Error messages
-* Changed: Display Blog url in log again
-* Changed: Dreamhost url in S3 destination
-* Changed: Adminbar menu disabled by default
-* Removed: Adminbar plugin name for smaller size
-* Improved: Signal handling more again
-* Fixed: English log with WP 4.6
-
-= Version 3.3.1 =
-* Fixed: Security exploit in getting working data
-* Fixed: Bug in log mail sending
-* Improved: Signal handling again
-* Improved: Restarts on getting folder list
-* Improved: Text Color in log files
-* Changed: URLs to MarketPress and Documentation
-* Changed: Save file list cache for one year
-* Changed: Use WordPress ca-bundle.crt
-* Removed: Server callback check on job start now it is only in Settings > Tab: Information
-
-= Version 3.3 =
-* Improved: Texts removed or rewritten
-* Improved: Security
-* Improved: Response test
-* Changed: Response test to work more as before
-* Changed: Remove user roles on deactivation not on uninstall
-* Removed: PCLZip selection setting
-* Removed: Help tooltips now uses the WordPress way
-* Removed: Old AWS SDK for using backups to S3 with PHP Version lower than 5.3
-* Updated: AWS SDK to Version 2.8.28
-* Updated: MSAZURE SDK to Version 0.4.1
-* Updated: RSC SDK to Version 1.12.2
-* Updated: SwiftMailer to Version 5.2.2
-* Pro Updated: Google SDK to Version 1.1.7
-* Pro Fixed: Glacier will be only display 10 Vaults
-
-= Version 3.2.5 =
-* Fixed: two stored XSS issues
-
-= Version 3.2.4 =
-* Added: Backup database triggers
-* Fixed: Charset issues on file names in archives
-* Improved: checking on response test
-* Changed: Dropbox API URLs
-
-= Version 3.2.3 =
-* Added: AWS Region Asien-Pazifik (Seoul)
-* Improved: open basedir checking
-* Changed: Minimum WordPress version is now 3.8
-* Fixed: get_site_option() deprecated cache parameter in WordPress 4.4
-* Fixed: displaying of inactive on scheduled jobs
-* Fixed: saving of adding extra user role
-* Removed: Handling of signal SIGPROF
-* Removed: Extra role column on user list
-
-= Version 3.2.2 =
-* Fixed: Setting of S3 storage class STANDARD | STANDARD_IA | REDUCED_REDUNDANCY
-* Fixed: Potential security problems on log view and file download
-
-= Version 3.2.1 =
-* Fixed: open basedir check
-* Fixed: Change Zip creation back to use lower resources
-* Fixed: Deletion of backup files on Dropbrox not refreshes
-* Fixed: Delete 'doing_cron' transient before job starts
-* Added: Support for new Amazon S3 storage type 'Standard-Infrequent Access'
-* Added: Support for MYSQL_CLIENT_FLAGS
-* Updated: AWS SDK to Version 2.8.21 (PHP 5.3.3+)
-* Removed: SIGCONT,SIGCHLD,SIGALRM form signal handler
-* Free Removed: Bundled translations. Will be now come from https://translate.wordpress.org/projects/wp-plugins/backwpup
-* Pro Updated: Google SDK to Version 1.1.4
-
-= Version 3.2.0 =
-* Fixed: Sugarsync SSL message
-* Fixed: Job hang in some configurations
-* Fixed: RSS Feed in Dashboard
-* Added: EasyCron API to schedule job starts
-* Added: Message if job has not configured destinations
-* Added: Setting for log level and minimize log for normal output
-* Added: Email logfile to more than one receiver
-* Added: Creation of web.config for IIS Webserver
-* Added: Allow relative path to WP_CONTENT_DIR for logs and backups
-* Added: Prefer plugin translation loading from WP_LANG_DIR
-* Added: Option to move WordPress installation folder one folder up
-* Added: Ordering options for jobs page
-* Added: Added Google storage Bucket regions
-* Improved: Archive size check depends on PHP_INT_MAX
-* Improved: Excessive transient writes with job start urls
-* Improved: Authorisation settings for wp-cron.php
-* Improved: Folder checking with open basedir check
-* Improved: WP-CLI outputs
-* Improved: Role management. Administrators always have BackWPup capabilities
-* Improved: Unix Signals handling to caching more
-* Improved: fcgi handling to prevent signal 15 errors (thanks to siteground.com)
-* Updated: AWS SDK to Version 2.7.7 (PHP 5.3.3+)
-* Updated: MSAZURE SDK to Version 0.4.0-dev
-* Updated: Translations from http://translate.marketpress.com/
-* Removed: Server script file generation, please use WP-CLI
-* Fixed: Notice if BuddyPress is active
-* Fixed: VIEW generation on Database backups
-* PRO Fixed: Authentication for GDrive
-* PRO Fixed: Synchronisation with GDrive
-
-= Version 3.1.4 =
-* Fixed: removing of % from filename
-* Fixed: Notice in combination with bbPress
-* Fixed: Zip Archive "Entry has been deleted" messages
-* Improved: WP-CLI output a bit
-
-= Version 3.1.3 =
-* Fixed: var_export not working if output buffering active
-* Fixed: bug in sending test emails on Backup with email
-* Fixed: backup archives not deleted if archive name has spaces
-* Fixed: bug in tar file name length detecting
-* Fixed: bug in not displaying abort message
-* Fixed: abort of S3 uploads from other running backups
-* Changed: Maximum backup archive size is now 2GB (some filesystems do not support larger files, split the job if you need more)
-* Changed: WordPress Export will now done by a own class
-* Changed: Dropbox now uses oAuth 2 Protocol
-* Changed: Dropbox change to TLS Protocol
-* Changed: Logs have now a br tag on line end for better reading in emails
-* Improved: Dropbox chipper list not on NSS cUrl backend
-* Improved: Increased performance on Zip File generation massively
-* Improved: Backup archives now deleted to if the archive format changed
-* Improved: Archive tarring and its compression
-* Improved: Loading of Swift Mailer
-* Added: GreenQloud to S3 services
-* Added: Amazon Germany region to S3 and Glacier services
-* Removed: Hosteurope from S3 services (terminated to end of 2014)
-* Updated: SwiftMailer to Version 5.2.0
-* Updated: AWS SDK to Version 2.7.3 (PHP 5.3.3+)
-* Updated: RSC SDK to Version 1.9.2
-* Updated: MSAZURE SDK to Version 0.4.0
-* Updated: PEAR packeges for MSAZURE
-* PRO: Added: Option to use database backup with mysqli/mysqldump (not longer automatic)
-* PRO: Added: Option in GDrive destination to delete files permanently
-* PRO: Updated: Google SDK to 1.1.1
-
-= Version 3.1.2 =
-* Added: .donotbackup file. Folders and sub folders containing this file in will not be included in backups.
-* Fixed: New multisite installs did not save jobs.
-* Fixed: New multisite installs did not save installed version.
-* Fixed: Fatal error when attempting to clean up inactive jobs from cron
-* Fixed: Exclude uploads not working
-* Fixed: Message "file not readable" of an excluded folder
-* Fixed: WP-CLI deprecated and unknown parameter message
-* Fixed: Bugs in pagination on logs and backups page
-* Removed: Banner from plugins page
-* Improved: Memory usage during XML export
-* Improved: Mime type detection
-* Improved: Dropbox SSL handling
-* Improved: Certificate bundle file can now be filtered
-* Improved: Auto-loading vendor classes
-* Improved: Performance when saving other database tables than MyISAM
-* Updated: AWS SDK to Version 2.5.2 (PHP 5.3.3+)
-* Updated: RSC SDK to Version 1.9.1
-* Updated: Guzzle SDK to Version 3.8.1
-* Added: S3 Service: Amazon China (Beijing) region
-* Added: Rackspace: Hong Kong (HKG) region
-* PRO: Fixed: Duplicating synced files on S3
-* PRO: Update: Google SDK to 0.6.7
-* PRO: Added: Amazon Glacier China (Beijing) region
-
-= Version 3.1.1 =
-* Fixed: Plugins will not backup
-* Improved: Dropped quota check for Dropbox. Will cancel upload only when Dropbox API sends error 507.
-* Improved: Remove special chars from file names in archives
-* Improved: Handling off restarts on archive creation
-
-= Version 3.1 =
-* Fixed: Message about aborted step did not display correctly
-* Fixed: Incorrect rescheduling of jobs
-* Improved: Overall performance while generating backup archives
-* Improved: Uploads of backup archives to FTP/S3/Dropbox/Azure/GDrive can be continued
-* Improved: Script re-starts based upon time while generating archives and uploading
-* Improved: Reduced risk of running scripts being stopped via external processes in fcgi mode
-* Improved: Backup destinations and their dependencies only being loaded when needed
-* Improved: Required dependencies for destinations being displayed now
-* Improved: Displaying of error messages as error messages (red, not yellow)
-* Improved: Reduced size of vendor/SDK directory by 50%
-* Improved: Regex for BackWPup archive file detection
-* Improved: Symlink handling for file backup on WordPress folders
-* Improved: Use icon font for menu, adminbar and on other places
-* Improved: Responsive for WordPress 3.8
-* Updated: AWS SDK to Version 2.4.11 (PHP 5.3.3+)
-* Updated: RSC SDK to Version 1.7.3
-* Updated: SwiftMailer to Version 5.0.1
-* Removed: DB Optimization, because locking of tables that can make the site not accessible
-* PRO: Wizards using a separate session handling now
-* PRO: Hash that BackWPup uses is changeable
-* PRO: Added Google Drive Support
-* PRO: Added Amazon Glacier Support
-
-= Version 3.0.13 =
-* Improved: Redirect when accessing the WordPress backend
-* Added: Debug Informations to Logfile
-* Added Sydney region for rackspace cloud
-* Added London region for rackspace cloud
-* Fixed: Cross-site scripting issue. Thanks to High-Tech Bridge for helping us: https://www.htbridge.com/advisory/HTB23161
-* Fixed: Fatal error when uninstalling on WordPress 3.4.2 and older
-
-= Version 3.0.12 =
-* Fixed: Redirect when accessing the WordPress backend
-* Added: Russian translation
-* Added: Simplified chinese translation
-* Fixed: German log string typo
-
-= Version 3.0.11 =
-* Improved: About page will only be shown after install
-* Updated: AWS SDK to Version 2.3.1 (PHP 5.3.3+)
-* Fixed: some notices and warnings
-* Fixed: Change of BackWPup role for other users
-* Added: Message for Pro version to support plugin
-
-= Version 3.0.10 =
-* Fixed only Version on WordPress.org because of SVN upload problems with Symfony folder from AWS
-
-= Version 3.0.9 =
-* Fixed: Fixed bug in Dropbox temp file fallback
-* Fixed: Not working if WP-Cron Control active
-* PRO Fixed: Synchronisation of files to Dropbox
-* PRO Changed: About page only displays on new installation not on updates
-* Added: Sending auth cookie for self requests
-* Added: Displaying off last error or waring in execution screen
-* Added: Job end message depending on error's or waring's
-* Added: Setting of BackWPup role in the user settings
-* Improved: Wait time after job start
-* Improved: Rights management to work better with Role management Plugins
-* Changed: Sessions now only used for wizards in pro version
-* Removed: Maintenance Mode support, because to many problems and not really needed
-* Updated: RSC SDK to Version 1.5.4
-* Updated: AWS SDK to Version 1.6.2
-* Updated: AWS SDK to Version 2.3.0 (PHP 5.3.3+)
-
-= Version 3.0.8 =
-* Fixed: Selected database tables not save on tab change
-* Fixed: Database tables selection on new job
-* Fixed: adding empty folder names tow archive
-* Improved/Fixed: Dropbox Authentication
-
-= Version 3.0.7 =
-* Improved: All job requests will done over wp-cron.php now
-* Improved: Ajax calls if blog in maintenance mode
-* Improved: Getting of DB_CHARSET
-* Improved: FTP file deletion
-* Improved: Dropbox authentication (If restrict to job settings page not work you can open the settings page manually again to authenticate)
-* Fixed: No maintenance mode, if a maintenance mode already active
-* Fixed: Archive file deletion
-* Updated: AWS SDK to Version 2.2.1 (PHP 5.3.3+)
-
-= Version 3.0.6 =
-* Fixed: Massages on empty DB prefix
-* Fixed: Bug in cron calculation
-* Improved: Dropbox upload so that it can continuing on next try
-
-= Version 3.0.5 =
-* Changed: Display only normal messages on progress bars
-* Changed: Detection of multisite blog upload folder
-* Changed: Backups list for destination file will not cached.
-* Changed: Reduced files of AWS SDK to the only needed.
-* Fixed: Side load braking if no folder permissions
-* Fixed: Multiple backups deletion on backups page not working
-* Fixed: DB optimize and check not only use WP tables if selected
-* Fixed: File deletion on Dropbox if folder name has a space
-* Fixed: False scheduling time in some timezones
-* Removed: Option for excluding file, cache, temp folders. Can done with file/folder exclusion too.
-* Added: Option to restart the job on archive creation if a size of files reached
-* Added: Option to set Zip method (PclZip or ZipArchive)
-* Improved: Performance if PclZip used.
-* Updated: AWS SDK to Version 1.6.1
-* Updated: AWS SDK to Version 2.2.0 (PHP 5.3.3+)
-
-= Version 3.0.4 =
-* Changed: default settings for 'Restart on every main step' and 'Reduce server load' to disabled
-* Fixed: Settings not correctly set to default
-* Fixed: mysqli::get_charset() undefined method
-* Fixed: Settings not saved correctly
-* Fixed: Abort on MySQL Functions Backup
-* Improved: MySQLi connection
-* Added: Server connection test on run now.
-* Added: S3 AWS SDK 1.6.0 for PHP lower than 5.3.3
-
-= Version 3.0.3 =
-* Improved: Archive creation performance
-* Fixed: Problem with S3 Prefix
-* Fixed: warnings on excluded folders
-* Fixed: message from putenv
-* Fixed: not working downloads
-* Changed: removed fancybox and uses thickbox because plugin compatibility
-* Added: folder checking on run now
-
-= Version 3.0.2 =
-* Fixed: Warnings on job edit tab files
-* Fixed: folder name on temp cleanup in cron
-* Fixed: Setting charset on sql backup
-* Fixed: DB Connection on database backup if hostname has a port
-* Fixed: Call undefined function apc_clear_cache()
-* Fixed: wp-content selected folders not excluded
-* Added: Deactivation off multi part upload for S3 Services
-* Added: fallback for mysql_ping()
-* Added: Options for email senders name
-* Changed: 5 minutes cron steps back
-* Removed: Flashing admin bar icon
-* Updated: OpenCloud API to Version 1.4.1
-
-= Version 3.0 =
-* Added: Jobs can now be started with an external link or per command line
-* Added: Backups can now be compressed with gz or bzip2
-* Added: All file names can now be adjusted
-* Added: MySQL dump supports now views
-* Added: Settings for access control per capability and role
-* Added: Save a list of installed Plugins
-* Added: Support for WP-CLI
-* Improved: Job edit page with tabs
-* Improved: Settings page with tabs
-* Improved: Database dump now uses mysqli PHP extension for better performance
-* Improved: ZIP archives are now created with PHP Zip if available
-* Improved: All passwords are now stored encrypted in database
-* Improved: wp-cron job start mechanism
-* Improved: Job start mechanism not longer uses URL in plugin directory
-* Improved: Use `temp` directory in uploads or set it with `WP_TEMP_DIR`
-* Changed: Mailing backup archives now with SwiftMailer
-* Changed: Job process now back in the WordPress environment
-* Changed: License changed to GPLv3
-* Changed: Rewrote almost the complete code base to use classes with auto-loading
-* Changed: Logs are now displayed with fancybox
-* Updated: AWS SDK v2.1.2 (PHP 5.3.3)
-* Updated: OpenCloud SDK to v1.3 (PHP 5.3)
-* Updated: Windows Azure SDK v0.3.1_2011-08 (PHP 5.3.2)
-* Removed: serialized job export
-* Removed: tools section - not needed anymore
-* Removed: Dashboard widgets are now on the BackWPup plugin dashboard
-* Fixed: many, many minor bugs
-
-= Version 3.0 Pro =
-
-* Wizards
-* Export jobs and settings as XML
-* Synchronization of files to backup with destination (filename and size checked)
-* Wizard to import jobs and settings from XML
-* Database dump can backup other MySQL databases
-* Database dump can use `mysqldump` command on commend line
-* Database dump can create XML files (phpMyAdmin schema)
-* Use your own API keys for Dropbox and SugarSync
-* Premium Support
-* Automatic updates
-

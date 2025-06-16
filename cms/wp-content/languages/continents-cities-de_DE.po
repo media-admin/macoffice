@@ -1,15 +1,15 @@
-# Translation of WordPress - 6.3.x - Development - Continents & Cities in German
-# This file is distributed under the same license as the WordPress - 6.3.x - Development - Continents & Cities package.
+# Translation of WordPress - 6.8.x - Development - Continents & Cities in German
+# This file is distributed under the same license as the WordPress - 6.8.x - Development - Continents & Cities package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-08-07 00:17:46+0000\n"
+"PO-Revision-Date: 2025-01-22 23:30:10+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.9\n"
+"X-Generator: GlotPress/4.0.1\n"
 "Language: de\n"
-"Project-Id-Version: WordPress - 6.3.x - Development - Continents & Cities\n"
+"Project-Id-Version: WordPress - 6.8.x - Development - Continents & Cities\n"
 
 #: wp-admin/includes/continents-cities.php:523
 msgid "Kanton"
@@ -21,7 +21,7 @@ msgstr "Kiew"
 
 #: wp-admin/includes/continents-cities.php:319
 msgid "Qostanay"
-msgstr "Qostanay"
+msgstr "Kustanai"
 
 #: wp-admin/includes/continents-cities.php:187
 msgid "Nuuk"
@@ -125,7 +125,7 @@ msgstr "Sitka"
 
 #: wp-admin/includes/continents-cities.php:207
 msgid "Santarem"
-msgstr "Santarem"
+msgstr "Santarém"
 
 #: wp-admin/includes/continents-cities.php:206
 msgid "Santa Isabel"
@@ -365,7 +365,7 @@ msgstr "Kerguelen"
 
 #: wp-admin/includes/continents-cities.php:497
 msgid "Comoro"
-msgstr "Comoro"
+msgstr "Komoren"
 
 #: wp-admin/includes/continents-cities.php:496
 msgid "Cocos"
@@ -1093,7 +1093,7 @@ msgstr "Kathmandu"
 
 #: wp-admin/includes/continents-cities.php:295
 msgid "Kashgar"
-msgstr "Kaxgar"
+msgstr "Kaschgar"
 
 #: wp-admin/includes/continents-cities.php:294
 msgid "Karachi"
@@ -1741,7 +1741,7 @@ msgstr "Curaçao"
 
 #: wp-admin/includes/continents-cities.php:112
 msgid "Cuiaba"
-msgstr "Cuiaba"
+msgstr "Cuiabá"
 
 #: wp-admin/includes/continents-cities.php:110
 msgid "Costa Rica"
@@ -1925,7 +1925,7 @@ msgstr "Timbuktu"
 
 #: wp-admin/includes/continents-cities.php:62
 msgid "Sao Tome"
-msgstr "Sao Tome"
+msgstr "São Tomé"
 
 #: wp-admin/includes/continents-cities.php:61
 msgid "Porto-Novo"
@@ -2045,7 +2045,7 @@ msgstr "Dschibuti"
 
 #: wp-admin/includes/continents-cities.php:31
 msgid "Dar es Salaam"
-msgstr "Daressalaam"
+msgstr "Daressalam"
 
 #: wp-admin/includes/continents-cities.php:30
 msgid "Dakar"
@@ -2097,7 +2097,7 @@ msgstr "Bamako"
 
 #: wp-admin/includes/continents-cities.php:18
 msgid "Asmera"
-msgstr "Asmera"
+msgstr "Asmara"
 
 #: wp-admin/includes/continents-cities.php:17
 msgid "Asmara"
@@ -2109,7 +2109,7 @@ msgstr "Algier"
 
 #: wp-admin/includes/continents-cities.php:15
 msgid "Addis Ababa"
-msgstr "Addis Ababa"
+msgstr "Addis Abeba"
 
 #: wp-admin/includes/continents-cities.php:14
 msgid "Accra"

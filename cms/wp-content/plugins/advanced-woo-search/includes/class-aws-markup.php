@@ -34,8 +34,8 @@ if ( ! class_exists( 'AWS_Markup' ) ) :
 
             $table_name = $wpdb->prefix . AWS_INDEX_TABLE_NAME;
 
-            if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) != $table_name  ) {
-                if ( current_user_can( 'manage_options' ) ) {
+            if ( AWS()->option_vars->is_index_table_not_exists() ) {
+                if ( current_user_can( AWS_Helpers::user_admin_capability() ) ) {
                     echo 'Please go to <a href="' . admin_url( 'admin.php?page=aws-options' ) . '">plugins settings page</a> and click on "Reindex table" button.';
                 }
                 return;
@@ -53,7 +53,7 @@ if ( ! class_exists( 'AWS_Markup' ) ) :
                 'use_analytics'  => AWS()->get_settings( 'use_analytics' ),
                 'buttons_order'  => AWS()->get_settings( 'buttons_order' ),
                 'search_timeout' => AWS()->get_settings( 'search_timeout' )
-            ), $this->atts ) );
+            ), $this->atts, 'aws_search_form' ) );
 
             $current_lang = AWS_Helpers::get_lang();
 
@@ -84,7 +84,7 @@ if ( ! class_exists( 'AWS_Markup' ) ) :
                 'data-buttons-order' => $buttons_order,
                 'data-timeout'       => $search_timeout,
                 'data-is-mobile'     => wp_is_mobile() ? 'true' : 'false',
-                'data-page-id'       => get_queried_object_id(),
+                'data-page-id'       => AWS_Helpers::get_current_page_id(),
                 'data-tax'           => get_query_var('taxonomy')
             );
 

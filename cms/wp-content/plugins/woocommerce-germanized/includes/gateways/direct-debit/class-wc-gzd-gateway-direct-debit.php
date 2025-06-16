@@ -20,6 +20,8 @@ class WC_GZD_Gateway_Direct_Debit extends WC_Payment_Gateway {
 
 	protected $enable_pre_notification;
 
+	protected $instructions;
+
 	protected $debit_days;
 
 	protected $generate_mandate_id;
@@ -270,7 +272,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	 * @param WC_Order $order
 	 */
 	public function save_debit_fields( $order ) {
-
 		// Check the nonce
 		if ( empty( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['woocommerce_meta_nonce'] ), 'woocommerce_save_data' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			return;
@@ -314,7 +315,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	 * @return mixed
 	 */
 	public function order_actions( $actions, $order ) {
-
 		if ( ! wc_gzd_order_is_anonymized( $order ) && $order->get_payment_method() === $this->id ) {
 			$actions['download-sepa'] = array(
 				'url'    => esc_url_raw(
@@ -659,6 +659,9 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	 * @param $plain_text
 	 */
 	public function email_sepa( $order, $sent_to_admin, $plain_text ) {
+		if ( ! is_a( $order, 'WC_Order' ) ) {
+			return;
+		}
 
 		if ( $this->id !== $order->get_payment_method() ) {
 			return;
@@ -1119,7 +1122,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 			);
 
 		}
-
 	}
 
 	public function get_user_account_data( $user_id = '' ) {
@@ -1210,7 +1212,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 			<div class="clear"></div>
 		</fieldset>
 		<?php
-
 	}
 
 	public function validate_fields() {
@@ -1276,6 +1277,7 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 
 		$suffix      = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$assets_path = WC()->plugin_url() . '/assets/';
+		$assets      = WC_Germanized();
 
 		// Ensure that prettyPhoto is being loaded
 		wp_register_script( 'prettyPhoto_debit', $assets_path . 'js/prettyPhoto/jquery.prettyPhoto' . $suffix . '.js', array( 'jquery' ), '3.1.6', true );
@@ -1283,10 +1285,10 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 		wp_register_style( 'woocommerce_prettyPhoto_css_debit', $assets_path . 'css/prettyPhoto.css', array(), WC_GERMANIZED_VERSION );
 		wp_enqueue_style( 'woocommerce_prettyPhoto_css_debit' );
 
-		wp_register_script( 'wc-gzd-iban', WC_germanized()->get_assets_build_url( 'static/iban.js' ), array( 'wc-checkout' ), WC_GERMANIZED_VERSION, true );
+		$assets->register_script( 'wc-gzd-iban', 'static/iban.js', array( 'wc-checkout' ) );
 		wp_enqueue_script( 'wc-gzd-iban' );
 
-		wp_register_script( 'wc-gzd-direct-debit', WC_germanized()->get_assets_build_url( 'static/direct-debit.js' ), array( 'wc-gzd-iban' ), WC_GERMANIZED_VERSION, true );
+		$assets->register_script( 'wc-gzd-direct-debit', 'static/direct-debit.js', array( 'wc-gzd-iban' ) );
 		wp_localize_script(
 			'wc-gzd-direct-debit',
 			'direct_debit_params',
@@ -1388,17 +1390,17 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 		);
 	}
 
-	public function maybe_encrypt( $string ) {
+	public function maybe_encrypt( $to_encrypt ) {
 		if ( $this->supports_encryption() ) {
-			return WC_GZD_Gateway_Direct_Debit_Encryption_Helper::instance()->encrypt( $string );
+			return WC_GZD_Gateway_Direct_Debit_Encryption_Helper::instance()->encrypt( $to_encrypt );
 		}
 
-		return $string;
+		return $to_encrypt;
 	}
 
-	public function maybe_decrypt( $string ) {
+	public function maybe_decrypt( $to_decrypt ) {
 		if ( $this->supports_encryption() ) {
-			$decrypted = WC_GZD_Gateway_Direct_Debit_Encryption_Helper::instance()->decrypt( $string );
+			$decrypted = WC_GZD_Gateway_Direct_Debit_Encryption_Helper::instance()->decrypt( $to_decrypt );
 
 			// Maxlength of IBAN is 30 - seems like we have an encrypted string (cannot be decrypted, maybe key changed)
 			if ( strlen( $decrypted ) > 40 ) {
@@ -1408,7 +1410,7 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 			return $decrypted;
 		}
 
-		return $string;
+		return $to_decrypt;
 	}
 
 	public function supports_encryption() {
@@ -1435,5 +1437,4 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 
 		return true;
 	}
-
 }

@@ -9,6 +9,7 @@ use WP_Query;
 // @codeCoverageIgnoreEnd
 /**
  * Get the count of WP_Query resultset instead of all the rows.
+ * @internal
  */
 class QueryCount extends WP_Query
 {

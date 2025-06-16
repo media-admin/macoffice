@@ -22,6 +22,7 @@ class WC_GZD_AJAX {
 			'gzd_refresh_unit_price'            => true,
 			'gzd_refresh_cart_vouchers'         => true,
 			'gzd_json_search_delivery_time'     => false,
+			'gzd_json_search_manufacturer'      => false,
 			'gzd_legal_checkboxes_save_changes' => false,
 			'gzd_toggle_tab_enabled'            => false,
 			'gzd_install_extension'             => false,
@@ -211,6 +212,7 @@ class WC_GZD_AJAX {
 
 		$args = array(
 			'hide_empty' => false,
+			'fields'     => 'id=>name',
 		);
 
 		if ( is_numeric( $term ) ) {
@@ -219,10 +221,45 @@ class WC_GZD_AJAX {
 			$args['name__like'] = (string) $term;
 		}
 
-		$query = get_terms( 'product_delivery_time', $args );
+		$query = WC_germanized()->delivery_times->get_delivery_times( $args );
+
 		if ( ! empty( $query ) ) {
-			foreach ( $query as $term ) {
-				$terms[ $term->term_id ] = rawurldecode( $term->name );
+			foreach ( $query as $term_id => $term_name ) {
+				$terms[ $term_id ] = rawurldecode( $term_name );
+			}
+		} else {
+			$terms[ rawurldecode( $term ) ] = rawurldecode( sprintf( __( '%s [new]', 'woocommerce-germanized' ), $term ) );
+		}
+		wp_send_json( $terms );
+	}
+
+	public static function gzd_json_search_manufacturer() {
+		ob_start();
+
+		check_ajax_referer( 'search-products', 'security' );
+		$term  = isset( $_GET['term'] ) ? (string) wc_clean( wp_unslash( $_GET['term'] ) ) : '';
+		$terms = array();
+
+		if ( empty( $term ) ) {
+			die();
+		}
+
+		$args = array(
+			'hide_empty' => false,
+			'fields'     => 'id=>name',
+		);
+
+		if ( is_numeric( $term ) ) {
+			$args['include'] = array( absint( $term ) );
+		} else {
+			$args['name__like'] = (string) $term;
+		}
+
+		$query = WC_germanized()->manufacturers->get_manufacturers( $args );
+
+		if ( ! empty( $query ) ) {
+			foreach ( $query as $term_id => $term_name ) {
+				$terms[ $term_id ] = rawurldecode( $term_name );
 			}
 		} else {
 			$terms[ rawurldecode( $term ) ] = rawurldecode( sprintf( __( '%s [new]', 'woocommerce-germanized' ), $term ) );
@@ -276,6 +313,7 @@ class WC_GZD_AJAX {
 			wp_send_json( array( 'result' => 'failure' ) );
 		}
 
+		$queue_id = isset( $_POST['queue_id'] ) ? absint( wp_unslash( $_POST['queue_id'] ) ) : 1;
 		$products = (array) wc_clean( wp_unslash( $_POST['products'] ) );
 		$response = array();
 
@@ -309,6 +347,7 @@ class WC_GZD_AJAX {
 
 		wp_send_json(
 			array(
+				'queue_id' => $queue_id,
 				'result'   => 'success',
 				'products' => $response,
 			)
@@ -495,10 +534,8 @@ class WC_GZD_AJAX {
 							if ( isset( $field['required'] ) && empty( $_POST[ $key ] ) ) {
 								wc_add_notice( '<strong>' . $field['label'] . '</strong>', 'error' );
 							}
-						} else {
-							if ( isset( $field['required'] ) && empty( $_POST[ $key ] ) ) {
+						} elseif ( isset( $field['required'] ) && empty( $_POST[ $key ] ) ) {
 								wc_add_notice( '<strong>' . $field['label'] . '</strong> ' . _x( 'is not valid.', 'revocation-form', 'woocommerce-germanized' ), 'error' );
-							}
 						}
 					}
 

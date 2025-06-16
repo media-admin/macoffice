@@ -133,14 +133,29 @@ class WC_GZD_Checkout {
 		add_action( 'template_redirect', array( $this, 'maybe_remove_shopmark_filters' ) );
 		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'maybe_remove_shopmark_filters' ) );
 
-		// Hide the newly introduced state field for Germany since Woo 6.3
-		add_filter( 'woocommerce_states', array( __CLASS__, 'filter_de_states' ) );
+		/**
+		 * Hide the newly introduced state field for Germany since Woo 6.3.
+		 * Use a filter for the customer object to prevent output in formatted addresses within checkout block.
+		 */
+		add_filter( 'woocommerce_states', array( $this, 'filter_de_states' ) );
+		add_filter( 'woocommerce_get_country_locale', array( $this, 'filter_de_states_locale' ) );
+		add_filter( 'woocommerce_customer_get_billing_state', array( $this, 'filter_de_states_customer' ), 10, 2 );
+		add_filter( 'woocommerce_customer_get_shipping_state', array( $this, 'filter_de_states_customer' ), 10, 2 );
 
 		if ( 'never' !== get_option( 'woocommerce_gzd_checkout_validate_street_number' ) ) {
 			// Maybe force street number during checkout
 			add_action( 'woocommerce_after_checkout_validation', array( $this, 'maybe_force_street_number' ), 10, 2 );
+			add_filter( 'woocommerce_checkout_posted_data', array( $this, 'maybe_format_address_1' ), 10 );
 		}
 
+		/**
+		 * Use this hook as a tweak to make sure our custom tax class filters
+		 * are applied before (separate, non-total calculation) calls to WC_Cart::calculate_shipping() are made.
+		 *
+		 * Calling WC_Checkout within maybe_adjust_photovoltaic_cart_data will lead to the checkout being instantiated quite
+		 * early which might lead to compatibility issues.
+		 */
+		add_action( 'woocommerce_cart_loaded_from_session', array( $this, 'maybe_adjust_photovoltaic_cart_data' ), 15 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'maybe_adjust_photovoltaic_cart_data' ), 15 );
 		add_filter( 'woocommerce_update_order_review_fragments', array( $this, 'refresh_photovoltaic_systems_notice' ), 10, 1 );
 
@@ -177,51 +192,69 @@ class WC_GZD_Checkout {
 	public function get_checkout_value( $key ) {
 		$value = null;
 
-		if ( is_null( $this->checkout_data ) ) {
-			/**
-			 * Use raw post data in case available as only certain billing/shipping address
-			 * specific data is available during AJAX requests in get_posted_data.
-			 */
-			if ( isset( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-				$posted = array();
-
-				if ( is_string( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-					parse_str( $_POST['post_data'], $posted ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-					$this->checkout_data = wc_clean( wp_unslash( $posted ) );
-				} elseif ( is_array( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-					$this->checkout_data = wc_clean( wp_unslash( $_POST['post_data'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-				}
-			} elseif ( isset( $_POST['woocommerce-process-checkout-nonce'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-				/**
-				 * get_posted_data() does only include core Woo data, no third-party data included.
-				 */
-				$this->checkout_data = WC()->checkout()->get_posted_data();
-			}
+		if ( 'payment_method' === $key ) {
+			$value = WC_GZD_Payment_Gateways::instance()->get_current_gateway();
 		}
 
-		/**
-		 * Fallback to customer data (or posted data in case available).
-		 */
 		if ( null === $value ) {
-			$value = WC()->checkout()->get_value( $key );
-		}
+			if ( WC_germanized()->is_rest_api_request() ) {
+				$getter   = "get_{$key}";
+				$customer = WC()->customer;
 
-		/**
-		 * If checkout data is available - force overriding
-		 */
-		if ( $this->checkout_data ) {
-			if ( isset( $_POST['woocommerce-process-checkout-nonce'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-				$value = isset( $this->checkout_data[ $key ] ) ? $this->checkout_data[ $key ] : WC()->checkout()->get_value( $key );
+				if ( $customer && is_callable( array( $customer, $getter ) ) ) {
+					$value = $customer->{ $getter }();
+				}
 			} else {
-				$value = isset( $this->checkout_data[ $key ] ) ? $this->checkout_data[ $key ] : null;
-			}
+				if ( is_null( $this->checkout_data ) ) {
+					/**
+					 * Use raw post data in case available as only certain billing/shipping address
+					 * specific data is available during AJAX requests in get_posted_data.
+					 */
+					if ( isset( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						$posted = array();
 
-			/**
-			 * Do only allow retrieving shipping-related data in case shipping address is activated
-			 */
-			if ( 'shipping_' === substr( $key, 0, 9 ) ) {
-				if ( ! isset( $this->checkout_data['ship_to_different_address'] ) || ! $this->checkout_data['ship_to_different_address'] || wc_ship_to_billing_address_only() ) {
-					$value = null;
+						if ( is_string( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+							parse_str( $_POST['post_data'], $posted ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+							$this->checkout_data = wc_clean( wp_unslash( $posted ) );
+						} elseif ( is_array( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+							$this->checkout_data = wc_clean( wp_unslash( $_POST['post_data'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						}
+					} elseif ( isset( $_POST['woocommerce-process-checkout-nonce'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						/**
+						 * get_posted_data() does only include core Woo data, no third-party data included.
+						 * Prevent calling get_posted_data() before fields were loaded to prevent infinite loops.
+						 */
+						if ( did_action( 'woocommerce_checkout_fields' ) ) {
+							$this->checkout_data = WC()->checkout()->get_posted_data();
+						}
+					}
+				}
+
+				/**
+				 * Fallback to customer data (or posted data in case available).
+				 */
+				if ( null === $value ) {
+					$value = WC()->checkout()->get_value( $key );
+				}
+
+				/**
+				 * If checkout data is available - force overriding
+				 */
+				if ( $this->checkout_data ) {
+					if ( isset( $_POST['woocommerce-process-checkout-nonce'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						$value = isset( $this->checkout_data[ $key ] ) ? $this->checkout_data[ $key ] : WC()->checkout()->get_value( $key );
+					} else {
+						$value = isset( $this->checkout_data[ $key ] ) ? $this->checkout_data[ $key ] : null;
+					}
+
+					/**
+					 * Do only allow retrieving shipping-related data in case shipping address is activated
+					 */
+					if ( 'shipping_' === substr( $key, 0, 9 ) ) {
+						if ( ! isset( $this->checkout_data['ship_to_different_address'] ) || ! $this->checkout_data['ship_to_different_address'] || wc_ship_to_billing_address_only() ) {
+							$value = null;
+						}
+					}
 				}
 			}
 		}
@@ -259,14 +292,30 @@ class WC_GZD_Checkout {
 		if ( is_a( $checkbox, 'WC_GZD_Legal_Checkbox' ) ) {
 			$checkbox_id = $checkbox->get_id();
 			$value       = $this->get_checkout_value( $checkbox->get_html_name() ) ? self::instance()->get_checkout_value( $checkbox->get_html_name() ) : '';
-			$visible     = ! empty( $this->get_checkout_value( $checkbox->get_html_name() . '-field' ) ) ? true : false;
 
-			if ( $visible && ( ! empty( $value ) || $checkbox->hide_input() ) ) {
+			if ( $this->checkbox_is_visible( $checkbox ) && ( ! empty( $value ) || $checkbox->hide_input() ) ) {
 				$is_checked = true;
 			}
 		}
 
 		return apply_filters( 'woocommerce_gzd_checkout_checkbox_is_checked', $is_checked, $checkbox_id );
+	}
+
+	/**
+	 * @param WC_GZD_Legal_Checkbox|string $checkbox_id
+	 *
+	 * @return boolean
+	 */
+	public function checkbox_is_visible( $checkbox_id ) {
+		$is_visible = false;
+		$checkbox   = is_a( $checkbox_id, 'WC_GZD_Legal_Checkbox' ) ? $checkbox_id : WC_GZD_Legal_Checkbox_Manager::instance()->get_checkbox( $checkbox_id );
+
+		if ( is_a( $checkbox, 'WC_GZD_Legal_Checkbox' ) ) {
+			$checkbox_id = $checkbox->get_id();
+			$is_visible  = ! empty( $this->get_checkout_value( $checkbox->get_html_name() . '-field' ) ) ? true : false;
+		}
+
+		return apply_filters( 'woocommerce_gzd_checkout_checkbox_is_visible', $is_visible, $checkbox_id );
 	}
 
 	/**
@@ -279,13 +328,19 @@ class WC_GZD_Checkout {
 			return;
 		}
 
+		if ( ! $cart || ! wc_gzd_cart_contains_photovoltaic_system( $cart->get_cart() ) ) {
+			return;
+		}
+
 		if ( $checkbox = wc_gzd_get_legal_checkbox( 'photovoltaic_systems' ) ) {
 			if ( $checkbox->is_enabled() ) {
+				$is_vat_exempt = WC()->customer && WC()->customer->is_vat_exempt();
+
 				if ( $this->checkbox_is_checked( $checkbox ) && wc_gzd_cart_applies_for_photovoltaic_system_vat_exemption( $cart->get_cart() ) ) {
 					foreach ( $cart->get_cart() as $cart_item_key => $values ) {
 						$_product = apply_filters( 'woocommerce_cart_item_product', $values['data'], $values, $cart_item_key );
 
-						if ( wc_gzd_get_product( $_product )->is_photovoltaic_system() ) {
+						if ( wc_gzd_get_product( $_product )->is_photovoltaic_system() || apply_filters( 'woocommerce_gzd_photovoltaic_cart_product_is_photovoltaic_accessory', false, $_product ) ) {
 							if ( wc_prices_include_tax() && 'yes' === get_option( 'woocommerce_gzd_photovoltaic_systems_net_price' ) ) {
 								$price         = $_product->get_price();
 								$excluding_tax = wc_get_price_excluding_tax(
@@ -301,11 +356,11 @@ class WC_GZD_Checkout {
 							$_product->set_tax_class( get_option( 'woocommerce_gzd_photovoltaic_systems_zero_tax_class', 'zero-rate' ) );
 						}
 					}
-				} elseif ( apply_filters( 'woocommerce_gzd_photovoltaic_systems_remove_zero_tax_class_for_non_exemptions', ( ! is_cart() ) ) ) {
+				} elseif ( apply_filters( 'woocommerce_gzd_photovoltaic_systems_remove_zero_tax_class_for_non_exemptions', ( ! $is_vat_exempt && ( is_checkout() || $this->checkbox_is_visible( 'photovoltaic_systems' ) ) ) ) ) {
 					foreach ( $cart->get_cart() as $cart_item_key => $values ) {
 						$_product = apply_filters( 'woocommerce_cart_item_product', $values['data'], $values, $cart_item_key );
 
-						if ( wc_gzd_get_product( $_product )->is_photovoltaic_system() ) {
+						if ( wc_gzd_get_product( $_product )->is_photovoltaic_system() || apply_filters( 'woocommerce_gzd_photovoltaic_cart_product_is_photovoltaic_accessory', false, $_product ) ) {
 							$zero_tax_class = get_option( 'woocommerce_gzd_photovoltaic_systems_zero_tax_class', 'zero-rate' );
 
 							/**
@@ -344,12 +399,78 @@ class WC_GZD_Checkout {
 		return false;
 	}
 
-	public static function filter_de_states( $states ) {
-		if ( apply_filters( 'woocommerce_gzd_disable_de_checkout_state_select', ( is_checkout() ) ) && isset( $states['DE'] ) ) {
+	protected function disable_de_state_select() {
+		return apply_filters( 'woocommerce_gzd_disable_de_checkout_state_select', ( is_checkout() || WC_germanized()->is_rest_api_request() ) );
+	}
+
+	/**
+	 * @param string $state
+	 * @param WC_Customer $customer
+	 *
+	 * @return string
+	 */
+	public function filter_de_states_customer( $state, $customer ) {
+		$is_shipping = doing_filter( 'woocommerce_customer_get_shipping_state' ) ? true : false;
+		$country     = $is_shipping && $customer->get_shipping_country() ? $customer->get_shipping_country() : $customer->get_billing_country();
+
+		if ( $this->disable_de_state_select() && 'DE' === $country ) {
+			$state = '';
+		}
+
+		return $state;
+	}
+
+	public function filter_de_states( $states ) {
+		if ( $this->disable_de_state_select() && isset( $states['DE'] ) ) {
 			$states['DE'] = array();
 		}
 
 		return $states;
+	}
+
+	public function filter_de_states_locale( $locale ) {
+		if ( $this->disable_de_state_select() && isset( $locale['DE'], $locale['DE']['state'] ) ) {
+			$locale['DE']['state']['hidden'] = true;
+		}
+
+		return $locale;
+	}
+
+	/**
+	 * Enforces whitespace between street name and house number, e.g. typical input issues
+	 * like "Street12" instead of "Street 12".
+	 *
+	 * @param string $address_1
+	 *
+	 * @return string
+	 */
+	public function format_address_1( $address_1 ) {
+		if ( function_exists( 'wc_gzd_split_shipment_street' ) ) {
+			$do_validate = get_option( 'woocommerce_gzd_checkout_validate_street_number' );
+
+			if ( apply_filters( 'woocommerce_gzd_autocorrect_address_1', in_array( $do_validate, array( 'always', 'base_only', 'eu_only' ), true ) ) ) {
+				$parts = wc_gzd_split_shipment_street( $address_1 );
+
+				if ( '' !== $parts['number'] && ! empty( $parts['street'] ) ) {
+					$address_1 = trim( str_replace( $parts['street'], ' ' . $parts['street'] . ' ', $address_1 ) ); // replace the street name tailored with whitespace
+					$address_1 = preg_replace( '/\s+/', ' ', $address_1 ); // Remove duplicate whitespace
+				}
+			}
+		}
+
+		return $address_1;
+	}
+
+	public function maybe_format_address_1( $data ) {
+		if ( ! empty( $data['billing_address_1'] ) ) {
+			$data['billing_address_1'] = $this->format_address_1( $data['billing_address_1'] );
+		}
+
+		if ( ! empty( $data['shipping_address_1'] ) ) {
+			$data['shipping_address_1'] = $this->format_address_1( $data['shipping_address_1'] );
+		}
+
+		return $data;
 	}
 
 	/**
@@ -378,14 +499,14 @@ class WC_GZD_Checkout {
 
 				if ( in_array( $shipping_country, $countries, true ) ) {
 					$shipping_parts    = wc_gzd_split_shipment_street( $shipping_address_1 );
-					$is_shipping_valid = empty( $shipping_parts['number'] ) ? false : true;
+					$is_shipping_valid = '' === $shipping_parts['number'] ? false : true; // 0 may be a valid house number
 
 					/**
 					 * In case shipping to another address is chosen make sure to validate the separate billing address as well.
 					 */
 					if ( true === $ship_to_different && isset( $data['billing_address_1'] ) && apply_filters( 'woocommerce_gzd_checkout_validate_billing_street_number', true ) ) {
 						$billing_parts    = wc_gzd_split_shipment_street( $data['billing_address_1'] );
-						$is_billing_valid = empty( $billing_parts['number'] ) ? false : true;
+						$is_billing_valid = '' === $billing_parts['number'] ? false : true; // 0 may be a valid house number
 
 						if ( ! apply_filters( 'woocommerce_gzd_checkout_is_valid_billing_street_number', $is_billing_valid, $data ) ) {
 							$errors->add( 'billing_address_1_validation', apply_filters( 'woocommerce_gzd_checkout_invalid_billing_street_number_error_message', __( 'Please check the street field and make sure to provide a valid street number.', 'woocommerce-germanized' ), $data ), array( 'id' => 'billing_address_1' ) );
@@ -497,20 +618,20 @@ class WC_GZD_Checkout {
 	 * @param WC_Order $order
 	 */
 	public function order_meta( $order ) {
-		if ( wc_gzd_additional_costs_include_tax() ) {
-			$order->update_meta_data( '_additional_costs_include_tax', 'yes' );
-		}
+		if ( wc_gzd_enable_additional_costs_split_tax_calculation() || wc_gzd_calculate_additional_costs_taxes_based_on_main_service() ) {
+			$order->update_meta_data( '_additional_costs_include_tax', wc_bool_to_string( wc_gzd_additional_costs_include_tax() ) );
 
-		if ( wc_gzd_enable_additional_costs_split_tax_calculation() ) {
-			$tax_shares = wc_gzd_get_cart_tax_share( 'shipping', $order->get_items() );
+			if ( wc_gzd_enable_additional_costs_split_tax_calculation() ) {
+				$tax_shares = wc_gzd_get_cart_tax_share( 'shipping', $order->get_items() );
 
-			if ( count( $tax_shares ) > 1 ) {
-				$order->update_meta_data( '_has_split_tax', 'yes' );
+				if ( count( $tax_shares ) > 1 ) {
+					$order->update_meta_data( '_has_split_tax', 'yes' );
+				}
+			} elseif ( wc_gzd_calculate_additional_costs_taxes_based_on_main_service() ) {
+				$order->update_meta_data( '_additional_costs_taxed_based_on_main_service', 'yes' );
+				$order->update_meta_data( '_additional_costs_taxed_based_on_main_service_by', wc_gzd_additional_costs_taxes_detect_main_service_by() );
+				$order->update_meta_data( '_additional_costs_taxed_based_on_main_service_tax_class', wc_gzd_get_cart_main_service_tax_class() );
 			}
-		} elseif ( wc_gzd_calculate_additional_costs_taxes_based_on_main_service() ) {
-			$order->update_meta_data( '_additional_costs_taxed_based_on_main_service', 'yes' );
-			$order->update_meta_data( '_additional_costs_taxed_based_on_main_service_by', wc_gzd_additional_costs_taxes_detect_main_service_by() );
-			$order->update_meta_data( '_additional_costs_taxed_based_on_main_service_tax_class', wc_gzd_get_cart_main_service_tax_class() );
 		}
 	}
 
@@ -526,12 +647,10 @@ class WC_GZD_Checkout {
 					wc_add_notice( __( 'Sorry, but differential taxed products cannot be purchased with normal products at the same time.', 'woocommerce-germanized' ), 'error' );
 					$has_passed = false;
 				}
-			} else {
+			} elseif ( $cart_count > 0 && $contains_differential ) {
 
-				if ( $cart_count > 0 && $contains_differential ) {
 					wc_add_notice( __( 'Sorry, but normal products cannot be purchased together with differential taxed products at the same time.', 'woocommerce-germanized' ), 'error' );
 					$has_passed = false;
-				}
 			}
 		}
 
@@ -567,7 +686,13 @@ class WC_GZD_Checkout {
 				$items      = $order->get_shipping_methods();
 
 				foreach ( $items as $item ) {
-					$method_ids[] = $item->get_method_id();
+					$constructed_method_id = $item->get_method_id();
+
+					if ( is_callable( array( $item, 'get_instance_id' ) ) ) {
+						$constructed_method_id .= ':' . $item->get_instance_id();
+					}
+
+					$method_ids[] = $constructed_method_id;
 				}
 
 				if ( wc_gzd_is_parcel_delivery_data_transfer_checkbox_enabled( $method_ids ) ) {
@@ -721,7 +846,7 @@ class WC_GZD_Checkout {
 	}
 
 	public function free_shipping_auto_select( $rates ) {
-		$do_check = is_checkout() || is_cart() || self::$force_free_shipping_filter;
+		$do_check = is_checkout() || is_cart() || WC_germanized()->is_rest_api_request() || self::$force_free_shipping_filter;
 
 		if ( ! $do_check ) {
 			return $rates;
@@ -1019,14 +1144,63 @@ class WC_GZD_Checkout {
 		 * Prevent shipping methods from individually calculating taxes (e.g. as per custom incl/excl tax settings)
 		 * as Germanized handles tax calculation globally for all shipping methods.
 		 */
-		if ( wc_gzd_enable_additional_costs_split_tax_calculation() ) {
+		if ( 'none' !== wc_gzd_get_additional_costs_tax_calculation_mode() ) {
 			if ( ! empty( $args['taxes'] ) && apply_filters( 'woocommerce_gzd_disable_custom_shipping_method_tax_calculation', true, $method ) ) {
-				$args['cost']  = $args['cost'] + array_sum( $args['taxes'] );
+				$taxes      = $args['taxes'];
+				$total_cost = is_array( $args['cost'] ) ? array_sum( $args['cost'] ) : $args['cost'];
+
+				// Taxes - if not an array and not set to false, calc tax based on cost and passed calc_tax variable. This saves shipping methods having to do complex tax calculations.
+				if ( ! is_array( $taxes ) && false !== $taxes && $total_cost > 0 && $method->is_taxable() ) {
+					$taxes = 'per_item' === $args['calc_tax'] ? $this->get_shipping_taxes_per_item( $args['cost'] ) : WC_Tax::calc_shipping_tax( $total_cost, WC_Tax::get_shipping_tax_rates() );
+				}
+
+				$args['cost']  = $total_cost + ( is_array( $taxes ) ? array_sum( $taxes ) : 0 );
 				$args['taxes'] = '';
 			}
 		}
 
 		return $args;
+	}
+
+	/**
+	 * Calc taxes per item being shipping in costs array.
+	 *
+	 * @since 2.6.0
+	 * @param  array $costs Costs.
+	 * @return array of taxes
+	 */
+	protected function get_shipping_taxes_per_item( $costs ) {
+		$taxes = array();
+
+		// If we have an array of costs we can look up each items tax class and add tax accordingly.
+		if ( is_array( $costs ) ) {
+			$cart = WC()->cart->get_cart();
+
+			foreach ( $costs as $cost_key => $amount ) {
+				if ( ! isset( $cart[ $cost_key ] ) ) {
+					continue;
+				}
+
+				$item_taxes = WC_Tax::calc_shipping_tax( $amount, WC_Tax::get_shipping_tax_rates( $cart[ $cost_key ]['data']->get_tax_class() ) );
+
+				// Sum the item taxes.
+				foreach ( array_keys( $taxes + $item_taxes ) as $key ) {
+					$taxes[ $key ] = ( isset( $item_taxes[ $key ] ) ? $item_taxes[ $key ] : 0 ) + ( isset( $taxes[ $key ] ) ? $taxes[ $key ] : 0 );
+				}
+			}
+
+			// Add any cost for the order - order costs are in the key 'order'.
+			if ( isset( $costs['order'] ) ) {
+				$item_taxes = WC_Tax::calc_shipping_tax( $costs['order'], WC_Tax::get_shipping_tax_rates() );
+
+				// Sum the item taxes.
+				foreach ( array_keys( $taxes + $item_taxes ) as $key ) {
+					$taxes[ $key ] = ( isset( $item_taxes[ $key ] ) ? $item_taxes[ $key ] : 0 ) + ( isset( $taxes[ $key ] ) ? $taxes[ $key ] : 0 );
+				}
+			}
+		}
+
+		return $taxes;
 	}
 
 	/**
@@ -1048,7 +1222,8 @@ class WC_GZD_Checkout {
 		if ( wc_gzd_enable_additional_costs_split_tax_calculation() || wc_gzd_calculate_additional_costs_taxes_based_on_main_service() ) {
 			foreach ( $rates as $key => $rate ) {
 				$original_taxes = $rate->get_taxes();
-				$original_cost  = $rate->get_cost();
+				$original_cost  = (float) $rate->get_cost();
+				$rate_has_tax   = $rate->get_shipping_tax() > 0;
 
 				/**
 				 * Prevent bugs in plugins like Woo Subscriptions which
@@ -1057,7 +1232,7 @@ class WC_GZD_Checkout {
 				 * Store the original shipping costs (before removing tax) within the object.
 				 */
 				if ( isset( $rate->original_cost ) ) {
-					$original_cost = $rate->original_cost;
+					$original_cost = (float) $rate->original_cost;
 				} else {
 					$rate->original_cost = $original_cost;
 				}
@@ -1076,57 +1251,30 @@ class WC_GZD_Checkout {
 					 * Tax rounding (e.g. for subtotal) is handled by WC_Cart_Totals::get_shipping_from_cart
 					 */
 					if ( apply_filters( 'woocommerce_gzd_force_additional_costs_taxation', true ) ) {
-						if ( $rate->get_shipping_tax() > 0 ) {
-							if ( ! empty( $tax_shares ) ) {
-								$taxes           = array();
-								$taxable_amounts = array();
+						if ( ! empty( $tax_shares ) ) {
+							$taxes           = array();
+							$taxable_amounts = array();
 
-								foreach ( $tax_shares as $tax_class => $class ) {
-									$tax_rates       = WC_Tax::get_rates( $tax_class );
-									$taxable_amount  = $original_cost * $class['share'];
-									$tax_class_taxes = WC_Tax::calc_tax( $taxable_amount, $tax_rates, wc_gzd_additional_costs_include_tax() );
-									$net_base        = wc_gzd_additional_costs_include_tax() ? ( $taxable_amount - array_sum( $tax_class_taxes ) ) : $taxable_amount;
+							foreach ( $tax_shares as $tax_class => $class ) {
+								$tax_rates       = WC_Tax::get_rates( $tax_class );
+								$taxable_amount  = $original_cost * $class['share'];
+								$tax_class_taxes = WC_Tax::calc_tax( $taxable_amount, $tax_rates, wc_gzd_additional_costs_include_tax() );
+								$net_base        = wc_gzd_additional_costs_include_tax() ? ( $taxable_amount - array_sum( $tax_class_taxes ) ) : $taxable_amount;
 
-									$taxable_amounts[ $tax_class ] = array(
-										'taxable_amount' => $taxable_amount,
-										'tax_share'      => $class['share'],
-										'tax_rates'      => array_keys( $tax_rates ),
-										'net_amount'     => $net_base,
-										'includes_tax'   => wc_gzd_additional_costs_include_tax(),
-									);
+								$taxable_amounts[ $tax_class ] = array(
+									'taxable_amount' => $taxable_amount,
+									'tax_share'      => $class['share'],
+									'tax_rates'      => array_keys( $tax_rates ),
+									'net_amount'     => $net_base,
+									'includes_tax'   => wc_gzd_additional_costs_include_tax(),
+								);
 
-									$taxes = $taxes + $tax_class_taxes;
-								}
-
-								$rates[ $key ]->set_taxes( $taxes );
-								$rates[ $key ]->add_meta_data( '_split_taxes', $taxable_amounts );
-								$rates[ $key ]->add_meta_data( '_tax_shares', $tax_shares );
-							} elseif ( 0 === WC()->cart->get_total_tax() ) {
-								$rates[ $key ]->set_taxes( array() );
-							} else {
-								$original_tax_rates = array_keys( $original_taxes );
-
-								if ( ! empty( $original_tax_rates ) ) {
-									$tax_rates = WC_Tax::get_shipping_tax_rates();
-
-									if ( ! empty( $tax_rates ) ) {
-										$taxes = WC_Tax::calc_tax( $original_cost, $tax_rates, wc_gzd_additional_costs_include_tax() );
-										$rates[ $key ]->set_taxes( $taxes );
-									}
-								}
+								$taxes = $taxes + $tax_class_taxes;
 							}
-						}
-					}
-				} elseif ( wc_gzd_calculate_additional_costs_taxes_based_on_main_service() ) {
-					$main_tax_class = wc_gzd_get_cart_main_service_tax_class( 'shipping' );
-
-					if ( $rate->get_shipping_tax() > 0 ) {
-						if ( false !== $main_tax_class ) {
-							$tax_rates      = WC_Tax::get_rates( $main_tax_class );
-							$taxable_amount = $original_cost;
-							$taxes          = WC_Tax::calc_tax( $taxable_amount, $tax_rates, wc_gzd_additional_costs_include_tax() );
 
 							$rates[ $key ]->set_taxes( $taxes );
+							$rates[ $key ]->add_meta_data( '_split_taxes', $taxable_amounts );
+							$rates[ $key ]->add_meta_data( '_tax_shares', $tax_shares );
 						} elseif ( 0 === WC()->cart->get_total_tax() ) {
 							$rates[ $key ]->set_taxes( array() );
 						} else {
@@ -1142,22 +1290,55 @@ class WC_GZD_Checkout {
 							}
 						}
 					}
+				} elseif ( wc_gzd_calculate_additional_costs_taxes_based_on_main_service() ) {
+					$main_tax_class = wc_gzd_get_cart_main_service_tax_class( 'shipping' );
+
+					if ( false !== $main_tax_class ) {
+						$tax_rates      = WC_Tax::get_rates( $main_tax_class );
+						$taxable_amount = $original_cost;
+						$taxes          = WC_Tax::calc_tax( $taxable_amount, $tax_rates, wc_gzd_additional_costs_include_tax() );
+
+						$rates[ $key ]->set_taxes( $taxes );
+					} elseif ( 0 === WC()->cart->get_total_tax() ) {
+						$rates[ $key ]->set_taxes( array() );
+					} else {
+						$original_tax_rates = array_keys( $original_taxes );
+
+						if ( ! empty( $original_tax_rates ) ) {
+							$tax_rates = WC_Tax::get_shipping_tax_rates();
+
+							if ( ! empty( $tax_rates ) ) {
+								$taxes = WC_Tax::calc_tax( $original_cost, $tax_rates, wc_gzd_additional_costs_include_tax() );
+								$rates[ $key ]->set_taxes( $taxes );
+							}
+						}
+					}
 				}
+
+				$tax_status = is_callable( array( $rate, 'get_tax_status' ) ) ? $rate->get_tax_status() : 'taxable';
 
 				/**
 				 * Convert shipping costs to gross prices in case prices include tax
 				 */
-				if ( wc_gzd_additional_costs_include_tax() ) {
+				if ( wc_gzd_additional_costs_include_tax() && 'none' !== $tax_status ) {
 					$tax_total = array_sum( $rates[ $key ]->get_taxes() );
 					$new_cost  = $original_cost - $tax_total;
 
-					if ( WC()->customer->is_vat_exempt() ) {
-						$shipping_rates = WC_Tax::get_shipping_tax_rates();
-						$shipping_taxes = WC_Tax::calc_inclusive_tax( $original_cost, $shipping_rates );
-						$new_cost       = ( $new_cost - array_sum( $shipping_taxes ) );
+					$rates[ $key ]->set_cost( $new_cost );
+				}
+
+				if ( ! $rate_has_tax ) {
+					$taxes_zero = array();
+
+					foreach ( $rates[ $key ]->get_taxes() as $tax_key => $tax ) {
+						$taxes_zero[ $tax_key ] = 0.0;
 					}
 
-					$rates[ $key ]->set_cost( $new_cost );
+					if ( WC()->customer->is_vat_exempt() ) {
+						$taxes_zero = array();
+					}
+
+					$rates[ $key ]->set_taxes( $taxes_zero );
 				}
 			}
 		}
@@ -1338,7 +1519,7 @@ class WC_GZD_Checkout {
 
 			if ( ! empty( $package['rates'] ) ) {
 				foreach ( $package['rates'] as $key => $rate ) {
-					if ( $key !== $chosen_method ) {
+					if ( (string) $key !== (string) $chosen_method ) {
 						unset( WC()->shipping->packages[ $i ]['rates'][ $key ] );
 					}
 				}

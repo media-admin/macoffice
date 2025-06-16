@@ -15,6 +15,7 @@ use MatthiasWeb\RealMediaLibrary\overrides\interfce\usersettings\IOverrideDefaul
  * It replaces this plugin: https://wordpress.org/plugins/default-startup-folder-for-real-media-library/
  *
  * @since 4.6.0
+ * @internal
  */
 class DefaultFolder implements IUserSettings, IOverrideDefaultFolder
 {

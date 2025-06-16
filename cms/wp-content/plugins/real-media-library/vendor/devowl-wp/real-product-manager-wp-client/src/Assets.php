@@ -9,6 +9,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Assets as UtilsAssets;
 // @codeCoverageIgnoreEnd
 /**
  * Assets handling.
+ * @internal
  */
 class Assets
 {

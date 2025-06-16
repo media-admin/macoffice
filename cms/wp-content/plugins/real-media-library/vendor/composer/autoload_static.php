@@ -4,11 +4,11 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit397d0037d3ba0514ce889c7dee8d6272
+class ComposerStaticInit9c45d73de7f1c22d3e50a90ec1d683c3
 {
     public static $files = array (
         '7aed44d824e149ce152c0fb82af9379a' => __DIR__ . '/..' . '/colinodell/json5/src/global.php',
-        '49a1299791c25c6fd83542c6fedacddd' => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/load-v4p11.php',
+        'd05ecc14ff93fd612a81ec7e8ab4c2c9' => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/load-v5p4.php',
         'cd48e99dc39649f6529395d65373ee16' => __DIR__ . '/..' . '/devowl-wp/real-product-manager-wp-client/src/autoload.php',
         'b45694f813fe096b704a1908536cfec0' => __DIR__ . '/..' . '/devowl-wp/real-utils/src/autoload.php',
     );
@@ -122,6 +122,7 @@ class ComposerStaticInit397d0037d3ba0514ce889c7dee8d6272
         'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\Localization' => __DIR__ . '/..' . '/devowl-wp/utils/src/Localization.php',
         'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\PackageLocalization' => __DIR__ . '/..' . '/devowl-wp/utils/src/PackageLocalization.php',
         'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\PluginReceiver' => __DIR__ . '/..' . '/devowl-wp/utils/src/PluginReceiver.php',
+        'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\RateLimitNotice' => __DIR__ . '/..' . '/devowl-wp/utils/src/RateLimitNotice.php',
         'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\Service' => __DIR__ . '/..' . '/devowl-wp/utils/src/Service.php',
         'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\ServiceNoStore' => __DIR__ . '/..' . '/devowl-wp/utils/src/ServiceNoStore.php',
         'MatthiasWeb\\RealMediaLibrary\\Vendor\\MatthiasWeb\\Utils\\Utils' => __DIR__ . '/..' . '/devowl-wp/utils/src/Utils.php',
@@ -189,9 +190,9 @@ class ComposerStaticInit397d0037d3ba0514ce889c7dee8d6272
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit397d0037d3ba0514ce889c7dee8d6272::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit397d0037d3ba0514ce889c7dee8d6272::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit397d0037d3ba0514ce889c7dee8d6272::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9c45d73de7f1c22d3e50a90ec1d683c3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9c45d73de7f1c22d3e50a90ec1d683c3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit9c45d73de7f1c22d3e50a90ec1d683c3::$classMap;
 
         }, null, ClassLoader::class);
     }

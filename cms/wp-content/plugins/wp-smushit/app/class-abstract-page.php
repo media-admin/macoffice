@@ -8,6 +8,7 @@
 namespace Smush\App;
 
 use Smush\Core\Helper;
+use Smush\Core\Modules\Helpers\WhiteLabel;
 use Smush\Core\Settings;
 use WP_Smush;
 use WPMUDEV_Dashboard;
@@ -74,6 +75,14 @@ abstract class Abstract_Page {
 	 */
 	protected $upgrade_url = 'https://wpmudev.com/project/wp-smush-pro/';
 
+
+	/**
+	 * Whitle Label
+	 *
+	 * @var WhiteLabel
+	 */
+	protected $whitelabel;
+
 	/**
 	 * Abstract_Page constructor.
 	 *
@@ -82,9 +91,10 @@ abstract class Abstract_Page {
 	 * @param bool   $parent   Does a page have a parent (will be added as a sub menu).
 	 * @param bool   $nextgen  Is that a NextGen subpage.
 	 */
-	public function __construct( $slug, $title, $parent = false, $nextgen = false ) {
-		$this->slug     = $slug;
-		$this->settings = Settings::get_instance();
+	public function __construct( $slug, $title, $parent = false, $nextgen = false, $is_upsell_link = false ) {
+		$this->whitelabel = new WhiteLabel();
+		$this->slug       = $slug;
+		$this->settings   = Settings::get_instance();
 
 		if ( ! $parent ) {
 			$this->page_id = add_menu_page(
@@ -101,8 +111,13 @@ abstract class Abstract_Page {
 				$title,
 				$title,
 				$nextgen ? 'NextGEN Manage gallery' : 'manage_options',
-				$this->slug,
-				array( $this, 'render' )
+				$is_upsell_link ?
+					$this->get_utm_link(
+						array(
+							'utm_campaign' => $slug,
+						)
+					) : $this->slug,
+				$is_upsell_link ? null : array( $this, 'render' )
 			);
 		}
 
@@ -379,7 +394,6 @@ abstract class Abstract_Page {
 	private function prepare_modals() {
 		$this->prepare_onboarding_modal();
 		$this->prepare_upgrade_modal();
-		$this->prepare_ultra_compression_modal();
 	}
 
 	/**
@@ -443,7 +457,7 @@ abstract class Abstract_Page {
 			$this->has_onload_modal()
 			|| $hide_upgrade_modal
 			|| $whitelabel_hide_doc_link
-			|| ( $is_on_subsite_screen && ! $this->settings->has_bulk_smush_page() )
+			|| ( $is_on_subsite_screen && ! $this->settings->has_next_gen_page() )
 		) {
 			$should_ignore_upgrade_modal = $whitelabel_hide_doc_link || $this->has_onload_modal( 'onboarding' );
 			if ( $should_ignore_upgrade_modal ) {
@@ -452,20 +466,12 @@ abstract class Abstract_Page {
 			return;
 		}
 
-		$cta_url                 = $this->settings->has_bulk_smush_page() ? Helper::get_page_url( 'smush-bulk' ) : '';
+		$cta_url = WP_Smush::is_pro()
+					? Helper::get_page_url( 'smush-next-gen' )
+					: $this->get_utm_link( array( 'utm_campaign' => 'smush_welcome_modal_avif' ) );
+		// Load new feature modal.
 		$this->modals['updated'] = array(
 			'cta_url' => $cta_url,
-		);
-	}
-
-	private function prepare_ultra_compression_modal() {
-		if ( WP_Smush::is_pro() ) {
-			return;
-		}
-
-		$is_dashboard_page                 = 'smush' === $this->get_slug();
-		$this->modals['ultra-compression'] = array(
-			'location' => $is_dashboard_page ? 'dashboard_summary' : 'summary_box',
 		);
 	}
 
@@ -611,10 +617,10 @@ abstract class Abstract_Page {
 	 * @return string
 	 */
 	public function get_doc_url() {
-		$doc = 'https://wpmudev.com/docs/wpmu-dev-plugins/smush/';
-		if ( ! WP_Smush::is_pro() ) {
-			$doc = 'https://wpmudev.com/docs/wpmu-dev-plugins/smush/?utm_source=smush&utm_medium=plugin&utm_campaign=smush_pluginlist_docs';
-		}
+		$doc = $this->get_utm_link(
+			array( 'utm_campaign' => 'smush_pluginlist_docs' ),
+			'https://wpmudev.com/docs/wpmu-dev-plugins/smush/'
+		);
 
 		switch ( $this->get_slug() ) {
 			case 'smush-bulk':
@@ -633,8 +639,8 @@ abstract class Abstract_Page {
 				$doc .= '#cdn';
 				break;
 
-			case 'smush-webp':
-				$doc .= '#local-webp';
+			case 'smush-next-gen':
+				$doc .= '#next-gen-formats';
 				break;
 
 			case 'smush-integrations':
@@ -829,7 +835,7 @@ abstract class Abstract_Page {
 
 		$access = get_site_option( 'wp-smush-networkwide' );
 
-		if ( ! $access || in_array( $page, array( 'directory', 'webp', 'configs' ), true ) ) {
+		if ( ! $access || in_array( $page, array( 'directory', 'next-gen', 'configs' ), true ) ) {
 			return is_network_admin();
 		}
 
@@ -920,7 +926,7 @@ abstract class Abstract_Page {
 
 		$strings = array(
 			'tutorials'         => esc_html__( 'Tutorials', 'wp-smushit' ),
-			'tutorials_link'    => 'https://wpmudev.com/blog/tutorials/tutorial-category/smush-pro/',
+			'tutorials_link'    => $this->get_utm_link( array( 'utm_campaign' => 'smush_tutorials_page' ), 'https://wpmudev.com/blog/tutorials/tutorial-category/smush-pro/' ),
 			'tutorials_strings' => array(
 				array(
 					'loading'      => esc_html__( 'Loading tutorials...', 'wp-smushit' ),
@@ -970,8 +976,8 @@ abstract class Abstract_Page {
 					'configsPage'   => network_admin_url( 'admin.php?page=smush-settings&view=configs' ),
 					'accordionImg'  => WP_SMUSH_URL . 'app/assets/images/smush-config-icon@2x.png',
 					'hubConfigs'    => 'https://wpmudev.com/hub2/configs/my-configs',
-					'hubWelcome'    => 'https://wpmudev.com/hub-welcome/?utm_source=smush&utm_medium=plugin&utm_campaign=smush_hub_config',
-					'freeNoticeHub' => 'https://wpmudev.com/hub-welcome/?utm_source=smush&utm_medium=plugin&utm_campaign=smush_hub_config',
+					'hubWelcome'    => $this->get_utm_link( array( 'utm_campaign' => 'smush_hub_config' ), 'https://wpmudev.com/site-management/' ),
+					'freeNoticeHub' => $this->get_utm_link( array( 'utm_campaign' => 'smush_hub_config' ), 'https://wpmudev.com/site-management/' ),
 				),
 				'requestsData' => array(
 					'root'           => esc_url_raw( rest_url( 'wp-smush/v1/preset_configs' ) ),
@@ -1023,14 +1029,12 @@ abstract class Abstract_Page {
 		return $locale;
 	}
 
-	protected function get_utm_link( $args = array() ) {
-		$default = array(
-			'utm_source' => 'smush',
-			'utm_medium' => 'plugin',
-		);
-		$args    = wp_parse_args( $args, $default );
+	protected function get_utm_link( $args = array(), $url = '' ) {
+		if ( empty( $url ) ) {
+			$url = $this->upgrade_url;
+		}
 
-		return add_query_arg( $args, $this->upgrade_url );
+		return Helper::get_utm_link( $args, $url );
 	}
 
 	public function get_connect_site_link() {

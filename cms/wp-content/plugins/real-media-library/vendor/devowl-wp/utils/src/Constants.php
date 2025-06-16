@@ -4,6 +4,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils;
 
 /**
  * Common constants which cannot be hold in `trait`s as this is forbidden since PHP 8.1.
+ * @internal
  */
 class Constants
 {
@@ -46,8 +47,10 @@ class Constants
     const ASSETS_TYPE_CUSTOMIZE = 'customize_controls_print_scripts';
     const ASSETS_HANDLE_REACT = 'react';
     const ASSETS_HANDLE_REACT_DOM = 'react-dom';
+    const ASSETS_HANDLE_REACT_JSX_RUNTIME = 'react-jsx-runtime';
     const ASSETS_HANDLE_MOBX = 'mobx';
     const ASSETS_ADVANCED_ENQUEUE_FEATURE_DEFER = 'defer';
+    const ASSETS_ADVANCED_ENQUEUE_FEATURE_ASYNC = 'async';
     const ASSETS_ADVANCED_ENQUEUE_FEATURE_PRELOADING = 'preloading';
     const ASSETS_ADVANCED_ENQUEUE_FEATURE_PRIORITY_QUEUE = 'priority-queue';
 }

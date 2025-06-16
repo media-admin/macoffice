@@ -8,6 +8,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\Freemium;
 // @codeCoverageIgnoreEnd
 /**
  * Plugin autoloader for lite version.
+ * @internal
  */
 class Autoloader
 {

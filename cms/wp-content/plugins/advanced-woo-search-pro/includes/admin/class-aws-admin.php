@@ -75,7 +75,7 @@ class AWS_Admin {
      * Add options page
      */
     public function add_admin_page() {
-        add_menu_page( esc_html__( 'Adv. Woo Search', 'advanced-woo-search' ), esc_html__( 'Adv. Woo Search', 'advanced-woo-search' ), 'manage_options', 'aws-options', array( &$this, 'display_admin_page' ), 'dashicons-search', 70 );
+        add_menu_page( esc_html__( 'Adv. Woo Search', 'advanced-woo-search' ), esc_html__( 'Adv. Woo Search', 'advanced-woo-search' ), AWS_Admin_Helpers::user_admin_capability(), 'aws-options', array( &$this, 'display_admin_page' ), 'dashicons-search', 70 );
     }
 
     /**
@@ -93,6 +93,7 @@ class AWS_Admin {
         $tabs = array(
             'general' => __( 'General', 'advanced-woo-search' ),
             'form'    => __( 'Search Form', 'advanced-woo-search' ),
+            'suggestions' => __( 'Search Suggestions', 'advanced-woo-search' ),
             'results' => __( 'Search Results', 'advanced-woo-search' )
         );
 
@@ -105,6 +106,25 @@ class AWS_Admin {
         }
 
         $tabs_html = '<h2 class="nav-tab-wrapper woo-nav-tab-wrapper">'.$tabs_html.'</h2>';
+
+
+        echo '<div id="aws-admin-header">';
+            echo '<div class="inner">';
+                echo '<div class="logo">';
+                    echo '<img src="' . AWS_PRO_URL . '/assets/img/logo.png' . '" alt="' . esc_html( 'logo', 'advanced-woo-search' ) . '">';
+                    echo '<span class="title">';
+                        echo esc_html( 'Advanced Woo Search PRO', 'advanced-woo-search' );
+                    echo '</span>';
+                    echo '<span class="version">';
+                        echo 'v' . AWS_PRO_VERSION;
+                    echo '</span>';
+                echo '</div>';
+                echo '<div class="btns">';
+                    echo '<a class="button button-docs" href="https://advanced-woo-search.com/guide/?utm_source=wp-plugin&utm_medium=header&utm_campaign=guide" target="_blank">' . esc_html( 'Documentation', 'advanced-woo-search' ) . '</a>';
+                    echo '<a class="button button-support" href="https://advanced-woo-search.com/contact/?utm_source=wp-plugin&utm_medium=header&utm_campaign=support" target="_blank">' . esc_html( 'Support', 'advanced-woo-search' ) . '</a>';
+                echo '</div>';
+            echo '</div>';
+        echo '</div>';
 
 
         echo '<div class="wrap">';
@@ -127,13 +147,11 @@ class AWS_Admin {
                         update_option( 'aws_pro_seamless', $_POST["seamless"] );
                     }
 
-                    if ( isset( $_POST["Submit"] ) && current_user_can( 'manage_options' ) && isset( $_POST["_wpnonce"] ) && wp_verify_nonce( $_POST["_wpnonce"], 'plugin-settings' ) ) {
+                    if ( isset( $_POST["Submit"] ) && current_user_can( AWS_Admin_Helpers::user_admin_capability() ) && isset( $_POST["_wpnonce"] ) && wp_verify_nonce( $_POST["_wpnonce"], 'plugin-settings' ) ) {
                         AWS_Admin_Options::update_common_settings();
                     }
 
                     $common_settings = AWS_Admin_Options::get_common_settings();
-
-                    echo '<h1>Advanced Woo Search</h1>';
 
                     echo AWS_Admin_Meta_Boxes::get_general_tabs();
 
@@ -156,7 +174,7 @@ class AWS_Admin {
                         return;
                     }
 
-                    if ( isset( $_POST["Submit"] ) && current_user_can( 'manage_options' ) && isset( $_POST["_wpnonce"] ) && wp_verify_nonce( $_POST["_wpnonce"], 'plugin-settings' ) ) {
+                    if ( isset( $_POST["Submit"] ) && current_user_can( AWS_Admin_Helpers::user_admin_capability() ) && isset( $_POST["_wpnonce"] ) && wp_verify_nonce( $_POST["_wpnonce"], 'plugin-settings' ) ) {
                         AWS_Admin_Options::update_settings();
                     }
 
@@ -187,6 +205,9 @@ class AWS_Admin {
                             break;
                         case('form'):
                             new AWS_Admin_Fields( 'form', $plugin_options );
+                            break;
+                        case('suggestions'):
+                            new AWS_Admin_Fields( 'suggestions', $plugin_options );
                             break;
                         default:
                             new AWS_Admin_Fields( 'general', $plugin_options );
@@ -252,10 +273,10 @@ class AWS_Admin {
                     echo '<td class="aws-actions">';
 
                         if ( $filter_id != 1 ) {
-                            echo '<a class="button alignright tips delete" title="Delete" data-instance="' . esc_attr( $instance_id ) . '" data-id="' . esc_attr( $filter_id ) . '" href="#">' . esc_html__('Delete', 'advanced-woo-search') . '</a>';
+                            echo '<a class="button alignright delete aws-tip" data-instance="' . esc_attr( $instance_id ) . '" data-id="' . esc_attr( $filter_id ) . '" data-tip="' . esc_html__( 'Delete', 'advanced-woo-search' ) . '" href="#">' . esc_html__('Delete', 'advanced-woo-search') . '</a>';
                         }
 
-                        echo '<a class="button alignright tips copy" title="Copy" data-instance="' . esc_attr( $instance_id ) . '" data-id="' . esc_attr( $filter_id ) . '" href="#">' . esc_html__( 'Copy', 'advanced-woo-search' ) . '</a>';
+                        echo '<a class="button alignright copy aws-tip" data-instance="' . esc_attr( $instance_id ) . '" data-id="' . esc_attr( $filter_id ) . '" data-tip="' . esc_html__( 'Make a copy', 'advanced-woo-search' ) . '" href="#">' . esc_html__( 'Copy', 'advanced-woo-search' ) . '</a>';
 
                     echo '</td>';
 
@@ -307,6 +328,7 @@ class AWS_Admin {
             wp_enqueue_script( 'select2' );
             wp_enqueue_media();
 
+            wp_enqueue_script( 'jquery-tiptip', AWS_PRO_URL . '/assets/js/jquery.tipTip.js', array( 'jquery' ), 'pro' . AWS_PRO_VERSION );
             wp_enqueue_script( 'aws-admin', AWS_PRO_URL . 'assets/js/admin' . $suffix . '.js', array('jquery', 'jquery-ui-sortable', 'select2'), 'pro' . AWS_PRO_VERSION );
 
             wp_localize_script( 'aws-admin', 'aws_vars', array(
@@ -329,7 +351,7 @@ class AWS_Admin {
             return;
         }
 
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( AWS_Admin_Helpers::user_admin_capability() ) ) {
             return;
         }
 
@@ -352,7 +374,7 @@ class AWS_Admin {
 
             $index_options = AWS_Helpers::get_index_options();
             $common_settings = AWS_Admin_Options::get_common_settings();
-            $reindex_version = get_option( 'aws_pro_reindex_version' );
+            $reindex_version = AWS_PRO()->option_vars->get_reindex_version();
 
             foreach( $options as $options_key => $options_tab ) {
                 foreach( $options_tab as $key => $option ) {
@@ -454,7 +476,7 @@ class AWS_Admin {
             return;
         }
 
-        if ( ! isset( $_POST["Submit"] ) || ! current_user_can( 'manage_options' ) ) {
+        if ( ! isset( $_POST["Submit"] ) || ! current_user_can( AWS_Admin_Helpers::user_admin_capability() ) ) {
             return;
         }
 

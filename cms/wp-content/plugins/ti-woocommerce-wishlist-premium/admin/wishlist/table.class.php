@@ -40,11 +40,11 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 		$this->_version = $version;
 
 		parent::__construct( array(
-				'singular' => __( 'Wishlist', 'ti-woocommerce-wishlist-premium' ),
+			'singular' => __( 'Wishlist', 'ti-woocommerce-wishlist-premium' ),
 			// Singular name of the listed records.
-				'plural'   => __( 'Wishlists', 'ti-woocommerce-wishlist-premium' ),
+			'plural'   => __( 'Wishlists', 'ti-woocommerce-wishlist-premium' ),
 			// Plural name of the listed records.
-				'ajax'     => false,
+			'ajax'     => false,
 			// Does this table support ajax?
 		) );
 	}
@@ -56,11 +56,11 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 	 */
 	function get_columns() {
 		$columns = array(
-				'cb'      => '<input type="checkbox"/>',
-				'title'   => __( 'Title', 'ti-woocommerce-wishlist-premium' ),
-				'author'  => __( 'Author', 'ti-woocommerce-wishlist-premium' ),
-				'privacy' => __( 'Privacy', 'ti-woocommerce-wishlist-premium' ),
-				'items'   => sprintf( '%s <span class="tinvwl-full">%s</span>', __( 'Items', 'ti-woocommerce-wishlist-premium' ), __( 'in Wishlists', 'ti-woocommerce-wishlist-premium' ) ),
+			'cb'      => '<input type="checkbox"/>',
+			'title'   => __( 'Title', 'ti-woocommerce-wishlist-premium' ),
+			'author'  => __( 'Author', 'ti-woocommerce-wishlist-premium' ),
+			'privacy' => __( 'Privacy', 'ti-woocommerce-wishlist-premium' ),
+			'items'   => sprintf( '%s <span class="tinvwl-full">%s</span>', __( 'Items', 'ti-woocommerce-wishlist-premium' ), __( 'in Wishlists', 'ti-woocommerce-wishlist-premium' ) ),
 		);
 		if ( tinv_get_option( 'subscribe', 'allow' ) ) {
 			$columns['followers'] = __( 'Followers', 'ti-woocommerce-wishlist-premium' );
@@ -89,15 +89,19 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public static function get_wishlists( $per_page = 10, $page_number = 1 ) {
-		$wl      = new TInvWL_Wishlist( self::$_name );
-		$orderby = strtolower( filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
-		$order   = strtoupper( filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
-		$privacy = filter_input( INPUT_GET, 'privacy', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-		$search  = filter_input( INPUT_POST, 's', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		global $wpdb;
+
+		$wl          = new TInvWL_Wishlist( self::$_name );
+		$orderby     = strtolower( filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		$order       = strtoupper( filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		$privacy     = filter_input( INPUT_GET, 'privacy', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		$search      = filter_input( INPUT_POST, 's', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		$table_lists = sprintf( '%s%s_%s', $wpdb->prefix, self::$_name, 'lists' );
+		$table_items = sprintf( '%s%s_%s', $wpdb->prefix, self::$_name, 'items' );
 
 		if ( ! in_array( $order, array(
-				'ASC',
-				'DESC',
+			'ASC',
+			'DESC',
 		) ) ) { // @codingStandardsIgnoreLine WordPress.PHP.StrictInArray.MissingTrueStrict
 			$order = 'DESC';
 		}
@@ -114,10 +118,10 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 		}
 
 		$attr = array(
-				'count'    => $per_page,
-				'offset'   => $per_page * ( $page_number - 1 ),
-				'order'    => $order,
-				'order_by' => $orderby,
+			'count'    => $per_page,
+			'offset'   => $per_page * ( $page_number - 1 ),
+			'order'    => $order,
+			'order_by' => $orderby,
 		);
 		if ( ! tinv_get_option( 'general', 'multi' ) ) {
 			$attr['type'] = 'default';
@@ -148,6 +152,13 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 
 			$attr['author'] = $users;
 		}
+
+		$attr['field_raw'] = [
+			'*',
+			'COALESCE((SELECT SUM(quantity) FROM ' . $table_items . ' WHERE wishlist_id = ' . $table_lists . '.ID),0) AS items',
+		];
+
+
 		$wishlists = $wl->get( $attr );
 
 		return $wishlists;
@@ -163,8 +174,8 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 		$privacy = filter_input( INPUT_GET, 'privacy', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		$search  = filter_input( INPUT_POST, 's', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		$attr    = array(
-				'count'  => 9999999,
-				'offset' => 0,
+			'count'  => 9999999,
+			'offset' => 0,
 		);
 		if ( ! tinv_get_option( 'general', 'multi' ) ) {
 			$attr['type'] = 'default';
@@ -174,8 +185,8 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 		}
 		if ( ! empty( $search ) ) {
 			$args       = array(
-					'search'         => '*' . $search . '*',
-					'search_columns' => array( 'user_login', 'user_email', 'user_nicename' ),
+				'search'         => '*' . $search . '*',
+				'search_columns' => array( 'user_login', 'user_email', 'user_nicename' ),
 			);
 			$user_query = new WP_User_Query( $args );
 			$users      = array();
@@ -209,7 +220,7 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 	 */
 	function column_cb( $item ) {
 		return sprintf(
-				'<input type="checkbox" name="wishlists[]" value="%s" />', $item['ID']
+			'<input type="checkbox" name="wishlists[]" value="%s" />', $item['ID']
 		);
 	}
 
@@ -222,7 +233,7 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 	 */
 	function column_title( $item ) {
 		return sprintf(
-				'<a href="%s">%s</a>', tinv_url_wishlist( $item['ID'] ), $item['title']
+			'<a href="%s">%s</a>', tinv_url_wishlist( $item['ID'] ), $item['title']
 		);
 	}
 
@@ -261,9 +272,7 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 	 * @return string
 	 */
 	function column_items( $item ) {
-		$wlp = new TInvWL_Product( $item, self::$_name );
-
-		return count( $wlp->get_wishlist( array( 'count' => 9999999 ) ) );
+		return $item['items'];
 	}
 
 	/**
@@ -311,12 +320,12 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 	function confirm_remove( $wishlist ) {
 		ob_start();
 		TInvWL_View::view( 'wishlist-confirm', array(
-				'wishlist'   => $wishlist,
-				'remove_url' => self::admin_url( '', '', array(
-						'wishlist' => $wishlist['ID'],
-						'action'   => 'remove',
-						'_wpnonce' => wp_create_nonce( 'remove_wishlist' ),
-				) ),
+			'wishlist'   => $wishlist,
+			'remove_url' => self::admin_url( '', '', array(
+				'wishlist' => $wishlist['ID'],
+				'action'   => 'remove',
+				'_wpnonce' => wp_create_nonce( 'remove_wishlist' ),
+			) ),
 		) );
 
 		return ob_get_clean();
@@ -346,10 +355,11 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 	 */
 	public static function get_sortable_columns_static() {
 		return array(
-				'title'   => array( 'title', true ),
-				'author'  => array( 'author', false ),
-				'privacy' => array( 'status', false ),
-				'date'    => array( 'date', false ),
+			'title'   => array( 'title', true ),
+			'author'  => array( 'author', false ),
+			'privacy' => array( 'status', false ),
+			'date'    => array( 'date', false ),
+			'items'   => array( 'items', false ),
 		);
 	}
 
@@ -501,9 +511,9 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 		}
 
 		$views = array(
-				'public'  => __( 'Public', 'ti-woocommerce-wishlist-premium' ),
-				'share'   => __( 'Share', 'ti-woocommerce-wishlist-premium' ),
-				'private' => __( 'Private', 'ti-woocommerce-wishlist-premium' ),
+			'public'  => __( 'Public', 'ti-woocommerce-wishlist-premium' ),
+			'share'   => __( 'Share', 'ti-woocommerce-wishlist-premium' ),
+			'private' => __( 'Private', 'ti-woocommerce-wishlist-premium' ),
 		);
 
 		$wl       = new TInvWL_Wishlist( self::$_name );
@@ -527,16 +537,16 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 		$current     = filter_input( INPUT_GET, 'privacy', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		$current_url = set_url_scheme( ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ); // @codingStandardsIgnoreLine WordPress.VIP.SuperGlobalInputUsage.AccessDetected
 		$current_url = remove_query_arg( array(
-				'hotkeys_highlight_last',
-				'hotkeys_highlight_first',
-				'paged',
+			'hotkeys_highlight_last',
+			'hotkeys_highlight_first',
+			'paged',
 		), $current_url );
 
 		foreach ( $views as $key => &$view ) {
 			$view = sprintf( '<li class="%s"><a href="%s">%s</a></li>', ( $key == $current ? 'active' : '' ), esc_url( add_query_arg( 'privacy', $key, $current_url ) ), $view ); // WPCS: loose comparison ok.
 		}
 		$views = tinv_array_merge( array(
-				'all' => sprintf( '<li class="%s"><a href="%s">%s (%d)</a></li>', ( empty( $current ) ? 'active' : '' ), esc_url( remove_query_arg( 'privacy', $current_url ) ), __( 'All', 'ti-woocommerce-wishlist-premium' ), $counts['all'] ),
+			'all' => sprintf( '<li class="%s"><a href="%s">%s (%d)</a></li>', ( empty( $current ) ? 'active' : '' ), esc_url( remove_query_arg( 'privacy', $current_url ) ), __( 'All', 'ti-woocommerce-wishlist-premium' ), $counts['all'] ),
 		), $views );
 		echo '<ul class="tinwl-wishlists-privacy tinv-wishlist-clearfix">' . implode( '', $views ) . '</ul>'; // WPSC: xss ok.
 	}
@@ -561,8 +571,8 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 		$total_items  = self::record_count();
 
 		$this->set_pagination_args( array(
-				'total_items' => $total_items, // WE have to calculate the total number of items.
-				'per_page'    => $per_page, // WE have to determine how many items to show on a page.
+			'total_items' => $total_items, // WE have to calculate the total number of items.
+			'per_page'    => $per_page, // WE have to determine how many items to show on a page.
 		) );
 
 		$this->items = self::get_wishlists( $per_page, $current_page );
@@ -577,7 +587,7 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 	 */
 	function get_bulk_actions() {
 		$actions = array(
-				'remove' => __( 'Delete', 'ti-woocommerce-wishlist-premium' ),
+			'remove' => __( 'Delete', 'ti-woocommerce-wishlist-premium' ),
 		);
 
 		return $actions;
@@ -592,8 +602,8 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 			return false;
 		}
 		$data = filter_input_array( INPUT_GET, array(
-				'wishlist' => FILTER_VALIDATE_INT,
-				'action'   => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+			'wishlist' => FILTER_VALIDATE_INT,
+			'action'   => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 		) );
 		if ( 'remove' !== $data['action'] || empty( $data['wishlist'] ) ) {
 			return self::reloadpage();
@@ -626,13 +636,13 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 		}
 		$wl        = new TInvWL_Wishlist( self::$_name );
 		$wishlists = $wl->get( array(
-				'ID'    => $wishlists,
-				'field' => array( 'ID', 'title', 'author', 'type' ),
+			'ID'    => $wishlists,
+			'field' => array( 'ID', 'title', 'author', 'type' ),
 		) );
 
 		$wishlists_removed = array(
-				array(),
-				array(),
+			array(),
+			array(),
 		);
 		foreach ( $wishlists as $wishlist ) {
 			if ( 'default' === $wishlist['type'] ) {
@@ -678,8 +688,8 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 		$protocol = is_ssl() ? 'https' : 'http';
 		$glue     = '-';
 		$params   = array(
-				'page' => empty( $page ) ? self::$_name : self::$_name . $glue . $page,
-				'cat'  => $cat,
+			'page' => empty( $page ) ? self::$_name : self::$_name . $glue . $page,
+			'cat'  => $cat,
 		);
 		if ( is_array( $arg ) ) {
 			$params = array_merge( $params, $arg );
@@ -742,9 +752,9 @@ class TInvWL_Admin_Wishlist_Table extends WP_List_Table {
 			if ( 'cb' === $column_key ) {
 				$class[] = 'check-column';
 			} elseif ( in_array( $column_key, array(
-					'posts',
-					'comments',
-					'links',
+				'posts',
+				'comments',
+				'links',
 			) ) ) { // @codingStandardsIgnoreLine WordPress.PHP.StrictInArray.MissingTrueStrict
 				$class[] = 'num';
 			}

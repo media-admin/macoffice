@@ -27,7 +27,7 @@ abstract class Loco_test_TestCase extends PHPUnit_Adapter_TestCase {
     protected function normalizeHtml( $src ){
             
         $dom = new DOMDocument('1.0','UTF-8');
-        $dom->preserveWhitespace = false;
+        $dom->preserveWhiteSpace = false;
         $dom->formatOutput = false;
         $dom->loadXML( '<?xml version="1.0" encoding="utf-8"?><root>'.$src.'</root>' );
         $dom->normalizeDocument();
@@ -45,7 +45,7 @@ abstract class Loco_test_TestCase extends PHPUnit_Adapter_TestCase {
     /**
      * @deprecated 
      */
-    public function setExpectedException( $exception, $message = '', $code = null ) {
+    public function setExpectedException( string $exception, string $message = '', ?int $code = null ) {
         //trigger_error('Use expectException('.var_export($exception,true).')', E_USER_DEPRECATED );
         $this->expectException( $exception );
 

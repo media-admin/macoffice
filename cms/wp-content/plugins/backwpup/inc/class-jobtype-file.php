@@ -38,20 +38,22 @@ class BackWPup_JobType_File extends BackWPup_JobTypes
         $log_folder = get_site_option('backwpup_cfg_logfolder');
         $log_folder = BackWPup_File::get_absolute_path($log_folder);
 
-        return [
-            'backupexcludethumbs' => false,
-            'backupspecialfiles' => true,
-            'backuproot' => true,
-            'backupcontent' => true,
-            'backupplugins' => true,
-            'backupthemes' => true,
-            'backupuploads' => true,
-            'backuprootexcludedirs' => apply_filters(
-                'backwpup_root_exclude_dirs',
+		return [
+			'backupexcludethumbs'      => false,
+			'backupspecialfiles'       => true,
+			'backuproot'               => true,
+			'backupcontent'            => true,
+			'backupplugins'            => true,
+			'backupthemes'             => true,
+			'backupuploads'            => true,
+			'backuprootexcludedirs'    => wpm_apply_filters_typed(
+				'array',
+				'backwpup_root_exclude_dirs',
                 ['logs', 'usage', 'restore', 'restore_temp']
-            ),
-            'backupcontentexcludedirs' => apply_filters(
-                'backwpup_content_exclude_dirs',
+			),
+			'backupcontentexcludedirs' => wpm_apply_filters_typed(
+				'array',
+				'backwpup_content_exclude_dirs',
                 [
                     'cache',
                     'wflogs',
@@ -65,23 +67,30 @@ class BackWPup_JobType_File extends BackWPup_JobTypes
                     'ithemes-security',
                     'backwpup-restore',
                 ]
-            ),
-            'backuppluginsexcludedirs' => apply_filters(
-                'backwpup_plugins_exclude_dirs',
+			),
+			'backuppluginsexcludedirs' => wpm_apply_filters_typed(
+				'array',
+				'backwpup_plugins_exclude_dirs',
                 ['backwpup', 'backwpup-pro']
-            ),
-            'backupthemesexcludedirs' => apply_filters('backwpup_themes_exclude_dirs', []),
-            'backupuploadsexcludedirs' => apply_filters(
-                'backwpup_upload_exclude_dirs',
+			),
+			'backupthemesexcludedirs'  => wpm_apply_filters_typed(
+				'array',
+				'backwpup_themes_exclude_dirs',
+				[]
+			),
+			'backupuploadsexcludedirs' => wpm_apply_filters_typed(
+				'array',
+				'backwpup_upload_exclude_dirs',
                 [basename($log_folder)]
-            ),
-            'fileexclude' => apply_filters(
-                'backwpup_file_exclude',
-                '.tmp,.svn,.git,desktop.ini,.DS_Store,/node_modules/'
-            ),
-            'dirinclude' => apply_filters('backwpup_dir_include', ''),
-            'backupabsfolderup' => false,
-        ];
+			),
+			'fileexclude'              => '',
+			'dirinclude'               => wpm_apply_filters_typed(
+				'string',
+				'backwpup_dir_include',
+				''
+			),
+			'backupabsfolderup'        => false,
+		];
     }
 
     /**
@@ -135,10 +144,10 @@ class BackWPup_JobType_File extends BackWPup_JobTypes
             </tr>
             <tr>
                 <th scope="row"><label for="dirinclude"><?php esc_html_e('Extra folders to backup', 'backwpup'); ?></label></th>
-                <td>
-					<textarea name="dirinclude" id="dirinclude" class="text code" rows="7" cols="50"><?php echo esc_attr(BackWPup_Option::get($main, 'dirinclude')); ?></textarea>
-	                <p class="description"><?php esc_attr_e('Separate folder names with a line-break or a comma. Folders must be set with their absolute path!', 'backwpup'); ?></p>
-                </td>
+				<td>
+					<textarea readonly disabled name="dirinclude" id="dirinclude" class="text code" rows="7" cols="50"><?php echo esc_attr( BackWPup_Option::get( $main, 'dirinclude' ) ); ?></textarea>
+					<p class="description"><?php esc_attr_e( 'Separate folder names with a line-break or a comma. Folders must be set with their absolute path!', 'backwpup' ); ?></p>
+				</td>
             </tr>
 		</table>
 
@@ -147,16 +156,16 @@ class BackWPup_JobType_File extends BackWPup_JobTypes
 		<table class="form-table">
             <tr>
                 <th scope="row"><?php esc_html_e('Thumbnails in uploads', 'backwpup'); ?></th>
-                <td>
-                    <label for="idbackupexcludethumbs"><input class="checkbox" type="checkbox"<?php checked(BackWPup_Option::get($main, 'backupexcludethumbs'), true, true); ?> name="backupexcludethumbs" id="idbackupexcludethumbs" value="1" /> <?php esc_html_e('Don\'t backup thumbnails from the site\'s uploads folder.', 'backwpup'); ?></label>
-                </td>
+				<td>
+					<label for="idbackupexcludethumbs"><input readonly disabled class="checkbox" type="checkbox"<?php checked( BackWPup_Option::get( $main, 'backupexcludethumbs' ), true, true ); ?> name="backupexcludethumbs" id="idbackupexcludethumbs" value="1" /> <?php esc_html_e( 'Don\'t backup thumbnails from the site\'s uploads folder.', 'backwpup' ); ?></label>
+				</td>
             </tr>
             <tr>
                 <th scope="row"><label for="idfileexclude"><?php esc_html_e('Exclude files/folders from backup', 'backwpup'); ?></label></th>
-                <td>
-                    <textarea name="fileexclude" id="idfileexclude" class="text code" rows="7" cols="50"><?php echo esc_attr(BackWPup_Option::get($main, 'fileexclude')); ?></textarea>
-	                <p class="description"><?php esc_attr_e('Separate file / folder name parts with a line-break or a comma. For example /logs/,.log,.tmp', 'backwpup'); ?></p>
-                </td>
+				<td>
+					<textarea readonly disabled name="fileexclude" id="idfileexclude" class="text code" rows="7" cols="50"><?php echo esc_attr( BackWPup_Option::get( $main, 'fileexclude' ) ); ?></textarea>
+					<p class="description"><?php esc_attr_e( 'Separate file / folder name parts with a line-break or a comma. For example /logs/,.log,.tmp', 'backwpup' ); ?></p>
+				</td>
             </tr>
         </table>
 
@@ -166,92 +175,92 @@ class BackWPup_JobType_File extends BackWPup_JobTypes
 			<tr>
 				<th scope="row"><?php esc_html_e('Include special files', 'backwpup'); ?></th>
 				<td>
-					<label for="idbackupspecialfiles"><input class="checkbox" id="idbackupspecialfiles" type="checkbox"<?php checked(BackWPup_Option::get($main, 'backupspecialfiles'), true, true); ?> name="backupspecialfiles" value="1" /> <?php esc_html_e('Backup wp-config.php, robots.txt, nginx.conf, .htaccess, .htpasswd, favicon.ico, and Web.config from root if it is not included in backup.', 'backwpup'); ?></label>
+					<label for="idbackupspecialfiles"><input readonly disabled class="checkbox" id="idbackupspecialfiles" type="checkbox"<?php checked( BackWPup_Option::get( $main, 'backupspecialfiles' ), true, true ); ?> name="backupspecialfiles" value="1" /> <?php esc_html_e( 'Backup wp-config.php, robots.txt, nginx.conf, .htaccess, .htpasswd, favicon.ico, and Web.config from root if it is not included in backup.', 'backwpup' ); ?></label>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row"><?php esc_html_e('Use one folder above as WP install folder', 'backwpup'); ?></th>
 				<td>
-					<label for="idbackupabsfolderup"><input class="checkbox" id="idbackupabsfolderup" type="checkbox"<?php checked($abs_folder_up, true, true); ?>
-							name="backupabsfolderup" value="1" /> <?php _e('Use one folder above as WordPress install folder! That can be helpful, if you would backup files and folder that are not in the WordPress installation folder. Or if you made a "<a href="https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">Giving WordPress Its Own Directory</a>" installation. Excludes must be configured again.', 'backwpup'); ?></label>
+					<label for="idbackupabsfolderup"><input readonly disabled class="checkbox" id="idbackupabsfolderup" type="checkbox"<?php checked( $abs_folder_up, true, true ); ?>
+							name="backupabsfolderup" value="1" /> <?php esc_html_e( 'Use one folder above as WordPress install folder! That can be helpful, if you would backup files and folder that are not in the WordPress installation folder. Or if you made a "<a href="https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">Giving WordPress Its Own Directory</a>" installation. Excludes must be configured again.', 'backwpup' ); ?></label>
 				</td>
 			</tr>
 		</table>
 	<?php
     }
 
-    /**
-     * @param $id
-     */
-    public function edit_form_post_save($id)
-    {
-        // Parse and save files to exclude
-        $exclude_input = filter_input(INPUT_POST, 'fileexclude');
-        $to_exclude_list = $exclude_input ? str_replace(["\r\n", "\r"], ',', $exclude_input) : [];
-        $to_exclude_list and $to_exclude_list = sanitize_text_field(stripslashes($to_exclude_list));
-        $to_exclude = $to_exclude_list ? explode(',', $to_exclude_list) : [];
-        $to_exclude_parsed = [];
+	/**
+	 * Handles saving file exclusions based on provided parameters.
+	 *
+	 * @param int   $id     The job ID.
+	 * @param array $params Optional. The parameters passed to update the exclusions.
+	 *                      If empty, the method falls back to using $_POST.
+	 *
+	 * @return void
+	 */
+	public function edit_form_post_save( $id, array $params = [] ) {
+		// If $params is empty, fallback to $_POST (for backward compatibility).
+		if ( empty( $params ) ) {
+			$params = $_POST; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		}
 
-        foreach ($to_exclude as $key => $value) {
-            $normalized = wp_normalize_path(trim($value));
-            $normalized and $to_exclude_parsed[$key] = $normalized;
-        }
-        sort($to_exclude_parsed);
-        BackWPup_Option::update($id, 'fileexclude', implode(',', $to_exclude_parsed));
-        unset($exclude_input, $to_exclude_list, $to_exclude, $to_exclude_parsed, $normalized);
+		// Save file exclusions.
+		$file_exclude = $params['fileexclude'] ?? '';
+		$to_exclude   = $file_exclude ? explode( ',', str_replace( [ "\r\n", "\r" ], ',', sanitize_text_field( stripslashes( $file_exclude ) ) ) ) : [];
 
-        // Parse and save folders to include
-        $include_input = filter_input(INPUT_POST, 'dirinclude');
-        $include_list = $include_input ? str_replace(["\r\n", "\r"], ',', $include_input) : [];
-        $to_include = $include_list ? explode(',', $include_list) : [];
-        $to_include_parsed = [];
+		$to_exclude_parsed = array_values( array_filter( array_map( 'wp_normalize_path', array_map( 'trim', $to_exclude ) ) ) );
+		sort( $to_exclude_parsed );
+		BackWPup_Option::update( $id, 'fileexclude', implode( ',', $to_exclude_parsed ) );
 
-        foreach ($to_include as $key => $value) {
-            $normalized = trailingslashit(wp_normalize_path(trim($value)));
-            $normalized and $normalized = filter_var($normalized, FILTER_SANITIZE_URL);
-            $realpath = $normalized && $normalized !== '/' ? realpath($normalized) : false;
-            $realpath and $to_include_parsed[$key] = $realpath;
-        }
-        sort($to_include_parsed);
-        BackWPup_Option::update($id, 'dirinclude', implode(',', $to_include_parsed));
-        unset($include_input, $include_list, $to_include, $to_include_parsed, $normalized, $realpath);
+		// Save directories to include.
+		$dir_include = $params['dirinclude'] ?? '';
+		$to_include  = $dir_include ? explode( ',', str_replace( [ "\r\n", "\r" ], ',', $dir_include ) ) : [];
 
-        // Parse and save boolean fields
-        $boolean_fields_def = [
-            'backupexcludethumbs' => FILTER_VALIDATE_BOOLEAN,
-            'backupspecialfiles' => FILTER_VALIDATE_BOOLEAN,
-            'backuproot' => FILTER_VALIDATE_BOOLEAN,
-            'backupabsfolderup' => FILTER_VALIDATE_BOOLEAN,
-            'backupcontent' => FILTER_VALIDATE_BOOLEAN,
-            'backupplugins' => FILTER_VALIDATE_BOOLEAN,
-            'backupthemes' => FILTER_VALIDATE_BOOLEAN,
-            'backupuploads' => FILTER_VALIDATE_BOOLEAN,
-        ];
-        $boolean_data = filter_input_array(INPUT_POST, $boolean_fields_def);
-        $boolean_data or $boolean_data = [];
+		$to_include_parsed = array_values(
+				array_filter(
+						array_map(
+								function ( $value ) {
+									$normalized = trailingslashit( wp_normalize_path( trim( $value ) ) );
+									return filter_var( $normalized, FILTER_SANITIZE_URL ) ?: '';
+								},
+								$to_include
+						)
+				)
+		);
 
-        foreach ($boolean_fields_def as $key => $value) {
-            BackWPup_Option::update($id, $key, !empty($boolean_data[$key]));
-        }
-        unset($boolean_fields_def, $boolean_data);
+		sort( $to_include_parsed );
+		BackWPup_Option::update( $id, 'dirinclude', implode( ',', $to_include_parsed ) );
 
-        // Parse and save directories to exclude
-        $exclude_dirs_def = [
-            'backuprootexcludedirs' => ['filter' => FILTER_SANITIZE_URL, 'flags' => FILTER_FORCE_ARRAY],
-            'backupcontentexcludedirs' => ['filter' => FILTER_SANITIZE_URL, 'flags' => FILTER_FORCE_ARRAY],
-            'backuppluginsexcludedirs' => ['filter' => FILTER_SANITIZE_URL, 'flags' => FILTER_FORCE_ARRAY],
-            'backupthemesexcludedirs' => ['filter' => FILTER_SANITIZE_URL, 'flags' => FILTER_FORCE_ARRAY],
-            'backupuploadsexcludedirs' => ['filter' => FILTER_SANITIZE_URL, 'flags' => FILTER_FORCE_ARRAY],
-        ];
-        $exclude_dirs = filter_input_array(INPUT_POST, $exclude_dirs_def);
-        $exclude_dirs or $exclude_dirs = [];
+		// Save boolean fields.
+		$boolean_fields = [
+			'backupexcludethumbs',
+			'backupspecialfiles',
+			'backuproot',
+			'backupabsfolderup',
+			'backupcontent',
+			'backupplugins',
+			'backupthemes',
+			'backupuploads',
+		];
 
-        foreach ($exclude_dirs_def as $key => $filter) {
-            $value = !empty($exclude_dirs[$key]) && is_array($exclude_dirs[$key]) ? $exclude_dirs[$key] : [];
-            BackWPup_Option::update($id, $key, $value);
-        }
-        unset($exclude_dirs_def, $exclude_dirs);
-    }
+		foreach ( $boolean_fields as $field ) {
+			BackWPup_Option::update( $id, $field, ! empty( $params[ $field ] ) );
+		}
+
+		// Save directories to exclude.
+		$exclude_fields = [
+			'backuprootexcludedirs',
+			'backupcontentexcludedirs',
+			'backuppluginsexcludedirs',
+			'backupthemesexcludedirs',
+			'backupuploadsexcludedirs',
+		];
+
+		foreach ( $exclude_fields as $field ) {
+			$value = $params[ $field ] ?? [];
+			BackWPup_Option::update( $id, $field, is_array( $value ) ? array_values( $value ) : [] );
+		}
+	}
 
     /**
      * @param $job_object
@@ -504,7 +513,7 @@ class BackWPup_JobType_File extends BackWPup_JobTypes
         }
 
         return array_unique($excludedir);
-    }
+	}
 
     /**
      * Shows a folder with the options of which files to exclude.
@@ -512,14 +521,25 @@ class BackWPup_JobType_File extends BackWPup_JobTypes
     private function show_folder($id, $jobid, $path)
     {
         $folder = realpath(BackWPup_Path_Fixer::fix_path($path));
-        $folder_size = 0;
-        if ($folder) {
-            $folder = untrailingslashit(str_replace('\\', '/', $folder));
-            $folder_size = (get_site_option('backwpup_cfg_showfoldersize')) ? ' (' . size_format(BackWPup_File::get_folder_size($folder), 2) . ')' : '';
-        } ?>
-		<input class="checkbox"
-			   type="checkbox"<?php checked(BackWPup_Option::get($jobid, 'backup' . $id)); ?>
-			   name="backup<?php echo esc_attr($id); ?>" id="idbackup<?php echo esc_attr($id); ?>" value="1" /> <code title="<?php echo esc_attr(sprintf(__('Path as set by user (symlink?): %s', 'backwpup'), $path)); ?>"><?php echo esc_attr($folder); ?></code><?php echo esc_html($folder_size); ?>
+		$folder_size = 0;
+		if ( $folder ) {
+			$folder          = untrailingslashit( str_replace( '\\', '/', $folder ) );
+				$folder_size = BackWPup_File::get_folder_size( $folder );
+		}
+		?>
+		<input readonly disabled class="checkbox"
+				type="checkbox"<?php checked( BackWPup_Option::get( $jobid, 'backup' . $id ) ); ?>
+				name="backup<?php echo esc_attr( $id ); ?>" id="idbackup<?php echo esc_attr( $id ); ?>" value="1" /> <code title="
+										<?php
+										echo esc_attr(
+										sprintf(
+										// translators: %s: Path as set by user (symlink?).
+										__( 'Path as set by user (symlink?): %s', 'backwpup' ),
+										$path
+										)
+										);
+										?>
+					"><?php echo esc_attr( $folder ); ?></code><?php echo esc_html( $folder_size ); ?>
 
 		<fieldset id="backup<?php echo esc_attr($id); ?>excludedirs" style="padding-left:15px; margin:2px;">
 			<legend><strong><?php esc_html_e('Exclude:', 'backwpup'); ?></strong></legend>
@@ -528,22 +548,23 @@ class BackWPup_JobType_File extends BackWPup_JobTypes
                 $dir = new BackWPup_Directory($folder);
                 $excludes = BackWPup_Option::get($jobid, 'backup' . $id . 'excludedirs');
 
-                foreach ($dir as $file) {
-                    if (!$file->isDot() && $file->isDir() && !in_array(trailingslashit($file->getPathname()), $this->get_exclude_dirs($folder), true)) {
-                        $donotbackup = file_exists($file->getPathname() . '/.donotbackup');
-                        $folder_size = (get_site_option('backwpup_cfg_showfoldersize')) ? ' (' . size_format(BackWPup_File::get_folder_size($file->getPathname()), 2) . ')' : '';
-                        $title = '';
-                        if ($donotbackup) {
-                            $excludes[] = $file->getFilename();
+				foreach ( $dir as $file ) {
+					// List only the folders without thoses listed by auto exclude!
+					if ( ! $file->isDot() && $file->isDir() && ! in_array( trailingslashit( $file->getPathname() ), $this->get_exclude_dirs( $folder, $dir::get_auto_exclusion_plugins_folders() ), true ) ) {
+						$donotbackup = file_exists( $file->getPathname() . '/.donotbackup' );
+						$folder_size = BackWPup_File::get_folder_size( $file->getPathname() );
+						$title       = '';
+						if ( $donotbackup ) {
+							$excludes[] = $file->getFilename();
                             $title = ' title="' . esc_attr__('Excluded by .donotbackup file!', 'backwpup') . '"';
-                        }
-                        echo '<nobr><label for="id' . esc_attr($id) . 'excludedirs-' . sanitize_file_name($file->getFilename()) . '">' .
-                            '<input class="checkbox" type="checkbox"' .
-                            checked(in_array($file->getFilename(), $excludes, true), true, false) . ' name="backup' . esc_attr($id) . 'excludedirs[]" ' .
-                            'id="id' . esc_attr($id) . 'excludedirs-' . sanitize_file_name($file->getFilename()) . '" ' .
-                            'value="' . esc_attr($file->getFilename()) . '"' . disabled($donotbackup, true, false) . $title . ' /> ' .
-                            esc_html($file->getFilename()) . esc_html($folder_size) . '</label><br /></nobr>';
-                    }
+						}
+						echo '<nobr><label for="id' . esc_attr( $id . 'excludedirs-' . sanitize_file_name( $file->getFilename() ) ) . '">' .
+							'<input readonly disabled class="checkbox" type="checkbox"' .
+							checked( in_array( $file->getFilename(), $excludes, true ), true, false ) . ' name="backup' . esc_attr( $id ) . 'excludedirs[]" ' .
+							'id="id' . esc_attr( $id . 'excludedirs-' . sanitize_file_name( $file->getFilename() ) ) . '" ' .
+							'value="' . esc_attr( $file->getFilename() ) . '"' . disabled( $donotbackup, true, false ) . esc_attr( $title ) . ' /> ' .
+							esc_html( $file->getFilename() ) . esc_html( $folder_size ) . '</label><br /></nobr>';
+					}
                 }
             } catch (Exception $e) {
                 // Do nothing, just skip

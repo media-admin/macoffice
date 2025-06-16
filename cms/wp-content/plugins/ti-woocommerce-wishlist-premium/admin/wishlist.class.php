@@ -2,14 +2,12 @@
 /**
  * Admin wishlists page class
  *
- * @since             1.0.0
  * @package           TInvWishlist\Admin
+ * @since 2.6.0
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
+defined( 'ABSPATH' ) or exit;
 
 /**
  * Admin wishlists page class
@@ -17,31 +15,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TInvWL_Admin_Wishlist extends TInvWL_Admin_BaseSection {
 
 	/**
-	 * Menu array
+	 * Returns menu array
 	 *
 	 * @return array
 	 */
-	function menu() {
-		return array(
+	public function menu(): array {
+		return [
 			'title'      => __( 'Wishlists', 'ti-woocommerce-wishlist-premium' ),
-			'method'     => array( $this, '_print_' ),
+			'method'     => [ $this, '_print_' ],
 			'slug'       => '',
 			'capability' => 'tinvwl_wishlists',
-			'roles'      => array( 'administrator', 'shop_manager' ),
-		);
+			'roles'      => ['administrator', 'shop_manager' ],
+		];
 	}
 
 	/**
 	 * General page wishlists
 	 *
-	 * @param integer $id Id parameter.
+	 * @param int $id Id parameter.
 	 * @param string $cat Category parameter.
 	 */
-	function _print_general( $id = 0, $cat = '' ) {
-		$data = array(
+	public function _print_general( int $id = 0, string $cat = '' ): void {
+		$data = [
 			'_header' => __( 'Wishlists', 'ti-woocommerce-wishlist-premium' ),
 			'table'   => new TInvWL_Admin_Wishlist_Table( $this->_name, $this->_version ),
-		);
+		];
 		$data = apply_filters( 'tinvwl_wishlist_general', $data );
 		TInvWL_View::render( 'wishlists', $data );
 	}

@@ -19,7 +19,13 @@ class ProductDeliveryTime extends AbstractProductElementBlock {
 		return 'delivery_time';
 	}
 
-	protected function get_additional_classes( $attributes ) {
+	/**
+	 * @param array $attributes
+	 * @param \WC_GZD_Product $product
+	 *
+	 * @return string
+	 */
+	protected function get_additional_classes( $attributes, $product ) {
 		return 'delivery-time-info';
 	}
 

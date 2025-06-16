@@ -119,7 +119,7 @@ if (!class_exists('AWS_Product_Bundles')) :
          */
         private function update_stock_status( $status, $post_id ) {
 
-            if ( ! AWS_Helpers::is_table_not_exist() ) {
+            if ( ! AWS_PRO()->option_vars->is_index_table_not_exists() ) {
 
                 global $wpdb;
 

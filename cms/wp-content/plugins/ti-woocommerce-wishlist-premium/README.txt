@@ -3,8 +3,8 @@ Contributors: templateinvaders
 Donate link: https://templateinvaders.com/
 Tags: wishlist, woocommerce, products, e-commerce, shop, ecommerce wishlist, woocommerce wishlist, woocommerce , shop wishlist, wishlist  for Woocommerce
 Requires at least: 4.7
-Tested up to: 6.2
-Stable tag: 2.5.2
+Tested up to: 6.6
+Stable tag: 2.9.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Documentation: https://templateinvaders.com/documentation/ti-woocommerce-wishlist/
@@ -27,6 +27,53 @@ With the help of integrated analytics, you can see sales comparing to product po
 3. For the plugin to work as it should, the WooCommerce plugin has to be installed and enabled.
 
 == Changelog ==
+= 2.9.1 - Released 2024/10/22 =
+
+- **Added**: Support for WordPress 6.6.x
+- **Added**: Support for WooCommerce 9.3.x
+- **Fixed**: SQL Injection vulnerabilities
+
+= 2.8.2 - Released 2024/03/04 =
+
+- **Added**: Support for PHP 8.3
+- **Added**: Integration with [WP Armour - Honeypot Anti Spam](https://wordpress.org/plugins/honeypot/) plugin
+
+
+= 2.8.1 - Released 2024/02/23 =
+
+- **Added**: Support for WordPress 6.4
+- **Added**: Support for WooCommerce 8.6
+- **Added**: Option to Erase All Data on Uninstall
+- **Added**: Custom error messages for adding products to the cart from the wishlist
+- **Added**: Support of WooCommerce Feature "New product editor (Beta)"
+- **Added**: Wishlist creation for guest via REST API. Use the route wp-json/wc/v3/wishlist/get_by_user/0
+- **Added**: `tinvwl_social_share_data` filter to extend social share buttons
+
+- **Refactored Code**
+
+- **Updated**: Integration with [WPC Product Bundles for WooCommerce](https://wordpress.org/plugins/woo-product-bundle/)
+- **Updated**: Integration with [LiteSpeed Cache](https://wordpress.org/plugins/litespeed-cache/)
+- **Updated**: Integration with WooCommerce Blocks
+
+- **Fixed**: PHP warning for estimate email template
+- **Fixed**: PHP warning in wishlist products counter
+- **Fixed**: Issue with REST API get products request arguments
+- **Fixed**: Issue with alt attribute of custom image for products counter icon
+- **Fixed**: Add to cart button for parent product issue
+- **Fixed**: Scheduled event hooks issue
+- **Fixed**: PHP 8.1 deprecation
+- **Fixed**: Missing space in HTML markup
+- **Fixed**: Resolve wishlist ID in REST API
+- **Fixed**: Blind SQL Injection in REST API endpoint
+- **Fixed**: Issue with wishlist AJAX events for guests
+- **Fixed**: JavaScript dependencies error
+- **Fixed**: Issue with the "Add to Wishlist" button in relation to the WPML plugin
+- **Fixed**: Issue with redirecting to the cart before updating the wishlist data
+- **Fixed**: Placeholders conflict with wishlist rename feature
+- **Fixed**: WPML sync menu issue related to wishlist products counter
+
+- **Removed**: Network activation restriction
+
 = 2.5.2 - Released 2023/05/29 =
 
 * Modified AJAX to fetch data only after user interaction on the page

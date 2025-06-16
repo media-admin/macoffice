@@ -17,6 +17,8 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 	const KEY = 'png2jpg_optimization';
 	const PNG2JPG_SAVINGS_KEY = 'wp-smush-pngjpg_savings';
 	const CONVERTED_PNG_FILES_META = 'converted_png_files';
+	const CONVERTED_LARGER_ERROR_KEY = 'converted_image_larger';
+	const SKIP_META_KEY = 'skip_png2jpg';
 	/**
 	 * @var Media_Item
 	 */
@@ -61,6 +63,11 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 	 */
 	private $upload_dir;
 
+	/**
+	 * @var bool
+	 */
+	private $skip_convert;
+
 	public function __construct( $media_item ) {
 		$this->media_item = $media_item;
 		$this->logger     = Helper::logger()->png2jpg();
@@ -74,6 +81,10 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 
 	public function get_key() {
 		return self::KEY;
+	}
+
+	public function get_name() {
+		return __( 'PNG to JPG', 'wp-smushit' );
 	}
 
 	public function get_stats() {
@@ -117,6 +128,13 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 	 */
 	private function make_meta() {
 		$meta = array();
+
+		if ( $this->skip_conversion() ) {
+			$meta[ self::SKIP_META_KEY ] = true;
+
+			return $meta;
+		}
+
 		foreach ( $this->get_sizes_to_convert( $this->media_item ) as $size_key => $size ) {
 			$size_stats = $this->get_size_stats( $size_key );
 			if ( ! $size_stats->is_empty() ) {
@@ -137,7 +155,7 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 
 	public function should_optimize() {
 		if (
-			$this->media_item->is_skipped()
+			$this->is_skipped()
 			|| $this->media_item->has_errors()
 			|| ! $this->settings->is_png2jpg_module_active()
 		) {
@@ -145,6 +163,31 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 		}
 
 		return $this->can_be_converted( $this->media_item );
+	}
+
+	private function is_skipped() {
+		if ( $this->media_item->is_skipped() ) {
+			return true;
+		}
+
+		return $this->skip_conversion();
+	}
+
+	public function skip_conversion() {
+		if ( is_null( $this->skip_convert ) ) {
+			$this->skip_convert = $this->prepare_skip_conversion();
+		}
+
+		return $this->skip_convert;
+	}
+
+	private function prepare_skip_conversion() {
+		$meta = $this->get_meta();
+		return ! empty( $meta[ self::SKIP_META_KEY ] );
+	}
+
+	private function set_skip_convert( $skip_convert ) {
+		$this->skip_convert = (bool) $skip_convert;
 	}
 
 	public function should_reoptimize() {
@@ -200,7 +243,14 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 	 * @return boolean
 	 */
 	private function can_be_converted( $media_item ) {
-		$id   = $media_item->get_id();
+		$id        = $media_item->get_id();
+		$full_size = $media_item->get_full_or_scaled_size();
+		if ( ! $full_size ) {
+			$this->logger->info( sprintf( 'Image [%d] does not have a full size.', $id ) );
+
+			return false;
+		}
+
 		$file = $media_item->get_full_or_scaled_size()->get_file_path();
 		if ( ! $media_item->is_png() ) {
 			$this->logger->info( sprintf( 'File [%s(%d)] does not have the PNG mime-type.', $file, $id ) );
@@ -244,8 +294,19 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 		$converted_source_files = array();
 		$converted_sizes        = array();
 		$sizes                  = $this->get_sizes_to_convert( $media_item ); // We must convert all sizes, regardless of which sizes the user has selected for smushing
-		$old_main_file_name     = $media_item->get_full_or_scaled_size()->get_file_name();
+		$full_size              = $media_item->get_full_or_scaled_size();
+		$full_size_key          = $full_size->get_key();
+		$old_main_file_name     = $full_size->get_file_name();
 		$new_main_file_name     = $this->get_main_jpg_file_name();
+
+		// Make sure full size is at the top.
+		unset( $sizes[ $full_size_key ] );
+		$sizes = array_merge(
+			array(
+				$full_size_key => $full_size,
+			),
+			$sizes
+		);
 
 		foreach ( $sizes as $size_key => $size ) {
 			$size_file_path         = $size->get_file_path();
@@ -261,18 +322,18 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 				$converted_sizes[] = $size_key;
 			} else {
 				// Convert the file for the current size.
-				$converted_source_files[ $size_file_path ] = $size_key;
-				$size_converted                            = $this->convert_size( $media_item, $size, $new_size_file_name );
-				if ( $size_converted ) {
-					$converted_sizes[] = $size_key;
+				$size_converted = $this->convert_size( $media_item, $size, $new_size_file_name );
+				if ( ! $size_converted ) {
+					break;
 				}
+
+				$converted_sizes[]                         = $size_key;
+				$converted_source_files[ $size_file_path ] = $size_key;
 			}
 		}
 
 		if ( count( $converted_sizes ) === count( $sizes ) ) {
 			$png_file_paths = array_flip( $converted_source_files );
-
-			$this->delete_files( $png_file_paths );
 
 			// All sizes successful, save media item.
 			$media_item->set_mime_type( 'image/jpeg' );
@@ -292,6 +353,7 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 			);
 
 			$this->replace_urls_in_content( $old_urls, $media_item->get_size_urls() );
+			$this->delete_files( $png_file_paths );
 
 			return true;
 		} else {
@@ -300,6 +362,13 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 				return $media_item->get_size( $converted_size )->get_file_path();
 			}, $converted_sizes );
 			$this->delete_files( $converted_files_to_delete );
+
+			$error_codes = $this->get_errors()->get_error_codes();
+			if ( in_array( self::CONVERTED_LARGER_ERROR_KEY, $error_codes ) ) {
+				$this->set_skip_convert( true );
+
+				$this->save();
+			}
 
 			// Reset all the changes made so far.
 			$media_item->reset();
@@ -324,19 +393,25 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 			return false;
 		}
 
-		$size_before = $media_item_size->get_filesize();
-		$size_after  = $result['filesize'];
-		if ( $size_after > $size_before ) {
+		$size_before           = $media_item_size->get_filesize();
+		$size_after            = $result['filesize'];
+		$is_full_size          = $media_item->has_full_size() && ( $media_item_size->get_key() === $media_item->get_full_size()->get_key() );
+		$converted_file_larger = $size_after > $size_before;
+		if (
+			$is_full_size               // If this is the full size we don't want the converted file to be larger than original
+			&& $converted_file_larger
+			&& ! apply_filters( 'wp_smush_png2jpg_allow_larger_converted_file', false )
+		) {
 			$this->fs->unlink( $new_file_path );
 			$this->add_error(
 				$media_item_size->get_key(),
-				'converted_image_larger',
+				self::CONVERTED_LARGER_ERROR_KEY,
 				__( 'Skipped: Smushed file is larger than the original file.', 'wp-smushit' )
 			);
 
 			$this->logger->error(
 				sprintf(
-					/* translators: 1: Converted path, 2: Converted file size, 3: Original path, 4: Original file size */
+				/* translators: 1: Converted path, 2: Converted file size, 3: Original path, 4: Original file size */
 					__( 'The new file [%1$s](%2$s) is larger than the original file [%3$s](%4$s).', 'wp-smushit' ),
 					$this->upload_dir->get_human_readable_path( $new_file_path ),
 					size_format( $size_after ),
@@ -559,6 +634,8 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 				$media_item->set_mime_type( 'image/png' );
 				$media_item->save();
 
+				do_action( 'wp_smush_after_restore_png_jpg', $media_item, $jpg_paths, $jpg_urls );
+
 				$this->replace_urls_in_content( $jpg_urls, $media_item->get_size_urls() );
 				$this->delete_files( $jpg_paths );
 
@@ -629,7 +706,7 @@ class Png2Jpg_Optimization extends Media_Item_Optimization {
 		foreach ( $absolute_paths as $key => $absolute_path ) {
 			$dir                    = $this->media_item->get_relative_file_dir();
 			$file                   = wp_basename( $absolute_path );
-			$relative_paths[ $key ] = "$dir/$file";
+			$relative_paths[ $key ] = "{$dir}$file";
 		}
 
 		return $relative_paths;

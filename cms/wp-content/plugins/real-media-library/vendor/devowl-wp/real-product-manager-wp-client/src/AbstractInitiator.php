@@ -5,6 +5,7 @@ namespace MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient;
 use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\license\TelemetryData;
 use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Base;
 use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Assets;
+use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Service;
 // @codeCoverageIgnoreStart
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
@@ -14,6 +15,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Assets;
  * this one to initiate the client. The configuration is done by an
  * abstract schema. That means, all configurations need to be implemented through
  * methods.
+ * @internal
  */
 abstract class AbstractInitiator
 {
@@ -188,7 +190,7 @@ abstract class AbstractInitiator
     // Self-explaining
     public function getHost()
     {
-        return \defined('DEVOWL_WP_DEV') && \constant('DEVOWL_WP_DEV') ? 'http://real_product_manager_backend:8000/' : 'https://license.devowl.io/';
+        return Service::getExternalContainerUrl('license');
     }
     // Self-explaining
     public function getAccountSiteUrl()

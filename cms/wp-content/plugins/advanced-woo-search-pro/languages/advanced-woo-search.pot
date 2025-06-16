@@ -31,6 +31,9 @@ msgstr ""
 msgid "Advanced Woo Search PRO plugin is enabled but not effective. Please disable the lite version of plugin."
 msgstr ""
 
+msgid "The Advanced Woo Search plugin was deactivated because you are using the PRO version of the same plugin."
+msgstr ""
+
 msgid "Advanced Woo Search: Please go to the plugin setting page and start indexing your products. %s"
 msgstr ""
 
@@ -41,6 +44,9 @@ msgid "Enable a %s option ( may not work with some themes )"
 msgstr ""
 
 msgid "Using shortcode %s"
+msgstr ""
+
+msgid "Using a page builder - locate the built-in search form widget and add it to the desired location on the page."
 msgstr ""
 
 msgid "Add search form as a widget. Go to %s and drag&drop 'AWS Widget' to one of your widget areas"
@@ -119,6 +125,15 @@ msgstr ""
 
 #: include/class-aws-admin.php:234
 msgid "Add New Form"
+msgstr ""
+
+msgid "Make main - this search form will be default for seamless integration, shortcodes, widgets, etc."
+msgstr ""
+
+msgid "Make a copy"
+msgstr ""
+
+msgid "Go to search form settings"
 msgstr ""
 
 #: include/class-aws-admin.php:256
@@ -278,6 +293,60 @@ msgid "Form Styling"
 msgstr ""
 
 msgid "Choose search form layout"
+msgstr ""
+
+msgid "It looks like you have an outdated plugin index table. Please %s and then return to this page."
+msgstr ""
+
+msgid "Search Suggestions Settings"
+msgstr ""
+
+msgid "Enable suggestions"
+msgstr ""
+
+msgid "Enable or not search terms automatic suggestions."
+msgstr ""
+
+msgid "Display layout"
+msgstr ""
+
+msgid "Search suggestions layout."
+msgstr ""
+
+msgid "Max number of suggestions"
+msgstr ""
+
+msgid "Maximal number of words per one search suggestion."
+msgstr ""
+
+msgid "Sources"
+msgstr ""
+
+msgid "Generate suggestions based on the following sources."
+msgstr ""
+
+msgid "Product title"
+msgstr ""
+
+msgid "Show only when no results"
+msgstr ""
+
+msgid "Show search suggestions only when current search returns no results."
+msgstr ""
+
+msgid "On click"
+msgstr ""
+
+msgid "Behavior when user clicks on search suggestions item."
+msgstr ""
+
+msgid "Any of the chosen values ( ajax, search page ) need to be enabled."
+msgstr ""
+
+msgid "Trigger AJAX search"
+msgstr ""
+
+msgid "Redirect to the search page"
 msgstr ""
 
 msgid "Filter button will be visible only if you have more than one active filter for current search form instance."
@@ -457,7 +526,7 @@ msgstr ""
 msgid "Search source: Drag&drop sources order to change priority, or exclude by moving to deactivated sources."
 msgstr ""
 
-msgid "Click on status icon to enable or disable search source."
+msgid "Click on the status icon to enable or disable the search source for products search."
 msgstr ""
 
 msgid "Archive pages"
@@ -584,6 +653,15 @@ msgid "Yes. Search only for full words matching."
 msgstr ""
 
 msgid "No. Partial words match search."
+msgstr ""
+
+msgid "Misspelling fix"
+msgstr ""
+
+msgid "Fix typos inside search words %s."
+msgstr ""
+
+msgid "Applied if the current search query returns no results."
 msgstr ""
 
 #: include/options:293
@@ -892,6 +970,21 @@ msgstr ""
 msgid "Advanced Woo Search: In order to apply the changes in the index table you need to reindex. %s"
 msgstr ""
 
+msgid "(no attributes selected)"
+msgstr ""
+
+msgid "(no taxonomies selected)"
+msgstr ""
+
+msgid "(no fields selected)"
+msgstr ""
+
+msgid "In order to show product variations please %s first."
+msgstr ""
+
+msgid "enable child products index"
+msgstr ""
+
 msgid "Search options"
 msgstr ""
 
@@ -911,6 +1004,12 @@ msgid "AJAX timeout"
 msgstr ""
 
 msgid "Time after user input that script is waiting before sending a search event to the server, ms."
+msgstr ""
+
+msgid "Search words number"
+msgstr ""
+
+msgid "The maximum number of words allowed for the search. All extra words will be removed from the search query."
 msgstr ""
 
 msgid "Index table options"
@@ -1019,6 +1118,9 @@ msgid "Change query hook"
 msgstr ""
 
 msgid "If you have any problems with correct products results on the search results page - try to change this option."
+msgstr ""
+
+msgid "Highlight search words inside the search results page."
 msgstr ""
 
 msgid "Default"
@@ -1213,6 +1315,21 @@ msgstr ""
 msgid "Product is featured"
 msgstr ""
 
+msgid "Product is in cart"
+msgstr ""
+
+msgid "Product has image"
+msgstr ""
+
+msgid "Product has gallery"
+msgstr ""
+
+msgid "Product SKU"
+msgstr ""
+
+msgid "Product GTIN, UPC, EAN, or ISBN"
+msgstr ""
+
 msgid "Product type"
 msgstr ""
 
@@ -1273,6 +1390,9 @@ msgstr ""
 msgid "Current user role"
 msgstr ""
 
+msgid "Current user device"
+msgstr ""
+
 msgid "Maximum number of displayed products search results."
 msgstr ""
 
@@ -1289,4 +1409,121 @@ msgid "Incorrect rules:"
 msgstr ""
 
 msgid "Divide them into several OR condition groups or just delete some."
+msgstr ""
+
+msgid "logo"
+msgstr ""
+
+msgid "Support"
+msgstr ""
+
+msgid "Suggestions:"
+msgstr ""
+
+msgid "Showing results for"
+msgstr ""
+
+msgid "Did you mean:"
+msgstr ""
+
+msgid "On. Automatically search for fixed terms."
+msgstr ""
+
+msgid "On. Additionally show text \"Showing results for ...\" with a list of fixed terms at the top of search results."
+msgstr ""
+
+msgid "Off. Totally disable misspelling fix."
+msgstr ""
+
+msgid "Off. Instead show text \"Did you mean ...\" with a clickable list of fixed terms at the top of search results."
+msgstr ""
+
+msgid "(no title)"
+msgstr ""
+
+msgid "Default template"
+msgstr ""
+
+msgid "Product single page"
+msgstr ""
+
+msgid "Front page"
+msgstr ""
+
+msgid "Shop page"
+msgstr ""
+
+msgid "Cart page"
+msgstr ""
+
+msgid "Checkout page"
+msgstr ""
+
+msgid "Account page"
+msgstr ""
+
+msgid "Category archive page"
+msgstr ""
+
+msgid "Tag archive page"
+msgstr ""
+
+msgid "Current page"
+msgstr ""
+
+msgid "Current page template"
+msgstr ""
+
+msgid "Current page type"
+msgstr ""
+
+msgid "Current page archives"
+msgstr ""
+
+msgid "Attributes"
+msgstr ""
+
+msgid "Attributes archive page"
+msgstr ""
+
+msgid "Any taxonomy archive page"
+msgstr ""
+
+msgid "Current search"
+msgstr ""
+
+msgid "contains"
+msgstr ""
+
+msgid "not contains"
+msgstr ""
+
+msgid "Current search text"
+msgstr ""
+
+msgid "Search text"
+msgstr ""
+
+msgid "Current page URL"
+msgstr ""
+
+msgid "Page URL"
+msgstr ""
+
+msgid "Categories results"
+msgstr ""
+
+msgid "Taxonomies Results"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Results Count"
+msgstr ""
+
+msgid "Columns"
+msgstr ""
+
+msgid "Taxonomy"
 msgstr ""

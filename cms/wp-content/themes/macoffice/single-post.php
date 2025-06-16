@@ -21,16 +21,18 @@ get_header(); ?>
 
 		<?php the_content(); ?>
 
+		<?php echo do_shortcode('[shortcode_error_found]');  ?>
+
 		<div class="post-navigatiooon">
 			<hr class="hr__post-navigation hr__post-navigation--before"/>
 			<div class="post-navigation">
 
 				<div class="column is-half has-text-right">
-					<?php next_post_link( '<small class="is-size-7 is-family-monospace has-text-grey">Zum nächsten Beitrag</small><br><p class="link link--next">%link</p>' ); ?>
+					<?php next_post_link( '<small class="is-size-7 is-family-monospace has-text-grey">Zum vorherigen Beitrag</small><br><p class="link link--next">%link</p>' ); ?>
 				</div>
 
 				<div class="column is-half">
-					<?php previous_post_link( '<small class="is-size-7 is-family-monospace has-text-grey">Zum vorherigen Beitrag</small><br><p class="link link--previous">%link</p>' ); ?>
+					<?php previous_post_link( '<small class="is-size-7 is-family-monospace has-text-grey">Zum nächsten Beitrag</small><br><p class="link link--previous">%link</p>' ); ?>
 				</div>
 			</div>
 			<hr class="hr__post-navigation hr__post-navigation--after"/>

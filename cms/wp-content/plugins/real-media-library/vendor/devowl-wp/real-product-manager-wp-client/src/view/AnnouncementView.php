@@ -13,6 +13,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Service;
 // @codeCoverageIgnoreEnd
 /**
  * Show announcement notices.
+ * @internal
  */
 class AnnouncementView
 {

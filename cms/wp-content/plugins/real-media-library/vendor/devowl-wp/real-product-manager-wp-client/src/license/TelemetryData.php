@@ -3,14 +3,15 @@
 namespace MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\license;
 
 use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\client\TelemetryData as ClientTelemetryData;
-use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\Utils;
 use MatthiasWeb\RealMediaLibrary\Vendor\DevOwl\RealProductManagerWpClient\UtilsProvider;
+use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Utils;
 // @codeCoverageIgnoreStart
 \defined('ABSPATH') or die('No script kiddies please!');
 // Avoid direct file request
 // @codeCoverageIgnoreEnd
 /**
  * Handle telemetry data.
+ * @internal
  */
 class TelemetryData
 {

@@ -43,8 +43,7 @@ do_action( 'woocommerce_before_main_content' );
 
 	<?php
 	// SHOW ONLY IF NOT SHOP PAGE AND MORE THAN 20 PRODUCTS
-
-	if (!is_shop() ) {
+	if (!is_shop() AND !is_search()  ) {
 		$product_counter = wc_get_loop_prop( 'total' );
 		if ($product_counter > 20)  {
 			$product_categories = get_terms([
@@ -135,6 +134,8 @@ if ( woocommerce_product_loop() ) {
  * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
  */
 do_action( 'woocommerce_after_main_content' );
+
+echo do_shortcode('[shortcode_error_found]');
 
 /**
  * Hook: woocommerce_sidebar.

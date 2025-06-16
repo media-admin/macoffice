@@ -9,6 +9,7 @@ use MatthiasWeb\RealMediaLibrary\Vendor\MatthiasWeb\Utils\Base;
 // @codeCoverageIgnoreEnd
 /**
  * Extends the UtilsProvider with freemium provider.
+ * @internal
  */
 trait FreemiumProvider
 {
